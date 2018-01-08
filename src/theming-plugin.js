@@ -20,9 +20,13 @@ module.exports = postcss.plugin('theming-plugin', () => {
    * @returns JSON file containing all the Terra themable variables.
    */
   return function getThemedVariables(root) {
-    const source = (root.source && root.source.input && root.source.input.file) || 'miscellaneous';
-    const component =
-      source === 'miscellaneous' ? source : source.substr(source.lastIndexOf('/') + 1, source.lastIndexOf('.scss') - source.lastIndexOf('/') - 1);
+    const sourcePath = (root.source && root.source.input && root.source.input.file) || 'miscellaneous';
+
+    let component = sourcePath;
+    if (sourcePath !== 'miscellaneous') {
+      const parsedPath = path.parse(sourcePath);
+      component = parsedPath.name;
+    }
 
     root.walkDecls((decl) => {
       // All of Terra's themed variables are in the syntax of var(<variable>, <value>);
@@ -33,6 +37,6 @@ module.exports = postcss.plugin('theming-plugin', () => {
         variables[component][matches[1]] = matches[2];
       }
     });
-    return fs.writeFileSync(path.resolve(process.cwd(), 'themeable-variables.json'), JSON.stringify(sortHash(variables), null, 2), 'utf8');
+    return fs.writeFileSync(path.resolve(process.cwd(), 'site', 'themeable-variables.json'), JSON.stringify(sortHash(variables), null, 2), 'utf8');
   };
 });

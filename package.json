@@ -80,8 +80,10 @@
     "terra-icon": "^1.12.1",
     "terra-image": "1.11.1",
     "terra-list": "^1.12.1",
+    "terra-markdown": "^1.9.1",
     "terra-menu": "^1.6.0",
     "terra-navigation-layout": "^1.0.0",
+    "terra-slide-panel": "^1.14.0",
     "terra-theme-provider": "^1.6.1"
   },
   "peerDependencies": {
