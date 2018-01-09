@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import List from 'terra-list';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
@@ -10,6 +10,9 @@ import './MenuList.scss';
 
 const propTypes = {
   routingStackDelegate: RoutingStackDelegate.propType,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }),
   links: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     path: PropTypes.string,
@@ -26,6 +29,7 @@ const generateMenuLinks = (links, location) => {
       hasChevron={link.hasSubNav}
       content={
         <NavLink
+          key={link.id}
           className="menu-link"
           location={location}
           to={link.path}
@@ -40,13 +44,13 @@ const generateMenuLinks = (links, location) => {
   return (<List>{navLinks}</List>);
 };
 
-const MenuList = ({ routingStackDelegate, links, headerText }) => (
+const MenuList = ({ routingStackDelegate, links, headerText, location }) => (
   <ApplicationMenuLayout
     header={<MenuToolbar text={headerText} routingStackDelegate={routingStackDelegate} />}
-    content={generateMenuLinks(links, routingStackDelegate.location)}
+    content={generateMenuLinks(links, routingStackDelegate.location || location)}
   />
 );
 
 MenuList.propTypes = propTypes;
 
-export default MenuList;
+export default withRouter(MenuList);
