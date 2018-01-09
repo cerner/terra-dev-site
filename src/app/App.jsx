@@ -15,7 +15,7 @@ import './App.scss';
 const propTypes = {
   appTitle: PropTypes.string,
   appSubtitle: PropTypes.string,
-  appLogo: PropTypes.element,
+  appLogoSrc: PropTypes.string,
   routeConfig: PropTypes.object.isRequired,
   navigation: PropTypes.object,
   themes: PropTypes.object,
@@ -30,9 +30,9 @@ const propTypes = {
 };
 
 const defaultProps = {
-  appTitle: 'Terra',
+  appTitle: '',
   appSubtitle: '',
-  appLogo: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" isFluid />,
+  appLogoSrc: undefined,
   navigation: undefined,
   hideBidiUtility: false,
   defaultDir: 'ltr',
@@ -73,13 +73,18 @@ class App extends React.Component {
   }
 
   render() {
+    let appLogo;
+    if (this.props.appLogoSrc) {
+      appLogo = (<Image variant="rounded" src={this.props.appLogoSrc} height="26px" width="26px" isFluid />);
+    }
+
     let applicationHeader;
     if (matchPath(this.props.location.pathname, '/site')) {
       applicationHeader = (
         <ApplicationHeader
           title={this.props.appTitle}
           subtitle={this.props.appSubtitle}
-          logo={this.props.appLogo}
+          logo={appLogo}
           locale={this.state.locale}
           locales={this.props.locales}
           onLocaleChange={this.handleLocaleChange}

@@ -65,6 +65,7 @@ const buildRawConfigForPageComponents = (config, pathRoot) => {
 
 const routeConfiguration = (siteConfig, componentConfig) => {
   const navigation = siteConfig.navigation;
+  const placeholderSrc = siteConfig.appLogoSrc;
   const configuredLinks = [];
 
   let content = {};
@@ -90,7 +91,6 @@ const routeConfiguration = (siteConfig, componentConfig) => {
 
   navigation.links.forEach((link) => {
     const exampleType = link.exampleType;
-    const componentProps = { config: componentConfig, pathRoot: link.path, exampleType };
 
     // build navigation link configuration
     // if (exampleType !== 'tests') {
@@ -105,6 +105,8 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     if (link.component) {
       contentComponent = link.component;
     }
+
+    const componentProps = { config: componentConfig, pathRoot: link.path, exampleType, placeholderSrc };
 
     content[link.path] = {
       path: link.path,
@@ -121,10 +123,12 @@ const routeConfiguration = (siteConfig, componentConfig) => {
       menuComponent = link.menuComponent;
     }
 
+    const componentMenuProps = { config: componentConfig, pathRoot: link.path, exampleType };
+
     if (!link.isStatic) {
       menu[link.path] = {
         path: link.path,
-        component: buildComponent(menuComponent, componentProps),
+        component: buildComponent(menuComponent, componentMenuProps),
       };
       menu = Object.assign(menu, buildSubNavigationConfig(componentConfig, ComponentsMenu, exampleType, link.path));
     }

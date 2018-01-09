@@ -1,6 +1,7 @@
 
 const config = {
   rootPath: '/site',
+  appLogoSrc: undefined,
   navigation: {
     index: '/site/components',
     links: [{

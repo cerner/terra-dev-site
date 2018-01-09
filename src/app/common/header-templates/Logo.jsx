@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The accessory element to be displauyed next to the title.
+   * The accessory element to be displayed next to the title.
    * */
   accessory: PropTypes.element,
   /**

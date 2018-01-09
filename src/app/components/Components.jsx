@@ -12,32 +12,33 @@ const propTypes = {
   }),
   pathRoot: PropTypes.string,
   exampleType: PropTypes.string,
+  placeholderSrc: PropTypes.string,
 };
 
-const generateTestComponentPlaceholders = (config, pathRoot) => {
-  const testPlaceholders = Object.keys(config).map(componentKey => (
+const generateComponentPlaceholders = (placeholderSrc, config, pathRoot) => {
+  const placeholders = Object.keys(config).map(componentKey => (
     <Route
       exact
       key={`${pathRoot}${config[componentKey].path}`}
       path={`${pathRoot}${config[componentKey].path}`}
       render={() => (
         <Placeholder
-          text={`${config[componentKey].name} Tests`}
+          src={placeholderSrc}
         />
       )}
     />
   ));
 
-  testPlaceholders.push(<Route
+  placeholders.push(<Route
     exact
     key={`${pathRoot}`}
     path={`${pathRoot}`}
     render={() => (
-      <Placeholder text="Tests" />
+      <Placeholder src={placeholderSrc} />
     )}
   />);
 
-  return testPlaceholders;
+  return placeholders;
 };
 
 const generateComponentRoutes = (config, exampleType, pathRoot) => (
@@ -89,7 +90,7 @@ class Components extends React.Component {
   }
 
   render() {
-    const { config, exampleType, location, pathRoot } = this.props;
+    const { config, exampleType, location, pathRoot, placeholderSrc } = this.props;
 
     return (
       <div
@@ -98,7 +99,7 @@ class Components extends React.Component {
       >
         <Switch>
           {generateComponentRoutes(config, exampleType, pathRoot)}
-          {exampleType === 'tests' ? generateTestComponentPlaceholders(config, pathRoot) : null}
+          {generateComponentPlaceholders(placeholderSrc, config, pathRoot)}
           {generateRedirect(this.firstComponentPath, location)}
         </Switch>
       </div>
