@@ -12,13 +12,19 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The AppDelegate instance provided by the containing component. If present, its properties will propagate to the children components.
-   * */
+   * The AppDelegate instance provided by the containing component. If present, its properties will
+   * propagate to the children components.
+   */
   app: AppDelegate.propType,
   /**
-   * The AppDelegate instance provided by the containing component. If present, its properties will propagate to the children components.
-   * */
+   * The list of link configuration to build react-router NavLinks provided by the ApplicationHeader.
+   */
   links: PropTypes.array,
+};
+
+const defaultProps = {
+  app: undefined,
+  links: [],
 };
 
 const NavTabs = ({
@@ -50,5 +56,6 @@ const NavTabs = ({
 };
 
 NavTabs.propTypes = propTypes;
+NavTabs.defaultProps = defaultProps;
 
 export default NavTabs;

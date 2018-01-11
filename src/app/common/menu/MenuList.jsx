@@ -1,24 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import { NavLink, withRouter } from 'react-router-dom';
 import List from 'terra-list';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import MenuToolbar from './MenuToolbar';
 
-import './MenuList.scss';
+import styles from './MenuList.scss';
+
+const cx = classNames.bind(styles);
+
 
 const propTypes = {
+  /**
+   * The RoutingStateDelegate instance provided by the terra-navigation-layout.
+   */
   routingStackDelegate: RoutingStackDelegate.propType,
+  /**
+   * Injected by react-routed: represent where the app is now, where you want it to go,
+   * or even where it was.
+   * */
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }),
+  /**
+   * The list of link configuration to build react-router NavLinks provided by the containing component.
+   */
   links: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     path: PropTypes.string,
     text: PropTypes.string,
     hasSubNav: PropTypes.bool,
   })),
+  /**
+   * The component header provided by the containing component.
+   */
   headerText: PropTypes.string,
 };
 
@@ -30,7 +47,7 @@ const generateMenuLinks = (links, location) => {
       content={
         <NavLink
           key={link.id}
-          className="menu-link"
+          className={cx('menu-link')}
           location={location}
           to={link.path}
           activeStyle={{

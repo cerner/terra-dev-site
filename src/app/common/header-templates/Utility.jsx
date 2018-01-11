@@ -15,36 +15,39 @@ const cx = classNames.bind(styles);
 const propTypes = {
   /**
    * The accessory element to be placed next to the title.
-   * */
+   */
   accessory: PropTypes.element,
   /**
-   * The AppDelegate instance provided by the containing component. If present, its properties will propagate to the children components.
-   * */
+   * The AppDelegate instance provided by the containing component. If present, its properties will propagate
+   * to the children components.
+   */
   app: AppDelegate.propType,
   /**
-   * The AppDelegate instance provided by the containing component. If present, its properties will propagate to the children components.
+   * The AppDelegate instance provided by the containing component. If present, its properties will propagate
+   * to the children components.
    * */
   contentHeight: PropTypes.string,
   /**
-   * The AppDelegate instance provided by the containing component. If present, its properties will propagate to the children components.
+   * The AppDelegate instance provided by the containing component. If present, its properties will propagate
+   * to the children components.
    * */
   contentWidth: PropTypes.string,
   /**
    * The menu items to be displayed within the utility popup.
-   * */
+   */
   menuItems: PropTypes.arrayOf(PropTypes.element),
   /**
    * Current breakpoint size that the coming from the layout.
-   * */
+   */
   size: PropTypes.string,
   /**
    * The utility title to be displayed next to the accessory.
-   * */
+   */
   title: PropTypes.string,
 };
 
 const defaultProps = {
-  accessory: undefined,
+  accessory: null,
   app: undefined,
   contentHeight: null,
   contentWidth: null,

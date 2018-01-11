@@ -13,17 +13,53 @@ import ApplicationHeader from './ApplicationHeader';
 import './App.scss';
 
 const propTypes = {
+  /**
+   * The title branding of the site.
+   */
   appTitle: PropTypes.string,
+  /**
+   * The subtitle to be appended to the title.
+   */
   appSubtitle: PropTypes.string,
+  /**
+   * The source of the logo element to be placed at the start of the toolbar.
+   */
   appLogoSrc: PropTypes.string,
+  /**
+  * The configuration Object that will be used to generate the specified regions of the terra-navigation-layout.
+  * Note: The config prop is treated as an immutable object to prevent unnecessary processing and improve performance.
+  * If the configuration is changed after the first render, a new configuration object instance must be provided.
+  */
   routeConfig: PropTypes.object.isRequired,
-  navigation: PropTypes.object,
+  /**
+   * The navigaion links to display within the menu in the toolbar.
+   */
+  navigation: PropTypes.object.isRequired,
+  /**
+   * The theme options the site should display in the locale utility in the toobar.
+   */
   themes: PropTypes.object,
-  // we should check these values are contained in i18nSupportedLocales
+  /**
+  * The locale options the site should display in the locale utility in the toobar.
+   // we should check these values are contained in i18nSupportedLocales
+   */
   locales: PropTypes.array,
+  /**
+   * Whether or not to display the directionality utility in the toolbar.
+   */
   hideBidiUtility: PropTypes.bool,
+  /**
+   * The directionality the site should default to. Either 'ltr' or 'rtl'.
+   */
   defaultDir: PropTypes.string,
+  /**
+   * The theme the site should default to.
+   */
   defaultTheme: PropTypes.string,
+  /**
+   * Injected by react-routed: represent where the app is now, where you want it to go,
+   * or even where it was.
+   */
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -79,6 +115,7 @@ class App extends React.Component {
     }
 
     let applicationHeader;
+    // pass prop for '/site'??
     if (matchPath(this.props.location.pathname, '/site')) {
       applicationHeader = (
         <ApplicationHeader

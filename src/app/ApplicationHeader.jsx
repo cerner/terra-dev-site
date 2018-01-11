@@ -13,28 +13,79 @@ import styles from './ApplicationHeader.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * The layoutConfig instance provided by terra-layout.
+   */
   layoutConfig: PropTypes.object,
+  /**
+   * The navigaion links to display within the toolbar.
+   */
   navigation: PropTypes.object,
-
+  /**
+   * The title branding of the site.
+   */
   title: PropTypes.string,
+  /**
+   * The subtitle to be appended to the title.
+   */
   subtitle: PropTypes.string,
   /**
    * Logo element to be placed at the start of the toolbar.
    * */
   logo: PropTypes.element,
-
+  /**
+   * The current site locale.
+   */
   locale: PropTypes.string,
+  /**
+   * The locale options the site should display in the locale utility in the toobar.
+   */
   locales: PropTypes.array,
+  /**
+   * A callback event that will be triggered when the locale utility changes.
+   */
   onLocaleChange: PropTypes.func,
-
+  /**
+   * Whether or not to display the directionality utility in the toolbar.
+   */
   hideBidiUtility: PropTypes.bool,
-
+  /**
+   * The current site directionality.
+   */
   dir: PropTypes.string,
+  /**
+   * A callback event that will be triggered when the directionality utility changes.
+   */
   onDirChange: PropTypes.func,
-
+  /**
+   * The current site theme.
+   */
   theme: PropTypes.string,
+  /**
+   * The theme options the site should display in the locale utility in the toobar.
+   */
   themes: PropTypes.array,
+  /**
+   * A callback event that will be triggered when the theme utility changes.
+   */
   onThemeChange: PropTypes.func,
+};
+
+const defaultProps = {
+  layoutConfig: undefined,
+  navigation: undefined,
+  title: null,
+  subtitle: null,
+  logo: null,
+  locale: null,
+  locales: null,
+  onLocaleChange: undefined,
+  hideBidiUtility: false,
+  dir: null,
+  onDirChange: undefined,
+  theme: null,
+  themes: undefined,
+  onThemeChange: undefined,
 };
 
 class ApplicationHeader extends React.Component {
@@ -124,5 +175,6 @@ class ApplicationHeader extends React.Component {
 }
 
 ApplicationHeader.propTypes = propTypes;
+ApplicationHeader.defaultProps = defaultProps;
 
 export default ApplicationHeader;

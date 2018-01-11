@@ -8,7 +8,14 @@ import styles from './ApplicationToggle.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * The layoutConfig instance provided by terra-layout.
+   */
   layoutConfig: PropTypes.object,
+};
+
+const defaultProps = {
+  layoutConfig: undefined,
 };
 
 const ApplicationToggle = ({
@@ -21,5 +28,6 @@ const ApplicationToggle = ({
 };
 
 ApplicationToggle.propTypes = propTypes;
+ApplicationToggle.defaultProps = defaultProps;
 
 export default ApplicationToggle;

@@ -6,9 +6,24 @@ import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelega
 import MenuList from './common/menu/MenuList';
 
 const propTypes = {
+  /**
+   * The component header.
+   */
   menuHeader: PropTypes.string,
+  /**
+   * The navigaion links to display within the toolbar.
+   */
   navigation: PropTypes.object,
+  /**
+   * The RoutingStateDelegate instance provided by the terra-navigation-layout.
+   */
   routingStackDelegate: RoutingStackDelegate.propType,
+};
+
+const defaultProps = {
+  menuHeader: null,
+  navigation: undefined,
+  routingStackDelegate: undefined,
 };
 
 const ApplicationMenu = ({ menuHeader, navigation, routingStackDelegate }) => (
@@ -24,5 +39,6 @@ const ApplicationMenu = ({ menuHeader, navigation, routingStackDelegate }) => (
 );
 
 ApplicationMenu.propTypes = propTypes;
+ApplicationMenu.defaultProps = defaultProps;
 
 export default withRouter(ApplicationMenu);

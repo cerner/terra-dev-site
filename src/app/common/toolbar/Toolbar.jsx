@@ -16,21 +16,32 @@ const cx = classNames.bind(styles);
 const propTypes = {
   /**
    * The AppDelegate instance provided by the containing component. If present, its properties will propagate to the children components.
-   * */
+   */
   app: AppDelegate.propType,
   /**
    * Content element to be placed within the fill area of the toolbar.
-   * */
+   */
   content: PropTypes.element,
   /**
    * Logo element to be placed at the start of the toolbar.
-   * */
+   */
   logo: PropTypes.element,
+  /**
+   * The layoutConfig instance provided by terra-layout.
+   */
   layoutConfig: PropTypes.object,
   /**
    * Utility element to be placed at the end of the toolbar.
-   * */
+   */
   utility: PropTypes.element,
+};
+
+const defaultProps = {
+  app: undefined,
+  content: null,
+  logo: null,
+  layoutConfig: undefined,
+  utility: null,
 };
 
 const appendPropsToElement = (app, size, element) => React.cloneElement(element, { app, size });
@@ -98,6 +109,7 @@ const Toolbar = ({
 };
 
 Toolbar.propTypes = propTypes;
+Toolbar.defaultProps = defaultProps;
 Toolbar.Utility = Utility;
 Toolbar.Logo = Logo;
 

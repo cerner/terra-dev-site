@@ -43,6 +43,7 @@
       background-color: #015085;
     }
 
+    // stylelint-disable declaration-property-value-blacklist
     &[aria-current='true'] {
       background-color: #fff;
       border-left: none;
@@ -50,5 +51,6 @@
       color: #1c1f21;
       font-weight: 600;
     }
+    // stylelint-enable
   }
 }

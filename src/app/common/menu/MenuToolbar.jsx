@@ -13,10 +13,24 @@ import styles from './MenuToolbar.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * The AppDelegate instance provided by the containing component. If present, its properties will propagate to the children components.
+   */
   app: PropTypes.object,
+  /**
+   * The RoutingStateDelegate instance provided by the terra-navigation-layout.
+   */
   routingStackDelegate: RoutingStackDelegate.propType,
-  backButtonOverride: PropTypes.node,
+  /**
+   * The tab label provided by the navigation link text.
+   */
   text: PropTypes.string,
+};
+
+const defaultProps = {
+  app: undefined,
+  routingStackDelegate: undefined,
+  text: null,
 };
 
 const MenuToolbar = ({ app, routingStackDelegate, text, ...customProps }) => {
@@ -62,5 +76,6 @@ const MenuToolbar = ({ app, routingStackDelegate, text, ...customProps }) => {
 
 
 MenuToolbar.propTypes = propTypes;
+MenuToolbar.defaultProps = defaultProps;
 
 export default MenuToolbar;

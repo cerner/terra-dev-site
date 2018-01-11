@@ -3,8 +3,8 @@
   .toolbar {
     background-color: #2481ca;
     display: flex;
-    justify-content: space-between;
     height: 2.5rem;
+    justify-content: space-between;
     position: relative;
     width: 100%;
   }
@@ -19,6 +19,7 @@
     position: relative;
     width: 3.0714em;
 
+    // stylelint-disable-next-line
     & > * {
       width: 100%;
     }
@@ -66,7 +67,7 @@
     flex: 0 0 auto;
     justify-content: flex-end;
     max-width: 50%;
-    position: relative;
     padding-right: 0.7143rem;
+    position: relative;
   }
 }
