@@ -1,30 +1,50 @@
-const aggregateExamples = (config, exampleType, pathRoot) => (
-  [].concat(...Object.keys(config).map((componentKey) => {
-    const componentPath = config[componentKey].path;
-    const examples = config[componentKey][`${exampleType}`];
+const generateRoutes = (array, config, exampleType, pathRoot) => {
+  config.map((componentKey) => {
+    const path = componentKey.path;
+    const examples = componentKey[`${exampleType}`];
 
-    if (componentPath && examples) {
-      return examples.map(example => (
-        {
-          fullPath: pathRoot + componentPath + example.path,
+    if (path && examples) {
+      examples.map((example) => {
+        if (example[`${exampleType}`]) {
+          generateRoutes(array, examples, exampleType, pathRoot + path);
+        }
+
+        array.push({
+          fullPath: pathRoot + path + example.path,
           component: example.component,
-          linkText: example.description,
-        }),
-      );
+          needsPlaceholder: !example.component,
+        });
+        return undefined;
+      });
+
+      if (examples.length > 1) {
+        array.push({
+          fullPath: pathRoot + path,
+          component: componentKey.component,
+          needsPlaceholder: !componentKey.component,
+        });
+      }
     }
     return undefined;
-  }))
-  .filter(example => !!example)
-);
+  })
+  .filter(test => !!test);
+
+  return array;
+};
 
 const generateMenuLinks = (config, exampleType, pathRoot) => (
-  Object.keys(config).map((componentKey) => {
-    const componentPath = config[componentKey].path;
-    const examples = config[componentKey][`${exampleType}`];
+  config.map((componentKey) => {
+    const componentPath = componentKey.path;
+    const examples = componentKey[`${exampleType}`];
 
     if (componentPath && examples) {
       // Tests will always have create sub menu navigation
-      const hasSubNav = exampleType === 'tests' || examples.length > 1;
+      let hasSubNav = exampleType === 'tests' || examples.length > 1;
+      examples.forEach((example) => {
+        if (example[`${exampleType}`] && example[`${exampleType}`].length > 1) {
+          hasSubNav = true;
+        }
+      });
 
       let path = `${pathRoot}${componentPath}`;
       if (!hasSubNav) {
@@ -34,7 +54,7 @@ const generateMenuLinks = (config, exampleType, pathRoot) => (
       return ({
         id: pathRoot + componentPath,
         path,
-        text: config[componentKey].name,
+        text: componentKey.name,
         hasSubNav,
       });
     }
@@ -45,17 +65,25 @@ const generateMenuLinks = (config, exampleType, pathRoot) => (
 );
 
 const generateSubMenuLinks = (componentConfig, exampleType, pathRoot) => (
-  componentConfig[`${exampleType}`].map(example => ({
-    id: pathRoot + example.path,
-    path: `${pathRoot}${example.path}`,
-    text: example.description,
-  }))
+  componentConfig[`${exampleType}`].map((example) => {
+    let path = `${pathRoot}${example.path}`;
+    if (exampleType !== 'tests' && example[`${exampleType}`] && example[`${exampleType}`].length === 1) {
+      path = `${pathRoot}${example.path}${example[`${exampleType}`][0].path}`;
+    }
+
+    return {
+      id: path,
+      path: `${path}`,
+      text: example.name,
+      hasSubNav: !!example[`${exampleType}`],
+    };
+  })
 );
 
 const SiteUtils = {
   generateMenuLinks,
   generateSubMenuLinks,
-  aggregateExamples,
+  generateRoutes,
 };
 
 export default SiteUtils;

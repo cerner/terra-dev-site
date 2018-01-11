@@ -31,7 +31,7 @@ const defaultProps = {
 
 const ComponentsMenu = ({ routingStackDelegate, config, exampleType, pathRoot, isSubMenu }) => {
   let headerText = menuText[`${exampleType}`];
-  let links = null;
+  let links;
 
   if (isSubMenu) {
     headerText = `${config.name} ${subMenuText[exampleType]}`;

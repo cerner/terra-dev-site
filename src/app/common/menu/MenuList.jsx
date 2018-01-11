@@ -23,7 +23,7 @@ const propTypes = {
 };
 
 const generateMenuLinks = (links, location) => {
-  const navLinks = links.map(link =>
+  const navLinks = !!links && links.map(link =>
     <List.Item
       key={link.id}
       hasChevron={link.hasSubNav}

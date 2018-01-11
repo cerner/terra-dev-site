@@ -22,42 +22,50 @@ const buildComponent = (ComponentClass, configuredProps) => (
   }
 );
 
-const buildSubNavigationConfig = (config, ComponentClass, exampleType, rootPath) => {
-  const generatedConfig = {};
-  const subNavConfig = Object.keys(config).map((componentKey) => {
-    const path = config[componentKey].path;
-    const examples = config[componentKey][`${exampleType}`];
+const buildSubNavigationConfig = (array, config, ComponentClass, exampleType, pathRoot, isComponentsMenu = true) => {
+  config.map((componentKey) => {
+    const path = componentKey.path;
+    const examples = componentKey[`${exampleType}`];
 
     if (path && examples) {
-      if (exampleType === 'pages' && examples.length === 1) {
+      examples.forEach((example) => {
+        if (example[`${exampleType}`]) {
+          buildSubNavigationConfig(array, examples, ComponentClass, exampleType, pathRoot + path, false);
+        }
+      });
+
+      // Do not create a submenu for the component if the component has one site page.
+      if (exampleType === 'pages' && examples.length === 1 && isComponentsMenu) {
         return undefined;
       }
-      return {
-        path: `${rootPath}${path}`,
-        component: buildComponent(ComponentClass, { config: config[componentKey], pathRoot: `${rootPath}${path}`, exampleType, isSubMenu: true }),
-      };
+
+      const componentMenuProps = { config: componentKey, pathRoot: `${pathRoot}${path}`, exampleType, isSubMenu: true };
+
+      array.push({
+        path: `${pathRoot}${path}`,
+        component: buildComponent(ComponentClass, componentMenuProps),
+      });
     }
     return undefined;
   })
   .filter(test => !!test);
 
-  subNavConfig.forEach((test) => {
-    generatedConfig[test.path] = test;
-  });
-  return generatedConfig;
+  return array;
 };
 
-const buildRawConfigForPageComponents = (config, pathRoot) => {
+const buildNavigationConfig = (config, ComponentClass, exampleType, pathRoot) => {
   const generatedConfig = {};
-  const rawPageConfig = SiteUtils.aggregateExamples(config, pathRoot, 'pages').map(page => (
-    {
-      path: `${page.fullPath}`,
-      component: buildComponent(page.component),
-    }
-  ));
+  const componentMenuProps = { config: Object.values(config), pathRoot, exampleType };
 
-  rawPageConfig.forEach((page) => {
-    generatedConfig[page.path] = page;
+  generatedConfig[pathRoot] = {
+    path: pathRoot,
+    component: buildComponent(ComponentClass, componentMenuProps),
+  };
+
+  const subNavConfig = buildSubNavigationConfig([], Object.values(config), ComponentClass, exampleType, pathRoot);
+
+  subNavConfig.forEach((test) => {
+    generatedConfig[test.path] = test;
   });
 
   return generatedConfig;
@@ -68,7 +76,7 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   const placeholderSrc = siteConfig.appLogoSrc;
   const configuredLinks = [];
 
-  let content = {};
+  const content = {};
   let menu = {};
 
   menu[siteConfig.rootPath] = {
@@ -106,16 +114,12 @@ const routeConfiguration = (siteConfig, componentConfig) => {
       contentComponent = link.component;
     }
 
-    const componentProps = { config: componentConfig, pathRoot: link.path, exampleType, placeholderSrc };
+    const componentProps = { config: Object.values(componentConfig), pathRoot: link.path, exampleType, placeholderSrc };
 
     content[link.path] = {
       path: link.path,
       component: buildComponent(contentComponent, componentProps),
     };
-
-    if (exampleType === 'pages') {
-      content = Object.assign(content, buildRawConfigForPageComponents(componentConfig, '/raw'));
-    }
 
     // build content configuration
     let menuComponent = ComponentsMenu;
@@ -123,14 +127,8 @@ const routeConfiguration = (siteConfig, componentConfig) => {
       menuComponent = link.menuComponent;
     }
 
-    const componentMenuProps = { config: componentConfig, pathRoot: link.path, exampleType };
-
     if (!link.isStatic) {
-      menu[link.path] = {
-        path: link.path,
-        component: buildComponent(menuComponent, componentMenuProps),
-      };
-      menu = Object.assign(menu, buildSubNavigationConfig(componentConfig, ComponentsMenu, exampleType, link.path));
+      menu = Object.assign(menu, buildNavigationConfig(componentConfig, menuComponent, exampleType, link.path));
     }
   });
 
@@ -139,6 +137,5 @@ const routeConfiguration = (siteConfig, componentConfig) => {
 
   return { routeConfig, navigation: navigationConfig };
 };
-
 
 export default routeConfiguration;

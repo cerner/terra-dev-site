@@ -15,7 +15,7 @@ const componentConfigPropType = PropTypes.shape(
   },
 );
 
-const siteConfigPropType = PropTypes.objectOf(
+const siteConfigPropType = PropTypes.arrayOf(
   PropTypes.shape({
     name: PropTypes.string,
     path: PropTypes.string,
