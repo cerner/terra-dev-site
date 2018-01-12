@@ -58,6 +58,7 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('[name]-[hash].css'),
     new HtmlWebpackPlugin({
+      title: 'Components',
       template: path.join(__dirname, '..', 'app', 'index.html'),
       chunks: ['babel-polyfill', 'terra-site'],
     }),

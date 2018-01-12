@@ -1,28 +1,25 @@
 import React from 'react';
-import SiteUtils from './components/SiteUtils';
-
 import ApplicationMenu from './ApplicationMenu';
-
 import Components from './components/Components';
 import ComponentsMenu from './components/ComponentsMenu';
 
 const injectConfig = configuredProps => (
-  ComponentClass => (
+  Component => (
     props => (
-      <ComponentClass {...props} {...configuredProps} />
+      <Component {...props} {...configuredProps} />
     )
   )
 );
 
-const buildComponent = (ComponentClass, configuredProps) => (
+const buildComponent = (Component, configuredProps) => (
   {
     default: {
-      componentClass: injectConfig(configuredProps)(ComponentClass),
+      componentClass: injectConfig(configuredProps)(Component),
     },
   }
 );
 
-const buildSubNavigationConfig = (array, config, ComponentClass, exampleType, pathRoot, isComponentsMenu = true) => {
+const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pathRoot, isMainMenu = true) => {
   config.map((componentKey) => {
     const path = componentKey.path;
     const examples = componentKey[`${exampleType}`];
@@ -30,12 +27,12 @@ const buildSubNavigationConfig = (array, config, ComponentClass, exampleType, pa
     if (path && examples) {
       examples.forEach((example) => {
         if (example[`${exampleType}`]) {
-          buildSubNavigationConfig(array, examples, ComponentClass, exampleType, pathRoot + path, false);
+          buildSubNavigationConfig(array, examples, ComponentMenu, exampleType, pathRoot + path, false);
         }
       });
 
       // Do not create a submenu for the component if the component has one site page.
-      if (exampleType === 'pages' && examples.length === 1 && isComponentsMenu) {
+      if (exampleType === 'pages' && examples.length === 1 && isMainMenu) {
         return undefined;
       }
 
@@ -43,7 +40,7 @@ const buildSubNavigationConfig = (array, config, ComponentClass, exampleType, pa
 
       array.push({
         path: `${pathRoot}${path}`,
-        component: buildComponent(ComponentClass, componentMenuProps),
+        component: buildComponent(ComponentMenu, componentMenuProps),
       });
     }
     return undefined;
@@ -53,16 +50,16 @@ const buildSubNavigationConfig = (array, config, ComponentClass, exampleType, pa
   return array;
 };
 
-const buildNavigationConfig = (config, ComponentClass, exampleType, pathRoot) => {
+const buildNavigationConfig = (config, ComponentMenu, exampleType, pathRoot) => {
   const generatedConfig = {};
   const componentMenuProps = { config: Object.values(config), pathRoot, exampleType };
 
   generatedConfig[pathRoot] = {
     path: pathRoot,
-    component: buildComponent(ComponentClass, componentMenuProps),
+    component: buildComponent(ComponentMenu, componentMenuProps),
   };
 
-  const subNavConfig = buildSubNavigationConfig([], Object.values(config), ComponentClass, exampleType, pathRoot);
+  const subNavConfig = buildSubNavigationConfig([], Object.values(config), ComponentMenu, exampleType, pathRoot);
 
   subNavConfig.forEach((test) => {
     generatedConfig[test.path] = test;
@@ -101,12 +98,10 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     const exampleType = link.exampleType;
 
     // build navigation link configuration
-    // if (exampleType !== 'tests') {
-      configuredLinks.push({
-        path: link.path,
-        text: link.text,
-      });
-    // }
+    configuredLinks.push({
+      path: link.path,
+      text: link.text,
+    });
 
     // build content configuration
     let contentComponent = Components;
