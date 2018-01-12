@@ -24,8 +24,8 @@
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
-    "clean:install": "npm run clean && npm install && npm run compile:build",
-    "compile": "npm run clean:compiled && npm run compile:build",
+    "clean:install": "npm install && npm run compile:build",
+    "compile": "npm run compile:build",
     "compile:build": "babel src --out-dir lib --copy-files",
     "danger": "danger",
     "lint": "eslint --ext .js,.jsx .",
