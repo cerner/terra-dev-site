@@ -82,7 +82,7 @@ module.exports = {
     // See https://github.com/facebook/react/issues/8026
     alias: {
       react: path.resolve(process.cwd(), 'node_modules', 'react'),
-      'react-intl': path.resolve(__dirname, '..', '..', 'node_modules', 'react-intl'),
+      'react-intl': path.resolve(process.cwd(), 'node_modules', 'react-intl'),
       'react-dom': path.resolve(process.cwd(), 'node_modules', 'react-dom'),
     },
   },
@@ -111,6 +111,6 @@ module.exports = {
     },
   },
   resolveLoader: {
-    modules: [path.resolve(path.join(__dirname, '..', '..', 'node_modules'))],
+    modules: [path.resolve(path.join(process.cwd(), 'node_modules'))],
   },
 };

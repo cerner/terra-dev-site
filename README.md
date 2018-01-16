@@ -1,4 +1,4 @@
-site<!-- Logo -->
+<!-- Logo -->
 <p align="center">
   <img height="128" width="128" src="https://github.com/cerner/terra-site/raw/master/terra.png">
 </p>

@@ -24,11 +24,10 @@
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
-    "clean:install": "npm install && npm run compile:build",
+    "clean:install": "npm install && npm run compile",
     "compile": "npm run compile:build",
     "compile:build": "babel src --out-dir lib --copy-files",
     "danger": "danger",
-    "lint": "eslint --ext .js,.jsx .",
     "jest:coverage": "jest --coverage",
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:js": "eslint --ext .js,.jsx .",
@@ -39,12 +38,13 @@
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
-    "test": "npm run compile && wdio wdio.conf.js",
-    "wdio": "wdio wdio.conf.js"
+    "test": "npm run compile && npm run lint"
   },
   "dependencies": {
     "async": "^2.5.0",
     "autoprefixer": "^6.7.7",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
     "babel-loader": "^7.1.2",
     "classnames": "^2.2.5",
     "clean-webpack-plugin": "^0.1.17",
@@ -73,8 +73,8 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
     "terra-app-delegate": "^1.7.1",
-    "terra-application-header-layout": "file:../terra-framework/packages/terra-application-header-layout",
-    "terra-application-menu-layout": "file:../terra-framework/packages/terra-application-menu-layout",
+    "terra-application-header-layout": "^1.0.0",
+    "terra-application-menu-layout": "^1.0.0",
     "terra-base": "^2.6.1",
     "terra-button": "^1.12.0",
     "terra-i18n": "^1.10.1",
@@ -97,8 +97,6 @@
     "webpack-dev-server": "^2.7.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",

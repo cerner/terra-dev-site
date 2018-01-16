@@ -6,64 +6,56 @@ const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
 const packageJson = require('../../package.json');
 
-const customSearchPaths = [];
-const collect = (val) => {
-  customSearchPaths.push(path.resolve(process.cwd(), val));
+let searchPaths = [];
+// Adds custom search paths
+const addSearchPath = (searchPattern) => {
+  searchPaths.push(path.resolve(process.cwd(), searchPattern));
 };
 
+// Parse process arguments
 commander
   .version(packageJson.version)
-  .option('-s, --search [path]', 'Array of patterns to search for site and tests examples', collect)
-  // .option('-s, --search [path]', 'Array of patterns to search for site and tests examples')
+  .option('-s, --search [searchPattern]', 'Regex pattern to search for site and tests examples', addSearchPath)
   .option('--no-pages', 'Disable the gerneation of page example configuration')
   .option('--no-tests', 'Disable the generation of test example configuration')
   .parse(process.argv);
 
-let foundFiles = [];
+/** Default Search Patterns
+ *  Examples in root:
+ *     dir/examples-lib/files
+ *     dir/examples-lib/test-examples
+ *     dir/examples-lib/ * /files
+ *     dir/examples-lib/ * /test-examples
+ *  Examples within packages:
+ *     dir/packages/ * /examples-lib/files
+ *     dir/packages/ * /examples-lib/test-examples
+ *     dir/packages/ * /examples-lib/ * /files
+ *     dir/packages/ * /examples-lib/ * /test-examples
+ */
+const compiledDirPattern = `{examples-lib,${path.join('examples-lib', '*')}}`;
 
-const repositoryName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
-
-// Compiled directory search pattern
-const compilePath = 'examples-lib';
-// const compiledDirPattern = `${compilePath}`;
-const compiledDirPattern = `{${compilePath},${path.join(compilePath, '*')}}`;
-
-// Example files search pattern
+// Example files search patterns
 const testsSearchPath = commander.tests ? path.join('test-examples', '*?(.jsx|.js)') : null;
 const pagesSearchPage = commander.pages ? '*.site-page?(.jsx|.js)' : null;
 const examplesPattern = `{${pagesSearchPage},${testsSearchPath}}`;
 
-// Default Search Patterns
-//   Examples in root:
-//     dir/examples-lib/files
-//     dir/examples-lib/test-examples
-//     dir/examples-lib/*/files
-//     dir/examples-lib/*/test-examples
-//   Examples within packages:
-//     dir/packages/*/examples-lib/files
-//     dir/packages/*/examples-lib/test-examples
-//     dir/packages/*/examples-lib/*/files
-//     dir/packages/*/examples-lib/*/test-examples
-const searchPaths = [
+searchPaths = searchPaths.concat([
   path.resolve(process.cwd(), `${compiledDirPattern}`, `${examplesPattern}`),
   path.resolve(process.cwd(), 'packages', '*', `${compiledDirPattern}`, `${examplesPattern}`),
-];
+]);
 
-if (commander.search) {
-  customSearchPaths.map(customPath => searchPaths.push(customPath));
-}
-console.log(searchPaths);
-
-
+let foundFiles = [];
 searchPaths.forEach((searchPath) => {
   foundFiles = foundFiles.concat(glob.sync(searchPath, { nodir: true }));
 });
 
-// console.log(foundFiles);
+const repositoryName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
 const componentImports = {};
 const packageConfig = [];
-let exampleImports = '';
-let testImports = '';
+const imports = {
+  pages: '',
+  tests: '',
+};
 
 let currPkgConfig = {
   name: undefined,
@@ -72,50 +64,45 @@ let currPkgConfig = {
   tests: [],
 };
 
-// console.log(foundFiles);
-
 foundFiles.forEach((filePath) => {
   const parsedPath = path.parse(filePath);
   const directory = parsedPath.dir;
-
-  const isPackagePath = directory.includes('packages');
-  const isExampleFile = parsedPath.name.includes('.site-page') || parsedPath.dir.includes('example');
-
-  console.log(isPackagePath);
-
   const fileName = parsedPath.name.replace('.site-page', '');
+  const fileType = directory.includes('test') ? 'tests' : 'pages';
 
+  // Get the package name
   let packageName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
-  if (isPackagePath) {
+  if (directory.includes('packages')) {
     // The package name is the first directory name after packages.
-    // Note: spliting on seperator results in the first array element to be "".
+    // Note: spliting on seperator results in the first array element to be ''
     packageName = directory.split('packages')[1].split(path.sep)[1];
   }
 
-  console.log(packageName);
-
+  // Parse the package directories
   const packageDirectories = directory.split(packageName)[1].split(path.sep);
-
-  // Assuming lib-examples/example-file or lib-examples/tests-dir/example-file
-  // for terra-core/.../
-  const spliceAt = isExampleFile ? 3 : 3;
-  // const spliceAt = isExampleFile ? 2 : 3;
+  const spliceAt = fileType === 'tests' || packageName.includes('-site') ? 3 : 2;
   const nestedDirectories = packageDirectories.splice(spliceAt, packageDirectories.length);
+
   const nestedConfig = [];
   nestedDirectories.forEach((dir) => {
-    nestedConfig.push({
+    const nestedDirConfig = {
       name: `'${startCase(dir)}'`,
       path: `'/${kebabCase(dir)}'`,
-      // pages: [],
-      // tests: [],
+    };
+
+    let nestedDirPrevFound = false;
+    nestedConfig.forEach((config) => {
+      nestedDirPrevFound = JSON.stringify(config) === JSON.stringify(nestedDirConfig);
     });
+
+    if (!nestedDirPrevFound) {
+      nestedConfig.push(nestedDirConfig);
+    }
   });
 
-  const componentName = startCase(packageName.replace('terra-', ''));
-
-  let importName = `${startCase(fileName)}`.replace(/\s/g, '');
-  if (isExampleFile) {
-    importName = `${startCase(packageName)}${fileName}`.replace(/\s/g, '');
+  let importName = `${startCase(packageName)}${fileName}`.replace(/\s/g, '');
+  if (fileType === 'tests') {
+    importName = `${startCase(fileName)}`.replace(/\s/g, '');
   }
 
   // Maintain import name occurances to ensure unique component import names
@@ -126,12 +113,8 @@ foundFiles.forEach((filePath) => {
     componentImports[`${importName}`] = 0;
   }
 
-  const importPath = path.join('..', `${parsedPath.dir.split(repositoryName)[1]}`, `${parsedPath.name}`);
-  if (isExampleFile) {
-    exampleImports += `import ${importName} from '${importPath}';\n`;
-  } else {
-    testImports += `import ${importName} from '${importPath}';\n`;
-  }
+  const importPath = path.join('..', `${directory.split(repositoryName)[1]}`, `${parsedPath.name}`);
+  imports[`${fileType}`] += `import ${importName} from '${importPath}';\n`;
 
   const fileConfig = {
     name: `'${startCase(fileName)}'`,
@@ -139,15 +122,11 @@ foundFiles.forEach((filePath) => {
     component: `${importName},`,
   };
 
-  let exampleConfig;
+  let exampleConfig = fileConfig;
   if (nestedConfig.length) {
     const lastNestedConfig = nestedConfig[nestedConfig.length - 1];
-    if (isExampleFile) {
-      lastNestedConfig.pages = [fileConfig];
-    } else {
-      lastNestedConfig.tests = [fileConfig];
-    }
-    // lastNestedConfig.pages = fileConfig;
+    lastNestedConfig[`${fileType}`] = [fileConfig];
+
     nestedConfig[nestedConfig.length - 1] = lastNestedConfig;
 
     exampleConfig = nestedConfig[0];
@@ -158,29 +137,21 @@ foundFiles.forEach((filePath) => {
       if (count !== nestedConfig.length) {
         dirConfigObj = dirConfig;
       }
-      if (isExampleFile) {
-        exampleConfig.pages = dirConfigObj;
-      } else {
-        exampleConfig.tests = dirConfigObj;
-      }
+      exampleConfig[`${fileType}`] = dirConfigObj;
+
       count += 1;
     });
-  } else {
-    exampleConfig = fileConfig;
   }
-
   if (packageName === currPkgConfig.packageName) {
-    if (isExampleFile) {
-      currPkgConfig.pages.push(exampleConfig);
-    } else {
-      currPkgConfig.tests.push(exampleConfig);
-    }
+    currPkgConfig[`${fileType}`].push(exampleConfig);
   } else {
-    if (isExampleFile) {
-      currPkgConfig = { name: componentName, packageName, pages: [exampleConfig], tests: [] };
-    } else {
+    const componentName = startCase(packageName.replace('terra-', ''));
+    if (fileType === 'tests') {
       currPkgConfig = { name: componentName, packageName, pages: [], tests: [exampleConfig] };
+    } else {
+      currPkgConfig = { name: componentName, packageName, pages: [exampleConfig], tests: [] };
     }
+
     packageConfig.push(currPkgConfig);
   }
 });
@@ -191,7 +162,7 @@ packageConfig.forEach((pkg) => {
   const tests = commander.tests && pkg.tests.length > 0 ? { tests: pkg.tests } : {};
 
   const configInfo = {
-    name: `'${pkg.name}'`,
+    name: pkg.name.includes('-') ? `'${pkg.name}'` : `${pkg.name}`,
     path: `'/${kebabCase(pkg.name)}'`,
     ...pages,
     ...tests,
@@ -199,25 +170,26 @@ packageConfig.forEach((pkg) => {
   componentConfig[`'${pkg.packageName}'`] = configInfo;
 });
 
-if (exampleImports) {
-  exampleImports = `// Component Examples\n${exampleImports}`;
+if (imports.pages) {
+  imports.pages = `// Component Examples\n${imports.pages}`;
 }
 
-if (testImports) {
-  testImports = `// Component Test Examples\n${testImports}`;
+if (imports.tests) {
+  imports.tests = `// Component Test Examples\n${imports.tests}`;
 }
 
-// // Generate configuration file for site consumption
+// Generate configuration file for site consumption
 fs.readFile(path.join(__dirname, 'index.template'), 'utf8', (err, data) => {
-  let newFileContent = data.replace('<example_imports>', exampleImports);
-  newFileContent = newFileContent.replace('<test_imports>', testImports);
+  let generatedConfig = data.replace('<example_imports>', imports.pages);
+  generatedConfig = generatedConfig.replace('<test_imports>', imports.tests);
 
   // Replace double quotes with single quotes and add any missing trailing commas
   const configString = JSON.stringify(componentConfig, null, 2).replace(/"/g, '').replace(/}(?!,)/g, '},').replace(/](?!,)/g, '],');
 
-  newFileContent = newFileContent.replace('<config>',
+  // Replace the last comma with a semicolon and add to config
+  generatedConfig = generatedConfig.replace('<config>',
     `const componentConfig = ${configString.replace(/,$/, '')};`,
   );
 
-  fs.writeFileSync(path.join(process.cwd(), 'site', 'generatedComponentConfig.js'), newFileContent);
+  fs.writeFileSync(path.join(process.cwd(), 'site', 'generatedComponentConfig.js'), generatedConfig);
 });
