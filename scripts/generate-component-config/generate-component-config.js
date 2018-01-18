@@ -9,7 +9,8 @@ const writeComponentConfig = require('./write-component-config');
 // Adds custom search paths
 const customSearchPatterns = [];
 const addCustomPattern = (searchPattern) => {
-  customSearchPatterns.push(path.resolve(process.cwd(), searchPattern));
+  const customPattern = searchPattern.split('/').join(path.sep);
+  customSearchPatterns.push(path.resolve(process.cwd(), customPattern));
 };
 
 // Parse process arguments
