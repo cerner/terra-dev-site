@@ -36,6 +36,10 @@ const propTypes = {
    */
   navigation: PropTypes.object.isRequired,
   /**
+   * The root path for the site.
+   */
+  rootPath: PropTypes.string.isRequired,
+  /**
    * The theme options the site should display in the locale utility in the toobar.
    */
   themes: PropTypes.object,
@@ -115,8 +119,7 @@ class App extends React.Component {
     }
 
     let applicationHeader;
-    // pass prop for '/site'??
-    if (matchPath(this.props.location.pathname, '/site')) {
+    if (matchPath(this.props.location.pathname, this.props.rootPath)) {
       applicationHeader = (
         <ApplicationHeader
           title={this.props.appTitle}

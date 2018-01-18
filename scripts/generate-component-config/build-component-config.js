@@ -52,25 +52,19 @@ const getImportName = (packageName, fileName, fileType) => {
 /** Builds the nested directory configuration for a found file.
   */
 const buildNestedComponentConfig = (nestedDirectories, fileConfig, fileType) => {
-  // Create the configuration for each directory
-  const nestedConfig = [];
-  nestedDirectories.forEach((dir) => {
-    nestedConfig.push({
-      name: `'${startCase(dir)}'`,
-      path: `'/${kebabCase(dir)}'`,
-    });
-  });
-
   let exampleConfig = fileConfig;
 
   // Reverse the order to build out the nested configuration from n to 0 directories deep
-  nestedConfig.reverse();
+  nestedDirectories.reverse();
 
-  // Build the nested configuration
-  nestedConfig.forEach((config) => {
-    const currentConfig = config;
+  // Create the configuration for each directory
+  nestedDirectories.forEach((dir) => {
+    const currentConfig = {
+      name: `'${startCase(dir)}'`,
+      path: `'/${kebabCase(dir)}'`,
+    };
     currentConfig[`${fileType}`] = [exampleConfig];
-    exampleConfig = config;
+    exampleConfig = currentConfig;
   });
 
   return exampleConfig;

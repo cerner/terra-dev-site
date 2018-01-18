@@ -9,7 +9,7 @@ const config = {
       text: 'Components',
       exampleType: 'pages',
     }, {
-      path: '/site/tests',
+      path: '/tests',
       text: 'Tests',
       exampleType: 'tests',
     }],

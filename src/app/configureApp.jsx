@@ -98,10 +98,12 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     const exampleType = link.exampleType;
 
     // build navigation link configuration
-    configuredLinks.push({
-      path: link.path,
-      text: link.text,
-    });
+    if (exampleType !== 'tests') {
+      configuredLinks.push({
+        path: link.path,
+        text: link.text,
+      });
+    }
 
     // build content configuration
     let contentComponent = Components;
