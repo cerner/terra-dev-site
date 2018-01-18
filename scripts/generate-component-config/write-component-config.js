@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const kebabCase = require('lodash.kebabcase');
 
-const writeComponentConfig = (packageConfigs, componentImports, addPages, addTests) => {
+const writeComponentConfig = (packageConfigs, componentImports, outputPath, addPages, addTests) => {
   // Genenerate Expected Component Configuration
   const componentConfig = {};
   packageConfigs.forEach((pkg) => {
@@ -44,7 +44,7 @@ const writeComponentConfig = (packageConfigs, componentImports, addPages, addTes
     generatedConfig = generatedConfig.replace('<test_imports>', imports.tests);
     generatedConfig = generatedConfig.replace('<config>', `const componentConfig = ${configString};`);
 
-    fs.writeFileSync(path.join(process.cwd(), 'site', 'generatedComponentConfig.js'), generatedConfig);
+    fs.writeFileSync(path.join(path.resolve(process.cwd(), outputPath), 'generatedComponentConfig.js'), generatedConfig);
   });
 };
 

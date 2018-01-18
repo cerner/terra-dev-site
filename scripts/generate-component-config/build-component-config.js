@@ -73,7 +73,7 @@ const buildNestedComponentConfig = (nestedDirectories, fileConfig, fileType) => 
 /** Builds the configuration for each found file and adds it to the approprite packages
   * configuration.
   */
-const buildComponentConfig = (foundFiles, repositoryName) => {
+const buildComponentConfig = (foundFiles, repositoryName, outputPathDepth) => {
   foundFiles.forEach((filePath) => {
     const parsedPath = path.parse(filePath);
     const directory = parsedPath.dir;
@@ -91,10 +91,21 @@ const buildComponentConfig = (foundFiles, repositoryName) => {
     // Get the example's import name
     const importName = getImportName(packageName, fileName, fileType);
 
-    // Create the example's import path
+    // Find the example's path from the root directory
     const pathSliceAt = directory.indexOf(repositoryName) + repositoryName.length;
     const directoryPath = directory.slice(pathSliceAt, directory.length);
-    const importPath = path.join('..', `${directoryPath}`, `${parsedPath.name}`);
+
+    // Create the example's import path
+    let importPath = path.join(`${directoryPath}`, `${parsedPath.name}`);
+    if (outputPathDepth === 0) {
+      importPath = `.${importPath}`;
+    } else {
+      let numDirTraversals = 0;
+      while (numDirTraversals < outputPathDepth) {
+        importPath = path.join('..', `${importPath}`);
+        numDirTraversals += 1;
+      }
+    }
 
     // Add the example's import statment
     imports[`${fileType}`] += `import ${importName} from '${importPath}';\n`;

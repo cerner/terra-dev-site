@@ -16,6 +16,7 @@ const addCustomPattern = (searchPattern) => {
 commander
   .version(packageJson.version)
   .option('-s, --search [searchPattern]', 'Regex pattern to search for site and tests examples', addCustomPattern)
+  .option('-o, --output [outputPath]', 'The output location of the generated configuration file', './site')
   .option('--no-pages', 'Disable the gerneation of page example configuration')
   .option('--no-tests', 'Disable the generation of test example configuration')
   .parse(process.argv);
@@ -60,6 +61,10 @@ searchPaths.forEach((searchPath) => {
 
 const repositoryName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
 
-const { packageConfigs, imports } = buildComponentConfig(foundFiles, repositoryName);
+// Find the output directory depth to create the correct import paths in buildComponentConfig
+const outputPath = commander.output;
+const outputPathDepth = outputPath === './' ? 0 : outputPath.replace('./', '').split(path.sep).length;
 
-writeComponentConfig(packageConfigs, imports, commander.pages, commander.tests);
+const { packageConfigs, imports } = buildComponentConfig(foundFiles, repositoryName, outputPathDepth);
+
+writeComponentConfig(packageConfigs, imports, commander.output, commander.pages, commander.tests);
