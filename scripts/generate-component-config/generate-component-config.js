@@ -24,17 +24,17 @@ commander
 
 /** Default Search Paths
  *  Examples in root:
- *     dir/examples-lib/files
- *     dir/examples-lib/test-examples
- *     dir/examples-lib/ * /files
- *     dir/examples-lib/ * /test-examples
+ *     dir/examples/files
+ *     dir/examples/test-examples
+ *     dir/examples/ * /files
+ *     dir/examples/ * /test-examples
  *  Examples within packages:
- *     dir/packages/ * /examples-lib/files
- *     dir/packages/ * /examples-lib/test-examples
- *     dir/packages/ * /examples-lib/ * /files
- *     dir/packages/ * /examples-lib/ * /test-examples
+ *     dir/packages/ * /examples/files
+ *     dir/packages/ * /examples/test-examples
+ *     dir/packages/ * /examples/ * /files
+ *     dir/packages/ * /examples/ * /test-examples
  */
-const compiledDirPattern = `{examples-lib,${path.join('examples-lib', '*')}}`;
+const compiledDirPattern = `{examples,${path.join('examples', '*')}}`;
 
 let testsSearchPattern;
 if (commander.tests) {

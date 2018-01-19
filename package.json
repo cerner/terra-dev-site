@@ -24,21 +24,16 @@
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
-    "clean:install": "npm install && npm run compile",
-    "compile": "npm run compile:build",
-    "compile:build": "babel src --out-dir lib --copy-files",
+    "clean:install": "npm install",
     "danger": "danger",
-    "jest:coverage": "jest --coverage",
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
-    "prepare": "npm run compile",
     "prepublishOnly": "npm test",
-    "pretest": "npm run lint",
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
-    "test": "npm run compile && npm run lint"
+    "test": "npm run lint"
   },
   "dependencies": {
     "async": "^2.5.0",
