@@ -15,7 +15,8 @@ const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
 module.exports = {
   entry: {
     'babel-polyfill': 'babel-polyfill',
-    'terra-site': path.resolve(path.join(process.cwd(), 'site', 'Index')),
+    'terra-site': path.resolve(path.join(__dirname, '..', 'Index')),
+    // 'terra-site': path.resolve(path.join(process.cwd(), 'site', 'Index')),
   },
   module: {
     rules: [{

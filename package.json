@@ -81,7 +81,8 @@
     "terra-menu": "^1.6.0",
     "terra-navigation-layout": "^1.0.0",
     "terra-slide-panel": "^1.14.0",
-    "terra-theme-provider": "^1.6.1"
+    "terra-theme-provider": "^1.6.1",
+    "xfc": "^1.2.1"
   },
   "peerDependencies": {
     "babel-polyfill": "^6.23.0",
