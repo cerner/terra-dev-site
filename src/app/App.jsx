@@ -40,7 +40,7 @@ const propTypes = {
    */
   rootPath: PropTypes.string.isRequired,
   /**
-   * The theme options the site should display in the locale utility in the toobar.
+   * The theme options the site should display in the theme utility in the toobar.
    */
   themes: PropTypes.object,
   /**

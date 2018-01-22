@@ -75,7 +75,7 @@ module.exports = {
     new ExtractTextPlugin('[name]-[hash].css'),
     new HtmlWebpackPlugin({
       title: 'Site',
-      template: path.join(__dirname, '..', 'app', 'index.html'),
+      template: path.join(__dirname, '..', 'index.html'),
       chunks: ['babel-polyfill', 'terra-site'],
     }),
     new I18nAggregatorPlugin({
