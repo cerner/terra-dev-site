@@ -68,6 +68,7 @@ class Components extends React.Component {
 
     return (
       <div
+        id="component-content"
         ref={(element) => { this.element = element; }}
         style={{ height: '100%', position: 'relative', padding: '15px', overflow: 'auto' }}
       >
