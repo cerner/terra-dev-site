@@ -2,6 +2,7 @@ import React from 'react';
 import ApplicationMenu from './ApplicationMenu';
 import Components from './components/Components';
 import ComponentsMenu from './components/ComponentsMenu';
+import Home from './components/Home';
 
 const injectConfig = configuredProps => (
   Component => (
@@ -68,9 +69,8 @@ const buildNavigationConfig = (config, ComponentMenu, exampleType, pathRoot) => 
   return generatedConfig;
 };
 
-const routeConfiguration = (siteConfig, componentConfig) => {
+const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeContent) => {
   const navigation = siteConfig.navigation;
-  const placeholderSrc = siteConfig.appLogoSrc;
   const configuredLinks = [];
 
   const content = {};
@@ -107,11 +107,13 @@ const routeConfiguration = (siteConfig, componentConfig) => {
 
     // build content configuration
     let contentComponent = Components;
-    if (link.component) {
+    let componentProps = { config: Object.values(componentConfig), pathRoot: link.path, exampleType, placeholderSrc };
+    if (exampleType === 'home') {
+      contentComponent = Home;
+      componentProps = { readMeContent };
+    } else if (link.component) {
       contentComponent = link.component;
     }
-
-    const componentProps = { config: Object.values(componentConfig), pathRoot: link.path, exampleType, placeholderSrc };
 
     content[link.path] = {
       path: link.path,

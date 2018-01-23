@@ -4,18 +4,18 @@ import Markdown from 'terra-markdown';
 
 const propTypes = {
   /**
-   * The homepage README markdown source.
+   * The homepage README markdown content.
    */
-  readMeSrc: PropTypes.string,
+  readMeContent: PropTypes.string,
 };
 
 const defaultProps = {
-  readMeSrc: '',
+  readMeContent: '',
 };
 
-const Home = ({ readMeSrc }) => (
+const Home = ({ readMeContent }) => (
   <div style={{ height: '100%', padding: '15px', overflow: 'auto' }}>
-    <Markdown src={readMeSrc} />
+    <Markdown src={readMeContent} />
   </div>
 );
 

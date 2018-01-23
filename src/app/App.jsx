@@ -118,26 +118,23 @@ class App extends React.Component {
       appLogo = (<Image variant="rounded" src={this.props.appLogoSrc} height="26px" width="26px" isFluid />);
     }
 
-    let applicationHeader;
-    if (matchPath(this.props.location.pathname, this.props.rootPath)) {
-      applicationHeader = (
-        <ApplicationHeader
-          title={this.props.appTitle}
-          subtitle={this.props.appSubtitle}
-          logo={appLogo}
-          locale={this.state.locale}
-          locales={this.props.locales}
-          onLocaleChange={this.handleLocaleChange}
-          hideBidiUtility={this.props.hideBidiUtility}
-          dir={this.state.dir}
-          onDirChange={this.handleBidiChange}
-          theme={this.state.theme}
-          themes={Object.keys(this.props.themes)}
-          onThemeChange={this.handleThemeChange}
-          navigation={this.props.navigation}
-        />
-      );
-    }
+    const applicationHeader = (
+      <ApplicationHeader
+        title={this.props.appTitle}
+        subtitle={this.props.appSubtitle}
+        logo={appLogo}
+        locale={this.state.locale}
+        locales={this.props.locales}
+        onLocaleChange={this.handleLocaleChange}
+        hideBidiUtility={this.props.hideBidiUtility}
+        dir={this.state.dir}
+        onDirChange={this.handleBidiChange}
+        theme={this.state.theme}
+        themes={Object.keys(this.props.themes)}
+        onThemeChange={this.handleThemeChange}
+        navigation={matchPath(this.props.location.pathname, this.props.rootPath) ? this.props.navigation : null}
+      />
+    );
 
     return (
       <ThemeProvider id="site" themeName={this.props.themes[this.state.theme]} isGlobalTheme>

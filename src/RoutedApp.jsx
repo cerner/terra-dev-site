@@ -1,68 +1,59 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 import { Provider } from 'xfc';
 
 import App from './app/App';
 import routeConfiguration from './app/configureApp';
-import navigationConfig from './config/navigation.config';
-// import genearteComponentConfig from './generatedComponentConfig';
-import get_configuration from '../scripts/root-directory/index';
-
-// app-root-path
-// import siteConfig from '.terra.site.config'
 
 Provider.init({
   acls: ['*'],
   secret: () => (Promise.resolve('Success')),
 });
 
-const Site = () => {
-  console.log('HERE I AM', process.cwd());
-  console.log(get_configuration());
+class Site extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { componentConfig: {} };
+  }
 
-  // const siteConfig
-  // const { appConfig } = siteConfig;
+  componentDidMount() {
+    if(COMPONENT_CONFIG_PATH !== undefined) {
+      import(COMPONENT_CONFIG_PATH)
+        .then(module => this.setState({ componentConfig: module.default }));
+    } else {
+      // Need a way to dynamically pull in the siteImports without setting them to state and with the use of promises.
+      this.setState({ componentConfig: {} });
+    }
+  }
 
-  // Use the default navigation config if one is not provided
-  // let navConfig = siteConfig.navConfig;
-  // if (!navConfig) {
-    // navConfig = navigationConfig;
-  // }
+  render() {
+    const siteConfig = this.props.siteConfig;
 
-  // Generate the component config if one is not provided
-  // let componentConfig = siteConfig.componentConfig;
-  // if (!componentConfig) {
-    // const customSearchPaths = siteConfig.examplePaths;
-    // const createPages = !siteConfig.disablePages;
-    // const createTests = !siteConfig.disableTests;
-    // componentConfig = null;
-    // componentConfig = generatedComponentConfig(customSearchPaths, createTests, createPages);
-  // }
+    const { appConfig, navConfig: navigationConfig } = siteConfig;
+    const componentConfig = this.state.componentConfig;
 
-  const { routeConfig, navigation } = routeConfiguration(navigationConfig, {});
-  // const { routeConfig, navigation } = routeConfiguration(navConfig, componentConfig);
-  const routes = Object.freeze(routeConfig);
+    const { routeConfig, navigation } = routeConfiguration(navigationConfig, componentConfig, siteConfig.placeholderSrc, siteConfig.readMeContent);
 
-  // rootPath={navConfig.rootPath}
-  // themes={appConfig.themes}
-  // defaultTheme={appConfig.defaultTheme}
-  // locales={appConfig.locales}
-  // appTitle={appConfig.title}
-  // hideBidiUtility={!appConfig.bidirectional}
-  // defaultDir={appConfig.defaultDirection}
-  // appSubtitle={appConfig.subtitle}
-  // appLogoSrc={appConfig.logoSrc}
+    const routes = Object.freeze(routeConfig);
 
-  return (
-    <Router>
-      <App
-        routeConfig={routes}
-        navigation={navigation}
-        rootPath="/site"
-      />
-    </Router>
-  );
-};
+    return (
+      <Router>
+        <App
+          routeConfig={routes}
+          navigation={navigation}
+          rootPath={navigationConfig.rootPath}
+          themes={appConfig.themes}
+          defaultTheme={appConfig.defaultTheme}
+          locales={appConfig.locales}
+          appTitle={appConfig.title}
+          hideBidiUtility={!appConfig.bidirectional}
+          defaultDir={appConfig.defaultDirection}
+          appSubtitle={appConfig.subtitle}
+          appLogoSrc={appConfig.logoSrc}
+        />
+      </Router>
+    );
+  }
+}
 
-ReactDOM.render(<Site />, document.getElementById('root'));
+export default Site;

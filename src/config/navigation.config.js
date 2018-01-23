@@ -1,13 +1,12 @@
-
-const config = {
+module.exports = {
   rootPath: '/site',
-  appLogoSrc: undefined, // change this to
   navigation: {
     index: '/site/home',
     links: [{
       path: '/site/home',
       text: 'Home',
       exampleType: 'home',
+      isStatic: true,
     }, {
       path: '/site/components',
       text: 'Components',
@@ -19,5 +18,3 @@ const config = {
     }],
   },
 };
-
-export default config;
