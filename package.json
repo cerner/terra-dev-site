@@ -38,6 +38,7 @@
   "dependencies": {
     "async": "^2.5.0",
     "autoprefixer": "^6.7.7",
+    "babel-eslint": "^8.2.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.1.2",
@@ -95,7 +96,6 @@
     "webpack-dev-server": "^2.7.1"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",
