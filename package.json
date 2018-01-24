@@ -1,7 +1,7 @@
 {
   "name": "terra-site",
-  "version": "0.0.0",
-  "description": "Dynamic site configuration and gerneration tool.",
+  "version": "2.0.0-beta",
+  "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "main": "lib/index.js",
   "engines": {
     "node": "8.9.2"
@@ -95,6 +95,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",

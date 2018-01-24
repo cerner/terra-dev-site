@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { siteConfigPropType } from '../../config/proptypes.config';
-import SiteUtils from './SiteUtils';
+import { siteConfigPropType } from './ComponentsProptypes';
+import ComponentsUtils from './ComponentsUtils';
 import Placeholder from '../common/Placeholder';
 
 const propTypes = {
@@ -36,7 +36,7 @@ const generateComponentRoutes = (config, exampleType, pathRoot, placeholderSrc) 
     <Placeholder src={placeholderSrc} />
   );
 
-  const routes = SiteUtils.generateRoutes([], config, exampleType, pathRoot).map(
+  const routes = ComponentsUtils.generateRoutes([], config, exampleType, pathRoot).map(
     component => (
       <Route
         key={component.fullPath}

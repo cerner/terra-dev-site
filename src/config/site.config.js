@@ -2,34 +2,11 @@ const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
 const navigationConfig = require('./navigation.config');
 
 module.exports = {
-  /* The path to the navigation configuration.  */
+  /* The navigation configuration.  */
   navConfig: navigationConfig,
 
-  // /** The array of pathes and/or regex patterns to the page and tests examples
-  //   * of the components which should be pulled into the site. These will be
-  //   * supplyed to the generate-component-config script, which will generate the
-  //   * expected configuration needs to generate the react-router-routes and
-  //   * component renderings.
-  //   */
-  // examplePaths: [],
-  //
-  // /** Disables the generation of page examples component configuration in the
-  //   * generated-component-config script.
-  //   */
-  // disablePages: false, // maps to --no-pages
-  //
-  // /** Disables the generation of test examples component configuration in the
-  //   * generated-component-config script.
-  //   */
-  // disableTests: false, // maps to --no-tests
-
-  /** The comopnent configuration. When provided, the generate-component-configureApp
-    * script will not run.
-    */
-  componentConfig: undefined,
-
-  /* If enabled, the xfc Provider will be used. */
-  // hasIframes: false,
+  /* The path to the component configuration. */
+  componentConfigPath: undefined,
 
   /* The image to display as page placeholder when a component does not render. */
   placeholderSrc: '',
@@ -39,7 +16,7 @@ module.exports = {
 
   appConfig: {
     /* The loge the site header should display. */
-    logoSrc: '', // maps to appLogoSrc
+    logoSrc: undefined, // maps to appLogoSrc
 
     /* The title the site header should display. */
     title: '', // maps to appTitle

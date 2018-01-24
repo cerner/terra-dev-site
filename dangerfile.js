@@ -16,11 +16,23 @@ const modifiedSrcFiles = danger.git.modified_files.filter((filePath) => {
   return srcFilePattern.test(filePath);
 });
 
+const modifiedStartScriptFiles = danger.git.modified_files.filter((filePath) => {
+  const srcFilePattern = /\/start-terra-site/i;
+  return srcFilePattern.test(filePath);
+});
+
+const modifiedGenerateConfigScriptFiles = danger.git.modified_files.filter((filePath) => {
+  const srcFilePattern = /\/generate-component-config/i;
+  return srcFilePattern.test(filePath);
+});
+
 const hasCHANGELOGChanges = modifiedChangelog.length > 0 || newChangelog.length > 0;
 const hasModifiedSrcFiles = modifiedSrcFiles.length > 0;
+const hasModifiedStartScriptFiles = modifiedStartScriptFiles.length > 0;
+const hasModifiedGenerateConfigScriptFiles = modifiedGenerateConfigScriptFiles.length > 0;
 
 // Fail if there are src code changes without a CHANGELOG update
-if (hasModifiedSrcFiles && !hasCHANGELOGChanges) {
+if ((hasModifiedSrcFiles || hasModifiedStartScriptFiles || hasModifiedGenerateConfigScriptFiles) && !hasCHANGELOGChanges) {
   fail('Please include a CHANGELOG entry with this PR.');
 }
 

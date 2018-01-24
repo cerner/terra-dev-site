@@ -80,10 +80,10 @@ const generateSubMenuLinks = (componentConfig, exampleType, pathRoot) => (
   })
 );
 
-const SiteUtils = {
+const ComponentsUtils = {
   generateMenuLinks,
   generateSubMenuLinks,
   generateRoutes,
 };
 
-export default SiteUtils;
+export default ComponentsUtils;

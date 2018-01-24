@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RoutingStackDelegate from
  'terra-navigation-layout/lib/RoutingStackDelegate';
-import SiteUtils from './SiteUtils';
+import ComponentsUtils from './ComponentsUtils';
 
 import MenuList from '../common/menu/MenuList';
-import { componentConfigPropType, siteConfigPropType } from '../../config/proptypes.config';
+import { componentConfigPropType, siteConfigPropType } from './ComponentsProptypes';
 
 const menuText = {
   pages: 'Components',
@@ -54,9 +54,9 @@ const ComponentsMenu = ({ routingStackDelegate, config, exampleType, pathRoot, i
 
   if (isSubMenu) {
     headerText = `${config.name} ${subMenuText[exampleType]}`;
-    links = SiteUtils.generateSubMenuLinks(config, exampleType, pathRoot);
+    links = ComponentsUtils.generateSubMenuLinks(config, exampleType, pathRoot);
   } else {
-    links = SiteUtils.generateMenuLinks(config, exampleType, pathRoot);
+    links = ComponentsUtils.generateMenuLinks(config, exampleType, pathRoot);
   }
 
   return (

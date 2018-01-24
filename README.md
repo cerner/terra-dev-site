@@ -11,7 +11,17 @@
 [![NPM version](http://img.shields.io/npm/v/terra-site.svg)](https://www.npmjs.org/package/terra-site)
 [![Build Status](https://travis-ci.org/cerner/terra-site.svg?branch=master)](https://travis-ci.org/cerner/terra-site)
 
-Common 'site' for terra components.
+Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.
+
+Provides the following scripts:
+* start-terra-site: enhances the webpack.config to correctly configure the site and then starts the webpack-dev-server.
+* generate-compoent-config: generates the component configuration needed to build the site.
+
+Provides the following default configuration:
+* site.config.js: must supply the componentConfigPath
+* navigation.config.js
+* webpack.config.js
+* webpack.prod.config.js
 
 - [Getting Started](#getting-started)
 - [Versioning](#versioning)

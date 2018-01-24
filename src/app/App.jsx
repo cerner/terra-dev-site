@@ -5,10 +5,10 @@ import { withRouter, matchPath } from 'react-router-dom';
 
 import Base from 'terra-base';
 import Image from 'terra-image';
-import i18nSupportedLocales from 'terra-i18n/lib/i18nSupportedLocales';
 import ThemeProvider from 'terra-theme-provider';
 import NavigationLayout from 'terra-navigation-layout';
 
+import siteConfig from '../config/site.config';
 import ApplicationHeader from './ApplicationHeader';
 import './App.scss';
 
@@ -68,19 +68,16 @@ const propTypes = {
     pathname: PropTypes.string,
   }),
 };
-
+const appConfig = siteConfig.appConfig;
 const defaultProps = {
-  appTitle: '',
-  appSubtitle: '',
-  appLogoSrc: undefined,
-  navigation: undefined,
-  hideBidiUtility: false,
-  defaultDir: 'ltr',
-  defaultTheme: 'Default Theme',
-  themes: {
-    'Default Theme': '',
-  },
-  locales: i18nSupportedLocales,
+  appTitle: appConfig.title,
+  appSubtitle: appConfig.subtitle,
+  appLogoSrc: appConfig.logoSrc,
+  hideBidiUtility: appConfig.bidirectional,
+  defaultDir: appConfig.defualtDirection,
+  defaultTheme: appConfig.defaultTheme,
+  themes: appConfig.themes,
+  locales: appConfig.locales,
   location: undefined,
 };
 
