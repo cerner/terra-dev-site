@@ -16,7 +16,7 @@ const imports = {
   */
 const addToPackageConfig = (packageConfig, newFileConfig, fileType) => {
   let configMatch = false;
-  // console.log('\n', '\n', newFileConfig)
+
   packageConfig[`${fileType}`].forEach((config) => {
     if (config.name === newFileConfig.name) {
       configMatch = true;
