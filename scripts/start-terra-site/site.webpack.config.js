@@ -19,7 +19,7 @@ if (siteConfig.webpackConfig) {
 const webpackConfig = isFile(webpackConfigPath) ? require(webpackConfigPath) : require('../../src/config/webpack.config');
 
 /* Get the component configuration */
-let componentConfigPath = path.resolve(path.join(process.cwd(), siteConfig.componentConfig));
+let componentConfigPath = path.resolve(path.join(process.cwd(), siteConfig.componentConfigPath));
 // let componentConfig;
 if (!isFile(componentConfigPath)) {
   componentConfigPath = undefined;
