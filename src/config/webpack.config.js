@@ -11,7 +11,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const I18nAggregatorPlugin = require('terra-i18n-plugin');
 const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
-const path = require('path');
 const fs = require('fs');
 
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
@@ -19,7 +18,7 @@ const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).i
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
 const siteConfigPath = path.resolve(path.join(process.cwd(), 'site.config.js'));
 // eslint-disable-next-line import/no-dynamic-require
-const siteConfig = isFile(siteConfigPath) ? require(siteConfigPath) : require('../../src/config/site.config');
+const siteConfig = isFile(siteConfigPath) ? require(siteConfigPath) : require('./site.config');
 
 /* Get the component configuration to define the COMPONENT_CONFIG_PATH in the DefinePlugin */
 let componentConfigPath = path.resolve(path.join(process.cwd(), siteConfig.componentConfigPath));
@@ -96,7 +95,7 @@ const defaultWebpackConfig = {
     new webpack.DefinePlugin({
       SITE_CONFIG: JSON.stringify(siteConfig),
       COMPONENT_CONFIG_PATH: JSON.stringify(componentConfigPath),
-    });
+    }),
     new I18nAggregatorPlugin({
       baseDirectory: process.cwd(),
       supportedLocales: i18nSupportedLocales,
@@ -149,14 +148,5 @@ const defaultWebpackConfig = {
     modules: [path.resolve(path.join(process.cwd(), 'node_modules'))],
   },
 };
-//
-//
-// /* Get the webpacak configuration */
-// let webpackConfigPath;
-// if (siteConfig.webpackConfig) {
-//   webpackConfigPath = path.resolve(path.join(process.cwd(), `${siteConfig.webpackConfig}`));
-// }
-// // eslint-disable-next-line import/no-dynamic-require
-// const customWebpackConfig = isFile(webpackConfigPath) ? require(webpackConfigPath) : {};
 
 module.exports = defaultWebpackConfig;
