@@ -11,8 +11,23 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const I18nAggregatorPlugin = require('terra-i18n-plugin');
 const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
+const path = require('path');
+const fs = require('fs');
 
-module.exports = {
+const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
+
+/* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
+const siteConfigPath = path.resolve(path.join(process.cwd(), 'site.config.js'));
+// eslint-disable-next-line import/no-dynamic-require
+const siteConfig = isFile(siteConfigPath) ? require(siteConfigPath) : require('../../src/config/site.config');
+
+/* Get the component configuration to define the COMPONENT_CONFIG_PATH in the DefinePlugin */
+let componentConfigPath = path.resolve(path.join(process.cwd(), siteConfig.componentConfigPath));
+if (!isFile(componentConfigPath)) {
+  componentConfigPath = undefined;
+}
+
+const defaultWebpackConfig = {
   entry: {
     'babel-polyfill': 'babel-polyfill',
     'terra-site': path.resolve(path.join(__dirname, '..', 'Index')),
@@ -78,6 +93,10 @@ module.exports = {
       template: path.join(__dirname, '..', 'index.html'),
       chunks: ['babel-polyfill', 'terra-site'],
     }),
+    new webpack.DefinePlugin({
+      SITE_CONFIG: JSON.stringify(siteConfig),
+      COMPONENT_CONFIG_PATH: JSON.stringify(componentConfigPath),
+    });
     new I18nAggregatorPlugin({
       baseDirectory: process.cwd(),
       supportedLocales: i18nSupportedLocales,
@@ -130,3 +149,14 @@ module.exports = {
     modules: [path.resolve(path.join(process.cwd(), 'node_modules'))],
   },
 };
+//
+//
+// /* Get the webpacak configuration */
+// let webpackConfigPath;
+// if (siteConfig.webpackConfig) {
+//   webpackConfigPath = path.resolve(path.join(process.cwd(), `${siteConfig.webpackConfig}`));
+// }
+// // eslint-disable-next-line import/no-dynamic-require
+// const customWebpackConfig = isFile(webpackConfigPath) ? require(webpackConfigPath) : {};
+
+module.exports = defaultWebpackConfig;

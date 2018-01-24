@@ -35,7 +35,7 @@ const globalVarsPlugin = new webpack.DefinePlugin({
 });
 
 const webpackConfiguration = () => {
-  webpackConfig.plugins.push(globalVarsPlugin);
+  // webpackConfig.plugins.push(globalVarsPlugin);
   return webpackConfig;
 };
 
