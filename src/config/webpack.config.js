@@ -16,12 +16,11 @@ module.exports = {
   entry: {
     'babel-polyfill': 'babel-polyfill',
     'terra-site': path.resolve(path.join(__dirname, '..', 'Index')),
-    // 'terra-site': path.resolve(path.join(process.cwd(), 'site', 'Index')),
   },
   module: {
     rules: [{
       test: /\.(jsx|js)$/,
-      exclude: /node_modules/,
+      exclude: /node_modules(?!\/terra-site\/src)/,
       use: 'babel-loader',
     },
     {
