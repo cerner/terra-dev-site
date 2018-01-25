@@ -8,8 +8,7 @@ Terra-site has been enhanced from a site that displays docs, examples and tests 
 within the terra-core repository to be a package that dynamically builds a react-hash-routed site based on site
 configuration, navigation configuration and component configuration.
 
-Provides the following scripts:
-* start-terra-site: enhances the webpack.config to correctly configure the site and then starts the webpack-dev-server.
+Provides the following script:
 * generate-compoent-config: generates the component configuration needed to build the site.
 
 Provides the following default configuration:
