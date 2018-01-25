@@ -14,13 +14,13 @@
 Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.
 
 Provides the following script:
-* generate-compoent-config: generates the component configuration needed to build the site.
+* `generate-compoent-config`: generates the component configuration needed to build the site.
 
 Provides the following default configuration:
-* site.config.js: must supply the componentConfigPath
-* navigation.config.js
-* webpack.config.js
-* webpack.prod.config.js
+* `site.config.js`: must supply the componentConfigPath
+* `navigation.config.js`
+* `webpack.config.js`
+* `webpack.prod.config.js`
 
 - [Getting Started](#getting-started)
 - [Versioning](#versioning)
