@@ -17,7 +17,7 @@ const addCustomPattern = (searchPattern) => {
 commander
   .version(packageJson.version)
   .option('-s, --search [searchPattern]', 'Regex pattern to search for site and tests examples', addCustomPattern)
-  .option('-o, --output [outputPath]', 'The output location of the generated configuration file', './site')
+  .option('-o, --output [outputPath]', 'The output location of the generated configuration file', './')
   .option('--no-pages', 'Disable the generation of page example configuration')
   .option('--no-tests', 'Disable the generation of test example configuration')
   .parse(process.argv);
