@@ -37,6 +37,6 @@ module.exports = postcss.plugin('theming-plugin', () => {
         variables[component][matches[1]] = matches[2];
       }
     });
-    return fs.writeFileSync(path.resolve(process.cwd(), 'site', 'themeable-variables.json'), JSON.stringify(sortHash(variables), null, 2), 'utf8');
+    return fs.writeFileSync(path.resolve(process.cwd(), 'themeable-variables.json'), JSON.stringify(sortHash(variables), null, 2), 'utf8');
   };
 });
