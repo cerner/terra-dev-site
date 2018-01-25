@@ -3,9 +3,6 @@
   "version": "2.0.0-beta",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "main": "lib/index.js",
-  "engines": {
-    "node": "8.9.2"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cerner/terra-site"

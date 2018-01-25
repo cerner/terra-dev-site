@@ -7,6 +7,7 @@ const PostCSSAssetsPlugin = require('postcss-assets-webpack-plugin');
 const PostCSSCustomProperties = require('postcss-custom-properties');
 const path = require('path');
 const rtl = require('postcss-rtl');
+const ThemingPlugin = require('../theming-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const I18nAggregatorPlugin = require('terra-i18n-plugin');
@@ -62,6 +63,7 @@ const defaultWebpackConfig = {
                     'iOS >= 10',
                   ],
                 }),
+                ThemingPlugin,
                 rtl(),
               ];
             },
@@ -92,13 +94,13 @@ const defaultWebpackConfig = {
       template: path.join(__dirname, '..', 'index.html'),
       chunks: ['babel-polyfill', 'terra-site'],
     }),
-    new webpack.DefinePlugin({
-      SITE_CONFIG: JSON.stringify(siteConfig),
-      COMPONENT_CONFIG_PATH: JSON.stringify(componentConfigPath),
-    }),
     new I18nAggregatorPlugin({
       baseDirectory: process.cwd(),
       supportedLocales: i18nSupportedLocales,
+    }),
+    new webpack.DefinePlugin({
+      SITE_CONFIG: JSON.stringify(siteConfig),
+      COMPONENT_CONFIG_PATH: JSON.stringify(componentConfigPath),
     }),
     new PostCSSAssetsPlugin({
       test: /\.css$/,
