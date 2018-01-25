@@ -21,7 +21,7 @@ const writeComponentConfig = (packageConfigs, componentImports, outputPath, addP
     componentConfig[`${componentKey}`] = configInfo;
   });
 
-  // Add documentaiton to component imports
+  // Add documentation to component imports
   const imports = componentImports;
 
   if (imports.pages) {
