@@ -3,6 +3,10 @@ Changelog
 
 Unreleased
 ----------
+
+2.0.0-RC.0 - (Janurary 26, 2018)
+----------
+
 ### Major Version Bump
 Terra-site has been enhanced from a site that displays docs, examples and tests of component packages contained
 within the terra-core repository to be a package that dynamically builds a react-hash-routed site based on site
