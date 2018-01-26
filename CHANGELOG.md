@@ -5,6 +5,7 @@ Unreleased
 ----------
 ### Changed
 - Create additional raw test routes to keep tests at modular level.
+- In the generate-component-config, sort the found files to be in alphabetical order for navigation
 
 ### Fixed
 - Set the `hideBidiUtility` default prop to be false as mapped to the site config

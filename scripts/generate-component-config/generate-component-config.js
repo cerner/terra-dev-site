@@ -66,6 +66,7 @@ const repositoryName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'p
 const outputPath = commander.output;
 const outputPathDepth = outputPath === './' ? 0 : outputPath.replace('./', '').split(path.sep).length;
 
+foundFiles.sort();
 const { packageConfigs, imports } = buildComponentConfig(foundFiles, repositoryName, outputPathDepth);
 
 writeComponentConfig(packageConfigs, imports, commander.output, commander.pages, commander.tests);
