@@ -122,7 +122,7 @@ const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeC
 
     // build raw test pages to maintain modular testing
     if (exampleType === 'tests') {
-      const rawComponentProps = Object.assign({}, componentProps, { pathRoot: '/raw/tests'});
+      const rawComponentProps = Object.assign({}, componentProps, { pathRoot: '/raw/tests' });
       content['/raw/tests'] = {
         path: '/raw/tests',
         component: buildComponent(contentComponent, rawComponentProps),
