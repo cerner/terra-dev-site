@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+2.0.0-RC.1 - (January 29, 2018)
+----------
 ### Changed
 - Create additional raw test routes to keep tests at modular level.
 - In the generate-component-config, sort the found files to be in alphabetical order for navigation
