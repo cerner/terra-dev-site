@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+2.0.0-RC.2 - (January 29, 2018)
+----------
+### Changed
+- Emily broke bi-di with the previous releease, this one fixes it.
+
 2.0.0-RC.1 - (January 29, 2018)
 ----------
 ### Changed
