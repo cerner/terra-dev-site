@@ -120,6 +120,15 @@ const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeC
       component: buildComponent(contentComponent, componentProps),
     };
 
+    // build raw test pages to maintain modular testing
+    if (exampleType === 'tests') {
+      const rawComponentProps = Object.assign({}, componentProps, { pathRoot: '/raw/tests' });
+      content['/raw/tests'] = {
+        path: '/raw/tests',
+        component: buildComponent(contentComponent, rawComponentProps),
+      };
+    }
+
     // build content configuration
     let menuComponent = ComponentsMenu;
     if (link.menuComponent) {

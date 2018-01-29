@@ -3,10 +3,15 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+- Create additional raw test routes to keep tests at modular level.
+- In the generate-component-config, sort the found files to be in alphabetical order for navigation
 
-2.0.0-RC.0 - (Janurary 26, 2018)
+### Fixed
+- Set the `hideBidiUtility` default prop to be false as mapped to the site config
+
+2.0.0-RC.0 - (January 26, 2018)
 ----------
-
 ### Major Version Bump
 Terra-site has been enhanced from a site that displays docs, examples and tests of component packages contained
 within the terra-core repository to be a package that dynamically builds a react-hash-routed site based on site
