@@ -50,7 +50,7 @@ class Site extends React.Component {
           defaultTheme={appConfig.defaultTheme}
           locales={appConfig.locales}
           appTitle={appConfig.title}
-          hideBidiUtility={!appConfig.bidirectional}
+          hideBidiUtility={appConfig.bidirectional && !appConfig.bidirectional}
           defaultDir={appConfig.defaultDirection}
           appSubtitle={appConfig.subtitle}
           appLogoSrc={appConfig.logoSrc}
