@@ -73,7 +73,8 @@ class Components extends React.Component {
     const { config, exampleType, pathRoot, placeholderSrc } = this.props;
 
     const componentsClassNames = cx([
-      { 'site-content': pathRoot !== '/raw/tests' },
+      'site-content',
+      { 'raw-content': pathRoot === '/raw/tests' },
     ]);
 
     return (
