@@ -84,6 +84,7 @@ const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeC
       configuredLinks.push({
         path: link.path,
         text: link.text,
+        hasSubNav: link.hasSubNav,
       });
     }
 

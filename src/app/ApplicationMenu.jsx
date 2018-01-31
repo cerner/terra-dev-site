@@ -13,7 +13,7 @@ const propTypes = {
   /**
    * The navigaion links to display within the toolbar.
    */
-  links: PropTypes.object,
+  links: PropTypes.array,
   /**
    * The RoutingStateDelegate instance provided by the terra-navigation-layout.
    */
@@ -30,11 +30,7 @@ const ApplicationMenu = ({ menuHeader, links, routingStackDelegate }) => (
   <MenuList
     headerText={menuHeader}
     routingStackDelegate={routingStackDelegate}
-    links={links.map(item => ({
-      id: item.path,
-      path: item.path,
-      text: item.text,
-    }))}
+    links={links}
   />
 );
 
