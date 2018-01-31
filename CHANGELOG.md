@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updates the site components to use Css Modules
 
 2.0.0-RC.2 - (January 29, 2018)
 ----------
