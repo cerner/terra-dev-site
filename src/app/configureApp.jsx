@@ -76,24 +76,6 @@ const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeC
   const content = {};
   let menu = {};
 
-  menu[siteConfig.rootPath] = {
-    path: siteConfig.rootPath,
-    component: {
-      tiny: {
-        componentClass: ApplicationMenu,
-        props: {
-          navigation,
-        },
-      },
-      small: {
-        componentClass: ApplicationMenu,
-        props: {
-          navigation,
-        },
-      },
-    },
-  };
-
   navigation.links.forEach((link) => {
     const exampleType = link.exampleType;
 
@@ -139,6 +121,24 @@ const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeC
       menu = Object.assign(menu, buildNavigationConfig(componentConfig, menuComponent, exampleType, link.path));
     }
   });
+
+  menu[siteConfig.rootPath] = {
+    path: siteConfig.rootPath,
+    component: {
+      tiny: {
+        componentClass: ApplicationMenu,
+        props: {
+          links: configuredLinks,
+        },
+      },
+      small: {
+        componentClass: ApplicationMenu,
+        props: {
+          links: configuredLinks,
+        },
+      },
+    },
+  };
 
   const navigationConfig = { index: navigation.index, links: configuredLinks };
   const routeConfig = { content, menu };
