@@ -6,7 +6,7 @@ module.exports = {
   navConfig: navigationConfig,
 
   /* The path to the component configuration. */
-  componentConfigPath: undefined,
+  componentConfigPath: './generatedComponentConfig.js',
 
   /* The image to display as page placeholder when a component does not render. */
   placeholderSrc: '',

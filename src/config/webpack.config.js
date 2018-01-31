@@ -16,13 +16,16 @@ const fs = require('fs');
 
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
 
+const processPath = process.cwd();
+const rootPath = processPath.includes('packages') ? processPath.split(path.sep)[0] : processPath;
+
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
-const siteConfigPath = path.resolve(path.join(process.cwd(), 'site.config.js'));
+const siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
 // eslint-disable-next-line import/no-dynamic-require
 const siteConfig = isFile(siteConfigPath) ? require(siteConfigPath) : require('./site.config');
 
 /* Get the component configuration to define the COMPONENT_CONFIG_PATH in the DefinePlugin */
-let componentConfigPath = path.resolve(path.join(process.cwd(), siteConfig.componentConfigPath));
+let componentConfigPath = path.resolve(path.join(rootPath, siteConfig.componentConfigPath));
 if (!isFile(componentConfigPath)) {
   componentConfigPath = undefined;
 }
