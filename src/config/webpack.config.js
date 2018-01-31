@@ -17,7 +17,7 @@ const fs = require('fs');
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
 
 const processPath = process.cwd();
-const rootPath = processPath.includes('packages') ? processPath.split(path.sep)[0] : processPath;
+const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
 
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
 const siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
@@ -98,7 +98,7 @@ const defaultWebpackConfig = {
       chunks: ['babel-polyfill', 'terra-site'],
     }),
     new I18nAggregatorPlugin({
-      baseDirectory: process.cwd(),
+      baseDirectory: rootPath,
       supportedLocales: i18nSupportedLocales,
     }),
     new webpack.DefinePlugin({
@@ -116,18 +116,18 @@ const defaultWebpackConfig = {
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
-    modules: [path.resolve(process.cwd(), 'aggregated-translations'), 'node_modules'],
+    modules: [path.resolve(rootPath, 'aggregated-translations'), 'node_modules'],
 
     // See https://github.com/facebook/react/issues/8026
     alias: {
-      react: path.resolve(process.cwd(), 'node_modules', 'react'),
-      'react-intl': path.resolve(process.cwd(), 'node_modules', 'react-intl'),
-      'react-dom': path.resolve(process.cwd(), 'node_modules', 'react-dom'),
+      react: path.resolve(rootPath, 'node_modules', 'react'),
+      'react-intl': path.resolve(rootPath, 'node_modules', 'react-intl'),
+      'react-dom': path.resolve(rootPath, 'node_modules', 'react-dom'),
     },
   },
   output: {
     filename: '[name].js',
-    path: path.join(process.cwd(), 'dist'),
+    path: path.join(rootPath, 'dist'),
   },
   devtool: 'cheap-source-map',
   devServer: {
@@ -150,7 +150,7 @@ const defaultWebpackConfig = {
     },
   },
   resolveLoader: {
-    modules: [path.resolve(path.join(process.cwd(), 'node_modules'))],
+    modules: [path.resolve(path.join(rootPath, 'node_modules'))],
   },
 };
 
