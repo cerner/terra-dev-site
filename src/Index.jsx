@@ -31,7 +31,9 @@ class Site extends React.Component {
   render() {
     // SITE_CONFIG is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-site/site.webpack.config.
     // eslint-disable-next-line no-undef
-    const siteConfig = Object.assign(defaultSiteConfig, SITE_CONFIG);
+    const siteConfig = Object.assign({}, defaultSiteConfig, SITE_CONFIG);
+    // eslint-disable-next-line no-undef
+    siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, SITE_CONFIG.appConfig);
 
     const { appConfig, navConfig } = siteConfig;
     const componentConfig = this.state.componentConfig;
