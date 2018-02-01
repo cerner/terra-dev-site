@@ -1,0 +1,13 @@
+:local {
+  .site-content {
+    height: 100%;
+    overflow: auto;
+    padding: 15px;
+    position: relative;
+  }
+
+  .raw-content {
+    height: auto;
+    padding: 0;
+  }
+}

@@ -7,6 +7,7 @@ Unreleased
 - Set the default componentConfigPath to be the default generated-component-config output location.
 
 ### Fixed
+- Updates the site components to use Css Modules
 - Update webpack.config to allow for package-level testing
 
 2.0.0-RC.2 - (January 29, 2018)

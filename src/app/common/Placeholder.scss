@@ -1,0 +1,23 @@
+:local {
+  .placeholder {
+    height: 100%;
+    padding: 5px;
+    position: relative;
+    width: 100%;
+  }
+
+  .placeholder-container {
+    border: 3px dashed;
+    border-color: #d3d3d3;
+    height: 100%;
+    position: relative;
+    width: 100%;
+  }
+
+  .placeholder-content {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+}
