@@ -21,7 +21,7 @@
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
-    "clean:install": "npm install",
+    "clean:install": "npm run clean && npm install",
     "danger": "danger",
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:js": "eslint --ext .js,.jsx .",
