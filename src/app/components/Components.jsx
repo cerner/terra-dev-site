@@ -1,9 +1,15 @@
 import React from 'react';
+import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import 'terra-base/lib/baseStyles';
+
 import { siteConfigPropType } from './ComponentsProptypes';
 import ComponentsUtils from './ComponentsUtils';
 import Placeholder from '../common/Placeholder';
+import styles from './Components.scss';
+
+const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
@@ -66,11 +72,16 @@ class Components extends React.Component {
   render() {
     const { config, exampleType, pathRoot, placeholderSrc } = this.props;
 
+    const componentsClassNames = cx([
+      'site-content',
+      { 'raw-content': pathRoot === '/raw/tests' },
+    ]);
+
     return (
       <div
-        id="component-content"
+        data-terra-site-content
+        className={componentsClassNames}
         ref={(element) => { this.element = element; }}
-        style={{ height: '100%', position: 'relative', padding: '15px', overflow: 'auto' }}
       >
         <Switch>
           {generateComponentRoutes(config, exampleType, pathRoot, placeholderSrc)}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Markdown from 'terra-markdown';
+import styles from './Home.scss';
 
 const propTypes = {
   /**
@@ -14,7 +15,7 @@ const defaultProps = {
 };
 
 const Home = ({ readMeContent }) => (
-  <div style={{ height: '100%', padding: '15px', overflow: 'auto' }}>
+  <div className={styles.home}>
     <Markdown src={readMeContent} />
   </div>
 );
