@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updates the site components to use Css Modules
+
 ### Fixed
 - Update the application menu to display the correct navigation links at small sizes
 

@@ -1,6 +1,10 @@
 import React from 'react';
+import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import Image from 'terra-image';
+import styles from './Placeholder.scss';
+
+const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
@@ -14,9 +18,9 @@ const defaultProps = {
 };
 
 const Placeholder = ({ src }) => (
-  <div style={{ height: '100%', width: '100%', position: 'relative', padding: '5px' }}>
-    <div style={{ height: '100%', width: '100%', position: 'relative', border: '3px dashed', borderColor: 'lightgrey' }}>
-      <div style={{ position: 'absolute', top: '50%', left: '50%', color: 'grey', transform: 'translate3d(-50%, -50%, 0)' }}>
+  <div className={cx('placeholder')}>
+    <div className={cx('placeholder-container')}>
+      <div className={cx('placeholder-content')}>
         <h3>
           {!!src && <Image variant="rounded" src={src} height="160px" width="160px" isFluid style={{ opacity: '.2' }} />}
         </h3>
