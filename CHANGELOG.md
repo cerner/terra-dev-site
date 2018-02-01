@@ -4,7 +4,11 @@ Changelog
 Unreleased
 ----------
 ### Changed
-* Updates the site components to use Css Modules
+- Set the default componentConfigPath to be the default generated-component-config output location.
+
+### Fixed
+- Updates the site components to use Css Modules
+- Update webpack.config to allow for package-level testing
 
 2.0.0-RC.2 - (January 29, 2018)
 ----------
@@ -28,7 +32,7 @@ within the terra-core repository to be a package that dynamically builds a react
 configuration, navigation configuration and component configuration.
 
 Provides the following script:
-* generate-compoent-config: generates the component configuration needed to build the site.
+* generate-component-config: generates the component configuration needed to build the site.
 
 Provides the following default configuration:
 * site.config.js: must supply the componentConfigPath

@@ -17,7 +17,7 @@ Provides the following script:
 * `generate-component-config`: generates the component configuration needed to build the site.
 
 Provides the following default configuration:
-* `site.config.js`: must supply the componentConfigPath
+* `site.config.js`
 * `navigation.config.js`
 * `webpack.config.js`
 * `webpack.prod.config.js`

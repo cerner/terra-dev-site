@@ -16,13 +16,17 @@ const fs = require('fs');
 
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
 
+const processPath = process.cwd();
+/* Get the root path of a mono-repo process call */
+const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
+
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
-const siteConfigPath = path.resolve(path.join(process.cwd(), 'site.config.js'));
+const siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
 // eslint-disable-next-line import/no-dynamic-require
 const siteConfig = isFile(siteConfigPath) ? require(siteConfigPath) : require('./site.config');
 
 /* Get the component configuration to define the COMPONENT_CONFIG_PATH in the DefinePlugin */
-let componentConfigPath = path.resolve(path.join(process.cwd(), siteConfig.componentConfigPath));
+let componentConfigPath = path.resolve(path.join(rootPath, siteConfig.componentConfigPath));
 if (!isFile(componentConfigPath)) {
   componentConfigPath = undefined;
 }
@@ -95,7 +99,7 @@ const defaultWebpackConfig = {
       chunks: ['babel-polyfill', 'terra-site'],
     }),
     new I18nAggregatorPlugin({
-      baseDirectory: process.cwd(),
+      baseDirectory: rootPath,
       supportedLocales: i18nSupportedLocales,
     }),
     new webpack.DefinePlugin({
@@ -113,18 +117,18 @@ const defaultWebpackConfig = {
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
-    modules: [path.resolve(process.cwd(), 'aggregated-translations'), 'node_modules'],
+    modules: [path.resolve(rootPath, 'aggregated-translations'), 'node_modules'],
 
     // See https://github.com/facebook/react/issues/8026
     alias: {
-      react: path.resolve(process.cwd(), 'node_modules', 'react'),
-      'react-intl': path.resolve(process.cwd(), 'node_modules', 'react-intl'),
-      'react-dom': path.resolve(process.cwd(), 'node_modules', 'react-dom'),
+      react: path.resolve(rootPath, 'node_modules', 'react'),
+      'react-intl': path.resolve(rootPath, 'node_modules', 'react-intl'),
+      'react-dom': path.resolve(rootPath, 'node_modules', 'react-dom'),
     },
   },
   output: {
     filename: '[name].js',
-    path: path.join(process.cwd(), 'dist'),
+    path: path.join(rootPath, 'dist'),
   },
   devtool: 'cheap-source-map',
   devServer: {
@@ -147,7 +151,7 @@ const defaultWebpackConfig = {
     },
   },
   resolveLoader: {
-    modules: [path.resolve(path.join(process.cwd(), 'node_modules'))],
+    modules: [path.resolve(path.join(rootPath, 'node_modules'))],
   },
 };
 
