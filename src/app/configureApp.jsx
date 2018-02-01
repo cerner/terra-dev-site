@@ -69,8 +69,10 @@ const buildNavigationConfig = (config, ComponentMenu, exampleType, pathRoot) => 
   return generatedConfig;
 };
 
-const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeContent) => {
-  const navigation = siteConfig.navigation;
+const routeConfiguration = (siteConfig, componentConfig) => {
+  const { navConfig, placeholderSrc, readMeContent } = siteConfig;
+
+  const navigation = navConfig.navigation;
   const configuredLinks = [];
 
   const content = {};
@@ -123,18 +125,20 @@ const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeC
     }
   });
 
-  menu[siteConfig.rootPath] = {
-    path: siteConfig.rootPath,
+  menu[navConfig.rootPath] = {
+    path: navConfig.rootPath,
     component: {
       tiny: {
         componentClass: ApplicationMenu,
         props: {
+          menuHeader: `${siteConfig.appConfig.title} ${siteConfig.appConfig.subtitle}`,
           links: configuredLinks,
         },
       },
       small: {
         componentClass: ApplicationMenu,
         props: {
+          menuHeader: `${siteConfig.appConfig.title} ${siteConfig.appConfig.subtitle}`,
           links: configuredLinks,
         },
       },

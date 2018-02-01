@@ -74,7 +74,7 @@ const defaultProps = {
   appSubtitle: appConfig.subtitle,
   appLogoSrc: appConfig.logoSrc,
   hideBidiUtility: !appConfig.bidirectional,
-  defaultDir: appConfig.defualtDirection,
+  defaultDir: appConfig.defaultDirection,
   defaultTheme: appConfig.defaultTheme,
   themes: appConfig.themes,
   locales: appConfig.locales,

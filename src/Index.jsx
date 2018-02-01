@@ -33,10 +33,10 @@ class Site extends React.Component {
     // eslint-disable-next-line no-undef
     const siteConfig = Object.assign(defaultSiteConfig, SITE_CONFIG);
 
-    const { appConfig, navConfig: navigationConfig } = siteConfig;
+    const { appConfig, navConfig } = siteConfig;
     const componentConfig = this.state.componentConfig;
 
-    const { routeConfig, navigation } = routeConfiguration(navigationConfig, componentConfig, siteConfig.placeholderSrc, siteConfig.readMeContent);
+    const { routeConfig, navigation } = routeConfiguration(siteConfig, componentConfig);
 
     const routes = Object.freeze(routeConfig);
 
@@ -45,7 +45,7 @@ class Site extends React.Component {
         <App
           routeConfig={routes}
           navigation={navigation}
-          rootPath={navigationConfig.rootPath}
+          rootPath={navConfig.rootPath}
           themes={appConfig.themes}
           defaultTheme={appConfig.defaultTheme}
           locales={appConfig.locales}
