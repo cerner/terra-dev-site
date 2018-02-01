@@ -13,7 +13,7 @@ const propTypes = {
   /**
    * The navigaion links to display within the toolbar.
    */
-  navigation: PropTypes.object,
+  links: PropTypes.array,
   /**
    * The RoutingStateDelegate instance provided by the terra-navigation-layout.
    */
@@ -22,19 +22,15 @@ const propTypes = {
 
 const defaultProps = {
   menuHeader: null,
-  navigation: undefined,
+  links: undefined,
   routingStackDelegate: undefined,
 };
 
-const ApplicationMenu = ({ menuHeader, navigation, routingStackDelegate }) => (
+const ApplicationMenu = ({ menuHeader, links, routingStackDelegate }) => (
   <MenuList
     headerText={menuHeader}
     routingStackDelegate={routingStackDelegate}
-    links={navigation.links.map(item => ({
-      id: item.path,
-      path: item.path,
-      text: item.text,
-    }))}
+    links={links}
   />
 );
 

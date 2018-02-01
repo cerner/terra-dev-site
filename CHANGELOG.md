@@ -10,6 +10,9 @@ Unreleased
 - Updates the site components to use Css Modules
 - Update webpack.config to allow for package-level testing
 
+### Fixed
+- Update the application menu to display the correct navigation links at small sizes
+
 2.0.0-RC.2 - (January 29, 2018)
 ----------
 ### Changed
@@ -42,7 +45,6 @@ Provides the following default configuration:
 
 # Changed
 * Package dependencies
-* themeing-plugin.js is still available but no longer provided in the webpack Configuration
 * themeing-plugin.js was updated to be compatible on windows devices
 
 # Removed

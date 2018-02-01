@@ -31,12 +31,14 @@ class Site extends React.Component {
   render() {
     // SITE_CONFIG is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-site/site.webpack.config.
     // eslint-disable-next-line no-undef
-    const siteConfig = Object.assign(defaultSiteConfig, SITE_CONFIG);
+    const siteConfig = Object.assign({}, defaultSiteConfig, SITE_CONFIG);
+    // eslint-disable-next-line no-undef
+    siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, SITE_CONFIG.appConfig);
 
-    const { appConfig, navConfig: navigationConfig } = siteConfig;
+    const { appConfig, navConfig } = siteConfig;
     const componentConfig = this.state.componentConfig;
 
-    const { routeConfig, navigation } = routeConfiguration(navigationConfig, componentConfig, siteConfig.placeholderSrc, siteConfig.readMeContent);
+    const { routeConfig, navigation } = routeConfiguration(siteConfig, componentConfig);
 
     const routes = Object.freeze(routeConfig);
 
@@ -45,7 +47,7 @@ class Site extends React.Component {
         <App
           routeConfig={routes}
           navigation={navigation}
-          rootPath={navigationConfig.rootPath}
+          rootPath={navConfig.rootPath}
           themes={appConfig.themes}
           defaultTheme={appConfig.defaultTheme}
           locales={appConfig.locales}

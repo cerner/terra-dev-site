@@ -11,6 +11,7 @@ module.exports = {
       path: '/site/components',
       text: 'Components',
       exampleType: 'pages',
+      hasSubNav: true,
     }, {
       path: '/tests',
       text: 'Tests',

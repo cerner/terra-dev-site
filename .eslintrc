@@ -10,7 +10,6 @@
   },
   "parser": "babel-eslint",
   "parserOptions": {
-    # "sourceType": "module",
     "allowImportExportEverywhere": true
   },
   "rules": {

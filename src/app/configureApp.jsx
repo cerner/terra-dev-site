@@ -69,30 +69,14 @@ const buildNavigationConfig = (config, ComponentMenu, exampleType, pathRoot) => 
   return generatedConfig;
 };
 
-const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeContent) => {
-  const navigation = siteConfig.navigation;
+const routeConfiguration = (siteConfig, componentConfig) => {
+  const { navConfig, placeholderSrc, readMeContent } = siteConfig;
+
+  const navigation = navConfig.navigation;
   const configuredLinks = [];
 
   const content = {};
   let menu = {};
-
-  menu[siteConfig.rootPath] = {
-    path: siteConfig.rootPath,
-    component: {
-      tiny: {
-        componentClass: ApplicationMenu,
-        props: {
-          navigation,
-        },
-      },
-      small: {
-        componentClass: ApplicationMenu,
-        props: {
-          navigation,
-        },
-      },
-    },
-  };
 
   navigation.links.forEach((link) => {
     const exampleType = link.exampleType;
@@ -102,6 +86,7 @@ const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeC
       configuredLinks.push({
         path: link.path,
         text: link.text,
+        hasSubNav: link.hasSubNav,
       });
     }
 
@@ -139,6 +124,26 @@ const routeConfiguration = (siteConfig, componentConfig, placeholderSrc, readMeC
       menu = Object.assign(menu, buildNavigationConfig(componentConfig, menuComponent, exampleType, link.path));
     }
   });
+
+  menu[navConfig.rootPath] = {
+    path: navConfig.rootPath,
+    component: {
+      tiny: {
+        componentClass: ApplicationMenu,
+        props: {
+          menuHeader: `${siteConfig.appConfig.title} ${siteConfig.appConfig.subtitle}`,
+          links: configuredLinks,
+        },
+      },
+      small: {
+        componentClass: ApplicationMenu,
+        props: {
+          menuHeader: `${siteConfig.appConfig.title} ${siteConfig.appConfig.subtitle}`,
+          links: configuredLinks,
+        },
+      },
+    },
+  };
 
   const navigationConfig = { index: navigation.index, links: configuredLinks };
   const routeConfig = { content, menu };

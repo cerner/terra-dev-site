@@ -28,7 +28,6 @@ const propTypes = {
    * The list of link configuration to build react-router NavLinks provided by the containing component.
    */
   links: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
     path: PropTypes.string,
     text: PropTypes.string,
     hasSubNav: PropTypes.bool,
@@ -42,11 +41,11 @@ const propTypes = {
 const generateMenuLinks = (links, location) => {
   const navLinks = !!links && links.map(link =>
     <List.Item
-      key={link.id}
+      key={link.path}
       hasChevron={link.hasSubNav}
       content={
         <NavLink
-          key={link.id}
+          key={link.path}
           className={cx('menu-link')}
           location={location}
           to={link.path}
