@@ -17,6 +17,7 @@ const fs = require('fs');
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
 
 const processPath = process.cwd();
+/* Get the root path of a mono-repo process call */
 const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
 
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
