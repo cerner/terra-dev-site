@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+2.0.0-RC.3 - (Febuary 1, 2018)
+----------
 ### Changed
 - Set the default componentConfigPath to be the default generated-component-config output location.
 
