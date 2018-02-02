@@ -1,12 +1,12 @@
 const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
 const navigationConfig = require('./navigation.config');
 
-module.exports = {
+const siteConfig = {
   /* The navigation configuration.  */
   navConfig: navigationConfig,
 
   /* The path to the component configuration. */
-  componentConfigPath: './generatedComponentConfig.js',
+  componentConfigPath: {},
 
   /* The image to display as page placeholder when a component does not render. */
   placeholderSrc: '',
@@ -50,3 +50,5 @@ module.exports = {
     defaultDirection: 'ltr',
   },
 };
+
+export default siteConfig;

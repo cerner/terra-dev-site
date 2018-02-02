@@ -21,15 +21,9 @@ const processPath = process.cwd();
 const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
 
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
-const siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
+let siteConfigPath = path.resolve(path.join(rootPath, 'site.config.jsx'));
 // eslint-disable-next-line import/no-dynamic-require
-const siteConfig = isFile(siteConfigPath) ? require(siteConfigPath) : require('./site.config');
-
-/* Get the component configuration to define the COMPONENT_CONFIG_PATH in the DefinePlugin */
-let componentConfigPath = path.resolve(path.join(rootPath, siteConfig.componentConfigPath));
-if (!isFile(componentConfigPath)) {
-  componentConfigPath = undefined;
-}
+siteConfigPath = isFile(siteConfigPath) ? siteConfigPath : './site.config';
 
 const defaultWebpackConfig = {
   entry: {
@@ -103,8 +97,7 @@ const defaultWebpackConfig = {
       supportedLocales: i18nSupportedLocales,
     }),
     new webpack.DefinePlugin({
-      SITE_CONFIG: JSON.stringify(siteConfig),
-      COMPONENT_CONFIG_PATH: JSON.stringify(componentConfigPath),
+      SITE_CONFIG_Path: JSON.stringify(siteConfigPath),
     }),
     new PostCSSAssetsPlugin({
       test: /\.css$/,

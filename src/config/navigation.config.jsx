@@ -1,4 +1,4 @@
-module.exports = {
+const navConfig = {
   rootPath: '/site',
   navigation: {
     index: '/site/home',
@@ -6,7 +6,6 @@ module.exports = {
       path: '/site/home',
       text: 'Home',
       exampleType: 'home',
-      isStatic: true,
     }, {
       path: '/site/components',
       text: 'Components',
@@ -19,3 +18,5 @@ module.exports = {
     }],
   },
 };
+
+export default navConfig;

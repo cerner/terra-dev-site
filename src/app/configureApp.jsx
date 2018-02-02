@@ -78,7 +78,9 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   const content = {};
   let menu = {};
 
-  navigation.links.forEach((link) => {
+  const validLinks = navigation.links.filter(link => link.path && link.text);
+
+  validLinks.forEach((link) => {
     const exampleType = link.exampleType;
 
     // build navigation link configuration
@@ -120,7 +122,7 @@ const routeConfiguration = (siteConfig, componentConfig) => {
       menuComponent = link.menuComponent;
     }
 
-    if (!link.isStatic) {
+    if (!link.hasSubNav) {
       menu = Object.assign(menu, buildNavigationConfig(componentConfig, menuComponent, exampleType, link.path));
     }
   });
