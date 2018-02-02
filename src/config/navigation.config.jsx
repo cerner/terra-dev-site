@@ -15,6 +15,7 @@ const navConfig = {
       path: '/tests',
       text: 'Tests',
       exampleType: 'tests',
+      hasSubNav: true,
     }],
   },
 };

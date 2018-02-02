@@ -93,13 +93,11 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     }
 
     // build content configuration
-    let contentComponent = Components;
+    let contentComponent = link.component ? link.component : Components;
     let componentProps = { config: Object.values(componentConfig), pathRoot: link.path, exampleType, placeholderSrc };
-    if (exampleType === 'home') {
+    if (exampleType === 'home' && !link.component) {
       contentComponent = Home;
       componentProps = { readMeContent };
-    } else if (link.component) {
-      contentComponent = link.component;
     }
 
     content[link.path] = {
@@ -122,7 +120,7 @@ const routeConfiguration = (siteConfig, componentConfig) => {
       menuComponent = link.menuComponent;
     }
 
-    if (!link.hasSubNav) {
+    if (link.hasSubNav) {
       menu = Object.assign(menu, buildNavigationConfig(componentConfig, menuComponent, exampleType, link.path));
     }
   });

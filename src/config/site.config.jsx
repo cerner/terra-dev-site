@@ -1,12 +1,12 @@
-const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
-const navigationConfig = require('./navigation.config');
+import i18nSupportedLocales from 'terra-i18n/lib/i18nSupportedLocales';
+import navigationConfig from './navigation.config';
 
 const siteConfig = {
   /* The navigation configuration.  */
   navConfig: navigationConfig,
 
   /* The path to the component configuration. */
-  componentConfigPath: {},
+  componentConfig: {},
 
   /* The image to display as page placeholder when a component does not render. */
   placeholderSrc: '',

@@ -97,7 +97,7 @@ const defaultWebpackConfig = {
       supportedLocales: i18nSupportedLocales,
     }),
     new webpack.DefinePlugin({
-      SITE_CONFIG_Path: JSON.stringify(siteConfigPath),
+      SITE_CONFIG_PATH: JSON.stringify(siteConfigPath),
     }),
     new PostCSSAssetsPlugin({
       test: /\.css$/,
