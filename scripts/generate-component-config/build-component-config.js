@@ -59,12 +59,14 @@ const buildNestedComponentConfig = (nestedDirectories, fileConfig, fileType) => 
 
   // Create the configuration for each directory
   nestedDirectories.forEach((dir) => {
-    const currentConfig = {
-      name: `'${startCase(dir)}'`,
-      path: `'/${kebabCase(dir)}'`,
-    };
-    currentConfig[`${fileType}`] = [exampleConfig];
-    exampleConfig = currentConfig;
+    if (dir !== 'examples' && dir !== 'test-examples') {
+      const currentConfig = {
+        name: `'${startCase(dir)}'`,
+        path: `'/${kebabCase(dir)}'`,
+      };
+      currentConfig[`${fileType}`] = [exampleConfig];
+      exampleConfig = currentConfig;
+    }
   });
 
   return exampleConfig;
@@ -82,7 +84,13 @@ const buildComponentConfig = (foundFiles, repositoryName, outputPathDepth) => {
 
     // Get the example's package name
     let packageName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
-    if (directory.includes('packages')) {
+    let monoRepoInstalledAsPackage = false;
+    if (directory.includes('node_modules') && directory.includes('packages')) {
+      // If a mono-repo is pulled in as a package, use it as the package name
+      // Note: spliting on seperator results in the first array element to be ''
+      packageName = directory.split('node_modules')[1].split(path.sep)[1];
+      monoRepoInstalledAsPackage = true;
+    } else if (directory.includes('packages')) {
       // The package name is the first directory name after packages.
       // Note: spliting on seperator results in the first array element to be ''
       packageName = directory.split('packages')[1].split(path.sep)[1];
@@ -119,7 +127,7 @@ const buildComponentConfig = (foundFiles, repositoryName, outputPathDepth) => {
 
     // Determine if the example needs nested configuration built
     const packageDirectories = directory.split(packageName)[1].split(path.sep);
-    const sliceAt = fileType === 'tests' || packageName.includes('-site') ? 3 : 2;
+    const sliceAt = (fileType === 'tests' && !monoRepoInstalledAsPackage) || packageName.includes('-site') ? 3 : 2;
     const nestedDirectories = packageDirectories.splice(sliceAt, packageDirectories.length);
 
     // Create the example's full configuration
