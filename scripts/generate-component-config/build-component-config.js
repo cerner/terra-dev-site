@@ -59,7 +59,7 @@ const buildNestedComponentConfig = (nestedDirectories, fileConfig, fileType) => 
 
   // Create the configuration for each directory
   nestedDirectories.forEach((dir) => {
-    if (dir !== 'examples' && dir !== 'test-examples') {
+    if (dir !== 'examples' && dir !== 'test-examples' && dir !== 'src') {
       const currentConfig = {
         name: `'${startCase(dir)}'`,
         path: `'/${kebabCase(dir)}'`,
