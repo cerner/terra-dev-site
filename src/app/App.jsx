@@ -53,6 +53,10 @@ const propTypes = {
    */
   hideBidiUtility: PropTypes.bool,
   /**
+  * The locale the site should default to.
+   */
+  defaultLocale: PropTypes.string,
+  /**
    * The directionality the site should default to. Either 'ltr' or 'rtl'.
    */
   defaultDir: PropTypes.string,
@@ -77,23 +81,38 @@ const defaultProps = {
   defaultDir: appConfig.defaultDirection,
   defaultTheme: appConfig.defaultTheme,
   themes: appConfig.themes,
+  defaultLocale: appConfig.defaultLocale,
   locales: appConfig.locales,
   location: undefined,
 };
-
-const locale = document.getElementsByTagName('html')[0].getAttribute('lang');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dir: props.defaultDir,
-      locale,
+      locale: props.defaultLocale,
       theme: props.defaultTheme,
     };
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.defaultLocale !== undefined && nextProps.defaultLocale !== this.props.defaultLocale) {
+      document.getElementsByTagName('html')[0].setAttribute('lang', nextProps.defaultLocale);
+      this.setState({ locale: nextProps.defaultLocale });
+    }
+
+    if (nextProps.defaultTheme !== undefined && nextProps.defaultTheme !== this.props.defaultTheme) {
+      this.setState({ theme: nextProps.defaultTheme });
+    }
+
+    if (nextProps.defaultDir !== undefined && nextProps.defaultDir !== this.props.defaultDir) {
+      document.getElementsByTagName('html')[0].setAttribute('dir', nextProps.defaultDir);
+      this.setState({ dir: nextProps.defaultDir });
+    }
   }
 
   handleBidiChange(e) {
@@ -102,6 +121,7 @@ class App extends React.Component {
   }
 
   handleLocaleChange(e) {
+    document.getElementsByTagName('html')[0].setAttribute('lang', e.currentTarget.id);
     this.setState({ locale: e.currentTarget.id });
   }
 

@@ -3,6 +3,15 @@ const fs = require('fs');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
 
+const blackListedDirectories = [
+  'examples',
+  'test-examples',
+  'src',
+  'tests',
+  'nightwatch',
+  'components',
+];
+
 const componentImportNames = {};
 const packageConfigs = [];
 let currPkgConfig = {};
@@ -51,7 +60,7 @@ const getImportName = (packageName, fileName, fileType) => {
 
 /** Builds the nested directory configuration for a found file.
   */
-const buildNestedComponentConfig = (nestedDirectories, fileConfig, fileType) => {
+const buildNestedComponentConfig = (nestedDirectories, fileConfig, fileType, packageName) => {
   let exampleConfig = fileConfig;
 
   // Reverse the order to build out the nested configuration from n to 0 directories deep
@@ -59,10 +68,11 @@ const buildNestedComponentConfig = (nestedDirectories, fileConfig, fileType) => 
 
   // Create the configuration for each directory
   nestedDirectories.forEach((dir) => {
-    if (dir !== 'examples' && dir !== 'test-examples' && dir !== 'src') {
+    if (!blackListedDirectories.includes(dir)) {
+      const directoryName = packageName === 'terra-core' ? dir.replace('terra-', '') : dir.replace(packageName, '');
       const currentConfig = {
-        name: `'${startCase(dir)}'`,
-        path: `'/${kebabCase(dir)}'`,
+        name: `'${startCase(directoryName)}'`,
+        path: `'/${kebabCase(directoryName)}'`,
       };
       currentConfig[`${fileType}`] = [exampleConfig];
       exampleConfig = currentConfig;
@@ -133,7 +143,7 @@ const buildComponentConfig = (foundFiles, repositoryName, outputPathDepth) => {
     // Create the example's full configuration
     let exampleConfig = fileConfig;
     if (nestedDirectories.length) {
-      exampleConfig = buildNestedComponentConfig(nestedDirectories, exampleConfig, fileType);
+      exampleConfig = buildNestedComponentConfig(nestedDirectories, exampleConfig, fileType, packageName);
     }
 
     // Add the package configuration

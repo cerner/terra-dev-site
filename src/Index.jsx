@@ -31,13 +31,11 @@ class Site extends React.Component {
   render() {
     const siteConfig = Object.assign({}, defaultSiteConfig, this.state.siteConfig);
     siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, siteConfig.appConfig);
-
     const { appConfig, navConfig, componentConfig } = siteConfig;
 
     const { routeConfig, navigation } = routeConfiguration(siteConfig, componentConfig);
 
     const routes = Object.freeze(routeConfig);
-
     return (
       <Router>
         <App
@@ -48,7 +46,8 @@ class Site extends React.Component {
           defaultTheme={appConfig.defaultTheme}
           locales={appConfig.locales}
           appTitle={appConfig.title}
-          hideBidiUtility={appConfig.bidirectional && !appConfig.bidirectional}
+          hideBidiUtility={!appConfig.bidirectional}
+          defaultLocale={appConfig.defaultLocale}
           defaultDir={appConfig.defaultDirection}
           appSubtitle={appConfig.subtitle}
           appLogoSrc={appConfig.logoSrc}
