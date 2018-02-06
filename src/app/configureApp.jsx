@@ -33,7 +33,7 @@ const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pat
       });
 
       // Do not create a submenu for the component if the component has one site page with no additional sub-nav.
-      if (examples.length === 1 && isMainMenu && !examples[0][`${exampleType}`]) {
+      if (exampleType !== 'tests' && examples.length === 1 && isMainMenu && !examples[0][`${exampleType}`]) {
         return undefined;
       }
 
