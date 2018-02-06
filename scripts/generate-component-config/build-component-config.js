@@ -12,6 +12,11 @@ const blackListedDirectories = [
   'components',
 ];
 
+const terraNameSpacedRepos = [
+  'terra-core',
+  'terra-framework',
+];
+
 const componentImportNames = {};
 const packageConfigs = [];
 let currPkgConfig = {};
@@ -69,7 +74,8 @@ const buildNestedComponentConfig = (nestedDirectories, fileConfig, fileType, pac
   // Create the configuration for each directory
   nestedDirectories.forEach((dir) => {
     if (!blackListedDirectories.includes(dir)) {
-      const directoryName = packageName === 'terra-core' ? dir.replace('terra-', '') : dir.replace(packageName, '');
+      // If the packageName is a terra repository name, remove the repo prefix from the name and path
+      const directoryName = terraNameSpacedRepos.includes(packageName) ? dir.replace('terra-', '') : dir.replace(packageName, '');
       const currentConfig = {
         name: `'${startCase(directoryName)}'`,
         path: `'/${kebabCase(directoryName)}'`,
