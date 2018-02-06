@@ -3,6 +3,22 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
+
+### Changed
+* Update webpack.config to only pass one
+
+### Fixed
+* Fix ES5 and ES6 module clashing in the site configurations
+* Fix Home page styling
+* Fix sub navigation creation to check if a a single site page contains additional sub navigation
+* Allow for custom Home pages
+* Update theming-plugin to only output themeable-variables.json in the root directory
+
+### Removed
+* Remove subtitle site config options to align with the coming Application Name Components
+* In navigation.config, removed `isStatic` key option in favor of only using `hasSubNav` key
 
 2.0.0-RC.3 - (Febuary 1, 2018)
 ----------
