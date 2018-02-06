@@ -26,10 +26,6 @@ const propTypes = {
    */
   title: PropTypes.string,
   /**
-   * The subtitle to be appended to the title.
-   */
-  subtitle: PropTypes.string,
-  /**
    * Logo element to be placed at the start of the toolbar.
    * */
   logo: PropTypes.element,
@@ -75,7 +71,6 @@ const defaultProps = {
   layoutConfig: undefined,
   navigation: undefined,
   title: null,
-  subtitle: null,
   logo: null,
   locale: null,
   locales: null,
@@ -161,7 +156,6 @@ class ApplicationHeader extends React.Component {
         logo={(
           <Logo
             title={this.props.title}
-            subtitle={this.props.subtitle}
             accessory={this.props.logo}
             size={this.props.layoutConfig.size}
           />

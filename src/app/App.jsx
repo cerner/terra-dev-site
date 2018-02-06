@@ -18,10 +18,6 @@ const propTypes = {
    */
   appTitle: PropTypes.string,
   /**
-   * The subtitle to be appended to the title.
-   */
-  appSubtitle: PropTypes.string,
-  /**
    * The source of the logo element to be placed at the start of the toolbar.
    */
   appLogoSrc: PropTypes.string,
@@ -75,7 +71,6 @@ const propTypes = {
 const appConfig = siteConfig.appConfig;
 const defaultProps = {
   appTitle: appConfig.title,
-  appSubtitle: appConfig.subtitle,
   appLogoSrc: appConfig.logoSrc,
   hideBidiUtility: !appConfig.bidirectional,
   defaultDir: appConfig.defaultDirection,
@@ -140,7 +135,6 @@ class App extends React.Component {
       applicationHeader = (
         <ApplicationHeader
           title={this.props.appTitle}
-          subtitle={this.props.appSubtitle}
           logo={appLogo}
           locale={this.state.locale}
           locales={this.props.locales}

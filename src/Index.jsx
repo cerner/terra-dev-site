@@ -49,7 +49,6 @@ class Site extends React.Component {
           hideBidiUtility={!appConfig.bidirectional}
           defaultLocale={appConfig.defaultLocale}
           defaultDir={appConfig.defaultDirection}
-          appSubtitle={appConfig.subtitle}
           appLogoSrc={appConfig.logoSrc}
         />
       </Router>

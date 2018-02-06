@@ -21,9 +21,6 @@ const siteConfig = {
     /* The title the site header should display. */
     title: '', // maps to appTitle
 
-    /* The subtitle the site header should display. */
-    subtitle: '', // maps to appSubtitle
-
     /** The themes to supply the ThemeProvider which allows the site to switch
       * between themes. Providing multiple enables the theme utility to display
       * in the header's toolbar.
@@ -32,7 +29,9 @@ const siteConfig = {
       'Default Theme': '',
     },
 
-    /* The default theme of the site. The open-sourced theme is the default theme. */
+    /** The default theme of the site. Note, this value should be a key that was
+     * supplied to the themes object. The open-sourced theme is the default theme.
+     */
     defaultTheme: 'Default Theme',
 
     /** The locales to supply Base with, which allows the site to switch
