@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const kebabCase = require('lodash.kebabcase');
+const buildTestPathConfig = require('./build-test-path-config');
 
 const writeComponentConfig = (packageConfigs, componentImports, outputPath, addPages, addTests) => {
   // Genenerate Expected Component Configuration
@@ -45,6 +46,22 @@ const writeComponentConfig = (packageConfigs, componentImports, outputPath, addP
     generatedConfig = generatedConfig.replace('<config>', `const componentConfig = ${configString};`);
 
     fs.writeFileSync(path.join(path.resolve(process.cwd(), outputPath), 'generatedComponentConfig.js'), generatedConfig);
+  });
+
+  // Generate test path config
+  const testPathConfig = buildTestPathConfig(componentConfig);
+
+  // Clean up the generated configuration to pass the linter
+  // Replace double quotes with single quotes and add any missing trailing commas
+  let testConfigString = JSON.stringify(testPathConfig, null, 2).replace(/"/g, '').replace(/}(?!,)/g, '},').replace(/](?!,)/g, '],');
+  // Replace the last comma with a semicolon
+  testConfigString = testConfigString.replace(/,$/, '');
+
+  // Add the configuration to the configuration template for site consumption
+  fs.readFile(path.join(__dirname, 'testPathConfig.template'), 'utf8', (err, data) => {
+    generatedConfig = data.replace('<config>', `const testPathConfig = ${testConfigString};`);
+
+    fs.writeFileSync(path.join(path.resolve(process.cwd(), outputPath), 'testPathConfig.js'), generatedConfig);
   });
 };
 
