@@ -2,20 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
-
-const blackListedDirectories = [
-  'examples',
-  'test-examples',
-  'src',
-  'tests',
-  'nightwatch',
-  'components',
-];
-
-const terraNameSpacedRepos = [
-  'terra-core',
-  'terra-framework',
-];
+const { terraNameSpacedRepos, blackListedDirectories } = require('./build-configs');
 
 const componentImportNames = {};
 const packageConfigs = [];

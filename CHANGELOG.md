@@ -7,7 +7,7 @@ Unreleased
 * Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
 
 ### Changed
-* Update webpack.config to only pass one
+* Update webpack.config to only pass one globally defined DefinePlugin variable
 
 ### Fixed
 * Fix ES5 and ES6 module clashing in the site configurations
