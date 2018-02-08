@@ -44,7 +44,7 @@ const writeComponentConfig = (packageConfigs, componentImports, outputPath, addP
     generatedConfig = generatedConfig.replace('<test_imports>', imports.tests);
     generatedConfig = generatedConfig.replace('<config>', `const componentConfig = ${configString};`);
 
-    fs.writeFileSync(path.join(path.resolve(process.cwd(), outputPath), 'generatedComponentConfig.jsx'), generatedConfig);
+    fs.writeFileSync(path.join(path.resolve(process.cwd(), outputPath), 'generatedComponentConfig.js'), generatedConfig);
   });
 };
 

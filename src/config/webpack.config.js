@@ -21,7 +21,7 @@ const processPath = process.cwd();
 const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
 
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
-let siteConfigPath = path.resolve(path.join(rootPath, 'site.config.jsx'));
+let siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
 // eslint-disable-next-line import/no-dynamic-require
 siteConfigPath = isFile(siteConfigPath) ? siteConfigPath : './site.config';
 
