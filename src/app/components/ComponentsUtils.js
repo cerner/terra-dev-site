@@ -1,33 +1,38 @@
-const generateRoutes = (array, config, exampleType, pathRoot) => {
+const generateRoutes = (array, config, exampleType, pathRoot, isfirstPass = true) => {
   config.map((componentKey) => {
-    const path = componentKey.path;
+    const componentPath = componentKey.path;
     const examples = componentKey[`${exampleType}`];
 
-    if (path && examples) {
+    if (!componentPath) {
+      return undefined;
+    }
+    const path = pathRoot + componentPath;
+
+    if (examples) {
       examples.map((example) => {
         if (example[`${exampleType}`]) {
-          generateRoutes(array, examples, exampleType, pathRoot + path);
+          generateRoutes(array, examples, exampleType, path, false);
         }
 
         array.push({
-          fullPath: pathRoot + path + example.path,
+          fullPath: path + example.path,
           component: example.component,
           needsPlaceholder: !example.component,
         });
         return undefined;
       });
+    }
 
-      if (examples.length > 1) {
-        array.push({
-          fullPath: pathRoot + path,
-          component: componentKey.component,
-          needsPlaceholder: !componentKey.component,
-        });
-      }
+    if (isfirstPass) {
+      array.push({
+        fullPath: path,
+        component: componentKey.component,
+        needsPlaceholder: !componentKey.component,
+      });
     }
     return undefined;
   })
-  .filter(test => !!test);
+  .filter(example => !!example);
 
   return array;
 };
@@ -37,29 +42,34 @@ const generateMenuLinks = (config, exampleType, pathRoot) => (
     const componentPath = componentKey.path;
     const examples = componentKey[`${exampleType}`];
 
-    if (componentPath && examples) {
+    if (!componentPath) {
+      return undefined;
+    }
+    let path = `${pathRoot}${componentPath}`;
+    let hasSubNav = false;
+
+    if (examples) {
       // Tests will always have create sub menu navigation
-      let hasSubNav = exampleType === 'tests' || examples.length > 1;
+      hasSubNav = exampleType === 'tests' || examples.length > 1;
+
+      // Check if there is more than one layer deep of sub nav
       examples.forEach((example) => {
         if (example[`${exampleType}`] && example[`${exampleType}`].length > 1) {
           hasSubNav = true;
         }
       });
 
-      let path = `${pathRoot}${componentPath}`;
       if (!hasSubNav) {
-        path = `${pathRoot}${componentPath}${examples[0].path}`;
+        path = `${path}${examples[0].path}`;
       }
-
-      return ({
-        id: pathRoot + componentPath,
-        path,
-        text: componentKey.name,
-        hasSubNav,
-      });
     }
 
-    return undefined;
+    return ({
+      id: pathRoot + componentPath,
+      path,
+      text: componentKey.name,
+      hasSubNav,
+    });
   })
   .filter(example => !!example)
 );

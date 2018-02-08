@@ -22,13 +22,14 @@ const buildComponent = (Component, configuredProps) => (
 
 const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pathRoot, isMainMenu = true) => {
   config.map((componentKey) => {
-    const path = componentKey.path;
+    const componentPath = componentKey.path;
     const examples = componentKey[`${exampleType}`];
 
-    if (path && examples) {
+    if (componentPath && examples) {
+      const path = pathRoot + componentPath;
       examples.forEach((example) => {
         if (example[`${exampleType}`]) {
-          buildSubNavigationConfig(array, examples, ComponentMenu, exampleType, pathRoot + path, false);
+          buildSubNavigationConfig(array, examples, ComponentMenu, exampleType, path, false);
         }
       });
 
@@ -37,10 +38,10 @@ const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pat
         return undefined;
       }
 
-      const componentMenuProps = { config: componentKey, pathRoot: `${pathRoot}${path}`, exampleType, isSubMenu: true };
+      const componentMenuProps = { config: componentKey, pathRoot: `${path}`, exampleType, isSubMenu: true };
 
       array.push({
-        path: `${pathRoot}${path}`,
+        path: `${path}`,
         component: buildComponent(ComponentMenu, componentMenuProps),
       });
     }
