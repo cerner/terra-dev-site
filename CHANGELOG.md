@@ -3,6 +3,16 @@ Changelog
 
 Unreleased
 ----------
+### Fixed
+- Generate routes and navigation for component configuration not containing sub-nav
+```
+// config that does not contain the 'pages' or 'tests' keys
+{
+  name: 'Component',
+  path: '/component',
+  component: Component,
+}
+```
 
 2.0.0-RC.3 - (Febuary 1, 2018)
 ----------
