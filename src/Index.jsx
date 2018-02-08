@@ -15,33 +15,27 @@ Provider.init({
 class Site extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { componentConfig: {} };
+    this.state = { siteConfig: defaultSiteConfig };
   }
 
   componentDidMount() {
-    // COMPONENT_CONFIG_PATH is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-site/site.webpack.config.
+    // SITE_CONFIG_PATH is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-site/site.webpack.config.
     // eslint-disable-next-line no-undef
-    if (COMPONENT_CONFIG_PATH !== undefined) {
+    if (SITE_CONFIG_PATH !== undefined) {
       // eslint-disable-next-line no-undef
-      import(COMPONENT_CONFIG_PATH)
-        .then(module => this.setState({ componentConfig: module.default }));
+      import(SITE_CONFIG_PATH)
+        .then(module => this.setState({ siteConfig: module.default }));
     }
   }
 
   render() {
-    // SITE_CONFIG is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-site/site.webpack.config.
-    // eslint-disable-next-line no-undef
-    const siteConfig = Object.assign({}, defaultSiteConfig, SITE_CONFIG);
-    // eslint-disable-next-line no-undef
-    siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, SITE_CONFIG.appConfig);
-
-    const { appConfig, navConfig } = siteConfig;
-    const componentConfig = this.state.componentConfig;
+    const siteConfig = Object.assign({}, defaultSiteConfig, this.state.siteConfig);
+    siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, siteConfig.appConfig);
+    const { appConfig, navConfig, componentConfig } = siteConfig;
 
     const { routeConfig, navigation } = routeConfiguration(siteConfig, componentConfig);
 
     const routes = Object.freeze(routeConfig);
-
     return (
       <Router>
         <App
@@ -52,9 +46,9 @@ class Site extends React.Component {
           defaultTheme={appConfig.defaultTheme}
           locales={appConfig.locales}
           appTitle={appConfig.title}
-          hideBidiUtility={appConfig.bidirectional && !appConfig.bidirectional}
+          hideBidiUtility={!appConfig.bidirectional}
+          defaultLocale={appConfig.defaultLocale}
           defaultDir={appConfig.defaultDirection}
-          appSubtitle={appConfig.subtitle}
           appLogoSrc={appConfig.logoSrc}
         />
       </Router>
