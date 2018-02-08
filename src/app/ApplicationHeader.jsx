@@ -26,10 +26,6 @@ const propTypes = {
    */
   title: PropTypes.string,
   /**
-   * The subtitle to be appended to the title.
-   */
-  subtitle: PropTypes.string,
-  /**
    * Logo element to be placed at the start of the toolbar.
    * */
   logo: PropTypes.element,
@@ -75,7 +71,6 @@ const defaultProps = {
   layoutConfig: undefined,
   navigation: undefined,
   title: null,
-  subtitle: null,
   logo: null,
   locale: null,
   locales: null,
@@ -103,7 +98,7 @@ class ApplicationHeader extends React.Component {
           text={`Theme: ${this.props.theme}`}
           key="theme-utility"
           subMenuItems={[
-            <HeaderUtility.ItemGroup isSelectable key="theme-options" onChange={this.props.onThemeChange} >
+            <HeaderUtility.ItemGroup isSelectable key="theme-options" dir={this.props.dir} onChange={this.props.onThemeChange} >
               {this.props.themes.map(themeName => (
                 <HeaderUtility.Item id={themeName} text={themeName} key={themeName} isSelected={this.props.theme === themeName} />
               ))}
@@ -119,7 +114,7 @@ class ApplicationHeader extends React.Component {
           text={`Locale: ${this.props.locale}`}
           key="locale-utility"
           subMenuItems={[
-            <HeaderUtility.ItemGroup isSelectable key="local-options" onChange={this.props.onLocaleChange} >
+            <HeaderUtility.ItemGroup isSelectable key="local-options" dir={this.props.dir} onChange={this.props.onLocaleChange} >
               {this.props.locales.map(localeName => (
                 <HeaderUtility.Item id={localeName} text={localeName} key={localeName} isSelected={this.props.locale === localeName} />
               ))}
@@ -132,7 +127,7 @@ class ApplicationHeader extends React.Component {
     if (!this.props.hideBidiUtility) {
       menuItems.push(
         <HeaderUtility.Divider key="utility-divider" />,
-        <HeaderUtility.ItemGroup key="bidi-utility" isSelectable dir="ltr" size="medium" onChange={this.props.onDirChange}>
+        <HeaderUtility.ItemGroup isSelectable key="bidi-utility" dir={this.props.dir} size="medium" onChange={this.props.onDirChange}>
           <HeaderUtility.Item id="ltr" text="ltr" key="ltr" isSelected={this.props.dir === 'ltr'} />
           <HeaderUtility.Item id="rtl" text="rtl" key="rtl" isSelected={this.props.dir === 'rtl'} />
         </HeaderUtility.ItemGroup>,
@@ -161,7 +156,6 @@ class ApplicationHeader extends React.Component {
         logo={(
           <Logo
             title={this.props.title}
-            subtitle={this.props.subtitle}
             accessory={this.props.logo}
             size={this.props.layoutConfig.size}
           />

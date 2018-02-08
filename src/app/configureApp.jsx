@@ -32,8 +32,8 @@ const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pat
         }
       });
 
-      // Do not create a submenu for the component if the component has one site page.
-      if (exampleType === 'pages' && examples.length === 1 && isMainMenu) {
+      // Do not create a submenu for the component if the component has one site page with no additional sub-nav.
+      if (exampleType !== 'tests' && examples.length === 1 && isMainMenu && !examples[0][`${exampleType}`]) {
         return undefined;
       }
 
@@ -78,7 +78,9 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   const content = {};
   let menu = {};
 
-  navigation.links.forEach((link) => {
+  const validLinks = navigation.links.filter(link => link.path && link.text);
+
+  validLinks.forEach((link) => {
     const exampleType = link.exampleType;
 
     // build navigation link configuration
@@ -91,13 +93,11 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     }
 
     // build content configuration
-    let contentComponent = Components;
+    let contentComponent = link.component ? link.component : Components;
     let componentProps = { config: Object.values(componentConfig), pathRoot: link.path, exampleType, placeholderSrc };
-    if (exampleType === 'home') {
+    if (exampleType === 'home' && !link.component) {
       contentComponent = Home;
       componentProps = { readMeContent };
-    } else if (link.component) {
-      contentComponent = link.component;
     }
 
     content[link.path] = {
@@ -120,7 +120,7 @@ const routeConfiguration = (siteConfig, componentConfig) => {
       menuComponent = link.menuComponent;
     }
 
-    if (!link.isStatic) {
+    if (link.hasSubNav) {
       menu = Object.assign(menu, buildNavigationConfig(componentConfig, menuComponent, exampleType, link.path));
     }
   });
