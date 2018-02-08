@@ -1,9 +1,9 @@
 # Navigation Configuration
 Terra site requires a navigation configuration to build the main menu navigation, the site pages and each page's sub-navigation. Terra Site package provides a [default navigation config] that is easily customizable. This configuration provides:
-- `rootPath` [string] the url path prepended to the urls of the front-facing (non-test) site pages
-- `navigation` [object] the nav configuration which provides the `index` and `links`
-    - `index` [string] the default site route
-    - `links` [array] the list of link configuration objects to build by the navigation
+- `rootPath` - the url path prepended to the urls of the front-facing (non-test) site pages
+- `navigation` - the nav configuration object which provides the `index` and `links`
+    - `index` - the default site route
+    - `links` - the array of link configuration objects to build by the navigation
 
 #### Link Options
 
