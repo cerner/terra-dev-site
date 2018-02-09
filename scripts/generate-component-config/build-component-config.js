@@ -129,8 +129,8 @@ const buildComponentConfig = (foundFiles, repositoryName, outputPathDepth) => {
     };
 
     // Determine if the example needs nested configuration built
-    const packageDirectories = directory.split(packageName)[1].split(path.sep);
-    const sliceAt = (fileType === 'tests' && !monoRepoInstalledAsPackage) || packageName.includes('-site') ? 3 : 2;
+    const packageDirectories = directory.split(packageName + path.sep)[1].split(path.sep);
+    const sliceAt = (fileType === 'tests' && !monoRepoInstalledAsPackage) || packageName.includes('-site') ? 2 : 1;
     const nestedDirectories = packageDirectories.splice(sliceAt, packageDirectories.length);
 
     // Create the example's full configuration

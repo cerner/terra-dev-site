@@ -15,6 +15,7 @@ Unreleased
 * Fix sub navigation creation to check if a a single site page contains additional sub navigation
 * Allow for custom Home pages
 * Update theming-plugin to only output themeable-variables.json in the root directory
+* Fix build script to split on the repository and path separator to ensure the path is split once
 
 ### Removed
 * Remove subtitle site config options to align with the coming Application Name Components
