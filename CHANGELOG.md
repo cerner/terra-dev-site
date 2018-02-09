@@ -5,6 +5,7 @@ Unreleased
 ----------
 ### Added
 * Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
+* Expose terra-framework-application-header extensions prop. To use this prop, add an extensions key to the navigation object in the navigation.config
 
 ### Changed
 * Update webpack.config to only pass one globally defined DefinePlugin variable
