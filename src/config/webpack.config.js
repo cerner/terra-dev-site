@@ -27,6 +27,7 @@ siteConfigPath = isFile(siteConfigPath) ? siteConfigPath : './site.config';
 
 const defaultWebpackConfig = {
   entry: {
+    raf: 'raf/polyfill',
     'babel-polyfill': 'babel-polyfill',
     'terra-site': path.resolve(path.join(__dirname, '..', 'Index')),
   },
@@ -90,7 +91,7 @@ const defaultWebpackConfig = {
     new HtmlWebpackPlugin({
       title: 'Site',
       template: path.join(__dirname, '..', 'index.html'),
-      chunks: ['babel-polyfill', 'terra-site'],
+      chunks: ['raf', 'babel-polyfill', 'terra-site'],
     }),
     new I18nAggregatorPlugin({
       baseDirectory: rootPath,

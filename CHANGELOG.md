@@ -7,6 +7,7 @@ Unreleased
 * Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
 
 ### Changed
+* Update to React 16
 * Update webpack.config to only pass one globally defined DefinePlugin variable
 
 ### Fixed
