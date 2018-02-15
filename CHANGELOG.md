@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+2.0.0-RC.4 - (Febuary 15, 2018)
+----------
 ### Added
 - Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
 
