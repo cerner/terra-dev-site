@@ -38,25 +38,16 @@ commander
 const compiledDirPattern = `{examples,${path.join('examples', '*')}}`;
 const terraReposAsPackages = path.join('node_modules', '{terra-core,terra-clinical,terra-framework,terra-consumer}');
 
-// let testsSearchPattern;
-let testsSearchPatternJSX;
-let testsSearchPatternJS;
+let testsSearchPattern;
 if (commander.tests) {
-  // testsSearchPattern = path.join('test-examples', '*?(.jsx|.js)');
-  testsSearchPatternJSX = path.join('test-examples', '*?(.jsx)');
-  testsSearchPatternJS = path.join('test-examples', '*?(.js)');
+  testsSearchPattern = `{${path.join('test-examples', '*.jsx')}, ${path.join('test-examples', '*.jsx')}}`;
 }
 
-// let pagesSearchPattern;
-let pagesSearchPatternJSX;
-let pagesSearchPatternJS;
+let pagesSearchPattern;
 if (commander.pages) {
-  // pagesSearchPattern = '*.site-page?(.jsx|.js)';
-  pagesSearchPatternJSX = '*.site-page?(.jsx)';
-  pagesSearchPatternJS = '*.site-page?(.js)';
+  pagesSearchPattern = '{*.site-page.jsx,*.site-page.js}';
 }
-
-const examplesPattern = `{${pagesSearchPatternJS}, ${pagesSearchPatternJSX},${testsSearchPatternJS},${testsSearchPatternJSX}}`;
+const examplesPattern = `{${pagesSearchPattern},${testsSearchPattern}}`;
 
 const defaultSearchPatterns = [
   path.resolve(process.cwd(), `${compiledDirPattern}`, `${examplesPattern}`),
