@@ -4,24 +4,32 @@ Changelog
 Unreleased
 ----------
 ### Added
-* Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
-* Expose terra-framework-application-header extensions prop. To use this prop, add an extensions key to the navigation object in the navigation.config
+- Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
 
 ### Changed
 * Update to React 16
 * Update webpack.config to only pass one globally defined DefinePlugin variable
+* Expose terra-framework-application-header extensions prop. To use this prop, add an extensions key to the navigation object in the navigation.config
 
 ### Fixed
-* Fix ES5 and ES6 module clashing in the site configurations
-* Fix Home page styling
-* Fix sub navigation creation to check if a a single site page contains additional sub navigation
-* Allow for custom Home pages
-* Update theming-plugin to only output themeable-variables.json in the root directory
-* Fix build script to split on the repository and path separator to ensure the path is split once
+- Fix ES5 and ES6 module clashing in the site configurations
+- Fix Home page styling
+- Fix sub navigation creation to check if a a single site page contains additional sub navigation
+- Allow for custom Home pages
+- Update theming-plugin to only output themeable-variables.json in the root directory
+- Generate routes and navigation for component configuration not containing sub-nav
+```
+// config that does not contain the 'pages' or 'tests' keys
+{
+  name: 'Component',
+  path: '/component',
+  component: Component,
+}
+```
 
 ### Removed
-* Remove subtitle site config options to align with the coming Application Name Components
-* In navigation.config, removed `isStatic` key option in favor of only using `hasSubNav` key
+- Remove subtitle site config options to align with the coming Application Name Components
+- In navigation.config, removed `isStatic` key option in favor of only using `hasSubNav` key
 
 2.0.0-RC.3 - (Febuary 1, 2018)
 ----------
