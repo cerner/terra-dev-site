@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+2.0.0-RC.5 - (Febuary 15, 2018)
+----------
+### Fixed
+- Fix raw route from failing when no navigation is passed in.
+
 2.0.0-RC.4 - (Febuary 15, 2018)
 ----------
 ### Added
