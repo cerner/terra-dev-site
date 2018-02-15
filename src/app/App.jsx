@@ -145,7 +145,7 @@ class App extends React.Component {
           theme={this.state.theme}
           themes={Object.keys(this.props.themes)}
           onThemeChange={this.handleThemeChange}
-          navigation={matchPath(this.props.location.pathname, this.props.rootPath) ? this.props.navigation : null}
+          navigation={matchPath(this.props.location.pathname, this.props.rootPath) ? this.props.navigation : undefined}
         />
       );
     }
