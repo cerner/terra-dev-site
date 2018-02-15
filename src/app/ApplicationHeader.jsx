@@ -162,6 +162,7 @@ class ApplicationHeader extends React.Component {
         )}
         utilities={utility}
         navigation={navTabs}
+        extensions={this.props.navigation.extensions}
         toggle={<Toggle layoutConfig={this.props.layoutConfig} />}
       />
     );

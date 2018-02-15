@@ -146,7 +146,7 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     },
   };
 
-  const navigationConfig = { index: navigation.index, links: configuredLinks };
+  const navigationConfig = { index: navigation.index, links: configuredLinks, extensions: navigation.extensions };
   const routeConfig = { content, menu };
 
   return { routeConfig, navigation: navigationConfig };

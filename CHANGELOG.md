@@ -7,7 +7,9 @@ Unreleased
 - Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
 
 ### Changed
-- Update webpack.config to only pass one globally defined DefinePlugin variable
+* Update to React 16
+* Update webpack.config to only pass one globally defined DefinePlugin variable
+* Expose terra-framework-application-header extensions prop. To use this prop, add an extensions key to the navigation object in the navigation.config
 
 ### Fixed
 - Fix ES5 and ES6 module clashing in the site configurations
