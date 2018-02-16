@@ -3,9 +3,6 @@ Changelog
 
 Unreleased
 ----------
-### Added
-- Added the `--check-node-modules` flag to the generate-component-config script such that when used it, the search patterns check for terra-repositorys that are installed as packages
-
 ### Fixed
 - Make the generate-component-config script compatible for windows devices
 

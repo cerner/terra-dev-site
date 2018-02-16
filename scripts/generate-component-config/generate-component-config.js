@@ -20,7 +20,6 @@ commander
   .option('-o, --output [outputPath]', 'The output location of the generated configuration file', './')
   .option('--no-pages', 'Disable the generation of page example configuration')
   .option('--no-tests', 'Disable the generation of test example configuration')
-  .option('--check-node-modules', 'Determines if the search patterns should check for terra-repos installed as packages')
   .parse(process.argv);
 
 /** Default Search Paths
@@ -36,7 +35,6 @@ commander
  *     dir/packages/ * /examples/ * /test-examples
  */
 const compiledDirPattern = `{examples,${path.join('examples', '*')}}`;
-const terraReposAsPackages = path.join('node_modules', '{terra-core,terra-clinical,terra-framework,terra-consumer}');
 
 let testsSearchPattern;
 if (commander.tests) {
@@ -53,11 +51,6 @@ const defaultSearchPatterns = [
   path.resolve(process.cwd(), `${compiledDirPattern}`, `${examplesPattern}`),
   path.resolve(process.cwd(), 'packages', '*', `${compiledDirPattern}`, `${examplesPattern}`),
 ];
-
-if (commander.checkNodeModules) {
-  defaultSearchPatterns.push(path.resolve(process.cwd(), `${terraReposAsPackages}`, `${compiledDirPattern}`, `${examplesPattern}`));
-  defaultSearchPatterns.push(path.resolve(process.cwd(), `${terraReposAsPackages}`, 'packages', '*', `${compiledDirPattern}`, `${examplesPattern}`));
-}
 
 const searchPaths = defaultSearchPatterns.concat(customSearchPatterns);
 
