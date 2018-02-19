@@ -6,7 +6,7 @@ Terra-site dynamically builds a react-hash-routed site based on site configurati
     - `npm install terra-site`
 
 ## How It Works
-The site configuration file is the file loaded by the entry point during the webpack build. The site confgiuration provides the necessary navigation, component and application configuration to the site app such that the application can enable the application utilities and recursively build the menu navigation and content routes. The component configuration is truly the only configuration that must be provided, otherwise, Terra-site provided the following default configurations:
+The site configuration file is the file loaded by the entry point during the webpack build. The site confgiuration provides the necessary navigation, component and application configuration to the site app such that the application can enable the application utilities and recursively build the menu navigation and content routes. The component configuration is truly the only configuration that must be provided, otherwise, Terra-site provides the following default configurations:
 - `site.config.js`
 - `navigation.config.js`
 - `webpack.config.js`
