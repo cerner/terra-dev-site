@@ -24,7 +24,15 @@ const ApplicationToggle = ({
   if (!layoutConfig.toggleMenu || (layoutConfig.size !== 'tiny' && layoutConfig.size !== 'small')) {
     return null;
   }
-  return <Button className={cx('toggle-button')} variant="link" icon={<IconMenu />} onClick={layoutConfig.toggleMenu} />;
+  return (
+    <Button
+      className={cx('toggle-button')}
+      text="menu"
+      variant="utility"
+      icon={<IconMenu />}
+      onClick={layoutConfig.toggleMenu}
+    />
+  );
 };
 
 ApplicationToggle.propTypes = propTypes;

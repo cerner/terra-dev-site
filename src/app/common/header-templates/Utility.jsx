@@ -98,6 +98,16 @@ class Utility extends React.Component {
       customProps.className,
     ]);
 
+    const accessoryElement = !!accessory && <div>{accessory}</div>;
+    const titleElement = !!title && size !== 'tiny' && <div className={cx('title')}>{title}</div>;
+    const buttonIcon = (
+      <div>
+        {accessoryElement}
+        {titleElement}
+        <IconExpandMore data-utility-more-icon />
+      </div>
+    );
+
     return (
       <div ref={(node) => { this.utilityNode = node; }}>
         <Menu
@@ -110,11 +120,14 @@ class Utility extends React.Component {
         >
           {menuItems}
         </Menu>
-        <Button {...customProps} className={utilityClassNames} onClick={this.handleOnClick} variant="link">
-          {!!accessory && <div className={cx('accessory')}>{accessory}</div>}
-          {!!title && size !== 'tiny' && <div className={cx('title')}>{title}</div>}
-          {<IconExpandMore data-utility-more-icon />}
-        </Button>
+        <Button
+          {...customProps}
+          className={utilityClassNames}
+          text="Utility Menu"
+          onClick={this.handleOnClick}
+          icon={buttonIcon}
+          variant="utility"
+        />
       </div>
     );
   }

@@ -110,18 +110,18 @@ class App extends React.Component {
     }
   }
 
-  handleBidiChange(e) {
-    document.getElementsByTagName('html')[0].setAttribute('dir', e.currentTarget.id);
-    this.setState({ dir: e.currentTarget.id });
+  handleBidiChange(e, selectedDir) {
+    document.getElementsByTagName('html')[0].setAttribute('dir', selectedDir);
+    this.setState({ dir: selectedDir });
   }
 
-  handleLocaleChange(e) {
-    document.getElementsByTagName('html')[0].setAttribute('lang', e.currentTarget.id);
-    this.setState({ locale: e.currentTarget.id });
+  handleLocaleChange(e, selectedLocale) {
+    document.getElementsByTagName('html')[0].setAttribute('lang', selectedLocale);
+    this.setState({ locale: selectedLocale });
   }
 
-  handleThemeChange(e) {
-    this.setState({ theme: e.currentTarget.id });
+  handleThemeChange(e, selectedTheme) {
+    this.setState({ theme: selectedTheme });
   }
 
   render() {

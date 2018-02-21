@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Markdown from 'terra-markdown';
+import Button from 'terra-button';
 import SlidePanel from 'terra-slide-panel';
 
 const propTypes = {
@@ -37,14 +38,14 @@ class IndexExampleTemplate extends React.Component {
 
     const indexExample = (
       <div>
-        <button onClick={this.handlePanelToggle} style={{ display: 'inline-block' }}>Show Source Code</button>
+        <Button text="Show Source Code" onClick={this.handlePanelToggle} />
         {example}
       </div>
     );
 
     const indexExampleSrc = (
       <div>
-        <button onClick={this.handlePanelToggle} style={{ display: 'inline-block' }}>Show Example</button>
+        <Button text="Show Exmaple" onClick={this.handlePanelToggle} />
         <Markdown src={`${codeIndicator}jsx\n${exampleSrc}${codeIndicator}`} />
       </div>
     );
