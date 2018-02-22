@@ -147,6 +147,9 @@ const defaultWebpackConfig = {
   resolveLoader: {
     modules: [path.resolve(path.join(rootPath, 'node_modules'))],
   },
+  node: {
+    fs: 'empty',
+  },
 };
 
 module.exports = defaultWebpackConfig;
