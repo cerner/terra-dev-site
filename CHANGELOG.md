@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Fixed
+- Make the generate-component-config script compatible for windows devices
 
 2.0.0-RC.5 - (Febuary 15, 2018)
 ----------
