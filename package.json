@@ -19,18 +19,38 @@
   "bugs": {
     "url": "https://github.com/cerner/terra-site/issues"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "/src/**.js",
+      "/src/**.jsx"
+    ],
+    "setupFiles": [
+      "raf/polyfill",
+      "./jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/enzyme-to-json/serializer"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy"
+    }
+  },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
     "clean:install": "npm run clean && npm install",
+    "clean:obsolete-snapshots": "npm test -- -u",
     "danger": "danger",
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
+    "jest": "jest",
+    "jest:coverage": "jest --coverage",
     "prepublishOnly": "npm test",
+    "pretest": "npm run lint",
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
-    "test": "npm run lint"
+    "test": "npm run jest"
   },
   "dependencies": {
     "async": "^2.5.0",
@@ -94,6 +114,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
+    "babel-jest": "^21.0.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",
@@ -101,15 +122,21 @@
     "babel-preset-react": "^6.24.1",
     "check-installed-dependencies": "^1.0.0",
     "danger": "^1.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.2.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
     "gh-pages": "^0.12.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^21.0.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
+    "react-test-renderer": "^16.2.0",
     "rimraf": "^2.6.1",
     "stylelint": "^8.0.0",
     "stylelint-config-sass-guidelines": "^4.0.1",
