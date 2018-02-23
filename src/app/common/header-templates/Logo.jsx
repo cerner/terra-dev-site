@@ -52,7 +52,7 @@ const Logo = ({
       {!!accessory && <div className={cx('accessory')}>{accessory}</div>}
       {(!!title) && size !== 'tiny' &&
         <div className={cx('title')}>
-          <strong>{title}</strong>
+          {title}
         </div>
       }
     </div>
