@@ -1,6 +1,6 @@
 {
   "name": "terra-site",
-  "version": "2.0.0-RC.4",
+  "version": "2.0.0-RC.5",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "main": "lib/index.js",
   "repository": {
@@ -19,18 +19,38 @@
   "bugs": {
     "url": "https://github.com/cerner/terra-site/issues"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "/src/**.js",
+      "/src/**.jsx"
+    ],
+    "setupFiles": [
+      "raf/polyfill",
+      "./jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/enzyme-to-json/serializer"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy"
+    }
+  },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
     "clean:install": "npm run clean && npm install",
+    "clean:obsolete-snapshots": "npm test -- -u",
     "danger": "danger",
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
+    "jest": "jest",
+    "jest:coverage": "jest --coverage",
     "prepublishOnly": "npm test",
+    "pretest": "npm run lint",
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
-    "test": "npm run lint"
+    "test": "npm run jest"
   },
   "dependencies": {
     "async": "^2.5.0",
@@ -67,33 +87,34 @@
     "sass-loader": "^6.0.6",
     "shelljs": "^0.7.6",
     "style-loader": "^0.19.0",
-    "terra-app-delegate": "^1.7.1",
-    "terra-application-header-layout": "^1.0.0",
-    "terra-application-menu-layout": "^1.0.0",
-    "terra-base": "^2.6.1",
-    "terra-button": "^1.12.0",
-    "terra-i18n": "^1.10.1",
-    "terra-i18n-plugin": "^1.7.0",
-    "terra-icon": "^1.12.1",
-    "terra-image": "1.11.1",
-    "terra-list": "^1.12.1",
-    "terra-markdown": "^1.9.1",
-    "terra-menu": "^1.6.0",
-    "terra-navigation-layout": "^1.0.0",
-    "terra-slide-panel": "^1.14.0",
-    "terra-theme-provider": "^1.6.1",
+    "terra-app-delegate": "^2.0.0",
+    "terra-application-header-layout": "^2.0.0",
+    "terra-application-menu-layout": "^2.0.0",
+    "terra-base": "^3.0.0",
+    "terra-button": "^2.0.1",
+    "terra-i18n": "^2.0.0",
+    "terra-i18n-plugin": "^2.0.0",
+    "terra-icon": "^2.0.1",
+    "terra-image": "^2.0.1",
+    "terra-list": "^2.0.1",
+    "terra-markdown": "^2.0.0",
+    "terra-menu": "^2.0.1",
+    "terra-navigation-layout": "^2.0.0",
+    "terra-slide-panel": "^2.0.1",
+    "terra-theme-provider": "^2.0.0",
     "xfc": "^1.2.1"
   },
   "peerDependencies": {
     "babel-polyfill": "^6.23.0",
-    "react": "^15.4.2 || ^16.2.0",
-    "react-dom": "^15.4.2 || ^16.2.0",
-    "react-router-dom": "^4.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.7.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
+    "babel-jest": "^21.0.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",
@@ -101,15 +122,21 @@
     "babel-preset-react": "^6.24.1",
     "check-installed-dependencies": "^1.0.0",
     "danger": "^1.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.2.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
     "gh-pages": "^0.12.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^21.0.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^4.0.0",
+    "react-router-dom": "^4.2.2",
+    "react-test-renderer": "^16.2.0",
     "rimraf": "^2.6.1",
     "stylelint": "^8.0.0",
     "stylelint-config-sass-guidelines": "^4.0.1",
