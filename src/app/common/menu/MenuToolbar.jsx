@@ -42,12 +42,26 @@ const MenuToolbar = ({ app, routingStackDelegate, text, ...customProps }) => {
 
   let backButton;
   if (routingStackDelegate.showParent) {
-    backButton = <Button onClick={routingStackDelegate.showParent} icon={<IconLeft />} variant="link" style={{ color: 'black' }} />;
+    backButton = (
+      <Button
+        onClick={routingStackDelegate.showParent}
+        text="back"
+        icon={<IconLeft />}
+        variant="utility"
+        style={{ color: 'black' }}
+      />);
   }
 
   let rootButton;
   if (routingStackDelegate.showRoot) {
-    rootButton = <Button onClick={routingStackDelegate.showRoot} icon={<IconHouse />} variant="link" style={{ color: 'black' }} />;
+    rootButton = (
+      <Button
+        onClick={routingStackDelegate.showRoot}
+        text="root"
+        icon={<IconHouse />}
+        variant="utility"
+        style={{ color: 'black' }}
+      />);
   }
 
   const toolbarStart = (

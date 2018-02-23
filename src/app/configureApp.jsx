@@ -132,14 +132,14 @@ const routeConfiguration = (siteConfig, componentConfig) => {
       tiny: {
         componentClass: ApplicationMenu,
         props: {
-          menuHeader: `${siteConfig.appConfig.title} ${siteConfig.appConfig.subtitle}`,
+          menuHeader: `${siteConfig.appConfig.title}`,
           links: configuredLinks,
         },
       },
       small: {
         componentClass: ApplicationMenu,
         props: {
-          menuHeader: `${siteConfig.appConfig.title} ${siteConfig.appConfig.subtitle}`,
+          menuHeader: `${siteConfig.appConfig.title}`,
           links: configuredLinks,
         },
       },

@@ -84,7 +84,13 @@ const Toolbar = ({
   if (layoutConfig.toggleMenu && isCompact) {
     toolbarToggle = (
       <div className={cx('toolbar-toggle')}>
-        <Button className={cx('toggle-button')} variant="link" icon={<IconMenu />} onClick={layoutConfig.toggleMenu} />
+        <Button
+          className={cx('toggle-button')}
+          text="toggle-menu"
+          variant="utility"
+          icon={<IconMenu />}
+          onClick={layoutConfig.toggleMenu}
+        />
       </div>
     );
   }
