@@ -3,8 +3,13 @@ Changelog
 
 Unreleased
 ----------
+
+2.0.0-RC.6 - (Febuary 23, 2018)
+----------
 ### Fixed
+- Upgrade to react 16
 - Make the generate-component-config script compatible for windows devices
+- Added Jest Tests
 
 2.0.0-RC.5 - (Febuary 15, 2018)
 ----------
