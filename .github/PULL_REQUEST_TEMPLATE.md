@@ -13,5 +13,5 @@
 
 Thanks for contributing to Terra! -->
 
-[CONTRIBUTORS.md]: https://github.com/cerner/terra-site/blob/master/CONTRIBUTORS.md
-[License]: https://github.com/cerner/terra-site/blob/master/License.md
+[CONTRIBUTORS.md]: https://github.com/cerner/terra-dev-site/blob/master/CONTRIBUTORS.md
+[License]: https://github.com/cerner/terra-dev-site/blob/master/License.md

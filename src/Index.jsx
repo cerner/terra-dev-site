@@ -19,7 +19,7 @@ class Site extends React.Component {
   }
 
   componentDidMount() {
-    // SITE_CONFIG_PATH is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-site/site.webpack.config.
+    // SITE_CONFIG_PATH is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-dev-site/site.webpack.config.
     // eslint-disable-next-line no-undef
     if (SITE_CONFIG_PATH !== undefined) {
       // eslint-disable-next-line no-undef

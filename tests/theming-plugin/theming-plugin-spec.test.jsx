@@ -62,7 +62,7 @@ describe('theming-plugin', () => {
       const rootNode = postcss.parse(mockStyles);
       rootNode.source = { input: { file: 'TestingComponent.scss' } };
       expect(JSON.parse(testingFunction(rootNode))).toEqual(JSON.parse(expectedHash));
-      expect(outputtedFileName).toContain(path.join('terra-site', 'themeable-variables.json'));
+      expect(outputtedFileName).toContain(path.join('terra-dev-site', 'themeable-variables.json'));
       expect(outputtedEncoding).toEqual('utf8');
     });
   });
@@ -81,7 +81,7 @@ describe('theming-plugin', () => {
       }`;
 
       expect(JSON.parse(testingFunction(rootNode))).toEqual(JSON.parse(expectedHash));
-      expect(outputtedFileName).toContain(path.join('terra-site', 'themeable-variables.json'));
+      expect(outputtedFileName).toContain(path.join('terra-dev-site', 'themeable-variables.json'));
       expect(outputtedEncoding).toEqual('utf8');
     });
   });
@@ -107,7 +107,7 @@ describe('theming-plugin', () => {
       rootNode.source = { input: { file: 'TestingComponent.scss' } };
 
       expect(JSON.parse(testingFunction(rootNode))).toEqual(JSON.parse(expectedHash));
-      expect(outputtedFileName).toContain(path.join('terra-site', 'themeable-variables.json'));
+      expect(outputtedFileName).toContain(path.join('terra-dev-site', 'themeable-variables.json'));
       expect(outputtedEncoding).toEqual('utf8');
     });
   });
