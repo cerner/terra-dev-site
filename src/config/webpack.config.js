@@ -23,7 +23,7 @@ const rootPath = processPath.includes('packages') ? processPath.split('packages'
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
 let siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
 // eslint-disable-next-line import/no-dynamic-require
-siteConfigPath = isFile(siteConfigPath) ? siteConfigPath : './site.config';
+siteConfigPath = isFile(siteConfigPath) ? siteConfigPath : './config/site.config';
 
 const defaultWebpackConfig = {
   entry: {
