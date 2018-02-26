@@ -79,7 +79,7 @@ class Components extends React.Component {
 
     return (
       <div
-        data-terra-site-content
+        data-terra-dev-site-content
         className={componentsClassNames}
         ref={(element) => { this.element = element; }}
       >

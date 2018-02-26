@@ -29,12 +29,12 @@ const defaultWebpackConfig = {
   entry: {
     raf: 'raf/polyfill',
     'babel-polyfill': 'babel-polyfill',
-    'terra-site': path.resolve(path.join(__dirname, '..', 'Index')),
+    'terra-dev-site': path.resolve(path.join(__dirname, '..', 'Index')),
   },
   module: {
     rules: [{
       test: /\.(jsx|js)$/,
-      exclude: /node_modules(?!\/terra-site\/src)/,
+      exclude: /node_modules(?!\/terra-dev-site\/src)/,
       use: 'babel-loader',
     },
     {
@@ -91,7 +91,7 @@ const defaultWebpackConfig = {
     new HtmlWebpackPlugin({
       title: 'Site',
       template: path.join(__dirname, '..', 'index.html'),
-      chunks: ['raf', 'babel-polyfill', 'terra-site'],
+      chunks: ['raf', 'babel-polyfill', 'terra-dev-site'],
     }),
     new I18nAggregatorPlugin({
       baseDirectory: rootPath,
