@@ -5,7 +5,7 @@
 
 <!-- Name -->
 <h1 align="center">
-  Terra Site
+  Terra Dev Site
 </h1>
 
 [![NPM version](http://img.shields.io/npm/v/terra-dev-site.svg)](https://www.npmjs.org/package/terra-dev-site)
