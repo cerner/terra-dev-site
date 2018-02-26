@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+0.1.0 - (Febuary 26, 2018)
+----------
 * Renamed to terra-dev-site
 
 2.0.0-RC.6 - (Febuary 23, 2018)
