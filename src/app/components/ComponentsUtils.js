@@ -42,7 +42,7 @@ const generateMenuLinks = (config, exampleType, pathRoot) => (
     const componentPath = componentKey.path;
     const examples = componentKey[`${exampleType}`];
 
-    if (!componentPath) {
+    if (!componentPath || (!examples && !componentKey.component)) {
       return undefined;
     }
     let path = `${pathRoot}${componentPath}`;
