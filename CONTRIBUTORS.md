@@ -11,4 +11,4 @@ Cerner Corporation
 [@tbiethman]: https://github.com/tbiethman
 [@dkasper-was-taken]: https://github.com/dkasper-was-taken
 [@mjhenkes]: https://github.com/mjhenkes
-[@corymwcdonald]: https://github.com/corymcdonald
+[@corymcdonald]: https://github.com/corymcdonald
