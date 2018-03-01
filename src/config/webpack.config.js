@@ -51,6 +51,7 @@ const defaultWebpackConfig = {
         }, {
           loader: 'postcss-loader',
           options: {
+            ident: 'postcss',
             plugins() {
               return [
                 Autoprefixer({
