@@ -77,15 +77,18 @@ const generateMenuLinks = (config, exampleType, pathRoot) => (
 const generateSubMenuLinks = (componentConfig, exampleType, pathRoot) => (
   componentConfig[`${exampleType}`].map((example) => {
     let path = `${pathRoot}${example.path}`;
+    let hasSubNav = !!example[`${exampleType}`];
+
     if (exampleType !== 'tests' && example[`${exampleType}`] && example[`${exampleType}`].length === 1) {
       path = `${pathRoot}${example.path}${example[`${exampleType}`][0].path}`;
+      hasSubNav = false;
     }
 
     return {
       id: path,
       path: `${path}`,
       text: example.name,
-      hasSubNav: !!example[`${exampleType}`],
+      hasSubNav,
     };
   })
 );
