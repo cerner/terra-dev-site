@@ -62,4 +62,4 @@ Although Terra-dev-site provide default configuration that will likely suffice f
 - [Site Configuration](https://github.com/cerner/terra-dev-site/blob/master/docs/SiteConfig.md)
 - [Navigation Configuration](https://github.com/cerner/terra-dev-site/blob/master/docs/NavigationConfig.md)
 - [Component Configuration](https://github.com/cerner/terra-dev-site/blob/master/docs/ComponentConfig.md)
-- [Webpack Configuration](https://github.com/cerner/terra-dev-site/blob/master/docs/WebpackConfig.md)
+<!--- - [Webpack Configuration](https://github.com/cerner/terra-dev-site/blob/master/docs/WebpackConfig.md) -->
