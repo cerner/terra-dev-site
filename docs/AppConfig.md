@@ -1,5 +1,5 @@
 # Application Configuration
-Terra-site uses the app configuration to build the site application and enable the application utilities to switch the site's theme, locale and/or directionality. Terra Site package provides a [default app config](https://github.com/cerner/terra-site/blob/master/src/config/site.config.js#L17) that is easy to customize by overriding the default value.
+Terra-dev-site uses the app configuration to build the site application and enable the application utilities to switch the site's theme, locale and/or directionality. Terra-dev-site package provides a [default app config](https://github.com/cerner/terra-dev-site/blob/master/src/config/site.config.js#L17) that is easy to customize by overriding the default value.
 
 
 #### Application Configuration Options

@@ -1,5 +1,5 @@
 # Component Configuration
-Terra site requires component configuration to recursively build the menu navigation and the content routes. The [routeConfiguration] builder expects this configuration to be an object containing component config objects.
+Terra-dev-site requires component configuration to recursively build the menu navigation and the content routes. The [routeConfiguration] builder expects this configuration to be an object containing component config objects.
 
 #### Component Config API
 This configuration must provide the `name` and `path` keys. These keys are needed to successfully create the navigation and routes. Then use the following keys to add meaningful content:
@@ -7,7 +7,7 @@ This configuration must provide the `name` and `path` keys. These keys are neede
 - `pages` - an array of of site page configuration objects.
 - `tests` - an array of test page configuration objects.
 
-Terra Site will create sub-navigation for any component configuration using the `pages` or `tests` keys and will add a default Placeholder to render at that route. To replace the defaulted Terra Site Placeholder, supplying a `component` key in conjunction with `pages` and/or `tests`.
+Terra-dev-site will create sub-navigation for any component configuration using the `pages` or `tests` keys and will add a default Placeholder to render at that route. To replace the defaulted terra-dev-site Placeholder, supplying a `component` key in conjunction with `pages` and/or `tests`.
 
 #### Component API Example
 ```
@@ -60,12 +60,12 @@ const componentConfig = {
 };
 ```
 ### Generating Component Config
-Terra Site provides a component generation script, called `generate-component-config` which will search for page and test example components and then provide the respective configuration needed to render the navigation and content when using the site's default Components and MenuComponents.
+Terra-dev-site provides a component generation script, called `generate-component-config` which will search for page and test example components and then provide the respective configuration needed to render the navigation and content when using the site's default Components and MenuComponents.
 
 #### generate-component-config Usage
 In the `package.json`, add the script
 ```node
-"generate-config": "node node_modules/terra-site/scripts/generate-component-config/generate-component-config.js",
+"generate-config": "node node_modules/terra-dev-site/scripts/generate-component-config/generate-component-config.js",
 ```
 
 #### generate-component-config Options
@@ -89,5 +89,5 @@ component
 ```
 For a mono-repo structure, it assumes all packages are will be located in the `packages` directory.
 
-[default search patterns]: https://github.com/cerner/terra-site/blob/master/scripts/generate-component-config/generate-component-config.js#L25
-[routeConfiguration]: https://github.com/cerner/terra-site/blob/master/src/app/configureApp.jsx#L72
+[default search patterns]: https://github.com/cerner/terra-dev-site/blob/master/scripts/generate-component-config/generate-component-config.js#L25
+[routeConfiguration]: https://github.com/cerner/terra-dev-site/blob/master/src/app/configureApp.jsx#L72
