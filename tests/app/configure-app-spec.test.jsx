@@ -6,8 +6,6 @@ import mockPagesCC from './mock-component-config-pages';
 import mockTestsCC from './mock-component-config-tests';
 import mockPagesTestsCC from './mock-component-config-pages-tests';
 
-jest.mock('../../src/app/components/Home', () => () => {});
-jest.mock('./MockComponent', () => () => {});
 const rootPath = '/site';
 const componentConfigs = {
   basic: mockBasicCC,
