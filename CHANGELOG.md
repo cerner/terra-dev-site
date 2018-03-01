@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changes
+* Updated the default the search paths for test examples to search for `.example.jsx` to allow for more flexible file structure for text exmaples.
 
 0.1.0 - (Febuary 26, 2018)
 ----------
