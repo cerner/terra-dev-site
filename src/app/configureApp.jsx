@@ -78,7 +78,7 @@ const routeConfiguration = (siteConfig, componentConfig) => {
 
   const content = {};
   let menu = {};
-  // const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text) : [];
+
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.exampleType) : [];
 
   validLinks.forEach((link) => {
@@ -148,6 +148,7 @@ const routeConfiguration = (siteConfig, componentConfig) => {
 
   const navigationConfig = { index: navigation.index, links: configuredLinks, extensions: navigation.extensions };
   const routeConfig = { content, menu };
+
   return { routeConfig, navigation: navigationConfig };
 };
 
