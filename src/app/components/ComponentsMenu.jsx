@@ -44,7 +44,7 @@ const defaultProps = {
   routingStackDelegate: undefined,
   config: [],
   pathRoot: null,
-  exampleType: 'pages',
+  exampleType: '',
   isSubMenu: false,
 };
 

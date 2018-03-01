@@ -1,15 +1,15 @@
 <!-- Logo -->
 <p align="center">
-  <img height="128" width="128" src="https://github.com/cerner/terra-site/raw/master/terra.png">
+  <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/master/terra.png">
 </p>
 
 <!-- Name -->
 <h1 align="center">
-  Terra Site
+  Terra Dev Site
 </h1>
 
-[![NPM version](http://img.shields.io/npm/v/terra-site.svg)](https://www.npmjs.org/package/terra-site)
-[![Build Status](https://travis-ci.org/cerner/terra-site.svg?branch=master)](https://travis-ci.org/cerner/terra-site)
+[![NPM version](http://img.shields.io/npm/v/terra-dev-site.svg)](https://www.npmjs.org/package/terra-dev-site)
+[![Build Status](https://travis-ci.org/cerner/terra-dev-site.svg?branch=master)](https://travis-ci.org/cerner/terra-dev-site)
 
 Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.
 
@@ -29,11 +29,11 @@ Provides the following default configuration:
 
 ## Getting Started
 
-- Install with [npm](https://www.npmjs.com): `npm install terra-site`
+- Install with [npm](https://www.npmjs.com): `npm install terra-dev-site`
 
 ## Versioning
 
-Terra-Site is considered to be stable and will follow [SemVer](http://semver.org/) for versioning.
+terra-dev-site is considered to be stable and will follow [SemVer](http://semver.org/) for versioning.
 1. MAJOR versions represent breaking changes
 2. MINOR versions represent added functionality in a backwards-compatible manner
 3. PATCH versions represent backwards-compatible bug fixes

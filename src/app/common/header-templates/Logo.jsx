@@ -23,10 +23,6 @@ const propTypes = {
    */
   size: PropTypes.string,
   /**
-   * The subtitle to be appended to the title within the logo.
-   */
-  subtitle: PropTypes.string,
-  /**
    * The title branding of the logo.
    */
   title: PropTypes.string,
@@ -36,7 +32,6 @@ const defaultProps = {
   accessory: null,
   app: undefined,
   size: null,
-  subtitle: null,
   title: null,
 };
 
@@ -44,7 +39,6 @@ const Logo = ({
     accessory,
     app,
     size,
-    subtitle,
     title,
     ...customProps
   }) => {
@@ -56,10 +50,9 @@ const Logo = ({
   return (
     <div {...customProps} className={logoClassNames}>
       {!!accessory && <div className={cx('accessory')}>{accessory}</div>}
-      {(!!title || !!subtitle) && size !== 'tiny' &&
+      {(!!title) && size !== 'tiny' &&
         <div className={cx('title')}>
-          <strong>{title}</strong>
-          <span className={cx('subtitle')}>{subtitle}</span>
+          {title}
         </div>
       }
     </div>

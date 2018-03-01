@@ -38,14 +38,13 @@ const compiledDirPattern = `{examples,${path.join('examples', '*')}}`;
 
 let testsSearchPattern;
 if (commander.tests) {
-  testsSearchPattern = path.join('test-examples', '*?(.jsx|.js)');
+  testsSearchPattern = `{${path.join('test-examples', '*.jsx')}, ${path.join('test-examples', '*.jsx')}}`;
 }
 
 let pagesSearchPattern;
 if (commander.pages) {
-  pagesSearchPattern = '*.site-page?(.jsx|.js)';
+  pagesSearchPattern = '{*.site-page.jsx,*.site-page.js}';
 }
-
 const examplesPattern = `{${pagesSearchPattern},${testsSearchPattern}}`;
 
 const defaultSearchPatterns = [

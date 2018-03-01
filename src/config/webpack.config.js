@@ -21,25 +21,20 @@ const processPath = process.cwd();
 const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
 
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
-const siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
+let siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
 // eslint-disable-next-line import/no-dynamic-require
-const siteConfig = isFile(siteConfigPath) ? require(siteConfigPath) : require('./site.config');
-
-/* Get the component configuration to define the COMPONENT_CONFIG_PATH in the DefinePlugin */
-let componentConfigPath = path.resolve(path.join(rootPath, siteConfig.componentConfigPath));
-if (!isFile(componentConfigPath)) {
-  componentConfigPath = undefined;
-}
+siteConfigPath = isFile(siteConfigPath) ? siteConfigPath : './config/site.config';
 
 const defaultWebpackConfig = {
   entry: {
+    raf: 'raf/polyfill',
     'babel-polyfill': 'babel-polyfill',
-    'terra-site': path.resolve(path.join(__dirname, '..', 'Index')),
+    'terra-dev-site': path.resolve(path.join(__dirname, '..', 'Index')),
   },
   module: {
     rules: [{
       test: /\.(jsx|js)$/,
-      exclude: /node_modules(?!\/terra-site\/src)/,
+      exclude: /node_modules(?!\/terra-dev-site\/src)/,
       use: 'babel-loader',
     },
     {
@@ -56,6 +51,7 @@ const defaultWebpackConfig = {
         }, {
           loader: 'postcss-loader',
           options: {
+            ident: 'postcss',
             plugins() {
               return [
                 Autoprefixer({
@@ -76,7 +72,7 @@ const defaultWebpackConfig = {
         {
           loader: 'sass-loader',
           options: {
-            data: '$bundled-themes: mock, consumer;',
+            data: '$bundled-themes: mock;',
           },
         }],
       }),
@@ -96,15 +92,14 @@ const defaultWebpackConfig = {
     new HtmlWebpackPlugin({
       title: 'Site',
       template: path.join(__dirname, '..', 'index.html'),
-      chunks: ['babel-polyfill', 'terra-site'],
+      chunks: ['raf', 'babel-polyfill', 'terra-dev-site'],
     }),
     new I18nAggregatorPlugin({
       baseDirectory: rootPath,
       supportedLocales: i18nSupportedLocales,
     }),
     new webpack.DefinePlugin({
-      SITE_CONFIG: JSON.stringify(siteConfig),
-      COMPONENT_CONFIG_PATH: JSON.stringify(componentConfigPath),
+      SITE_CONFIG_PATH: JSON.stringify(siteConfigPath),
     }),
     new PostCSSAssetsPlugin({
       test: /\.css$/,

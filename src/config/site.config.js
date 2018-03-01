@@ -6,11 +6,10 @@ module.exports = {
   appConfig,
 
   /* The component configuration. */
-  componentConfigPath: {},
+  componentConfig: {},
 
   /* The navigation configuration.  */
   navConfig: navigationConfig,
-
   /* The image to display as page placeholder when a component does not render. */
   placeholderSrc: '',
 

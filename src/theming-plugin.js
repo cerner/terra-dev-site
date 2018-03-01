@@ -37,6 +37,9 @@ module.exports = postcss.plugin('theming-plugin', () => {
         variables[component][matches[1]] = matches[2];
       }
     });
-    return fs.writeFileSync(path.resolve(process.cwd(), 'themeable-variables.json'), JSON.stringify(sortHash(variables), null, 2), 'utf8');
+    const processPath = process.cwd();
+    /* Get the root path of a mono-repo process call */
+    const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
+    return fs.writeFileSync(path.resolve(rootPath, 'themeable-variables.json'), JSON.stringify(sortHash(variables), null, 2), 'utf8');
   };
 });
