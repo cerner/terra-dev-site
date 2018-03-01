@@ -63,8 +63,8 @@ const buildNavigationConfig = (config, ComponentMenu, exampleType, pathRoot) => 
 
   const subNavConfig = buildSubNavigationConfig([], Object.values(config), ComponentMenu, exampleType, pathRoot);
 
-  subNavConfig.forEach((test) => {
-    generatedConfig[test.path] = test;
+  subNavConfig.forEach((subConfig) => {
+    generatedConfig[subConfig.path] = subConfig;
   });
 
   return generatedConfig;
@@ -78,8 +78,8 @@ const routeConfiguration = (siteConfig, componentConfig) => {
 
   const content = {};
   let menu = {};
-
-  const validLinks = navigation.links.filter(link => link.path && link.text);
+  // const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text) : [];
+  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.exampleType) : [];
 
   validLinks.forEach((link) => {
     const exampleType = link.exampleType;
@@ -148,7 +148,6 @@ const routeConfiguration = (siteConfig, componentConfig) => {
 
   const navigationConfig = { index: navigation.index, links: configuredLinks, extensions: navigation.extensions };
   const routeConfig = { content, menu };
-
   return { routeConfig, navigation: navigationConfig };
 };
 
