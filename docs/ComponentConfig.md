@@ -60,12 +60,12 @@ const componentConfig = {
 };
 ```
 ### Generating Component Config
-Terra-dev-site provides a component generation script, called `generate-component-config` which will search for page and test example components and then provide the respective configuration needed to render the navigation and content when using the site's default Components and MenuComponents.
+Terra-dev-site provides a component generation script, called `generate-component-config` which will search for page and test example components and then provide the respective configuration needed to render the navigation and content when using the site's default Components and MenuComponents. This script is provided as the bin script `generate-config`.
 
 #### generate-component-config Usage
 In the `package.json`, add the script
 ```node
-"generate-config": "node node_modules/terra-dev-site/scripts/generate-component-config/generate-component-config.js",
+"generate-config": "generate-config",
 ```
 
 #### generate-component-config Options

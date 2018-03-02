@@ -17,12 +17,13 @@ To build a basic site that uses the default configuration, you must:
 
 1. Generate the component configuration. The easiest approach would be to add the `generate-config` script to the `package.json`:
 ```
-"generate-config": "node node_modules/terra-dev-site/scripts/generate-component-config/generate-component-config.js",
+"generate-config": "generate-config",
 ```
 This will save your configuration as `./generatedComponentConfig.js`.  **Note:** This script uses default search patterns which assumes a [specific file structure](https://github.com/cerner/terra-dev-site/blob/master/docs/ComponentConfig.md#generating-component-config).
+
 2. Create the site configuration file as `./site.config.js`.
     - Add the component configuration to the `component-config` key.
-    - Also, you will likely want to provide to give the site a name, add home page content and provide a page placeholder.
+    - Also, you will likely want to provide a title to give the site a name, add home page content and provide a page placeholder.
 
 ```js
 import homeReadMe from './README.md';
@@ -39,11 +40,11 @@ const siteConfig = {
   readMeContent: homeReadMe,
 
   appConfig: {
-    /* The logo for the site header. */
-    logoSrc: 'https://github.com/cerner/terra-core/raw/master/terra.png',
-
     /* The title for the site header. */
     title: 'My Site',
+
+    /* The logo for the site header. */
+    logoSrc: 'my-site-logo.png',
   },
 };
 

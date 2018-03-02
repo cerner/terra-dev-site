@@ -14,3 +14,18 @@ locales | array of strings | The locales to supply Base with, which allows the s
 defaultLocale | string |  The default locale of the site. Defaults to 'en'.
 bidirectional | boolean |  Indicates if the site supports bidirectionally. If enabled, the directionality utility will display in the toolbar. Defaults to true.
 defaultDirection | string | The default direction of the site. Defaults to 'ltr'.
+
+#### App Configuration Example
+```jsx
+const navigationConfig = {
+  title: 'My Site',
+
+  logoSrc: 'my-site-logo.png',
+
+  locales: ['en', 'en-US', 'en-GB'],
+
+  defaultLocale: 'en-US',
+
+  bidirectional: false,
+};
+```
