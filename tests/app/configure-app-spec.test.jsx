@@ -294,9 +294,7 @@ describe('configureApp', () => {
       const expectedMenuLinks = [
         '/site/pages',
         '/site/pages/mock-2',
-        '/site/pages/mock-3/first-layer',
         '/site/pages/mock-3',
-        '/site/pages/mock-5/first-layer',
         '/site/pages/mock-5',
         '/site',
       ];
@@ -343,10 +341,8 @@ describe('configureApp', () => {
         '/tests/mock-2',
         '/tests/mock-3',
         '/tests/mock-4',
-        '/tests/mock-5/first-layer',
         '/tests/mock-5',
         '/tests/mock-6',
-        '/tests/mock-7/first-layer',
         '/tests/mock-7',
         '/tests',
         '/site/pages',
