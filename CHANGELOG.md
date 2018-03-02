@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+0.2.0 - (March 2, 1018)
+----------
 ### Added
 * Add generate-config bin script for quick access to the generate-component-config script
 
