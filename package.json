@@ -35,6 +35,9 @@
       "\\.(css|scss)$": "identity-obj-proxy"
     }
   },
+  "bin": {
+    "generate-config": "./bin/generate-config.js"
+  },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
     "clean:install": "npm run clean && npm install",
