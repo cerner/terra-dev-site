@@ -32,7 +32,8 @@
       "<rootDir>/node_modules/enzyme-to-json/serializer"
     ],
     "moduleNameMapper": {
-      "\\.(css|scss)$": "identity-obj-proxy"
+      "\\.(css|scss)$": "identity-obj-proxy",
+      "github-markdown-css": "identity-obj-proxy"
     }
   },
   "bin": {
