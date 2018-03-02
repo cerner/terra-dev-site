@@ -6,6 +6,9 @@ Unreleased
 ### Added
 * Add generate-config bin script for quick access to the generate-component-config script
 
+### Changes
+* Remove the last layer of sub-navigation for non-test pages that should have nested navigation but only one page exists
+
 0.1.0 - (Febuary 26, 2018)
 ----------
 * Renamed to terra-dev-site
