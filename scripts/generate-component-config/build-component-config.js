@@ -82,7 +82,7 @@ const buildComponentConfig = (foundFiles, repositoryName, outputPathDepth) => {
   foundFiles.forEach((filePath) => {
     const parsedPath = path.parse(filePath);
     const directory = parsedPath.dir;
-    const fileName = parsedPath.name.replace('.site-page', '');
+    const fileName = parsedPath.name.replace(/.site-page|.example/, '');
     const fileType = directory.includes('test') ? 'tests' : 'pages';
 
     // Get the example's package name

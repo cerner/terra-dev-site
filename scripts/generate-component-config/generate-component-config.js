@@ -24,21 +24,21 @@ commander
 
 /** Default Search Paths
  *  Examples in root:
- *     dir/examples/files
- *     dir/examples/test-examples
- *     dir/examples/ * /files
- *     dir/examples/ * /test-examples
+ *     dir/examples/ *.site-pages.jsx|js
+ *     dir/examples/test-examples / ** / *.examples.jsx|js
+ *     dir/examples/ * /(.site-pages.jsx|js) files
+ *     dir/examples/ * /test-examples/ ** / *.examples.jsx|js
  *  Examples within packages:
- *     dir/packages/ * /examples/files
- *     dir/packages/ * /examples/test-examples
- *     dir/packages/ * /examples/ * /files
- *     dir/packages/ * /examples/ * /test-examples
+ *     dir/packages/ * /examples/ *.site-pages.jsx|js
+ *     dir/packages/ * /examples/test-examples/ ** / *.examples.jsx|js
+ *     dir/packages/ * /examples/ * / *.site-pages.jsx|js
+ *     dir/packages/ * /examples/ * /test-examples/ ** / *.examples.jsx|js
  */
 const compiledDirPattern = `{examples,${path.join('examples', '*')}}`;
 
 let testsSearchPattern;
 if (commander.tests) {
-  testsSearchPattern = `{${path.join('test-examples', '*.jsx')}, ${path.join('test-examples', '*.jsx')}}`;
+  testsSearchPattern = `{${path.join('test-examples', '**', '*.example.jsx')}, ${path.join('test-examples', '**', '*.example.js')}}`;
 }
 
 let pagesSearchPattern;
