@@ -13,8 +13,8 @@ path | string | **Required**: Route of the link.
 text | string | **Required**: Text to display as the link name.
 exampleType | string | Terra-dev-site options are 'home', 'pages' and 'tests', which the [routeConfiguration] builder uses to determine which kind of page should be built. A custom key can be provided to filter the menu and content created by the route builder for any links using non-site component pages.
 hasSubNav | boolean | Indicates to the builder the page has sub-navigation.
-component | ReactComponent | The component to render with the link. It must accept these props: `config`, `pathRoot`, `exampleType`, and `placeholderSrc`. The [routeConfiguration] builder will alway provide these props. By default, terra-dev-site will use the Home and Components components.
-menuComponent | ReactComponent | The menu component to render with the link. It must accept these props: `config`, `pathRoot`, `exampleType`, `isSubMenu`. The [routeConfiguration] builder will alway provide these props. By default, terra-dev-site will use the ComponentsMenu.
+component | ReactComponent | The component to render with the link. It must accept these props: `config`, `pathRoot`, `exampleType`, and `placeholderSrc`. The [routeConfiguration] builder will always provide these props. By default, terra-dev-site will use the Home and Components components.
+menuComponent | ReactComponent | The menu component to render with the link. It must accept these props: `config`, `pathRoot`, `exampleType`, `isSubMenu`. The [routeConfiguration] builder will always provide these props. By default, terra-dev-site will use the ComponentsMenu.
 
 #### Custom Navigation Example
 ```jsx
