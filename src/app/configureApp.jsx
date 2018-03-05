@@ -20,7 +20,7 @@ const buildComponent = (Component, configuredProps) => (
   }
 );
 
-const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pathRoot, isMainMenu = true) => {
+const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pathRoot) => {
   config.map((componentKey) => {
     const componentPath = componentKey.path;
     const examples = componentKey[`${exampleType}`];
@@ -29,12 +29,12 @@ const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pat
       const path = pathRoot + componentPath;
       examples.forEach((example) => {
         if (example[`${exampleType}`]) {
-          buildSubNavigationConfig(array, examples, ComponentMenu, exampleType, path, false);
+          buildSubNavigationConfig(array, examples, ComponentMenu, exampleType, path);
         }
       });
 
       // Do not create a submenu for the component if the component has one site page with no additional sub-nav.
-      if (exampleType !== 'tests' && examples.length === 1 && isMainMenu && !examples[0][`${exampleType}`]) {
+      if (exampleType !== 'tests' && examples.length === 1 && !examples[0][`${exampleType}`]) {
         return undefined;
       }
 
@@ -63,8 +63,8 @@ const buildNavigationConfig = (config, ComponentMenu, exampleType, pathRoot) => 
 
   const subNavConfig = buildSubNavigationConfig([], Object.values(config), ComponentMenu, exampleType, pathRoot);
 
-  subNavConfig.forEach((test) => {
-    generatedConfig[test.path] = test;
+  subNavConfig.forEach((subConfig) => {
+    generatedConfig[subConfig.path] = subConfig;
   });
 
   return generatedConfig;
@@ -79,7 +79,7 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   const content = {};
   let menu = {};
 
-  const validLinks = navigation.links.filter(link => link.path && link.text);
+  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.exampleType) : [];
 
   validLinks.forEach((link) => {
     const exampleType = link.exampleType;

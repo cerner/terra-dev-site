@@ -4,6 +4,16 @@ Changelog
 Unreleased
 ----------
 
+0.2.0 - (March 2, 1018)
+----------
+### Added
+* Add generate-config bin script for quick access to the generate-component-config script
+
+### Changes
+* Updated the default the search paths for test examples to search for `.example.jsx` to allow for more flexible file structure for text exmaples.
+* Remove the last layer of sub-navigation for non-test pages that should have nested navigation but only one page exists
+
+
 0.1.0 - (Febuary 26, 2018)
 ----------
 * Renamed to terra-dev-site
