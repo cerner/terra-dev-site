@@ -31,7 +31,6 @@ const testRoutesAndNavigation = (siteConfig, componentConfig, expectedRoutes, ex
 
 const testMenuContent = (siteConfig, componentConfig, expectedContent) => {
   const { routeConfig } = configureApp(siteConfig, componentConfig);
-  console.log(routeConfig.menu);
 
   expect(Object.keys(routeConfig.menu).length).toBe(expectedContent.length);
   expect(Object.keys(routeConfig.menu)).toEqual(expect.arrayContaining((expectedContent)));
