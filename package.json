@@ -54,6 +54,7 @@
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
+    "start": "webpack-dev-server --config src/config/webpack.config --progress",
     "test": "npm run jest"
   },
   "dependencies": {
