@@ -8,6 +8,7 @@ const propTypes = {
   example: PropTypes.element,
   exampleSrc: PropTypes.string,
   title: PropTypes.string,
+  description: PropTypes.string,
   children: PropTypes.element,
 };
 
@@ -15,6 +16,7 @@ const defaultProps = {
   example: null,
   exampleSrc: null,
   title: null,
+  description: null,
   children: null,
 };
 
@@ -53,6 +55,7 @@ class IndexExampleTemplate extends React.Component {
     return (
       <div>
         <h2>{title}</h2>
+        {description}
         <SlidePanel
           mainContent={indexExample}
           panelContent={indexExampleSrc}

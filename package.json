@@ -105,6 +105,7 @@
     "terra-markdown": "^2.0.0",
     "terra-menu": "^2.0.1",
     "terra-navigation-layout": "^2.0.0",
+    "terra-props-table": "^2.2.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
     "xfc": "^1.2.1"

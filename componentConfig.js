@@ -1,4 +1,5 @@
 // import your template documentation and/or examples here
+import example from "./src/templates/examples/TestPage";
 
 const navConfig = {
   'getting-started': {
@@ -48,7 +49,7 @@ const navConfig = {
       name: 'Index Page Template',
       path: '/index-page-template',
       // If you have one exmample, use the component key, if more then one example, add to the docs array and remove the component key.
-      // component: add your example here
+      component: example,
       // docs: [
       //   {
       //     name: // Menu Link Name
