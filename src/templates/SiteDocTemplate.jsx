@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import IndexExampleTemplate from '../IndexPageTemplate';
 import PropsTable from 'terra-props-table';
 import Markdown from 'terra-markdown';
+import IndexExampleTemplate from '../IndexPageTemplate';
 
 const propTypes = {
   /*
@@ -24,35 +24,25 @@ const defaultProps = {
   propsTables: [],
 };
 
-class SiteDocTemplate extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const SiteDocTemplate = (props) => {
+  const { version, readme, examples, propsTables } = props;
 
-  render() {
-    const {version,
-      readme,
-      examples,
-      propsTables} = this.props;
+  return (
+    <div>
+      <div id="version">Version: {version}</div>
+      <Markdown id="readme" src={readme} />
 
-    return (
-      <div>
-        <div id="version">Version: {version}</div>
-        <Markdown id="readme" src={readme} />
+      {examples.length > 0 ? <h1 style={{ paddingBottom: '0.3em', borderBottom: '1px solid #eaecef' }}>Examples</h1> : null}
+      {examples.map(example =>
+        <IndexExampleTemplate title={example.title} example={example.example} exampleSrc={example.source} description={example.description} />,
+      )}
 
-        {examples.length > 0 ? <h1 style={{ paddingBottom: '0.3em', borderBottom: '1px solid #eaecef' }}>Examples</h1> : null}
-        {examples.map(example =>
-          <IndexExampleTemplate title={example.title} example={example.example}
-            exampleSrc={example.source} description={example.description}/>
-        )}
-
-        {propsTables.map(propsTable =>
-          <PropsTable src={propsTable.componentSource} componentName={propsTable.componentName}/>
-        )}
-      </div>
-    );
-  }
-}
+      {propsTables.map(propsTable =>
+        <PropsTable src={propsTable.componentSource} componentName={propsTable.componentName} />,
+      )}
+    </div>
+  );
+};
 
 SiteDocTemplate.propTypes = propTypes;
 SiteDocTemplate.defaultProps = defaultProps;

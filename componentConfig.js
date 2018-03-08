@@ -1,5 +1,5 @@
 // import your template documentation and/or examples here
-import example from "./src/templates/examples/TestPage";
+import example from './src/templates/examples/TestPage';
 
 const navConfig = {
   'getting-started': {

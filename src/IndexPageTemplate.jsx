@@ -36,7 +36,7 @@ class IndexExampleTemplate extends React.Component {
   }
 
   render() {
-    const { title, example, exampleSrc, children } = this.props;
+    const { title, example, exampleSrc, children, description } = this.props;
 
     const indexExample = (
       <div>
