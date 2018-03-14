@@ -3,7 +3,7 @@
 The start:express script will automatically run on Heroku reviews app pipeline or it can manually be executed using the command below:
 
 ```
-npm run compile:heroku
+npm run compile:prod
 npm run start:express
 ```
 
