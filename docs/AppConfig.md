@@ -17,7 +17,7 @@ defaultDirection | string | The default direction of the site. Defaults to 'ltr'
 
 #### App Configuration Example
 ```jsx
-const navigationConfig = {
+const appConfig = {
   title: 'My Site',
 
   logoSrc: 'my-site-logo.png',
