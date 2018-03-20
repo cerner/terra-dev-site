@@ -29,8 +29,8 @@ const SiteDocTemplate = (props) => {
 
   return (
     <div>
-      <div id="version">Version: {version}</div>
-      <Markdown id="readme" src={readme} />
+      {version ? <div id="version">Version: {version}</div> : null}
+      {readme ? <Markdown id="readme" src={readme} /> : null}
 
       {examples.length > 0 ? <h1 style={{ paddingBottom: '0.3em', borderBottom: '1px solid #eaecef' }}>Examples</h1> : null}
       {examples.map(example =>
