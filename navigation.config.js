@@ -15,6 +15,12 @@ const navConfig = {
         menuText: 'Getting Started',
         subMenuText: 'Info',
       },
+    },
+    {
+      path: '/tests',
+      text: 'Tests',
+      exampleType: 'tests',
+      hasSubNav: true,
     }],
   },
 };

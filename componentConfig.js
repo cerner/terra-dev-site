@@ -1,7 +1,8 @@
 // import your template documentation and/or examples here
+import generatedComponentConfig from './generatedComponentConfig';
 import example from './src/templates/examples/TestPage';
 
-const navConfig = {
+const componentConfig = {
   'getting-started': {
     name: 'Building A Site',
     path: '/building-a-site',
@@ -64,4 +65,6 @@ const navConfig = {
   },
 };
 
-export default navConfig;
+const config = Object.assign({}, generatedComponentConfig, componentConfig);
+
+export default config;
