@@ -1,5 +1,5 @@
-import configureApp from '../../src/app/configureApp';
-import defaultSiteConfig from '../../src/config/site.config';
+import configureApp from '../../../src/app/configureApp';
+import defaultSiteConfig from '../../../src/config/site.config';
 import MockComponent from './MockComponent';
 import mockBasicCC from './mock-component-config';
 import mockPagesCC from './mock-component-config-pages';
