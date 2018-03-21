@@ -2,15 +2,17 @@ import React from 'react';
 
 import SiteDocTemplate from '../../src/templates/SiteDocTemplate';
 import readme from '../../src/templates/examples/TestReadme.md';
+// eslint-disable-next-line import/no-duplicates
 import TestComponentExample from '../../src/templates/examples/TestComponentExample';
-// eslint-disable-next-line import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions
+// Had to remove !rawloader! from the next two imports as it broke jest, but in normal use it should be there
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions, import/no-duplicates
 import exampleSrc from '../../src/templates/examples/TestComponentExample.jsx';
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions
 import testComponentSrc from '../../src/templates/examples/TestComponent.jsx';
 
-jest.mock('../../src/templates/examples/TestReadme.md', ()=> 'test-file-stub');
-jest.mock('../../src/templates/examples/TestComponentExample.jsx', ()=> 'test-file-stub');
-jest.mock('../../src/templates/examples/TestComponent.jsx', ()=> 'test-file-stub');
+jest.mock('../../src/templates/examples/TestReadme.md', () => 'test-file-stub');
+jest.mock('../../src/templates/examples/TestComponentExample.jsx', () => 'test-file-stub');
+jest.mock('../../src/templates/examples/TestComponent.jsx', () => 'test-file-stub');
 const exampleElement = <TestComponentExample />;
 // Snapshot Tests
 it('should render a default component with nothing', () => {

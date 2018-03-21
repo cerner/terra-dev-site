@@ -26,6 +26,7 @@ const defaultProps = {
 
 const SiteDocTemplate = (props) => {
   const { version, readme, examples, propsTables } = props;
+  var id = 0;
 
   return (
     <div>
@@ -33,13 +34,15 @@ const SiteDocTemplate = (props) => {
       {readme ? <Markdown id="readme" src={readme} /> : null}
 
       {examples.length > 0 ? <h1 style={{ paddingBottom: '0.3em', borderBottom: '1px solid #eaecef' }}>Examples</h1> : null}
-      {examples.map(example =>
-        <IndexExampleTemplate title={example.title} example={example.example} exampleSrc={example.source} description={example.description} />,
-      )}
+      {examples.map(example => {
+        example.id = id++;
+        return <IndexExampleTemplate title={example.title} example={example.example} exampleSrc={example.source} description={example.description} key={example.id} />;
+      })}
 
-      {propsTables.map(propsTable =>
-        <PropsTable src={propsTable.componentSource} componentName={propsTable.componentName} />,
-      )}
+      {propsTables.map(propsTable => {
+        propsTable.id = id++;
+        return <PropsTable src={propsTable.componentSource} componentName={propsTable.componentName} key={propsTable.id} />
+      })}
     </div>
   );
 };

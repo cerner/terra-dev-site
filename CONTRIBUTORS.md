@@ -5,6 +5,7 @@ Cerner Corporation
 - Dave Kasper [@dkasper-was-taken]
 - Matt Henkes [@mjhenkes]
 - Cory McDonald [@corymcdonald]
+- Nathan Faltermeier [@Blackop778]
 
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
@@ -12,3 +13,4 @@ Cerner Corporation
 [@dkasper-was-taken]: https://github.com/dkasper-was-taken
 [@mjhenkes]: https://github.com/mjhenkes
 [@corymcdonald]: https://github.com/corymcdonald
+[@Blackop778]: https://github.com/Blackop778
