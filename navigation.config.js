@@ -1,3 +1,5 @@
+import GithubRouter from './src/GitHubRouter';
+
 const navConfig = {
   rootPath: '/dev-site',
   navigation: {
@@ -15,7 +17,18 @@ const navConfig = {
         menuText: 'Getting Started',
         subMenuText: 'Info',
       },
+    }, {
+      path: '/tests',
+      text: 'Tests',
+      exampleType: 'tests',
+      hasSubNav: true,
+    }, {
+      path: '/components',
+      text: 'Components',
+      exampleType: 'pages',
+      hasSubNav: true,
     }],
+    // extensions: GithubRouter,
   },
 };
 

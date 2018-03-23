@@ -6,6 +6,7 @@ import { Provider } from 'xfc';
 import App from './app/App';
 import defaultSiteConfig from './config/site.config';
 import routeConfiguration from './app/configureApp';
+import ConfigureUtilities from './app/ConfigureUtilities';
 
 Provider.init({
   acls: ['*'],
@@ -36,19 +37,21 @@ class Site extends React.Component {
     const { routeConfig, navigation } = routeConfiguration(siteConfig, componentConfig);
 
     const routes = Object.freeze(routeConfig);
+
     return (
       <Router>
         <App
           routeConfig={routes}
           navigation={navigation}
           rootPath={navConfig.rootPath}
-          themes={appConfig.themes}
-          defaultTheme={appConfig.defaultTheme}
-          locales={appConfig.locales}
+          utilConfig={ConfigureUtilities.generateInitialUtiltiesConfig(appConfig)}
+          // themes={appConfig.themes}
+          // defaultTheme={appConfig.defaultTheme}
+          // locales={appConfig.locales}
           appTitle={appConfig.title}
-          hideBidiUtility={!appConfig.bidirectional}
-          defaultLocale={appConfig.defaultLocale}
-          defaultDir={appConfig.defaultDirection}
+          // hideBidiUtility={!appConfig.bidirectional}
+          // defaultLocale={appConfig.defaultLocale}
+          // defaultDir={appConfig.defaultDirection}
           appLogoSrc={appConfig.logoSrc}
         />
       </Router>

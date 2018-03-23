@@ -1,6 +1,19 @@
 // import your template documentation and/or examples here
 
+import GithubRouter from './src/GitHubRouter';
+
 const navConfig = {
+  'terra-aggregator': {
+    name: 'Aggregator',
+    path: '/aggregator',
+    pages: [
+      {
+        name: 'Index',
+        path: '/index',
+        component: GithubRouter,
+      },
+    ],
+  },
   'getting-started': {
     name: 'Building A Site',
     path: '/building-a-site',
@@ -8,20 +21,27 @@ const navConfig = {
   config: {
     name: 'Configuration',
     path: '/config',
-    docs: [
-      {
-        name: 'Application Configuration',
-        path: '/app-config',
-      },
-      {
-        name: 'Component Configuration',
-        path: '/component-config',
-      },
-      {
-        name: 'Navigation Configuration',
-        path: '/navigation-config',
-      },
-    ],
+    // docs: [
+    //   {
+    //     name: 'Application Configuration',
+    //     path: '/app-config',
+    //   },
+    //   {
+    //     name: 'Component Configuration',
+    //     path: '/component-config',
+    //   },
+    //   {
+    //     name: 'Navigation Configuration',
+    //     path: '/navigation-config',
+    //   },
+    // ],
+    // pages: [
+    //   {
+    //     name: 'Index',
+    //     path: '/index',
+    //     component: GithubRouter,
+    //   },
+    // ],
   },
   webpack: {
     name: 'Webpack',
@@ -38,6 +58,18 @@ const navConfig = {
       {
         name: 'Theming Plugin',
         path: '/theming-plugin',
+      },
+    ],
+    tests: [
+      {
+        name: 'derp test',
+        path: '/derp-test',
+        component: GithubRouter,
+      },
+      {
+        name: 'derp test2',
+        path: '/derp-test2',
+        component: GithubRouter,
       },
     ],
   },

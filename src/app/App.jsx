@@ -2,14 +2,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
+import { Switch, Route } from 'react-router';
 
 import Base from 'terra-base';
 import Image from 'terra-image';
 import ThemeProvider from 'terra-theme-provider';
-import NavigationLayout from 'terra-navigation-layout';
+import ApplicationLayout from 'terra-application-layout';
+// import { UtilityUtils } from 'terra-application-utility';
+// import NavigationLayout from 'terra-navigation-layout';
 
 import siteConfig from '../config/site.config';
-import ApplicationHeader from './ApplicationHeader';
+// import ApplicationHeader from './ApplicationHeader';
+import ConfigureUtilities from './ConfigureUtilities';
 import './App.scss';
 
 const propTypes = {
@@ -31,23 +35,12 @@ const propTypes = {
    * The navigaion links to display within the menu in the toolbar.
    */
   navigation: PropTypes.object.isRequired,
+
+  utilConfig: PropTypes.object,
   /**
    * The root path for the site.
    */
   rootPath: PropTypes.string.isRequired,
-  /**
-   * The theme options the site should display in the theme utility in the toobar.
-   */
-  themes: PropTypes.object,
-  /**
-  * The locale options the site should display in the locale utility in the toobar.
-   // we should check these values are contained in i18nSupportedLocales
-   */
-  locales: PropTypes.array,
-  /**
-   * Whether or not to display the directionality utility in the toolbar.
-   */
-  hideBidiUtility: PropTypes.bool,
   /**
   * The locale the site should default to.
    */
@@ -72,12 +65,10 @@ const appConfig = siteConfig.appConfig;
 const defaultProps = {
   appTitle: appConfig.title,
   appLogoSrc: appConfig.logoSrc,
-  hideBidiUtility: !appConfig.bidirectional,
   defaultDir: appConfig.defaultDirection,
   defaultTheme: appConfig.defaultTheme,
-  themes: appConfig.themes,
   defaultLocale: appConfig.defaultLocale,
-  locales: appConfig.locales,
+  utilConfig: undefined,
   location: undefined,
 };
 
@@ -92,11 +83,18 @@ class App extends React.Component {
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
+    this.handleMenuOnChange = this.handleMenuOnChange.bind(this);
+
+    this.utilConfig = ConfigureUtilities.addCallbackFunctions(props.utilConfig, this.handleMenuOnChange, {
+      Theme: { onChange: this.handleThemeChange },
+      Locale: { onChange: this.handleLocaleChange },
+      Bidi: { onChange: this.handleBidiChange },
+    });
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.defaultLocale !== undefined && nextProps.defaultLocale !== this.props.defaultLocale) {
-      document.getElementsByTagName('html')[0].setAttribute('lang', nextProps.defaultLocale);
+      // document.getElementsByTagName('html')[0].setAttribute('lang', nextProps.defaultLocale);
       this.setState({ locale: nextProps.defaultLocale });
     }
 
@@ -105,60 +103,72 @@ class App extends React.Component {
     }
 
     if (nextProps.defaultDir !== undefined && nextProps.defaultDir !== this.props.defaultDir) {
-      document.getElementsByTagName('html')[0].setAttribute('dir', nextProps.defaultDir);
+      // document.getElementsByTagName('html')[0].setAttribute('dir', nextProps.defaultDir);
       this.setState({ dir: nextProps.defaultDir });
     }
+
+    this.utilConfig = ConfigureUtilities.addCallbackFunctions(nextProps.utilConfig, this.handleMenuOnChange, {
+      Theme: { onChange: this.handleThemeChange },
+      Locale: { onChange: this.handleLocaleChange },
+      Bidi: { onChange: this.handleBidiChange },
+    });
   }
 
-  handleBidiChange(e) {
-    document.getElementsByTagName('html')[0].setAttribute('dir', e.currentTarget.id);
-    this.setState({ dir: e.currentTarget.id });
+  handleBidiChange(key) {
+    // document.getElementsByTagName('html')[0].setAttribute('dir', e.currentTarget.id);
+    this.setState({ dir: key });
   }
 
-  handleLocaleChange(e) {
-    document.getElementsByTagName('html')[0].setAttribute('lang', e.currentTarget.id);
-    this.setState({ locale: e.currentTarget.id });
+  handleLocaleChange(key) {
+    // document.getElementsByTagName('html')[0].setAttribute('lang', e.currentTarget.id);
+    this.setState({ locale: key });
   }
 
-  handleThemeChange(e) {
-    this.setState({ theme: e.currentTarget.id });
+  handleThemeChange(key) {
+    this.setState({ theme: key });
+  }
+
+  handleMenuOnChange(event, { key, metaData }) {
+    // console.log('event', event);
+    // console.log('itemKey:', key);
+    // console.log('metaData:', metaData);
+    metaData.onChange(key);
   }
 
   render() {
+    // console.log('state:', this.state);
+    this.utilConfig = ConfigureUtilities.updateSelectedItems(this.utilConfig, this.state.theme, this.state.locale, this.state.dir);
     let appLogo;
     if (this.props.appLogoSrc) {
       appLogo = (<Image variant="rounded" src={this.props.appLogoSrc} height="26px" width="26px" isFluid />);
     }
 
-    let applicationHeader;
-    if (!matchPath(this.props.location.pathname, '/raw/tests')) {
-      applicationHeader = (
-        <ApplicationHeader
-          title={this.props.appTitle}
-          logo={appLogo}
-          locale={this.state.locale}
-          locales={this.props.locales}
-          onLocaleChange={this.handleLocaleChange}
-          hideBidiUtility={this.props.hideBidiUtility}
-          dir={this.state.dir}
-          onDirChange={this.handleBidiChange}
-          theme={this.state.theme}
-          themes={Object.keys(this.props.themes)}
-          onThemeChange={this.handleThemeChange}
-          navigation={matchPath(this.props.location.pathname, this.props.rootPath) ? this.props.navigation : undefined}
-        />
-      );
-    }
+    const nameConfig = {
+      accessory: appLogo,
+      title: this.props.appTitle,
+    };
+
+    // console.log('nav config', this.props.navigation);
+    // console.log('rootPath', this.props.rootPath);
+    // console.log('routeConfig', this.props.routeConfig);
+    // console.log('utilConfig', this.utilConfig);
 
     return (
-      <ThemeProvider id="site" themeName={this.props.themes[this.state.theme]} isGlobalTheme>
+      <ThemeProvider id="site" themeName={appConfig.themes[this.state.theme]} isGlobalTheme>
         <Base className="base" locale={this.state.locale}>
-          <NavigationLayout
-            header={applicationHeader}
-            menuText="Menu"
-            indexPath={this.props.navigation && this.props.navigation.index}
-            config={this.props.routeConfig}
-          />
+          <Switch>
+            <Route path="/raw/tests" component={this.props.routeConfig.content['/tests'].component.default.componentClass} />
+            <Route
+              render={() => <ApplicationLayout
+                nameConfig={nameConfig}
+                utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilConfig)}
+                routingConfig={this.props.routeConfig}
+                navigationItems={!matchPath(this.props.location.pathname, '/tests') ? this.props.navigation.links : undefined}
+                extensions={this.props.navigation.extensions}
+                indexPath={this.props.navigation.index}
+              />}
+            />
+          </Switch>
         </Base>
       </ThemeProvider>
     );
