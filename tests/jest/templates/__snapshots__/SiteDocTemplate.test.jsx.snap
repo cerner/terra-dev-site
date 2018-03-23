@@ -5,6 +5,7 @@ exports[`should render a default component with nothing 1`] = `<div />`;
 exports[`should show multiple examples 1`] = `
 <div>
   <h1
+    id="examplesHeader"
     style={
       Object {
         "borderBottom": "1px solid #eaecef",
@@ -18,12 +19,14 @@ exports[`should show multiple examples 1`] = `
     description="Describing the test"
     example={<test-file-stub />}
     exampleSrc="test-file-stub"
+    key="0"
     title="Test Example 1"
   />
   <IndexExampleTemplate
     description="Describing the test mk. 2"
     example={<test-file-stub />}
     exampleSrc="test-file-stub"
+    key="1"
     title="Test Example 2"
   />
 </div>
@@ -33,10 +36,12 @@ exports[`should show multiple props tables 1`] = `
 <div>
   <PropsTable
     componentName="Test Component"
+    key="0"
     src="test-file-stub"
   />
   <PropsTable
     componentName="Test Component (Again)"
+    key="1"
     src="test-file-stub"
   />
 </div>
@@ -45,6 +50,7 @@ exports[`should show multiple props tables 1`] = `
 exports[`should show one example 1`] = `
 <div>
   <h1
+    id="examplesHeader"
     style={
       Object {
         "borderBottom": "1px solid #eaecef",
@@ -58,6 +64,7 @@ exports[`should show one example 1`] = `
     description="Describing the test"
     example={<test-file-stub />}
     exampleSrc="test-file-stub"
+    key="0"
     title="Test Example 1"
   />
 </div>
@@ -67,6 +74,7 @@ exports[`should show one props table 1`] = `
 <div>
   <PropsTable
     componentName="Test Component"
+    key="0"
     src="test-file-stub"
   />
 </div>
@@ -120,6 +128,7 @@ exports[`should show the version, readme, examples, and props tables 1`] = `
     src="test-file-stub"
   />
   <h1
+    id="examplesHeader"
     style={
       Object {
         "borderBottom": "1px solid #eaecef",
@@ -133,20 +142,24 @@ exports[`should show the version, readme, examples, and props tables 1`] = `
     description="Describing the test"
     example={<test-file-stub />}
     exampleSrc="test-file-stub"
+    key="0"
     title="Test Example 1"
   />
   <IndexExampleTemplate
     description="Describing the test mk. 2"
     example={<test-file-stub />}
     exampleSrc="test-file-stub"
+    key="1"
     title="Test Example 2"
   />
   <PropsTable
     componentName="Test Component"
+    key="2"
     src="test-file-stub"
   />
   <PropsTable
     componentName="Test Component (Again)"
+    key="3"
     src="test-file-stub"
   />
 </div>

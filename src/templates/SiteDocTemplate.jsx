@@ -5,15 +5,31 @@ import Markdown from 'terra-markdown';
 import IndexExampleTemplate from '../IndexPageTemplate';
 
 const propTypes = {
-  /*
+  /**
    * The given component's current version
    */
   version: PropTypes.string,
-  /*
+  /**
    * The given component's readme file imported to a string
    */
   readme: PropTypes.string,
+  /**
+   * Holds objects with the following properties:
+   * ```
+   * title: The title of the example
+   * description: A description of the example to be displayed below the title
+   * example: A React element containing the example to be displayed
+   * source: The source code of the example
+   * ```
+   */
   examples: PropTypes.array,
+  /**
+   * Holds objects with the following properties:
+   * ```
+   * componentSrc: The source code of the component
+   * componentName: The name of the component
+   * ```
+   */
   propsTables: PropTypes.array,
 };
 
@@ -26,23 +42,32 @@ const defaultProps = {
 
 const SiteDocTemplate = (props) => {
   const { version, readme, examples, propsTables } = props;
-  var id = 0;
+  let id = 0;
+
+  // Assign unique identifiers to use as keys later
+  for (let i = 0; i < examples.length; i += 1) {
+    examples[i].id = id;
+    id += 1;
+  }
+
+  for (let i = 0; i < propsTables.length; i += 1) {
+    propsTables[i].id = id;
+    id += 1;
+  }
 
   return (
     <div>
       {version ? <div id="version">Version: {version}</div> : null}
       {readme ? <Markdown id="readme" src={readme} /> : null}
 
-      {examples.length > 0 ? <h1 style={{ paddingBottom: '0.3em', borderBottom: '1px solid #eaecef' }}>Examples</h1> : null}
-      {examples.map(example => {
-        example.id = id++;
-        return <IndexExampleTemplate title={example.title} example={example.example} exampleSrc={example.source} description={example.description} key={example.id} />;
-      })}
+      {examples.length > 0 ? <h1 id="examplesHeader" style={{ paddingBottom: '0.3em', borderBottom: '1px solid #eaecef' }}>Examples</h1> : null}
+      {examples.map(example =>
+        <IndexExampleTemplate title={example.title} example={example.example} exampleSrc={example.source} description={example.description} key={example.id} />,
+      )}
 
-      {propsTables.map(propsTable => {
-        propsTable.id = id++;
-        return <PropsTable src={propsTable.componentSource} componentName={propsTable.componentName} key={propsTable.id} />
-      })}
+      {propsTables.map(propsTable =>
+        <PropsTable src={propsTable.componentSource} componentName={propsTable.componentName} key={propsTable.id} />,
+      )}
     </div>
   );
 };

@@ -1,10 +1,11 @@
-// ADD your test examples in this directory. When naming exmaples add with test-name.example.jsx
+// ADD your test examples in this directory. When naming examples add with test-name.example.jsx
 import React from 'react';
 
 import SiteDocTemplate from '../../../src/templates/SiteDocTemplate';
 import readme from '../../../src/templates/examples/TestReadme.md';
+// eslint-disable-next-line import/no-duplicates
 import TestComponentExample from '../../../src/templates/examples/TestComponentExample';
-// eslint-disable-next-line import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions, import/no-duplicates
 import exampleSrc from '!raw-loader!../../../src/templates/examples/TestComponentExample.jsx';
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions
 import testComponentSrc from '!raw-loader!../../../src/templates/examples//TestComponent.jsx';
