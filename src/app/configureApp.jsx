@@ -1,26 +1,6 @@
-import React from 'react';
 import RoutingMenu from 'terra-application-layout/lib/menu/RoutingMenu';
 import Components from './components/Components';
 import Home from './components/Home';
-
-
-// const injectConfig = configuredProps => (
-//   Component => (
-//     props => (
-//       <Component {...props} {...configuredProps} />
-//     )
-//   )
-// );
-
-
-// const buildComponent = (Component, configuredProps) => (
-//   {
-//     default: {
-//       componentClass: injectConfig(configuredProps)(Component),
-//     },
-//   }
-// );
-
 
 const buildComponent = (Component, configuredProps) => (
   {
@@ -100,21 +80,21 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
 
   if (examples) {
     const menuItems = examples.map((subComponent) => {
-      const subMenu = buildMenuConfig(subComponent, menuComponent, exampleType, path);
+      const { generatedConfig: subMenu, alternatePath } = buildMenuConfig(subComponent, menuComponent, exampleType, path);
       const subComponentPath = path + subComponent.path;
       if (subMenu) {
         generatedConfig = Object.assign(generatedConfig, subMenu);
       }
       return {
         text: subComponent.name,
-        path: subComponentPath,
+        path: alternatePath !== undefined ? alternatePath : subComponentPath,
         hasSubMenu: subMenu !== undefined,
       };
     });
 
     // Do not create a submenu for the component if the component has one site page with no additional sub-nav.
     if (menuItems.length === 1 && examples[0][exampleType] === undefined) {
-      return undefined;
+      return { generatedConfig: undefined, alternatePath: menuItems[0].path };
     }
 
     const componentMenuProps = { title: component.name, menuItems };
@@ -125,10 +105,10 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
 
     // console.log('inc gen config', generatedConfig);
 
-    return generatedConfig;
+    return { generatedConfig, alternatePath: undefined };
   }
 
-  return undefined;
+  return { generatedConfig: undefined, alternatePath: undefined };
 };
 
 const buildLinksMenuConfig = (componentConfig, link) => {
@@ -140,7 +120,7 @@ const buildLinksMenuConfig = (componentConfig, link) => {
   }
 
   // Manipulate the link config to build out the first level menu item.
-  return buildMenuConfig({
+  const { generatedConfig } = buildMenuConfig({
     name: link.text,
     path: '',
     [link.exampleType]: Object.values(componentConfig).filter(item => item[link.exampleType] !== undefined),
@@ -149,6 +129,8 @@ const buildLinksMenuConfig = (componentConfig, link) => {
   link.exampleType,
   link.path,
   );
+
+  return generatedConfig;
 };
 
 const routeConfiguration = (siteConfig, componentConfig) => {
@@ -188,15 +170,6 @@ const routeConfiguration = (siteConfig, componentConfig) => {
       path: link.path,
       component: buildComponent(contentComponent, componentProps),
     };
-
-    // build raw test pages to maintain modular testing
-    if (exampleType === 'tests') {
-      const rawComponentProps = Object.assign({}, componentProps, { pathRoot: '/raw/tests' });
-      content['/raw/tests'] = {
-        path: '/raw/tests',
-        component: buildComponent(contentComponent, rawComponentProps),
-      };
-    }
 
     if (link.hasSubNav) {
       menu = Object.assign(menu, buildLinksMenuConfig(componentConfig, link));
