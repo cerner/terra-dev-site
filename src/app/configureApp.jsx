@@ -5,70 +5,11 @@ import Home from './components/Home';
 const buildComponent = (Component, configuredProps) => (
   {
     default: {
-      // componentClass: injectConfig(configuredProps)(Component),
       componentClass: Component,
       props: configuredProps,
     },
   }
 );
-
-// const buildSubNavigationConfig = (array, config, ComponentMenu, exampleType, pathRoot) => {
-//   config.map((componentKey) => {
-//     console.log('comp key', componentKey);
-//     // console.log('config', config);
-//     console.log('exampleType', exampleType);
-//     const componentPath = componentKey.path;
-//     const examples = componentKey[`${exampleType}`];
-
-//     if (componentPath && examples) {
-//       const path = pathRoot + componentPath;
-//       examples.forEach((example) => {
-//         if (example[`${exampleType}`]) {
-//           buildSubNavigationConfig(array, examples, ComponentMenu, exampleType, path);
-//         }
-//       });
-
-//       // Do not create a submenu for the component if the component has one site page with no additional sub-nav.
-//       if (exampleType !== 'tests' && examples.length === 1 && !examples[0][`${exampleType}`]) {
-//         return undefined;
-//       }
-
-//       // const componentMenuProps = { config: componentKey, pathRoot: `${path}`, exampleType, isSubMenu: true };
-//       const menuItems = examples.map(item => ({ text: item.name, path, hasSubMenu: false }));
-//       const componentMenuProps = { title: 'derp', menuItems };
-
-//       console.log('menu props', componentMenuProps);
-
-//       array.push({
-//         path: `${path}`,
-//         component: buildComponent(ComponentMenu, componentMenuProps),
-//       });
-//     }
-//     return undefined;
-//   })
-//   .filter(test => !!test);
-
-//   return array;
-// };
-
-// const buildNavigationConfig = (config, ComponentMenu, exampleType, pathRoot) => {
-//   const generatedConfig = {};
-//   // const componentMenuProps = { config: Object.values(config), pathRoot, exampleType };
-//   // const componentMenuProps = { title: 'derp', menuItems: [{ text: 'herp', path: '/derp' }] };
-
-//   generatedConfig[pathRoot] = {
-//     path: pathRoot,
-//     component: buildComponent(ComponentMenu, componentMenuProps),
-//   };
-
-//   const subNavConfig = buildSubNavigationConfig([], Object.values(config), ComponentMenu, exampleType, pathRoot);
-
-//   subNavConfig.forEach((subConfig) => {
-//     generatedConfig[subConfig.path] = subConfig;
-//   });
-
-//   return generatedConfig;
-// };
 
 const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') => {
   let generatedConfig = {};

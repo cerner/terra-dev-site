@@ -166,6 +166,7 @@ class App extends React.Component {
                 navigationItems={!matchPath(this.props.location.pathname, '/tests') ? this.props.navigation.links : undefined}
                 extensions={this.props.navigation.extensions}
                 indexPath={this.props.navigation.index}
+                navigationAlignment="start"
               />}
             />
           </Switch>
