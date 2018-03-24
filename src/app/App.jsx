@@ -1,8 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, matchPath } from 'react-router-dom';
-import { Switch, Route } from 'react-router';
+import { withRouter, matchPath, Switch, Route } from 'react-router-dom';
 
 import Base from 'terra-base';
 import Image from 'terra-image';
