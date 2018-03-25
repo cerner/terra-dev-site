@@ -28,7 +28,7 @@ const navConfig = {
       exampleType: 'pages',
       hasSubNav: true,
     }],
-    // extensions: GithubRouter,
+    extensions: GithubRouter,
   },
 };
 

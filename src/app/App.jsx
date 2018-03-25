@@ -7,11 +7,8 @@ import Base from 'terra-base';
 import Image from 'terra-image';
 import ThemeProvider from 'terra-theme-provider';
 import ApplicationLayout from 'terra-application-layout';
-// import { UtilityUtils } from 'terra-application-utility';
-// import NavigationLayout from 'terra-navigation-layout';
 
 import siteConfig from '../config/site.config';
-// import ApplicationHeader from './ApplicationHeader';
 import ConfigureUtilities from './ConfigureUtilities';
 import './App.scss';
 
@@ -36,10 +33,6 @@ const propTypes = {
   navigation: PropTypes.object.isRequired,
 
   utilConfig: PropTypes.object,
-  /**
-   * The root path for the site.
-   */
-  rootPath: PropTypes.string.isRequired,
   /**
   * The locale the site should default to.
    */
@@ -93,7 +86,7 @@ class App extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.defaultLocale !== undefined && nextProps.defaultLocale !== this.props.defaultLocale) {
-      // document.getElementsByTagName('html')[0].setAttribute('lang', nextProps.defaultLocale);
+      document.getElementsByTagName('html')[0].setAttribute('lang', nextProps.defaultLocale);
       this.setState({ locale: nextProps.defaultLocale });
     }
 
@@ -102,7 +95,7 @@ class App extends React.Component {
     }
 
     if (nextProps.defaultDir !== undefined && nextProps.defaultDir !== this.props.defaultDir) {
-      // document.getElementsByTagName('html')[0].setAttribute('dir', nextProps.defaultDir);
+      document.getElementsByTagName('html')[0].setAttribute('dir', nextProps.defaultDir);
       this.setState({ dir: nextProps.defaultDir });
     }
 
@@ -114,12 +107,12 @@ class App extends React.Component {
   }
 
   handleBidiChange(key) {
-    // document.getElementsByTagName('html')[0].setAttribute('dir', e.currentTarget.id);
+    document.getElementsByTagName('html')[0].setAttribute('dir', key);
     this.setState({ dir: key });
   }
 
   handleLocaleChange(key) {
-    // document.getElementsByTagName('html')[0].setAttribute('lang', e.currentTarget.id);
+    document.getElementsByTagName('html')[0].setAttribute('lang', key);
     this.setState({ locale: key });
   }
 
@@ -128,9 +121,6 @@ class App extends React.Component {
   }
 
   handleMenuOnChange(event, { key, metaData }) {
-    // console.log('event', event);
-    // console.log('itemKey:', key);
-    // console.log('metaData:', metaData);
     metaData.onChange(key);
   }
 
@@ -164,7 +154,7 @@ class App extends React.Component {
                 routingConfig={this.props.routeConfig}
                 navigationItems={!matchPath(this.props.location.pathname, '/tests') ? this.props.navigation.links : undefined}
                 extensions={this.props.navigation.extensions}
-                indexPath={this.props.navigation.index}
+                indexPath={<this.props.navigation.index />}
                 navigationAlignment="start"
               />}
             />

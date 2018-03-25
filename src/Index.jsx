@@ -45,13 +45,7 @@ class Site extends React.Component {
           navigation={navigation}
           rootPath={navConfig.rootPath}
           utilConfig={ConfigureUtilities.generateInitialUtiltiesConfig(appConfig)}
-          // themes={appConfig.themes}
-          // defaultTheme={appConfig.defaultTheme}
-          // locales={appConfig.locales}
           appTitle={appConfig.title}
-          // hideBidiUtility={!appConfig.bidirectional}
-          // defaultLocale={appConfig.defaultLocale}
-          // defaultDir={appConfig.defaultDirection}
           appLogoSrc={appConfig.logoSrc}
         />
       </Router>
