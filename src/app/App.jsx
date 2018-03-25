@@ -153,7 +153,7 @@ class App extends React.Component {
                 utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilConfig)}
                 routingConfig={this.props.routeConfig}
                 navigationItems={!matchPath(this.props.location.pathname, '/tests') ? this.props.navigation.links : undefined}
-                extensions={<this.props.navigation.extensions />}
+                extensions={this.props.navigation.extensions ? <this.props.navigation.extensions /> : undefined}
                 indexPath={this.props.navigation.index}
                 navigationAlignment="start"
               />}
