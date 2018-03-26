@@ -19,61 +19,6 @@ function generateItemConfig(defaultItem, items, key) {
   };
 }
 
-// function generateThemeConfig(defaultTheme, themes) {
-//   const childKeys = {};
-//   Object.keys(themes).forEach((key) => {
-//     childKeys[key] = {
-//       key,
-//       title: key,
-//       isSelected: defaultTheme === key,
-//       isSelectable: true,
-//     };
-//   });
-
-//   return {
-//     key: 'Theme',
-//     title: `Theme: ${defaultTheme}`,
-//     childKeys,
-//   };
-// }
-
-// function generateLocaleConfig(defaultlocale, locales) {
-//   const childKeys = {};
-//   locales.forEach((locale) => {
-//     childKeys[locale] = {
-//       key: locale,
-//       title: locale,
-//       isSelected: defaultlocale === locale,
-//       isSelectable: true,
-//     };
-//   });
-
-//   return {
-//     key: 'Locale',
-//     title: `Locale: ${defaultlocale}`,
-//     childKeys,
-//   };
-// }
-
-// function generateBidiConfig(defaultDir) {
-//   const dirs = ['ltr', 'rtl'];
-//   const childKeys = {};
-//   dirs.forEach((dir) => {
-//     childKeys[dir] = {
-//       key: dir,
-//       title: dir,
-//       isSelected: defaultDir === dir,
-//       isSelectable: true,
-//     };
-//   });
-
-//   return {
-//     key: 'Bidi',
-//     title: `Bidi: ${defaultDir}`,
-//     childKeys,
-//   };
-// }
-
 function convertMenuItemToArray(menuItem) {
   const updatedItem = Object.assign({}, menuItem);
   let menuItems = [];
@@ -118,21 +63,16 @@ class ConfigureUtilties {
     const rootMenuChildKeys = {};
 
     if (hasThemes) {
-      // rootMenuChildKeys.Theme = generateThemeConfig(appConfig.defaultTheme, appConfig.themes);
       rootMenuChildKeys.Theme = generateItemConfig(appConfig.defaultTheme, appConfig.themes, 'Theme');
     }
 
     if (hasLocals) {
-      // rootMenuChildKeys.Locale = generateLocaleConfig(appConfig.defaultLocale, appConfig.locales);
       rootMenuChildKeys.Locale = generateItemConfig(appConfig.defaultLocale, appConfig.locales, 'Locale');
     }
 
     if (appConfig.bidirectional) {
-      // rootMenuChildKeys.Bidi = generateBidiConfig(appConfig.defaultDir);
       rootMenuChildKeys.Bidi = generateItemConfig(appConfig.defaultDir, ['ltr', 'rtl'], 'Bidi');
     }
-
-    console.log('rootMenuChildKeys', rootMenuChildKeys);
 
     return {
       accessory: <IconSettings />,

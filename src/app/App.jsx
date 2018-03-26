@@ -78,16 +78,6 @@ class App extends React.Component {
     return nextProp !== undefined && nextProp !== currentProp;
   }
 
-  static setupUtilityConfig(utilityConfig) {
-    return ConfigureUtilities.addCallbackFunctions(
-      utilityConfig,
-      {
-        Theme: { onChange: this.handleThemeChange },
-        Locale: { onChange: this.handleLocaleChange },
-        Bidi: { onChange: this.handleBidiChange },
-      });
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -99,7 +89,7 @@ class App extends React.Component {
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
 
-    this.utilityConfig = App.setupUtilityConfig(props.utilityConfig);
+    this.utilityConfig = this.setupUtilityConfig(props.utilityConfig);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -117,7 +107,17 @@ class App extends React.Component {
       this.setState({ dir: nextProps.defaultDir });
     }
 
-    this.utilityConfig = App.setupUtilityConfig(nextProps.utilityConfig);
+    this.utilityConfig = this.setupUtilityConfig(nextProps.utilityConfig);
+  }
+
+  setupUtilityConfig(utilityConfig) {
+    return ConfigureUtilities.addCallbackFunctions(
+      utilityConfig,
+      {
+        Theme: { onChange: this.handleThemeChange },
+        Locale: { onChange: this.handleLocaleChange },
+        Bidi: { onChange: this.handleBidiChange },
+      });
   }
 
   handleBidiChange(key) {
@@ -139,10 +139,10 @@ class App extends React.Component {
     const { theme, locale, dir } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
+    // console.log('utilityConfig', this.utilityConfig);
     // console.log('nav config', this.props.navigation);
     // console.log('rootPath', this.props.rootPath);
     // console.log('routeConfig', this.props.routeConfig);
-    // console.log('utilConfig', this.utilConfig);
 
     return (
       <ThemeProvider id="site" themeName={appConfig.themes[theme]} isGlobalTheme>
