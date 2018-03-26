@@ -27,7 +27,7 @@ const propTypes = {
   /**
    * The navigaion links to display within the menu in the toolbar.
    */
-  navigationItems: PropTypes.object,
+  navigationItems: PropTypes.array,
 
   extensions: PropTypes.object,
 
@@ -72,6 +72,10 @@ class App extends React.Component {
     return nextProp !== undefined && nextProp !== currentProp;
   }
 
+  static utilityMenuOnChange(event, { key, metaData }) {
+    metaData.onChange(key);
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -85,7 +89,7 @@ class App extends React.Component {
 
     this.utilityConfig = ConfigureUtilities.addCallbackFunctions(
       props.utilityConfig,
-      (event, { key, metaData }) => { metaData.onChange(key); },
+      App.utilityMenuOnChange,
       {
         Theme: { onChange: this.handleThemeChange },
         Locale: { onChange: this.handleLocaleChange },
@@ -108,11 +112,14 @@ class App extends React.Component {
       this.setState({ dir: nextProps.defaultDir });
     }
 
-    this.utilityConfig = ConfigureUtilities.addCallbackFunctions(nextProps.utilityConfig, this.handleMenuOnChange, {
-      Theme: { onChange: this.handleThemeChange },
-      Locale: { onChange: this.handleLocaleChange },
-      Bidi: { onChange: this.handleBidiChange },
-    });
+    this.utilityConfig = ConfigureUtilities.addCallbackFunctions(
+      nextProps.utilityConfig,
+      this.handleMenuOnChange,
+      {
+        Theme: { onChange: this.handleThemeChange },
+        Locale: { onChange: this.handleLocaleChange },
+        Bidi: { onChange: this.handleBidiChange },
+      });
   }
 
   handleBidiChange(key) {
