@@ -1,0 +1,16 @@
+:local {
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+  .container-compact {
+    padding: 10px;
+    width: 100%;
+    background-color: lightgrey;
+    display: flex;
+  }
+
+  .item {
+    margin-right: 5px;
+  }
+}

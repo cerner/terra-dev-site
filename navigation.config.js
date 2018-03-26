@@ -1,4 +1,14 @@
+import React from 'react';
 import GithubRouter from './src/GitHubRouter';
+import GithubLinkExtension from './src/app/common/GitHubLinkExtension';
+import Extensions from './src/app/common/Extensions';
+
+const extensions = (
+  <Extensions>
+    <GithubLinkExtension href="https://github.com/cerner?utf8=%E2%9C%93&q=terra&type=&language=" />
+    <GithubLinkExtension href="https://github.com/cerner?utf8=%E2%9C%93&q=terra&type=&language=" />
+  </Extensions>
+);
 
 const navConfig = {
   rootPath: '/dev-site',
@@ -28,7 +38,7 @@ const navConfig = {
       exampleType: 'pages',
       hasSubNav: true,
     }],
-    extensions: GithubRouter,
+    extensions,
   },
 };
 
