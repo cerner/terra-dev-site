@@ -111,7 +111,7 @@ const defaultWebpackConfig = {
     new webpack.NamedChunksPlugin(),
   ],
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx',],
     modules: [path.resolve(rootPath, 'aggregated-translations'), 'node_modules'],
 
     // See https://github.com/facebook/react/issues/8026

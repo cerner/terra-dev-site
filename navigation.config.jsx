@@ -1,12 +1,10 @@
 import React from 'react';
-import GithubRouter from './src/GitHubRouter';
-import GithubLinkExtension from './src/app/common/GitHubLinkExtension';
-import Extensions from './src/app/common/Extensions';
+import GithubLinkExtension from './src/components/GitHubLinkExtension';
+import Extensions from './src/components/Extensions';
 
 const extensions = (
   <Extensions>
-    <GithubLinkExtension href="https://github.com/cerner?utf8=%E2%9C%93&q=terra&type=&language=" />
-    <GithubLinkExtension href="https://github.com/cerner?utf8=%E2%9C%93&q=terra&type=&language=" />
+    <GithubLinkExtension href="https://github.com/cerner/terra-dev-site" />
   </Extensions>
 );
 

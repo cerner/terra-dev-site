@@ -57,7 +57,6 @@ class Site extends React.Component {
           routingConfig={routes}
           navigationItems={navigation.links}
           extensions={navigation.extensions}
-          //extensions={navigation.extensions ? <navigation.extensions /> : undefined}
           indexPath={navigation.index}
           defaultLocale={appConfig.defaultLocale}
           defaultDir={appConfig.defaultDirection}

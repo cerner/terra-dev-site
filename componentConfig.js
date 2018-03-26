@@ -1,6 +1,6 @@
 // import your template documentation and/or examples here
 
-import GithubRouter from './src/GitHubRouter';
+// import GithubRouter from './src/GitHubRouter';
 
 const navConfig = {
   'terra-aggregator': {
@@ -10,7 +10,7 @@ const navConfig = {
       {
         name: 'Index',
         path: '/index',
-        component: GithubRouter,
+        // component: GithubRouter,
       },
     ],
   },
@@ -64,12 +64,12 @@ const navConfig = {
       {
         name: 'derp test',
         path: '/derp-test',
-        component: GithubRouter,
+        // component: GithubRouter,
       },
       {
         name: 'derp test2',
         path: '/derp-test2',
-        component: GithubRouter,
+        // component: GithubRouter,
       },
     ],
   },
