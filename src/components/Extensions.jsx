@@ -31,7 +31,7 @@ const Extensions = (props) => {
     };
   }
 
-  const wrappedChildren = children.map((child) =>(
+  const wrappedChildren = React.Children.map(children, (child) =>(
     <div className={cx('item')}>
         {child}
     </div>
