@@ -140,11 +140,6 @@ class App extends React.Component {
     const { theme, locale, dir } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
-    // console.log('utilityConfig', this.utilityConfig);
-    // console.log('nav config', this.props.navigation);
-    // console.log('rootPath', this.props.rootPath);
-    // console.log('routeConfig', this.props.routeConfig);
-
     return (
       <ThemeProvider id="site" themeName={appConfig.themes[theme]} isGlobalTheme>
         <Base className="base" locale={locale}>

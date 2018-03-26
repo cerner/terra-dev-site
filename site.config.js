@@ -20,9 +20,8 @@ const siteConfig = {
     logoSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
     /* The title the site header should display. */
     title: 'Terra Dev Site',
-    defaultDir: 'ltr',
-    // locales: ['en'],
-    // bidirectional: false,
+    locales: ['en'],
+    bidirectional: false,
   },
 };
 

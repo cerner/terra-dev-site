@@ -113,9 +113,6 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   const navigationConfig = { index: navigation.index, links: configuredLinks, extensions: navigation.extensions };
   const routeConfig = { content, menu };
 
-  // console.log('OUT Nav Config:', navigationConfig);
-  // console.log('OUT routeConfig', routeConfig);
-
   return { routeConfig, navigation: navigationConfig };
 };
 

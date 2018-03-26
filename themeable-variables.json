@@ -12,6 +12,9 @@
     "--terra-application-header-toggle-icon-width": "1rem",
     "--terra-application-header-toggle-hover-background-color": "rgba(0, 0, 0, 0.15)"
   },
+  "ApplicationHeaderLayout": {
+    "--terra-application-header-layout-logo-min-width": "16.571rem"
+  },
   "ApplicationHeaderName": {
     "--terra-application-header-name-align-items": "center",
     "--terra-application-header-name-color": "#fff",
@@ -58,7 +61,7 @@
     "--terra-application-tabs-color": "#fff",
     "--terra-application-tabs-font-size": "1rem",
     "--terra-application-tabs-line-height": "1.4",
-    "--terra-application-tabs-transition-duration": "0.35s",
+    "--terra-application-tabs-transition-duration": "0s",
     "--terra-application-tabs-transition-timing": "ease",
     "--terra-application-tab-width": "13rem",
     "--terra-application-tabs-hover-background-color": "rgba(0, 0, 0, 0.15)",
