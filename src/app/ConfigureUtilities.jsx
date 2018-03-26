@@ -132,15 +132,17 @@ class ConfigureUtilties {
       rootMenuChildKeys.Bidi = generateItemConfig(appConfig.defaultDir, ['ltr', 'rtl'], 'Locale');
     }
 
+    console.log('rootMenuChildKeys', rootMenuChildKeys);
+
     return {
       accessory: <IconSettings />,
       menuItems: {
         key: 'menu',
         title: 'Config',
         childKeys: rootMenuChildKeys,
-        onChange: (event, { key, metaData }) => { metaData.onChange(key); },
       },
       initialSelectedKey: 'menu',
+      onChange: (event, { key, metaData }) => { metaData.onChange(key); },
     };
   }
 
