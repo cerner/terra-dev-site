@@ -81,7 +81,6 @@ class App extends React.Component {
   static setupUtilityConfig(utilityConfig) {
     return ConfigureUtilities.addCallbackFunctions(
       utilityConfig,
-      App.utilityMenuOnChange,
       {
         Theme: { onChange: this.handleThemeChange },
         Locale: { onChange: this.handleLocaleChange },
