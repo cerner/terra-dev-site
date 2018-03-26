@@ -24,16 +24,16 @@ const Extensions = (props) => {
   const { children, layoutConfig } = props;
   const isCompactSize = Utils.helpers.isSizeCompact(layoutConfig.size);
 
-  let containerProps = { className: cx('container') }
+  let containerProps = { className: cx('container') };
   if (isCompactSize) {
     containerProps = {
       className: cx('container-compact'),
     };
   }
 
-  const wrappedChildren = React.Children.map(children, (child) =>(
+  const wrappedChildren = React.Children.map(children, child => (
     <div className={cx('item')}>
-        {child}
+      { child }
     </div>
   ));
 

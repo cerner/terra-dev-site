@@ -1,5 +1,5 @@
 import React from 'react';
-import { Extensions, GitHubLinkExtension } from './index.js'
+import { Extensions, GitHubLinkExtension } from './index';
 
 const extensions = (
   <Extensions>
