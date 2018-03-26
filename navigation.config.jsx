@@ -1,10 +1,9 @@
 import React from 'react';
-import GithubLinkExtension from './src/components/GitHubLinkExtension';
-import Extensions from './src/components/Extensions';
+import { Extensions, GitHubLinkExtension } from './index.js'
 
 const extensions = (
   <Extensions>
-    <GithubLinkExtension href="https://github.com/cerner/terra-dev-site" />
+    <GitHubLinkExtension href="https://github.com/cerner/terra-dev-site" />
   </Extensions>
 );
 
