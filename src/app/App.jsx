@@ -8,6 +8,7 @@ import ApplicationLayout from 'terra-application-layout';
 
 import siteConfig from '../config/site.config';
 import ConfigureUtilities from './ConfigureUtilities';
+import RawRoute from './components/RawRoute';
 import './App.scss';
 
 const propTypes = {
@@ -148,6 +149,10 @@ class App extends React.Component {
       <ThemeProvider id="site" themeName={appConfig.themes[theme]} isGlobalTheme>
         <Base className="base" locale={locale}>
           <Switch>
+            <Route
+              path="/raw"
+              render={() => RawRoute(routingConfig, location)}
+            />
             <Route
               render={() => <ApplicationLayout
                 nameConfig={nameConfig}

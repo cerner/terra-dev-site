@@ -15,9 +15,6 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
   let generatedConfig = {};
   const path = pathRoot + component.path;
   const examples = component[exampleType];
-  // console.log('compo:', component);
-  // console.log('exampleType', exampleType);
-  // console.log('examples', examples);
 
   if (examples) {
     const menuItems = examples.map((subComponent) => {
@@ -43,8 +40,6 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
       path,
       component: buildComponent(menuComponent, componentMenuProps),
     };
-
-    // console.log('inc gen config', generatedConfig);
 
     return { generatedConfig, alternatePath: undefined };
   }
@@ -75,8 +70,6 @@ const buildLinksMenuConfig = (componentConfig, link) => {
 };
 
 const routeConfiguration = (siteConfig, componentConfig) => {
-  console.log('IN site config:', siteConfig);
-  console.log('IN componentConfig:', componentConfig);
   const { navConfig, placeholderSrc, readMeContent } = siteConfig;
 
   const navigation = navConfig.navigation;
@@ -120,8 +113,8 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   const navigationConfig = { index: navigation.index, links: configuredLinks, extensions: navigation.extensions };
   const routeConfig = { content, menu };
 
-  console.log('OUT Nav Config:', navigationConfig);
-  console.log('OUT routeConfig', routeConfig);
+  // console.log('OUT Nav Config:', navigationConfig);
+  // console.log('OUT routeConfig', routeConfig);
 
   return { routeConfig, navigation: navigationConfig };
 };
