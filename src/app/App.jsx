@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath, Switch, Route } from 'react-router-dom';
@@ -16,7 +15,9 @@ const propTypes = {
    * The title branding of the site.
    */
   nameConfig: PropTypes.object,
-
+  /**
+   * Configuration to setup the utilities menu.
+   */
   utilityConfig: PropTypes.object,
   /**
   * The configuration Object that will be used to generate the specified regions of the terra-navigation-layout.
@@ -28,11 +29,14 @@ const propTypes = {
    * The navigaion links to display within the menu in the toolbar.
    */
   navigationItems: PropTypes.array,
-
+  /**
+   * React object to display in the utilities area in the application layout.
+   */
   extensions: PropTypes.object,
-
+  /**
+   * The path to the sites index.
+   */
   indexPath: PropTypes.string.isRequired,
-
   /**
   * The locale the site should default to.
    */
@@ -53,7 +57,9 @@ const propTypes = {
     pathname: PropTypes.string,
   }),
 };
+
 const appConfig = siteConfig.appConfig;
+
 const defaultProps = {
   nameConfig: undefined,
   defaultDir: undefined,
@@ -72,8 +78,15 @@ class App extends React.Component {
     return nextProp !== undefined && nextProp !== currentProp;
   }
 
-  static utilityMenuOnChange(event, { key, metaData }) {
-    metaData.onChange(key);
+  static setupUtilityConfig(utilityConfig) {
+    return ConfigureUtilities.addCallbackFunctions(
+      utilityConfig,
+      App.utilityMenuOnChange,
+      {
+        Theme: { onChange: this.handleThemeChange },
+        Locale: { onChange: this.handleLocaleChange },
+        Bidi: { onChange: this.handleBidiChange },
+      });
   }
 
   constructor(props) {
@@ -87,14 +100,7 @@ class App extends React.Component {
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
 
-    this.utilityConfig = ConfigureUtilities.addCallbackFunctions(
-      props.utilityConfig,
-      App.utilityMenuOnChange,
-      {
-        Theme: { onChange: this.handleThemeChange },
-        Locale: { onChange: this.handleLocaleChange },
-        Bidi: { onChange: this.handleBidiChange },
-      });
+    this.utilityConfig = App.setupUtilityConfig(props.utilityConfig);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -112,14 +118,7 @@ class App extends React.Component {
       this.setState({ dir: nextProps.defaultDir });
     }
 
-    this.utilityConfig = ConfigureUtilities.addCallbackFunctions(
-      nextProps.utilityConfig,
-      App.utilityMenuOnChange,
-      {
-        Theme: { onChange: this.handleThemeChange },
-        Locale: { onChange: this.handleLocaleChange },
-        Bidi: { onChange: this.handleBidiChange },
-      });
+    this.utilityConfig = App.setupUtilityConfig(nextProps.utilityConfig);
   }
 
   handleBidiChange(key) {
@@ -140,15 +139,6 @@ class App extends React.Component {
     const { nameConfig, location, routingConfig, navigationItems, indexPath, extensions } = this.props;
     const { theme, locale, dir } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
-    // let appLogo;
-    // if (this.props.appLogoSrc) {
-    //   appLogo = (<Image variant="rounded" src={this.props.appLogoSrc} height="26px" width="26px" isFluid />);
-    // }
-
-    // const nameConfig = {
-    //   accessory: appLogo,
-    //   title: this.props.appTitle,
-    // };
 
     // console.log('nav config', this.props.navigation);
     // console.log('rootPath', this.props.rootPath);

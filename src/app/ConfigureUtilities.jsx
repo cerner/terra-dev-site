@@ -1,61 +1,78 @@
 import React from 'react';
 import IconSettings from 'terra-icon/lib/icon/IconSettings';
 
-function generateThemeConfig(defaultTheme, themes) {
+function generateItemConfig(defaultItem, items, key) {
   const childKeys = {};
-  Object.keys(themes).forEach((key) => {
-    childKeys[key] = {
-      key,
-      title: key,
-      isSelected: defaultTheme === key,
+  items.forEach((item) => {
+    childKeys[item] = {
+      key: item,
+      title: item,
+      isSelected: defaultItem === item,
       isSelectable: true,
     };
   });
 
   return {
-    key: 'Theme',
-    title: `Theme: ${defaultTheme}`,
+    key,
+    title: `${key}: ${defaultItem}`,
     childKeys,
   };
 }
 
-function generateLocaleConfig(defaultlocale, locales) {
-  const childKeys = {};
-  locales.forEach((locale) => {
-    childKeys[locale] = {
-      key: locale,
-      title: locale,
-      isSelected: defaultlocale === locale,
-      isSelectable: true,
-    };
-  });
+// function generateThemeConfig(defaultTheme, themes) {
+//   const childKeys = {};
+//   Object.keys(themes).forEach((key) => {
+//     childKeys[key] = {
+//       key,
+//       title: key,
+//       isSelected: defaultTheme === key,
+//       isSelectable: true,
+//     };
+//   });
 
-  return {
-    key: 'Locale',
-    title: `Locale: ${defaultlocale}`,
-    childKeys,
-  };
-}
+//   return {
+//     key: 'Theme',
+//     title: `Theme: ${defaultTheme}`,
+//     childKeys,
+//   };
+// }
 
-function generateBidiConfig(defaultDir) {
-  console.log('defaultDir', defaultDir);
-  const dirs = ['ltr', 'rtl'];
-  const childKeys = {};
-  dirs.forEach((dir) => {
-    childKeys[dir] = {
-      key: dir,
-      title: dir,
-      isSelected: defaultDir === dir,
-      isSelectable: true,
-    };
-  });
+// function generateLocaleConfig(defaultlocale, locales) {
+//   const childKeys = {};
+//   locales.forEach((locale) => {
+//     childKeys[locale] = {
+//       key: locale,
+//       title: locale,
+//       isSelected: defaultlocale === locale,
+//       isSelectable: true,
+//     };
+//   });
 
-  return {
-    key: 'Bidi',
-    title: `Bidi: ${defaultDir}`,
-    childKeys,
-  };
-}
+//   return {
+//     key: 'Locale',
+//     title: `Locale: ${defaultlocale}`,
+//     childKeys,
+//   };
+// }
+
+// function generateBidiConfig(defaultDir) {
+//   const dirs = ['ltr', 'rtl'];
+//   const childKeys = {};
+//   dirs.forEach((dir) => {
+//     childKeys[dir] = {
+//       key: dir,
+//       title: dir,
+//       isSelected: defaultDir === dir,
+//       isSelectable: true,
+//     };
+//   });
+
+//   return {
+//     key: 'Bidi',
+//     title: `Bidi: ${defaultDir}`,
+//     childKeys,
+//   };
+// }
 
 function convertMenuItemToArray(menuItem) {
   const updatedItem = Object.assign({}, menuItem);
@@ -91,7 +108,6 @@ function updateSelectedItem(parentMenuItem, selectedItem) {
 class ConfigureUtilties {
 
   static generateInitialUtiltiesConfig(appConfig) {
-    // console.log('app config', appConfig);
     const hasThemes = appConfig.themes && appConfig.themes.length > 0;
     const hasLocals = appConfig.locales && appConfig.locales.length > 0;
 
@@ -102,15 +118,18 @@ class ConfigureUtilties {
     const rootMenuChildKeys = {};
 
     if (hasThemes) {
-      rootMenuChildKeys.Theme = generateThemeConfig(appConfig.defaultTheme, appConfig.themes);
+      // rootMenuChildKeys.Theme = generateThemeConfig(appConfig.defaultTheme, appConfig.themes);
+      rootMenuChildKeys.Theme = generateItemConfig(appConfig.defaultTheme, appConfig.themes, 'Theme');
     }
 
     if (hasLocals) {
-      rootMenuChildKeys.Locale = generateLocaleConfig(appConfig.defaultLocale, appConfig.locales);
+      // rootMenuChildKeys.Locale = generateLocaleConfig(appConfig.defaultLocale, appConfig.locales);
+      rootMenuChildKeys.Locale = generateItemConfig(appConfig.defaultLocale, appConfig.locales, 'Locale');
     }
 
     if (appConfig.bidirectional) {
-      rootMenuChildKeys.Bidi = generateBidiConfig(appConfig.defaultDir);
+      // rootMenuChildKeys.Bidi = generateBidiConfig(appConfig.defaultDir);
+      rootMenuChildKeys.Bidi = generateItemConfig(appConfig.defaultDir, ['ltr', 'rtl'], 'Locale');
     }
 
     return {
@@ -119,6 +138,7 @@ class ConfigureUtilties {
         key: 'menu',
         title: 'Config',
         childKeys: rootMenuChildKeys,
+        onChange: (event, { key, metaData }) => { metaData.onChange(key); },
       },
       initialSelectedKey: 'menu',
     };
@@ -130,9 +150,8 @@ class ConfigureUtilties {
     return updatedConfig;
   }
 
-  static addCallbackFunctions(config, onChange, metaData = {}) {
+  static addCallbackFunctions(config, metaData = {}) {
     const updatedConfig = Object.assign({}, config);
-    updatedConfig.onChange = onChange;
     updateMetaData(updatedConfig.menuItems.childKeys.Theme, metaData.Theme);
     updateMetaData(updatedConfig.menuItems.childKeys.Locale, metaData.Locale);
     updateMetaData(updatedConfig.menuItems.childKeys.Bidi, metaData.Bidi);
