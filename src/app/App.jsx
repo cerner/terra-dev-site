@@ -114,7 +114,7 @@ class App extends React.Component {
 
     this.utilityConfig = ConfigureUtilities.addCallbackFunctions(
       nextProps.utilityConfig,
-      App.handleMenuOnChange,
+      App.utilityMenuOnChange,
       {
         Theme: { onChange: this.handleThemeChange },
         Locale: { onChange: this.handleLocaleChange },
