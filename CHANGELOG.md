@@ -3,6 +3,14 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Extenstions Component
+* GitHubLinkExtension Component
+
+### Changes
+* Consume terra-application-layout, remove custom layout
+* Consume RoutingMenu from terra-application-layout
+
 
 0.2.0 - (March 2, 1018)
 ----------

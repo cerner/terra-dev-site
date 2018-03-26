@@ -102,9 +102,7 @@
     "terra-i18n-plugin": "^2.0.0",
     "terra-icon": "^2.0.1",
     "terra-image": "^2.0.1",
-    "terra-list": "^2.0.1",
     "terra-markdown": "^2.0.0",
-    "terra-navigation-side-menu": "^1.0.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
     "xfc": "^1.2.1"
