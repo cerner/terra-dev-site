@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 import { Provider } from 'xfc';
+import Image from 'terra-image';
 
 import App from './app/App';
 import defaultSiteConfig from './config/site.config';
@@ -32,21 +33,34 @@ class Site extends React.Component {
   render() {
     const siteConfig = Object.assign({}, defaultSiteConfig, this.state.siteConfig);
     siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, siteConfig.appConfig);
-    const { appConfig, navConfig, componentConfig } = siteConfig;
+    const { appConfig, componentConfig } = siteConfig;
 
     const { routeConfig, navigation } = routeConfiguration(siteConfig, componentConfig);
 
     const routes = Object.freeze(routeConfig);
 
+    let appLogo;
+    if (appConfig.logoSrc) {
+      appLogo = (<Image variant="rounded" src={appConfig.logoSrc} height="26px" width="26px" isFluid />);
+    }
+
+    const nameConfig = {
+      accessory: appLogo,
+      title: appConfig.title,
+    };
+
     return (
       <Router>
         <App
-          routeConfig={routes}
-          navigation={navigation}
-          rootPath={navConfig.rootPath}
-          utilConfig={ConfigureUtilities.generateInitialUtiltiesConfig(appConfig)}
-          appTitle={appConfig.title}
-          appLogoSrc={appConfig.logoSrc}
+          nameConfig={nameConfig}
+          utilityConfig={ConfigureUtilities.generateInitialUtiltiesConfig(appConfig)}
+          routingConfig={routes}
+          navigationItems={navigation.links}
+          extensions={navigation.extensions ? <navigation.extensions /> : undefined}
+          indexPath={navigation.index}
+          defaultLocale={appConfig.defaultLocale}
+          defaultDir={appConfig.defaultDirection}
+          defaultTheme={appConfig.defaultTheme}
         />
       </Router>
     );
