@@ -129,7 +129,7 @@ class ConfigureUtilties {
 
     if (appConfig.bidirectional) {
       // rootMenuChildKeys.Bidi = generateBidiConfig(appConfig.defaultDir);
-      rootMenuChildKeys.Bidi = generateItemConfig(appConfig.defaultDir, ['ltr', 'rtl'], 'Locale');
+      rootMenuChildKeys.Bidi = generateItemConfig(appConfig.defaultDir, ['ltr', 'rtl'], 'Bidi');
     }
 
     console.log('rootMenuChildKeys', rootMenuChildKeys);
