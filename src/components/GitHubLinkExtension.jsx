@@ -19,7 +19,7 @@ const GithubLinkExtension = (props) => {
   return (<a href={href}>
     <Image
       variant="rounded"
-      src={'https://github.com/cerner/terra-ui/raw/master/src/github-logo.png'}
+      src={'https://github.com/cerner/terra-dev-site/raw/master/src/components/github-logo.png'}
       alt="github image"
       height="26px"
       width="26px"
