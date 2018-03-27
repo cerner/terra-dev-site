@@ -8,6 +8,8 @@ import App from './app/App';
 import defaultSiteConfig from './config/site.config';
 import routeConfiguration from './app/configureApp';
 import ConfigureUtilities from './app/ConfigureUtilities';
+import Extensions from './app/components/Extensions';
+import GitHubLinkExtension from './app/components/GitHubLinkExtension';
 
 Provider.init({
   acls: ['*'],
@@ -49,6 +51,20 @@ class Site extends React.Component {
       title: appConfig.title,
     };
 
+    let extensions = navigation.extensions;
+
+    if (!extensions && appConfig.extensions) {
+      const gitHubUrl = appConfig.extensions.gitHubUrl;
+
+      if (gitHubUrl) {
+        extensions = (
+          <Extensions>
+            <GitHubLinkExtension href={gitHubUrl} />
+          </Extensions>
+        );
+      }
+    }
+
     return (
       <Router>
         <App
@@ -56,11 +72,12 @@ class Site extends React.Component {
           utilityConfig={ConfigureUtilities.generateInitialUtiltiesConfig(appConfig)}
           routingConfig={routes}
           navigationItems={navigation.links}
-          extensions={navigation.extensions}
+          extensions={extensions}
           indexPath={navigation.index}
           defaultLocale={appConfig.defaultLocale}
           defaultDir={appConfig.defaultDirection}
           defaultTheme={appConfig.defaultTheme}
+          themes={appConfig.themes}
         />
       </Router>
     );

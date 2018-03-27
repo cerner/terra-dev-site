@@ -6,7 +6,6 @@ import Base from 'terra-base';
 import ThemeProvider from 'terra-theme-provider';
 import ApplicationLayout from 'terra-application-layout';
 
-import siteConfig from '../config/site.config';
 import ConfigureUtilities from './ConfigureUtilities';
 import RawRoute from './components/RawRoute';
 import './App.scss';
@@ -51,6 +50,10 @@ const propTypes = {
    */
   defaultTheme: PropTypes.string,
   /**
+   * The themes the site could use.
+   */
+  themes: PropTypes.object,
+  /**
    * Injected by react-routed: represent where the app is now, where you want it to go,
    * or even where it was.
    */
@@ -59,12 +62,11 @@ const propTypes = {
   }),
 };
 
-const appConfig = siteConfig.appConfig;
-
 const defaultProps = {
   nameConfig: undefined,
   defaultDir: undefined,
   defaultTheme: undefined,
+  themes: undefined,
   defaultLocale: undefined,
   navigationItems: undefined,
   extensions: undefined,
@@ -136,17 +138,17 @@ class App extends React.Component {
   }
 
   render() {
-    const { nameConfig, location, routingConfig, navigationItems, indexPath, extensions } = this.props;
+    const { nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes } = this.props;
     const { theme, locale, dir } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
     return (
-      <ThemeProvider id="site" themeName={appConfig.themes[theme]} isGlobalTheme>
+      <ThemeProvider id="site" themeName={themes[theme]} isGlobalTheme>
         <Base className="base" locale={locale}>
           <Switch>
             <Route
               path="/raw"
-              render={() => RawRoute(routingConfig, location)}
+              render={() => RawRoute(routingConfig, location, '/raw')}
             />
             <Route
               render={() => <ApplicationLayout

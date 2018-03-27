@@ -1,12 +1,3 @@
-import React from 'react';
-import { Extensions, GitHubLinkExtension } from './index';
-
-const extensions = (
-  <Extensions>
-    <GitHubLinkExtension href="https://github.com/cerner/terra-dev-site" />
-  </Extensions>
-);
-
 const navConfig = {
   rootPath: '/dev-site',
   navigation: {
@@ -24,8 +15,16 @@ const navConfig = {
         menuText: 'Getting Started',
         subMenuText: 'Info',
       },
+    }, {
+      path: '/dev-site/getting-started/thing',
+      text: 'Getting Started',
+      exampleType: 'docs',
+      hasSubNav: true,
+      menuProps: {
+        menuText: 'Getting Started',
+        subMenuText: 'Info',
+      },
     }],
-    extensions,
   },
 };
 

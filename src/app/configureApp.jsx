@@ -17,9 +17,11 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
   const examples = component[exampleType];
 
   if (examples) {
+    // create menu items to add to this menu
     const menuItems = examples.map((subComponent) => {
       const { generatedConfig: subMenu, alternatePath } = buildMenuConfig(subComponent, menuComponent, exampleType, path);
       const subComponentPath = path + subComponent.path;
+      // add any generated menus to the overall config
       if (subMenu) {
         generatedConfig = Object.assign(generatedConfig, subMenu);
       }
@@ -30,7 +32,7 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
       };
     });
 
-    // Do not create a submenu for the component if the component has one site page with no additional sub-nav.
+    // Do not create a submenu for the component if the component has one site page with no additional sub-nav and it's not a test route.
     if (menuItems.length === 1 && examples[0][exampleType] === undefined && exampleType !== 'tests') {
       return { generatedConfig: undefined, alternatePath: menuItems[0].path };
     }
@@ -55,15 +57,18 @@ const buildLinksMenuConfig = (componentConfig, link) => {
     menuComponent = link.menuComponent;
   }
 
-  // Manipulate the link config to build out the first level menu item.
-  const { generatedConfig } = buildMenuConfig({
+  const component = {
     name: link.text,
     path: '',
     [link.exampleType]: Object.values(componentConfig).filter(item => item[link.exampleType] !== undefined),
-  },
-  menuComponent,
-  link.exampleType,
-  link.path,
+  };
+
+  // Manipulate the link config to build out the first level menu item.
+  const { generatedConfig } = buildMenuConfig(
+    component,
+    menuComponent,
+    link.exampleType,
+    link.path,
   );
 
   return generatedConfig;

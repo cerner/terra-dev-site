@@ -9,9 +9,12 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The children list items passed to the component.
+   * The children extension items passed to the component.
    */
   children: PropTypes.node,
+  /**
+   * The layout configuration information to flex rendering..
+   */
   layoutConfig: Utils.propTypes.layoutConfigPropType,
 };
 

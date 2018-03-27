@@ -1,7 +1,7 @@
 import React from 'react';
 import IconSettings from 'terra-icon/lib/icon/IconSettings';
 
-function generateItemConfig(defaultItem, items, key) {
+const generateItemConfig = (defaultItem, items, key) => {
   const childKeys = {};
   items.forEach((item) => {
     childKeys[item] = {
@@ -17,9 +17,9 @@ function generateItemConfig(defaultItem, items, key) {
     title: `${key}: ${defaultItem}`,
     childKeys,
   };
-}
+};
 
-function convertMenuItemToArray(menuItem) {
+const convertMenuItemToArray = (menuItem) => {
   const updatedItem = Object.assign({}, menuItem);
   let menuItems = [];
   if (updatedItem.childKeys) {
@@ -28,18 +28,18 @@ function convertMenuItemToArray(menuItem) {
   }
   menuItems.push(updatedItem);
   return menuItems;
-}
+};
 
-function updateMetaData(parentMenuItem, metaData) {
+const updateMetaData = (parentMenuItem, metaData) => {
   if (parentMenuItem && metaData) {
     Object.keys(parentMenuItem.childKeys).forEach((item) => {
       // eslint-disable-next-line no-param-reassign
       parentMenuItem.childKeys[item].metaData = metaData;
     });
   }
-}
+};
 
-function updateSelectedItem(parentMenuItem, selectedItem) {
+const updateSelectedItem = (parentMenuItem, selectedItem) => {
   if (parentMenuItem && selectedItem) {
     // eslint-disable-next-line no-param-reassign
     parentMenuItem.title = `${parentMenuItem.key}: ${selectedItem}`;
@@ -48,7 +48,7 @@ function updateSelectedItem(parentMenuItem, selectedItem) {
       parentMenuItem.childKeys[item].isSelected = item === selectedItem;
     });
   }
-}
+};
 
 class ConfigureUtilties {
 
