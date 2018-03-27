@@ -18,11 +18,20 @@ const propTypes = {
    * ```
    * title: The title of the example
    * description: A description of the example to be displayed below the title
-   * example: A React element containing the example to be displayed
+   * example: The example to be displayed
    * source: The source code of the example
    * ```
    */
-  examples: PropTypes.array,
+  examples: PropTypes.arrayOf(
+    PropTypes.shape(
+      {
+        title: PropTypes.string,
+        description: PropTypes.string,
+        example: PropTypes.element,
+        source: PropTypes.string,
+      },
+    ),
+  ),
   /**
    * Holds objects with the following properties:
    * ```
@@ -30,7 +39,14 @@ const propTypes = {
    * componentName: The name of the component
    * ```
    */
-  propsTables: PropTypes.array,
+  propsTables: PropTypes.arrayOf(
+    PropTypes.shape(
+      {
+        componentSrc: PropTypes.string,
+        componentName: PropTypes.string,
+      },
+    ),
+  ),
 };
 
 const defaultProps = {
@@ -68,6 +84,7 @@ const SiteDocTemplate = (props) => {
       {propsTables.map(propsTable =>
         <PropsTable src={propsTable.componentSource} componentName={propsTable.componentName} key={propsTable.id} />,
       )}
+      <p id="readme">h </p>
     </div>
   );
 };

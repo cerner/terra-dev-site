@@ -10,11 +10,9 @@ describe('SiteDocTemplate', () => {
     //  I ran a sample run though, and using Terra.should.matchScreenshot() out of the box fails because of the size of the template, (it renders larger
     // than the terra-defined viewport height). This means we will probably want to capture sections of the template (think: examples section) for
     // these screenshot tests.
-    const examplesHeader = browser.element('examplesHeader');
 
-    examplesHeader.scroll();
-
-    Terra.should.matchScreenshot();
+    Terra.should.matchScreenshot('Readme', { selector: '#readme' });
+    Terra.should.matchScreenshot('Examples Header', { selector: '#examplesHeader' });
     Terra.should.beAccessible(Terra.viewports('huge'));
   });
 });

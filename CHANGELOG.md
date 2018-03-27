@@ -3,6 +3,11 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added a `SiteDocTemplate` element to provide a uniform layout and appearance for documentation pages
+
+### Changes
+* Added a `description` prop to the `IndexPageTemplage` that is displayed under the title
 
 0.2.0 - (March 2, 1018)
 ----------
