@@ -15,15 +15,6 @@ const navConfig = {
         menuText: 'Getting Started',
         subMenuText: 'Info',
       },
-    }, {
-      path: '/dev-site/getting-started/thing',
-      text: 'Getting Started',
-      exampleType: 'docs',
-      hasSubNav: true,
-      menuProps: {
-        menuText: 'Getting Started',
-        subMenuText: 'Info',
-      },
     }],
   },
 };
