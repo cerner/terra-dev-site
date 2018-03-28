@@ -14,11 +14,20 @@ const propTypes = {
   /**
    * The title branding of the site.
    */
-  nameConfig: PropTypes.object,
+  nameConfig: PropTypes.shape({
+    accessory: PropTypes.element,
+    title: PropTypes.string,
+  }),
   /**
    * Configuration to setup the utilities menu.
    */
-  utilityConfig: PropTypes.object,
+  utilityConfig: PropTypes.shape({
+    title: PropTypes.string,
+    accessory: PropTypes.element,
+    onChange: PropTypes.func.isRequired,
+    menuItems: PropTypes.object.isRequired,
+    initialSelectedKey: PropTypes.string.isRequired,
+  }),
   /**
   * The configuration Object that will be used to generate the specified regions of the terra-navigation-layout.
   * Note: The config prop is treated as an immutable object to prevent unnecessary processing and improve performance.
@@ -32,7 +41,7 @@ const propTypes = {
   /**
    * React object to display in the utilities area in the application layout.
    */
-  extensions: PropTypes.object,
+  extensions: PropTypes.element,
   /**
    * The path to the sites index.
    */
