@@ -40,14 +40,14 @@ class IndexExampleTemplate extends React.Component {
 
     const indexExample = (
       <div>
-        <Button text="Show Source Code" onClick={this.handlePanelToggle} />
+        <Button text="Show Source Code" onClick={this.handlePanelToggle} data-terra-example-hide />
         {example}
       </div>
     );
 
     const indexExampleSrc = (
       <div>
-        <Button text="Show Example" onClick={this.handlePanelToggle} />
+        <Button text="Show Example" onClick={this.handlePanelToggle} data-terra-example-show />
         <Markdown src={`${codeIndicator}jsx\n${exampleSrc}${codeIndicator}`} />
       </div>
     );

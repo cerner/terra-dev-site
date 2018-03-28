@@ -17,7 +17,9 @@ const Index = () => {
   const examples = [{ title: 'Test Example 1', description: 'Describing the test', example: exampleElement, source: exampleSrc },
     { title: 'Test Example 2', description: 'Describing the test mk. 2', example: exampleElement, source: exampleSrc }];
 
-  return (<SiteDocTemplate version="1.9" readme={readme} propsTables={propsTables} examples={examples} />);
+  return (<div id="SiteDocTemplateContainer">
+    <SiteDocTemplate version="1.9" readme={readme} propsTables={propsTables} examples={examples} />
+  </div>);
 };
 
 export default Index;

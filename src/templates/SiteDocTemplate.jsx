@@ -74,7 +74,7 @@ const SiteDocTemplate = (props) => {
   return (
     <div>
       {version ? <div id="version">Version: {version}</div> : null}
-      {readme ? <Markdown id="readme" src={readme} /> : null}
+      {readme ? <Markdown src={readme} /> : null}
 
       {examples.length > 0 ? <h1 id="examplesHeader" style={{ paddingBottom: '0.3em', borderBottom: '1px solid #eaecef' }}>Examples</h1> : null}
       {examples.map(example =>
@@ -84,7 +84,6 @@ const SiteDocTemplate = (props) => {
       {propsTables.map(propsTable =>
         <PropsTable src={propsTable.componentSource} componentName={propsTable.componentName} key={propsTable.id} />,
       )}
-      <p id="readme">h </p>
     </div>
   );
 };

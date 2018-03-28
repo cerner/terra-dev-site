@@ -83,7 +83,6 @@ exports[`should show one props table 1`] = `
 exports[`should show the readme 1`] = `
 <div>
   <Markdown
-    id="readme"
     src="test-file-stub"
   />
 </div>
@@ -109,7 +108,6 @@ exports[`should show the version and readme 1`] = `
     1.9
   </div>
   <Markdown
-    id="readme"
     src="test-file-stub"
   />
 </div>
@@ -124,7 +122,6 @@ exports[`should show the version, readme, examples, and props tables 1`] = `
     1.9
   </div>
   <Markdown
-    id="readme"
     src="test-file-stub"
   />
   <h1
