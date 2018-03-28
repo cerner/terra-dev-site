@@ -3,16 +3,16 @@ Changelog
 
 Unreleased
 ----------
-### Added
-* Extenstions Component
-* GitHubLinkExtension Component
 
+0.3.0 - (March 28, 2018)
+----------
 ### Changes
 * Consume terra-application-layout, remove custom layout
 * Consume RoutingMenu from terra-application-layout
+* A GitHub link extension can be added through config.
 
 
-0.2.0 - (March 2, 1018)
+0.2.0 - (March 2, 2018)
 ----------
 ### Added
 * Add generate-config bin script for quick access to the generate-component-config script
