@@ -50,6 +50,12 @@ const siteConfig = {
 
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
+
+    /* Configuration relating to the extensions section of the site. Not rendered if extensions are supplied by navigation config */
+    // extensions: {
+      /* The url to link to github. If this is supplied a github extention will be display to link to the supplied url */
+      // gitHubUrl: 'https://github.com/cerner',
+    // },
   },
 };
 
