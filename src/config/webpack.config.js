@@ -10,8 +10,7 @@ const rtl = require('postcss-rtl');
 const ThemingPlugin = require('../theming-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const I18nAggregatorPlugin = require('terra-i18n-plugin');
-const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
+const aggregateTranslations = require('terra-i18n/scripts/aggregate-translations/aggregate-translations');
 const fs = require('fs');
 
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
@@ -19,6 +18,8 @@ const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).i
 const processPath = process.cwd();
 /* Get the root path of a mono-repo process call */
 const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
+
+aggregateTranslations({ baseDirectory: rootPath });
 
 /* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
 let siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
@@ -93,10 +94,6 @@ const defaultWebpackConfig = {
       title: 'Site',
       template: path.join(__dirname, '..', 'index.html'),
       chunks: ['raf', 'babel-polyfill', 'terra-dev-site'],
-    }),
-    new I18nAggregatorPlugin({
-      baseDirectory: rootPath,
-      supportedLocales: i18nSupportedLocales,
     }),
     new webpack.DefinePlugin({
       SITE_CONFIG_PATH: JSON.stringify(siteConfigPath),
