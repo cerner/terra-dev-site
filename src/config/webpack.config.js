@@ -31,18 +31,6 @@ const defaultWebpackConfig = {
     'babel-polyfill': 'babel-polyfill',
     'terra-dev-site': path.resolve(path.join(__dirname, '..', 'Index')),
   },
-  // optimization: {
-  //   splitChunks: {
-  //     cacheGroups: {
-  //       styles: {
-  //         name: 'common',
-  //         test: /\.(scss|css)$/,
-  //         chunks: 'all',
-  //         enforce: true,
-  //       },
-  //     },
-  //   },
-  // },
   module: {
     rules: [{
       test: /\.(jsx|js)$/,

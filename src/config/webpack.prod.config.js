@@ -3,6 +3,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const webpackConfig = require('./webpack.config');
 const CleanPlugin = require('clean-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const path = require('path');
 
 // Clean build before running
@@ -15,5 +17,16 @@ webpackConfig.output = {
 };
 webpackConfig.mode = 'production';
 webpackConfig.devtool = undefined;
+
+webpackConfig.optimization = {
+  minimizer: [
+    new UglifyJsPlugin({
+      cache: true,
+      parallel: true,
+      sourceMap: true, // set to true if you want JS source maps
+    }),
+    new OptimizeCSSAssetsPlugin({}),
+  ],
+};
 
 module.exports = webpackConfig;
