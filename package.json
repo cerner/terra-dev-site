@@ -37,7 +37,8 @@
     }
   },
   "bin": {
-    "generate-config": "./bin/generate-config.js"
+    "generate-config": "./bin/generate-config.js",
+    "start:express": "./bin/start-express.js"
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
@@ -72,6 +73,8 @@
     "clean-webpack-plugin": "^0.1.17",
     "commander": "^2.9.0",
     "css-loader": "^0.28.7",
+    "express": "^4.16.3",
+    "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^1.1.5",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^3.1.0",
