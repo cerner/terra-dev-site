@@ -19,3 +19,5 @@ navigation.config.js
 Procfile
 site.config.js
 themeable-variables.json
+build
+dist
