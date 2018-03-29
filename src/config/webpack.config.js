@@ -8,10 +8,10 @@ const PostCSSCustomProperties = require('postcss-custom-properties');
 const path = require('path');
 const rtl = require('postcss-rtl');
 const ThemingPlugin = require('../theming-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const I18nAggregatorPlugin = require('terra-i18n-plugin');
-const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
+// const I18nAggregatorPlugin = require('terra-i18n-plugin');
+// const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
 const fs = require('fs');
 
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
@@ -31,6 +31,18 @@ const defaultWebpackConfig = {
     'babel-polyfill': 'babel-polyfill',
     'terra-dev-site': path.resolve(path.join(__dirname, '..', 'Index')),
   },
+  // optimization: {
+  //   splitChunks: {
+  //     cacheGroups: {
+  //       styles: {
+  //         name: 'common',
+  //         test: /\.(scss|css)$/,
+  //         chunks: 'all',
+  //         enforce: true,
+  //       },
+  //     },
+  //   },
+  // },
   module: {
     rules: [{
       test: /\.(jsx|js)$/,
@@ -39,9 +51,10 @@ const defaultWebpackConfig = {
     },
     {
       test: /\.(scss|css)$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [{
+      use: [
+        MiniCssExtractPlugin.loader,
+        // { loader: 'style-loader' },
+        {
           loader: 'css-loader',
           options: {
             sourceMap: true,
@@ -68,14 +81,14 @@ const defaultWebpackConfig = {
               ];
             },
           },
-        },
-        {
+        }, {
           loader: 'sass-loader',
           options: {
             data: '$bundled-themes: mock;',
           },
-        }],
-      }),
+        },
+        // { loader: 'style-loader' },
+      ],
     },
     {
       test: /\.md$/,
@@ -84,20 +97,20 @@ const defaultWebpackConfig = {
     {
       test: /\.(png|svg|jpg|gif)$/,
       use: 'file-loader',
-    },
-    ],
+    }],
   },
   plugins: [
-    new ExtractTextPlugin('[name]-[hash].css'),
+    new MiniCssExtractPlugin({
+      filename: '[name]-[hash].css',
+    }),
     new HtmlWebpackPlugin({
       title: 'Site',
       template: path.join(__dirname, '..', 'index.html'),
-      chunks: ['raf', 'babel-polyfill', 'terra-dev-site'],
     }),
-    new I18nAggregatorPlugin({
-      baseDirectory: rootPath,
-      supportedLocales: i18nSupportedLocales,
-    }),
+    // new I18nAggregatorPlugin({
+    //   baseDirectory: rootPath,
+    //   supportedLocales: i18nSupportedLocales,
+    // }),
     new webpack.DefinePlugin({
       SITE_CONFIG_PATH: JSON.stringify(siteConfigPath),
     }),
@@ -108,7 +121,6 @@ const defaultWebpackConfig = {
         PostCSSCustomProperties({ preserve: true }),
       ],
     }),
-    new webpack.NamedChunksPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -122,32 +134,14 @@ const defaultWebpackConfig = {
     },
   },
   output: {
-    filename: '[name].js',
-    path: path.join(rootPath, 'dist'),
+  //   filename: '[name].js',
+    path: path.join(rootPath, 'build'),
   },
-  devtool: 'cheap-source-map',
-  // devServer: {
-  //   host: '0.0.0.0',
-  //   disableHostCheck: true,
-  //   stats: {
-  //     assets: true,
-  //     children: false,
-  //     chunks: false,
-  //     hash: false,
-  //     modules: false,
-  //     publicPath: false,
-  //     timings: true,
-  //     version: true,
-  //     warnings: true,
-  //   },
-  //   overlay: {
-  //     warnings: true,
-  //     errors: true,
-  //   },
-  // },
+  devtool: 'cheap-module-eval-source-map',
   resolveLoader: {
     modules: [path.resolve(path.join(rootPath, 'node_modules'))],
   },
+  mode: 'development',
 };
 
 module.exports = defaultWebpackConfig;

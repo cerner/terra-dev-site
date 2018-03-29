@@ -13,5 +13,7 @@ webpackConfig.output = {
   path: path.resolve('build'),
   filename: '[name]-[hash].js',
 };
+webpackConfig.mode = 'production';
+webpackConfig.devtool = undefined;
 
 module.exports = webpackConfig;

@@ -43,6 +43,7 @@
     "clean": "node scripts/clean-modules/index.js",
     "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
+    "compile:dev": "webpack --config src/config/webpack.config",
     "compile:prod": "webpack --config src/config/webpack.prod.config -p",
     "danger": "danger",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
@@ -56,7 +57,7 @@
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
-    "start": "webpack-serve --config ./src/config/webpack.config",
+    "start": "webpack-serve --config src/config/webpack.config",
     "start:express": "node scripts/express/app.js",
     "test": "npm run jest"
   },
@@ -71,15 +72,15 @@
     "clean-webpack-plugin": "^0.1.17",
     "commander": "^2.9.0",
     "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^1.1.5",
     "glob": "^7.1.1",
-    "html-webpack-plugin": "^2.30.0",
+    "html-webpack-plugin": "^3.1.0",
     "ip": "^1.1.5",
     "json-loader": "^0.5.7",
     "load-json-file": "^2.0.0",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
+    "mini-css-extract-plugin": "^0.3.0",
     "node-sass": "^4.5.2",
     "postcss": "^6.0.9",
     "postcss-assets-webpack-plugin": "^1.1.0",
@@ -94,7 +95,6 @@
     "redux": "^3.6.0",
     "sass-loader": "^6.0.6",
     "shelljs": "^0.7.6",
-    "style-loader": "^0.19.0",
     "terra-application-layout": "^1.0.0",
     "terra-base": "^3.0.0",
     "terra-button": "^2.0.1",
@@ -112,7 +112,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "webpack": "^4.3.0"
+    "webpack": "^4.4.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
@@ -145,7 +145,7 @@
     "stylelint-order": "^0.7.0",
     "stylelint-scss": "^2.0.0",
     "stylelint-suitcss": "^1.0.0",
-    "webpack": "^4.3.0",
+    "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13",
     "webpack-serve": "0.3.0"
   }
