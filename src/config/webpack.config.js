@@ -83,6 +83,10 @@ const defaultWebpackConfig = {
       use: 'raw-loader',
     },
     {
+      test: /\.json$/,
+      loader: 'json-loader',
+    },
+    {
       test: /\.(png|svg|jpg|gif)$/,
       use: 'file-loader',
     }],
