@@ -42,11 +42,6 @@ const componentConfig = {
       },
     ],
   },
-  templates: {
-    name: 'Templates',
-    path: '/templates',
-    pages: [],
-  },
 };
 
 const config = Object.assign({}, generatedComponentConfig, componentConfig);
