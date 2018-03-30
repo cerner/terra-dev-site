@@ -116,7 +116,8 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "webpack": "^4.4.1"
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
