@@ -1,6 +1,5 @@
 // import your template documentation and/or examples here
 import generatedComponentConfig from './generatedComponentConfig';
-import example from './src/templates/examples/TestPage';
 
 const componentConfig = {
   'getting-started': {
@@ -46,22 +45,7 @@ const componentConfig = {
   templates: {
     name: 'Templates',
     path: '/templates',
-    docs: [{
-      name: 'Index Page Template',
-      path: '/index-page-template',
-      // If you have one exmample, use the component key, if more then one example, add to the docs array and remove the component key.
-      component: example,
-      // docs: [
-      //   {
-      //     name: // Menu Link Name
-      //     path: // The path for the 1st example
-      //   },
-      //   {
-      //     name: // Menu Link Name
-      //     path: // The path for the 2nd example
-      //   },
-      // ],
-    }],
+    pages: [],
   },
 };
 

@@ -18,7 +18,8 @@ describe('SiteDocTemplate', () => {
       const button = browser.element('[data-terra-example-hide]');
       button.click();
 
-      browser.pause(1000);
+      // Give time for the animation to complete
+      browser.pause(250);
 
       const screenshots = browser.checkElement('#SiteDocTemplateContainer > div > div:nth-child(4)', { viewports: Terra.viewports('huge') });
       expect(screenshots).to.matchReference();
@@ -28,8 +29,13 @@ describe('SiteDocTemplate', () => {
       let button = browser.element('[data-terra-example-hide]');
       button.click();
 
+      // Ensure the button is revealed so it can be clicked
+      browser.pause(100);
+
       button = browser.element('[data-terra-example-show]');
       button.click();
+
+      browser.pause(250);
 
       const screenshots = browser.checkElement('#SiteDocTemplateContainer > div > div:nth-child(4)', { viewports: Terra.viewports('huge') });
       expect(screenshots).to.matchReference();
