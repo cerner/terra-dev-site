@@ -1,53 +1,51 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, matchPath } from 'react-router-dom';
+import { withRouter, matchPath, Switch, Route } from 'react-router-dom';
 
 import Base from 'terra-base';
-import Image from 'terra-image';
 import ThemeProvider from 'terra-theme-provider';
-import NavigationLayout from 'terra-navigation-layout';
+import ApplicationLayout from 'terra-application-layout';
 
-import siteConfig from '../config/site.config';
-import ApplicationHeader from './ApplicationHeader';
+import ConfigureUtilities from './ConfigureUtilities';
+import RawRoute from './components/RawRoute';
 import './App.scss';
 
 const propTypes = {
   /**
    * The title branding of the site.
    */
-  appTitle: PropTypes.string,
+  nameConfig: PropTypes.shape({
+    accessory: PropTypes.element,
+    title: PropTypes.string,
+  }),
   /**
-   * The source of the logo element to be placed at the start of the toolbar.
+   * Configuration to setup the utilities menu.
    */
-  appLogoSrc: PropTypes.string,
+  utilityConfig: PropTypes.shape({
+    title: PropTypes.string,
+    accessory: PropTypes.element,
+    onChange: PropTypes.func.isRequired,
+    menuItems: PropTypes.object.isRequired,
+    initialSelectedKey: PropTypes.string.isRequired,
+  }),
   /**
   * The configuration Object that will be used to generate the specified regions of the terra-navigation-layout.
   * Note: The config prop is treated as an immutable object to prevent unnecessary processing and improve performance.
   * If the configuration is changed after the first render, a new configuration object instance must be provided.
   */
-  routeConfig: PropTypes.object.isRequired,
+  routingConfig: PropTypes.object.isRequired,
   /**
    * The navigaion links to display within the menu in the toolbar.
    */
-  navigation: PropTypes.object.isRequired,
+  navigationItems: PropTypes.array,
   /**
-   * The root path for the site.
+   * React object to display in the utilities area in the application layout.
    */
-  rootPath: PropTypes.string.isRequired,
+  extensions: PropTypes.element,
   /**
-   * The theme options the site should display in the theme utility in the toobar.
+   * The path to the sites index.
    */
-  themes: PropTypes.object,
-  /**
-  * The locale options the site should display in the locale utility in the toobar.
-   // we should check these values are contained in i18nSupportedLocales
-   */
-  locales: PropTypes.array,
-  /**
-   * Whether or not to display the directionality utility in the toolbar.
-   */
-  hideBidiUtility: PropTypes.bool,
+  indexPath: PropTypes.string.isRequired,
   /**
   * The locale the site should default to.
    */
@@ -61,6 +59,10 @@ const propTypes = {
    */
   defaultTheme: PropTypes.string,
   /**
+   * The themes the site could use.
+   */
+  themes: PropTypes.object,
+  /**
    * Injected by react-routed: represent where the app is now, where you want it to go,
    * or even where it was.
    */
@@ -68,20 +70,26 @@ const propTypes = {
     pathname: PropTypes.string,
   }),
 };
-const appConfig = siteConfig.appConfig;
+
 const defaultProps = {
-  appTitle: appConfig.title,
-  appLogoSrc: appConfig.logoSrc,
-  hideBidiUtility: !appConfig.bidirectional,
-  defaultDir: appConfig.defaultDirection,
-  defaultTheme: appConfig.defaultTheme,
-  themes: appConfig.themes,
-  defaultLocale: appConfig.defaultLocale,
-  locales: appConfig.locales,
+  nameConfig: undefined,
+  defaultDir: undefined,
+  defaultTheme: undefined,
+  themes: undefined,
+  defaultLocale: undefined,
+  navigationItems: undefined,
+  extensions: undefined,
+  routingConfig: undefined,
+  utilityConfig: undefined,
   location: undefined,
 };
 
 class App extends React.Component {
+
+  static propExistsAndChanged(nextProp, currentProp) {
+    return nextProp !== undefined && nextProp !== currentProp;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -92,73 +100,77 @@ class App extends React.Component {
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
+
+    this.utilityConfig = this.setupUtilityConfig(props.utilityConfig);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.defaultLocale !== undefined && nextProps.defaultLocale !== this.props.defaultLocale) {
+    if (App.propExistsAndChanged(nextProps.defaultLocale, this.props.defaultLocale)) {
       document.getElementsByTagName('html')[0].setAttribute('lang', nextProps.defaultLocale);
       this.setState({ locale: nextProps.defaultLocale });
     }
 
-    if (nextProps.defaultTheme !== undefined && nextProps.defaultTheme !== this.props.defaultTheme) {
+    if (App.propExistsAndChanged(nextProps.defaultTheme, this.props.defaultTheme)) {
       this.setState({ theme: nextProps.defaultTheme });
     }
 
-    if (nextProps.defaultDir !== undefined && nextProps.defaultDir !== this.props.defaultDir) {
+    if (App.propExistsAndChanged(nextProps.defaultDir, this.props.defaultDir)) {
       document.getElementsByTagName('html')[0].setAttribute('dir', nextProps.defaultDir);
       this.setState({ dir: nextProps.defaultDir });
     }
+
+    this.utilityConfig = this.setupUtilityConfig(nextProps.utilityConfig);
   }
 
-  handleBidiChange(e) {
-    document.getElementsByTagName('html')[0].setAttribute('dir', e.currentTarget.id);
-    this.setState({ dir: e.currentTarget.id });
+  setupUtilityConfig(utilityConfig) {
+    return ConfigureUtilities.addCallbackFunctions(
+      utilityConfig,
+      {
+        Theme: { onChange: this.handleThemeChange },
+        Locale: { onChange: this.handleLocaleChange },
+        Bidi: { onChange: this.handleBidiChange },
+      });
   }
 
-  handleLocaleChange(e) {
-    document.getElementsByTagName('html')[0].setAttribute('lang', e.currentTarget.id);
-    this.setState({ locale: e.currentTarget.id });
+  handleBidiChange(key) {
+    document.getElementsByTagName('html')[0].setAttribute('dir', key);
+    this.setState({ dir: key });
   }
 
-  handleThemeChange(e) {
-    this.setState({ theme: e.currentTarget.id });
+  handleLocaleChange(key) {
+    document.getElementsByTagName('html')[0].setAttribute('lang', key);
+    this.setState({ locale: key });
+  }
+
+  handleThemeChange(key) {
+    this.setState({ theme: key });
   }
 
   render() {
-    let appLogo;
-    if (this.props.appLogoSrc) {
-      appLogo = (<Image variant="rounded" src={this.props.appLogoSrc} height="26px" width="26px" isFluid />);
-    }
-
-    let applicationHeader;
-    if (!matchPath(this.props.location.pathname, '/raw/tests')) {
-      applicationHeader = (
-        <ApplicationHeader
-          title={this.props.appTitle}
-          logo={appLogo}
-          locale={this.state.locale}
-          locales={this.props.locales}
-          onLocaleChange={this.handleLocaleChange}
-          hideBidiUtility={this.props.hideBidiUtility}
-          dir={this.state.dir}
-          onDirChange={this.handleBidiChange}
-          theme={this.state.theme}
-          themes={Object.keys(this.props.themes)}
-          onThemeChange={this.handleThemeChange}
-          navigation={matchPath(this.props.location.pathname, this.props.rootPath) ? this.props.navigation : undefined}
-        />
-      );
-    }
+    const { nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes } = this.props;
+    const { theme, locale, dir } = this.state;
+    this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
     return (
-      <ThemeProvider id="site" themeName={this.props.themes[this.state.theme]} isGlobalTheme>
-        <Base className="base" locale={this.state.locale}>
-          <NavigationLayout
-            header={applicationHeader}
-            menuText="Menu"
-            indexPath={this.props.navigation && this.props.navigation.index}
-            config={this.props.routeConfig}
-          />
+      <ThemeProvider id="site" themeName={themes[theme]} isGlobalTheme>
+        <Base className="base" locale={locale}>
+          <Switch>
+            <Route
+              path="/raw"
+              render={() => RawRoute(routingConfig, location, '/raw')}
+            />
+            <Route
+              render={() => <ApplicationLayout
+                nameConfig={nameConfig}
+                utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+                routingConfig={routingConfig}
+                navigationItems={!matchPath(location.pathname, '/tests') ? navigationItems : undefined}
+                extensions={extensions}
+                indexPath={indexPath}
+                navigationAlignment="start"
+              />}
+            />
+          </Switch>
         </Base>
       </ThemeProvider>
     );

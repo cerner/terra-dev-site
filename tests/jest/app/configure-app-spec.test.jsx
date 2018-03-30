@@ -17,10 +17,6 @@ const componentConfigs = {
 const testRoutesAndNavigation = (siteConfig, componentConfig, expectedRoutes, expectedNavigation) => {
   const { routeConfig, navigation } = configureApp(siteConfig, componentConfig);
 
-  // assert the generated menu links
-  expect(routeConfig).toHaveProperty(`menu.${rootPath}.component.tiny.props.links`, expectedNavigation.links);
-  expect(routeConfig).toHaveProperty(`menu.${rootPath}.component.small.props.links`, expectedNavigation.links);
-
   // assert the generated menu content
   expect(Object.keys(routeConfig.content).length).toBe(expectedRoutes.length);
   expect(Object.keys(routeConfig.content)).toEqual(expect.arrayContaining((expectedRoutes)));
@@ -144,7 +140,7 @@ describe('configureApp', () => {
           }];
 
           if (configKey === 'tests') {
-            expectedRoutes = ['/site/mock', '/raw/tests'];
+            expectedRoutes = ['/site/mock'];
             expectedNavigation.links = [];
           } else {
             expectedRoutes = ['/site/mock'];
@@ -247,7 +243,6 @@ describe('configureApp', () => {
       expectedRoutes = [
         '/site/mock',
         '/tests',
-        '/raw/tests',
       ];
       expectedNavigation.links = [{
         path: '/site/mock',
@@ -264,7 +259,7 @@ describe('configureApp', () => {
         text: 'Mock',
         exampleType: 'mock',
       }];
-      const expectedMenuLinks = ['/site'];
+      const expectedMenuLinks = [];
 
       testMenuContent(siteConfig, mockBasicCC, expectedMenuLinks);
     });
@@ -278,7 +273,6 @@ describe('configureApp', () => {
       }];
       const expectedMenuLinks = [
         '/site/mock',
-        '/site',
       ];
 
       testMenuContent(siteConfig, mockBasicCC, expectedMenuLinks);
@@ -296,7 +290,6 @@ describe('configureApp', () => {
         '/site/pages/mock-2',
         '/site/pages/mock-3',
         '/site/pages/mock-5',
-        '/site',
       ];
 
       testMenuContent(siteConfig, mockPagesCC, expectedMenuLinks);
@@ -318,7 +311,6 @@ describe('configureApp', () => {
         '/tests/mock-5/first-layer',
         '/tests/mock-5',
         '/tests',
-        '/site',
       ];
 
       testMenuContent(siteConfig, mockTestsCC, expectedMenuLinks);
@@ -352,7 +344,6 @@ describe('configureApp', () => {
         '/site/pages/mock-4',
         '/site/pages/mock-5',
         '/site/pages/mock-7',
-        '/site',
       ];
 
       testMenuContent(siteConfig, mockPagesTestsCC, expectedMenuLinks);

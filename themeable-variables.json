@@ -12,6 +12,7 @@
   },
   "Button": {
     "--terra-button-border-radius": "0.2142rem",
+    "--terra-button-font-size": "1rem",
     "--terra-button-line-height": "1.429",
     "--terra-button-vertical-padding": "0.286rem",
     "--terra-button-disabled-opacity": "0.3",
@@ -89,7 +90,6 @@
     "--terra-button-focus-background-color-utility": "transparent",
     "--terra-button-focus-border-color-utility": "transparent",
     "--terra-button-focus-box-shadow-utility": "0 0 1px 3px rgba(76, 178, 233, 0.5), 0 0 7px 4px rgba(76, 178, 233, 0.35)",
-    "--terra-button-hover-background-color-utility": "transparent",
     "--terra-button-hover-color-utility": "#1c1f21",
     "--terra-button-active-background-color-utility": "rgba(0, 0, 0, 0.07)",
     "--terra-button-active-border-color-utility": "transparent",
@@ -128,6 +128,7 @@
     "--terra-list-item-selected-background-color": "#e2f2fc",
     "--terra-list-item-selected-divider-color": "#0092e0",
     "--terra-list-item-hover-background-color": "#f4fafe",
+    "--terra-list-item-focus-background-color": "#f4fafe",
     "--terra-list-item-selected-hover-background-color": "#cbe7fa"
   },
   "Menu": {
@@ -169,27 +170,31 @@
     "--terra-menu-item-chevron-icon-color": "#9b9fa1",
     "--terra-menu-item-chevron-icon-font-size": "10px"
   },
+  "Overlay": {
+    "--terra-overlay-dark-background-color": "rgba(28, 31, 33, 0.8)",
+    "--terra-overlay-dark-background-image": "none",
+    "--terra-overlay-dark-content-color": "#fff",
+    "--terra-overlay-light-background-color": "rgba(245, 245, 245, 0.7)",
+    "--terra-overlay-light-background-image": "none",
+    "--terra-overlay-light-content-color": "#1c1f21",
+    "--terra-overlay-content-color": "#1c1f21",
+    "--terra-overlay-content-padding-bottom": "1rem",
+    "--terra-overlay-content-padding-left": "1rem",
+    "--terra-overlay-content-padding-right": "1rem",
+    "--terra-overlay-content-padding-top": "1rem"
+  },
   "PopupArrow": {
     "--terra-popup-arrow-size": "11px",
     "--terra-popup-arrow-z-index": "7002",
     "--terra-popup-arrow-inner-size": "10px",
     "--terra-popup-arrow-inner-z-index": "7003",
     "--terra-popup-arrow-color": "#b2b5b6",
-    "--terra-popup-arrow-inner-inset-size": "2px",
-    "--terra-popup-arrow-inner-color": "#fff"
+    "--terra-popup-arrow-inner-color": "#fff",
+    "--terra-popup-arrow-inner-inset-size": "2px"
   },
   "PopupContent": {
     "--terra-popup-content-header-border-bottom": "1px solid #dedfe0",
-    "--terra-popup-content-close-background": "0 0",
-    "--terra-popup-content-close-border": "0",
-    "--terra-popup-content-close-color": "#111",
-    "--terra-popup-content-close-font-size": "1.45rem",
-    "--terra-popup-content-close-font-weight": "bold",
-    "--terra-popup-content-close-line-height": "0",
-    "--terra-popup-content-close-margin-left": "0.3571rem",
-    "--terra-popup-content-close-margin-right": "0",
-    "--terra-popup-content-close-padding": "4px",
-    "--terra-popup-content-close-hover-color": "#999",
+    "--terra-popup-content-close-icon": "url(\"data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2048%2048%27%3E%3Cpath%20fill%3D%27rgba%2817%2C%2017%2C%2017%2C%201%29%27%20d%3D%27M28.2%2024L42.9%209.1%2040.8%207l-1.7-1.6-.4-.5L24%2019.7%209.4%204.9%207.2%207%205.6%208.6l-.5.5L19.8%2024%205.1%2038.9%207.2%2041l1.7%201.6.5.5L24%2028.3l14.7%2014.8.4-.5%201.7-1.6%202.1-2.1L28.2%2024z%27%2F%3E%3C%2Fsvg%3E\")",
     "--terra-popup-content-inner-background-color": "#fff",
     "--terra-popup-content-inner-border": "1px solid #b2b5b6",
     "--terra-popup-content-inner-box-shadow": "0 4px 8px 0 rgba(0, 0, 0, 0.35), 0 4px 3px -3px rgba(0, 0, 0, 0.5)"
@@ -198,5 +203,8 @@
     "--terra-popup-overlay-background-color": "#fff",
     "--terra-popup-overlay-opacity": "0.01",
     "--terra-popup-overlay-z-index": "7000"
+  },
+  "SlidePanel": {
+    "--terra-slide-panel-panel-width-small": "320px"
   }
 }

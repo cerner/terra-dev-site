@@ -1,8 +1,8 @@
 {
   "name": "terra-dev-site",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
-  "main": "lib/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cerner/terra-dev-site"
@@ -37,7 +37,8 @@
     }
   },
   "bin": {
-    "generate-config": "./bin/generate-config.js"
+    "generate-config": "./bin/generate-config.js",
+    "start:express": "./bin/start-express.js"
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
@@ -74,6 +75,7 @@
     "clean-webpack-plugin": "^0.1.17",
     "commander": "^2.9.0",
     "css-loader": "^0.28.7",
+    "express": "^4.16.3",
     "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^1.1.5",
     "glob": "^7.1.1",
@@ -98,16 +100,13 @@
     "sass-loader": "^6.0.6",
     "shelljs": "^0.7.6",
     "style-loader": "^0.19.0",
-    "terra-app-delegate": "^2.0.0",
-    "terra-application-header-layout": "^2.0.0",
-    "terra-application-menu-layout": "^2.0.0",
+    "terra-application-layout": "^1.0.0",
     "terra-base": "^3.0.0",
     "terra-button": "^2.0.1",
     "terra-i18n": "^2.0.0",
     "terra-i18n-plugin": "^2.0.0",
     "terra-icon": "^2.0.1",
     "terra-image": "^2.0.1",
-    "terra-list": "^2.0.1",
     "terra-markdown": "^2.0.0",
     "terra-menu": "^2.0.1",
     "terra-navigation-layout": "^2.0.0",

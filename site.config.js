@@ -22,6 +22,9 @@ const siteConfig = {
     title: 'Terra Dev Site',
     locales: ['en'],
     bidirectional: false,
+    extensions: {
+      gitHubUrl: 'https://github.com/cerner/terra-dev-site',
+    },
   },
 };
 
