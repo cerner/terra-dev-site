@@ -6,6 +6,7 @@ import Image from 'terra-image';
 
 import App from './app/App';
 import defaultSiteConfig from './config/site.config';
+import AppSiteConfig from 'site.config';
 import routeConfiguration from './app/configureApp';
 import ConfigureUtilities from './app/ConfigureUtilities';
 import Extensions from './app/components/Extensions';
@@ -25,15 +26,15 @@ class Site extends React.Component {
   componentDidMount() {
     // SITE_CONFIG_PATH is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-dev-site/site.webpack.config.
     // eslint-disable-next-line no-undef
-    if (SITE_CONFIG_PATH !== undefined) {
-      // eslint-disable-next-line no-undef
-      import(SITE_CONFIG_PATH)
-        .then(module => this.setState({ siteConfig: module.default }));
-    }
+    // if (SITE_CONFIG_PATH !== undefined) {
+    //   // eslint-disable-next-line no-undef
+    //   import(SITE_CONFIG_PATH)
+    //     .then(module => this.setState({ siteConfig: module.default }));
+    // }
   }
 
   render() {
-    const siteConfig = Object.assign({}, defaultSiteConfig, this.state.siteConfig);
+    const siteConfig = Object.assign({}, defaultSiteConfig, AppSiteConfig);
     siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, siteConfig.appConfig);
     const { appConfig, componentConfig } = siteConfig;
 

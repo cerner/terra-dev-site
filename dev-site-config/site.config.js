@@ -1,4 +1,4 @@
-import homeReadMe from './README.md';
+import homeReadMe from '../README.md';
 import navConfig from './navigation.config';
 import componentConfig from './componentConfig';
 

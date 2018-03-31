@@ -1,7 +1,7 @@
 // By default eslint assumes packages imported are supposed to be dependencies,
 // not devDependencies. Disabling this rule in webpack.conig.js
 /* eslint-disable import/no-extraneous-dependencies */
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const Autoprefixer = require('autoprefixer');
 const PostCSSAssetsPlugin = require('postcss-assets-webpack-plugin');
 const PostCSSCustomProperties = require('postcss-custom-properties');
@@ -20,10 +20,11 @@ const processPath = process.cwd();
 /* Get the root path of a mono-repo process call */
 const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
 
-/* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
-let siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
-// eslint-disable-next-line import/no-dynamic-require
-siteConfigPath = isFile(siteConfigPath) ? siteConfigPath : './config/site.config';
+/* Get the site configuration to add as a resolve path */
+let devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
+const customSiteConfigPath = path.join(devSiteConfigPath, 'site.config.js');
+devSiteConfigPath = isFile(customSiteConfigPath) ? devSiteConfigPath : path.join('src', 'config');
+console.log('resolve', devSiteConfigPath);
 
 const defaultWebpackConfig = {
   entry: {
@@ -41,7 +42,6 @@ const defaultWebpackConfig = {
       test: /\.(scss|css)$/,
       use: [
         MiniCssExtractPlugin.loader,
-        // { loader: 'style-loader' },
         {
           loader: 'css-loader',
           options: {
@@ -75,16 +75,11 @@ const defaultWebpackConfig = {
             data: '$bundled-themes: mock;',
           },
         },
-        // { loader: 'style-loader' },
       ],
     },
     {
       test: /\.md$/,
       use: 'raw-loader',
-    },
-    {
-      test: /\.json$/,
-      loader: 'json-loader',
     },
     {
       test: /\.(png|svg|jpg|gif)$/,
@@ -103,9 +98,6 @@ const defaultWebpackConfig = {
     //   baseDirectory: rootPath,
     //   supportedLocales: i18nSupportedLocales,
     // }),
-    new webpack.DefinePlugin({
-      SITE_CONFIG_PATH: JSON.stringify(siteConfigPath),
-    }),
     new PostCSSAssetsPlugin({
       test: /\.css$/,
       log: false,
@@ -116,7 +108,11 @@ const defaultWebpackConfig = {
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
-    modules: [path.resolve(rootPath, 'aggregated-translations'), 'node_modules'],
+    modules: [
+      path.resolve(rootPath, 'aggregated-translations'),
+      devSiteConfigPath,
+      'node_modules',
+    ],
 
     // See https://github.com/facebook/react/issues/8026
     alias: {
@@ -126,7 +122,6 @@ const defaultWebpackConfig = {
     },
   },
   output: {
-  //   filename: '[name].js',
     path: path.join(rootPath, 'build'),
   },
   devtool: 'cheap-module-eval-source-map',
