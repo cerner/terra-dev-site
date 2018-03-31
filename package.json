@@ -107,6 +107,9 @@
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
     "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13",
+    "webpack-serve": "0.3.0",
     "xfc": "^1.2.1"
   },
   "peerDependencies": {
@@ -114,8 +117,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "webpack": "^4.4.1",
-    "webpack-cli": "^2.0.13"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
@@ -147,9 +148,6 @@
     "stylelint-config-sass-guidelines": "^4.0.1",
     "stylelint-order": "^0.7.0",
     "stylelint-scss": "^2.0.0",
-    "stylelint-suitcss": "^1.0.0",
-    "webpack": "^4.4.1",
-    "webpack-cli": "^2.0.13",
-    "webpack-serve": "0.3.0"
+    "stylelint-suitcss": "^1.0.0"
   }
 }
