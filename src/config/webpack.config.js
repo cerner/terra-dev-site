@@ -24,7 +24,6 @@ const rootPath = processPath.includes('packages') ? processPath.split('packages'
 let devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
 const customSiteConfigPath = path.join(devSiteConfigPath, 'site.config.js');
 devSiteConfigPath = isFile(customSiteConfigPath) ? devSiteConfigPath : path.join('src', 'config');
-console.log('resolve', devSiteConfigPath);
 
 const defaultWebpackConfig = {
   entry: {
