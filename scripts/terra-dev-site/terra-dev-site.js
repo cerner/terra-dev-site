@@ -19,10 +19,8 @@ let config;
 
 if (commander.config) {
   // eslint-disable-next-line global-require, import/no-dynamic-require
-  require(path.resolve(commander.config));
+  config = require(path.resolve(commander.config));
 }
-
-console.log('config1', config);
 
 if (!config) {
   const localPath = path.resolve(process.cwd(), 'webpack.config.js');
@@ -32,14 +30,9 @@ if (!config) {
   }
 }
 
-console.log('config2', config);
-
 if (!config) {
-  // eslint-disable-next-line global-require, import/no-dynamic-require
+  // eslint-disable-next-line global-require, import/no-dynamic-require, import/no-unresolved
   config = require('terra-dev-site/src/config/webpack.config');
 }
-
-console.log('config3', config);
-
 
 serve({ config });

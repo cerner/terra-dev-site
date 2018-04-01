@@ -59,8 +59,8 @@
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
-    "start": "webpack-serve --config src/config/webpack.config",
-    "start:express": "node scripts/express/app.js",
+    "start": "bin/terra-dev-site.js --config src/config/webpack.config",
+    "start:express": "bin/start-express.js",
     "test": "npm run jest"
   },
   "dependencies": {
