@@ -38,7 +38,8 @@
   },
   "bin": {
     "generate-config": "./bin/generate-config.js",
-    "start:express": "./bin/start-express.js"
+    "start:express": "./bin/start-express.js",
+    "start:terra-dev-site": "./bin/terra-dev-site.js"
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
