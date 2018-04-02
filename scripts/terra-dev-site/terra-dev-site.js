@@ -31,8 +31,8 @@ if (!config) {
 }
 
 if (!config) {
-  // eslint-disable-next-line global-require, import/no-dynamic-require, import/no-unresolved
-  config = require('terra-dev-site/src/config/webpack.config');
+  // eslint-disable-next-line global-require, import/no-dynamic-require
+  config = require('../../src/config/webpack.config');
 }
 
 serve({ config });
