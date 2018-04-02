@@ -3,10 +3,12 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+- Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
 
 0.3.0 - (March 28, 2018)
 ----------
-### Changes
+### Changed
 * Consume terra-application-layout, remove custom layout
 * Consume RoutingMenu from terra-application-layout
 * A GitHub link extension can be added through config.
@@ -17,28 +19,28 @@ Unreleased
 ### Added
 * Add generate-config bin script for quick access to the generate-component-config script
 
-### Changes
-* Updated the default the search paths for test examples to search for `.example.jsx` to allow for more flexible file structure for text exmaples.
+### Changed
+* Updated the default the search paths for test examples to search for `.example.jsx` to allow for more flexible file structure for text examples.
 * Remove the last layer of sub-navigation for non-test pages that should have nested navigation but only one page exists
 
 
-0.1.0 - (Febuary 26, 2018)
+0.1.0 - (February 26, 2018)
 ----------
 * Renamed to terra-dev-site
 
-2.0.0-RC.6 - (Febuary 23, 2018)
+2.0.0-RC.6 - (February 23, 2018)
 ----------
 ### Fixed
 - Upgrade to react 16
 - Make the generate-component-config script compatible for windows devices
 - Added Jest Tests
 
-2.0.0-RC.5 - (Febuary 15, 2018)
+2.0.0-RC.5 - (February 15, 2018)
 ----------
 ### Fixed
 - Fix raw route from failing when no navigation is passed in.
 
-2.0.0-RC.4 - (Febuary 15, 2018)
+2.0.0-RC.4 - (February 15, 2018)
 ----------
 ### Added
 - Add support in generateComponentConfig for creating configuration from a terra repository that was installed as a package
@@ -68,7 +70,7 @@ Unreleased
 - Remove subtitle site config options to align with the coming Application Name Components
 - In navigation.config, removed `isStatic` key option in favor of only using `hasSubNav` key
 
-2.0.0-RC.3 - (Febuary 1, 2018)
+2.0.0-RC.3 - (February 1, 2018)
 ----------
 ### Changed
 - Set the default componentConfigPath to be the default generated-component-config output location.
