@@ -15,7 +15,10 @@ CONTRIBUTING.md
 CONTRIBUTORS.md
 dangerfile.js
 jestsetup.js
+/navigation.config.js
 Procfile
+/site.config.js
 themeable-variables.json
 build
 dist
+aggregated-translations/
