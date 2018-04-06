@@ -7,7 +7,7 @@
   ],
   "env": {
     "browser": true,
-    "jest": true 
+    "jest": true
   },
   "parser": "babel-eslint",
   "parserOptions": {

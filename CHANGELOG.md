@@ -3,11 +3,8 @@ Changelog
 
 Unreleased
 ----------
-### Added
-* Added a `SiteDocTemplate` element to provide a uniform layout and appearance for documentation pages
-
 ### Changes
-* Added a `description` prop to the `IndexPageTemplage` that is displayed under the title
+* Moved IndexPageTemplate to terra-doc-template package
 
 0.3.0 - (March 28, 2018)
 ----------

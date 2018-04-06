@@ -17,12 +17,6 @@ const navConfig = {
       },
     },
     {
-      path: '/dev-site/templates',
-      text: 'Templates',
-      exampleType: 'pages',
-      hasSubNav: true,
-    },
-    {
       path: '/tests',
       text: 'Tests',
       exampleType: 'tests',

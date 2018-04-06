@@ -61,8 +61,7 @@
     "start": "webpack-dev-server --config src/config/webpack.config --progress",
     "start:build": "npm run generate-config && npm run start",
     "start:express": "node scripts/express/app.js",
-    "test": "jest && wdio",
-    "wdio": "wdio"
+    "test": "npm run jest"
   },
   "dependencies": {
     "async": "^2.5.0",
@@ -108,9 +107,6 @@
     "terra-icon": "^2.0.1",
     "terra-image": "^2.0.1",
     "terra-markdown": "^2.0.0",
-    "terra-menu": "^2.0.1",
-    "terra-navigation-layout": "^2.0.0",
-    "terra-props-table": "^2.2.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
     "xfc": "^1.2.1"
