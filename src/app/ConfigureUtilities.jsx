@@ -53,7 +53,7 @@ const updateSelectedItem = (parentMenuItem, selectedItem) => {
 class ConfigureUtilties {
 
   static generateInitialUtiltiesConfig(appConfig) {
-    const hasThemes = appConfig.themes && appConfig.themes.length > 0;
+    const hasThemes = appConfig.themes && Object.keys(appConfig.themes).length > 0;
     const hasLocals = appConfig.locales && appConfig.locales.length > 0;
 
     if (!(hasThemes || hasLocals || appConfig.bidirectional)) {
@@ -63,7 +63,7 @@ class ConfigureUtilties {
     const rootMenuChildKeys = {};
 
     if (hasThemes) {
-      rootMenuChildKeys.Theme = generateItemConfig(appConfig.defaultTheme, appConfig.themes, 'Theme');
+      rootMenuChildKeys.Theme = generateItemConfig(appConfig.defaultTheme, Object.keys(appConfig.themes), 'Theme');
     }
 
     if (hasLocals) {
