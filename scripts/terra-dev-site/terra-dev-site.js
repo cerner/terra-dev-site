@@ -32,7 +32,7 @@ if (!config) {
 
 if (!config) {
   // eslint-disable-next-line global-require, import/no-dynamic-require
-  config = require('../../src/config/webpack.config');
+  config = require('../../src/webpack/webpack.config');
 }
 
 serve({ config });

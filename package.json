@@ -45,8 +45,8 @@
     "clean": "node scripts/clean-modules/index.js",
     "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
-    "compile:dev": "webpack --config src/config/webpack.config -d",
-    "compile:prod": "webpack --config src/config/webpack.prod.config -p",
+    "compile:dev": "webpack --config src/webpack/webpack.config -d",
+    "compile:prod": "webpack --config src/webpack/webpack.prod.config -p",
     "danger": "danger",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
     "jest": "jest",
@@ -91,6 +91,7 @@
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
     "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#webpack4",
+    "webpack-merge": "^4.1.2",
     "webpack-serve": "0.3.0",
     "xfc": "^1.2.1"
   },
