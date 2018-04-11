@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+0.4.1 - (April 11, 2018)
+----------
+### Changes
+* Removed express service script.
+
 0.4.0 - (April 11, 2018)
 ----------
 ### Fixed
