@@ -60,7 +60,8 @@
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
     "start": "bin/serve.js --config src/webpack/webpack.config",
-    "start-static": "bin/serve-static.js --config src/webpack/webpack.prod.config --vfs",
+    "start-static": "bin/serve-static.js --config src/webpack/webpack.config",
+    "start-heroku": "bin/serve-static.js --site build",
     "test": "npm run jest"
   },
   "dependencies": {

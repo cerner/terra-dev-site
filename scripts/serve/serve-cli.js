@@ -10,6 +10,7 @@ commander
   .version(packageJson.version)
   .option('--config <path>', 'The webpack config to serve. Alias for <config>.')
   .option('--port <n>', 'The port the app should listen on', parseInt)
+  .option('-p, --production', 'Pass the -p flag to the webpack config')
   .parse(process.argv);
 
 
@@ -20,4 +21,8 @@ if (commander.config) {
   config = require(path.resolve(commander.config));
 }
 
-serve({ config, port: commander.port });
+serve({
+  config,
+  port: commander.port,
+  production: commander.production,
+});
