@@ -37,15 +37,13 @@
     }
   },
   "bin": {
-    "generate-config": "./bin/generate-config.js",
-    "tds:serve": "./bin/serve.js",
-    "tds:serve-static": "./bin/serve-static.js"
+    "generate-config": "./bin/generate-config.js"
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
     "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
-    "compile:dev": "webpack --config src/webpack/webpack.config -d",
+    "compile:dev": "webpack --config src/webpack/webpack.config -d --env.disableAggregateTranslations",
     "compile:prod": "webpack --config src/webpack/webpack.prod.config -p",
     "danger": "danger",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
@@ -74,6 +72,7 @@
     "html-webpack-plugin": "^3.1.0",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
+    "postcss": "^6.0.21",
     "prop-types": "^15.5.8",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.4",
