@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 import { Provider } from 'xfc';
 import Image from 'terra-image';
+// This line will be resolved by webpack
+// eslint-disable-next-line import/no-unresolved
+import customSiteConfig from 'site.config';
 
 import App from './app/App';
 import defaultSiteConfig from './config/site.config';
@@ -22,18 +25,8 @@ class Site extends React.Component {
     this.state = { siteConfig: defaultSiteConfig };
   }
 
-  componentDidMount() {
-    // SITE_CONFIG_PATH is a global variable defined at runtime by the DefinePlugin within the scripts/start-terra-dev-site/site.webpack.config.
-    // eslint-disable-next-line no-undef
-    if (SITE_CONFIG_PATH !== undefined) {
-      // eslint-disable-next-line no-undef
-      import(SITE_CONFIG_PATH)
-        .then(module => this.setState({ siteConfig: module.default }));
-    }
-  }
-
   render() {
-    const siteConfig = Object.assign({}, defaultSiteConfig, this.state.siteConfig);
+    const siteConfig = Object.assign({}, defaultSiteConfig, customSiteConfig);
     siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, siteConfig.appConfig);
     const { appConfig, componentConfig } = siteConfig;
 

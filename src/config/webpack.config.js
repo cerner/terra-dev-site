@@ -21,10 +21,8 @@ const rootPath = processPath.includes('packages') ? processPath.split('packages'
 
 aggregateTranslations({ baseDirectory: rootPath });
 
-/* Get the site configuration to define as SITE_CONFIG in the DefinePlugin */
-let siteConfigPath = path.resolve(path.join(rootPath, 'site.config.js'));
-// eslint-disable-next-line import/no-dynamic-require
-siteConfigPath = isFile(siteConfigPath) ? siteConfigPath : './config/site.config';
+const customSiteConfigPath = path.join(rootPath, 'site.config.js');
+const devSiteConfigPath = isFile(customSiteConfigPath) ? rootPath : path.join('src', 'config');
 
 const defaultWebpackConfig = {
   entry: {
@@ -95,9 +93,6 @@ const defaultWebpackConfig = {
       template: path.join(__dirname, '..', 'index.html'),
       chunks: ['raf', 'babel-polyfill', 'terra-dev-site'],
     }),
-    new webpack.DefinePlugin({
-      SITE_CONFIG_PATH: JSON.stringify(siteConfigPath),
-    }),
     new PostCSSAssetsPlugin({
       test: /\.css$/,
       log: false,
@@ -109,7 +104,7 @@ const defaultWebpackConfig = {
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
-    modules: [path.resolve(rootPath, 'aggregated-translations'), 'node_modules'],
+    modules: [devSiteConfigPath, path.resolve(rootPath, 'aggregated-translations'), 'node_modules'],
 
     // See https://github.com/facebook/react/issues/8026
     alias: {
