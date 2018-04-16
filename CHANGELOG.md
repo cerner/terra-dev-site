@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+0.4.2 - (April 16, 2018)
+----------
 ### Changes
 * Load config into index.jsx statically instead of dynamically.
 
