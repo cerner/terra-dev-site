@@ -15,8 +15,8 @@ const siteConfig = {
   appConfig: {
     /* The title the site header should display. */
     title: 'Terra Dev Site',
-    // locales: ['en'],
-    // bidirectional: false,
+    locales: ['en'],
+    bidirectional: false,
     extensions: {
       gitHubUrl: 'https://github.com/cerner/terra-dev-site',
     },

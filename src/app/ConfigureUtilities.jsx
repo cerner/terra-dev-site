@@ -53,6 +53,9 @@ const updateSelectedItem = (parentMenuItem, selectedItem) => {
 class ConfigureUtilties {
 
   static generateInitialUtiltiesConfig(appConfig) {
+    if (appConfig === undefined) {
+      return undefined;
+    }
     const hasThemes = appConfig.themes && Object.keys(appConfig.themes).length > 1;
     const hasLocals = appConfig.locales && appConfig.locales.length > 1;
 
@@ -87,12 +90,18 @@ class ConfigureUtilties {
   }
 
   static convertChildkeysToArray(config) {
+    if (config === undefined) {
+      return undefined;
+    }
     const updatedConfig = Object.assign({}, config);
     updatedConfig.menuItems = convertMenuItemToArray(updatedConfig.menuItems);
     return updatedConfig;
   }
 
   static addCallbackFunctions(config, metaData = {}) {
+    if (config === undefined) {
+      return undefined;
+    }
     const updatedConfig = Object.assign({}, config);
     updateMetaData(updatedConfig.menuItems.childKeys.Theme, metaData.Theme);
     updateMetaData(updatedConfig.menuItems.childKeys.Locale, metaData.Locale);
@@ -101,6 +110,9 @@ class ConfigureUtilties {
   }
 
   static updateSelectedItems(config, theme, locale, dir) {
+    if (config === undefined) {
+      return undefined;
+    }
     const updatedConfig = Object.assign({}, config);
     updateSelectedItem(updatedConfig.menuItems.childKeys.Theme, theme);
     updateSelectedItem(updatedConfig.menuItems.childKeys.Locale, locale);

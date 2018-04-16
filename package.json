@@ -43,7 +43,7 @@
     "clean": "node scripts/clean-modules/index.js",
     "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
-    "compile:dev": "webpack --config src/webpack/webpack.config -d --env.disableAggregateTranslations",
+    "compile:dev": "webpack --config src/webpack/webpack.config -d",
     "compile:prod": "webpack --config src/webpack/webpack.prod.config -p",
     "danger": "danger",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
@@ -57,9 +57,9 @@
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
-    "start": "bin/serve.js --config src/webpack/webpack.config",
-    "start-static": "bin/serve-static.js --config src/webpack/webpack.config",
-    "start-heroku": "bin/serve-static.js --site build",
+    "start": "tt:serve --config src/webpack/webpack.config",
+    "start-static": "tt:serve-static --config src/webpack/webpack.config",
+    "start-heroku": "tt:serve-static --site build",
     "test": "npm run jest"
   },
   "dependencies": {

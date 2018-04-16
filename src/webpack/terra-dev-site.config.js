@@ -13,7 +13,9 @@ const devSiteConfig = () => {
   /* Get the site configuration to add as a resolve path */
   let devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
   const customSiteConfigPath = path.join(devSiteConfigPath, 'site.config.js');
-  devSiteConfigPath = isFile(customSiteConfigPath) ? devSiteConfigPath : path.join('src', 'config');
+  if (!isFile(customSiteConfigPath)) {
+    devSiteConfigPath = path.join('src', 'config');
+  }
 
   return {
     entry: {
