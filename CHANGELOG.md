@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changes
+* Moved IndexPageTemplate to terra-doc-template package
 
 0.4.2 - (April 16, 2018)
 ----------

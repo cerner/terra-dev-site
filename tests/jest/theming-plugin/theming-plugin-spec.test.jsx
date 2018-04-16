@@ -27,7 +27,7 @@ describe('theming-plugin', () => {
     });
 
     // We need to require this here as the theming-plugin relies on a function that needs to be stubbed.
-    ThemingPlugin = require('../../src/theming-plugin');
+    ThemingPlugin = require('../../../src/theming-plugin');
     testingFunction = ThemingPlugin();
     mockStyles = `
         :local {

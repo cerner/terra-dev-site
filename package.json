@@ -45,6 +45,7 @@
     "clean:obsolete-snapshots": "npm test -- -u",
     "compile:prod": "webpack --config src/config/webpack.prod.config -p",
     "danger": "danger",
+    "generate-config": "node scripts/generate-component-config/generate-component-config.js",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
     "jest": "jest",
     "jest:coverage": "jest --coverage",
@@ -57,6 +58,7 @@
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
     "start": "webpack-dev-server --config src/config/webpack.config --progress",
+    "start:build": "npm run generate-config && npm run start",
     "start:express": "node scripts/express/app.js",
     "test": "npm run jest"
   },
@@ -146,6 +148,10 @@
     "stylelint-order": "^0.7.0",
     "stylelint-scss": "^2.0.0",
     "stylelint-suitcss": "^1.0.0",
+    "terra-toolkit": "^2.9.0",
+    "wdio-mocha-framework": "^0.5.11",
+    "wdio-visual-regression-service": "^0.8.0",
+    "webdriverio": "4.9.9",
     "webpack": "^3.6.0",
     "webpack-dev-server": "2.7.1"
   }
