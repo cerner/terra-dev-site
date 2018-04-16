@@ -14,3 +14,6 @@ The webdriver config pulls in the default webpack config, the root selector for 
 
 ## Terra Dev Site Config
 We're preparing to generate more code on launch of terra-dev-site instead of generating it client side. For the first step we're requiring that the `site.config.js` file be placed inside a `dev-site-config` folder for better organization as well as a location to place generated items.
+
+The placeholder image and logo image are now defaulted to the terra image.
+
