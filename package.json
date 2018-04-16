@@ -44,7 +44,7 @@
     "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
     "compile:dev": "webpack --config src/webpack/webpack.config -d",
-    "compile:prod": "webpack --config src/webpack/webpack.prod.config -p",
+    "compile:prod": "webpack --config src/webpack/webpack.config -p",
     "danger": "danger",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
     "jest": "jest",
