@@ -1,4 +1,4 @@
-const wdioConf = require('terra-toolkit/config/wdio/conf');
+const wdioConf = require('terra-toolkit/config/wdio/wdio.conf');
 const webpackConfig = require('../webpack/webpack.config');
 
 const config = {
