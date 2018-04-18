@@ -14,16 +14,16 @@ const devSiteConfig = () => {
   let devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
   const customSiteConfigPath = path.join(devSiteConfigPath, 'site.config.js');
   if (!isFile(customSiteConfigPath)) {
-    devSiteConfigPath = path.join('src', 'config');
+    devSiteConfigPath = path.join('lib', 'config');
   }
 
   return {
     entry: {
-      'terra-dev-site': path.resolve(path.join(__dirname, '..', 'Index')),
+      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
     },
     plugins: [new HtmlWebpackPlugin({
       title: 'Site',
-      template: path.join(__dirname, '..', 'index.html'),
+      template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
     })],
     resolve: {
       modules: [devSiteConfigPath],

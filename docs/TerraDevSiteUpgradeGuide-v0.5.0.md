@@ -4,7 +4,7 @@ This document will provide information on upgrading from Terra Toolkit 0.x to 0.
 ## Webpack 4
 Terra Dev Site now uses Terra-Toolkit's webpack config as a base and adds more opinion. Terra Dev Site adds an entry, the html webpack plugin and an additional resolve path. Unlike terra-toolkit, this webpack config is ready to use without needing any wrapping.
 
-The default webpack config has been moved from `src/config/webpack.config` to `src/webpack/webpack.config`;
+The default webpack config has been moved from `src/config/webpack.config` to `config/webpack/webpack.config`;
 Much like terra-toolkit the dev and prod webpack configs have been merged into one. See that guide for more info.
 
 ## WebdriverIO
