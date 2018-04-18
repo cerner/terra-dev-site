@@ -6,6 +6,21 @@ Unreleased
 ### Changed
 - Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
 
+0.4.2 - (April 16, 2018)
+----------
+### Changes
+* Load config into index.jsx statically instead of dynamically.
+
+0.4.1 - (April 11, 2018)
+----------
+### Changes
+* Removed express service script.
+
+0.4.0 - (April 11, 2018)
+----------
+### Fixed
+* Fixed issue where themes provided in site.config.js wouldn't render in utility menu
+
 0.3.0 - (March 28, 2018)
 ----------
 ### Changed

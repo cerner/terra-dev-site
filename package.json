@@ -1,6 +1,6 @@
 {
   "name": "terra-dev-site",
-  "version": "0.3.0",
+  "version": "0.4.2",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "main": "index.js",
   "repository": {
@@ -37,8 +37,7 @@
     }
   },
   "bin": {
-    "generate-config": "./bin/generate-config.js",
-    "start:express": "./bin/start-express.js"
+    "generate-config": "./bin/generate-config.js"
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
@@ -98,10 +97,9 @@
     "shelljs": "^0.7.6",
     "style-loader": "^0.19.0",
     "terra-application-layout": "^1.0.0",
-    "terra-base": "^3.0.0",
+    "terra-base": "^3.3.0",
     "terra-button": "^2.0.1",
-    "terra-i18n": "^2.0.0",
-    "terra-i18n-plugin": "^2.0.0",
+    "terra-i18n": "^2.3.0",
     "terra-icon": "^2.0.1",
     "terra-image": "^2.0.1",
     "terra-markdown": "^2.0.0",
