@@ -84,7 +84,14 @@ const defaultProps = {
   location: undefined,
 };
 
-const initialLocale = defaultLocale => document.getElementsByTagName('html')[0].getAttribute('lang') || defaultLocale;
+const initialLocale = defaultLocale => {
+  let locale = document.getElementsByTagName('html')[0].getAttribute('lang');
+  if (!locale) {
+    locale = defaultLocale;
+    document.getElementsByTagName('html')[0].setAttribute('lang', defaultLocale);
+  }
+  return locale;
+};
 
 class App extends React.Component {
 
