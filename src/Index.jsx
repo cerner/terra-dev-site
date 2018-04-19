@@ -52,7 +52,7 @@ const Site = () => {
       );
     }
   }
-  // end what shoudl be pre-generated
+  // end what should be pre-generated
 
   return (
     <Router>

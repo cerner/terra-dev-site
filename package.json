@@ -46,7 +46,7 @@
     "clean:obsolete-snapshots": "npm test -- -u",
     "compile": "npm run clean:compiled && npm run compile:build",
     "compile:build": "babel src --out-dir lib --copy-files",
-    "compile:dev": "webpack --config config/webpack/webpack.config -d",
+    "compile:dev": "webpack --config config/webpack/webpack.config",
     "compile:prod": "webpack --config config/webpack/webpack.config -p",
     "danger": "danger",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",

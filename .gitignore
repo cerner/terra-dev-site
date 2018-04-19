@@ -40,7 +40,6 @@ build-iPhoneOS/
 build-iPhoneSimulator/
 build/
 build/Release
-dist/
 coverage
 jspm_packages
 lib
