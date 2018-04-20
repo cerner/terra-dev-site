@@ -10,6 +10,16 @@ const config = {
     selector: '[data-terra-dev-site-content] *:first-child',
   },
 
+  axe: {
+    inject: true,
+    options: {
+      rules: [{
+        id: 'landmark-one-main',
+        enabled: false,
+      }],
+    },
+  },
+
   beforeHook() {
     // Being Terra tests are executed on an SPA, a full refresh is required
     // in order to reset the site. This ensures customProperty tests and any
