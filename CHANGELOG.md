@@ -35,7 +35,7 @@ Unreleased
 * Add generate-config bin script for quick access to the generate-component-config script
 
 ### Changed
-* Updated the default the search paths for test examples to search for `.example.jsx` to allow for more flexible file structure for text examples.
+* Updated the default the search paths for test examples to search for `.example.jsx` to allow for more flexible file structure for test examples.
 * Remove the last layer of sub-navigation for non-test pages that should have nested navigation but only one page exists
 
 
