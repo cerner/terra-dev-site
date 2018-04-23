@@ -9,14 +9,14 @@ const siteConfig = {
   componentConfig: {},
 
   /* The image to display as page placeholder when a component does not render. */
-  placeholderSrc: '',
+  placeholderSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
 
   /* The README content to display on the home page. */
   readMeContent: '',
 
   appConfig: {
     /* The loge the site header should display. */
-    logoSrc: undefined, // maps to appLogoSrc
+    logoSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png', // maps to appLogoSrc
 
     /* The title the site header should display. */
     title: '', // maps to appTitle

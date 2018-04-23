@@ -19,62 +19,57 @@ Provider.init({
   secret: () => (Promise.resolve('Success')),
 });
 
-class Site extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { siteConfig: defaultSiteConfig };
+const Site = () => {
+  // This should be pre-generated
+  const siteConfig = Object.assign({}, defaultSiteConfig, customSiteConfig);
+  siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, siteConfig.appConfig);
+  const { appConfig, componentConfig } = siteConfig;
+
+  const { routeConfig, navigation } = routeConfiguration(siteConfig, componentConfig);
+
+  const routes = Object.freeze(routeConfig);
+
+  let appLogo;
+  if (appConfig.logoSrc) {
+    appLogo = (<Image variant="rounded" src={appConfig.logoSrc} height="26px" width="26px" isFluid />);
   }
 
-  render() {
-    const siteConfig = Object.assign({}, defaultSiteConfig, customSiteConfig);
-    siteConfig.appConfig = Object.assign({}, defaultSiteConfig.appConfig, siteConfig.appConfig);
-    const { appConfig, componentConfig } = siteConfig;
+  const nameConfig = {
+    accessory: appLogo,
+    title: appConfig.title,
+  };
 
-    const { routeConfig, navigation } = routeConfiguration(siteConfig, componentConfig);
+  let extensions = navigation.extensions;
 
-    const routes = Object.freeze(routeConfig);
+  if (!extensions && appConfig.extensions) {
+    const gitHubUrl = appConfig.extensions.gitHubUrl;
 
-    let appLogo;
-    if (appConfig.logoSrc) {
-      appLogo = (<Image variant="rounded" src={appConfig.logoSrc} height="26px" width="26px" isFluid />);
+    if (gitHubUrl) {
+      extensions = (
+        <Extensions>
+          <GitHubLinkExtension href={gitHubUrl} />
+        </Extensions>
+      );
     }
-
-    const nameConfig = {
-      accessory: appLogo,
-      title: appConfig.title,
-    };
-
-    let extensions = navigation.extensions;
-
-    if (!extensions && appConfig.extensions) {
-      const gitHubUrl = appConfig.extensions.gitHubUrl;
-
-      if (gitHubUrl) {
-        extensions = (
-          <Extensions>
-            <GitHubLinkExtension href={gitHubUrl} />
-          </Extensions>
-        );
-      }
-    }
-
-    return (
-      <Router>
-        <App
-          nameConfig={nameConfig}
-          utilityConfig={ConfigureUtilities.generateInitialUtiltiesConfig(appConfig)}
-          routingConfig={routes}
-          navigationItems={navigation.links}
-          extensions={extensions}
-          indexPath={navigation.index}
-          defaultLocale={appConfig.defaultLocale}
-          defaultDir={appConfig.defaultDirection}
-          defaultTheme={appConfig.defaultTheme}
-          themes={appConfig.themes}
-        />
-      </Router>
-    );
   }
-}
+  // end what should be pre-generated
+
+  return (
+    <Router>
+      <App
+        nameConfig={nameConfig}
+        utilityConfig={ConfigureUtilities.generateInitialUtiltiesConfig(appConfig)}
+        routingConfig={routes}
+        navigationItems={navigation.links}
+        extensions={extensions}
+        indexPath={navigation.index}
+        defaultLocale={appConfig.defaultLocale}
+        defaultDir={appConfig.defaultDirection}
+        defaultTheme={appConfig.defaultTheme}
+        themes={appConfig.themes}
+      />
+    </Router>
+  );
+};
 
 ReactDOM.render(React.createElement(Site, null), document.getElementById('root'));

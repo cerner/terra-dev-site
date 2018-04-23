@@ -20,5 +20,4 @@ Procfile
 /site.config.js
 themeable-variables.json
 build
-dist
 aggregated-translations/
