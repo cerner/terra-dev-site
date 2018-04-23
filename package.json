@@ -64,7 +64,8 @@
     "start": "tt:serve --config config/webpack/webpack.config",
     "start-heroku": "tt:serve-static --site build",
     "start-static": "tt:serve-static --config config/webpack/webpack.config",
-    "test": "npm run jest"
+    "test": "npm run jest",
+    "generate": "node scripts/generate-config/generate.js"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
@@ -72,6 +73,8 @@
     "babel-loader": "^7.1.2",
     "classnames": "^2.2.5",
     "commander": "^2.9.0",
+    "escodegen": "^1.9.1",
+    "fs-extra": "^5.0.0",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^3.1.0",
     "lodash.kebabcase": "^4.1.1",
@@ -91,6 +94,7 @@
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
     "terra-toolkit": "^3.0.0",
+    "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2",
     "xfc": "^1.2.1"
   },
