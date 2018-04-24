@@ -1,16 +1,13 @@
-import homeReadMe from '../README.md';
-import navConfig from './navigation.config';
-import componentConfig from './componentConfig';
 
 const siteConfig = {
   /* The navigation configuration.  */
-  navConfig,
+  navConfig: './navigation.config',
 
   /* The path to the component configuration. */
-  componentConfig,
+  componentConfig: 'componentConfig',
 
   /* The README content to display on the home page. */
-  readMeContent: homeReadMe,
+  readMeContent: '../README.md',
 
   appConfig: {
     /* The title the site header should display. */
@@ -23,4 +20,4 @@ const siteConfig = {
   },
 };
 
-export default siteConfig;
+module.exports = siteConfig;
