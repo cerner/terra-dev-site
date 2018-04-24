@@ -4,6 +4,13 @@ Changelog
 Unreleased
 ----------
 
+0.5.0 - (April 24, 2018)
+----------
+### Breaking Changes
+* Webpack 4
+* Consume terra-toolkit v3
+* See [upgrade guide](https://github.com/cerner/terra-dev-site/blob/master/docs/TerraDevSiteUpgradeGuide-v0.5.0.md).
+
 0.4.2 - (April 16, 2018)
 ----------
 ### Changes
