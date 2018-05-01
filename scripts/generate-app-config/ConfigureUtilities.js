@@ -1,5 +1,7 @@
 // import React from 'react';
 // import IconSettings from 'terra-icon/lib/icon/IconSettings';
+const IdentifierPlaceholder = require('./generation-objects/IdentifierPlaceholder');
+const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 const generateItemConfig = (defaultItem, items, key) => {
   const childKeys = {};
@@ -33,6 +35,10 @@ const convertMenuItemToArray = (menuItem) => {
 class ConfigureUtilties {
 
   static generateInitialUtiltiesConfig(appConfig) {
+    const utilsImports = new ImportAggregator();
+    utilsImports.addImport('react', 'React');
+    utilsImports.addImport('terra-icon/lib/icon/IconSettings', 'IconSettings');
+
     if (appConfig === undefined) {
       return undefined;
     }
@@ -58,15 +64,18 @@ class ConfigureUtilties {
     }
 
     return {
-      // accessory: <IconSettings />,
-      menuItems: {
-        key: 'menu',
-        title: 'Config',
-        childKeys: rootMenuChildKeys,
+      config: {
+        accessory: utilsImports.addImport('terra-icon/lib/icon/IconSettings', 'IconSettings', '<IconSettings />'),
+        menuItems: {
+          key: 'menu',
+          title: 'Config',
+          childKeys: rootMenuChildKeys,
+        },
+        initialSelectedKey: 'menu',
+        onChange: (event, { key, metaData }) => { metaData.onChange(key); },
       },
-      initialSelectedKey: 'menu',
-      onChange: (event, { key, metaData }) => { metaData.onChange(key); },
+      imports: utilsImports,
     };
   }
 }
-export default ConfigureUtilties;
+module.exports = ConfigureUtilties;

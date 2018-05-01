@@ -1,10 +1,12 @@
+const navConfig = require('./navigation.config');
+const componentConfig = require('./componentConfig');
 
 const siteConfig = {
   /* The navigation configuration.  */
-  navConfig: './navigation.config',
+  navConfig,
 
   /* The path to the component configuration. */
-  componentConfig: 'componentConfig',
+  componentConfig,
 
   /* The README content to display on the home page. */
   readMeContent: '../README.md',

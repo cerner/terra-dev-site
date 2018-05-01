@@ -1,9 +1,9 @@
 const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
-const navigationConfig = require('./navigation.config');
+const navConfig = require('./navigation.config');
 
 const siteConfig = {
   /* The navigation configuration.  */
-  navConfig: navigationConfig,
+  navConfig,
 
   /* The path to the component configuration. */
   componentConfig: {},

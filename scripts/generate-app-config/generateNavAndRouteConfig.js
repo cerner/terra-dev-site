@@ -1,6 +1,4 @@
-// const RoutingMenu = require('terra-application-layout/lib/menu/RoutingMenu');
-// const Components = require('../../lib/app/components/Components');
-// const Home = require('../../lib/app/components/Home');
+const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
 const Components = '../../lib/app/components/Components';
@@ -53,10 +51,10 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
   return { generatedConfig: undefined, alternatePath: undefined };
 };
 
-const buildLinksMenuConfig = (componentConfig, link) => {
+const buildLinksMenuConfig = (componentConfig, link, routeImporter) => {
   // build content configuration
   // If there is a custom menu item, use that.
-  let menuComponent = RoutingMenu;
+  let menuComponent = routeImporter.addImport(RoutingMenu);
   if (link.menuComponent) {
     menuComponent = link.menuComponent;
   }
@@ -79,6 +77,7 @@ const buildLinksMenuConfig = (componentConfig, link) => {
 };
 
 const routeConfiguration = (siteConfig, componentConfig) => {
+  const routeImporter = new ImportAggregator();
   const { navConfig, placeholderSrc, readMeContent } = siteConfig;
 
   const navigation = navConfig.navigation;
@@ -102,10 +101,10 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     }
 
     // build content configuration
-    let contentComponent = link.component ? link.component : Components;
+    let contentComponent = routeImporter.addImport(link.component ? link.component : Components);
     let componentProps = { config: Object.values(componentConfig), pathRoot: link.path, exampleType, placeholderSrc };
     if (exampleType === 'home' && !link.component) {
-      contentComponent = Home;
+      contentComponent = routeImporter.addImport(Home);
       componentProps = { readMeContent };
     }
 
@@ -115,14 +114,25 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     };
 
     if (link.hasSubNav) {
-      menu = Object.assign(menu, buildLinksMenuConfig(componentConfig, link));
+      menu = Object.assign(menu, buildLinksMenuConfig(componentConfig, link, routeImporter));
     }
   });
 
-  const navigationConfig = { index: navigation.index, links: configuredLinks, extensions: navigation.extensions };
+  // const navigationConfig = { index: navigation.index, links: configuredLinks, extensions: navigation.extensions };
   const routeConfig = { content, menu };
 
-  return { routeConfig, navigation: navigationConfig };
+  // console.log('componentsToRequire', componentsToRequire);
+
+  return {
+    routes: {
+      config: routeConfig,
+      imports: routeImporter,
+    },
+    navigation: {
+      config: configuredLinks,
+    },
+    indexPath: navigation.index,
+  };
 };
 
 module.exports = routeConfiguration;

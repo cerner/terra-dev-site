@@ -13,16 +13,16 @@ const resolve = (filePath) => {
 };
 
 const loadDefaultSiteConfig = (configPath) => {
-  if (configPath) {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    return require(path.resolve(configPath));
-  }
+  // if (configPath) {
+  //   // eslint-disable-next-line global-require, import/no-dynamic-require
+  //   return require(path.resolve(configPath));
+  // }
 
-  // First try to find the local to process.cwd webpack config
-  const localConfig = resolve(path.resolve(process.cwd(), 'dev-site-config', 'site.config.js'));
-  if (localConfig) {
-    return localConfig;
-  }
+  // // First try to find the local to process.cwd webpack config
+  // const localConfig = resolve(path.resolve(process.cwd(), 'dev-site-config', 'site.config.js'));
+  // if (localConfig) {
+  //   return localConfig;
+  // }
 
   // If that is not found look for the terra-dev-site config.
   return defaultConfig;
