@@ -80,17 +80,22 @@ const buildLinksMenuConfig = (componentConfig, link, routeImporter) => {
 const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config', 'build'), path.resolve(process.cwd(), 'dev-site-config', componentPath)));
 
 const updateConfigWithImports = (componentConfig, exampleType, routeImporter) => (
+
   componentConfig.map((config) => {
-    if (config[exampleType]) {
-      updateConfigWithImports(config[exampleType], exampleType, routeImporter);
+    const updatedConfig = Object.assign({}, config);
+
+    if (updatedConfig[exampleType]) {
+      updatedConfig[exampleType] = updateConfigWithImports(updatedConfig[exampleType], exampleType, routeImporter);
     }
 
-    if (config.component) {
-      const componentPath = relativePath(config.component);
-      const componentIdent = routeImporter.addImport(componentPath);
-      return Object.assign({}, config, { component: componentIdent });
+    const component = updatedConfig.component;
+
+    if (component) {
+      const componentPath = relativePath(component);
+      updatedConfig.component = routeImporter.addImport(componentPath);
     }
-    return Object.assign({}, config);
+
+    return updatedConfig;
   })
 );
 
@@ -109,7 +114,6 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     const exampleType = link.exampleType;
 
     const updatedComponentConfig = updateConfigWithImports(Object.values(componentConfig), exampleType, routeImporter);
-    // console.log(componentConfig);
 
     // build content configuration
     let contentComponent = routeImporter.addImport(link.component ? link.component : Components);
@@ -130,8 +134,6 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   });
 
   const routeConfig = { content, menu };
-
-  // console.log('componentsToRequire', componentsToRequire);
 
   return {
     config: routeConfig,
