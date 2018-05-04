@@ -82,13 +82,12 @@ const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'd
 const updateConfigWithImports = (componentConfig, exampleType, routeImporter) => (
 
   componentConfig.map((config) => {
-    const updatedConfig = Object.assign({}, config);
+    const { name, path: url, component, [exampleType]: children } = config;
+    const updatedConfig = { name, path: url };
 
-    if (updatedConfig[exampleType]) {
-      updatedConfig[exampleType] = updateConfigWithImports(updatedConfig[exampleType], exampleType, routeImporter);
+    if (children) {
+      updatedConfig[children] = updateConfigWithImports(children, exampleType, routeImporter);
     }
-
-    const component = updatedConfig.component;
 
     if (component) {
       const componentPath = relativePath(component);
