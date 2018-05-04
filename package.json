@@ -37,7 +37,7 @@
     }
   },
   "bin": {
-    "generate-config": "./bin/generate-config.js"
+    "tds:generate-app-config": "bin/generateAppConfig.js"
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",

@@ -1,9 +1,8 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const fs = require('fs');
-
-const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
+const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
+const loadDefaultSiteConfig = require('../../scripts/generate-app-config/loadDefaultSiteConfig');
 
 const devSiteConfig = () => {
   const processPath = process.cwd();
@@ -11,11 +10,13 @@ const devSiteConfig = () => {
   const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
 
   /* Get the site configuration to add as a resolve path */
-  let devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
-  const customSiteConfigPath = path.join(devSiteConfigPath, 'site.config.js');
-  if (!isFile(customSiteConfigPath)) {
-    devSiteConfigPath = path.join('lib', 'config');
-  }
+  const devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
+
+  // const myModules = path.resolve(path.join(rootPath, 'node_modules', 'terra-dev-site', 'node_modules'));
+
+  const siteConfig = loadDefaultSiteConfig();
+
+  generateAppConfig(siteConfig);
 
   return {
     entry: {
@@ -27,7 +28,11 @@ const devSiteConfig = () => {
     })],
     resolve: {
       modules: [devSiteConfigPath],
+      // alias: {
+      //   'terra-dev-site/lib': path.join(process.cwd(), 'src'), // hack
+      // },
     },
+    watch: true,
   };
 };
 

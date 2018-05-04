@@ -1,8 +1,9 @@
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
-const Components = '../../lib/app/components/Components';
-const Home = '../../lib/app/components/Home';
+const Components = 'terra-dev-site/lib/app/components/Components';
+const Home = 'terra-dev-site/lib/app/components/Home';
+const path = require('path');
 
 const buildComponent = (Component, configuredProps) => (
   {
@@ -15,14 +16,14 @@ const buildComponent = (Component, configuredProps) => (
 
 const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') => {
   let generatedConfig = {};
-  const path = pathRoot + component.path;
+  const routePath = pathRoot + component.path;
   const examples = component[exampleType];
 
   if (examples) {
     // create menu items to add to this menu
     const menuItems = examples.map((subComponent) => {
-      const { generatedConfig: subMenu, alternatePath } = buildMenuConfig(subComponent, menuComponent, exampleType, path);
-      const subComponentPath = path + subComponent.path;
+      const { generatedConfig: subMenu, alternatePath } = buildMenuConfig(subComponent, menuComponent, exampleType, routePath);
+      const subComponentPath = routePath + subComponent.path;
       // add any generated menus to the overall config
       if (subMenu) {
         generatedConfig = Object.assign(generatedConfig, subMenu);
@@ -40,8 +41,8 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
     }
 
     const componentMenuProps = { title: component.name, menuItems };
-    generatedConfig[path] = {
-      path,
+    generatedConfig[routePath] = {
+      path: routePath,
       component: buildComponent(menuComponent, componentMenuProps),
     };
 
@@ -76,12 +77,28 @@ const buildLinksMenuConfig = (componentConfig, link, routeImporter) => {
   return generatedConfig;
 };
 
+const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config', 'build'), path.resolve(process.cwd(), 'dev-site-config', componentPath)));
+
+const updateConfigWithImports = (componentConfig, exampleType, routeImporter) => (
+  componentConfig.map((config) => {
+    if (config[exampleType]) {
+      updateConfigWithImports(config[exampleType], exampleType, routeImporter);
+    }
+
+    if (config.component) {
+      const componentPath = relativePath(config.component);
+      const componentIdent = routeImporter.addImport(componentPath);
+      return Object.assign({}, config, { component: componentIdent });
+    }
+    return Object.assign({}, config);
+  })
+);
+
 const routeConfiguration = (siteConfig, componentConfig) => {
   const routeImporter = new ImportAggregator();
   const { navConfig, placeholderSrc, readMeContent } = siteConfig;
 
   const navigation = navConfig.navigation;
-  const configuredLinks = [];
 
   const content = {};
   let menu = {};
@@ -91,21 +108,15 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   validLinks.forEach((link) => {
     const exampleType = link.exampleType;
 
-    // build navigation link configuration
-    if (exampleType !== 'tests') {
-      configuredLinks.push({
-        path: link.path,
-        text: link.text,
-        hasSubNav: link.hasSubNav,
-      });
-    }
+    const updatedComponentConfig = updateConfigWithImports(Object.values(componentConfig), exampleType, routeImporter);
+    // console.log(componentConfig);
 
     // build content configuration
     let contentComponent = routeImporter.addImport(link.component ? link.component : Components);
-    let componentProps = { config: Object.values(componentConfig), pathRoot: link.path, exampleType, placeholderSrc };
+    let componentProps = { config: Object.values(updatedComponentConfig), pathRoot: link.path, exampleType, placeholderSrc };
     if (exampleType === 'home' && !link.component) {
       contentComponent = routeImporter.addImport(Home);
-      componentProps = { readMeContent };
+      componentProps = { readMeContent: routeImporter.addImport(relativePath(readMeContent), 'readMe') };
     }
 
     content[link.path] = {
@@ -114,24 +125,17 @@ const routeConfiguration = (siteConfig, componentConfig) => {
     };
 
     if (link.hasSubNav) {
-      menu = Object.assign(menu, buildLinksMenuConfig(componentConfig, link, routeImporter));
+      menu = Object.assign(menu, buildLinksMenuConfig(updatedComponentConfig, link, routeImporter));
     }
   });
 
-  // const navigationConfig = { index: navigation.index, links: configuredLinks, extensions: navigation.extensions };
   const routeConfig = { content, menu };
 
   // console.log('componentsToRequire', componentsToRequire);
 
   return {
-    routes: {
-      config: routeConfig,
-      imports: routeImporter,
-    },
-    navigation: {
-      config: configuredLinks,
-    },
-    indexPath: navigation.index,
+    config: routeConfig,
+    imports: routeImporter,
   };
 };
 

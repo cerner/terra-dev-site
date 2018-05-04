@@ -63,4 +63,4 @@ const navConfig = {
   },
 };
 
-export default navConfig;
+module.exports = navConfig;

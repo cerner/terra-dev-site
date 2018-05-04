@@ -1,49 +1,85 @@
 const fse = require('fs-extra');
 const path = require('path');
 const writeConfig = require('./writeConfig');
-const generateNavAndRouteConfig = require('./generateNavAndRouteConfig');
-const ConfigureUtilities = require('./ConfigureUtilities');
+const generateRouteConfig = require('./generateRouteConfig');
+const generateNameConfig = require('./generateNameConfig');
+const generateExtensions = require('./generateExtensions');
+const generateUtilitiesConfig = require('./generateUtilitiesConfig');
+const generateNavigationItems = require('./generateNavigationItems');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
+
+const addConfig = (config, fileName, buildPath, fs, imports) => {
+  if (config) {
+    writeConfig(config, fileName, buildPath, fse);
+    const name = path.parse(fileName).name;
+    return imports.addImport(`./${name}`, name);
+  }
+  return undefined;
+};
+
 const generateAppConfig = (siteConfig) => {
-  const { appConfig, componentConfig } = siteConfig;
+  const imports = new ImportAggregator();
+
+  const { appConfig, componentConfig, navConfig } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   const buildPath = path.join(rootPath, 'build');
 
-  const utilityConfig = ConfigureUtilities.generateInitialUtiltiesConfig(appConfig);
+  const utilityConfig = addConfig(
+    generateUtilitiesConfig(appConfig),
+    'utilityConfig.jsx',
+    buildPath,
+    fse,
+    imports,
+  );
 
-  const { routes, navigation, indexPath } = generateNavAndRouteConfig(siteConfig, componentConfig);
+  const nameConfig = addConfig(
+    generateNameConfig(appConfig),
+    'nameConfig.js',
+    buildPath,
+    fse,
+    imports,
+  );
 
-  // console.log('requries', componentsToRequire);
-  // let appLogo;
-  // if (appConfig.logoSrc) {
-  //   appLogo = (<Image variant="rounded" src={appConfig.logoSrc} height="26px" width="26px" isFluid />);
-  // }
+  const routingConfig = addConfig(
+    generateRouteConfig(siteConfig, componentConfig),
+    'routeConfig.js',
+    buildPath,
+    fse,
+    imports,
+  );
 
-  const imports = new ImportAggregator();
+  const navigationItems = addConfig(
+    generateNavigationItems(navConfig),
+    'navigationItems.js',
+    buildPath,
+    fse,
+    imports,
+  );
+
+  const extensions = addConfig(
+    generateExtensions(appConfig),
+    'extensions.jsx',
+    buildPath,
+    fse,
+    imports,
+  );
 
   const config = {
-    nameConfig: {
-      // accessory: appLogo,
-      title: appConfig.title,
-    },
-    utilityConfig: imports.addImport('./utilConfig', 'utilityConfig'),
-    routingConfig: imports.addImport('./routeConfig', 'routeConfig'),
-    navigationItems: imports.addImport('./navigationConfig', 'navigationConfig'),
-    // extensions
-    indexPath,
+    nameConfig,
+    utilityConfig,
+    routingConfig,
+    navigationItems,
+    extensions,
+    indexPath: navConfig.navigation.index,
     defaultLocale: appConfig.defaultLocale,
     defaultDir: appConfig.defaultDirection,
     defaultTheme: appConfig.defaultTheme,
     themes: appConfig.themes,
   };
 
-  writeConfig(routes, 'routeConfig.js', buildPath, fse);
-  writeConfig(navigation, 'navigationConfig.js', buildPath, fse);
-  writeConfig(utilityConfig, 'utilConfig.jsx', buildPath, fse);
-
-  writeConfig({ config, imports }, 'app.config.js', buildPath, fse);
+  writeConfig({ config, imports }, 'appConfig.js', buildPath, fse);
 };
 
 module.exports = generateAppConfig;

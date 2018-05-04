@@ -19,7 +19,7 @@ const siteConfig = {
     logoSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png', // maps to appLogoSrc
 
     /* The title the site header should display. */
-    title: '', // maps to appTitle
+    title: 'Terra Dev Site', // maps to appTitle
 
     /** The themes to supply the ThemeProvider which allows the site to switch
       * between themes. Providing multiple enables the theme utility to display
