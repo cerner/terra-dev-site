@@ -86,7 +86,7 @@ const updateConfigWithImports = (componentConfig, exampleType, routeImporter) =>
     const updatedConfig = { name, path: url };
 
     if (children) {
-      updatedConfig[children] = updateConfigWithImports(children, exampleType, routeImporter);
+      updatedConfig[exampleType] = updateConfigWithImports(children, exampleType, routeImporter);
     }
 
     if (component) {
