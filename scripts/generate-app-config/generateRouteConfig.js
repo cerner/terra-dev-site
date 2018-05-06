@@ -99,6 +99,10 @@ const updateConfigWithImports = (componentConfig, exampleType, routeImporter) =>
 );
 
 const routeConfiguration = (siteConfig, componentConfig) => {
+  if (!componentConfig) {
+    return undefined;
+  }
+
   const routeImporter = new ImportAggregator();
   const { navConfig, placeholderSrc, readMeContent } = siteConfig;
 

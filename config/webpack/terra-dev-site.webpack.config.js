@@ -12,8 +12,6 @@ const devSiteConfig = () => {
   /* Get the site configuration to add as a resolve path */
   const devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
 
-  // const myModules = path.resolve(path.join(rootPath, 'node_modules', 'terra-dev-site', 'node_modules'));
-
   const siteConfig = loadDefaultSiteConfig();
 
   generateAppConfig(siteConfig);
@@ -28,9 +26,9 @@ const devSiteConfig = () => {
     })],
     resolve: {
       modules: [devSiteConfigPath],
-      // alias: {
-      //   'terra-dev-site/lib': path.join(process.cwd(), 'src'), // hack
-      // },
+      alias: {
+        'terra-dev-site/lib': path.join(process.cwd(), 'src'), // hack
+      },
     },
     watch: true,
   };

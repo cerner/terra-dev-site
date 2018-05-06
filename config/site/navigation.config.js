@@ -9,12 +9,12 @@ const navConfig = {
     }, {
       path: '/site/components',
       text: 'Components',
-      exampleType: 'pages',
+      exampleType: 'component',
       hasSubNav: true,
     }, {
       path: '/tests',
       text: 'Tests',
-      exampleType: 'tests',
+      exampleType: 'test',
       hasSubNav: true,
     }],
   },

@@ -6,7 +6,7 @@ const siteConfig = {
   navConfig,
 
   /* The path to the component configuration. */
-  componentConfig,
+  //  componentConfig,
 
   /* The README content to display on the home page. */
   readMeContent: '../README.md',

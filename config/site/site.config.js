@@ -1,12 +1,22 @@
 const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
 const navConfig = require('./navigation.config');
+const path = require('path');
 
 const siteConfig = {
   /* The navigation configuration.  */
   navConfig,
 
   /* The path to the component configuration. */
-  componentConfig: {},
+  // componentConfig: {},
+  /* PagesConfig */
+  // pagesConfig,
+  generatePages: {
+    searchPatterns: [
+      // dir/lib/terra-dev-site/**/*.<type>.{jsx,js})
+    ],
+    // types: ['component', 'test'],
+    root: path.join('lib', 'terra-dev-site'),
+  },
 
   /* The image to display as page placeholder when a component does not render. */
   placeholderSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',

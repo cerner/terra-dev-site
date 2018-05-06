@@ -6,6 +6,7 @@ const generateNameConfig = require('./generateNameConfig');
 const generateExtensions = require('./generateExtensions');
 const generateUtilitiesConfig = require('./generateUtilitiesConfig');
 const generateNavigationItems = require('./generateNavigationItems');
+const generatePagesConfig = require('./generatePagesConfig');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 
@@ -21,7 +22,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 const generateAppConfig = (siteConfig) => {
   const imports = new ImportAggregator();
 
-  const { appConfig, componentConfig, navConfig } = siteConfig;
+  const { appConfig, navConfig } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   const buildPath = path.join(rootPath, 'build');
@@ -43,7 +44,7 @@ const generateAppConfig = (siteConfig) => {
   );
 
   const routingConfig = addConfig(
-    generateRouteConfig(siteConfig, componentConfig),
+    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig)),
     'routeConfig.js',
     buildPath,
     fse,
