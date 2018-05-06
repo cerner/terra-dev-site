@@ -1,5 +1,6 @@
 const path = require('path');
 const glob = require('glob');
+const fs = require('fs');
 
 const pageTypes = navConfig => (navConfig.navigation.links.map(link => link.exampleType));
 
@@ -10,6 +11,19 @@ const defaultSearchPaths = (types, rootPaths) => (
   })
 );
 
+const buildPageConfig = (filePaths, repoName) => (
+  filePaths.reduce((acc, filePath) => {
+    const parsedPath = path.parse(filePath);
+    const directory = parsedPath.dir;
+    console.log(directory);
+    const fileType = parsedPath.name.match(/\.([^.]+)(?:\.[^.]+)$/);
+    console.log(fileType);
+    const name = parsedPath.name.replace(/(\.[^.]+)(?:\.[^.]+)$/, '');
+    console.log(name);
+    return acc;
+  }, {})
+);
+
 const generatePagesConfig = (siteConfig) => {
   const { generatePages: generatePagesOptions, pagesConfig, navConfig } = siteConfig;
   console.log('generatePagesOptions', generatePagesOptions);
@@ -17,9 +31,9 @@ const generatePagesConfig = (siteConfig) => {
     return pagesConfig;
   }
 
-  const rootPaths = generatePagesOptions.roots.reduce((acc, root) => {
-    acc.push(path.resolve(path.join(root, 'lib', generatePagesOptions.dir)));
-    acc.push(path.resolve(path.join(root, 'packages', '*', 'lib', generatePagesOptions.dir)));
+  const rootPaths = generatePagesOptions.roots.reduce((acc, dir) => {
+    acc.push(path.resolve(path.join(dir, 'lib', generatePagesOptions.dir)));
+    acc.push(path.resolve(path.join(dir, 'packages', '*', 'lib', generatePagesOptions.dir)));
     return acc;
   }, []);
 
@@ -28,20 +42,13 @@ const generatePagesConfig = (siteConfig) => {
   const searchPaths = defaultSearchPaths(types, rootPaths).concat(generatePagesOptions.searchPatterns);
   console.log('searchPaths', searchPaths);
 
-  // let foundFiles = [];
-  // searchPaths.forEach((searchPath) => {
-  //   foundFiles = foundFiles.concat(glob.sync(searchPath, { nodir: true }));
-  // });
+  const filePaths = searchPaths.reduce((acc, searchPath) => acc.concat(glob.sync(searchPath, { nodir: true })), []);
 
-  const files = searchPaths.reduce((acc, searchPath) => acc.concat(glob.sync(searchPath, { nodir: true })), []);
+  console.log('files', filePaths);
 
-  // const files = searchPaths.reduce((acc, searchPath) => {
-  //   const globs = glob.sync(searchPath, { nodir: true });
-  //   acc.concat(globs, []);
-  // });
-  console.log('files', files);
+  const repoName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
 
-  return {};
+  return buildPageConfig(filePaths, repoName);
 };
 
 module.exports = generatePagesConfig;
