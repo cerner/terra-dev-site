@@ -28,10 +28,10 @@ const generatePagesConfig = (siteConfig) => {
   const searchPaths = defaultSearchPaths(types, rootPaths).concat(generatePagesOptions.searchPatterns);
   console.log('searchPaths', searchPaths);
 
-  let foundFiles = [];
-  searchPaths.forEach((searchPath) => {
-    foundFiles = foundFiles.concat(glob.sync(searchPath, { nodir: true }));
-  });
+  // let foundFiles = [];
+  // searchPaths.forEach((searchPath) => {
+  //   foundFiles = foundFiles.concat(glob.sync(searchPath, { nodir: true }));
+  // });
 
   const files = searchPaths.reduce((acc, searchPath) => acc.concat(glob.sync(searchPath, { nodir: true })), []);
 
