@@ -16,9 +16,9 @@ const buildPageConfig = (filePaths, repoName) => (
     const parsedPath = path.parse(filePath);
     const directory = parsedPath.dir;
     console.log(directory);
-    const fileType = parsedPath.name.match(/\.([^.]+)$$/);
+    const fileType = /[^.]+$/.exec(parsedPath.name);
     console.log(fileType);
-    const name = parsedPath.name.replace(/(\.[^.]+)$/, '');
+    const name = parsedPath.name.replace(/\.[^.]+$/, '');
     console.log(name);
     return acc;
   }, {})
