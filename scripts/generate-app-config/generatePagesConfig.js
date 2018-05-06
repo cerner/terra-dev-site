@@ -19,7 +19,7 @@ const generatePagesConfig = (siteConfig) => {
 
   const rootPaths = generatePagesOptions.roots.reduce((acc, root) => {
     acc.push(path.resolve(path.join(root, 'lib', generatePagesOptions.dir)));
-    acc.push(path.resolve(path.join(root, 'lib', '*', 'lib', generatePagesOptions.dir)));
+    acc.push(path.resolve(path.join(root, '*', 'lib', generatePagesOptions.dir)));
     return acc;
   }, []);
 
