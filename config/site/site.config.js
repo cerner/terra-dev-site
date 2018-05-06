@@ -1,5 +1,6 @@
 const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
 const navConfig = require('./navigation.config');
+const fs = require('fs');
 const path = require('path');
 
 const siteConfig = {
@@ -15,7 +16,8 @@ const siteConfig = {
       // dir/lib/terra-dev-site/**/*.<type>.{jsx,js})
     ],
     // types: ['component', 'test'],
-    root: path.join('lib', 'terra-dev-site'),
+    roots: [process.cwd()],
+    dir: 'terra-dev-site',
   },
 
   /* The image to display as page placeholder when a component does not render. */
@@ -29,7 +31,7 @@ const siteConfig = {
     logoSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png', // maps to appLogoSrc
 
     /* The title the site header should display. */
-    title: 'Terra Dev Site', // maps to appTitle
+    title: JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name, // maps to appTitle
 
     /** The themes to supply the ThemeProvider which allows the site to switch
       * between themes. Providing multiple enables the theme utility to display

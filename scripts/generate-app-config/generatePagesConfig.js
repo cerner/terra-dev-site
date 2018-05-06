@@ -17,13 +17,15 @@ const generatePagesConfig = (siteConfig) => {
     return pagesConfig;
   }
 
-  const rootPath = [
-    path.resolve(path.join(process.cwd(), generatePagesOptions.root)),
-    path.resolve(path.join(process.cwd(), 'packages', generatePagesOptions.root)),
-  ];
+  const rootPaths = generatePagesOptions.roots.reduce((acc, root) => {
+    acc.push(path.resolve(path.join(root, 'lib', generatePagesOptions.dir)));
+    acc.push(path.resolve(path.join(root, 'lib', '*', 'lib', generatePagesOptions.dir)));
+    return acc;
+  }, []);
+
   const types = pageTypes(navConfig);
 
-  const searchPaths = defaultSearchPaths(types, rootPath).concat(generatePagesOptions.searchPatterns);
+  const searchPaths = defaultSearchPaths(types, rootPaths).concat(generatePagesOptions.searchPatterns);
   console.log('searchPaths', searchPaths);
 
   let foundFiles = [];
