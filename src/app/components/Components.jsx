@@ -30,19 +30,19 @@ const propTypes = {
   /**
    * The component example type to generate components for.
    */
-  exampleType: PropTypes.string,
+  pageType: PropTypes.string,
   /**
    * The image source to display as the placeholder.
    */
   placeholderSrc: PropTypes.string,
 };
 
-const generateComponentRoutes = (config, exampleType, pathRoot, placeholderSrc) => {
+const generateComponentRoutes = (config, pageType, pathRoot, placeholderSrc) => {
   const placeholder = () => (
     <Placeholder src={placeholderSrc} />
   );
 
-  const routes = ComponentsUtils.generateRoutes([], config, exampleType, pathRoot).map(
+  const routes = ComponentsUtils.generateRoutes([], config, pageType, pathRoot).map(
     component => (
       <Route
         key={component.fullPath}
@@ -70,7 +70,7 @@ class Components extends React.Component {
   }
 
   render() {
-    const { config, exampleType, pathRoot, placeholderSrc } = this.props;
+    const { config, pageType, pathRoot, placeholderSrc } = this.props;
 
     const componentsClassNames = cx([
       'site-content',
@@ -84,7 +84,7 @@ class Components extends React.Component {
         ref={(element) => { this.element = element; }}
       >
         <Switch>
-          {generateComponentRoutes(config, exampleType, pathRoot, placeholderSrc)}
+          {generateComponentRoutes(config, pageType, pathRoot, placeholderSrc)}
         </Switch>
       </div>
     );

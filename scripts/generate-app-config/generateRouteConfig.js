@@ -17,7 +17,7 @@ const buildComponent = (Component, configuredProps) => (
 const buildMenuConfig = (component, menuComponent, pageType, pathRoot = '') => {
   let generatedConfig = {};
   const routePath = pathRoot + component.path;
-  const pages = component.pages[pageType];
+  const pages = (component.pages || {})[pageType];
 
   if (pages) {
     // create menu items to add to this menu
@@ -83,11 +83,11 @@ const updateConfigWithImports = (componentConfig, pageType, routeImporter) => (
 
   componentConfig.map((config) => {
     const { name, path: url, component } = config;
-    const { pages } = config.pages[pageType];
+    const { [pageType]: page } = config.pages;
     const updatedConfig = { name, path: url };
 
-    if (pages) {
-      updatedConfig[pageType] = updateConfigWithImports(pages, pageType, routeImporter);
+    if (page) {
+      updatedConfig.pages = { [pageType]: updateConfigWithImports(page, pageType, routeImporter) };
     }
 
     if (component) {
