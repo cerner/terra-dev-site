@@ -15,35 +15,49 @@ const defaultSearchPaths = (types, rootPaths) => (
   })
 );
 
-const splitDirectory = (packageName, directory) => {
-  const split = directory.split(path.sep);
+const getRoutes = (packageName, directory, type, fileName) => {
+  let routes = directory.split(path.sep);
+  let name = packageName;
 
-  let packageIndex = split.findIndex(element => element === 'packages');
+  const packageIndex = routes.findIndex(element => element === 'packages');
 
   if (packageIndex) {
-      // The package name is the first directory name after packages.
-      // Note: spliting on seperator results in the first array element to be ''
-      // console.log('split', split);
-      // console.log('packageIndex', packageIndex);
-      // console.log('derp ', split[packageIndex+1]);
-    return { packageName: split[packageIndex + 1], dirs: split.slice(packageIndex + 1) };
+    // The package name is the first directory name after packages.
+    // Note: spliting on seperator results in the first array element to be ''
+    name = routes[packageIndex + 1];
+    routes = routes.slice(packageIndex + 1);
   }
 
-  packageIndex = split.findIndex(element => element === packageName);
+  const devSiteIndex = routes.findIndex(element => element === 'terra-dev-site');
 
-  return { packageName, dirs: split.slice(packageIndex) };
+  if (devSiteIndex) {
+    console.log('routes', routes);
+    routes = routes.slice(devSiteIndex + 1);
+  }
+
+  const typeIndex = routes.findIndex(element => element === type);
+
+  if (typeIndex) {
+    console.log('routes', routes);
+    routes = routes.slice(typeIndex + 1);
+  }
+
+  // add on the file name as the last route
+  routes.push(fileName);
+
+  return { name, routes };
 };
 
-const recurs = (config, type, dirs, componentPath) => {
+const recurs = (config, type, routes, componentPath) => {
   // console.log('config', config);
   let configCopy = config || {
-    name: `${startCase(dirs[0])}`,
-    path: `/${kebabCase(dirs[0])}`,
-    key: dirs[0],
+    name: `${startCase(routes[0])}`,
+    path: `/${kebabCase(routes[0])}`,
+    key: routes[0],
     pages: {},
   };
 
-  const slicedDir = dirs.slice(1);
+  const slicedDir = routes.slice(1);
 
   console.log('slicedDir', slicedDir);
 
@@ -80,10 +94,10 @@ const buildPageConfig = (filePaths, packageName) => (
     // console.log(name);
     const componentPath = relativePath(path.join(directory, parsedPath.name));
     // console.log('relativePath', componentPath);
-    const { packageName: updatedPackageName, dirs } = splitDirectory(packageName, directory);
-    dirs.push(name);
+    const { name: updatedPackageName, routes } = getRoutes(packageName, directory, fileType, name);
+    routes.push(name);
     // console.log('updatedPackageName', updatedPackageName);
-    acc[updatedPackageName] = recurs(acc[updatedPackageName], fileType, dirs, componentPath);
+    acc[updatedPackageName] = recurs(acc[updatedPackageName], fileType, routes, componentPath);
     // console.log(acc);
     return acc;
   }, {})
