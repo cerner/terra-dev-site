@@ -26,9 +26,9 @@ const devSiteConfig = () => {
     })],
     resolve: {
       modules: [devSiteConfigPath],
-      alias: {
-        'terra-dev-site/lib': path.join(process.cwd(), 'src'), // hack
-      },
+      // alias: {
+      //   'terra-dev-site/lib': path.join(process.cwd(), 'src'), // hack
+      // },
     },
     watch: true,
   };
