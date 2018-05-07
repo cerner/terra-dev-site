@@ -36,7 +36,7 @@ const buildMenuConfig = (component, menuComponent, pageType, pathRoot = '') => {
     });
 
     // Do not create a submenu for the component if the component has one site page with no additional sub-nav and it's not a test route.
-    if (menuItems.length === 1 && pages[0].pages[pageType] === undefined && pageType !== 'tests') {
+    if (menuItems.length === 1 && (pages[0].pages || {})[pageType] === undefined && pageType !== 'tests') {
       return { generatedConfig: undefined, alternatePath: menuItems[0].path };
     }
 

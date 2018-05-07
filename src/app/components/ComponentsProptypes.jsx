@@ -10,8 +10,8 @@ const componentConfigPropType = PropTypes.shape(
   {
     name: PropTypes.string,
     path: PropTypes.string,
-    pages: PropTypes.arrayOf(itemConfigPropType),
-    tests: PropTypes.arrayOf(itemConfigPropType),
+    // pages: PropTypes.arrayOf(itemConfigPropType),
+    // tests: PropTypes.arrayOf(itemConfigPropType),
   },
 );
 
@@ -19,8 +19,8 @@ const siteConfigPropType = PropTypes.arrayOf(
   PropTypes.shape({
     name: PropTypes.string,
     path: PropTypes.string,
-    pages: PropTypes.arrayOf(itemConfigPropType),
-    tests: PropTypes.arrayOf(itemConfigPropType),
+    // pages: PropTypes.arrayOf(itemConfigPropType),
+    // tests: PropTypes.arrayOf(itemConfigPropType),
   }),
 );
 
