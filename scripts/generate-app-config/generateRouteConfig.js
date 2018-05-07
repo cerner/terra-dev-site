@@ -14,15 +14,15 @@ const buildComponent = (Component, configuredProps) => (
   }
 );
 
-const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') => {
+const buildMenuConfig = (component, menuComponent, pageType, pathRoot = '') => {
   let generatedConfig = {};
   const routePath = pathRoot + component.path;
-  const examples = component[exampleType];
+  const pages = component.pages[pageType];
 
-  if (examples) {
+  if (pages) {
     // create menu items to add to this menu
-    const menuItems = examples.map((subComponent) => {
-      const { generatedConfig: subMenu, alternatePath } = buildMenuConfig(subComponent, menuComponent, exampleType, routePath);
+    const menuItems = pages.map((subComponent) => {
+      const { generatedConfig: subMenu, alternatePath } = buildMenuConfig(subComponent, menuComponent, pageType, routePath);
       const subComponentPath = routePath + subComponent.path;
       // add any generated menus to the overall config
       if (subMenu) {
@@ -36,7 +36,7 @@ const buildMenuConfig = (component, menuComponent, exampleType, pathRoot = '') =
     });
 
     // Do not create a submenu for the component if the component has one site page with no additional sub-nav and it's not a test route.
-    if (menuItems.length === 1 && examples[0][exampleType] === undefined && exampleType !== 'tests') {
+    if (menuItems.length === 1 && pages[0].pages[pageType] === undefined && pageType !== 'tests') {
       return { generatedConfig: undefined, alternatePath: menuItems[0].path };
     }
 
@@ -63,14 +63,14 @@ const buildLinksMenuConfig = (componentConfig, link, routeImporter) => {
   const component = {
     name: link.text,
     path: '',
-    [link.exampleType]: Object.values(componentConfig).filter(item => item[link.exampleType] !== undefined),
+    pages: { [link.pageType]: Object.values(componentConfig).filter(item => item.pages[link.pageType] !== undefined) },
   };
 
   // Manipulate the link config to build out the first level menu item.
   const { generatedConfig } = buildMenuConfig(
     component,
     menuComponent,
-    link.exampleType,
+    link.pageType,
     link.path,
   );
 
@@ -79,14 +79,15 @@ const buildLinksMenuConfig = (componentConfig, link, routeImporter) => {
 
 const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config', 'build'), path.resolve(process.cwd(), 'dev-site-config', componentPath)));
 
-const updateConfigWithImports = (componentConfig, exampleType, routeImporter) => (
+const updateConfigWithImports = (componentConfig, pageType, routeImporter) => (
 
   componentConfig.map((config) => {
-    const { name, path: url, component, [exampleType]: children } = config;
+    const { name, path: url, component } = config;
+    const { pages } = config.pages[pageType];
     const updatedConfig = { name, path: url };
 
-    if (children) {
-      updatedConfig[exampleType] = updateConfigWithImports(children, exampleType, routeImporter);
+    if (pages) {
+      updatedConfig[pageType] = updateConfigWithImports(pages, pageType, routeImporter);
     }
 
     if (component) {
@@ -111,17 +112,17 @@ const routeConfiguration = (siteConfig, componentConfig) => {
   const content = {};
   let menu = {};
 
-  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.exampleType) : [];
+  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageType) : [];
 
   validLinks.forEach((link) => {
-    const exampleType = link.exampleType;
+    const pageType = link.pageType;
 
-    const updatedComponentConfig = updateConfigWithImports(Object.values(componentConfig), exampleType, routeImporter);
+    const updatedComponentConfig = updateConfigWithImports(Object.values(componentConfig), pageType, routeImporter);
 
     // build content configuration
     let contentComponent = routeImporter.addImport(link.component ? link.component : Components);
-    let componentProps = { config: Object.values(updatedComponentConfig), pathRoot: link.path, exampleType, placeholderSrc };
-    if (exampleType === 'home' && !link.component) {
+    let componentProps = { config: Object.values(updatedComponentConfig), pathRoot: link.path, pageType, placeholderSrc };
+    if (pageType === 'home' && !link.component) {
       contentComponent = routeImporter.addImport(Home);
       componentProps = { readMeContent: routeImporter.addImport(relativePath(readMeContent), 'readMe') };
     }

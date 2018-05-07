@@ -5,16 +5,16 @@ const navConfig = {
     links: [{
       path: '/site/home',
       text: 'Home',
-      exampleType: 'home',
+      pageType: 'home',
     }, {
       path: '/site/components',
       text: 'Components',
-      exampleType: 'component',
+      pageType: 'component',
       hasSubNav: true,
     }, {
       path: '/tests',
       text: 'Tests',
-      exampleType: 'test',
+      pageType: 'test',
       hasSubNav: true,
     }],
   },

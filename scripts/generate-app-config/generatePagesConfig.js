@@ -4,7 +4,7 @@ const fs = require('fs');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
 
-const pageTypes = navConfig => (navConfig.navigation.links.map(link => link.exampleType));
+const pageTypes = navConfig => (navConfig.navigation.links.map(link => link.pageType));
 
 const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config'), componentPath));
 
@@ -16,52 +16,57 @@ const defaultSearchPaths = (types, rootPaths) => (
 );
 
 const splitDirectory = (packageName, directory) => {
+  const split = directory.split(path.sep);
 
-  const split = directory.split(path.sep)
-
-  let packageIndex = split.findIndex(element => element === 'packages')
+  let packageIndex = split.findIndex(element => element === 'packages');
 
   if (packageIndex) {
       // The package name is the first directory name after packages.
       // Note: spliting on seperator results in the first array element to be ''
-      console.log('split', split);
-      console.log('packageIndex', packageIndex);
-      console.log('derp ', split[packageIndex+1]);
-      return { packageName: split[packageIndex + 1], dirs: split.slice(packageIndex + 1) };
+      // console.log('split', split);
+      // console.log('packageIndex', packageIndex);
+      // console.log('derp ', split[packageIndex+1]);
+    return { packageName: split[packageIndex + 1], dirs: split.slice(packageIndex + 1) };
   }
 
-  packageIndex = split.findIndex(element => element === packageName)
+  packageIndex = split.findIndex(element => element === packageName);
 
   return { packageName, dirs: split.slice(packageIndex) };
 };
 
 const recurs = (config, type, dirs, componentPath) => {
+  // console.log('config', config);
   let configCopy = config || {
-    name: `'${startCase(dirs[0])}'`,
-    path: `'/${kebabCase(dirs[0])}'`,
+    name: `${startCase(dirs[0])}`,
+    path: `/${kebabCase(dirs[0])}`,
     key: dirs[0],
+    pages: {},
   };
 
   const slicedDir = dirs.slice(1);
 
-  if(slicedDir.length > 0){
-    if (!configCopy[type]) {
-      configCopy[type] = [];
+  console.log('slicedDir', slicedDir);
+
+  if (slicedDir.length > 0) {
+    if (!configCopy.pages[type]) {
+      configCopy.pages[type] = [];
     }
-    // console.log('config copy', configCopy);
-    const nextConfig = configCopy[type].find(item => item.key === slicedDir[0]);
+    const nextConfig = configCopy.pages[type].find(item => item.key === slicedDir[0]);
 
     if (nextConfig) {
       recurs(nextConfig, type, slicedDir, componentPath);
     } else {
-      configCopy[type].push(recurs(nextConfig, type, slicedDir, componentPath));
+      configCopy.pages[type].push(recurs(nextConfig, type, slicedDir, componentPath));
     }
   } else {
+    console.log('componentPath', componentPath);
     configCopy.component = componentPath;
   }
 
+  // console.log('configCopy', configCopy);
+
   return configCopy;
-}
+};
 
 const buildPageConfig = (filePaths, packageName) => (
   filePaths.reduce((acc, filePath) => {
@@ -75,10 +80,11 @@ const buildPageConfig = (filePaths, packageName) => (
     // console.log(name);
     const componentPath = relativePath(path.join(directory, parsedPath.name));
     // console.log('relativePath', componentPath);
-    const {packageName: updatedPackageName, dirs} = splitDirectory(packageName, directory);
-    console.log('updatedPackageName', updatedPackageName);
+    const { packageName: updatedPackageName, dirs } = splitDirectory(packageName, directory);
+    dirs.push(name);
+    // console.log('updatedPackageName', updatedPackageName);
     acc[updatedPackageName] = recurs(acc[updatedPackageName], fileType, dirs, componentPath);
-    console.log(acc);
+    // console.log(acc);
     return acc;
   }, {})
 );
@@ -109,7 +115,7 @@ const generatePagesConfig = (siteConfig) => {
 
   const config = buildPageConfig(filePaths, packageName);
 
-  console.log('config', config);
+  console.log('config', JSON.stringify(config, null, 2));
 
   return config;
 };
