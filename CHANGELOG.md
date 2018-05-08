@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+0.6.0 - (May 8, 2018)
+----------
+### Changes
+* Updated to use terra-application-layout v2.0.0
+
 0.5.0 - (April 24, 2018)
 ----------
 ### Breaking Changes
