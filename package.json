@@ -81,7 +81,7 @@
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
-    "terra-application-layout": "^1.0.0",
+    "terra-application-layout": "^2.0.0",
     "terra-base": "^3.3.0",
     "terra-button": "^2.0.1",
     "terra-i18n": "^2.3.0",
