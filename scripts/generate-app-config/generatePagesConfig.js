@@ -26,6 +26,8 @@ const truncateRoutes = (dir, routes) => {
   return routes;
 };
 
+const monoRepoNamespace = directory => ((/packages\/([^/]*)/.exec(directory) || {})[1]);
+
 const getRoutes = (directory, type, fileName) => {
   // console.log('packageName', packageName);
   let routes = directory.split(path.sep);
@@ -33,9 +35,15 @@ const getRoutes = (directory, type, fileName) => {
   routes.shift();
 
   routes = truncateRoutes('terra-dev-site', routes);
-  routes = truncateRoutes('terra-dev-site', routes);
+  routes = truncateRoutes('terra-dev-site', routes); // hack
   routes = truncateRoutes(type, routes);
   // console.log('routes', routes);
+
+  const namespace = monoRepoNamespace(directory);
+
+  if (namespace) {
+    routes.unshift(namespace);
+  }
 
   // add on the file name as the last route
   routes.push(fileName);
