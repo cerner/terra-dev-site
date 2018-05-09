@@ -1,7 +1,10 @@
 const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
 const navConfig = require('./navigation.config');
+const startCase = require('lodash.startcase');
 const fs = require('fs');
 const path = require('path');
+
+const npmPackage = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
 
 const siteConfig = {
   /* The navigation configuration.  */
@@ -24,14 +27,14 @@ const siteConfig = {
   placeholderSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
 
   /* The README content to display on the home page. */
-  readMeContent: '',
+  readMeContent: path.resolve(process.cwd(), 'README.md'),
 
   appConfig: {
     /* The loge the site header should display. */
     logoSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png', // maps to appLogoSrc
 
     /* The title the site header should display. */
-    title: JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name, // maps to appTitle
+    title: startCase(npmPackage.name), // maps to appTitle
 
     /** The themes to supply the ThemeProvider which allows the site to switch
       * between themes. Providing multiple enables the theme utility to display
@@ -65,8 +68,8 @@ const siteConfig = {
 
     /* Configuration relating to the extensions section of the site. Not rendered if extensions are supplied by navigation config */
     // extensions: {
-      /* The url to link to github. If this is supplied a github extention will be display to link to the supplied url */
-      // gitHubUrl: 'https://github.com/cerner',
+    // //    The url to link to github. If this is supplied a github extention will be display to link to the supplied url
+    //   gitHubUrl: 'https://github.com/cerner',
     // },
   },
 };

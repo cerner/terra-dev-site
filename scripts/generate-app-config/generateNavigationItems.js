@@ -12,12 +12,9 @@ const generateNavigationItems = (navConfig) => {
       configuredLinks.push({
         path: link.path,
         text: link.text,
-        hasSubNav: link.hasSubNav,
       });
     }
   });
-
-  // console.log('componentsToRequire', componentsToRequire);
 
   return {
     config: configuredLinks,

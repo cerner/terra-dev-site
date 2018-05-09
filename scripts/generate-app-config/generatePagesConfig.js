@@ -1,6 +1,6 @@
 const path = require('path');
 const glob = require('glob');
-const fs = require('fs');
+// const fs = require('fs');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
 
@@ -15,65 +15,65 @@ const defaultSearchPaths = (types, rootPaths) => (
   })
 );
 
-const getRoutes = (packageName, directory, type, fileName) => {
+const truncateRoutes = (dir, routes) => {
+  const index = routes.findIndex(element => element === dir);
+
+  if (index >= 0) {
+    // console.log('routes', routes);
+    return routes.slice(index + 1);
+  }
+
+  return routes;
+};
+
+const getRoutes = (directory, type, fileName) => {
+  // console.log('packageName', packageName);
   let routes = directory.split(path.sep);
-  let name = packageName;
+  // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
+  routes.shift();
 
-  const packageIndex = routes.findIndex(element => element === 'packages');
-
-  if (packageIndex) {
-    // The package name is the first directory name after packages.
-    // Note: spliting on seperator results in the first array element to be ''
-    name = routes[packageIndex + 1];
-    routes = routes.slice(packageIndex + 1);
-  }
-
-  const devSiteIndex = routes.findIndex(element => element === 'terra-dev-site');
-
-  if (devSiteIndex) {
-    console.log('routes', routes);
-    routes = routes.slice(devSiteIndex + 1);
-  }
-
-  const typeIndex = routes.findIndex(element => element === type);
-
-  if (typeIndex) {
-    console.log('routes', routes);
-    routes = routes.slice(typeIndex + 1);
-  }
+  routes = truncateRoutes('terra-dev-site', routes);
+  routes = truncateRoutes('terra-dev-site', routes);
+  routes = truncateRoutes(type, routes);
+  // console.log('routes', routes);
 
   // add on the file name as the last route
   routes.push(fileName);
 
-  return { name, routes };
+  // console.log('name', name);
+
+  return routes;
 };
 
-const recurs = (config, type, routes, componentPath) => {
+const pageConfig = route => (
+  {
+    name: `${startCase(route)}`,
+    path: `/${kebabCase(route)}`,
+  }
+);
+
+const recurs = (config, routes, componentPath) => {
   // console.log('config', config);
-  let configCopy = config || {
-    name: `${startCase(routes[0])}`,
-    path: `/${kebabCase(routes[0])}`,
-    key: routes[0],
-    pages: {},
-  };
+  const configCopy = config || pageConfig(routes[0]);
+  // {
+  //   name: `${startCase(routes[0])}`,
+  //   path: `/${kebabCase(routes[0])}`,
+  // };
+
+  // console.log('routes', routes);
 
   const slicedDir = routes.slice(1);
 
-  console.log('slicedDir', slicedDir);
+  // console.log('slicedDir', slicedDir);
 
   if (slicedDir.length > 0) {
-    if (!configCopy.pages[type]) {
-      configCopy.pages[type] = [];
+    if (!configCopy.pages) {
+      configCopy.pages = {};
     }
-    const nextConfig = configCopy.pages[type].find(item => item.key === slicedDir[0]);
 
-    if (nextConfig) {
-      recurs(nextConfig, type, slicedDir, componentPath);
-    } else {
-      configCopy.pages[type].push(recurs(nextConfig, type, slicedDir, componentPath));
-    }
+    configCopy.pages[slicedDir[0]] = recurs(configCopy.pages[slicedDir[0]], slicedDir, componentPath);
   } else {
-    console.log('componentPath', componentPath);
+    // console.log('componentPath', componentPath);
     configCopy.component = componentPath;
   }
 
@@ -82,9 +82,9 @@ const recurs = (config, type, routes, componentPath) => {
   return configCopy;
 };
 
-const buildPageConfig = (filePaths, packageName) => (
+const buildPageConfig = filePaths => (
   filePaths.reduce((acc, filePath) => {
-    console.log('filePath', filePath);
+    // console.log('filePath', filePath);
     const parsedPath = path.parse(filePath);
     const directory = parsedPath.dir;
     // console.log(directory);
@@ -94,10 +94,16 @@ const buildPageConfig = (filePaths, packageName) => (
     // console.log(name);
     const componentPath = relativePath(path.join(directory, parsedPath.name));
     // console.log('relativePath', componentPath);
-    const { name: updatedPackageName, routes } = getRoutes(packageName, directory, fileType, name);
-    routes.push(name);
+    const routes = getRoutes(directory, fileType, name);
     // console.log('updatedPackageName', updatedPackageName);
-    acc[updatedPackageName] = recurs(acc[updatedPackageName], fileType, routes, componentPath);
+
+    let pages = acc[fileType];
+    if (!pages) {
+      pages = {};
+      acc[fileType] = pages;
+    }
+
+    pages[routes[0]] = recurs(pages[routes[0]], routes, componentPath);
     // console.log(acc);
     return acc;
   }, {})
@@ -125,9 +131,9 @@ const generatePagesConfig = (siteConfig) => {
 
   console.log('files', filePaths);
 
-  const packageName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
+  // const packageName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
 
-  const config = buildPageConfig(filePaths, packageName);
+  const config = buildPageConfig(filePaths);
 
   console.log('config', JSON.stringify(config, null, 2));
 

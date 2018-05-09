@@ -1,9 +1,10 @@
+const startCase = require('lodash.startcase');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 const generateNameConfig = (appConfig) => {
   const imports = new ImportAggregator();
   const config = {
-    title: appConfig.title,
+    title: startCase(appConfig.title),
   };
 
   if (appConfig.logoSrc) {
