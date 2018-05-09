@@ -29,7 +29,7 @@ const truncateRoutes = (dir, routes) => {
 const monoRepoNamespace = (directory) => {
   const namespace = (/packages\/([^/]*)/.exec(directory) || {})[1];
   if (namespace) {
-    return namespace.replace('terra-'); // this is kind of a hack and I don't like it.
+    return namespace.replace('terra-', ''); // this is kind of a hack and I don't like it.
   }
 
   return undefined;
