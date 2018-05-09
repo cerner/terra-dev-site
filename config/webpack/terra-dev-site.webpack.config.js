@@ -6,20 +6,32 @@ const loadDefaultSiteConfig = require('../../scripts/generate-app-config/loadDef
 const fs = require('fs');
 
 
+const addAlias = (acc, name, location, sourceDir) => {
+  acc[name] = path.join(location);
+  if (sourceDir !== 'lib') {
+    acc[`${name}/lib`] = path.join(location, sourceDir);
+  }
+};
+
 const aliasMonoRepoPackages = (monoRepoPackageDir, sourceDir) => {
   if (!fs.existsSync(monoRepoPackageDir)) {
     console.log('dir not found');
     return {};
   }
-  const packages = fs.readdirSync(monoRepoPackageDir);
-  console.log(fs.readdirSync(monoRepoPackageDir));
-  return packages.reduce((acc, packageName) => {
+  // console.log(fs.readdirSync(monoRepoPackageDir));
+  return fs.readdirSync(monoRepoPackageDir).reduce((acc, packageName) => {
+    // ignore any hidden files
     if (packageName[0] !== '.') {
-      acc[packageName] = path.join(monoRepoPackageDir, packageName);
-      acc[path.join(packageName, 'lib')] = path.join(monoRepoPackageDir, packageName, sourceDir);
+      addAlias(acc, packageName, path.join(monoRepoPackageDir, packageName), sourceDir);
     }
     return acc;
   }, {});
+};
+
+const aliasCurrentPackage = (packageName, processPath, sourceDir) => {
+  const alias = {};
+  addAlias(alias, packageName, processPath, sourceDir);
+  return alias;
 };
 
 const devSiteConfig = (env = {}, argv = {}) => {
@@ -35,10 +47,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   generateAppConfig(siteConfig);
 
-  // const monoRepoPackageDir = siteConfig.monoRepoPackageDir;
-
-  // console.log(monoRepoPackageDir);
-
   const packageName = siteConfig.npmPackage.name;
 
   const sourceDir = production ? 'lib' : 'src';
@@ -46,8 +54,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const alias = {
     ...aliasMonoRepoPackages(siteConfig.monoRepoPackageDir, sourceDir),
     ...siteConfig.webpackAliases,
-    [packageName]: path.join(processPath),
-    [path.join(packageName, 'lib')]: path.join(processPath, sourceDir),
+    ...aliasCurrentPackage(packageName, processPath, sourceDir),
   };
 
   console.log('alias', alias);
