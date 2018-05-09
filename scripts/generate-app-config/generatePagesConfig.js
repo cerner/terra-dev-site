@@ -26,7 +26,14 @@ const truncateRoutes = (dir, routes) => {
   return routes;
 };
 
-const monoRepoNamespace = directory => ((/packages\/([^/]*)/.exec(directory) || {})[1]);
+const monoRepoNamespace = (directory) => {
+  const namespace = (/packages\/([^/]*)/.exec(directory) || {})[1];
+  if (namespace) {
+    return namespace.replace('terra-'); // this is kind of a hack and I don't like it.
+  }
+
+  return undefined;
+};
 
 const getRoutes = (directory, type, fileName, generatePagesOptions) => {
   // console.log('packageName', packageName);
