@@ -21,7 +21,7 @@ const devSiteConfig = () => {
       'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
     },
     plugins: [new HtmlWebpackPlugin({
-      title: 'Site',
+      title: siteConfig.appConfig.title,
       template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
     })],
     resolve: {
