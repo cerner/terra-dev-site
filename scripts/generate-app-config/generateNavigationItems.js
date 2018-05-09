@@ -6,9 +6,7 @@ const generateNavigationItems = (navConfig) => {
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageType) : [];
 
   validLinks.forEach((link) => {
-    const pageType = link.pageType;
-
-    if (pageType !== 'tests') {
+    if (!link.isHidden) {
       configuredLinks.push({
         path: link.path,
         text: link.text,

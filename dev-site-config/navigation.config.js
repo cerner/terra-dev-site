@@ -10,11 +10,7 @@ const navConfig = {
       path: '/dev-site/getting-started',
       text: 'Getting Started',
       pageType: 'docs',
-      hasSubNav: true,
-      menuProps: {
-        menuText: 'Getting Started',
-        subMenuText: 'Info',
-      },
+      isHidden: true,
     }],
   },
 };

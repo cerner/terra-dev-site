@@ -10,12 +10,11 @@ const navConfig = {
       path: '/site/components',
       text: 'Components',
       pageType: 'component',
-      hasSubNav: true,
     }, {
       path: '/tests',
       text: 'Tests',
       pageType: 'test',
-      hasSubNav: true,
+      isHidden: true,
     }],
   },
 };

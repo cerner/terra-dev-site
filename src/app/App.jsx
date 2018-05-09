@@ -164,7 +164,7 @@ class App extends React.Component {
                 nameConfig={nameConfig}
                 utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
                 routingConfig={routingConfig}
-                navigationItems={!matchPath(location.pathname, '/tests') ? navigationItems : undefined}
+                navigationItems={navigationItems}
                 extensions={extensions}
                 indexPath={indexPath}
                 navigationAlignment="start"
