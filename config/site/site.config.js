@@ -32,6 +32,14 @@ const siteConfig = {
     entryPointDirs: ['terra-dev-site'],
   },
 
+  webpackAliases: {
+    // [path]: <path location>
+  },
+
+  monoRepoPackageDir: path.resolve(process.cwd(), 'packages'),
+
+  npmPackage,
+
   /* The image to display as page placeholder when a component does not render. */
   placeholderSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
 

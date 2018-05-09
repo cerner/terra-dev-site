@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, matchPath, Switch, Route } from 'react-router-dom';
+import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Base from 'terra-base';
 import ThemeProvider from 'terra-theme-provider';
