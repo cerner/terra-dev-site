@@ -47,7 +47,7 @@ const getRoutes = (directory, type, fileName) => {
 
 const pageConfig = route => (
   {
-    name: `${startCase(route)}`,
+    name: startCase(route),
     path: `/${kebabCase(route)}`,
   }
 );
@@ -55,10 +55,6 @@ const pageConfig = route => (
 const recurs = (config, routes, componentPath) => {
   // console.log('config', config);
   const configCopy = config || pageConfig(routes[0]);
-  // {
-  //   name: `${startCase(routes[0])}`,
-  //   path: `/${kebabCase(routes[0])}`,
-  // };
 
   // console.log('routes', routes);
 
