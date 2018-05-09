@@ -9,7 +9,7 @@ const navConfig = {
     }, {
       path: '/site/components',
       text: 'Components',
-      pageType: 'component',
+      pageType: 'doc',
     }, {
       path: '/tests',
       text: 'Tests',

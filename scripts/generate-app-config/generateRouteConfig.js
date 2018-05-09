@@ -64,7 +64,7 @@ const contentRouteItem = (routePath, componentPath, props, routeImporter) => (
   )
 );
 
-const recur = (config, rootPath, routeImporter) => (
+const generateRouteConfig = (config, rootPath, routeImporter) => (
   Object.values(config).reduce((acc, page) => {
     let content = acc.content;
     let menu = acc.menu;
@@ -73,7 +73,7 @@ const recur = (config, rootPath, routeImporter) => (
 
     const routePath = `${rootPath}${page.path}`;
     if (hasSubMenu) {
-      const { content: childContent, menu: childMenu, menuItems: childMenuItems } = recur(page.pages, routePath, routeImporter);
+      const { content: childContent, menu: childMenu, menuItems: childMenuItems } = generateRouteConfig(page.pages, routePath, routeImporter);
 
       content = Object.assign(content, childContent);
       menu = Object.assign(menu, childMenu);
@@ -129,7 +129,7 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     let menu = acc.menu;
     const linkRoute = getLinkRoute(link, pageConfig, siteConfig, routeImporter);
 
-    const { content: linkContent, menu: linkMenu } = recur(linkRoute, '', routeImporter);
+    const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkRoute, '', routeImporter);
 
     content = Object.assign(content, linkContent);
     menu = Object.assign(menu, linkMenu);

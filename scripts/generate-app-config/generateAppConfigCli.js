@@ -9,6 +9,7 @@ const loadDefaultSiteConfig = require('./loadDefaultSiteConfig');
 commander
   .version(packageJson.version)
   .option('--config <path>', 'The site config.', undefined)
+  .option('-p, --production', 'Passes the -p flag to the webpack config, if available.', false)
   .parse(process.argv);
 
-generate(loadDefaultSiteConfig(commander.config));
+generate(loadDefaultSiteConfig(commander.config), commander.production);

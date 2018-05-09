@@ -10,7 +10,6 @@ const navConfig = {
       path: '/dev-site/getting-started',
       text: 'Getting Started',
       pageType: 'docs',
-      isHidden: true,
     }],
   },
 };

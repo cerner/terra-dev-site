@@ -14,13 +14,22 @@ const siteConfig = {
   // componentConfig: {},
   /* PagesConfig */
   // pagesConfig,
+
+  // These options are used to find the pages to serve via terra dev site.
+  // If 'pagesConfig' is provided, no pages will be generated.
+  // Output:
+  // {roots}/lib/{entryPointDirs}/**/**/*{pageType}.{jsx,js}
+  // {roots}/packages/*/lib/{entryPointDirs}/**/*{pageType}.{jsx,js}
+  // searchPatterns
+  // *NOTE* The entryPointDirs also act as the beginning of the directory strucure for menu navigation.
+  // For example: /root/src/<entryPointDir>/folder/item would start navigation at 'folder'.
+  // The entryPointDirs will be applied to all pages regardless of the type or search pattern that found it.
   generatePages: {
     searchPatterns: [
       // dir/lib/terra-dev-site/**/*.<type>.{jsx,js})
     ],
-    // types: ['component', 'test'],
     roots: [process.cwd()],
-    dir: 'terra-dev-site',
+    entryPointDirs: ['terra-dev-site'],
   },
 
   /* The image to display as page placeholder when a component does not render. */

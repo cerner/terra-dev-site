@@ -28,13 +28,13 @@ const truncateRoutes = (dir, routes) => {
 
 const monoRepoNamespace = directory => ((/packages\/([^/]*)/.exec(directory) || {})[1]);
 
-const getRoutes = (directory, type, fileName) => {
+const getRoutes = (directory, type, fileName, generatePagesOptions) => {
   // console.log('packageName', packageName);
   let routes = directory.split(path.sep);
   // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
   routes.shift();
 
-  routes = truncateRoutes('terra-dev-site', routes);
+  generatePagesOptions.entryPointDirs.forEach((entryPoint) => { routes = truncateRoutes(entryPoint, routes); });
   routes = truncateRoutes('terra-dev-site', routes); // hack
   routes = truncateRoutes(type, routes);
   // console.log('routes', routes);
@@ -86,20 +86,10 @@ const recurs = (config, routes, componentPath) => {
   return configCopy;
 };
 
-const buildPageConfig = filePaths => (
+const buildPageConfig = (filePaths, generatePagesOptions) => (
   filePaths.reduce((acc, filePath) => {
-    // console.log('filePath', filePath);
     const parsedPath = path.parse(filePath);
-    const directory = parsedPath.dir;
-    // console.log(directory);
     const fileType = /[^.]+$/.exec(parsedPath.name)[0];
-    // console.log(fileType);
-    const name = parsedPath.name.replace(/\.[^.]+$/, '');
-    // console.log(name);
-    const componentPath = relativePath(path.join(directory, parsedPath.name));
-    // console.log('relativePath', componentPath);
-    const routes = getRoutes(directory, fileType, name);
-    // console.log('updatedPackageName', updatedPackageName);
 
     let pages = acc[fileType];
     if (!pages) {
@@ -107,22 +97,28 @@ const buildPageConfig = filePaths => (
       acc[fileType] = pages;
     }
 
+    const directory = parsedPath.dir;
+    const componentPath = relativePath(path.join(directory, parsedPath.name));
+    const name = parsedPath.name.replace(/\.[^.]+$/, '');
+    const routes = getRoutes(directory, fileType, name, generatePagesOptions);
+
     pages[routes[0]] = recurs(pages[routes[0]], routes, componentPath);
     // console.log(acc);
     return acc;
   }, {})
 );
 
-const generatePagesConfig = (siteConfig) => {
+const generatePagesConfig = (siteConfig, production) => {
   const { generatePages: generatePagesOptions, pagesConfig, navConfig } = siteConfig;
-  console.log('generatePagesOptions', generatePagesOptions);
   if (pagesConfig) {
     return pagesConfig;
   }
 
+  const souceDir = production ? 'lib' : 'src';
+
   const rootPaths = generatePagesOptions.roots.reduce((acc, dir) => {
-    acc.push(path.resolve(path.join(dir, 'lib', generatePagesOptions.dir)));
-    acc.push(path.resolve(path.join(dir, 'packages', '*', 'lib', generatePagesOptions.dir)));
+    acc.push(path.join(dir, souceDir, `{${generatePagesOptions.entryPointDirs.join()},}`));
+    acc.push(path.join(dir, 'packages', '*', souceDir, `{${generatePagesOptions.entryPointDirs.join()},}`));
     return acc;
   }, []);
 
@@ -137,7 +133,7 @@ const generatePagesConfig = (siteConfig) => {
 
   // const packageName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
 
-  const config = buildPageConfig(filePaths);
+  const config = buildPageConfig(filePaths, generatePagesOptions);
 
   console.log('config', JSON.stringify(config, null, 2));
 

@@ -65,7 +65,7 @@
     "start-heroku": "tt:serve-static --site build",
     "start-static": "tt:serve-static --config config/webpack/webpack.config",
     "test": "npm run jest",
-    "generate": "node bin/generateAppConfig.js"
+    "tds:generate-app-config": "node bin/generateAppConfig.js"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
