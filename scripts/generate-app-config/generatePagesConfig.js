@@ -8,13 +8,6 @@ const pageTypes = navConfig => (navConfig.navigation.links.map(link => link.page
 
 const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config'), componentPath));
 
-const defaultSearchPaths = (types, rootPaths) => (
-  rootPaths.map((rootPath) => {
-    const typesString = types.reduce((acc, type) => `${acc}${type},`, '');
-    return path.join(rootPath, '**', `*.{${typesString}}.{jsx,js}`);
-  })
-);
-
 const truncateRoutes = (dir, routes) => {
   const index = routes.findIndex(element => element === dir);
 
@@ -36,22 +29,20 @@ const getNamespace = (directory, namespace) => {
   return afterPackages || afterNodeModules || namespace;
 };
 
-const getRoutes = (directory, type, fileName, generatePagesOptions) => {
+const getRoutes = (directory, type, fileName, entrypoint) => {
   // console.log('packageName', packageName);
   let routes = directory.split(path.sep);
   // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
   routes.shift();
 
-  generatePagesOptions.entryPointDirs.forEach((entryPoint) => { routes = truncateRoutes(entryPoint, routes); });
-  routes = truncateRoutes('terra-dev-site', routes); // hack
-  routes = truncateRoutes(type, routes);
-  // console.log('routes', routes);
+  // generatePagesOptions.entryPointDirs.forEach((entryPoint) => { routes = truncateRoutes(entryPoint, routes); });
+  routes = truncateRoutes(entrypoint, routes);
+  routes = truncateRoutes('terra-dev-site', routes); // HACK
 
-  // const namespace = monoRepoNamespace(directory);
-
-  // if (namespace) {
-  //   routes.unshift(namespace);
-  // }
+  // Trim the first folder after entrypoints if it is named the same as type
+  if (routes[0] === type) {
+    routes = routes.slice(1);
+  }
 
   // add on the file name as the last route
   routes.push(fileName);
@@ -96,7 +87,7 @@ const recurs = (config, routes, componentPath, namespace) => {
 };
 
 const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
-  filePaths.reduce((acc, filePath) => {
+  filePaths.reduce((acc, { filePath, entrypoint }) => {
     const parsedPath = path.parse(filePath);
     const fileType = /[^.]+$/.exec(parsedPath.name)[0];
 
@@ -109,7 +100,7 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     const directory = parsedPath.dir;
     const componentPath = relativePath(path.join(directory, parsedPath.name));
     const name = parsedPath.name.replace(/\.[^.]+$/, '');
-    const routes = getRoutes(directory, fileType, name, generatePagesOptions);
+    const routes = getRoutes(directory, fileType, name, entrypoint);
     const packageNamespace = getNamespace(directory, namespace);
 
     const config = recurs(pages[routes[0]], routes, componentPath, packageNamespace);
@@ -125,24 +116,34 @@ const generatePagesConfig = (siteConfig, production) => {
     return pagesConfig;
   }
 
-  const souceDir = production ? 'lib' : 'src';
+  // const souceDir = production ? 'lib' : 'src';
 
-  const rootPaths = generatePagesOptions.roots.reduce((acc, dir) => {
-    acc.push(path.join(dir, souceDir, `{${generatePagesOptions.entryPointDirs.join()},}`));
-    acc.push(path.join(dir, 'packages', '*', souceDir, `{${generatePagesOptions.entryPointDirs.join()},}`));
+  const types = pageTypes(navConfig).join(',');
+
+  // console.log('types', types);
+
+  const defaultPatterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
+    // console.log('root', root)
+    const souceDir = production ? dist : source;
+    acc.push({
+      pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
+      entryPoint,
+    });
+    acc.push({
+      pattern: path.join(root, 'packages', '*', souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
+      entryPoint,
+    });
     return acc;
   }, []);
 
-  const types = pageTypes(navConfig);
+  const patterns = defaultPatterns.concat(generatePagesOptions.customPatterns);
+  console.log('searchPaths', patterns);
 
-  const searchPaths = defaultSearchPaths(types, rootPaths).concat(generatePagesOptions.searchPatterns);
-  console.log('searchPaths', searchPaths);
-
-  const filePaths = searchPaths.reduce((acc, searchPath) => acc.concat(glob.sync(searchPath, { nodir: true })), []);
+  const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
+    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint })))
+  ), []);
 
   console.log('files', filePaths);
-
-  // const packageName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
 
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 

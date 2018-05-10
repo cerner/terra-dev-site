@@ -26,10 +26,26 @@ const siteConfig = {
   // The entryPointDirs will be applied to all pages regardless of the type or search pattern that found it.
   generatePages: {
     searchPatterns: [
-      // dir/lib/terra-dev-site/**/*.<type>.{jsx,js})
+      {
+        root: process.cwd(),
+        source: 'src',
+        dist: 'lib',
+        entryPoint: 'terra-dev-site',
+      },
     ],
-    roots: [process.cwd()],
-    entryPointDirs: ['terra-dev-site'],
+    customPatterns: [
+      // {
+      //   pattern: 'dir/lib/terra-dev-site/**/*.<type>.{jsx,js})',
+      //   entryPoint: 'terra-dev-site',
+      // },
+    ],
+    // roots: [process.cwd()],
+    // entryPointDirs: ['terra-dev-site'],
+  },
+
+  liveReloading: {
+    sourceDir: 'src',
+    distDir: 'lib',
   },
 
   webpackAliases: {
