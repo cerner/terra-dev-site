@@ -8,17 +8,6 @@ const pageTypes = navConfig => (navConfig.navigation.links.reduce((acc, link) =>
 
 const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config'), componentPath));
 
-const truncateRoutes = (dir, routes) => {
-  const index = routes.findIndex(element => element === dir);
-
-  if (index >= 0) {
-    // console.log('routes', routes);
-    return routes.slice(index + 1);
-  }
-
-  return routes;
-};
-
 const getNamespace = (directory, namespace) => {
   const afterPackages = (/packages\/([^/]*)/.exec(directory) || {})[1];
   const afterNodeModules = (/node_modules\/([^/]*)/.exec(directory) || {})[1];
@@ -30,14 +19,13 @@ const getNamespace = (directory, namespace) => {
 };
 
 const getRoutes = (directory, type, fileName, entryPoint) => {
-  // console.log('packageName', packageName);
-  let routes = directory.split(path.sep);
+  // Remove the directories up to the entry point.
+  const modifiedDirectory = directory.replace(entryPoint, '');
+
+  let routes = modifiedDirectory.split(path.sep);
+
   // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
   routes.shift();
-
-  // generatePagesOptions.entryPointDirs.forEach((entryPoint) => { routes = truncateRoutes(entryPoint, routes); });
-  routes = truncateRoutes(entryPoint, routes);
-  routes = truncateRoutes('terra-dev-site', routes); // HACK
 
   // Trim the first folder after entrypoints if it is named the same as type
   if (routes[0] === type) {
@@ -46,8 +34,6 @@ const getRoutes = (directory, type, fileName, entryPoint) => {
 
   // add on the file name as the last route
   routes.push(fileName);
-
-  // console.log('name', name);
 
   return routes;
 };
@@ -61,14 +47,9 @@ const pageConfig = (route, namespace) => {
 };
 
 const recurs = (config, routes, componentPath, namespace) => {
-  // console.log('config', config);
   const configCopy = config || pageConfig(routes[0], namespace);
 
-  // console.log('routes', routes);
-
   const slicedDir = routes.slice(1);
-
-  // console.log('slicedDir', slicedDir);
 
   if (slicedDir.length > 0) {
     if (!configCopy.pages) {
@@ -77,11 +58,8 @@ const recurs = (config, routes, componentPath, namespace) => {
 
     configCopy.pages[slicedDir[0]] = recurs(configCopy.pages[slicedDir[0]], slicedDir, componentPath);
   } else {
-    // console.log('componentPath', componentPath);
     configCopy.component = componentPath;
   }
-
-  // console.log('configCopy', configCopy);
 
   return configCopy;
 };
@@ -115,8 +93,6 @@ const generatePagesConfig = (siteConfig, production) => {
     return pagesConfig;
   }
 
-  // const souceDir = production ? 'lib' : 'src';
-
   const types = pageTypes(navConfig).join(',');
 
   // console.log('types', types);
@@ -124,13 +100,14 @@ const generatePagesConfig = (siteConfig, production) => {
   const defaultPatterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
     // console.log('root', root)
     const souceDir = (production || !hotReloading.enabled) ? dist : source;
+    const entryPointDir = path.join(root, souceDir, entryPoint);
     acc.push({
       pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
-      entryPoint,
+      entryPoint: entryPointDir,
     });
     acc.push({
       pattern: path.join(root, 'packages', '*', souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
-      entryPoint,
+      entryPoint: entryPointDir,
     });
     return acc;
   }, []);

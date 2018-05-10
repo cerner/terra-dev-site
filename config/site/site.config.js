@@ -18,12 +18,12 @@ const siteConfig = {
   // These options are used to find the pages to serve via terra dev site.
   // If 'pagesConfig' is provided, no pages will be generated.
   // Output:
-  // {roots}/lib/{entryPointDirs}/**/**/*{pageType}.{jsx,js}
-  // {roots}/packages/*/lib/{entryPointDirs}/**/*{pageType}.{jsx,js}
-  // searchPatterns
-  // *NOTE* The entryPointDirs also act as the beginning of the directory strucure for menu navigation.
+  // {root}/lib/{entryPoint}/**/**/*{pageType}.{jsx,js}
+  // {root}/packages/*/lib/{entryPoint}/**/*{pageType}.{jsx,js}
+  // source will be used if hot reloading is enabled and not running in prod mode.
+  // customPatterns
+  // *NOTE* The entryPoints also act as the beginning of the directory strucure for menu navigation.
   // For example: /root/src/<entryPointDir>/folder/item would start navigation at 'folder'.
-  // The entryPointDirs will be applied to all pages regardless of the type or search pattern that found it.
   generatePages: {
     searchPatterns: [
       {
@@ -36,7 +36,7 @@ const siteConfig = {
     customPatterns: [
       // {
       //   pattern: 'dir/lib/terra-dev-site/**/*.<type>.{jsx,js})',
-      //   entryPoint: 'terra-dev-site',
+      //   entryPoint: path.join(process.cwd(),'lib', 'terra-dev-site'),
       // },
     ],
   },
