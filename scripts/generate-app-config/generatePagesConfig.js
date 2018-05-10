@@ -26,13 +26,14 @@ const truncateRoutes = (dir, routes) => {
   return routes;
 };
 
-const monoRepoNamespace = (directory) => {
-  const namespace = (/packages\/([^/]*)/.exec(directory) || {})[1];
-  if (namespace) {
-    return namespace.replace('terra-', ''); // this is kind of a hack and I don't like it.
-  }
+const getNamespace = (directory, namespace) => {
+  const afterPackages = (/packages\/([^/]*)+$/.exec(directory) || {})[1];
+  const afterNodeModules = (/node_modules\/([^/]*)+$/.exec(directory) || {})[1];
+  // if (namespace) {
+  //   return namespace.replace('terra-', ''); // this is kind of a hack and I don't like it.
+  // }
 
-  return undefined;
+  return afterPackages || afterNodeModules || namespace;
 };
 
 const getRoutes = (directory, type, fileName, generatePagesOptions) => {
@@ -60,16 +61,17 @@ const getRoutes = (directory, type, fileName, generatePagesOptions) => {
   return routes;
 };
 
-const pageConfig = route => (
-  {
+const pageConfig = (route, namespace) => {
+  const pagePath = namespace ? `/${kebabCase(namespace)}/${kebabCase(route)}` : `/${kebabCase(route)}`;
+  return {
     name: startCase(route),
-    path: `/${kebabCase(route)}`,
-  }
-);
+    path: pagePath,
+  };
+};
 
-const recurs = (config, routes, componentPath) => {
+const recurs = (config, routes, componentPath, namespace) => {
   // console.log('config', config);
-  const configCopy = config || pageConfig(routes[0]);
+  const configCopy = config || pageConfig(routes[0], namespace);
 
   // console.log('routes', routes);
 
@@ -93,7 +95,7 @@ const recurs = (config, routes, componentPath) => {
   return configCopy;
 };
 
-const buildPageConfig = (filePaths, generatePagesOptions) => (
+const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
   filePaths.reduce((acc, filePath) => {
     const parsedPath = path.parse(filePath);
     const fileType = /[^.]+$/.exec(parsedPath.name)[0];
@@ -108,8 +110,10 @@ const buildPageConfig = (filePaths, generatePagesOptions) => (
     const componentPath = relativePath(path.join(directory, parsedPath.name));
     const name = parsedPath.name.replace(/\.[^.]+$/, '');
     const routes = getRoutes(directory, fileType, name, generatePagesOptions);
+    const packageNamespace = getNamespace(directory, namespace);
 
-    pages[routes[0]] = recurs(pages[routes[0]], routes, componentPath);
+    const config = recurs(pages[routes[0]], routes, componentPath, packageNamespace);
+    pages[config.path] = config;
     // console.log(acc);
     return acc;
   }, {})
@@ -140,7 +144,7 @@ const generatePagesConfig = (siteConfig, production) => {
 
   // const packageName = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'))).name;
 
-  const config = buildPageConfig(filePaths, generatePagesOptions);
+  const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 
   console.log('config', JSON.stringify(config, null, 2));
 
