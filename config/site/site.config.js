@@ -39,13 +39,12 @@ const siteConfig = {
       //   entryPoint: 'terra-dev-site',
       // },
     ],
-    // roots: [process.cwd()],
-    // entryPointDirs: ['terra-dev-site'],
   },
 
-  liveReloading: {
-    sourceDir: 'src',
-    distDir: 'lib',
+  hotReloading: {
+    enabled: false,
+    source: 'src',
+    dist: 'lib',
   },
 
   webpackAliases: {

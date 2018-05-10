@@ -110,7 +110,7 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
 );
 
 const generatePagesConfig = (siteConfig, production) => {
-  const { generatePages: generatePagesOptions, pagesConfig, navConfig } = siteConfig;
+  const { generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading } = siteConfig;
   if (pagesConfig) {
     return pagesConfig;
   }
@@ -123,7 +123,7 @@ const generatePagesConfig = (siteConfig, production) => {
 
   const defaultPatterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
     // console.log('root', root)
-    const souceDir = production ? dist : source;
+    const souceDir = (production || !hotReloading.enabled) ? dist : source;
     acc.push({
       pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
       entryPoint,
