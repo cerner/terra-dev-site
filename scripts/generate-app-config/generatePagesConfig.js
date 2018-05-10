@@ -46,11 +46,11 @@ const getRoutes = (directory, type, fileName, generatePagesOptions) => {
   routes = truncateRoutes(type, routes);
   // console.log('routes', routes);
 
-  const namespace = monoRepoNamespace(directory);
+  // const namespace = monoRepoNamespace(directory);
 
-  if (namespace) {
-    routes.unshift(namespace);
-  }
+  // if (namespace) {
+  //   routes.unshift(namespace);
+  // }
 
   // add on the file name as the last route
   routes.push(fileName);
