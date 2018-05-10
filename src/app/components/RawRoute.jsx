@@ -11,7 +11,7 @@ const RawRoute = (routingConfig, location, prefix) => {
     const routeData = routingConfig.content[route].component.default;
     // const ComponentClass = routeData.componentClass;
     const ComponentClass = routeData.props.content;
-    const componentProps = routes.props.props;
+    const componentProps = routeData.props.props;
     // const componentProps = Object.assign({}, routeData.props, { pathRoot: `${prefix}${route}` });
     return <ComponentClass {...componentProps} />;
   }

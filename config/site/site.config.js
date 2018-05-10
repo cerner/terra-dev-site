@@ -42,7 +42,7 @@ const siteConfig = {
   },
 
   hotReloading: {
-    enabled: false,
+    enabled: true,
     source: 'src',
     dist: 'lib',
   },
