@@ -102,9 +102,8 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     const name = parsedPath.name.replace(/\.[^.]+$/, '');
     const routes = getRoutes(directory, fileType, name, entryPoint);
     const packageNamespace = getNamespace(directory, namespace);
-
-    const config = recurs(pages[routes[0]], routes, componentPath, packageNamespace);
-    pages[config.path] = config;
+    const key = `${packageNamespace}:${routes[0]}`;
+    pages[key] = recurs(pages[key], routes, componentPath, packageNamespace);
     // console.log(acc);
     return acc;
   }, {})
