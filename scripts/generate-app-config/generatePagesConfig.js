@@ -20,8 +20,8 @@ const truncateRoutes = (dir, routes) => {
 };
 
 const getNamespace = (directory, namespace) => {
-  const afterPackages = (/packages\/([^/]*)+$/.exec(directory) || {})[1];
-  const afterNodeModules = (/node_modules\/([^/]*)+$/.exec(directory) || {})[1];
+  const afterPackages = (/packages\/([^/]*)/.exec(directory) || {})[1];
+  const afterNodeModules = (/node_modules\/([^/]*)/.exec(directory) || {})[1];
   // if (namespace) {
   //   return namespace.replace('terra-', ''); // this is kind of a hack and I don't like it.
   // }
@@ -29,14 +29,14 @@ const getNamespace = (directory, namespace) => {
   return afterPackages || afterNodeModules || namespace;
 };
 
-const getRoutes = (directory, type, fileName, entrypoint) => {
+const getRoutes = (directory, type, fileName, entryPoint) => {
   // console.log('packageName', packageName);
   let routes = directory.split(path.sep);
   // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
   routes.shift();
 
   // generatePagesOptions.entryPointDirs.forEach((entryPoint) => { routes = truncateRoutes(entryPoint, routes); });
-  routes = truncateRoutes(entrypoint, routes);
+  routes = truncateRoutes(entryPoint, routes);
   routes = truncateRoutes('terra-dev-site', routes); // HACK
 
   // Trim the first folder after entrypoints if it is named the same as type
@@ -87,7 +87,7 @@ const recurs = (config, routes, componentPath, namespace) => {
 };
 
 const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
-  filePaths.reduce((acc, { filePath, entrypoint }) => {
+  filePaths.reduce((acc, { filePath, entryPoint }) => {
     const parsedPath = path.parse(filePath);
     const fileType = /[^.]+$/.exec(parsedPath.name)[0];
 
@@ -100,7 +100,7 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     const directory = parsedPath.dir;
     const componentPath = relativePath(path.join(directory, parsedPath.name));
     const name = parsedPath.name.replace(/\.[^.]+$/, '');
-    const routes = getRoutes(directory, fileType, name, entrypoint);
+    const routes = getRoutes(directory, fileType, name, entryPoint);
     const packageNamespace = getNamespace(directory, namespace);
 
     const config = recurs(pages[routes[0]], routes, componentPath, packageNamespace);
