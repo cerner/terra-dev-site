@@ -5,6 +5,8 @@ const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const Placeholder = 'terra-dev-site/lib/app/common/Placeholder';
 const Home = 'terra-dev-site/lib/app/components/Home';
 const path = require('path');
+const kebabCase = require('lodash.kebabcase');
+const startCase = require('lodash.startcase');
 
 const relativePath = (componentPath) => {
   if (componentPath[0] === '.') {
@@ -94,24 +96,40 @@ const generateRouteConfig = (config, rootPath, routeImporter) => (
   // return{ content, menu };
 );
 
-const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
+const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) => {
   const { placeholderSrc, readMeContent } = siteConfig;
-
-  const linkRoute = {
-    name: link.text,
-    path: link.path,
-    pages: pageConfig[link.pageType],
+  const config = {
+    name: startCase(name),
+    path: pagePath,
+    pages,
     component: Placeholder,
     props: { src: placeholderSrc },
   };
 
   // Special logic to add a home component with a readme if readme content is provided in site config and no other home items are found.
-  if (link.pageType === 'home' && readMeContent) {
-    linkRoute.component = Home;
-    linkRoute.props = { readMeContent: routeImporter.addImport(relativePath(readMeContent)) };
+  if (type === 'home' && readMeContent) {
+    config.component = Home;
+    config.props = { readMeContent: routeImporter.addImport(relativePath(readMeContent)) };
   }
 
-  return { [link.pageType]: linkRoute };
+  return config;
+};
+
+const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
+  let pages = {};
+  let type;
+
+  if (link.pageTypes.length > 1) {
+    pages = link.pageTypes.reduce((acc, pageType) => {
+      acc[pageType] = getPageConfig(pageType, `/${kebabCase(pageType)}`, pageConfig[pageType], pageType, siteConfig, routeImporter);
+      return acc;
+    }, {});
+  } else {
+    pages = pageConfig[link.pageTypes[0]];
+    type = link.pageTypes[0];
+  }
+
+  return { [link.path]: getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter) };
 };
 
 
@@ -122,12 +140,14 @@ const routeConfiguration = (siteConfig, pageConfig) => {
   const routeImporter = new ImportAggregator();
   // const { placeholderSrc, readMeContent } = siteConfig;
   const navigation = siteConfig.navConfig.navigation;
-  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageType) : [];
+  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
 
   const config = validLinks.reduce((acc, link) => {
     let content = acc.content;
     let menu = acc.menu;
     const linkRoute = getLinkRoute(link, pageConfig, siteConfig, routeImporter);
+
+    // console.log('linkRoute', JSON.stringify(linkRoute, null, 2));
 
     const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkRoute, '', routeImporter);
 

@@ -4,7 +4,7 @@ const glob = require('glob');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
 
-const pageTypes = navConfig => (navConfig.navigation.links.map(link => link.pageType));
+const pageTypes = navConfig => (navConfig.navigation.links.reduce((acc, link) => acc.concat(link.pageTypes), []));
 
 const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config'), componentPath));
 

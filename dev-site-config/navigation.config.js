@@ -5,11 +5,11 @@ const navConfig = {
     links: [{
       path: '/dev-site/home',
       text: 'Home',
-      pageType: 'home',
+      pageTypes: ['home'],
     }, {
       path: '/dev-site/getting-started',
       text: 'Getting Started',
-      pageType: 'docs',
+      pageTypes: ['docs'],
     }],
   },
 };

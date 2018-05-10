@@ -3,7 +3,7 @@ const generateNavigationItems = (navConfig) => {
   const navigation = navConfig.navigation;
   const configuredLinks = [];
 
-  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageType) : [];
+  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
 
   validLinks.forEach((link) => {
     if (!link.isHidden) {

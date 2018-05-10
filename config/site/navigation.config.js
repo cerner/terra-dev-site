@@ -5,15 +5,15 @@ const navConfig = {
     links: [{
       path: '/site/home',
       text: 'Home',
-      pageType: 'home',
+      pageTypes: ['home'],
     }, {
       path: '/site/components',
       text: 'Components',
-      pageType: 'doc',
+      pageTypes: ['doc'],
     }, {
       path: '/tests',
       text: 'Tests',
-      pageType: 'test',
+      pageTypes: ['test'],
       isHidden: true,
     }],
   },
