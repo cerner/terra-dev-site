@@ -22,7 +22,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 const generateAppConfig = (siteConfig, production) => {
   const imports = new ImportAggregator();
 
-  const { appConfig, navConfig } = siteConfig;
+  const { appConfig } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   const buildPath = path.join(rootPath, 'build');
@@ -43,8 +43,9 @@ const generateAppConfig = (siteConfig, production) => {
     imports,
   );
 
+  const { navConfig, ...routeConfig } = generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production));
   const routingConfig = addConfig(
-    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production)),
+    routeConfig,
     'routeConfig.js',
     buildPath,
     fse,

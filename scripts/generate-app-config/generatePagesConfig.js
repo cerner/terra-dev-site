@@ -42,7 +42,7 @@ const pageConfig = (route, namespace) => {
   };
 };
 
-const recurs = (config, routes, componentPath, namespace) => {
+const recurs = (config, routes, contentPath, namespace) => {
   const configCopy = config || pageConfig(routes[0], namespace);
 
   const slicedDir = routes.slice(1);
@@ -52,9 +52,9 @@ const recurs = (config, routes, componentPath, namespace) => {
       configCopy.pages = {};
     }
 
-    configCopy.pages[slicedDir[0]] = recurs(configCopy.pages[slicedDir[0]], slicedDir, componentPath);
+    configCopy.pages[slicedDir[0]] = recurs(configCopy.pages[slicedDir[0]], slicedDir, contentPath);
   } else {
-    configCopy.component = componentPath;
+    configCopy.content = contentPath;
   }
 
   return configCopy;
@@ -72,12 +72,12 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     }
 
     const directory = parsedPath.dir;
-    const componentPath = relativePath(path.join(directory, parsedPath.name));
+    const contentPath = relativePath(path.join(directory, parsedPath.name));
     const name = parsedPath.name.replace(/\.[^.]+$/, '');
     const routes = getRoutes(directory, fileType, name, entryPoint);
     const packageNamespace = getNamespace(directory, namespace);
     const key = `${packageNamespace}:${routes[0]}`;
-    pages[key] = recurs(pages[key], routes, componentPath, packageNamespace);
+    pages[key] = recurs(pages[key], routes, contentPath, packageNamespace);
     // console.log(acc);
     return acc;
   }, {})
@@ -107,7 +107,9 @@ const generatePagesConfig = (siteConfig, production) => {
     return acc;
   }, []);
 
-  const patterns = defaultPatterns.concat(generatePagesOptions.customPatterns);
+  const customPatterns = generatePagesOptions.customPatterns || [];
+
+  const patterns = defaultPatterns.concat(customPatterns);
   // console.log('searchPaths', patterns);
 
   const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (

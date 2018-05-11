@@ -8,15 +8,15 @@ const path = require('path');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
 
-const relativePath = (componentPath) => {
-  if (componentPath[0] === '.') {
+const relativePath = (contentPath) => {
+  if (contentPath[0] === '.') {
     return path.relative(
       path.join(process.cwd(), 'dev-site-config', 'build'),
-      path.resolve(process.cwd(), 'dev-site-config', componentPath),
+      path.resolve(process.cwd(), 'dev-site-config', contentPath),
     );
   }
 
-  return componentPath;
+  return contentPath;
 };
 
 const menuItem = (text, itemPath, hasSubMenu) => {
@@ -37,12 +37,12 @@ const menuProps = (title, menuItems) => ({
   menuItems,
 });
 
-const routeItem = (routePath, componentPath, props, routeImporter) => {
+const routeItem = (routePath, contentPath, props, routeImporter) => {
   const item = {
     path: routePath,
     component: {
       default: {
-        componentClass: routeImporter.addImport(relativePath(componentPath)),
+        componentClass: routeImporter.addImport(relativePath(contentPath)),
       },
     },
   };
@@ -54,12 +54,12 @@ const routeItem = (routePath, componentPath, props, routeImporter) => {
   return item;
 };
 
-const contentRouteItem = (routePath, componentPath, props, routeImporter) => (
+const contentRouteItem = (routePath, contentPath, props, routeImporter) => (
   routeItem(
     routePath,
     ContentWrapper,
     {
-      content: routeImporter.addImport(relativePath(componentPath)),
+      content: routeImporter.addImport(relativePath(contentPath)),
       props,
     },
     routeImporter,
@@ -74,6 +74,7 @@ const generateRouteConfig = (config, rootPath, routeImporter) => (
     const hasSubMenu = page.pages && Object.keys(page.pages).length > 0;
 
     const routePath = `${rootPath}${page.path}`;
+    let menuRoutePath = routePath;
     if (hasSubMenu) {
       const { content: childContent, menu: childMenu, menuItems: childMenuItems } = generateRouteConfig(page.pages, routePath, routeImporter);
 
@@ -81,34 +82,37 @@ const generateRouteConfig = (config, rootPath, routeImporter) => (
       menu = Object.assign(menu, childMenu);
 
       menu[routePath] = routeItem(routePath, RoutingMenu, menuProps(page.name, childMenuItems), routeImporter);
+
+      // If the page does not have content, but the first submenu item only has content. Link directly to that item.
+      const subPage = Object.values(page.pages)[0];
+      if (subPage.content && !subPage.pages && !page.content) {
+        menuRoutePath = `${rootPath}${page.path}${subPage.path}`;
+      }
     }
 
-    menuItems.push(menuItem(page.name, routePath, hasSubMenu));
+    menuItems.push(menuItem(page.name, menuRoutePath, hasSubMenu));
 
-    if (page.component) {
-      content[routePath] = contentRouteItem(routePath, page.component, page.props, routeImporter);
+    // console.log('page', page);
+    if (page.content) {
+      content[routePath] = contentRouteItem(routePath, page.content, page.props, routeImporter);
     }
 
     // console.log('menu', menu);
     return { content, menu, menuItems };
   }, { content: {}, menu: {} })
-
-  // return{ content, menu };
 );
 
 const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) => {
-  const { placeholderSrc, readMeContent } = siteConfig;
+  const { readMeContent } = siteConfig;
   const config = {
     name: startCase(name),
     path: pagePath,
     pages,
-    component: Placeholder,
-    props: { src: placeholderSrc },
   };
 
   // Special logic to add a home component with a readme if readme content is provided in site config and no other home items are found.
   if (type === 'home' && readMeContent) {
-    config.component = Home;
+    config.content = Home;
     config.props = { readMeContent: routeImporter.addImport(relativePath(readMeContent)) };
   }
 
@@ -129,7 +133,25 @@ const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
     type = link.pageTypes[0];
   }
 
-  return { [link.path]: getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter) };
+  const linkRoute = { [link.path]: getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter) };
+
+  if (pages) {
+    const pagesArray = Object.values(pages);
+    const subPage = pagesArray[0];
+    if (subPage.content && !subPage.pages) {
+      // Update the link path to auto select the first item.
+      // eslint-disable-next-line no-param-reassign
+      link.path = `${link.path}${subPage.path}`;
+
+      // If there is only one child item, ditch that whole menu thing.
+      if (pagesArray.length === 1) {
+        subPage.path = link.path;
+        return { [link.path]: subPage };
+      }
+    }
+  }
+
+  return linkRoute;
 };
 
 
@@ -139,7 +161,9 @@ const routeConfiguration = (siteConfig, pageConfig) => {
   }
   const routeImporter = new ImportAggregator();
   // const { placeholderSrc, readMeContent } = siteConfig;
-  const navigation = siteConfig.navConfig.navigation;
+  const navConfig = Object.assign({}, siteConfig.navConfig);
+  // console.log('navConfig', navConfig);
+  const navigation = navConfig.navigation;
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
 
   const config = validLinks.reduce((acc, link) => {
@@ -157,12 +181,17 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     return { menu, content };
   }, { content: {}, menu: {} });
 
+  // Add default placeholder to the root
+  const { placeholderSrc } = siteConfig;
+  config.content['/'] = routeItem('/', Placeholder, { src: placeholderSrc }, routeImporter);
+
   // console.log('content', JSON.stringify(config.content, null, 2));
   // console.log('menu', JSON.stringify(config.menu, null, 2));
 
   return {
     config,
     imports: routeImporter,
+    navConfig,
   };
 };
 
