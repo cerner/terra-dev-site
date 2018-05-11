@@ -157,8 +157,8 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     return { menu, content };
   }, { content: {}, menu: {} });
 
-  console.log('content', JSON.stringify(config.content, null, 2));
-  console.log('menu', JSON.stringify(config.menu, null, 2));
+  // console.log('content', JSON.stringify(config.content, null, 2));
+  // console.log('menu', JSON.stringify(config.menu, null, 2));
 
   return {
     config,

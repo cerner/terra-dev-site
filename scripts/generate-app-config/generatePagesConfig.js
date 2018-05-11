@@ -1,6 +1,5 @@
 const path = require('path');
 const glob = require('glob');
-// const fs = require('fs');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
 
@@ -11,9 +10,6 @@ const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'd
 const getNamespace = (directory, namespace) => {
   const afterPackages = (/packages\/([^/]*)/.exec(directory) || {})[1];
   const afterNodeModules = (/node_modules\/([^/]*)/.exec(directory) || {})[1];
-  // if (namespace) {
-  //   return namespace.replace('terra-', ''); // this is kind of a hack and I don't like it.
-  // }
 
   return afterPackages || afterNodeModules || namespace;
 };
@@ -100,30 +96,29 @@ const generatePagesConfig = (siteConfig, production) => {
   const defaultPatterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
     // console.log('root', root)
     const souceDir = (production || !hotReloading.enabled) ? dist : source;
-    const entryPointDir = path.join(root, souceDir, entryPoint);
     acc.push({
       pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
-      entryPoint: entryPointDir,
+      entryPoint: path.join(root, souceDir, entryPoint),
     });
     acc.push({
       pattern: path.join(root, 'packages', '*', souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
-      entryPoint: entryPointDir,
+      entryPoint: path.join(root, 'packages', '[^/]*', souceDir, entryPoint),
     });
     return acc;
   }, []);
 
   const patterns = defaultPatterns.concat(generatePagesOptions.customPatterns);
-  console.log('searchPaths', patterns);
+  // console.log('searchPaths', patterns);
 
   const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
-    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint })))
+    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
   ), []);
 
-  console.log('files', filePaths);
+  // console.log('files', filePaths);
 
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 
-  console.log('config', JSON.stringify(config, null, 2));
+  // console.log('config', JSON.stringify(config, null, 2));
 
   return config;
 };
