@@ -2,7 +2,7 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
-const Placeholder = 'terra-dev-site/lib/app/common/Placeholder';
+const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 const Home = 'terra-dev-site/lib/app/components/Home';
 const path = require('path');
 const kebabCase = require('lodash.kebabcase');
@@ -66,7 +66,7 @@ const contentRouteItem = (routePath, contentPath, props, routeImporter) => (
   )
 );
 
-const generateRouteConfig = (config, rootPath, routeImporter) => (
+const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
   Object.values(config).reduce((acc, page) => {
     let content = acc.content;
     let menu = acc.menu;
@@ -76,7 +76,7 @@ const generateRouteConfig = (config, rootPath, routeImporter) => (
     const routePath = `${rootPath}${page.path}`;
     let menuRoutePath = routePath;
     if (hasSubMenu) {
-      const { content: childContent, menu: childMenu, menuItems: childMenuItems } = generateRouteConfig(page.pages, routePath, routeImporter);
+      const { content: childContent, menu: childMenu, menuItems: childMenuItems } = generateRouteConfig(page.pages, routePath, placeholder, routeImporter);
 
       content = Object.assign(content, childContent);
       menu = Object.assign(menu, childMenu);
@@ -95,6 +95,8 @@ const generateRouteConfig = (config, rootPath, routeImporter) => (
     // console.log('page', page);
     if (page.content) {
       content[routePath] = contentRouteItem(routePath, page.content, page.props, routeImporter);
+    } else {
+      content[routePath] = contentRouteItem(routePath, placeholder.content, placeholder.props, routeImporter);
     }
 
     // console.log('menu', menu);
@@ -160,11 +162,12 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     return undefined;
   }
   const routeImporter = new ImportAggregator();
-  // const { placeholderSrc, readMeContent } = siteConfig;
+  const { placeholderSrc } = siteConfig;
   const navConfig = Object.assign({}, siteConfig.navConfig);
   // console.log('navConfig', navConfig);
   const navigation = navConfig.navigation;
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
+  const placeholder = { content: PlaceholderPath, props: { src: placeholderSrc } };
 
   const config = validLinks.reduce((acc, link) => {
     let content = acc.content;
@@ -173,17 +176,13 @@ const routeConfiguration = (siteConfig, pageConfig) => {
 
     // console.log('linkRoute', JSON.stringify(linkRoute, null, 2));
 
-    const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkRoute, '', routeImporter);
+    const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkRoute, '', placeholder, routeImporter);
 
     content = Object.assign(content, linkContent);
     menu = Object.assign(menu, linkMenu);
 
     return { menu, content };
   }, { content: {}, menu: {} });
-
-  // Add default placeholder to the root
-  const { placeholderSrc } = siteConfig;
-  config.content['/'] = routeItem('/', Placeholder, { src: placeholderSrc }, routeImporter);
 
   // console.log('content', JSON.stringify(config.content, null, 2));
   // console.log('menu', JSON.stringify(config.menu, null, 2));
