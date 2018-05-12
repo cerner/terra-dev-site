@@ -24,7 +24,7 @@ const getRoutes = (directory, type, fileName, entryPoint) => {
   routes.shift();
 
   // Trim the first folder after entrypoints if it is named the same as type
-  if (routes[0] === type) {
+  if ((routes[0] || '').toUpperCase() === type.toUpperCase()) {
     routes = routes.slice(1);
   }
 
@@ -87,6 +87,30 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
   }, {})
 );
 
+const sortPage = (a, b) => {
+  const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+  const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+
+  // names must be equal
+  return 0;
+};
+
+const sortPageConfig = config => (
+  Object.values(config).sort(sortPage).map((page) => {
+    if (page.pages) {
+      // eslint-disable-next-line no-param-reassign
+      page.pages = sortPageConfig(page.pages);
+    }
+    return page;
+  })
+);
+
 const generatePagesConfig = (siteConfig, production) => {
   const { generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading } = siteConfig;
   if (pagesConfig) {
@@ -124,9 +148,14 @@ const generatePagesConfig = (siteConfig, production) => {
 
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 
-  console.log('config', JSON.stringify(config, null, 2));
+  const sortedConfig = Object.keys(config).reduce((acc, key) => {
+    acc[key] = sortPageConfig(config[key]);
+    return acc;
+  }, {});
 
-  return config;
+  console.log('config', JSON.stringify(sortedConfig, null, 2));
+
+  return sortedConfig;
 };
 
 module.exports = generatePagesConfig;

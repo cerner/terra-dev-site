@@ -3,10 +3,7 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
-// const Home = 'terra-dev-site/lib/app/components/Home';
-// const MarkdownWrapper = 'terra-dev-site/lib/app/components/MarkdownWrapper';
 const TerraDocTemplate = 'terra-doc-template';
-// const Markdown = 'terra-markdown';
 const path = require('path');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
@@ -84,11 +81,11 @@ const contentRouteItem = (routePath, contentPath, props, type, routeImporter) =>
 };
 
 const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
-  Object.values(config).reduce((acc, page) => {
+  config.reduce((acc, page) => {
     let content = acc.content;
     let menu = acc.menu;
     const menuItems = acc.menuItems || [];
-    const hasSubMenu = page.pages && Object.keys(page.pages).length > 0;
+    const hasSubMenu = page.pages && page.pages.length > 0;
 
     const routePath = `${rootPath}${page.path}`;
     let menuRoutePath = routePath;
@@ -98,26 +95,12 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       content = Object.assign(content, childContent);
       menu = Object.assign(menu, childMenu);
 
-      // childMenuItems.sort((a, b) => {
-      //   const nameA = a.text.toUpperCase(); // ignore upper and lowercase
-      //   const nameB = b.text.toUpperCase(); // ignore upper and lowercase
-      //   if (nameA < nameB) {
-      //     return -1;
-      //   }
-      //   if (nameA > nameB) {
-      //     return 1;
-      //   }
-
-      //   // names must be equal
-      //   return 0;
-      // });
-
       // console.log('childMenuItems', childMenuItems);
 
       menu[routePath] = routeItem(routePath, RoutingMenu, menuProps(page.name, childMenuItems), routeImporter);
 
       // If the page does not have content, but the first submenu item only has content. Link directly to that item.
-      const subPage = Object.values(page.pages)[0];
+      const subPage = page.pages[0];
       if (subPage.content && !subPage.pages && !page.content) {
         menuRoutePath = `${rootPath}${page.path}${subPage.path}`;
       }
@@ -155,23 +138,23 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) =
 };
 
 const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
-  let pages = {};
+  let pages = [];
   let type;
 
   if (link.pageTypes.length > 1) {
-    pages = link.pageTypes.reduce((acc, pageType) => {
-      acc[pageType] = getPageConfig(pageType, `/${kebabCase(pageType)}`, pageConfig[pageType], pageType, siteConfig, routeImporter);
+    pages = link.pageTypes.sort().reduce((acc, pageType) => {
+      acc.push(getPageConfig(pageType, `/${kebabCase(pageType)}`, pageConfig[pageType], pageType, siteConfig, routeImporter));
       return acc;
-    }, {});
+    }, []);
   } else {
     pages = pageConfig[link.pageTypes[0]];
     type = link.pageTypes[0];
   }
 
-  const linkRoute = { [link.path]: getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter) };
+  const linkRoute = [getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter)];
 
   if (pages) {
-    const pagesArray = Object.values(pages);
+    const pagesArray = pages;
     const subPage = pagesArray[0];
     if (subPage.content && !subPage.pages) {
       // Update the link path to auto select the first item.
@@ -183,7 +166,7 @@ const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
       // If there is only one child item, ditch that whole menu thing.
       if (pagesArray.length === 1) {
         subPage.path = link.path;
-        return { [link.path]: subPage };
+        return [subPage];
       }
     }
   }
