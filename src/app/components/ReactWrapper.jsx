@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 // import 'terra-base/lib/baseStyles';
 
-import styles from './ContentWrapper.scss';
+import styles from './ReactWrapper.scss';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +21,7 @@ const defaultProps = {
   props: undefined,
 };
 
-const ContentWrapper = ({ content: Content, props }) => {
+const ReactWrapper = ({ content: Content, props }) => {
   const contentClassNames = cx([
     'site-content',
   ]);
@@ -36,7 +36,7 @@ const ContentWrapper = ({ content: Content, props }) => {
   );
 };
 
-ContentWrapper.propTypes = propTypes;
-ContentWrapper.defaultProps = defaultProps;
+ReactWrapper.propTypes = propTypes;
+ReactWrapper.defaultProps = defaultProps;
 
-export default ContentWrapper;
+export default ReactWrapper;

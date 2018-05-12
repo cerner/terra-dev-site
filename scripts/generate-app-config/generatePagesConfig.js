@@ -42,7 +42,7 @@ const pageConfig = (route, namespace) => {
   };
 };
 
-const recurs = (config, routes, contentPath, namespace) => {
+const recurs = (config, routes, contentPath, ext, namespace) => {
   const configCopy = config || pageConfig(routes[0], namespace);
 
   const slicedDir = routes.slice(1);
@@ -52,9 +52,10 @@ const recurs = (config, routes, contentPath, namespace) => {
       configCopy.pages = {};
     }
 
-    configCopy.pages[slicedDir[0]] = recurs(configCopy.pages[slicedDir[0]], slicedDir, contentPath);
+    configCopy.pages[slicedDir[0]] = recurs(configCopy.pages[slicedDir[0]], slicedDir, contentPath, ext);
   } else {
     configCopy.content = contentPath;
+    configCopy.type = ext;
   }
 
   return configCopy;
@@ -72,12 +73,15 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     }
 
     const directory = parsedPath.dir;
-    const contentPath = relativePath(path.join(directory, parsedPath.name));
+    const ext = parsedPath.ext.slice(1);
+    const fileName = (ext === 'jsx' || ext === 'js') ? parsedPath.name : parsedPath.base;
+    const contentPath = relativePath(path.join(directory, fileName));
     const name = parsedPath.name.replace(/\.[^.]+$/, '');
     const routes = getRoutes(directory, fileType, name, entryPoint);
     const packageNamespace = getNamespace(directory, namespace);
     const key = `${packageNamespace}:${routes[0]}`;
-    pages[key] = recurs(pages[key], routes, contentPath, packageNamespace);
+
+    pages[key] = recurs(pages[key], routes, contentPath, ext, packageNamespace);
     // console.log(acc);
     return acc;
   }, {})
@@ -97,11 +101,11 @@ const generatePagesConfig = (siteConfig, production) => {
     // console.log('root', root)
     const souceDir = (production || !hotReloading.enabled) ? dist : source;
     acc.push({
-      pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
+      pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),
       entryPoint: path.join(root, souceDir, entryPoint),
     });
     acc.push({
-      pattern: path.join(root, 'packages', '*', souceDir, entryPoint, '**', `*.{${types},}.{jsx,js}`),
+      pattern: path.join(root, 'packages', '*', souceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),
       entryPoint: path.join(root, 'packages', '[^/]*', souceDir, entryPoint),
     });
     return acc;
@@ -120,7 +124,7 @@ const generatePagesConfig = (siteConfig, production) => {
 
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 
-  // console.log('config', JSON.stringify(config, null, 2));
+  console.log('config', JSON.stringify(config, null, 2));
 
   return config;
 };

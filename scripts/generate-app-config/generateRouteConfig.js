@@ -1,9 +1,11 @@
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
-const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
+const ReactWrapper = 'terra-dev-site/lib/app/components/ReactWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
-const Home = 'terra-dev-site/lib/app/components/Home';
+// const Home = 'terra-dev-site/lib/app/components/Home';
+const MarkdownWrapper = 'terra-dev-site/lib/app/components/MarkdownWrapper';
+// const Markdown = 'terra-markdown';
 const path = require('path');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
@@ -54,17 +56,30 @@ const routeItem = (routePath, contentPath, props, routeImporter) => {
   return item;
 };
 
-const contentRouteItem = (routePath, contentPath, props, routeImporter) => (
-  routeItem(
+const contentRouteItem = (routePath, contentPath, props, type, routeImporter) => {
+  const relativeContent = routeImporter.addImport(relativePath(contentPath));
+  let componentClass = ReactWrapper;
+  let contentProps = {
+    content: relativeContent,
+    props,
+  };
+
+  // console.log(routePath);
+
+  if (type === 'md') {
+    componentClass = MarkdownWrapper;
+    contentProps = {
+      src: relativeContent,
+    };
+  }
+
+  return routeItem(
     routePath,
-    ContentWrapper,
-    {
-      content: routeImporter.addImport(relativePath(contentPath)),
-      props,
-    },
+    componentClass,
+    contentProps,
     routeImporter,
-  )
-);
+  );
+};
 
 const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
   Object.values(config).reduce((acc, page) => {
@@ -81,6 +96,22 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       content = Object.assign(content, childContent);
       menu = Object.assign(menu, childMenu);
 
+      // childMenuItems.sort((a, b) => {
+      //   const nameA = a.text.toUpperCase(); // ignore upper and lowercase
+      //   const nameB = b.text.toUpperCase(); // ignore upper and lowercase
+      //   if (nameA < nameB) {
+      //     return -1;
+      //   }
+      //   if (nameA > nameB) {
+      //     return 1;
+      //   }
+
+      //   // names must be equal
+      //   return 0;
+      // });
+
+      console.log('childMenuItems', childMenuItems);
+
       menu[routePath] = routeItem(routePath, RoutingMenu, menuProps(page.name, childMenuItems), routeImporter);
 
       // If the page does not have content, but the first submenu item only has content. Link directly to that item.
@@ -94,9 +125,9 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
 
     // console.log('page', page);
     if (page.content) {
-      content[routePath] = contentRouteItem(routePath, page.content, page.props, routeImporter);
+      content[routePath] = contentRouteItem(routePath, page.content, page.props, page.type, routeImporter);
     } else {
-      content[routePath] = contentRouteItem(routePath, placeholder.content, placeholder.props, routeImporter);
+      content[routePath] = contentRouteItem(routePath, placeholder.content, placeholder.props, 'js', routeImporter);
     }
 
     // console.log('menu', menu);
@@ -114,8 +145,8 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) =
 
   // Special logic to add a home component with a readme if readme content is provided in site config and no other home items are found.
   if (type === 'home' && readMeContent) {
-    config.content = Home;
-    config.props = { readMeContent: routeImporter.addImport(relativePath(readMeContent)) };
+    config.content = MarkdownWrapper;
+    config.props = { src: routeImporter.addImport(relativePath(readMeContent)) };
   }
 
   return config;
@@ -142,6 +173,8 @@ const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
     const subPage = pagesArray[0];
     if (subPage.content && !subPage.pages) {
       // Update the link path to auto select the first item.
+      // eslint-disable-next-line no-param-reassign
+      link.origPath = link.path;
       // eslint-disable-next-line no-param-reassign
       link.path = `${link.path}${subPage.path}`;
 
@@ -180,6 +213,12 @@ const routeConfiguration = (siteConfig, pageConfig) => {
 
     content = Object.assign(content, linkContent);
     menu = Object.assign(menu, linkMenu);
+
+    // If the link path has been altered and it was equal to the index, update the index.
+    if (link.origPath === navigation.index) {
+      // eslint-disable-next-line no-param-reassign
+      link.index = link.path;
+    }
 
     return { menu, content };
   }, { content: {}, menu: {} });
