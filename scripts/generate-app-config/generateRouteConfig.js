@@ -4,7 +4,8 @@ const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 // const Home = 'terra-dev-site/lib/app/components/Home';
-const MarkdownWrapper = 'terra-dev-site/lib/app/components/MarkdownWrapper';
+// const MarkdownWrapper = 'terra-dev-site/lib/app/components/MarkdownWrapper';
+const TerraDocTemplate = 'terra-doc-template';
 // const Markdown = 'terra-markdown';
 const path = require('path');
 const kebabCase = require('lodash.kebabcase');
@@ -67,9 +68,9 @@ const contentRouteItem = (routePath, contentPath, props, type, routeImporter) =>
 
   if (type === 'md') {
     contentProps = {
-      content: routeImporter.addImport(MarkdownWrapper),
+      content: routeImporter.addImport(TerraDocTemplate),
       props: {
-        src: relativeContent,
+        readme: relativeContent,
       },
     };
   }
@@ -146,8 +147,8 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) =
 
   // Special logic to add a home component with a readme if readme content is provided in site config and no other home items are found.
   if (type === 'home' && readMeContent) {
-    config.content = MarkdownWrapper;
-    config.props = { src: routeImporter.addImport(relativePath(readMeContent)) };
+    config.content = TerraDocTemplate;
+    config.props = { readme: routeImporter.addImport(relativePath(readMeContent)) };
   }
 
   return config;
