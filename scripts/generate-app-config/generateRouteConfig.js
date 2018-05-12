@@ -1,7 +1,7 @@
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
-const ReactWrapper = 'terra-dev-site/lib/app/components/ReactWrapper';
+const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 // const Home = 'terra-dev-site/lib/app/components/Home';
 const MarkdownWrapper = 'terra-dev-site/lib/app/components/MarkdownWrapper';
@@ -58,7 +58,6 @@ const routeItem = (routePath, contentPath, props, routeImporter) => {
 
 const contentRouteItem = (routePath, contentPath, props, type, routeImporter) => {
   const relativeContent = routeImporter.addImport(relativePath(contentPath));
-  let componentClass = ReactWrapper;
   let contentProps = {
     content: relativeContent,
     props,
@@ -67,15 +66,17 @@ const contentRouteItem = (routePath, contentPath, props, type, routeImporter) =>
   // console.log(routePath);
 
   if (type === 'md') {
-    componentClass = MarkdownWrapper;
     contentProps = {
-      src: relativeContent,
+      content: routeImporter.addImport(MarkdownWrapper),
+      props: {
+        src: relativeContent,
+      },
     };
   }
 
   return routeItem(
     routePath,
-    componentClass,
+    ContentWrapper,
     contentProps,
     routeImporter,
   );
@@ -110,7 +111,7 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       //   return 0;
       // });
 
-      console.log('childMenuItems', childMenuItems);
+      // console.log('childMenuItems', childMenuItems);
 
       menu[routePath] = routeItem(routePath, RoutingMenu, menuProps(page.name, childMenuItems), routeImporter);
 
@@ -217,7 +218,7 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     // If the link path has been altered and it was equal to the index, update the index.
     if (link.origPath === navigation.index) {
       // eslint-disable-next-line no-param-reassign
-      link.index = link.path;
+      navigation.index = link.path;
     }
 
     return { menu, content };
