@@ -142,7 +142,7 @@ const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
   let type;
 
   if (link.pageTypes.length > 1) {
-    pages = link.pageTypes.sort().reduce((acc, pageType) => {
+    pages = link.pageTypes.reduce((acc, pageType) => {
       acc.push(getPageConfig(pageType, `/${kebabCase(pageType)}`, pageConfig[pageType], pageType, siteConfig, routeImporter));
       return acc;
     }, []);
