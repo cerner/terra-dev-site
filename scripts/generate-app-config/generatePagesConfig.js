@@ -34,11 +34,18 @@ const getRoutes = (directory, type, fileName, entryPoint) => {
   return routes;
 };
 
+const parseExtension = fileName => ({
+  name: fileName.replace(/\.[^.]+$/, ''),
+  extension: /[^.]+$/.exec(fileName)[0],
+});
+
 const pageConfig = (route, namespace) => {
-  const pagePath = namespace ? `/${kebabCase(namespace)}/${kebabCase(route)}` : `/${kebabCase(route)}`;
+  const { name, extension: group } = parseExtension(route);
+  const pagePath = namespace ? `/${kebabCase(namespace)}/${kebabCase(name)}` : `/${kebabCase(route)}`;
   return {
-    name: startCase(route),
+    name: startCase(name),
     path: pagePath,
+    group,
   };
 };
 
@@ -64,7 +71,7 @@ const recurs = (config, routes, contentPath, ext, namespace) => {
 const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
   filePaths.reduce((acc, { filePath, entryPoint }) => {
     const parsedPath = path.parse(filePath);
-    const fileType = /[^.]+$/.exec(parsedPath.name)[0];
+    const { name, extension: fileType } = parseExtension(parsedPath.name);
 
     let pages = acc[fileType];
     if (!pages) {
@@ -76,7 +83,6 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     const ext = parsedPath.ext.slice(1);
     const fileName = (ext === 'jsx' || ext === 'js') ? parsedPath.name : parsedPath.base;
     const contentPath = relativePath(path.join(directory, fileName));
-    const name = parsedPath.name.replace(/\.[^.]+$/, '');
     const routes = getRoutes(directory, fileType, name, entryPoint);
     const packageNamespace = getNamespace(directory, namespace);
     const key = `${packageNamespace}:${routes[0]}`;
@@ -87,9 +93,9 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
   }, {})
 );
 
-const sortPage = (a, b) => {
-  const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-  const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+const alphaSort = (a, b) => {
+  const nameA = (a || '').toUpperCase(); // ignore upper and lowercase
+  const nameB = (b || '').toUpperCase(); // ignore upper and lowercase
   if (nameA < nameB) {
     return -1;
   }
@@ -99,6 +105,14 @@ const sortPage = (a, b) => {
 
   // names must be equal
   return 0;
+};
+
+const sortPage = (a, b) => {
+  let result = alphaSort(a.group, b.group);
+  if (result === 0) {
+    result = alphaSort(a.name, b.name);
+  }
+  return result;
 };
 
 const sortPageConfig = config => (
