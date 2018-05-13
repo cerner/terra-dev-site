@@ -22,7 +22,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 const generateAppConfig = (siteConfig, production) => {
   const imports = new ImportAggregator();
 
-  const { appConfig } = siteConfig;
+  const { appConfig, themeImports } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   const buildPath = path.join(rootPath, 'build');
@@ -67,6 +67,8 @@ const generateAppConfig = (siteConfig, production) => {
     fse,
     imports,
   );
+
+  themeImports.forEach(themePath => imports.addImport(ImportAggregator.relativePath(themePath)));
 
   const config = {
     nameConfig,

@@ -55,6 +55,10 @@ const siteConfig = {
 
   npmPackage,
 
+  themeImports: [
+  //   './theme';
+  ],
+
   /* The image to display as page placeholder when a component does not render. */
   placeholderSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
 

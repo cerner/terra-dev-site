@@ -4,20 +4,20 @@ const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 const TerraDocTemplate = 'terra-doc-template';
-const path = require('path');
+// const path = require('path');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
 
-const relativePath = (contentPath) => {
-  if (contentPath[0] === '.') {
-    return path.relative(
-      path.join(process.cwd(), 'dev-site-config', 'build'),
-      path.resolve(process.cwd(), 'dev-site-config', contentPath),
-    );
-  }
+// const relativePath = (contentPath) => {
+//   if (contentPath[0] === '.') {
+//     return path.relative(
+//       path.join(process.cwd(), 'dev-site-config', 'build'),
+//       path.resolve(process.cwd(), 'dev-site-config', contentPath),
+//     );
+//   }
 
-  return contentPath;
-};
+//   return contentPath;
+// };
 
 const menuItem = (text, itemPath, hasSubMenu) => {
   const item = {
@@ -42,7 +42,7 @@ const routeItem = (routePath, contentPath, props, routeImporter) => {
     path: routePath,
     component: {
       default: {
-        componentClass: routeImporter.addImport(relativePath(contentPath)),
+        componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath)),
       },
     },
   };
@@ -55,7 +55,7 @@ const routeItem = (routePath, contentPath, props, routeImporter) => {
 };
 
 const contentRouteItem = (routePath, contentPath, props, type, routeImporter) => {
-  const relativeContent = routeImporter.addImport(relativePath(contentPath));
+  const relativeContent = routeImporter.addImport(ImportAggregator.relativePath(contentPath));
   let contentProps = {
     content: relativeContent,
     props,
@@ -131,7 +131,7 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) =
   // Special logic to add a home component with a readme if readme content is provided in site config and no other home items are found.
   if (type === 'home' && readMeContent) {
     config.content = TerraDocTemplate;
-    config.props = { readme: routeImporter.addImport(relativePath(readMeContent)) };
+    config.props = { readme: routeImporter.addImport(ImportAggregator.relativePath(readMeContent)) };
   }
 
   return config;
