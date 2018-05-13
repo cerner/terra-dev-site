@@ -10,16 +10,14 @@ const siteConfig = {
   /* The navigation configuration.  */
   navConfig,
 
-  /* The path to the component configuration. */
-  // componentConfig: {},
-  /* PagesConfig */
+  /* The path to the pages configuration. If this is enabled, page config will not be generated. */
   // pagesConfig,
 
   // These options are used to find the pages to serve via terra dev site.
   // If 'pagesConfig' is provided, no pages will be generated.
   // Output:
-  // {root}/lib/{entryPoint}/**/**/*{pageType}.{jsx,js}
-  // {root}/packages/*/lib/{entryPoint}/**/*{pageType}.{jsx,js}
+  // {root}/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
+  // {root}/packages/*/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
   // source will be used if hot reloading is enabled and not running in prod mode.
   // customPatterns
   // *NOTE* The entryPoints also act as the beginning of the directory strucure for menu navigation.
@@ -41,20 +39,25 @@ const siteConfig = {
     ],
   },
 
+  /* Hot reloading section. On by default for dev builds. This will automatically alisas the dist dir as the source dir if you use the bundled webpack config. */
   hotReloading: {
     enabled: true,
     source: 'src',
     dist: 'lib',
   },
 
+  /* Additional alias to add to webpack, see webpacks doc for more info on aliases. */
   webpackAliases: {
     // [path]: <path location>
   },
 
+  /* The mono repo package directory. If this is found aliases will be setup for the mono repo packages by default. */
   monoRepoPackageDir: path.resolve(process.cwd(), 'packages'),
 
+  /* The actual parced package.json file. May need to change this if you have a non-standard package.json path. */
   npmPackage,
 
+  /* Side effect theme imports */
   themeImports: [
   //   './theme';
   ],
@@ -96,7 +99,7 @@ const siteConfig = {
     /** Indicates if the site supports bidirectionality. If enabled, the directionality
       * utility will display in the toolbar.
       */
-    bidirectional: true, // maps to hideBidiUtility
+    bidirectional: true,
 
 
     /* The default direction of the site. 'ltr' is the default direction. */
@@ -107,6 +110,12 @@ const siteConfig = {
     // //    The url to link to github. If this is supplied a github extention will be display to link to the supplied url
     //   gitHubUrl: 'https://github.com/cerner',
     // },
+
+    ...(npmPackage.repository.url) && {
+      extensions: {
+        gitHubUrl: npmPackage.repository.url.replace('git+', ''),
+      },
+    },
   },
 };
 

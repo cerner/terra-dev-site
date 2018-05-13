@@ -1,59 +1,46 @@
 const ImportAggregator = require('./generation-objects/ImportAggregator');
+const kebabCase = require('lodash.kebabcase');
+const startCase = require('lodash.startcase');
 
+// "require" items to be added to the generated config.
 const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 const TerraDocTemplate = 'terra-doc-template';
-// const path = require('path');
-const kebabCase = require('lodash.kebabcase');
-const startCase = require('lodash.startcase');
 
-// const relativePath = (contentPath) => {
-//   if (contentPath[0] === '.') {
-//     return path.relative(
-//       path.join(process.cwd(), 'dev-site-config', 'build'),
-//       path.resolve(process.cwd(), 'dev-site-config', contentPath),
-//     );
-//   }
+/**
+* Setup a menuItem object.
+*/
+const menuItem = (text, itemPath, hasSubMenu) => ({
+  text,
+  path: itemPath,
+  ...(hasSubMenu) && { hasSubMenu: true },
+});
 
-//   return contentPath;
-// };
-
-const menuItem = (text, itemPath, hasSubMenu) => {
-  const item = {
-    text,
-    path: itemPath,
-  };
-
-  if (hasSubMenu) {
-    item.hasSubMenu = true;
-  }
-
-  return item;
-};
-
+/**
+* Setup props for a route menu.
+*/
 const menuProps = (title, menuItems) => ({
   title,
   menuItems,
 });
 
-const routeItem = (routePath, contentPath, props, routeImporter) => {
-  const item = {
-    path: routePath,
-    component: {
-      default: {
-        componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath)),
-      },
+/**
+* Builds out a route item. Adds the props object conditionally.
+*/
+const routeItem = (routePath, contentPath, props, routeImporter) => ({
+  path: routePath,
+  component: {
+    default: {
+      componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath)),
+      ...(props) && { props },
     },
-  };
+  },
+});
 
-  if (props) {
-    item.component.default.props = props;
-  }
-
-  return item;
-};
-
+/**
+* Sets up content route item. All content items are wrapped with the content wrapper.
+*/
 const contentRouteItem = (routePath, contentPath, props, type, routeImporter) => {
   const relativeContent = routeImporter.addImport(ImportAggregator.relativePath(contentPath));
   let contentProps = {
@@ -61,8 +48,7 @@ const contentRouteItem = (routePath, contentPath, props, type, routeImporter) =>
     props,
   };
 
-  // console.log(routePath);
-
+  // If the type is md, we want to further wrapp the file in a terra-doc-template, to render the markdown.
   if (type === 'md') {
     contentProps = {
       content: routeImporter.addImport(TerraDocTemplate),
@@ -80,6 +66,9 @@ const contentRouteItem = (routePath, contentPath, props, type, routeImporter) =>
   );
 };
 
+/**
+* Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
+*/
 const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
   config.reduce((acc, page) => {
     let content = acc.content;
@@ -89,37 +78,41 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
 
     const routePath = `${rootPath}${page.path}`;
     let menuRoutePath = routePath;
+    // if the given page, has sub menu items, add them to the overall route object.
     if (hasSubMenu) {
+      // recursively call to get child content, and menu items
       const { content: childContent, menu: childMenu, menuItems: childMenuItems } = generateRouteConfig(page.pages, routePath, placeholder, routeImporter);
 
       content = Object.assign(content, childContent);
       menu = Object.assign(menu, childMenu);
 
-      // console.log('childMenuItems', childMenuItems);
-
+      // Add a menu item containing links to the child content.
       menu[routePath] = routeItem(routePath, RoutingMenu, menuProps(page.name, childMenuItems), routeImporter);
 
-      // If the page does not have content, but the first submenu item only has content. Link directly to that item.
+      // If the page does not have content, but the first submenu item has content, but not a menu. Link directly to that item.
       const subPage = page.pages[0];
       if (subPage.content && !subPage.pages && !page.content) {
         menuRoutePath = `${rootPath}${page.path}${subPage.path}`;
       }
     }
 
+    // provide the menu item for this content page.
     menuItems.push(menuItem(page.name, menuRoutePath, hasSubMenu));
 
-    // console.log('page', page);
+    // If the pages has content, add the content render item. If not, add a placeholder item.
     if (page.content) {
       content[routePath] = contentRouteItem(routePath, page.content, page.props, page.type, routeImporter);
     } else {
       content[routePath] = contentRouteItem(routePath, placeholder.content, placeholder.props, 'js', routeImporter);
     }
 
-    // console.log('menu', menu);
     return { content, menu, menuItems };
   }, { content: {}, menu: {} })
 );
 
+/**
+* Create a page config object for the top level page.
+*/
 const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) => {
   const { readMeContent } = siteConfig;
   const config = {
@@ -137,20 +130,27 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) =
   return config;
 };
 
+/**
+* Build out the page config for the top level link.
+*/
 const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
   let pages = [];
   let type;
 
+  // If a link has more than one type, we'll have to build out at least three page configs.
   if (link.pageTypes.length > 1) {
+    // Do no sort link types. It's up to the consumer to order that array.
     pages = link.pageTypes.reduce((acc, pageType) => {
       acc.push(getPageConfig(pageType, `/${kebabCase(pageType)}`, pageConfig[pageType], pageType, siteConfig, routeImporter));
       return acc;
     }, []);
   } else {
+    // If there is only one type, just grab the first one.
     pages = pageConfig[link.pageTypes[0]];
     type = link.pageTypes[0];
   }
 
+  // create the link route prior to updating the link path.
   const linkRoute = [getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter)];
 
   if (pages) {
@@ -174,7 +174,9 @@ const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
   return linkRoute;
 };
 
-
+/**
+* Build out route configuration and modify the navigation items config too.
+*/
 const routeConfiguration = (siteConfig, pageConfig) => {
   if (!pageConfig) {
     return undefined;
@@ -182,14 +184,18 @@ const routeConfiguration = (siteConfig, pageConfig) => {
   const routeImporter = new ImportAggregator();
   const { placeholderSrc } = siteConfig;
   const navConfig = Object.assign({}, siteConfig.navConfig);
-  // console.log('navConfig', navConfig);
   const navigation = navConfig.navigation;
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
+
+  // Setup the placeholder object.
   const placeholder = { content: PlaceholderPath, props: { src: placeholderSrc } };
 
+  // Spin through the valid links to build out the route config.
   const config = validLinks.reduce((acc, link) => {
     let content = acc.content;
     let menu = acc.menu;
+
+    // build the 'page config' for the navigation links.
     const linkRoute = getLinkRoute(link, pageConfig, siteConfig, routeImporter);
 
     // console.log('linkRoute', JSON.stringify(linkRoute, null, 2));

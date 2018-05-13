@@ -8,9 +8,6 @@ const siteConfig = {
     /* The title the site header should display. */
     locales: ['en'],
     bidirectional: false,
-    extensions: {
-      gitHubUrl: 'https://github.com/cerner/terra-dev-site',
-    },
   },
 };
 

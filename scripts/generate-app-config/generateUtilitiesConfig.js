@@ -1,5 +1,8 @@
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
+/**
+* Buld out the item config.
+*/
 const generateItemConfig = (defaultItem, items, key) => {
   const childKeys = {};
   items.forEach((item) => {
@@ -18,24 +21,19 @@ const generateItemConfig = (defaultItem, items, key) => {
   };
 };
 
-const convertMenuItemToArray = (menuItem) => {
-  const updatedItem = Object.assign({}, menuItem);
-  let menuItems = [];
-  if (updatedItem.childKeys) {
-    menuItems = menuItems.concat(Object.keys(updatedItem.childKeys).reduce((acc, item) => acc.concat(convertMenuItemToArray(updatedItem.childKeys[item])), []));
-    updatedItem.childKeys = Object.keys(updatedItem.childKeys);
-  }
-  menuItems.push(updatedItem);
-  return menuItems;
-};
-
-const generateUtiltiesConfig = (appConfig) => {
+/**
+* Build utilities config file.
+*/
+const generateUtilitiesConfig = (appConfig) => {
   const utilsImports = new ImportAggregator();
+  // this will be a jsx file, so add react.
   utilsImports.addImport('react', 'React');
 
-  if (appConfig === undefined) {
+  if (!appConfig) {
     return undefined;
   }
+
+  // no point to bulding out the menu if there are no items or just one item.
   const hasThemes = appConfig.themes && Object.keys(appConfig.themes).length > 1;
   const hasLocals = appConfig.locales && appConfig.locales.length > 1;
 
@@ -45,6 +43,7 @@ const generateUtiltiesConfig = (appConfig) => {
 
   const rootMenuChildKeys = {};
 
+  // build out the menu items for themes, locals, and bidi.
   if (hasThemes) {
     rootMenuChildKeys.Theme = generateItemConfig(appConfig.defaultTheme, Object.keys(appConfig.themes), 'Theme');
   }
@@ -71,4 +70,5 @@ const generateUtiltiesConfig = (appConfig) => {
     imports: utilsImports,
   };
 };
-module.exports = generateUtiltiesConfig;
+
+module.exports = generateUtilitiesConfig;

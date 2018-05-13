@@ -1,6 +1,9 @@
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const IdentifierPlaceholder = require('./generation-objects/IdentifierPlaceholder');
 
+/**
+* Generates the file representing extensions.
+*/
 const generateExtensions = (appConfig) => {
   const imports = new ImportAggregator();
 
@@ -12,6 +15,7 @@ const generateExtensions = (appConfig) => {
       imports.addImport('terra-dev-site/lib/app/components/GitHubLinkExtension', 'GitHubLinkExtension');
       imports.addImport('terra-dev-site/lib/app/components/Extensions', 'Extensions');
       return {
+        // This places JSX inline for the component variable.
         config: new IdentifierPlaceholder(
           `(
           <Extensions>
