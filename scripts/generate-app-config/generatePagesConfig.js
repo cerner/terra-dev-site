@@ -60,7 +60,7 @@ const parseExtension = fileName => ({
 const pageConfig = (route, namespace) => {
   // Grab the group extension if one exists.
   const { name, extension: group } = parseExtension(route);
-  const pagePath = namespace ? `/${kebabCase(namespace)}/${kebabCase(name)}` : `/${kebabCase(route)}`;
+  const pagePath = namespace ? `/${kebabCase(namespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`;
   return {
     name: startCase(name),
     path: pagePath,
