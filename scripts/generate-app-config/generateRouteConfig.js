@@ -78,7 +78,7 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
     const hasSubMenu = page.pages && page.pages.length > 0;
 
     const routePath = `${rootPath}${page.path}`;
-    let menuRoutePath;
+    let redirectRoute;
 
     // if the given page, has sub menu items, add them to the overall route object.
     if (hasSubMenu) {
@@ -91,10 +91,10 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       // Add a menu item containing links to the child content.
       menu[routePath] = routeItem(routePath, { contentPath: RoutingMenu, name: 'RoutingMenu' }, menuProps(page.name, childMenuItems), routeImporter);
 
-      // If the page does not have content, but the first submenu item has content, but not a menu. Link directly to that item.
+      // If the page does not have content, but the first submenu item has content, but not a menu. Redirect directly to that item.
       const subPage = page.pages[0];
       if (subPage.content && !subPage.pages && !page.content) {
-        menuRoutePath = `${rootPath}${page.path}${subPage.path}`;
+        redirectRoute = `${rootPath}${page.path}${subPage.path}`;
       }
     }
 
@@ -104,8 +104,9 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
     // If the pages has content, add the content render item. If not, add a placeholder item.
     if (page.content) {
       content[routePath] = contentRouteItem(routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
-    } else if (menuRoutePath) {
-      content[routePath] = contentRouteItem(routePath, { contentPath: Redirect, name: '{ Redirect }', identifier: 'Redirect' }, { to: menuRoutePath }, 'js', routeImporter);
+    } else if (redirectRoute) {
+      // If a redirect Route has been identified, redirect to it.
+      content[routePath] = contentRouteItem(routePath, { contentPath: Redirect, name: '{ Redirect }', identifier: 'Redirect' }, { to: redirectRoute }, 'js', routeImporter);
     } else {
       content[routePath] = contentRouteItem(routePath, { contentPath: placeholder.content, name: 'TerraDevSitePlaceholder' }, placeholder.props, 'js', routeImporter);
     }
@@ -154,28 +155,7 @@ const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
     type = link.pageTypes[0];
   }
 
-  // create the link route prior to updating the link path.
-  const linkRoute = [getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter)];
-
-  // if (pages) {
-  //   const pagesArray = pages;
-  //   const subPage = pagesArray[0];
-  //   if (subPage.content && !subPage.pages) {
-  //     // Update the link path to auto select the first item.
-  //     // eslint-disable-next-line no-param-reassign
-  //     link.origPath = link.path;
-  //     // eslint-disable-next-line no-param-reassign
-  //     link.path = `${link.path}${subPage.path}`;
-
-  //     // If there is only one child item, ditch that whole menu thing.
-  //     if (pagesArray.length === 1) {
-  //       subPage.path = link.path;
-  //       return [subPage];
-  //     }
-  //   }
-  // }
-
-  return linkRoute;
+  return [getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter)];
 };
 
 /**
@@ -187,7 +167,7 @@ const routeConfiguration = (siteConfig, pageConfig) => {
   }
   const routeImporter = new ImportAggregator();
   const { placeholderSrc } = siteConfig;
-  const navConfig = Object.assign({}, siteConfig.navConfig);
+  const navConfig = siteConfig.navConfig;
   const navigation = navConfig.navigation;
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
 
@@ -209,12 +189,6 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     content = Object.assign(content, linkContent);
     menu = Object.assign(menu, linkMenu);
 
-    // If the link path has been altered and it was equal to the index, update the index.
-    if (link.origPath === navigation.index) {
-      // eslint-disable-next-line no-param-reassign
-      navigation.index = link.path;
-    }
-
     return { menu, content };
   }, { content: {}, menu: {} });
 
@@ -224,7 +198,6 @@ const routeConfiguration = (siteConfig, pageConfig) => {
   return {
     config,
     imports: routeImporter,
-    navConfig,
   };
 };
 

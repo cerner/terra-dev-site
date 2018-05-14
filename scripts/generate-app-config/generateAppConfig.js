@@ -29,7 +29,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 const generateAppConfig = (siteConfig, production) => {
   const imports = new ImportAggregator();
 
-  const { appConfig, themeImports } = siteConfig;
+  const { appConfig, navConfig, themeImports } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   // This is where we are writing out the generated files.
@@ -51,10 +51,8 @@ const generateAppConfig = (siteConfig, production) => {
     imports,
   );
 
-  // Nav config is modified by the generate route config method. Make sure it's called before witing the navigation items.
-  const { navConfig, ...routeConfig } = generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production));
   const routingConfig = addConfig(
-    routeConfig,
+    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production)),
     'routeConfig.js',
     buildPath,
     fse,
