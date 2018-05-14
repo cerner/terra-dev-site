@@ -7,6 +7,7 @@ const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 const TerraDocTemplate = 'terra-doc-template';
+const Redirect = 'react-router-dom';
 
 /**
 * Setup a menuItem object.
@@ -28,11 +29,11 @@ const menuProps = (title, menuItems) => ({
 /**
 * Builds out a route item. Adds the props object conditionally.
 */
-const routeItem = (routePath, contentPath, props, routeImporter) => ({
+const routeItem = (routePath, { contentPath, name }, props, routeImporter) => ({
   path: routePath,
   component: {
     default: {
-      componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath)),
+      componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath), name),
       ...(props) && { props },
     },
   },
@@ -41,8 +42,8 @@ const routeItem = (routePath, contentPath, props, routeImporter) => ({
 /**
 * Sets up content route item. All content items are wrapped with the content wrapper.
 */
-const contentRouteItem = (routePath, contentPath, props, type, routeImporter) => {
-  const relativeContent = routeImporter.addImport(ImportAggregator.relativePath(contentPath));
+const contentRouteItem = (routePath, { contentPath, name, identifier }, props, type, routeImporter) => {
+  const relativeContent = routeImporter.addImport(ImportAggregator.relativePath(contentPath), name, identifier);
   let contentProps = {
     content: relativeContent,
     props,
@@ -60,7 +61,7 @@ const contentRouteItem = (routePath, contentPath, props, type, routeImporter) =>
 
   return routeItem(
     routePath,
-    ContentWrapper,
+    { contentPath: ContentWrapper, name: 'ContentWrapper' },
     contentProps,
     routeImporter,
   );
@@ -77,7 +78,8 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
     const hasSubMenu = page.pages && page.pages.length > 0;
 
     const routePath = `${rootPath}${page.path}`;
-    let menuRoutePath = routePath;
+    let menuRoutePath;
+
     // if the given page, has sub menu items, add them to the overall route object.
     if (hasSubMenu) {
       // recursively call to get child content, and menu items
@@ -87,7 +89,7 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       menu = Object.assign(menu, childMenu);
 
       // Add a menu item containing links to the child content.
-      menu[routePath] = routeItem(routePath, RoutingMenu, menuProps(page.name, childMenuItems), routeImporter);
+      menu[routePath] = routeItem(routePath, { contentPath: RoutingMenu, name: 'RoutingMenu' }, menuProps(page.name, childMenuItems), routeImporter);
 
       // If the page does not have content, but the first submenu item has content, but not a menu. Link directly to that item.
       const subPage = page.pages[0];
@@ -97,13 +99,15 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
     }
 
     // provide the menu item for this content page.
-    menuItems.push(menuItem(page.name, menuRoutePath, hasSubMenu));
+    menuItems.push(menuItem(page.name, routePath, hasSubMenu));
 
     // If the pages has content, add the content render item. If not, add a placeholder item.
     if (page.content) {
-      content[routePath] = contentRouteItem(routePath, page.content, page.props, page.type, routeImporter);
+      content[routePath] = contentRouteItem(routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
+    } else if (menuRoutePath) {
+      content[routePath] = contentRouteItem(routePath, { contentPath: Redirect, name: '{ Redirect }', identifier: 'Redirect' }, { to: menuRoutePath }, 'js', routeImporter);
     } else {
-      content[routePath] = contentRouteItem(routePath, placeholder.content, placeholder.props, 'js', routeImporter);
+      content[routePath] = contentRouteItem(routePath, { contentPath: placeholder.content, name: 'TerraDevSitePlaceholder' }, placeholder.props, 'js', routeImporter);
     }
 
     return { content, menu, menuItems };
@@ -153,23 +157,23 @@ const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
   // create the link route prior to updating the link path.
   const linkRoute = [getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter)];
 
-  if (pages) {
-    const pagesArray = pages;
-    const subPage = pagesArray[0];
-    if (subPage.content && !subPage.pages) {
-      // Update the link path to auto select the first item.
-      // eslint-disable-next-line no-param-reassign
-      link.origPath = link.path;
-      // eslint-disable-next-line no-param-reassign
-      link.path = `${link.path}${subPage.path}`;
+  // if (pages) {
+  //   const pagesArray = pages;
+  //   const subPage = pagesArray[0];
+  //   if (subPage.content && !subPage.pages) {
+  //     // Update the link path to auto select the first item.
+  //     // eslint-disable-next-line no-param-reassign
+  //     link.origPath = link.path;
+  //     // eslint-disable-next-line no-param-reassign
+  //     link.path = `${link.path}${subPage.path}`;
 
-      // If there is only one child item, ditch that whole menu thing.
-      if (pagesArray.length === 1) {
-        subPage.path = link.path;
-        return [subPage];
-      }
-    }
-  }
+  //     // If there is only one child item, ditch that whole menu thing.
+  //     if (pagesArray.length === 1) {
+  //       subPage.path = link.path;
+  //       return [subPage];
+  //     }
+  //   }
+  // }
 
   return linkRoute;
 };
