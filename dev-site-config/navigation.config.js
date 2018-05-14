@@ -1,15 +1,14 @@
 const navConfig = {
-  rootPath: '/dev-site',
   navigation: {
-    index: '/dev-site/home',
+    index: '/home',
     links: [{
-      path: '/dev-site/home',
+      path: '/home',
       text: 'Home',
       pageTypes: ['home'],
     }, {
-      path: '/dev-site/getting-started',
+      path: '/getting-started',
       text: 'Getting Started',
-      pageTypes: ['docs'],
+      pageTypes: ['doc'],
     }],
   },
 };
