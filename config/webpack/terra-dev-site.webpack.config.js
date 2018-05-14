@@ -88,7 +88,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
       modules: [devSiteConfigPath],
       alias,
     },
-    watch: true,
+    // watch: true,
   };
 };
 
