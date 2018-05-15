@@ -1,6 +1,12 @@
-const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
+# Site Config
+
+Site config is the main config for the terra-dev-site. Depending on your repo setup, site config may not be needed. If it is, it shoudl be located in the dev-site-config folder. The site config below is for documentation purposes and may require modifications before use.
+
+[Default site config](https://github.com/cerner/terra-dev-site/blob/master/config/site/site.config.js)
+
+```javascript
 const navConfig = require('./navigation.config');
-const startCase = require('lodash.startcase');
+const pagesConfig = require ('./pages.config');
 const fs = require('fs');
 const path = require('path');
 
@@ -11,7 +17,7 @@ const siteConfig = {
   navConfig,
 
   /* The path to the pages configuration. If this is enabled, page config will not be generated. */
-  // pagesConfig,
+  pagesConfig,
 
   // These options are used to find the pages to serve via terra dev site.
   // If 'pagesConfig' is provided, no pages will be generated.
@@ -32,10 +38,10 @@ const siteConfig = {
       },
     ],
     customPatterns: [
-      // {
-      //   pattern: 'dir/lib/terra-dev-site/**/*.<type>.{jsx,js})',
-      //   entryPoint: path.join(process.cwd(),'lib', 'terra-dev-site'),
-      // },
+      {
+        pattern: 'dir/lib/terra-dev-site/**/*.<type>.{jsx,js})',
+        entryPoint: path.join(process.cwd(),'lib', 'terra-dev-site'),
+      },
     ],
   },
 
@@ -48,32 +54,45 @@ const siteConfig = {
 
   /* Additional alias to add to webpack, see webpacks doc for more info on aliases. */
   webpackAliases: {
-    // [path]: <path location>
+    moment: '../node_modules/moment',
   },
 
-  /* The mono repo package directory. If this is found aliases will be setup for the mono repo packages by default. */
-  monoRepoPackageDir: path.resolve(process.cwd(), 'packages'),
+  /* The mono repo package directory. If this is found aliases will be setup for the mono repo packages by default.
+   * Defaults to the packages directory from the root dir.
+   */
+  monoRepoPackageDir: '../packages',
 
-  /* The actual parced package.json file. May need to change this if you have a non-standard package.json path. */
+  /* The actual parced package.json file. May need to change this if you have a non-standard package.json path.
+   * Defaults to the root dir package.json
+   */
   npmPackage,
 
   /* Side effect theme imports */
   themeImports: [
-  //   './theme';
+    '../theme';
   ],
 
-  /* The image to display as page placeholder when a component does not render. */
+  /* The image to display as page placeholder when a component does not render.
+   * Defaulted to the terra logo from this repo.
+   */
   placeholderSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
 
   /* The README content to display on the home page. */
-  readMeContent: path.resolve(process.cwd(), 'README.md'),
+   * Defaulted to the readme in the root directory.
+   * Set to undefined to opt out.
+   */
+  readMeContent: ../README.md',
 
   appConfig: {
-    /* The logo the site header should display. */
-    logoSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png', // maps to appLogoSrc
+    /* The log0 the site header should display.
+     * Defaulted to the terra logo from this repo.
+     */
+    logoSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
 
-    /* The title the site header should display. */
-    title: startCase(npmPackage.name), // maps to appTitle
+    /* The title the site header should display.
+     * Defaulted to the package name from the root package.json
+     */
+    title: 'Title'
 
     /** The themes to supply the ThemeProvider which allows the site to switch
       * between themes. Providing multiple enables the theme utility to display
@@ -90,8 +109,9 @@ const siteConfig = {
 
     /** The locales to supply Base with, which allows the site to switch
       * between locales. English is the default language.
+      * Defaulted to the suppported locals list in terra-18n
       */
-    locales: i18nSupportedLocales,
+    locales: ['ar', 'en', 'en-US', 'en-GB', 'es', 'es-US', 'es-ES', 'de', 'fi-FI', 'fr', 'fr-FR', 'nl', 'nl-BE', 'pt', 'pt-BR'],
 
     /* The default locale of the site. 'en' is the default theme. */
     defaultLocale: 'en',
@@ -101,22 +121,17 @@ const siteConfig = {
       */
     bidirectional: true,
 
-
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
     /* Configuration relating to the extensions section of the site. Not rendered if extensions are supplied by navigation config */
-    // extensions: {
-    // //    The url to link to github. If this is supplied a github extention will be display to link to the supplied url
-    //   gitHubUrl: 'https://github.com/cerner',
-    // },
-
-    ...(npmPackage.repository.url) && {
-      extensions: {
-        gitHubUrl: npmPackage.repository.url.replace('git+', ''),
-      },
+    extensions: {
+      // The url to link to github. If this is supplied a github extention will be display to link to the supplied url
+      // Defaulted to the repository url specified in the root package.json
+      gitHubUrl: 'https://github.com/cerner',
     },
   },
 };
 
 module.exports = siteConfig;
+```

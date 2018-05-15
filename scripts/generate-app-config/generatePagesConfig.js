@@ -1,7 +1,17 @@
 const path = require('path');
 const glob = require('glob');
 const kebabCase = require('lodash.kebabcase');
-const startCase = require('lodash.startcase');
+const lodashStartCase = require('lodash.startcase');
+
+/**
+* Cheat. If the filename still contains a period, don't run startcase. This allows for filenames of version (v0.5.0)
+*/
+const startCase = (string) => {
+  if (string.includes('.')) {
+    return string;
+  }
+  return lodashStartCase(string);
+};
 
 /**
 * Gathers the complete set of requested page types.
