@@ -20,7 +20,7 @@ const applyDefaults = (filePath) => {
 };
 
 /**
-* Resolve teh possible custom site config.
+* Resolve the possible custom site config.
 */
 const resolve = (filePath) => {
   if (isFile(filePath)) {
@@ -33,7 +33,7 @@ const resolve = (filePath) => {
 /**
 * Finds the default site config, either the passed in config, the site config in the packages dev-site-config file or the default site config.
 */
-const loadDefaultSiteConfig = (configPath) => {
+const loadSiteConfig = (configPath) => {
   if (configPath) {
     return applyDefaults(path.resolve(configPath));
   }
@@ -48,4 +48,4 @@ const loadDefaultSiteConfig = (configPath) => {
   return defaultConfig;
 };
 
-module.exports = loadDefaultSiteConfig;
+module.exports = loadSiteConfig;

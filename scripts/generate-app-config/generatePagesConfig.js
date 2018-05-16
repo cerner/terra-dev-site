@@ -191,8 +191,8 @@ const generatePagesConfig = (siteConfig, production) => {
   const types = pageTypes(navConfig).join(',');
 
   // Get the default search patterns for both normal and lerna mono repos.
-  const defaultPatterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
-    const souceDir = (production || !hotReloading.enabled) ? dist : source;
+  const patterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
+    const souceDir = ((production || !hotReloading.enabled) ? dist : source) || '';
     acc.push({
       pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),
       entryPoint: path.join(root, souceDir, entryPoint),
@@ -204,12 +204,6 @@ const generatePagesConfig = (siteConfig, production) => {
     });
     return acc;
   }, []);
-
-  // Add custom search patterns.
-  const customPatterns = generatePagesOptions.customPatterns || [];
-
-  // collect all the patterns.
-  const patterns = defaultPatterns.concat(customPatterns);
 
   // Execute the globs and regex masks, to trim the directories.
   const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (

@@ -1,7 +1,7 @@
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 /**
-* Buld out the item config.
+* Build out the item config.
 */
 const generateItemConfig = (defaultItem, items, key) => {
   const childKeys = {};

@@ -1,6 +1,6 @@
 # Navigation Config
 
-Navigation config specifies the items that display at the top of the page as well as the page types that are assoicated to those items.
+Navigation config specifies the application links that display at the top of the page as well as the page types that are assoicated to those links.
 
 By default home, components, and tests are specifed with the home, doc and test page types respectively.
 

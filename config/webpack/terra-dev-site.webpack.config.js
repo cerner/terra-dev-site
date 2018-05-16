@@ -2,28 +2,30 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
-const loadDefaultSiteConfig = require('../../scripts/generate-app-config/loadDefaultSiteConfig');
+const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const fs = require('fs');
+
+const monoRepoPackageDir = path.resolve(process.cwd(), 'packages');
 
 /**
 * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
 */
 const addAlias = (acc, name, location, hotReloading, production) => {
-  acc[name] = path.join(location);
+  acc[name] = location;
   if (!production && hotReloading.enabled) {
-    acc[`${name}/${hotReloading.dist}`] = `${name}/${hotReloading.source}`;
+    acc[path.join(name, hotReloading.dist)] = path.join(location, hotReloading.source);
   }
 };
 
 /**
 * Aliases all mono-repo packages. This ensures the correct module is hit if the site is hosting an item used to create itself (ouroboros).
 */
-const aliasMonoRepoPackages = (monoRepoPackageDir, hotReloading, production) => {
+const aliasMonoRepoPackages = (hotReloading, production) => {
   // If no package directory is found, do nothing.
   if (!fs.existsSync(monoRepoPackageDir)) {
     return {};
   }
-  // For each non hidd directory, create an alias.
+  // For each non hidden directory, create an alias.
   return fs.readdirSync(monoRepoPackageDir).reduce((acc, packageName) => {
     // ignore any hidden files
     if (packageName[0] !== '.') {
@@ -34,7 +36,7 @@ const aliasMonoRepoPackages = (monoRepoPackageDir, hotReloading, production) => 
 };
 
 /**
-* Alias the current package, Mostlikely this isn't neaded, but doesn't hurt if someone is referencing files oddly.
+* Alias the current package, Most likely this isn't neaded, but doesn't hurt if someone is referencing files oddly.
 */
 const aliasCurrentPackage = (packageName, processPath, sourceDir) => {
   const alias = {};
@@ -56,7 +58,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
 
   // Get default site config.
-  const siteConfig = loadDefaultSiteConfig();
+  const siteConfig = loadSiteConfig();
 
   // Generate the files need to spin up the site.
   generateAppConfig(siteConfig);
@@ -69,8 +71,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   // Setup auto aliases.
   const alias = {
-    ...aliasMonoRepoPackages(siteConfig.monoRepoPackageDir, hotReloading, production),
-    ...siteConfig.webpackAliases,
+    ...aliasMonoRepoPackages(hotReloading, production),
     ...aliasCurrentPackage(packageName, processPath, hotReloading, production),
   };
 

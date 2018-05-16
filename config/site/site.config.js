@@ -19,7 +19,7 @@ const siteConfig = {
   // {root}/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
   // {root}/packages/*/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
   // source will be used if hot reloading is enabled and not running in prod mode.
-  // customPatterns
+  // source and dist are optional.
   // *NOTE* The entryPoints also act as the beginning of the directory strucure for menu navigation.
   // For example: /root/src/<entryPointDir>/folder/item would start navigation at 'folder'.
   generatePages: {
@@ -31,12 +31,6 @@ const siteConfig = {
         entryPoint: 'terra-dev-site',
       },
     ],
-    customPatterns: [
-      // {
-      //   pattern: 'dir/lib/terra-dev-site/**/*.<type>.{jsx,js})',
-      //   entryPoint: path.join(process.cwd(),'lib', 'terra-dev-site'),
-      // },
-    ],
   },
 
   /* Hot reloading section. On by default for dev builds. This will automatically alias the dist dir as the source dir if you use the bundled webpack config. */
@@ -46,15 +40,7 @@ const siteConfig = {
     dist: 'lib',
   },
 
-  /* Additional alias to add to webpack, see webpacks doc for more info on aliases. */
-  webpackAliases: {
-    // [path]: <path location>
-  },
-
-  /* The mono repo package directory. If this is found aliases will be setup for the mono repo packages by default. */
-  monoRepoPackageDir: path.resolve(process.cwd(), 'packages'),
-
-  /* The actual parced package.json file. May need to change this if you have a non-standard package.json path. */
+  /* The parsed root level npm package. May need to change this if you have a non-standard package.json path. */
   npmPackage,
 
   /* Side effect theme imports */

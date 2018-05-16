@@ -19,9 +19,9 @@ npm install terra-dev-site
 * transpiled code in lib
 
 ### Running terra-dev-site
-Terra-dev-site automatically gets built when you use the provided webpack config or continently, the tt:serve command provided by terra-toolkit. If you have a custom webpack config, you can either extend the provided webpack config.
+Terra-dev-site automatically gets built when you use the provided webpack config or conveniently, when you use the tt:serve command provided by terra-toolkit. If you have a custom webpack config, you can also extend the provided webpack config using webpack  merge.
 
-Add the following command to your package.json.
+Add the following terra-toolkit command to your package.json. See the [tt:serve docs](https://github.com/cerner/terra-toolkit/tree/master/scripts/serve#cli) for more information on the command options.
 
 ```json
 {
@@ -31,14 +31,20 @@ Add the following command to your package.json.
 }
 ```
 
-Then run and navigate to the site in your browser:
+Then run the command and navigate to http://localhost:8080/#/site to view the site in your browser:
 
 ```bash
 npm run start
 ```
 
 You should see your readme hosted on the site. Next lets add some pages.
-Terra dev site will auto discover files base on site.config.
+Terra dev site will auto discover files base on either:
+
+the default search patterns in the site.config
+
+or
+
+the file structure and file extensions used.
 
 Add the following file to: `<package>/src/terra-dev-site/doc`
 
@@ -51,14 +57,14 @@ Then run and navigate to the site in your browser:
 ```bash
 npm run start
 ```
-Now you should be able to see your page under
+Now you should be able to see your page under the components tab.
 
 ## Pages Auto Discovery
 
-By default terra-dev-site will look for files in the ./src/terra-dev-site folder in dev mode and ./lib/terra-dev-site for prod mode.
+By default terra-dev-site will look for files in the ./src/terra-dev-site folder in dev mode and ./lib/terra-dev-site for prod mode. In an monorepo it will search for files in ./packages//{src,lib}/terra-dev-site.
 
-### File naming
-Files need to be specifically named to be added to the site. This will allow you to add any additional files to support your examples and only have the specified files added as entries to the site.
+### File Naming
+Files need to be specifically named using the correct pageType indicator and file extension to be added to the site. This will allow you to add any additional files to support your examples and only have the specified files added as entries to the site.
 
 ```
 <filename>.<group-optional>.<pageType>.<extension(md, js, jsx)>
@@ -71,31 +77,31 @@ The file name components are as follows:
 * extension - .md .js and .jsx are supported. Any other type will have unexpected behavior.
 
 ### Directories
-The directories following the content entry point folder(terra-dev-site) will be translated into part of the menu structure with one exception. If you have a 'pageType' directory inside the entry point folder it will be ignored. This lets you group like page type pages together without impacting your site.
+The directories following the content entry point folder (terra-dev-site by default) will be translated into part of the menu structure with one exception. If you have a 'pageType' directory inside the entry point folder, it will be ignored. This lets you group page types  together without impacting your site.
 
 ### Example
 Given a directory structure like this:
 ```
--src
+-/src
 --terra-dev-site
 ---doc
 ---upgradeGuide.a.doc.md
----examples.c
+---\examples.c
 ----supportingFile.js
 ----myGreatExample.doc.jsx
 --example.b.doc.js
----test
+---\test
 ---testfile.test.js
 ---docInTestFolder.doc.js
 ```
-The result will be:
+The menu navigation result will be:
 ```
 -Components
 --Upgrade Guide
 --Example
---Examples
+--Examples >
 ---My Great Example
---Test
+--Test >
 ---Doc In Test Folder
 -Test
 --Testfile

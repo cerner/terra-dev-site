@@ -1,6 +1,6 @@
 # Site Config
 
-Site config is the main config for the terra-dev-site. Depending on your repo setup, site config may not be needed. If it is, it shoudl be located in the dev-site-config folder. The site config below is for documentation purposes and may require modifications before use.
+Site config is the main config for the terra-dev-site. Depending on your repo setup, site config may not be needed. If it is, it must be located in the dev-site-config folder. The site config below is for documentation purposes and may require modifications before use.
 
 [Default site config](https://github.com/cerner/terra-dev-site/blob/master/config/site/site.config.js)
 
@@ -16,7 +16,7 @@ const siteConfig = {
   /* The navigation configuration.  */
   navConfig,
 
-  /* The path to the pages configuration. If this is enabled, page config will not be generated. */
+  /* The path to the pages configuration. If this is enabled, page config will not be generated and generatePages will not be used. */
   pagesConfig,
 
   // These options are used to find the pages to serve via terra dev site.
@@ -25,7 +25,7 @@ const siteConfig = {
   // {root}/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
   // {root}/packages/*/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
   // source will be used if hot reloading is enabled and not running in prod mode.
-  // customPatterns
+  // source and dist are optional.
   // *NOTE* The entryPoints also act as the beginning of the directory strucure for menu navigation.
   // For example: /root/src/<entryPointDir>/folder/item would start navigation at 'folder'.
   generatePages: {
@@ -35,12 +35,6 @@ const siteConfig = {
         source: 'src',
         dist: 'lib',
         entryPoint: 'terra-dev-site',
-      },
-    ],
-    customPatterns: [
-      {
-        pattern: 'dir/lib/terra-dev-site/**/*.<type>.{jsx,js})',
-        entryPoint: path.join(process.cwd(),'lib', 'terra-dev-site'),
       },
     ],
   },

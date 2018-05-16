@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
-// import 'terra-base/lib/baseStyles';
 
 import styles from './ContentWrapper.scss';
 
@@ -13,6 +12,9 @@ const propTypes = {
    */
   content: PropTypes.func,
 
+  /**
+   * The props to be applied to the content.
+   */
   props: PropTypes.object,
 };
 
@@ -21,20 +23,14 @@ const defaultProps = {
   props: undefined,
 };
 
-const ContentWrapper = ({ content: Content, props }) => {
-  const contentClassNames = cx([
-    'site-content',
-  ]);
-
-  return (
-    <div
-      data-terra-dev-site-content
-      className={contentClassNames}
-    >
-      <Content {...props} />
-    </div>
-  );
-};
+const ContentWrapper = ({ content: Content, props }) => (
+  <div
+    data-terra-dev-site-content
+    className={cx('site-content')}
+  >
+    <Content {...props} />
+  </div>
+);
 
 ContentWrapper.propTypes = propTypes;
 ContentWrapper.defaultProps = defaultProps;
