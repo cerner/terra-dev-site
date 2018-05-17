@@ -219,8 +219,6 @@ const generatePagesConfig = (siteConfig, production) => {
     return acc;
   }, {});
 
-  // console.log('config', JSON.stringify(sortedConfig, null, 2));
-
   return sortedConfig;
 };
 

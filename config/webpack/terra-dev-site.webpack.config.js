@@ -36,15 +36,6 @@ const aliasMonoRepoPackages = (hotReloading, production) => {
 };
 
 /**
-* Alias the current package, Most likely this isn't neaded, but doesn't hurt if someone is referencing files oddly.
-*/
-const aliasCurrentPackage = (packageName, processPath, sourceDir) => {
-  const alias = {};
-  addAlias(alias, packageName, processPath, sourceDir);
-  return alias;
-};
-
-/**
 * Generates the file representing app name configuration.
 */
 const devSiteConfig = (env = {}, argv = {}) => {
@@ -63,19 +54,13 @@ const devSiteConfig = (env = {}, argv = {}) => {
   // Generate the files need to spin up the site.
   generateAppConfig(siteConfig);
 
-  // Get the default package name.
-  const packageName = siteConfig.npmPackage.name;
-
   // Is hot reloading enabled?
   const { hotReloading } = siteConfig;
 
   // Setup auto aliases.
   const alias = {
     ...aliasMonoRepoPackages(hotReloading, production),
-    ...aliasCurrentPackage(packageName, processPath, hotReloading, production),
   };
-
-  // console.log('alias', alias);
 
   return {
     entry: {

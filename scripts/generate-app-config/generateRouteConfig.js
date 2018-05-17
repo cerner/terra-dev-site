@@ -183,8 +183,6 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     // build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
 
-    // console.log('linkRoute', JSON.stringify(linkRoute, null, 2));
-
     const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkPageConfig, '', placeholder, routeImporter);
 
     content = Object.assign(content, linkContent);
@@ -192,9 +190,6 @@ const routeConfiguration = (siteConfig, pageConfig) => {
 
     return { menu, content };
   }, { content: {}, menu: {} });
-
-  // console.log('content', JSON.stringify(config.content, null, 2));
-  // console.log('menu', JSON.stringify(config.menu, null, 2));
 
   return {
     config,

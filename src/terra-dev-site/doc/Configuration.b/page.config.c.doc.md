@@ -4,16 +4,20 @@ Page config is generally generated for you using the generatePages config ins th
 
 ```javascript
 const config = {
+  // doc and test map to page types specified in the navigation config.
   doc: [
     {
       name: 'Getting Started',
       path: '/getting-started',
+      // anything other than a js or jsx file need a file extension. js and jsx files should // not have a file extension because they may be transpliled.
       content: '../src/terra-dev-site/doc/gettingStarted.md',
+      // Type is required. Markdown documents are wrapped differently than js or jsx files.
       type: 'md'
     },
     {
       name: 'Configuration',
       path: '/configuration',
+      // Pages have the same schema as described above, can recurse infintely.
       pages: [
         {
           name: 'site.config',
