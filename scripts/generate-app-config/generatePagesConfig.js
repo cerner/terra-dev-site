@@ -192,7 +192,7 @@ const generatePagesConfig = (siteConfig, production) => {
 
   // Get the default search patterns for both normal and lerna mono repos.
   const patterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
-    const souceDir = ((production || !hotReloading.enabled) ? dist : source) || '';
+    const souceDir = ((!production && hotReloading.enabled) ? source : dist) || '';
     acc.push({
       pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),
       entryPoint: path.join(root, souceDir, entryPoint),
