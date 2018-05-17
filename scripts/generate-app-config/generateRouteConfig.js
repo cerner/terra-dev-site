@@ -88,13 +88,16 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       content = Object.assign(content, childContent);
       menu = Object.assign(menu, childMenu);
 
-      // Add a menu item containing links to the child content.
-      menu[routePath] = routeItem(routePath, { contentPath: RoutingMenu, name: 'RoutingMenu' }, menuProps(page.name, childMenuItems), routeImporter);
-
       // If the page does not have content, but the first submenu item has content, but not a menu. Redirect directly to that item.
       const subPage = page.pages[0];
       if (subPage.content && !subPage.pages && !page.content) {
         redirectRoute = `${rootPath}${page.path}${subPage.path}`;
+      }
+
+      // If we have a redirect route and only one item in the menu, lets skip adding the menu.
+      if (!redirectRoute || childMenuItems.length > 1) {
+        // Add a menu item containing links to the child content.
+        menu[routePath] = routeItem(routePath, { contentPath: RoutingMenu, name: 'RoutingMenu' }, menuProps(page.name, childMenuItems), routeImporter);
       }
     }
 
