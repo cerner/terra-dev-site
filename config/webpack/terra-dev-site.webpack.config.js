@@ -52,7 +52,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const siteConfig = loadSiteConfig();
 
   // Generate the files need to spin up the site.
-  generateAppConfig(siteConfig);
+  generateAppConfig(siteConfig, production);
 
   // Is hot reloading enabled?
   const { hotReloading } = siteConfig;
