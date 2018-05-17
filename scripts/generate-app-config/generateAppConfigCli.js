@@ -9,6 +9,7 @@ const loadSiteConfig = require('./loadSiteConfig');
 commander
   .version(packageJson.version)
   .option('-p, --production', 'Passes the -p flag to the webpack config, if available.', false)
+  .option('-v, --verbose', 'Print out debug information.', false)
   .parse(process.argv);
 
-generate(loadSiteConfig(), commander.production);
+generate(loadSiteConfig(), commander.production, commander.verbose);

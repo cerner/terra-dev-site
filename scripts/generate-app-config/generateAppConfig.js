@@ -26,7 +26,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 * Writes out a file consiting of the config and imports with the given file name to the specified path.
 * Returns an object representing an imported variable.
 */
-const generateAppConfig = (siteConfig, production) => {
+const generateAppConfig = (siteConfig, production, verbose) => {
   const imports = new ImportAggregator();
 
   const { appConfig, navConfig, themeImports } = siteConfig;
@@ -52,7 +52,7 @@ const generateAppConfig = (siteConfig, production) => {
   );
 
   const routingConfig = addConfig(
-    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production)),
+    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose)),
     'routeConfig.js',
     buildPath,
     fse,

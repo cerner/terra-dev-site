@@ -180,7 +180,7 @@ const sortPageConfig = config => (
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
-const generatePagesConfig = (siteConfig, production) => {
+const generatePagesConfig = (siteConfig, production, verbose) => {
   const { generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading } = siteConfig;
   // If a pages config is supplied don't do this logic.
   if (pagesConfig) {
@@ -205,10 +205,20 @@ const generatePagesConfig = (siteConfig, production) => {
     return acc;
   }, []);
 
+  if (verbose) {
+    // eslint-disable-next-line no-console
+    console.log('Patterns', patterns);
+  }
+
   // Execute the globs and regex masks, to trim the directories.
   const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
     acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
   ), []);
+
+  if (verbose) {
+    // eslint-disable-next-line no-console
+    console.log('File Paths', filePaths);
+  }
 
   // Build out the page config from the discovered file paths.
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
@@ -218,6 +228,11 @@ const generatePagesConfig = (siteConfig, production) => {
     acc[key] = sortPageConfig(config[key]);
     return acc;
   }, {});
+
+  if (verbose) {
+    // eslint-disable-next-line no-console
+    console.log('Page Config', sortedConfig);
+  }
 
   return sortedConfig;
 };

@@ -111,6 +111,9 @@ The menu navigation result will be:
 
 The provided webpack config includes a call to the generateAppConfig script. The generateAppConfig script builds out static config to the ./dev-site-config/build folder. generateAppConfig also discovers pages based on it's configuration. After the static config has been built webpack continues to run, pulling in the static config, and producing the webpack bundle.
 
+## Debug
+To get verbose output, add `--env.verboseGenerateAppConfig` to your webpack command or run `tds:generate-app-config -v`.
+
 ## Further customization:
 
 Check out our [Customization docs](http://engineering.cerner.com/terra-dev-site/#/getting-started/terra-dev-site/configuration/site-config).

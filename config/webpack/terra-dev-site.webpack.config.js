@@ -41,6 +41,7 @@ const aliasMonoRepoPackages = (hotReloading, production) => {
 const devSiteConfig = (env = {}, argv = {}) => {
   const production = argv.p;
   const processPath = process.cwd();
+  const verbose = env.verboseGenerateAppConfig;
 
   // Get the root path of a mono-repo process call
   const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
@@ -52,7 +53,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const siteConfig = loadSiteConfig();
 
   // Generate the files need to spin up the site.
-  generateAppConfig(siteConfig, production);
+  generateAppConfig(siteConfig, production, verbose);
 
   // Is hot reloading enabled?
   const { hotReloading } = siteConfig;
@@ -61,6 +62,11 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const alias = {
     ...aliasMonoRepoPackages(hotReloading, production),
   };
+
+  if (verbose) {
+    // eslint-disable-next-line no-console
+    console.log('Generated Aliases', alias);
+  }
 
   return {
     entry: {
