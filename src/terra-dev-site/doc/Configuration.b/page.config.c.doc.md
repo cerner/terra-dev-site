@@ -9,7 +9,8 @@ const config = {
     {
       name: 'Getting Started',
       path: '/getting-started',
-      // anything other than a js or jsx file need a file extension. js and jsx files should // not have a file extension because they may be transpliled.
+      // anything other than a js or jsx file need a file extension. js and jsx files should
+      // not have a file extension because they may be transpliled.
       content: '../src/terra-dev-site/doc/gettingStarted.md',
       // Type is required. Markdown documents are wrapped differently than js or jsx files.
       type: 'md'
