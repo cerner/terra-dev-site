@@ -66,27 +66,30 @@ const siteConfig = {
     '../theme';
   ],
 
-  /* The image to display as page placeholder when a component does not render.
+  /* Path to the image to display as page placeholder when a component does not render.
    * Defaulted to the terra logo from this repo.
    */
-  placeholderSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
+  placeholderSrc: '../logo.png',
 
   /* The README content to display on the home page. */
    * Defaulted to the readme in the root directory.
    * Set to undefined to opt out.
    */
-  readMeContent: ../README.md',
+  readMeContent: '../README.md',
 
   appConfig: {
-    /* The log0 the site header should display.
+    /* Path to the logo the site header should display.
      * Defaulted to the terra logo from this repo.
      */
-    logoSrc: 'https://github.com/cerner/terra-dev-site/raw/master/terra.png',
+    logoSrc: '../logo.png',
 
     /* The title the site header should display.
      * Defaulted to the package name from the root package.json
      */
     title: 'Title'
+
+    /* Path to the favicon for the site. */
+    favicon: '../favicon.ico',
 
     /** The themes to supply the ThemeProvider which allows the site to switch
       * between themes. Providing multiple enables the theme utility to display

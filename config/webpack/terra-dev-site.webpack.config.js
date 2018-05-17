@@ -81,10 +81,13 @@ const devSiteConfig = (env = {}, argv = {}) => {
     entry: {
       'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
     },
-    plugins: [new HtmlWebpackPlugin({
-      title: siteConfig.appConfig.title,
-      template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
-    })],
+    plugins: [
+      new HtmlWebpackPlugin({
+        title: siteConfig.appConfig.title,
+        template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
+        favicon: siteConfig.appConfig.favicon,
+      }),
+    ],
     resolve: {
       modules: [devSiteConfigPath],
       alias,

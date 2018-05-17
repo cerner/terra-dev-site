@@ -49,7 +49,7 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
     props,
   };
 
-  // If the type is md, we want to further wrapp the file in a terra-doc-template, to render the markdown.
+  // If the type is md, we want to further wrap the file in a terra-doc-template, to render the markdown.
   if (type === 'md') {
     contentProps = {
       content: routeImporter.addImport(TerraDocTemplate),
@@ -138,7 +138,7 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) =
 /**
 * Build out the page config for the top level link.
 */
-const getLinkRoute = (link, pageConfig, siteConfig, routeImporter) => {
+const getLinkPageConfig = (link, pageConfig, siteConfig, routeImporter) => {
   let pages = [];
   let type;
 
@@ -172,7 +172,8 @@ const routeConfiguration = (siteConfig, pageConfig) => {
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
 
   // Setup the placeholder object.
-  const placeholder = { content: PlaceholderPath, props: { src: placeholderSrc } };
+  const placeholderImage = routeImporter.addImport(placeholderSrc, 'placeholderSrc');
+  const placeholder = { content: PlaceholderPath, props: { src: placeholderImage } };
 
   // Spin through the valid links to build out the route config.
   const config = validLinks.reduce((acc, link) => {
@@ -180,11 +181,11 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     let menu = acc.menu;
 
     // build the 'page config' for the navigation links.
-    const linkRoute = getLinkRoute(link, pageConfig, siteConfig, routeImporter);
+    const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
 
     // console.log('linkRoute', JSON.stringify(linkRoute, null, 2));
 
-    const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkRoute, '', placeholder, routeImporter);
+    const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkPageConfig, '', placeholder, routeImporter);
 
     content = Object.assign(content, linkContent);
     menu = Object.assign(menu, linkMenu);

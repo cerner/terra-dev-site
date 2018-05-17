@@ -13,10 +13,12 @@ const generateNameConfig = (appConfig) => {
   // If we have an image, inject it into a terra-image.
   if (appConfig.logoSrc) {
     imports.addImport('react', 'React');
+    const imageName = 'logo';
+    imports.addImport(appConfig.logoSrc, imageName);
     config.accessory = imports.addImport(
       'terra-image',
       'Image',
-      `(<Image variant="rounded" src="${appConfig.logoSrc}" height="26px" width="26px" isFluid />)`,
+      `(<Image variant="rounded" src={${imageName}} height="26px" width="26px" isFluid />)`,
     );
   }
 
