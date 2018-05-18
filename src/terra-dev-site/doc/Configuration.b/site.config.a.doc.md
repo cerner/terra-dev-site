@@ -61,19 +61,18 @@ const siteConfig = {
    */
   hotReloading: true,
 
-  /** The mono-repo settings. This will automatically alias package directories in webpack.
-   * Based on hot reloading and prod settings dist will be aliased as source.
-   */
+  /* Specify the mono-repo path. This will automatically alias package directories in webpack. */
   monoRepo: {
     packages: path.resolve(process.cwd(), 'packages'),
+  },
+
+  /* This will automatically alias package directories in webpack.
+   * Based on hot reloading and prod settings dist will be aliased as source.
+   */
+  webpackAliasOptions: {
     source: 'src',
     dist: 'lib',
   },
-
-  /** The mono repo package directory. If this is found aliases will be setup for the mono repo packages by default.
-   * Defaults to the packages directory from the root dir.
-   */
-  monoRepoPackageDir: '../packages',
 
   /** The actual npm package.json file. Change this if you have a non-standard package.json path.
    * Defaults to the <root_dir>/package.json

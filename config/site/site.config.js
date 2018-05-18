@@ -38,13 +38,19 @@ const siteConfig = {
    */
   hotReloading: true,
 
-  /** The mono-repo settings:
-   *   packages: path to the mono-repo packages
-   *   dist: the mono-repo directories containing transpiled code to use if hot reloading is enabled and is in prod
-   *   source: the mono-repo directories containing source code to use if hot reloading is enabled and not in prod mode
+  /*
+   * Specifiy the mono-repo path. This will automatically alias package directories in webpack.
    */
   monoRepo: {
     packages: path.resolve(process.cwd(), 'packages'),
+  },
+
+   /** This will automatically alias package directories in webpack. Based on hot relaoding and prod settings
+    *  dist will be aliased as source.
+    *     dist: the directories containing transpiled code to use if hot reloading is enabled and is in prod
+    *     source: the directories containing source code to use if hot reloading is enabled and not in prod mode
+    */
+  webpackAliasOptions: {
     dist: 'lib',
     source: 'src',
   },
