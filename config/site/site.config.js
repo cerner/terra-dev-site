@@ -33,9 +33,16 @@ const siteConfig = {
     ],
   },
 
-  /* Hot reloading section. On by default for dev builds. This will automatically alias the dist dir as the source dir if you use the bundled webpack config. */
-  hotReloading: {
-    enabled: true,
+  /* Hot reloading section. On by default for dev builds.
+   * This applies to the search patterns and mono-repo package aliasing.
+   */
+  hotReloading: true,
+
+  /* Specifiy mono-repo settings.
+   *
+   */
+  monoRepo: {
+    packages: path.resolve(process.cwd(), 'packages'),
     source: 'src',
     dist: 'lib',
   },

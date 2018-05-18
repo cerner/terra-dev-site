@@ -231,7 +231,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   if (verbose) {
     // eslint-disable-next-line no-console
-    console.log('Page Config', sortedConfig);
+    console.log('Page Config', JSON.stringify(sortedConfig, null, 2));
   }
 
   return sortedConfig;

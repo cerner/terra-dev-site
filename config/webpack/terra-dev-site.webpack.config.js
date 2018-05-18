@@ -5,31 +5,29 @@ const generateAppConfig = require('../../scripts/generate-app-config/generateApp
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const fs = require('fs');
 
-const monoRepoPackageDir = path.resolve(process.cwd(), 'packages');
-
 /**
 * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
 */
-const addAlias = (acc, name, location, hotReloading, production) => {
+const addAlias = (acc, name, location, hotReloading, dist, source, production) => {
   acc[name] = location;
-  if (!production && hotReloading.enabled) {
-    acc[path.join(name, hotReloading.dist)] = path.join(location, hotReloading.source);
+  if (!production && hotReloading) {
+    acc[path.join(name, dist)] = path.join(location, source);
   }
 };
 
 /**
 * Aliases all mono-repo packages. This ensures the correct module is hit if the site is hosting an item used to create itself (ouroboros).
 */
-const aliasMonoRepoPackages = (hotReloading, production) => {
+const aliasMonoRepoPackages = (hotReloading, monoRepo, production) => {
   // If no package directory is found, do nothing.
-  if (!fs.existsSync(monoRepoPackageDir)) {
+  if (!fs.existsSync(monoRepo.packages)) {
     return {};
   }
   // For each non hidden directory, create an alias.
-  return fs.readdirSync(monoRepoPackageDir).reduce((acc, packageName) => {
+  return fs.readdirSync(monoRepo.packages).reduce((acc, packageName) => {
     // ignore any hidden files
     if (packageName[0] !== '.') {
-      addAlias(acc, packageName, path.join(monoRepoPackageDir, packageName), hotReloading, production);
+      addAlias(acc, packageName, path.join(monoRepo.packages, packageName), hotReloading, monoRepo.dist, monoRepo.source, production);
     }
     return acc;
   }, {});
@@ -56,11 +54,11 @@ const devSiteConfig = (env = {}, argv = {}) => {
   generateAppConfig(siteConfig, production, verbose);
 
   // Is hot reloading enabled?
-  const { hotReloading } = siteConfig;
+  const { hotReloading, monoRepo } = siteConfig;
 
   // Setup auto aliases.
   const alias = {
-    ...aliasMonoRepoPackages(hotReloading, production),
+    ...aliasMonoRepoPackages(hotReloading, monoRepo, production),
   };
 
   if (verbose) {

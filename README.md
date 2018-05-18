@@ -13,6 +13,8 @@
 
 Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and page configuration.
 
+The provided webpack config includes a call to the generateAppConfig script. The generateAppConfig script builds out static config to the ./dev-site-config/build folder. generateAppConfig also discovers pages based on it's configuration. After the static config has been built webpack continues to run, pulling in the static config, and producing the webpack bundle.
+
 Provides the following script:
 * `tds:generate-app-config`: generates the static files the site requires.
 
