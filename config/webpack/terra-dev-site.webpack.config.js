@@ -8,7 +8,7 @@ const fs = require('fs');
 /**
 * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
 */
-const addAlias = (acc, name, location, hotReloading, dist, source, production) => {
+const addAlias = (acc, name, location, hotReloading, { dist, source }, production) => {
   acc[name] = location;
   if (!production && hotReloading) {
     acc[path.join(name, dist)] = path.join(location, source);
@@ -16,9 +16,18 @@ const addAlias = (acc, name, location, hotReloading, dist, source, production) =
 };
 
 /**
+* Alias the current package. This is so you can reference examples as if they are external packages.
+*/
+const aliasCurrentPackage = (packageName, processPath, hotReloading, webpackAliasOptions, production) => {
+  const alias = {};
+  addAlias(alias, packageName, processPath, hotReloading, webpackAliasOptions, production);
+  return alias;
+};
+
+/**
 * Aliases all mono-repo packages. This ensures the correct module is hit if the site is hosting an item used to create itself (ouroboros).
 */
-const aliasMonoRepoPackages = (hotReloading, monoRepo, production) => {
+const aliasMonoRepoPackages = (hotReloading, monoRepo, webpackAliasOptions, production) => {
   // If no package directory is found, do nothing.
   if (!fs.existsSync(monoRepo.packages)) {
     return {};
@@ -54,11 +63,15 @@ const devSiteConfig = (env = {}, argv = {}) => {
   generateAppConfig(siteConfig, production, verbose);
 
   // Is hot reloading enabled?
-  const { hotReloading, monoRepo } = siteConfig;
+  const { hotReloading, monoRepo, webpackAliasOptions } = siteConfig;
+
+  // Get the default package name.
+  const packageName = siteConfig.npmPackage.name;
 
   // Setup auto aliases.
   const alias = {
-    ...aliasMonoRepoPackages(hotReloading, monoRepo, production),
+    ...aliasMonoRepoPackages(hotReloading, monoRepo, webpackAliasOptions, production),
+    ...aliasCurrentPackage(packageName, processPath, hotReloading, webpackAliasOptions, production),
   };
 
   if (verbose) {

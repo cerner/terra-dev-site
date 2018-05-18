@@ -38,11 +38,17 @@ const siteConfig = {
    */
   hotReloading: true,
 
-  /* Specifiy mono-repo settings.
-   *
+  /*
+   * Specifiy mono-repo settings. This will automatically alias package directories in webpack.
    */
   monoRepo: {
     packages: path.resolve(process.cwd(), 'packages'),
+  },
+
+  /* This will automatically alias package directories in webpack.
+   * Based on hot relaoding and prod settings dist will be aliased as source.
+   */
+  webpackAliasOptions: {
     source: 'src',
     dist: 'lib',
   },
