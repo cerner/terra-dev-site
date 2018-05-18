@@ -1,13 +1,12 @@
-
 const path = require('path');
 const toAST = require('to-ast');
 const escodegen = require('escodegen');
 
 /**
-* Writes out an object and imports as a code file.
+* Write out an object and imports as a code file.
 */
 const writeConfig = ({ config, imports }, fileName, filePath, fs) => {
-  // Convert object to AST
+  // Convert object to AST.
   const ast = toAST(config);
   // Convert AST to code string.
   const configString = escodegen.generate(ast,
@@ -23,13 +22,13 @@ const writeConfig = ({ config, imports }, fileName, filePath, fs) => {
   // Ensure the directory is there.
   fs.mkdirpSync(filePath);
 
-  // Gets the file import string
+  // Get the file import string.
   let importsString = '';
   if (imports) {
     importsString = imports.toCodeString();
   }
 
-  // Writes out the file.
+  // Write out the file.
   fs.writeFileSync(path.join(filePath, fileName), `${importsString}\n export default ${configString};\n`);
 };
 

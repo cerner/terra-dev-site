@@ -11,7 +11,6 @@ const propTypes = {
    * The content to be placed within the main content area of the container.
    */
   content: PropTypes.func,
-
   /**
    * The props to be applied to the content.
    */

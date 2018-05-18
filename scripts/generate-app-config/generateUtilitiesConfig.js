@@ -61,7 +61,7 @@ const generateUtilitiesConfig = (appConfig) => {
       accessory: utilsImports.addImport('terra-icon/lib/icon/IconSettings', 'IconSettings', '<IconSettings />'),
       menuItems: {
         key: 'menu',
-        title: 'Config',
+        title: 'Settings',
         childKeys: rootMenuChildKeys,
       },
       initialSelectedKey: 'menu',

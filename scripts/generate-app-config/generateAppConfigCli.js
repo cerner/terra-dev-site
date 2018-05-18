@@ -4,7 +4,6 @@ const generate = require('./generateAppConfig');
 const packageJson = require('../../package.json');
 const loadSiteConfig = require('./loadSiteConfig');
 
-
 // Parse process arguments
 commander
   .version(packageJson.version)

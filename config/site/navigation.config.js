@@ -1,22 +1,14 @@
 const navConfig = {
-  /*  navigation: {
-  *   The first page to route to for the site.
-  *   index: '/home',
-  *   List of Top level nav items.
-  *   links: [{
-  *     Path to the link.
-  *     path: '/tests',
-  *     Link Text
-  *     text: 'Tests',
-  *     Pages included in the link
-  *     pageTypes: ['test'],
-  *     Is link not included in top menu.
-  *     isHidden: true,
-  *   }],
-  *  },
-  */
   navigation: {
+    /* The first page to route to for the site. */
     index: '/home',
+    /** List of Top level nav items.
+     *   Link config options:
+     *      path: Path to the link.
+     *      text: The text to display on the navigation link
+     *      pageTypes: The page extension(s) that should be display in under this link
+     *      isHidden: (option) Whether or not to display the link in the top navigation
+     */
     links: [{
       path: '/home',
       text: 'Home',

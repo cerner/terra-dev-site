@@ -1,4 +1,3 @@
-
 const merge = require('webpack-merge');
 const terraDevSiteConfig = require('./terra-dev-site.webpack.config');
 

@@ -10,18 +10,18 @@ const siteConfig = {
   /* The navigation configuration.  */
   navConfig,
 
-  /* The path to the pages configuration. If this is enabled, page config will not be generated. */
-  // pagesConfig,
+  /* The path to the pages configuration. If this is enabled, the `generatePages` configuration will not be used. */
+  pagesConfig: undefined,
 
-  // These options are used to find the pages to serve via terra dev site.
-  // If 'pagesConfig' is provided, no pages will be generated.
-  // Output:
-  // {root}/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
-  // {root}/packages/*/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
-  // source will be used if hot reloading is enabled and not running in prod mode.
-  // source and dist are optional.
-  // *NOTE* The entryPoints also act as the beginning of the directory strucure for menu navigation.
-  // For example: /root/src/<entryPointDir>/folder/item would start navigation at 'folder'.
+  /** These options are used to find the pages to serve via terra dev site. If 'pagesConfig' is provided, this
+   * configuration is not used.
+   *   The search pattern key options:
+   *      root: there search pattern starts.
+   *      entryPoint: add to the search pattern and is the beginning of the directory structure
+   *           for menu navigation.
+   *      dist: (option) directory containing transpiled code to use if hot reloading is enabled and is in prod
+   *      source: (option) directory containing source code to use if hot reloading is enabled and not in prod mode
+   */
   generatePages: {
     searchPatterns: [
       {
@@ -33,27 +33,27 @@ const siteConfig = {
     ],
   },
 
-  /* Hot reloading section. On by default for dev builds.
+  /** Hot reloading section. On by default for dev builds.
    * This applies to the search patterns and mono-repo package aliasing.
    */
   hotReloading: true,
 
-  /* Specifiy mono-repo settings.
-   *
+  /** The mono-repo settings:
+   *   packages: path to the mono-repo packages
+   *   dist: the mono-repo directories containing transpiled code to use if hot reloading is enabled and is in prod
+   *   source: the mono-repo directories containing source code to use if hot reloading is enabled and not in prod mode
    */
   monoRepo: {
     packages: path.resolve(process.cwd(), 'packages'),
-    source: 'src',
     dist: 'lib',
+    source: 'src',
   },
 
   /* The parsed root level npm package. May need to change this if you have a non-standard package.json path. */
   npmPackage,
 
-  /* Side effect theme imports */
-  themeImports: [
-  //   './theme';
-  ],
+  /* The list of side effect theme file */
+  themeImports: [],
 
   /* Path to the image to display as page placeholder when a component does not render. */
   placeholderSrc: path.join(__dirname, '..', '..', 'terra.png'),
@@ -85,27 +85,28 @@ const siteConfig = {
     defaultTheme: 'Default Theme',
 
     /** The locales to supply Base with, which allows the site to switch
-      * between locales. English is the default language.
-      */
+     * between locales. English is the default language.
+     */
     locales: i18nSupportedLocales,
 
     /* The default locale of the site. 'en' is the default theme. */
     defaultLocale: 'en',
 
     /** Indicates if the site supports bidirectionality. If enabled, the directionality
-      * utility will display in the toolbar.
-      */
+     * utility will display in the toolbar.
+     */
     bidirectional: true,
-
 
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
-    /* Configuration relating to the extensions section of the site. Not rendered if extensions are supplied by navigation config */
-    // extensions: {
-    // //    The url to link to github. If this is supplied a github extention will be display to link to the supplied url
-    //   gitHubUrl: 'https://github.com/cerner',
-    // },
+    /** Configuration relating to the extensions section of the site.
+     *   Add like:
+     *     extensions: {
+     *       // The url to link to github. If this is supplied a github extention will be display to link to the supplied url
+     *       gitHubUrl: 'https://github.com/cerner',
+     *     },
+     */
 
     ...(npmPackage.repository.url) && {
       extensions: {

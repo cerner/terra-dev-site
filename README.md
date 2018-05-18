@@ -8,7 +8,7 @@
   Terra Dev Site
 </h1>
 
-[![NPM version](http://img.shields.io/npm/v/terra-dev-site.svg)](https://www.npmjs.org/package/terra-dev-site)
+[![NPM version](https://img.shields.io/npm/v/terra-dev-site.svg)](https://www.npmjs.org/package/terra-dev-site)
 [![Build Status](https://travis-ci.org/cerner/terra-dev-site.svg?branch=master)](https://travis-ci.org/cerner/terra-dev-site)
 
 Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and page configuration.
@@ -35,7 +35,7 @@ Provides the following default configuration:
 
 ## Versioning
 
-terra-dev-site is considered to be stable and will follow [SemVer](http://semver.org/) for versioning.
+terra-dev-site is considered to be stable and will follow [SemVer](https://semver.org/) for versioning.
 1. MAJOR versions represent breaking changes
 2. MINOR versions represent added functionality in a backwards-compatible manner
 3. PATCH versions represent backwards-compatible bug fixes

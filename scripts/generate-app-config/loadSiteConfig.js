@@ -3,7 +3,7 @@ const fs = require('fs');
 const defaultConfig = require('../../config/site/site.config.js');
 
 /**
-* Does the file path resolve to a file?
+* Detemine if the path resolves to a file.
 */
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
 
@@ -20,7 +20,7 @@ const applyDefaults = (filePath) => {
 };
 
 /**
-* Resolve the possible custom site config.
+* If the file path is valid, merge the custom site config with the defaults.
 */
 const resolve = (filePath) => {
   if (isFile(filePath)) {
@@ -30,21 +30,24 @@ const resolve = (filePath) => {
   return undefined;
 };
 
+
 /**
-* Finds the default site config, either the passed in config, the site config in the packages dev-site-config file or the default site config.
-*/
+ * Returns the site configuration. It will attempt to load the configuration from the provided configPath first or
+ * the defualt config path and then merge with the default config or it will just return the default site config.
+ */
 const loadSiteConfig = (configPath) => {
+  // Merge the provided site config with the defaults
   if (configPath) {
     return applyDefaults(path.resolve(configPath));
   }
 
-  // First try to find the local to process.cwd webpack config
+  // Try to find the site config at the defualt path and then merge it with the defaults
   const localConfig = resolve(path.resolve(process.cwd(), 'dev-site-config', 'site.config.js'));
   if (localConfig) {
     return localConfig;
   }
 
-  // If that is not found look for the terra-dev-site config.
+  // Return the defualt config
   return defaultConfig;
 };
 

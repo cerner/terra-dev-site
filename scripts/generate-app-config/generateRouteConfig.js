@@ -80,9 +80,9 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
     const routePath = `${rootPath}${page.path}`;
     let redirectRoute;
 
-    // if the given page, has sub menu items, add them to the overall route object.
+    // If the given page, has sub menu items, add them to the overall route object.
     if (hasSubMenu) {
-      // recursively call to get child content, and menu items
+      // Recursively call to get child content, and menu items
       const { content: childContent, menu: childMenu, menuItems: childMenuItems } = generateRouteConfig(page.pages, routePath, placeholder, routeImporter);
 
       content = Object.assign(content, childContent);
@@ -101,7 +101,7 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       }
     }
 
-    // provide the menu item for this content page.
+    // Provide the menu item for this content page.
     menuItems.push(menuItem(page.name, routePath, hasSubMenu));
 
     // If the pages has content, add the content render item. If not, add a placeholder item.
@@ -183,7 +183,7 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     let content = acc.content;
     let menu = acc.menu;
 
-    // build the 'page config' for the navigation links.
+    // Build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
 
     const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkPageConfig, '', placeholder, routeImporter);

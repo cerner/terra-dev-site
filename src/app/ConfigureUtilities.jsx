@@ -30,7 +30,6 @@ const updateSelectedItem = (parentMenuItem, selectedItem) => {
 };
 
 class ConfigureUtilties {
-
   static convertChildkeysToArray(config) {
     if (config === undefined) {
       return undefined;
@@ -63,4 +62,5 @@ class ConfigureUtilties {
     return updatedConfig;
   }
 }
+
 export default ConfigureUtilties;

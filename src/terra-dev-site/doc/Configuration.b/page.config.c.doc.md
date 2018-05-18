@@ -1,7 +1,36 @@
 # Page Config
 
-Page config is generally generated for you using the generatePages config ins the site.config, but if you need or want custom page config you can provide your own. Below is an example page config. The config is sorted by Pagetype with ordered arrays of child pages.
+## Auto Generated Page Config
 
+Terra-dev-site uses the pages configuration to recursively build the menu navigation and the content routes. The page config will be generated for you using the the `generatePages` config included in the site config. The following options available to be listed added as objects in `searchPatterns` key in the `generate-config`:
+ - root: there search pattern starts.
+ - entryPoint: add to the search pattern and is the beginning of the directory structure for menu navigation.
+ - dist: (option) directory containing transpiled code to use if hot reloading is enabled and is in prod
+ - source: (option) directory containing source code to use if hot reloading is enabled and not in prod mode
+
+When you start the site, the `generateAppConfig` script will use these to build the pages.
+
+## Custom Page Config
+
+If you need or want custom page config, you can provide your own by including the `pagesConfig` key in the site config. Below is an example page config. The config is sorted by `Pagetype` such that each page type key is an ordered arrays of page configurations.
+
+This page configuration must provide the `name`, and `path` keys. These keys are needed to successfully create the navigation and routes. Then use the following keys to add meaningful content:
+- `content` - the content to render at this route
+- `type` - the file type. Options include `js`, `jsx`, or `md`
+- `pages` - an array of pages configuration objects for nested navigation
+
+Terra-dev-site will create sub-navigation for any component configuration using the `pages` key and will add a default Placeholder to render at that route.
+
+#### Component API Example
+```
+  'get-started': {
+    name: 'Get Started',
+    path: '/get-started'
+    component: GetStarted,
+  },
+```
+
+#### Full Page Config Example
 ```javascript
 const config = {
   // doc and test map to page types specified in the navigation config.
@@ -9,16 +38,13 @@ const config = {
     {
       name: 'Getting Started',
       path: '/getting-started',
-      // anything other than a js or jsx file need a file extension. js and jsx files should
-      // not have a file extension because they may be transpliled.
       content: '../src/terra-dev-site/doc/gettingStarted.md',
-      // Type is required. Markdown documents are wrapped differently than js or jsx files.
       type: 'md'
     },
     {
       name: 'Configuration',
       path: '/configuration',
-      // Pages have the same schema as described above, can recurse infintely.
+      // Pages have the same schema as described above, can recurse infinitely.
       pages: [
         {
           name: 'site.config',

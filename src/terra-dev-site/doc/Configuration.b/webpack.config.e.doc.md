@@ -1,9 +1,9 @@
 # Webpack Config
-The provided webpack config is the entry point for spinning up terra-dev-site. By either extending or using directly the terra-dev-site config will be automatically created based on either the custom or default site config.
+[This webpack config](https://github.com/cerner/terra-dev-site/blob/master/config/webpack/terra-dev-site.webpack.config.js) is the entry point for spinning up terra-dev-site. By either extending or using directly terra-dev-site's webpack config, the site will render with either the custom or default site config.
 
-Because terra-dev-site webpack config is a function we recommend the usage of webpack-merge to extend the config.
+Because terra-dev-site's webpack config is a function, we recommend the usage of webpack-merge to extend the config.
 
-Something like this example where we're aliasing moment:
+Here is an example where we extend the default config to alias moment:
 ```javascript
 const path = require('path');
 const merge = require('webpack-merge');
@@ -16,7 +16,6 @@ const config = () => {
     resolve: {
       alias: {
         moment: momentAlias,
-        'terra-i18n': i18nAlias,
       },
     },
   };
@@ -28,8 +27,6 @@ const mergedConfig = (env, argv) => (
 
 module.exports = mergedConfig;
 ```
-
-[Source](https://github.com/cerner/terra-dev-site/blob/master/config/webpack/terra-dev-site.webpack.config.js)
 
 ## Points of interest
 * Extends [terra-toolkit webpack config](https://github.com/cerner/terra-toolkit/blob/master/config/webpack/webpack.config.js).

@@ -1,4 +1,3 @@
-
 /**
 * Generates the file representing navigation items.
 */

@@ -16,20 +16,37 @@ const siteConfig = {
   /* The navigation configuration.  */
   navConfig,
 
-  /* The path to the pages configuration. If this is enabled, page config will not be generated and generatePages will not be used. */
+  /* The path to the pages configuration. If this is enabled, the `generatePages` configuration will not be used. */
   pagesConfig,
 
-  // These options are used to find the pages to serve via terra dev site.
-  // If 'pagesConfig' is provided, no pages will be generated.
-  // Output:
-  // {root}/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
-  // {root}/packages/*/lib/{entryPoint}/**/*{pageType}.{jsx,js,md,}
-  // source will be used if hot reloading is enabled and not running in prod mode.
-  // source and dist are optional.
-  // *NOTE* The entryPoints also act as the beginning of the directory strucure for menu navigation.
-  // For example: /root/src/<entryPointDir>/folder/item would start navigation at 'folder'.
+  /** These options are used to find the pages to serve via terra dev site. If 'pagesConfig' is provided, this
+   * configuration is not used.
+   *   The search pattern key options:
+   *      root: there search pattern starts.
+   *      entryPoint: add to the search pattern and is the beginning of the directory structure
+   *           for menu navigation.
+   *      dist: (option) directory containing transpiled code to use if hot reloading is enabled and is in prod
+   *      source: (option) directory containing source code to use if hot reloading is enabled and not in prod mode
+   */
   generatePages: {
     searchPatterns: [
+      // In Prod & Dev & !hotReloading: Searches rootPaths/terra-dev-site/**/*{pageTypes}.{jsx,js,md,}
+      // In Prod & Dev & !hotReloading: Searches rootPaths/packages/*/terra-dev-site/**/*{pageTypes}.{jsx,js,md,}
+      {
+        root: process.cwd(),
+        entryPoint: 'terra-dev-site',
+      },
+      // In Prod & Dev & !hotReloading: Searches rootPaths/dist/examples/**/*{pageTypes}.{jsx,js,md,}
+      // In Prod & Dev & !hotReloading: Searches rootPaths/packages/*/dist/examples/**/*{pageTypes}.{jsx,js,md,}
+      {
+        root: process.cwd(),
+        dist: 'dist',
+        entryPoint: 'examples',
+      },
+      // In Prod & !hotReloading: Searches rootPaths/lib/terra-dev-site/**/*{pageTypes}.{jsx,js,md,}
+      // In Prod & !hotReloading: Searches rootPaths/packages/*/lib/terra-dev-site/**/*{pageTypes}.{jsx,js,md,}
+      // In Dev & hotReloading: Searches rootPaths/src/terra-dev-site/**/*{pageTypes}.{jsx,js,md,}
+      // In Dev & hotReloading: Searches rootPaths/packages/*/src/terra-dev-site/**/*{pageTypes}.{jsx,js,md,}
       {
         root: process.cwd(),
         source: 'src',
@@ -39,13 +56,13 @@ const siteConfig = {
     ],
   },
 
-  /* Hot reloading section. On by default for dev builds.
-   * This applies to the search patterns and mono-repo package aliasing.
+  /* Whether or not hot reloading section should be enabled. This applies to the search searchPatterns
+   * and mono-repo package aliasing. This is enabled by default for dev builds.
    */
   hotReloading: true,
 
-  /* Specifiy mono-repo settings. This will automatically alias package directories in webpack.
-   * Based on hot relaoding and prod settings dist will be aliased as source.
+  /** The mono-repo settings. This will automatically alias package directories in webpack.
+   * Based on hot reloading and prod settings dist will be aliased as source.
    */
   monoRepo: {
     packages: path.resolve(process.cwd(), 'packages'),
@@ -53,18 +70,13 @@ const siteConfig = {
     dist: 'lib',
   },
 
-  /* Additional alias to add to webpack, see webpacks doc for more info on aliases. */
-  webpackAliases: {
-    moment: '../node_modules/moment',
-  },
-
-  /* The mono repo package directory. If this is found aliases will be setup for the mono repo packages by default.
+  /** The mono repo package directory. If this is found aliases will be setup for the mono repo packages by default.
    * Defaults to the packages directory from the root dir.
    */
   monoRepoPackageDir: '../packages',
 
-  /* The actual parced package.json file. May need to change this if you have a non-standard package.json path.
-   * Defaults to the root dir package.json
+  /** The actual npm package.json file. Change this if you have a non-standard package.json path.
+   * Defaults to the <root_dir>/package.json
    */
   npmPackage,
 
@@ -73,25 +85,25 @@ const siteConfig = {
     '../theme';
   ],
 
-  /* Path to the image to display as page placeholder when a component does not render.
+  /** Path to the image to display as page placeholder when a component does not render.
    * Defaulted to the terra logo from this repo.
    */
   placeholderSrc: '../logo.png',
 
-  /* The README content to display on the home page. */
+  /** The README content to display on the home page.
    * Defaulted to the readme in the root directory.
    * Set to undefined to opt out.
    */
   readMeContent: '../README.md',
 
   appConfig: {
-    /* Path to the logo the site header should display.
+    /** Path to the logo the site header should display.
      * Defaulted to the terra logo from this repo.
      */
     logoSrc: '../logo.png',
 
-    /* The title the site header should display.
-     * Defaulted to the package name from the root package.json
+    /** The title the site header should display.
+     * Defaulted to the package name from the <root_dir>/package.json
      */
     title: 'Title'
 
@@ -99,9 +111,9 @@ const siteConfig = {
     favicon: '../favicon.ico',
 
     /** The themes to supply the ThemeProvider which allows the site to switch
-      * between themes. Providing multiple enables the theme utility to display
-      * in the header's toolbar.
-      */
+     * between themes. Providing multiple enables the theme utility to display
+     * in the header's toolbar.
+     */
     themes: {
       'Default Theme': '',
     },
@@ -112,26 +124,27 @@ const siteConfig = {
     defaultTheme: 'Default Theme',
 
     /** The locales to supply Base with, which allows the site to switch
-      * between locales. English is the default language.
-      * Defaulted to the suppported locals list in terra-18n
-      */
+     * between locales. English is the default language.
+     * Defaulted to the supported locals list in terra-18n
+     */
     locales: ['ar', 'en', 'en-US', 'en-GB', 'es', 'es-US', 'es-ES', 'de', 'fi-FI', 'fr', 'fr-FR', 'nl', 'nl-BE', 'pt', 'pt-BR'],
 
     /* The default locale of the site. 'en' is the default theme. */
     defaultLocale: 'en',
 
     /** Indicates if the site supports bidirectionality. If enabled, the directionality
-      * utility will display in the toolbar.
-      */
+     * utility will display in the toolbar.
+     */
     bidirectional: true,
 
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
-    /* Configuration relating to the extensions section of the site. Not rendered if extensions are supplied by navigation config */
+    /* Configuration relating to the extensions section of the site. */
     extensions: {
-      // The url to link to github. If this is supplied a github extention will be display to link to the supplied url
-      // Defaulted to the repository url specified in the root package.json
+      /** The url to link to github. If this is supplied a github extension will be display with a link to the supplied url.
+       * Defaulted to the repository url specified in the <root_dir>/package.json.
+       */
       gitHubUrl: 'https://github.com/cerner',
     },
   },

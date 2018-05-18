@@ -11,6 +11,7 @@ const RawRoute = (routingConfig, location, prefix) => {
     const routeData = routingConfig.content[route].component.default;
     const ComponentClass = routeData.componentClass;
     const componentProps = routeData.props;
+
     return <ComponentClass {...componentProps} />;
   }
   return 404;
