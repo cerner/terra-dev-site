@@ -8,10 +8,11 @@ const fs = require('fs');
 * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
 */
 const addAlias = (acc, name, location, hotReloading, { dist, source }, production) => {
-  acc[name] = location;
   if (!production && hotReloading) {
     acc[path.join(name, dist)] = path.join(location, source);
   }
+  // Always place the more specific aliases above the less specific aliases.
+  acc[name] = location;
 };
 
 /**
