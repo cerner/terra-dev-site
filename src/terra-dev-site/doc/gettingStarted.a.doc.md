@@ -1,6 +1,6 @@
 # Getting Started
 
-Terra-dev-site offers a quick site to host test examples and documentation for your react components or md documentation.
+Terra-dev-site offers a quick site to host test examples and documentation for your react components or markdown documentation.
 
 ## Quick start:
 

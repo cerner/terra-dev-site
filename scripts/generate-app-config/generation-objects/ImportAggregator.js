@@ -2,7 +2,7 @@ const IdentifierPlaceholder = require('./IdentifierPlaceholder');
 const path = require('path');
 
 /**
-* This class aggregates imports and helps insure things are included more than once.
+* This class aggregates imports and helps insure things are not included more than once.
 */
 class ImportAggregator {
   constructor() {
