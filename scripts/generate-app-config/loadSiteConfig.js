@@ -41,13 +41,13 @@ const loadSiteConfig = (configPath) => {
     return applyDefaults(path.resolve(configPath));
   }
 
-  // Try to find the site config at the defualt path and then merge it with the defaults
+  // Try to find the site config at the defualt path and then merge it with the defaults.
   const localConfig = resolve(path.resolve(process.cwd(), 'dev-site-config', 'site.config.js'));
   if (localConfig) {
     return localConfig;
   }
 
-  // Return the defualt config
+  // Return the default config.
   return defaultConfig;
 };
 
