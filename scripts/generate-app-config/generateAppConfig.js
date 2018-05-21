@@ -10,7 +10,7 @@ const generatePagesConfig = require('./generatePagesConfig');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 /**
-* Writes out a file consiting of the config and imports with the given file name to the specified path.
+* Writes out a file consisting of the config and imports with the given file name to the specified path.
 * Returns an object representing an imported variable.
 */
 const addConfig = (config, fileName, buildPath, fs, imports) => {
@@ -23,8 +23,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 };
 
 /**
-* Writes out a file consiting of the config and imports with the given file name to the specified path.
-* Returns an object representing an imported variable.
+* Writes out a file consisting of the app config and imports with the given file name to the specified path.
 */
 const generateAppConfig = (siteConfig, production, verbose) => {
   const imports = new ImportAggregator();
@@ -75,7 +74,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
-  // Add any side-effect theme imports
+  // Add any side-effect theme imports.
   themeImports.forEach(themePath => imports.addImport(ImportAggregator.relativePath(themePath)));
 
   // Building out the overall config import.

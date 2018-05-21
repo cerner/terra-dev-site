@@ -19,16 +19,16 @@ const menuItem = (text, itemPath, hasSubMenu) => ({
 });
 
 /**
-* Setup props for a route menu.
-*/
+ * Setup props for a route menu.
+ */
 const menuProps = (title, menuItems) => ({
   title,
   menuItems,
 });
 
 /**
-* Builds out a route item. Adds the props object conditionally.
-*/
+ * Builds out a route item. Adds the props object conditionally.
+ */
 const routeItem = (routePath, { contentPath, name }, props, routeImporter) => ({
   path: routePath,
   component: {
@@ -40,8 +40,8 @@ const routeItem = (routePath, { contentPath, name }, props, routeImporter) => ({
 });
 
 /**
-* Sets up content route item. All content items are wrapped with the content wrapper.
-*/
+ * Sets up content route item. All content items are wrapped with the content wrapper.
+ */
 const contentRouteItem = (routePath, { contentPath, name, identifier }, props, type, routeImporter) => {
   const relativeContent = routeImporter.addImport(ImportAggregator.relativePath(contentPath), name, identifier);
   let contentProps = {
@@ -68,8 +68,8 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
 };
 
 /**
-* Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
-*/
+ * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
+ */
 const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
   config.reduce((acc, page) => {
     let content = acc.content;

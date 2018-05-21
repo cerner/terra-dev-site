@@ -5,7 +5,7 @@ const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig
 const fs = require('fs');
 
 /**
-* Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
+* Adds the dist and source alias if not in prod mode and hot reloading is enabled.
 */
 const addAlias = (acc, name, location, hotReloading, { dist, source }, production) => {
   if (!production && hotReloading) {
@@ -25,9 +25,9 @@ const aliasCurrentPackage = (packageName, processPath, hotReloading, webpackAlia
 };
 
 /**
-* Aliases all mono-repo packages. This ensures the correct module is hit if the site is hosting an item used to create itself (ouroboros).
+* Aliases all mono-repo packages. This ensures the correct module is used if the site is hosting an item used to create itself (ouroboros).
 */
-const aliasMonoRepoPackages = (hotReloading, monoRepo, webpackAliasOptions = {}, production) => {
+const aliasMonoRepoPackages = (monoRepo, hotReloading, webpackAliasOptions = {}, production) => {
   // If no package directory is found, do nothing.
   if (!fs.existsSync(monoRepo.packages)) {
     return {};
@@ -50,27 +50,27 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const processPath = process.cwd();
   const verbose = env.verboseGenerateAppConfig;
 
-  // Get the root path of a mono-repo process call
+  // Get the root path of a mono-repo process call.
   const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
 
-  // Get the site configuration to add as a resolve path
+  // Get the site configuration to add as a resolve path. If present, this will be used by webpack instead of terra-dev-site's default config.
   const devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
 
-  // Get default site config.
+  // Load the site configuration.
   const siteConfig = loadSiteConfig();
 
   // Generate the files need to spin up the site.
   generateAppConfig(siteConfig, production, verbose);
 
-  // Is hot reloading enabled?
-  const { hotReloading, monoRepo, webpackAliasOptions } = siteConfig;
-
   // Get the default package name.
   const packageName = siteConfig.npmPackage.name;
 
-  // Setup auto aliases.
+  // Is hot reloading enabled?
+  const { hotReloading, monoRepo, webpackAliasOptions } = siteConfig;
+
+  // Add the auto aliases for the current packages and all mono-repo packages.
   const alias = {
-    ...aliasMonoRepoPackages(hotReloading, monoRepo, webpackAliasOptions, production),
+    ...aliasMonoRepoPackages(monoRepo, hotReloading, webpackAliasOptions, production),
     ...aliasCurrentPackage(packageName, processPath, hotReloading, webpackAliasOptions, production),
   };
 

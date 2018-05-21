@@ -4,8 +4,8 @@ const kebabCase = require('lodash.kebabcase');
 const lodashStartCase = require('lodash.startcase');
 
 /**
-* Cheat. If the filename still contains a period, don't run startcase. This allows for filenames of version (v0.5.0)
-*/
+ * Cheat. If the filename still contains a period, don't run startcase. This allows for filenames of version (v0.5.0).
+ */
 const startCase = (string) => {
   if (string.includes('.')) {
     return string;
@@ -14,18 +14,18 @@ const startCase = (string) => {
 };
 
 /**
-* Gathers the complete set of requested page types.
-*/
+ * Gathers the complete set of requested page types.
+ */
 const pageTypes = navConfig => (navConfig.navigation.links.reduce((acc, link) => acc.concat(link.pageTypes), []));
 
 /**
-* Gets the path relative to the dev-site-config directory.
-*/
+ * Gets the path relative to the dev-site-config directory.
+ */
 const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config'), componentPath));
 
 /**
-* Provides the namespace for the package in this order, mono repo package, node_modules package, provided package name.
-*/
+ * Provides the namespace for the package in this order, mono repo package, node_modules package, provided package name.
+ */
 const getNamespace = (directory, namespace) => {
   const afterPackages = (/packages\/([^/]*)/.exec(directory) || {})[1];
   const afterNodeModules = (/node_modules\/([^/]*)/.exec(directory) || {})[1];
@@ -34,8 +34,8 @@ const getNamespace = (directory, namespace) => {
 };
 
 /**
-* Returns an array of routes based on folder path.
-*/
+ * Returns an array of routes based on folder path.
+ */
 const getRoutes = (directory, type, fileName, entryPoint) => {
   // Remove the directories up to the entry point.
   const modifiedDirectory = directory.replace(entryPoint, '');
@@ -45,7 +45,7 @@ const getRoutes = (directory, type, fileName, entryPoint) => {
   // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
   routes.shift();
 
-  // Trim the first folder after entrypoints if it is named the same as type
+  // Trim the first folder after entrypoints if it is named the same as the page type.
   if ((routes[0] || '').toUpperCase() === type.toUpperCase()) {
     routes = routes.slice(1);
   }
@@ -56,16 +56,16 @@ const getRoutes = (directory, type, fileName, entryPoint) => {
   return routes;
 };
 
-/**
-* Returns an object of the end most extention and the filename minus that extension. This may be used mulitiple times on a string to retirve all extensions.
-*/
+/** Returns an object of the end most extention and the filename minus that extension.
+ * This may be used mulitiple times on a string to retirve all extensions.
+ */
 const parseExtension = fileName => ({
   name: fileName.replace(/\.[^.]+$/, ''),
   extension: /[^.]+$/.exec(fileName)[0],
 });
 
 /**
-* Creates and object the basic page config. name of the page, the route to the page and the sort group for the page.
+* Creates the basic page config consisting of name of the page, the route to the page and the sort group for the page.
 */
 const pageConfig = (route, namespace) => {
   // Grab the group extension if one exists.
@@ -121,9 +121,9 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     }
 
     const directory = parsedPath.dir;
-    // drop the period for the extenion
+    // Drop the period for the extenion.
     const ext = parsedPath.ext.slice(1);
-    // for jsx or js files, we want to drop the extention for including them, because we don't know if the file will be transpiled.
+    // For jsx or js files, we want to drop the extention for including them, because we don't know if the file will be transpiled.
     const fileName = (ext === 'jsx' || ext === 'js') ? parsedPath.name : parsedPath.base;
     const contentPath = relativePath(path.join(directory, fileName));
     const routes = getRoutes(directory, fileType, name, entryPoint);
@@ -137,7 +137,7 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
 );
 
 /**
-* Simple alpha sort. Copied from MDN, if I'm being honest.
+* Simple alpha sort. Copied from MDN, if I'm (Matt) being honest.
 */
 const alphaSort = (a, b) => {
   const nameA = (a || '').toUpperCase(); // ignore upper and lowercase

@@ -7,20 +7,20 @@ const path = require('path');
 const npmPackage = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
 
 const siteConfig = {
-  /* The navigation configuration.  */
+  /* The navigation configuration. */
   navConfig,
 
   /* The path to the pages configuration. If this is enabled, the `generatePages` configuration will not be used. */
   pagesConfig: undefined,
 
-  /** These options are used to find the pages to serve via terra dev site. If 'pagesConfig' is provided, this
+  /** These options are used to find the pages to serve via terra-dev-site. If 'pagesConfig' is provided, this
    * configuration is not used.
    *   The search pattern key options:
-   *      root: there search pattern starts.
-   *      entryPoint: add to the search pattern and is the beginning of the directory structure
-   *           for menu navigation.
-   *      dist: (option) directory containing transpiled code to use if hot reloading is enabled and is in prod
-   *      source: (option) directory containing source code to use if hot reloading is enabled and not in prod mode
+   *      root: where the search pattern starts.
+   *      entryPoint: added to the search pattern and is where the of the directory structure
+   *           for menu navigation will begin.
+   *      dist: (option) the directory containing transpiled code to use if hot reloading is enabled and is in prod.
+   *      source: (option) the directory containing source code to use if hot reloading is enabled and not in prod mode.
    */
   generatePages: {
     searchPatterns: [
@@ -33,38 +33,38 @@ const siteConfig = {
     ],
   },
 
-  /** Hot reloading section. On by default for dev builds.
-   * This applies to the search patterns and mono-repo package aliasing.
+  /** Whether or not hot reloading section should be enabled. This applies to the search searchPatterns
+   * and mono-repo package aliasing. This is enabled by default for dev builds.
    */
   hotReloading: true,
 
-  /*
-   * Specifiy the mono-repo path. This will automatically alias package directories in webpack.
-   */
+  /* The mono-repo path. This is used to automatically alias package directories in webpack. */
   monoRepo: {
     packages: path.resolve(process.cwd(), 'packages'),
   },
 
-   /** This will automatically alias package directories in webpack. Based on hot relaoding and prod settings
-    *  dist will be aliased as source.
-    *     dist: the directories containing transpiled code to use if hot reloading is enabled and is in prod
-    *     source: the directories containing source code to use if hot reloading is enabled and not in prod mode
-    */
+  /** This options will automatically alias package directories in webpack based on hot reloading and prod settings.
+   *  Note: dist will be aliased as source.
+   *     dist: the directories containing transpiled code to use if hot reloading is enabled and is in prod.
+   *     source: the directories containing source code to use if hot reloading is enabled and not in prod mode.
+   */
   webpackAliasOptions: {
     dist: 'lib',
     source: 'src',
   },
 
-  /* The parsed root level npm package. May need to change this if you have a non-standard package.json path. */
+  /** The root-level npm package.json file. Change this if you have a non-standard package.json path.
+   * Defaults to the <root_dir>/package.json
+   */
   npmPackage,
 
-  /* The list of side effect theme file */
+  /* The list of side effect theme files. */
   themeImports: [],
 
   /* Path to the image to display as page placeholder when a component does not render. */
   placeholderSrc: path.join(__dirname, '..', '..', 'terra.png'),
 
-  /* The README content to display on the home page. */
+  /* The README content to display on the home page. Set to undefined to opt out. */
   readMeContent: path.resolve(process.cwd(), 'README.md'),
 
   appConfig: {
@@ -91,7 +91,7 @@ const siteConfig = {
     defaultTheme: 'Default Theme',
 
     /** The locales to supply Base with, which allows the site to switch
-     * between locales. English is the default language.
+     * between locales. Defaulted to the supported locals list in terra-18n.
      */
     locales: i18nSupportedLocales,
 
@@ -106,14 +106,13 @@ const siteConfig = {
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
-    /** Configuration relating to the extensions section of the site.
+    /** The configuration for adding the external extensions section of the site.
      *   Add like:
      *     extensions: {
      *       // The url to link to github. If this is supplied a github extention will be display to link to the supplied url
      *       gitHubUrl: 'https://github.com/cerner',
      *     },
      */
-
     ...(npmPackage.repository.url) && {
       extensions: {
         gitHubUrl: npmPackage.repository.url.replace('git+', ''),

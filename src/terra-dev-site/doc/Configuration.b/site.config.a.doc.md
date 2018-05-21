@@ -13,20 +13,20 @@ const path = require('path');
 const npmPackage = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
 
 const siteConfig = {
-  /* The navigation configuration.  */
+  /* The navigation configuration. */
   navConfig,
 
   /* The path to the pages configuration. If this is enabled, the `generatePages` configuration will not be used. */
   pagesConfig,
 
-  /** These options are used to find the pages to serve via terra dev site. If 'pagesConfig' is provided, this
+  /** These options are used to find the pages to serve via terra-dev-site. If 'pagesConfig' is provided, this
    * configuration is not used.
    *   The search pattern key options:
-   *      root: there search pattern starts.
-   *      entryPoint: add to the search pattern and is the beginning of the directory structure
-   *           for menu navigation.
-   *      dist: (option) directory containing transpiled code to use if hot reloading is enabled and is in prod
-   *      source: (option) directory containing source code to use if hot reloading is enabled and not in prod mode
+   *      root: where the search pattern starts.
+   *      entryPoint: added to the search pattern and is where the of the directory structure
+   *           for menu navigation will begin.
+   *      dist: (option) the directory containing transpiled code to use if hot reloading is enabled and is in prod.
+   *      source: (option) the directory containing source code to use if hot reloading is enabled and not in prod mode.
    */
   generatePages: {
     searchPatterns: [
@@ -56,30 +56,32 @@ const siteConfig = {
     ],
   },
 
-  /* Whether or not hot reloading section should be enabled. This applies to the search searchPatterns
+  /** Whether or not hot reloading section should be enabled. This applies to the search searchPatterns
    * and mono-repo package aliasing. This is enabled by default for dev builds.
    */
   hotReloading: true,
 
-  /* Specify the mono-repo path. This will automatically alias package directories in webpack. */
+  /* The mono-repo path. This is used to automatically alias package directories in webpack. */
   monoRepo: {
     packages: path.resolve(process.cwd(), 'packages'),
   },
 
-  /* This will automatically alias package directories in webpack.
-   * Based on hot reloading and prod settings dist will be aliased as source.
+  /** This options will automatically alias package directories in webpack based on hot reloading and prod settings.
+   *  Note: dist will be aliased as source.
+   *     dist: the directories containing transpiled code to use if hot reloading is enabled and is in prod.
+   *     source: the directories containing source code to use if hot reloading is enabled and not in prod mode.
    */
   webpackAliasOptions: {
     source: 'src',
     dist: 'lib',
   },
 
-  /** The actual npm package.json file. Change this if you have a non-standard package.json path.
+  /** The root-level npm package.json file. Change this if you have a non-standard package.json path.
    * Defaults to the <root_dir>/package.json
    */
   npmPackage,
 
-  /* Side effect theme imports */
+  /* Side effect theme imports. */
   themeImports: [
     '../theme';
   ],
@@ -123,8 +125,7 @@ const siteConfig = {
     defaultTheme: 'Default Theme',
 
     /** The locales to supply Base with, which allows the site to switch
-     * between locales. English is the default language.
-     * Defaulted to the supported locals list in terra-18n
+     * between locales. Defaulted to the supported locals list in terra-18n.
      */
     locales: ['ar', 'en', 'en-US', 'en-GB', 'es', 'es-US', 'es-ES', 'de', 'fi-FI', 'fr', 'fr-FR', 'nl', 'nl-BE', 'pt', 'pt-BR'],
 
@@ -139,7 +140,7 @@ const siteConfig = {
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
-    /* Configuration relating to the extensions section of the site. */
+    /* The configuration for adding the external extensions section of the site. */
     extensions: {
       /** The url to link to github. If this is supplied a github extension will be display with a link to the supplied url.
        * Defaulted to the repository url specified in the <root_dir>/package.json.

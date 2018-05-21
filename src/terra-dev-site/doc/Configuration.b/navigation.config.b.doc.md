@@ -13,7 +13,7 @@ const navConfig = {
       path: '/tests',
       // The text to display on the navigation link
       text: 'Tests',
-      // The page extension(s) that should be display in under this link
+      // The page extension(s) that should be displayed under this link
       pageTypes: ['test'],
       // Whether or not to display the link in the top navigation
       isHidden: true,
