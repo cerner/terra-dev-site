@@ -50,11 +50,8 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const processPath = process.cwd();
   const verbose = env.verboseGenerateAppConfig;
 
-  // Get the root path of a mono-repo process call
-  const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
-
   // Get the site configuration to add as a resolve path
-  const devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
+  const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
 
   // Get default site config.
   const siteConfig = loadSiteConfig();
