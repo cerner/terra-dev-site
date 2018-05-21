@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
-const fs = require('fs');
+const glob = require('glob');
 
 /**
 * Adds the dist and source alias if not in prod mode and hot reloading is enabled.
@@ -28,16 +28,12 @@ const aliasCurrentPackage = (packageName, processPath, hotReloading, webpackAlia
 * Aliases all mono-repo packages. This ensures the correct module is used if the site is hosting an item used to create itself (ouroboros).
 */
 const aliasMonoRepoPackages = (monoRepo, hotReloading, webpackAliasOptions = {}, production) => {
-  // If no package directory is found, do nothing.
-  if (!fs.existsSync(monoRepo.packages)) {
-    return {};
-  }
-  // For each non hidden directory, create an alias.
-  return fs.readdirSync(monoRepo.packages).reduce((acc, packageName) => {
-    // ignore any hidden files
-    if (packageName[0] !== '.') {
-      addAlias(acc, packageName, path.join(monoRepo.packages, packageName), hotReloading, webpackAliasOptions, production);
-    }
+  // Use glob to discover all valid package directories. Chop the filename off.
+  const packagePaths = glob.sync(path.join(monoRepo.packages, '*', 'package.json')).map(pkgPath => path.dirname(pkgPath));
+
+  // For each directoryPath, create an alias.
+  return packagePaths.reduce((acc, packagePath) => {
+    addAlias(acc, path.basename(packagePath), packagePath, hotReloading, webpackAliasOptions, production);
     return acc;
   }, {});
 };
