@@ -192,15 +192,15 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   // Get the default search patterns for both normal and lerna mono repos.
   const patterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
-    const souceDir = ((!production && hotReloading) ? source : dist) || '';
+    const sourceDir = ((!production && hotReloading) ? source : dist) || '';
     acc.push({
-      pattern: path.join(root, souceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),
-      entryPoint: path.join(root, souceDir, entryPoint),
+      pattern: path.join(root, sourceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),
+      entryPoint: path.join(root, sourceDir, entryPoint),
     });
     acc.push({
-      pattern: path.join(root, 'packages', '*', souceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),
+      pattern: path.join(root, 'packages', '*', sourceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),
       // build out a regex for the entrypoint mask.
-      entryPoint: path.join(root, 'packages', '[^/]*', souceDir, entryPoint),
+      entryPoint: path.join(root, 'packages', '[^/]*', sourceDir, entryPoint),
     });
     return acc;
   }, []);
