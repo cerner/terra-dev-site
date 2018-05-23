@@ -29,7 +29,10 @@ const aliasCurrentPackage = (packageName, processPath, hotReloading, webpackAlia
 */
 const aliasMonoRepoPackages = (monoRepo, hotReloading, webpackAliasOptions = {}, production) => {
   // Use glob to discover all valid package directories. Chop the filename off.
-  const packagePaths = glob.sync(path.join(monoRepo.packages, '*', 'package.json')).map(pkgPath => path.dirname(pkgPath));
+  const packagePaths = monoRepo.packages.reduce((acc, packageDir) => (
+    acc.concat(glob.sync(path.join(packageDir, '*', 'package.json')))
+  ), []).map(pkgPath => path.dirname(pkgPath));
+  // const packagePaths = glob.sync(path.join(monoRepo.packages, '*', 'package.json')).map(pkgPath => path.dirname(pkgPath));
 
   // For each directoryPath, create an alias.
   return packagePaths.reduce((acc, packagePath) => {
