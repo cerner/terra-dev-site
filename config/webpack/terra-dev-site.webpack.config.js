@@ -1,32 +1,94 @@
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const fs = require('fs');
+const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
+const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
+const glob = require('glob');
 
-const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
+/**
+* Adds the dist and source alias if not in prod mode and hot reloading is enabled.
+*/
+const addAlias = (acc, name, location, hotReloading, { dist, source }, production) => {
+  if (!production && hotReloading) {
+    acc[path.join(name, dist)] = path.join(location, source);
+  }
+  // Always place the more specific aliases above the less specific aliases.
+  acc[name] = location;
+};
 
-const devSiteConfig = () => {
+/**
+* Alias the current package. This is so you can reference examples as if they are external packages.
+*/
+const aliasCurrentPackage = (packageName, processPath, hotReloading, webpackAliasOptions = {}, production) => {
+  const alias = {};
+  addAlias(alias, packageName, processPath, hotReloading, webpackAliasOptions, production);
+  return alias;
+};
+
+/**
+* Aliases all mono-repo packages. This ensures the correct module is used if the site is hosting an item used to create itself (ouroboros).
+*/
+const aliasMonoRepoPackages = (monoRepo, hotReloading, webpackAliasOptions = {}, production) => {
+  // Use glob to discover all valid package directories. Chop the filename off.
+  const packagePaths = monoRepo.packages.reduce((acc, packageDir) => (
+    acc.concat(glob.sync(path.join(packageDir, '*', 'package.json')))
+  ), []).map(pkgPath => path.dirname(pkgPath));
+  // const packagePaths = glob.sync(path.join(monoRepo.packages, '*', 'package.json')).map(pkgPath => path.dirname(pkgPath));
+
+  // For each directoryPath, create an alias.
+  return packagePaths.reduce((acc, packagePath) => {
+    addAlias(acc, path.basename(packagePath), packagePath, hotReloading, webpackAliasOptions, production);
+    return acc;
+  }, {});
+};
+
+/**
+* Generates the file representing app name configuration.
+*/
+const devSiteConfig = (env = {}, argv = {}) => {
+  const production = argv.p;
   const processPath = process.cwd();
-  /* Get the root path of a mono-repo process call */
-  const rootPath = processPath.includes('packages') ? processPath.split('packages')[0] : processPath;
+  const verbose = env.verboseGenerateAppConfig;
 
-  /* Get the site configuration to add as a resolve path */
-  let devSiteConfigPath = path.resolve(path.join(rootPath, 'dev-site-config'));
-  const customSiteConfigPath = path.join(devSiteConfigPath, 'site.config.js');
-  if (!isFile(customSiteConfigPath)) {
-    devSiteConfigPath = path.join('lib', 'config');
+  // Get the site configuration to add as a resolve path
+  const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
+
+  // Load the site configuration.
+  const siteConfig = loadSiteConfig();
+
+  // Generate the files need to spin up the site.
+  generateAppConfig(siteConfig, production, verbose);
+
+  // Get the default package name.
+  const packageName = siteConfig.npmPackage.name;
+
+  // Is hot reloading enabled?
+  const { hotReloading, monoRepo, webpackAliasOptions } = siteConfig;
+
+  // Add the auto aliases for the current packages and all mono-repo packages.
+  const alias = {
+    ...aliasMonoRepoPackages(monoRepo, hotReloading, webpackAliasOptions, production),
+    ...aliasCurrentPackage(packageName, processPath, hotReloading, webpackAliasOptions, production),
+  };
+
+  if (verbose) {
+    // eslint-disable-next-line no-console
+    console.log('Generated Aliases', alias);
   }
 
   return {
     entry: {
       'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
     },
-    plugins: [new HtmlWebpackPlugin({
-      title: 'Site',
-      template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
-    })],
+    plugins: [
+      new HtmlWebpackPlugin({
+        title: siteConfig.appConfig.title,
+        template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
+        favicon: siteConfig.appConfig.favicon,
+      }),
+    ],
     resolve: {
       modules: [devSiteConfigPath],
+      alias,
     },
   };
 };

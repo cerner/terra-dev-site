@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, matchPath, Switch, Route } from 'react-router-dom';
+import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Base from 'terra-base';
 import ThemeProvider from 'terra-theme-provider';
@@ -164,7 +164,7 @@ class App extends React.Component {
                 nameConfig={nameConfig}
                 utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
                 routingConfig={routingConfig}
-                navigationItems={!matchPath(location.pathname, '/tests') ? navigationItems : undefined}
+                navigationItems={navigationItems}
                 extensions={extensions}
                 indexPath={indexPath}
                 navigationAlignment="start"

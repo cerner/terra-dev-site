@@ -1,22 +1,16 @@
 const navConfig = {
-  rootPath: '/dev-site',
   navigation: {
-    index: '/dev-site/home',
+    index: '/home',
     links: [{
-      path: '/dev-site/home',
+      path: '/home',
       text: 'Home',
-      exampleType: 'home',
+      pageTypes: ['home'],
     }, {
-      path: '/dev-site/getting-started',
+      path: '/getting-started',
       text: 'Getting Started',
-      exampleType: 'docs',
-      hasSubNav: true,
-      menuProps: {
-        menuText: 'Getting Started',
-        subMenuText: 'Info',
-      },
+      pageTypes: ['doc'],
     }],
   },
 };
 
-export default navConfig;
+module.exports = navConfig;
