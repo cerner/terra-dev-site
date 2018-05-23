@@ -38,7 +38,7 @@ const siteConfig = {
    */
   hotReloading: true,
 
-  /* The mono-repo package path. This is used to automatically alias package directories in webpack. We can support multiple */
+  /* The mono-repo package path(s). This is used to automatically alias package directories in webpack. We can support multiple. */
   monoRepo: {
     packages: [
       path.resolve(process.cwd(), 'packages'),
