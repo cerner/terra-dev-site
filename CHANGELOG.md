@@ -4,6 +4,17 @@ Changelog
 Unreleased
 ----------
 
+1.0.0 - (May 23, 2018)
+----------
+### Breaking Changed
+* Hot reloading (for most cases).
+* Fully dynamic page generation, beyond just site pages and tests.
+* More intelligent defaults, it's possible to enable terra-dev-site with zero config.
+* First class markdown document support.
+* Eliminate the need check-in the generated config.
+* Auto aliasing for mono-repo packages.
+* Favicon support.
+
 0.6.0 - (May 8, 2018)
 ----------
 ### Changed
