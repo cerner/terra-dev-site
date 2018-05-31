@@ -84,6 +84,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
         title: siteConfig.appConfig.title,
         template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
         lang: siteConfig.appConfig.defaultLocale,
+        dir: siteConfig.appConfig.defaultDirection,
         favicon: siteConfig.appConfig.favicon,
       }),
     ],

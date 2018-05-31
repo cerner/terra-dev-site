@@ -47,14 +47,6 @@ const propTypes = {
    */
   indexPath: PropTypes.string.isRequired,
   /**
-  * The locale the site should default to.
-   */
-  defaultLocale: PropTypes.string,
-  /**
-   * The directionality the site should default to. Either 'ltr' or 'rtl'.
-   */
-  defaultDir: PropTypes.string,
-  /**
    * The theme the site should default to.
    */
   defaultTheme: PropTypes.string,
@@ -73,10 +65,8 @@ const propTypes = {
 
 const defaultProps = {
   nameConfig: undefined,
-  defaultDir: undefined,
   defaultTheme: undefined,
   themes: undefined,
-  defaultLocale: undefined,
   navigationItems: undefined,
   extensions: undefined,
   routingConfig: undefined,
@@ -93,7 +83,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dir: props.defaultDir,
+      dir: document.getElementsByTagName('html')[0].getAttribute('dir'),
       locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
       theme: props.defaultTheme,
     };
@@ -102,24 +92,6 @@ class App extends React.Component {
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
 
     this.utilityConfig = this.setupUtilityConfig(props.utilityConfig);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (App.propExistsAndChanged(nextProps.defaultLocale, this.props.defaultLocale)) {
-      document.getElementsByTagName('html')[0].setAttribute('lang', nextProps.defaultLocale);
-      this.setState({ locale: nextProps.defaultLocale });
-    }
-
-    if (App.propExistsAndChanged(nextProps.defaultTheme, this.props.defaultTheme)) {
-      this.setState({ theme: nextProps.defaultTheme });
-    }
-
-    if (App.propExistsAndChanged(nextProps.defaultDir, this.props.defaultDir)) {
-      document.getElementsByTagName('html')[0].setAttribute('dir', nextProps.defaultDir);
-      this.setState({ dir: nextProps.defaultDir });
-    }
-
-    this.utilityConfig = this.setupUtilityConfig(nextProps.utilityConfig);
   }
 
   setupUtilityConfig(utilityConfig) {
