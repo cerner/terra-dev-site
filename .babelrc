@@ -1,4 +1,4 @@
 {
   "presets": ["es2015", "react"],
-  "plugins": ["transform-object-assign", "transform-object-rest-spread", "dynamic-import-node"],
+  "plugins": ["transform-object-assign", "transform-object-rest-spread"],
 }

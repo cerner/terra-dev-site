@@ -6,14 +6,37 @@ Unreleased
 ### Changed
 - Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
 
+1.0.0 - (May 23, 2018)
+----------
+### Breaking Changed
+* Hot reloading (for most cases).
+* Fully dynamic page generation, beyond just site pages and tests.
+* More intelligent defaults, it's possible to enable terra-dev-site with zero config.
+* First class markdown document support.
+* Eliminate the need check-in the generated config.
+* Auto aliasing for mono-repo packages.
+* Favicon support.
+
+0.6.0 - (May 8, 2018)
+----------
+### Changed
+* Updated to use terra-application-layout v2.0.0
+
+0.5.0 - (April 24, 2018)
+----------
+### Breaking Changed
+* Webpack 4
+* Consume terra-toolkit v3
+* See [upgrade guide](https://github.com/cerner/terra-dev-site/blob/master/docs/TerraDevSiteUpgradeGuide-v0.5.0.md).
+
 0.4.2 - (April 16, 2018)
 ----------
-### Changes
+### Changed
 * Load config into index.jsx statically instead of dynamically.
 
 0.4.1 - (April 11, 2018)
 ----------
-### Changes
+### Changed
 * Removed express service script.
 
 0.4.0 - (April 11, 2018)
@@ -87,7 +110,7 @@ Unreleased
 
 2.0.0-RC.3 - (February 1, 2018)
 ----------
-### Changed
+###
 - Set the default componentConfigPath to be the default generated-component-config output location.
 
 ### Fixed

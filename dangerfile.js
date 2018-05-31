@@ -16,17 +16,23 @@ const modifiedSrcFiles = danger.git.modified_files.filter((filePath) => {
   return srcFilePattern.test(filePath);
 });
 
+const modifiedConfigFiles = danger.git.modified_files.filter((filePath) => {
+  const configFilePattern = /\/src/i;
+  return configFilePattern.test(filePath);
+});
+
 const modifiedGenerateConfigScriptFiles = danger.git.modified_files.filter((filePath) => {
-  const srcFilePattern = /\/generate-component-config/i;
+  const srcFilePattern = /\/scripts\/generate-app-config/i;
   return srcFilePattern.test(filePath);
 });
 
 const hasCHANGELOGChanges = modifiedChangelog.length > 0 || newChangelog.length > 0;
 const hasModifiedSrcFiles = modifiedSrcFiles.length > 0;
+const hasModifiedConfigFiles = modifiedConfigFiles.length > 0;
 const hasModifiedGenerateConfigScriptFiles = modifiedGenerateConfigScriptFiles.length > 0;
 
 // Fail if there are src code changes without a CHANGELOG update
-if ((hasModifiedSrcFiles || hasModifiedGenerateConfigScriptFiles) && !hasCHANGELOGChanges) {
+if ((hasModifiedSrcFiles || hasModifiedConfigFiles || hasModifiedGenerateConfigScriptFiles) && !hasCHANGELOGChanges) {
   fail('Please include a CHANGELOG entry with this PR.');
 }
 

@@ -8,19 +8,21 @@
   Terra Dev Site
 </h1>
 
-[![NPM version](http://img.shields.io/npm/v/terra-dev-site.svg)](https://www.npmjs.org/package/terra-dev-site)
+[![NPM version](https://img.shields.io/npm/v/terra-dev-site.svg)](https://www.npmjs.org/package/terra-dev-site)
 [![Build Status](https://travis-ci.org/cerner/terra-dev-site.svg?branch=master)](https://travis-ci.org/cerner/terra-dev-site)
 
-Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.
+Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and page configuration.
+
+The provided webpack config includes a call to the generateAppConfig script. The generateAppConfig script builds out static config to the ./dev-site-config/build folder. generateAppConfig also discovers pages based on it's configuration. After the static config has been built webpack continues to run, pulling in the static config, and producing the webpack bundle.
 
 Provides the following script:
-* `generate-component-config`: generates the component configuration needed to build the site.
+* `tds:generate-app-config`: generates the static files the site requires.
 
 Provides the following default configuration:
-* `site.config.js`
-* `navigation.config.js`
-* `webpack.config.js`
-* `webpack.prod.config.js`
+* `config/site/site.config.js`
+* `config/site/navigation.config.js`
+* `config/webpack/webpack.config.js`
+* `config/wdio/wdio.conf.js`
 
 - [Getting Started](#getting-started)
 - [Versioning](#versioning)
@@ -33,7 +35,7 @@ Provides the following default configuration:
 
 ## Versioning
 
-terra-dev-site is considered to be stable and will follow [SemVer](http://semver.org/) for versioning.
+terra-dev-site is considered to be stable and will follow [SemVer](https://semver.org/) for versioning.
 1. MAJOR versions represent breaking changes
 2. MINOR versions represent added functionality in a backwards-compatible manner
 3. PATCH versions represent backwards-compatible bug fixes
