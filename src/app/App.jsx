@@ -84,15 +84,6 @@ const defaultProps = {
   location: undefined,
 };
 
-const initialLocale = defaultLocale => {
-  let locale = document.getElementsByTagName('html')[0].getAttribute('lang');
-  if (!locale) {
-    locale = defaultLocale;
-    document.getElementsByTagName('html')[0].setAttribute('lang', defaultLocale);
-  }
-  return locale;
-};
-
 class App extends React.Component {
 
   static propExistsAndChanged(nextProp, currentProp) {
@@ -103,7 +94,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       dir: props.defaultDir,
-      locale: initialLocale(props.defaultLocale),
+      locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
       theme: props.defaultTheme,
     };
     this.handleBidiChange = this.handleBidiChange.bind(this);

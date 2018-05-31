@@ -83,6 +83,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
       new HtmlWebpackPlugin({
         title: siteConfig.appConfig.title,
         template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
+        lang: siteConfig.appConfig.defaultLocale,
         favicon: siteConfig.appConfig.favicon,
       }),
     ],
