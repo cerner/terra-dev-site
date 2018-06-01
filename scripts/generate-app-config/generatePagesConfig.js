@@ -181,7 +181,9 @@ const sortPageConfig = config => (
 * Generates the file representing page config, which is in turn consumed by route config.
 */
 const generatePagesConfig = (siteConfig, production, verbose) => {
-  const { generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading } = siteConfig;
+  const {
+    generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
+  } = siteConfig;
   // If a pages config is supplied don't do this logic.
   if (pagesConfig) {
     return pagesConfig;
@@ -191,7 +193,9 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
   const types = pageTypes(navConfig).join(',');
 
   // Get the default search patterns for both normal and lerna mono repos.
-  const patterns = generatePagesOptions.searchPatterns.reduce((acc, { root, source, dist, entryPoint }) => {
+  const patterns = generatePagesOptions.searchPatterns.reduce((acc, {
+    root, source, dist, entryPoint,
+  }) => {
     const sourceDir = ((!production && hotReloading) ? source : dist) || '';
     acc.push({
       pattern: path.join(root, sourceDir, entryPoint, '**', `*.{${types},}.{jsx,js,md}`),

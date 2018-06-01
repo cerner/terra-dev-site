@@ -16,7 +16,7 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 const addConfig = (config, fileName, buildPath, fs, imports) => {
   if (config) {
     writeConfig(config, fileName, buildPath, fse);
-    const name = path.parse(fileName).name;
+    const { name } = path.parse(fileName);
     return imports.addImport(`./${name}`, name);
   }
   return undefined;

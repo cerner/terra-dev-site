@@ -34,7 +34,7 @@ module.exports = postcss.plugin('theming-plugin', () => {
 
       if (matches) {
         variables[component] = variables[component] || {};
-        variables[component][matches[1]] = matches[2];
+        [, , variables[component][matches[1]]] = matches;
       }
     });
     const processPath = process.cwd();

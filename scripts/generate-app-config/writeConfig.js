@@ -9,7 +9,8 @@ const writeConfig = ({ config, imports }, fileName, filePath, fs) => {
   // Convert object to AST.
   const ast = toAST(config);
   // Convert AST to code string.
-  const configString = escodegen.generate(ast,
+  const configString = escodegen.generate(
+    ast,
     {
       format: {
         indent: {
