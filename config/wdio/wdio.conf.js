@@ -13,10 +13,10 @@ const config = {
   axe: {
     inject: true,
     options: {
-      rules: [{
-        id: 'landmark-one-main',
-        enabled: false,
-      }],
+      rules: [
+        { id: 'landmark-one-main', enabled: false },
+        { id: 'page-has-one-heading', enabled: false },
+      ],
     },
   },
 
