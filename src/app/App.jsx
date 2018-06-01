@@ -33,10 +33,12 @@ const propTypes = {
   * Note: The config prop is treated as an immutable object to prevent unnecessary processing and improve performance.
   * If the configuration is changed after the first render, a new configuration object instance must be provided.
   */
+  // eslint-disable-next-line react/forbid-prop-types
   routingConfig: PropTypes.object.isRequired,
   /**
    * The navigaion links to display within the menu in the toolbar.
    */
+  // eslint-disable-next-line react/forbid-prop-types
   navigationItems: PropTypes.array,
   /**
    * React object to display in the utilities area in the application layout.
@@ -53,6 +55,7 @@ const propTypes = {
   /**
    * The themes the site could use.
    */
+  // eslint-disable-next-line react/forbid-prop-types
   themes: PropTypes.object,
   /**
    * Injected by react-routed: represent where the app is now, where you want it to go,
@@ -69,13 +72,11 @@ const defaultProps = {
   themes: undefined,
   navigationItems: undefined,
   extensions: undefined,
-  routingConfig: undefined,
   utilityConfig: undefined,
   location: undefined,
 };
 
 class App extends React.Component {
-
   static propExistsAndChanged(nextProp, currentProp) {
     return nextProp !== undefined && nextProp !== currentProp;
   }
@@ -101,7 +102,8 @@ class App extends React.Component {
         Theme: { onChange: this.handleThemeChange },
         Locale: { onChange: this.handleLocaleChange },
         Bidi: { onChange: this.handleBidiChange },
-      });
+      },
+    );
   }
 
   handleBidiChange(key) {
@@ -119,7 +121,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes } = this.props;
+    const {
+      nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes,
+    } = this.props;
     const { theme, locale, dir } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
@@ -132,7 +136,7 @@ class App extends React.Component {
               render={() => RawRoute(routingConfig, location, '/raw')}
             />
             <Route
-              render={() => <ApplicationLayout
+              render={() => (<ApplicationLayout
                 nameConfig={nameConfig}
                 utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
                 routingConfig={routingConfig}
@@ -140,7 +144,7 @@ class App extends React.Component {
                 extensions={extensions}
                 indexPath={indexPath}
                 navigationAlignment="start"
-              />}
+              />)}
             />
           </Switch>
         </Base>

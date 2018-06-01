@@ -8,7 +8,7 @@ const generateExtensions = (appConfig) => {
   const imports = new ImportAggregator();
 
   if (appConfig.extensions) {
-    const gitHubUrl = appConfig.extensions.gitHubUrl;
+    const { gitHubUrl } = appConfig.extensions;
 
     if (gitHubUrl) {
       imports.addImport('react', 'React');
@@ -16,13 +16,11 @@ const generateExtensions = (appConfig) => {
       imports.addImport('terra-dev-site/lib/app/components/Extensions', 'Extensions');
       return {
         // This places JSX inline for the component variable.
-        config: new IdentifierPlaceholder(
-          `(
+        config: new IdentifierPlaceholder(`(
           <Extensions>
             <GitHubLinkExtension href="${gitHubUrl}" />
           </Extensions>
-          )`,
-        ),
+          )`),
         imports,
       };
     }

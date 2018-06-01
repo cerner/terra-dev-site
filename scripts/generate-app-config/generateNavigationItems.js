@@ -2,7 +2,7 @@
 * Generates the file representing navigation items.
 */
 const generateNavigationItems = (navConfig) => {
-  const navigation = navConfig.navigation;
+  const { navigation } = navConfig;
   const configuredLinks = [];
 
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];

@@ -72,8 +72,7 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
  */
 const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
   config.reduce((acc, page) => {
-    let content = acc.content;
-    let menu = acc.menu;
+    let { content, menu } = acc;
     const menuItems = acc.menuItems || [];
     const hasSubMenu = page.pages && page.pages.length > 0;
 
@@ -154,8 +153,8 @@ const getLinkPageConfig = (link, pageConfig, siteConfig, routeImporter) => {
     }, []);
   } else {
     // If there is only one type, just grab the first one.
-    pages = pageConfig[link.pageTypes[0]];
-    type = link.pageTypes[0];
+    [type] = link.pageTypes;
+    pages = pageConfig[type];
   }
 
   return [getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter)];
@@ -169,9 +168,8 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     return undefined;
   }
   const routeImporter = new ImportAggregator();
-  const { placeholderSrc } = siteConfig;
-  const navConfig = siteConfig.navConfig;
-  const navigation = navConfig.navigation;
+  const { placeholderSrc, navConfig } = siteConfig;
+  const { navigation } = navConfig;
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
 
   // Setup the placeholder object.
@@ -180,8 +178,7 @@ const routeConfiguration = (siteConfig, pageConfig) => {
 
   // Spin through the valid links to build out the route config.
   const config = validLinks.reduce((acc, link) => {
-    let content = acc.content;
-    let menu = acc.menu;
+    let { content, menu } = acc;
 
     // Build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
