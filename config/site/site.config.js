@@ -63,6 +63,9 @@ const siteConfig = {
   /* The list of side effect theme files. */
   themeImports: [],
 
+  /* The list of side effect js files. */
+  sideEffectImports: [],
+
   /* Path to the image to display as page placeholder when a component does not render. */
   placeholderSrc: path.join(__dirname, '..', '..', 'terra.png'),
 

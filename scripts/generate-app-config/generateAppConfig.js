@@ -1,5 +1,6 @@
 const fse = require('fs-extra');
 const path = require('path');
+const glob = require('glob');
 const writeConfig = require('./writeConfig');
 const generateRouteConfig = require('./generateRouteConfig');
 const generateNameConfig = require('./generateNameConfig');
@@ -28,7 +29,12 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 const generateAppConfig = (siteConfig, production, verbose) => {
   const imports = new ImportAggregator();
 
-  const { appConfig, navConfig, themeImports } = siteConfig;
+  const {
+    appConfig,
+    navConfig,
+    themeImports,
+    sideEffectImports,
+  } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   // This is where we are writing out the generated files.
@@ -76,6 +82,11 @@ const generateAppConfig = (siteConfig, production, verbose) => {
 
   // Add any side-effect theme imports.
   themeImports.forEach(themePath => imports.addImport(ImportAggregator.relativePath(themePath)));
+
+  // Add any side-effect imports.
+  sideEffectImports.reduce((acc, sideEffectGlob) =>
+    acc.concat(glob.sync(path.resolve('dev-site-config', sideEffectGlob))), []).forEach(sideEffectPath =>
+    imports.addImport(ImportAggregator.relativePath(sideEffectPath)));
 
   // Building out the overall config import.
   const config = {
