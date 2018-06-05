@@ -89,10 +89,12 @@ const siteConfig = {
   ],
 
   /** The list of side effect js files.
-   *
+   *  This list accepts globs, absolute paths and paths relative to dev-site-config/site.config
    */
   sideEffectImports: [
-
+    '../src/random.js',
+    'root/project/src/sideEffect.js'),
+    '**/src/*.mock.js',
   ],
 
   /** Path to the image to display as page placeholder when a component does not render.
