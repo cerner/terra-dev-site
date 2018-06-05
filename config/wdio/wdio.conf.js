@@ -15,7 +15,7 @@ const config = {
     options: {
       rules: [
         { id: 'landmark-one-main', enabled: false },
-        { id: 'page-has-one-heading', enabled: false },
+        { id: 'page-has-heading-one', enabled: false },
       ],
     },
   },
