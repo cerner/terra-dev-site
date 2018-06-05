@@ -6,6 +6,11 @@ Unreleased
 ### Changed
 * Added Side effects api
 
+1.1.0 - (June 5, 2018)
+----------
+### Updates
+* Dependency updates
+
 1.0.0 - (May 23, 2018)
 ----------
 ### Breaking Changed
