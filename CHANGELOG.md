@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Added Side effects api
 
 1.0.0 - (May 23, 2018)
 ----------
