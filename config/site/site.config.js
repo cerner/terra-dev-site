@@ -2,7 +2,7 @@ const i18nSupportedLocales = require('terra-i18n/lib/i18nSupportedLocales');
 const navConfig = require('./navigation.config');
 const startCase = require('lodash.startcase');
 const fs = require('fs');
-const path = require('path');
+const path = require('path').posix;
 
 const npmPackage = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
 

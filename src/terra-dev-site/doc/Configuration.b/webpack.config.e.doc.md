@@ -5,7 +5,7 @@ Because terra-dev-site's webpack config is a function, we recommend the usage of
 
 Here is an example where we extend the default config to alias moment:
 ```javascript
-const path = require('path');
+const path = require('path').posix;
 const merge = require('webpack-merge');
 const defaultWebpackConfig = require('terra-dev-site/config/webpack/webpack.config');
 

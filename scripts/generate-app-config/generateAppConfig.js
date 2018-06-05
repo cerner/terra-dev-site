@@ -1,5 +1,5 @@
 const fse = require('fs-extra');
-const path = require('path');
+const path = require('path').posix;
 const glob = require('glob');
 const writeConfig = require('./writeConfig');
 const generateRouteConfig = require('./generateRouteConfig');
@@ -21,6 +21,16 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
     return imports.addImport(`./${name}`, name);
   }
   return undefined;
+};
+
+/**
+* Resolve relative paths that start with '.', then glob paths, then apply side effect imports
+*/
+const importSideEffects = (sideEffects, imports) => {
+  sideEffects.map(sideEffectGlob =>
+    (sideEffectGlob.charAt(0) === '.' ? path.resolve('dev-site-config', sideEffectGlob) : sideEffectGlob)).reduce((acc, sideEffectGlob) =>
+    acc.concat(glob.sync(sideEffectGlob)), []).forEach(sideEffectPath =>
+    imports.addImport(ImportAggregator.relativePath(sideEffectPath)));
 };
 
 /**
@@ -81,12 +91,10 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   );
 
   // Add any side-effect theme imports.
-  themeImports.forEach(themePath => imports.addImport(ImportAggregator.relativePath(themePath)));
+  importSideEffects(themeImports, imports);
 
   // Add any side-effect imports.
-  sideEffectImports.reduce((acc, sideEffectGlob) =>
-    acc.concat(glob.sync(path.resolve('dev-site-config', sideEffectGlob))), []).forEach(sideEffectPath =>
-    imports.addImport(ImportAggregator.relativePath(sideEffectPath)));
+  importSideEffects(sideEffectImports, imports);
 
   // Building out the overall config import.
   const config = {

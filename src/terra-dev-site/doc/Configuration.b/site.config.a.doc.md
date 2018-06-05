@@ -8,7 +8,7 @@ Site config is the main config for the terra-dev-site. Depending on your repo se
 const navConfig = require('./navigation.config');
 const pagesConfig = require ('./pages.config');
 const fs = require('fs');
-const path = require('path');
+const path = require('path').posix;
 
 const npmPackage = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
 
@@ -86,6 +86,13 @@ const siteConfig = {
   /* Side effect theme imports. */
   themeImports: [
     '../theme';
+  ],
+
+  /** The list of side effect js files.
+   *
+   */
+  sideEffectImports: [
+
   ],
 
   /** Path to the image to display as page placeholder when a component does not render.
