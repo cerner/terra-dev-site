@@ -6,6 +6,11 @@ Unreleased
 ### Changed
 - Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
 
+1.1.0 - (June 5, 2018)
+----------
+### Updates
+* Dependency updates
+
 1.0.0 - (May 23, 2018)
 ----------
 ### Breaking Changed
