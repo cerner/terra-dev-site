@@ -22,8 +22,6 @@ const Site = () => (
       navigationItems={siteConfig.navigationItems}
       extensions={siteConfig.extensions}
       indexPath={siteConfig.indexPath}
-      defaultLocale={siteConfig.defaultLocale}
-      defaultDir={siteConfig.defaultDir}
       defaultTheme={siteConfig.defaultTheme}
       themes={siteConfig.themes}
     />

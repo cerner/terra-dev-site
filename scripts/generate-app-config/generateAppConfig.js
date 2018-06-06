@@ -85,8 +85,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     navigationItems,
     extensions,
     indexPath: navConfig.navigation.index,
-    defaultLocale: appConfig.defaultLocale,
-    defaultDir: appConfig.defaultDirection,
     defaultTheme: appConfig.defaultTheme,
     themes: appConfig.themes,
   };
