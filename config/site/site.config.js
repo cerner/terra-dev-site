@@ -4,7 +4,7 @@ const startCase = require('lodash.startcase');
 const fs = require('fs');
 const path = require('path').posix;
 
-const npmPackage = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
+const npmPackage = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')));
 
 const siteConfig = {
   /* The navigation configuration. */
