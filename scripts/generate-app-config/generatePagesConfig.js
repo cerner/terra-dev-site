@@ -198,11 +198,11 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
   }) => {
     const sourceDir = ((!production && hotReloading) ? source : dist) || '';
     acc.push({
-      pattern: `${root}/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      pattern: `${root}[/\\]${sourceDir}[/\\]${entryPoint}[/\\]**[/\\]*.{${types},}.{jsx,js,md}`,
       entryPoint: path.join(root, sourceDir, entryPoint),
     });
     acc.push({
-      pattern: `${root}/packages/*/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      pattern: `${root}[/\\]packages[/\\]*[/\\]${sourceDir}[/\\]${entryPoint}[/\\]**[/\\]*.{${types},}.{jsx,js,md}`,
       // build out a regex for the entrypoint mask.
       entryPoint: path.join(root, 'packages', '[^/]*', sourceDir, entryPoint),
     });
