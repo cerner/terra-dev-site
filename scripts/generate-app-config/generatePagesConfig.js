@@ -197,14 +197,16 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     root, source, dist, entryPoint,
   }) => {
     const sourceDir = ((!production && hotReloading) ? source : dist) || '';
+    // root has \ replaced with / for windows paths
+    const adjustedRoot = root.replace(/\\/g, '/');
     acc.push({
       pattern: `${root}/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
-      entryPoint: path.join(root, sourceDir, entryPoint),
+      entryPoint: path.join(adjustedRoot, sourceDir, entryPoint),
     });
     acc.push({
       pattern: `${root}/packages/*/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
       // build out a regex for the entrypoint mask.
-      entryPoint: path.join(root, 'packages', '[^/]*', sourceDir, entryPoint),
+      entryPoint: path.join(adjustedRoot, 'packages', '[^/]*', sourceDir, entryPoint),
     });
     return acc;
   }, []);
@@ -216,8 +218,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   // Execute the globs and regex masks, to trim the directories.
   const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
-    // entry point has \ replaced with / for windows paths
-    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint.replace(/\\/g, '/')).exec(filePath)[0] })))
+    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
   ), []);
 
   if (verbose) {
