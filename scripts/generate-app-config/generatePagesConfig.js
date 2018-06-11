@@ -1,4 +1,4 @@
-const path = require('path').posix;
+const path = require('path');
 const glob = require('glob');
 const kebabCase = require('lodash.kebabcase');
 const lodashStartCase = require('lodash.startcase');
@@ -197,16 +197,14 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     root, source, dist, entryPoint,
   }) => {
     const sourceDir = ((!production && hotReloading) ? source : dist) || '';
-    // root has \ replaced with / for windows paths
-    const adjustedRoot = root.replace(/\\/g, '/');
     acc.push({
       pattern: `${root}/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
-      entryPoint: path.join(adjustedRoot, sourceDir, entryPoint),
+      entryPoint: path.join(root, sourceDir, entryPoint),
     });
     acc.push({
       pattern: `${root}/packages/*/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
       // build out a regex for the entrypoint mask.
-      entryPoint: path.join(adjustedRoot, 'packages', '[^/]*', sourceDir, entryPoint),
+      entryPoint: path.join(root, 'packages', '[^/]*', sourceDir, entryPoint),
     });
     return acc;
   }, []);

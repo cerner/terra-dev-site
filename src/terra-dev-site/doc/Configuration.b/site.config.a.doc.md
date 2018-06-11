@@ -8,7 +8,7 @@ Site config is the main config for the terra-dev-site. Depending on your repo se
 const navConfig = require('./navigation.config');
 const pagesConfig = require ('./pages.config');
 const fs = require('fs');
-const path = require('path').posix;
+const path = require('path');
 
 const npmPackage = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
 

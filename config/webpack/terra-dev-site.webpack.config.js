@@ -1,4 +1,4 @@
-const path = require('path').posix;
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');

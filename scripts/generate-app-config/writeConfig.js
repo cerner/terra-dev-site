@@ -1,4 +1,4 @@
-const path = require('path').posix;
+const path = require('path');
 const toAST = require('to-ast');
 const escodegen = require('escodegen');
 

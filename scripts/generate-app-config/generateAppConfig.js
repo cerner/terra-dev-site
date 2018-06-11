@@ -1,5 +1,5 @@
 const fse = require('fs-extra');
-const path = require('path').posix;
+const path = require('path');
 const glob = require('glob');
 const writeConfig = require('./writeConfig');
 const generateRouteConfig = require('./generateRouteConfig');

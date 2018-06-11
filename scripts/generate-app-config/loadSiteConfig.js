@@ -1,4 +1,4 @@
-const path = require('path').posix;
+const path = require('path');
 const fs = require('fs');
 const defaultConfig = require('../../config/site/site.config.js');
 
