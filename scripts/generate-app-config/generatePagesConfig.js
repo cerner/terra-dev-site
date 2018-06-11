@@ -198,18 +198,18 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
   }) => {
     const sourceDir = ((!production && hotReloading) ? source : dist) || '';
     acc.push({
-      pattern: `${root}[/\\]${sourceDir}[/\\]${entryPoint}[/\\]**[/\\]*.{${types},}.{jsx,js,md}`,
-      entryPoint: path.join(root, sourceDir, entryPoint),
+      pattern: `${root}/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      entryPoint: path.join(root, sourceDir, entryPoint).replace(/[/\\]/g, '[/\\\\]'),
     });
     acc.push({
-      pattern: `${root}[/\\]packages[/\\]*[/\\]${sourceDir}[/\\]${entryPoint}[/\\]**[/\\]*.{${types},}.{jsx,js,md}`,
+      pattern: `${root}/packages/*/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
       // build out a regex for the entrypoint mask.
-      entryPoint: path.join(root, 'packages', '[^/]*', sourceDir, entryPoint),
+      entryPoint: path.join(root, 'packages', '[^/]*', sourceDir, entryPoint).replace(/[/\\]/g, '[/\\\\]'),
     });
     return acc;
   }, []);
 
-  if (verbose) {
+  if (true /* verbose */) {
     // eslint-disable-next-line no-console
     console.log('Patterns', patterns);
   }
@@ -219,7 +219,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
   ), []);
 
-  if (verbose) {
+  if (true /* verbose */) {
     // eslint-disable-next-line no-console
     console.log('File Paths', filePaths);
   }
@@ -233,7 +233,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     return acc;
   }, {});
 
-  if (verbose) {
+  if (true /* verbose */) {
     // eslint-disable-next-line no-console
     console.log('Page Config', JSON.stringify(sortedConfig, null, 2));
   }
