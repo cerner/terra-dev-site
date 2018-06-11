@@ -216,7 +216,8 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   // Execute the globs and regex masks, to trim the directories.
   const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
-    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath: filePath.replace(/\\/g, '/'), entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
+    // entry point has \ replaced with / for windows paths
+    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint.replace(/\\/g, '/')).exec(filePath)[0] })))
   ), []);
 
   if (verbose) {
