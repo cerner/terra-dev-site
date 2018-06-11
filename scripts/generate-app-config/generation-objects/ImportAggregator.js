@@ -1,5 +1,5 @@
 const IdentifierPlaceholder = require('./IdentifierPlaceholder');
-const path = require('path').posix;
+const path = require('path');
 
 /**
 * This class aggregates imports and helps insure things are not included more than once.
