@@ -4,7 +4,9 @@ Changelog
 Unreleased
 ----------
 ### Changed
-- Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
+* Added Side effects api
+* Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
+
 
 1.1.0 - (June 5, 2018)
 ----------

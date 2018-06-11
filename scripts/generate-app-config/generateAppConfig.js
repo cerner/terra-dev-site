@@ -1,5 +1,6 @@
 const fse = require('fs-extra');
 const path = require('path');
+const glob = require('glob');
 const writeConfig = require('./writeConfig');
 const generateRouteConfig = require('./generateRouteConfig');
 const generateNameConfig = require('./generateNameConfig');
@@ -23,12 +24,27 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 };
 
 /**
+* Resolve relative paths that start with '.', then glob paths, then apply side effect imports
+*/
+const importSideEffects = (sideEffects, imports) => {
+  sideEffects.map(sideEffectGlob =>
+    (sideEffectGlob.charAt(0) === '.' ? path.resolve('dev-site-config', sideEffectGlob) : sideEffectGlob)).reduce((acc, sideEffectGlob) =>
+    acc.concat(glob.sync(sideEffectGlob)), []).forEach(sideEffectPath =>
+    imports.addImport(ImportAggregator.relativePath(sideEffectPath)));
+};
+
+/**
 * Writes out a file consisting of the app config and imports with the given file name to the specified path.
 */
 const generateAppConfig = (siteConfig, production, verbose) => {
   const imports = new ImportAggregator();
 
-  const { appConfig, navConfig, themeImports } = siteConfig;
+  const {
+    appConfig,
+    navConfig,
+    themeImports,
+    sideEffectImports,
+  } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   // This is where we are writing out the generated files.
@@ -75,7 +91,10 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   );
 
   // Add any side-effect theme imports.
-  themeImports.forEach(themePath => imports.addImport(ImportAggregator.relativePath(themePath)));
+  importSideEffects(themeImports, imports);
+
+  // Add any side-effect imports.
+  importSideEffects(sideEffectImports, imports);
 
   // Building out the overall config import.
   const config = {
