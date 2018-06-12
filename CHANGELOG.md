@@ -3,9 +3,13 @@ Changelog
 
 Unreleased
 ----------
+
+1.2.0 - (June 12, 2018)
+----------
 ### Changed
 * Added Side effects api
 * Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
+* Added the ability to enable New Relic Instrumentation.
 
 
 1.1.0 - (June 5, 2018)
