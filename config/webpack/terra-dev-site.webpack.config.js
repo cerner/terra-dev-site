@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
+const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
 const glob = require('glob');
 
 /**
@@ -86,6 +87,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
         lang: siteConfig.appConfig.defaultLocale,
         dir: siteConfig.appConfig.defaultDirection,
         favicon: siteConfig.appConfig.favicon,
+        newRelicJS: getNewRelicJS(),
       }),
     ],
     resolve: {
