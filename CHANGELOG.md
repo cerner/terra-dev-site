@@ -3,6 +3,7 @@ Changelog
 
 Unreleased
 ----------
+* Updated some paths and regexs to work in Windows.
 
 1.2.0 - (June 12, 2018)
 ----------

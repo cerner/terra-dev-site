@@ -196,15 +196,16 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
   const patterns = generatePagesOptions.searchPatterns.reduce((acc, {
     root, source, dist, entryPoint,
   }) => {
+    const rootPath = root.replace(/[\\]/g, '/');
     const sourceDir = ((!production && hotReloading) ? source : dist) || '';
     acc.push({
-      pattern: `${root}/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
-      entryPoint: path.join(root, sourceDir, entryPoint),
+      pattern: `${rootPath}/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      entryPoint: `${rootPath}/${sourceDir}/${entryPoint}`,
     });
     acc.push({
-      pattern: `${root}/packages/*/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      pattern: `${rootPath}/packages/*/${sourceDir}/${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
       // build out a regex for the entrypoint mask.
-      entryPoint: path.join(root, 'packages', '[^/]*', sourceDir, entryPoint),
+      entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}/${entryPoint}`,
     });
     return acc;
   }, []);
