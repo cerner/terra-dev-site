@@ -210,7 +210,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     return acc;
   }, []);
 
-  if (true /* verbose */) {
+  if (verbose) {
     // eslint-disable-next-line no-console
     console.log('Patterns', patterns);
   }
@@ -220,7 +220,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
   ), []);
 
-  if (true /* verbose */) {
+  if (verbose) {
     // eslint-disable-next-line no-console
     console.log('File Paths', filePaths);
   }
@@ -234,7 +234,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     return acc;
   }, {});
 
-  if (true /* verbose */) {
+  if (verbose) {
     // eslint-disable-next-line no-console
     console.log('Page Config', JSON.stringify(sortedConfig, null, 2));
   }
