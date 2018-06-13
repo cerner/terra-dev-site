@@ -1,6 +1,5 @@
 const fse = require('fs-extra');
 const path = require('path');
-const glob = require('glob');
 const writeConfig = require('./writeConfig');
 const generateRouteConfig = require('./generateRouteConfig');
 const generateNameConfig = require('./generateNameConfig');
@@ -9,6 +8,7 @@ const generateUtilitiesConfig = require('./generateUtilitiesConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
+const importSideEffects = require('./importSideEffects');
 
 /**
 * Writes out a file consisting of the config and imports with the given file name to the specified path.
@@ -21,16 +21,6 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
     return imports.addImport(`./${name}`, name);
   }
   return undefined;
-};
-
-/**
-* Resolve relative paths that start with '.', then glob paths, then apply side effect imports
-*/
-const importSideEffects = (sideEffects, imports) => {
-  sideEffects.map(sideEffectGlob =>
-    (sideEffectGlob.charAt(0) === '.' ? path.resolve('dev-site-config', sideEffectGlob) : sideEffectGlob)).reduce((acc, sideEffectGlob) =>
-    acc.concat(glob.sync(sideEffectGlob)), []).forEach(sideEffectPath =>
-    imports.addImport(ImportAggregator.relativePath(sideEffectPath)));
 };
 
 /**
