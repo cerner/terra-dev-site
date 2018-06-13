@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`importSideEffects finds the correct side effect js files 1`] = `
+" import Component1 from '/Users/mh015940/source/terra-dev-site/tests/scripts/generate-app-config/sideEffectFiles/normal.js';
+ import Component2 from '/Users/mh015940/source/terra-dev-site/tests/scripts/generate-app-config/sideEffectFiles/jsx.jsx';
+ import Component3 from '/Users/mh015940/source/terra-dev-site/tests/scripts/generate-app-config/sideEffectFiles/extension.js';
+ import Component4 from '/Users/mh015940/source/terra-dev-site/tests/scripts/generate-app-config/sideEffectFiles/fullpath.js';
+ import Component5 from '/Users/mh015940/source/terra-dev-site/tests/scripts/generate-app-config/sideEffectFiles/glob/globa.js';
+ import Component6 from '/Users/mh015940/source/terra-dev-site/tests/scripts/generate-app-config/sideEffectFiles/glob/globb.js';
+ import Component7 from '/Users/mh015940/source/terra-dev-site/tests/scripts/generate-app-config/sideEffectFiles/strangeExt.derp.js';
+"
+`;
