@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+1.2.2 - (June 12, 2018)
+----------
+### Fixed
+* Side Effects api didn't allow for the absense of .js extensions.
+
 1.2.1 - (June 12, 2018)
 ----------
 ### Fixed
