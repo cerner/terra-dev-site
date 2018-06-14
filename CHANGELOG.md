@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Prod webpack config produces source maps
 
 1.2.2 - (June 12, 2018)
 ----------
