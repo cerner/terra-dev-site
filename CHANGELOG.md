@@ -6,6 +6,34 @@ Unreleased
 ### Changed
 - Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
 
+1.3.0 - (June 15, 2018)
+----------
+### Changed
+* Prod webpack config produces source maps
+
+1.2.2 - (June 12, 2018)
+----------
+### Fixed
+* Side Effects api didn't allow for the absense of .js extensions.
+
+1.2.1 - (June 12, 2018)
+----------
+### Fixed
+* Updated some paths and regexs to work in Windows.
+
+1.2.0 - (June 12, 2018)
+----------
+### Changed
+* Added Side effects api
+* Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
+* Added the ability to enable New Relic Instrumentation.
+
+
+1.1.0 - (June 5, 2018)
+----------
+### Updates
+* Dependency updates
+
 1.0.0 - (May 23, 2018)
 ----------
 ### Breaking Changed

@@ -29,7 +29,7 @@ class ImportAggregator {
   * Returns a string of all the code imports.
   */
   toCodeString() {
-    return Object.keys(this.imports).reduce((acc, cur) => `${acc} import ${this.imports[cur]} from '${cur}';\n`, '');
+    return Object.keys(this.imports).reduce((acc, cur) => `${acc} import ${this.imports[cur]} from '${cur.replace(/\\/g, '\\\\')}';\n`, '');
   }
 
   /**

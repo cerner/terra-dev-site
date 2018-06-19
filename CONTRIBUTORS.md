@@ -6,6 +6,7 @@ Cerner Corporation
 - Matt Henkes [@mjhenkes]
 - Cory McDonald [@corymcdonald]
 - Nathan Faltermeier [@Blackop778]
+- Ben Boersma [@BenBoersma]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -13,3 +14,4 @@ Cerner Corporation
 [@mjhenkes]: https://github.com/mjhenkes
 [@corymcdonald]: https://github.com/corymcdonald
 [@Blackop778]: https://github.com/Blackop778
+[@BenBoersma]: https://github.com/BenBoersma

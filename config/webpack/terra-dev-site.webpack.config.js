@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
+const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
 const glob = require('glob');
 
 /**
@@ -30,7 +31,7 @@ const aliasCurrentPackage = (packageName, processPath, hotReloading, webpackAlia
 const aliasMonoRepoPackages = (monoRepo, hotReloading, webpackAliasOptions = {}, production) => {
   // Use glob to discover all valid package directories. Chop the filename off.
   const packagePaths = monoRepo.packages.reduce((acc, packageDir) => (
-    acc.concat(glob.sync(path.join(packageDir, '*', 'package.json')))
+    acc.concat(glob.sync(`${packageDir}/*/package.json`))
   ), []).map(pkgPath => path.dirname(pkgPath));
   // const packagePaths = glob.sync(path.join(monoRepo.packages, '*', 'package.json')).map(pkgPath => path.dirname(pkgPath));
 
@@ -86,12 +87,14 @@ const devSiteConfig = (env = {}, argv = {}) => {
         lang: siteConfig.appConfig.defaultLocale,
         dir: siteConfig.appConfig.defaultDirection,
         favicon: siteConfig.appConfig.favicon,
+        newRelicJS: getNewRelicJS(),
       }),
     ],
     resolve: {
       modules: [devSiteConfigPath],
       alias,
     },
+    ...(production) && { devtool: 'source-map' },
   };
 };
 

@@ -8,6 +8,7 @@ const generateUtilitiesConfig = require('./generateUtilitiesConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
+const importSideEffects = require('./importSideEffects');
 
 /**
 * Writes out a file consisting of the config and imports with the given file name to the specified path.
@@ -16,7 +17,7 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 const addConfig = (config, fileName, buildPath, fs, imports) => {
   if (config) {
     writeConfig(config, fileName, buildPath, fse);
-    const name = path.parse(fileName).name;
+    const { name } = path.parse(fileName);
     return imports.addImport(`./${name}`, name);
   }
   return undefined;
@@ -28,7 +29,12 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 const generateAppConfig = (siteConfig, production, verbose) => {
   const imports = new ImportAggregator();
 
-  const { appConfig, navConfig, themeImports } = siteConfig;
+  const {
+    appConfig,
+    navConfig,
+    themeImports,
+    sideEffectImports,
+  } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   // This is where we are writing out the generated files.
@@ -75,7 +81,10 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   );
 
   // Add any side-effect theme imports.
-  themeImports.forEach(themePath => imports.addImport(ImportAggregator.relativePath(themePath)));
+  importSideEffects(themeImports, imports);
+
+  // Add any side-effect imports.
+  importSideEffects(sideEffectImports, imports);
 
   // Building out the overall config import.
   const config = {

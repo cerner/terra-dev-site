@@ -4,7 +4,7 @@ const startCase = require('lodash.startcase');
 const fs = require('fs');
 const path = require('path');
 
-const npmPackage = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
+const npmPackage = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')));
 
 const siteConfig = {
   /* The navigation configuration. */
@@ -62,6 +62,9 @@ const siteConfig = {
 
   /* The list of side effect theme files. */
   themeImports: [],
+
+  /* The list of side effect js files. */
+  sideEffectImports: [],
 
   /* Path to the image to display as page placeholder when a component does not render. */
   placeholderSrc: path.join(__dirname, '..', '..', 'terra.png'),

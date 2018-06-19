@@ -14,6 +14,7 @@ const propTypes = {
   /**
    * The props to be applied to the content.
    */
+  // eslint-disable-next-line react/forbid-prop-types
   props: PropTypes.object,
 };
 
