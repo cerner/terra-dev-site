@@ -92,7 +92,7 @@
     "terra-markdown": "^2.0.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
-    "terra-toolkit": "git://github.com/cerner/terra-toolkit#i18n-locale-testing-tt-v3",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit#master",
     "to-ast": "^1.0.0",
     "xfc": "^1.2.1"
   },
