@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Changing Page config to use POSIX path separator instead of Windows
 
 1.3.0 - (June 15, 2018)
 ----------
