@@ -92,6 +92,7 @@
     "terra-markdown": "^2.0.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
+    "terra-toolkit": "^4.0.0"
     "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2",
     "xfc": "^1.2.1"
@@ -99,8 +100,7 @@
   "peerDependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2",
-    "terra-toolkit": "^4.0.0"
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
@@ -132,7 +132,6 @@
     "stylelint-config-sass-guidelines": "^5.0.0",
     "stylelint-order": "^0.8.1",
     "stylelint-scss": "^3.1.0",
-    "stylelint-suitcss": "^3.0.0",
-    "terra-toolkit": "^4.0.0"
+    "stylelint-suitcss": "^3.0.0"
   }
 }
