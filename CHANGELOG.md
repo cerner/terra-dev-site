@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+2.0.0 - (June 26, 2018)
+----------
 ### Breaking Change
 * Update to use terra-toolkit v4 and move from a dependency to a peer dependency
 
