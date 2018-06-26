@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Breaking Change
+* Update to use terra-toolkit v4 and move from a dependency to a peer dependency
+
 ### Changed
 * Changing Page config to use POSIX path separator instead of Windows
 
@@ -36,7 +39,7 @@ Unreleased
 
 1.0.0 - (May 23, 2018)
 ----------
-### Breaking Changed
+### Breaking Change
 * Hot reloading (for most cases).
 * Fully dynamic page generation, beyond just site pages and tests.
 * More intelligent defaults, it's possible to enable terra-dev-site with zero config.
