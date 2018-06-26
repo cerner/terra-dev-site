@@ -3,8 +3,11 @@ Changelog
 
 Unreleased
 ----------
+### Breaking Change
+* Update to use terra-toolkit v4 and move from a dependency to a peer dependency
+
 ### Changed
-- Update the initial locale to be the `lang` attribute value and then uses the default language to opens up the ability to enable locale switching for testing of webpack builds.
+* Changing Page config to use POSIX path separator instead of Windows
 
 1.3.0 - (June 15, 2018)
 ----------
@@ -36,7 +39,7 @@ Unreleased
 
 1.0.0 - (May 23, 2018)
 ----------
-### Breaking Changed
+### Breaking Change
 * Hot reloading (for most cases).
 * Fully dynamic page generation, beyond just site pages and tests.
 * More intelligent defaults, it's possible to enable terra-dev-site with zero config.

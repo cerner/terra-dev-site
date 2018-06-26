@@ -40,7 +40,7 @@ const getRoutes = (directory, type, fileName, entryPoint) => {
   // Remove the directories up to the entry point.
   const modifiedDirectory = directory.replace(entryPoint, '');
 
-  let routes = modifiedDirectory.split(path.sep);
+  let routes = modifiedDirectory.split('/');
 
   // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
   routes.shift();
