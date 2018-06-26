@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const merge = require('webpack-merge');
 const defaultWebpackConfig = require('./config/webpack/webpack.config');
 
