@@ -37,7 +37,7 @@
     }
   },
   "bin": {
-    "tds:generate-app-config": "bin/generateAppConfig.js"
+    "tds-generate-app-config": "bin/generateAppConfig.js"
   },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
@@ -61,9 +61,9 @@
     "release:major": "node scripts/release/release.js major",
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
-    "start": "tt:serve --config config/webpack/webpack.config",
-    "start-heroku": "tt:serve-static --site build",
-    "start-static": "tt:serve-static --config config/webpack/webpack.config",
+    "start": "tt-serve --config config/webpack/webpack.config",
+    "start-heroku": "tt-serve-static --site build",
+    "start-static": "tt-serve-static --config config/webpack/webpack.config",
     "test": "npm run jest",
     "tds:generate-app-config": "node bin/generateAppConfig.js"
   },
