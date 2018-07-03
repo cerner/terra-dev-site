@@ -92,7 +92,7 @@
     "terra-markdown": "^2.0.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
-    "terra-toolkit": "git://github.com/cerner/terra-toolkit#fix-serve-static",
+    "terra-toolkit": "^4.1.0",
     "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2",
     "xfc": "^1.2.1"
