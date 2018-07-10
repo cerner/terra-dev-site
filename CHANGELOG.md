@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+2.1.0 - (July 10, 2018)
+----------
+### Changed
+* Update minimum version of terra-toolkit
+
 2.0.0 - (June 26, 2018)
 ----------
 ### Breaking Change
