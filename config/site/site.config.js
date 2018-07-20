@@ -118,7 +118,7 @@ const siteConfig = {
      *       gitHubUrl: 'https://github.com/cerner',
      *     },
      */
-    ...(npmPackage.repository.url) && {
+    ...(npmPackage.repository && npmPackage.repository.url) && {
       extensions: {
         gitHubUrl: npmPackage.repository.url.replace('git+', ''),
       },

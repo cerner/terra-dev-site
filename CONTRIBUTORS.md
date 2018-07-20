@@ -7,6 +7,7 @@ Cerner Corporation
 - Cory McDonald [@corymcdonald]
 - Nathan Faltermeier [@Blackop778]
 - Ben Boersma [@BenBoersma]
+- Noah Benham [@noahbenham]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -15,3 +16,5 @@ Cerner Corporation
 [@corymcdonald]: https://github.com/corymcdonald
 [@Blackop778]: https://github.com/Blackop778
 [@BenBoersma]: https://github.com/BenBoersma
+[@noahbenham]: https://github.com/NoahBenham
+
