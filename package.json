@@ -62,7 +62,7 @@
     "release:minor": "node scripts/release/release.js minor",
     "release:patch": "node scripts/release/release.js patch",
     "start": "tt-serve --config config/webpack/webpack.config",
-    "start-heroku": "tt-serve-static --site build",
+    "start-heroku": "tt-heroku-serve-static",
     "start-static": "tt-serve-static --config config/webpack/webpack.config",
     "test": "npm run jest",
     "tds:generate-app-config": "node bin/generateAppConfig.js"
@@ -92,7 +92,7 @@
     "terra-markdown": "^2.0.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
-    "terra-toolkit": "^4.1.0",
+    "terra-toolkit": "^4.5.0",
     "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2",
     "xfc": "^1.2.1"
