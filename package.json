@@ -1,6 +1,6 @@
 {
   "name": "terra-dev-site",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "main": "index.js",
   "repository": {
