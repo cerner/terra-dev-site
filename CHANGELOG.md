@@ -4,6 +4,12 @@ Changelog
 Unreleased
 ----------
 
+2.2.0 - (July 25, 2018)
+----------
+### Changed
+* Use new tt-heroku-serve-static script to fix heroku builds
+* Added support for repository field not existing in package.json
+
 2.1.0 - (July 10, 2018)
 ----------
 ### Changed
