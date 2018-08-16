@@ -68,6 +68,43 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
 };
 
 /**
+ * Create the route item for the placeholder component.
+ */
+const placeholderRouteItem = (routePath, placeholder, routeImporter) => contentRouteItem(
+  routePath,
+  {
+    contentPath: placeholder.content,
+    name: 'TerraDevSitePlaceholder',
+  },
+  placeholder.props,
+  'js',
+  routeImporter,
+);
+
+/**
+ * Create the route item to redirect to.
+ * We specifically do not want to auto redirect for the tiny form factor,
+ * so function this sets the tiny config to the placeholder
+ */
+const redirectRouteItem = (routePath, placeholder, redirectRoute, routeImporter) => {
+  const redirectRouteInstance = contentRouteItem(
+    routePath,
+    {
+      contentPath: Redirect,
+      name: '{ Redirect }',
+      identifier: 'Redirect',
+    },
+    { to: redirectRoute },
+    'js',
+    routeImporter,
+  );
+  const placeholderRouteInstance = placeholderRouteItem(routePath, placeholder, routeImporter);
+  // Pull the default generated placeholder config and set it on the tiny key for the redirect route item.
+  redirectRouteInstance.component.tiny = placeholderRouteInstance.component.default;
+  return redirectRouteInstance;
+};
+
+/**
  * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
  */
 const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
@@ -108,9 +145,9 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       content[routePath] = contentRouteItem(routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
     } else if (redirectRoute) {
       // If a redirect Route has been identified, redirect to it.
-      content[routePath] = contentRouteItem(routePath, { contentPath: Redirect, name: '{ Redirect }', identifier: 'Redirect' }, { to: redirectRoute }, 'js', routeImporter);
+      content[routePath] = redirectRouteItem(routePath, placeholder, redirectRoute, routeImporter);
     } else {
-      content[routePath] = contentRouteItem(routePath, { contentPath: placeholder.content, name: 'TerraDevSitePlaceholder' }, placeholder.props, 'js', routeImporter);
+      content[routePath] = placeholderRouteItem(routePath, placeholder, routeImporter);
     }
 
     return { content, menu, menuItems };
