@@ -83,8 +83,6 @@ const placeholderRouteItem = (routePath, placeholder, routeImporter) => contentR
 
 /**
  * Create the route item to redirect to.
- * We specifically do not want to auto redirect for the tiny form factor,
- * so function this sets the tiny config to the placeholder
  */
 const redirectRouteItem = (routePath, redirectRoute, routeImporter) => contentRouteItem(
   routePath,
@@ -98,6 +96,11 @@ const redirectRouteItem = (routePath, redirectRoute, routeImporter) => contentRo
   routeImporter,
 );
 
+/**
+ * Create the route item to redirect to.
+ * We specifically do not want to auto redirect for the tiny form factor,
+ * so function this sets the tiny config to the placeholder
+ */
 const flexibleRedirectRouteItem = (routePath, placeholder, redirectRoute, routeImporter) => {
   const redirectRouteInstance = redirectRouteItem(routePath, redirectRoute, routeImporter);
   const placeholderRouteInstance = placeholderRouteItem(routePath, placeholder, routeImporter);
@@ -148,10 +151,10 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
     if (page.content) {
       content[routePath] = contentRouteItem(routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
     } else if (redirectRoute && contentHasMenu) {
-      // If a redirect Route has been identified, redirect to it.
+      // If content has a menu do not auto redirect to the first item at small form factors.
       content[routePath] = flexibleRedirectRouteItem(routePath, placeholder, redirectRoute, routeImporter);
     } else if (redirectRoute) {
-      // If a redirect Route has been identified, redirect to it.
+      // If content has a redirect and doesn't have a menu, always redirect.
       content[routePath] = redirectRouteItem(routePath, redirectRoute, routeImporter);
     } else {
       content[routePath] = placeholderRouteItem(routePath, placeholder, routeImporter);
