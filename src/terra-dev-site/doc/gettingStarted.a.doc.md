@@ -19,14 +19,14 @@ npm install terra-dev-site
 * transpiled code in lib
 
 ### Running terra-dev-site
-Terra-dev-site is built when you use the provided webpack config and use the `tt:serve` command provided by terra-toolkit. If you have a custom webpack config, you should extend the provided webpack config using webpack-merge.
+Terra-dev-site is built when you use the provided webpack config and use the `tt-serve` command provided by terra-toolkit. If you have a custom webpack config, you should extend the provided webpack config using webpack-merge.
 
-Add the following terra-toolkit command to your package.json. See the [tt:serve docs](https://github.com/cerner/terra-toolkit/tree/master/scripts/serve#cli) for more information on the command options.
+Add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit/tree/master/scripts/serve#cli) for more information on the command options.
 
 ```json
 {
   "scripts": {
-    "start": "tt:serve"
+    "start": "tt-serve"
   }
 }
 ```
