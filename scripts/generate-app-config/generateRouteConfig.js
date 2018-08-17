@@ -68,6 +68,48 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
 };
 
 /**
+ * Create the route item for the placeholder component.
+ */
+const placeholderRouteItem = (routePath, placeholder, routeImporter) => contentRouteItem(
+  routePath,
+  {
+    contentPath: placeholder.content,
+    name: 'TerraDevSitePlaceholder',
+  },
+  placeholder.props,
+  'js',
+  routeImporter,
+);
+
+/**
+ * Create the route item to redirect to.
+ */
+const redirectRouteItem = (routePath, redirectRoute, routeImporter) => contentRouteItem(
+  routePath,
+  {
+    contentPath: Redirect,
+    name: '{ Redirect }',
+    identifier: 'Redirect',
+  },
+  { to: redirectRoute },
+  'js',
+  routeImporter,
+);
+
+/**
+ * Create the route item to redirect to.
+ * We specifically do not want to auto redirect for the tiny form factor,
+ * so function this sets the tiny config to the placeholder
+ */
+const flexibleRedirectRouteItem = (routePath, placeholder, redirectRoute, routeImporter) => {
+  const redirectRouteInstance = redirectRouteItem(routePath, redirectRoute, routeImporter);
+  const placeholderRouteInstance = placeholderRouteItem(routePath, placeholder, routeImporter);
+  // Pull the default generated placeholder config and set it on the tiny key for the redirect route item.
+  redirectRouteInstance.component.tiny = placeholderRouteInstance.component.default;
+  return redirectRouteInstance;
+};
+
+/**
  * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
  */
 const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
@@ -78,6 +120,7 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
 
     const routePath = `${rootPath}${page.path}`;
     let redirectRoute;
+    let contentHasMenu;
 
     // If the given page, has sub menu items, add them to the overall route object.
     if (hasSubMenu) {
@@ -94,7 +137,8 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       }
 
       // If we have a redirect route and only one item in the menu, lets skip adding the menu.
-      if (!redirectRoute || childMenuItems.length > 1) {
+      contentHasMenu = !redirectRoute || childMenuItems.length > 1;
+      if (contentHasMenu) {
         // Add a menu item containing links to the child content.
         menu[routePath] = routeItem(routePath, { contentPath: RoutingMenu, name: 'RoutingMenu' }, menuProps(page.name, childMenuItems), routeImporter);
       }
@@ -106,11 +150,14 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
     // If the pages has content, add the content render item. If not, add a placeholder item.
     if (page.content) {
       content[routePath] = contentRouteItem(routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
+    } else if (redirectRoute && contentHasMenu) {
+      // If content has a menu do not auto redirect to the first item at small form factors.
+      content[routePath] = flexibleRedirectRouteItem(routePath, placeholder, redirectRoute, routeImporter);
     } else if (redirectRoute) {
-      // If a redirect Route has been identified, redirect to it.
-      content[routePath] = contentRouteItem(routePath, { contentPath: Redirect, name: '{ Redirect }', identifier: 'Redirect' }, { to: redirectRoute }, 'js', routeImporter);
+      // If content has a redirect and doesn't have a menu, always redirect.
+      content[routePath] = redirectRouteItem(routePath, redirectRoute, routeImporter);
     } else {
-      content[routePath] = contentRouteItem(routePath, { contentPath: placeholder.content, name: 'TerraDevSitePlaceholder' }, placeholder.props, 'js', routeImporter);
+      content[routePath] = placeholderRouteItem(routePath, placeholder, routeImporter);
     }
 
     return { content, menu, menuItems };
