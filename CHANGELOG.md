@@ -4,6 +4,12 @@ Changelog
 Unreleased
 ----------
 
+2.3.0 - (August 21, 2018)
+----------
+### Changed
+* No auto selection at Tiny viewport 
+* Match Node Env in Heroku to Served Assets
+
 2.2.0 - (July 25, 2018)
 ----------
 ### Changed
