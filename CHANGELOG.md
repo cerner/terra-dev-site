@@ -3,11 +3,13 @@ Changelog
 
 Unreleased
 ----------
+### Fixed
+* Fix page generation error when source or dist options are not provided when using the generatePages configuration option
 
 2.3.0 - (August 21, 2018)
 ----------
 ### Changed
-* No auto selection at Tiny viewport 
+* No auto selection at Tiny viewport
 * Match Node Env in Heroku to Served Assets
 
 2.2.0 - (July 25, 2018)
