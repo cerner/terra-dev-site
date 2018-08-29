@@ -12,6 +12,7 @@
 [![Cerner OSS](https://badgen.net/badge/Cerner/OSS/blue)](http://engineering.cerner.com/2014/01/cerner-and-open-source/)
 [![License](https://badgen.net/github/license/cerner/terra-dev-site)](https://github.com/cerner/terra-dev-site/blob/master/LICENSE)
 [![Build Status](https://badgen.net/travis/cerner/terra-dev-site)](https://travis-ci.org/cerner/terra-dev-site)
+[![Dependencies status](https://badgen.net/david/dep/cerner/terra-dev-site)](https://david-dm.org/cerner/terra-dev-site)
 [![devDependencies status](https://badgen.net/david/dev/cerner/terra-dev-site)](https://david-dm.org/cerner/terra-dev-site?type=dev)
 
 Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and page configuration.
