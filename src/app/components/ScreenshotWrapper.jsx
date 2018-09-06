@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import Image from 'terra-image';
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
+import styles from './ScreenshotWrapper.scss';
+
+const cx = classNames.bind(styles);
 
 const propTypes = {
   imageConfig: PropTypes.arrayOf(PropTypes.shape({
@@ -14,7 +18,7 @@ const propTypes = {
 
 const createImage = (config, index) => (
   <ContentContainer header={<ActionHeader title={`Language: ${config.language}, Viewport: ${config.viewport}`} />} key={`image-${index}`}>
-    <Image src={config.contentPath} />
+    <Image src={config.contentPath} className={cx('image')} />
   </ContentContainer>
 );
 
