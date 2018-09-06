@@ -8,6 +8,7 @@ const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 const TerraDocTemplate = 'terra-doc-template';
 const Redirect = 'react-router-dom';
+const TerraScreenshotWrapper = 'terra-dev-site/lib/app/components/ScreenshotWrapper';
 
 /**
 * Setup a menuItem object.
@@ -39,15 +40,37 @@ const routeItem = (routePath, { contentPath, name }, props, routeImporter) => ({
   },
 });
 
+const screenshotProps = (contentConfig, routeImporter) => {
+  const contentCopy = Object.assign({}, contentConfig);
+  return Object.keys(contentCopy).reduce((acc, contentKey) => {
+    const language = contentCopy[contentKey];
+    Object.keys(language).forEach((languageKey) => {
+      const formFactor = language[languageKey];
+      const contentPaths = {};
+      Object.keys(formFactor).forEach((formFactorKey) => { contentPaths[`${formFactorKey}ImageSrc`] = routeImporter.addImport(ImportAggregator.relativePath(formFactor[formFactorKey])); });
+      acc.push({
+        language: contentKey,
+        formFactor: languageKey,
+        contentPaths,
+      });
+    });
+    return acc;
+  }, []);
+};
+
 /**
  * Sets up content route item. All content items are wrapped with the content wrapper.
  */
 const contentRouteItem = (routePath, { contentPath, name, identifier }, props, type, routeImporter) => {
-  const relativeContent = routeImporter.addImport(ImportAggregator.relativePath(contentPath), name, identifier);
-  let contentProps = {
-    content: relativeContent,
-    props,
-  };
+  let relativeContent;
+  let contentProps;
+  if (typeof contentPath === 'string') {
+    relativeContent = routeImporter.addImport(ImportAggregator.relativePath(contentPath), name, identifier);
+    contentProps = {
+      content: relativeContent,
+      props,
+    };
+  }
 
   // If the type is md, we want to further wrap the file in a terra-doc-template, to render the markdown.
   if (type === 'md') {
@@ -56,6 +79,13 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
       props: {
         readme: relativeContent,
       },
+    };
+  }
+
+  if (type === 'screenshot') {
+    contentProps = {
+      content: routeImporter.addImport(TerraScreenshotWrapper),
+      props: { imageConfig: screenshotProps(contentPath, routeImporter) },
     };
   }
 

@@ -177,6 +177,69 @@ const sortPageConfig = config => (
   })
 );
 
+const buildScreenshotConfig = (generatePagesOptions, namespace) => {
+  const patterns = generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
+    const rootPath = root.replace(/[\\]/g, '/');
+    acc.push({
+      pattern: `${rootPath}/packages/*/tests/wdio/__snapshots__/**/*.png`,
+      // build out a regex for the entrypoint mask.
+      entryPoint: `${rootPath}/packages/[^/]*/tests/wdio/__snapshots__/`,
+    });
+    acc.push({
+      pattern: `${rootPath}/tests/wdio/__snapshots__/**/*.png`,
+      // build out a regex for the entrypoint mask.
+      entryPoint: `${rootPath}/tests/wdio/__snapshots__/`,
+    });
+
+    return acc;
+  }, []);
+
+  // Execute the globs and regex masks, to trim the directories.
+  const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
+    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
+  ), []);
+
+  const combinedPaths = filePaths.reduce((acc, { filePath }) => {
+    // Break up the file path
+    const parsedPath = path.parse(filePath);
+    // Grab the type (doc, test, etc) and the name without the extension.
+    const { name } = parseExtension(parsedPath.name);
+    const directory = parsedPath.dir;
+    const contentPath = relativePath(filePath);
+    const packageNamespace = getNamespace(directory, namespace);
+    const subpath = parsedPath.dir.split('__snapshots__/')[1].split('/');
+    const key = `${packageNamespace}:${name}`;
+
+    let infoDerp = acc[key];
+    if (!infoDerp) {
+      infoDerp = {
+        name: startCase(name),
+        path: namespace ? `/${kebabCase(namespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`,
+        group: '',
+        content: {},
+        type: 'screenshot',
+      };
+      acc[key] = infoDerp;
+    }
+
+    let dir1 = infoDerp.content[subpath[1]];
+    if (!dir1) {
+      dir1 = {};
+      infoDerp.content[subpath[1]] = dir1;
+    }
+    let dir2 = dir1[subpath[2]];
+    if (!dir2) {
+      dir2 = {};
+      dir1[subpath[2]] = dir2;
+    }
+    dir2[subpath[0]] = contentPath;
+
+    return acc;
+  }, {});
+
+  return combinedPaths;
+};
+
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
@@ -227,6 +290,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   // Build out the page config from the discovered file paths.
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
+  config.screenshot = buildScreenshotConfig(generatePagesOptions, siteConfig.npmPackage.name);
 
   // Sort config and convert pages objects into ordered arrays.
   const sortedConfig = Object.keys(config).reduce((acc, key) => {
@@ -234,7 +298,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     return acc;
   }, {});
 
-  if (verbose) {
+  if (!verbose) {
     // eslint-disable-next-line no-console
     console.log('Page Config', JSON.stringify(sortedConfig, null, 2));
   }
