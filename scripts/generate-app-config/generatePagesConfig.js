@@ -181,14 +181,14 @@ const buildScreenshotConfig = (generatePagesOptions, namespace) => {
   const patterns = generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
     const rootPath = root.replace(/[\\]/g, '/');
     acc.push({
-      pattern: `${rootPath}/packages/*/tests/wdio/__snapshots__/**/*.png`,
+      pattern: `${rootPath}/packages/*/tests/wdio/__snapshots__/reference/**/*.png`,
       // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/packages/[^/]*/tests/wdio/__snapshots__/`,
+      entryPoint: `${rootPath}/packages/[^/]*/tests/wdio/__snapshots__/reference/`,
     });
     acc.push({
-      pattern: `${rootPath}/tests/wdio/__snapshots__/**/*.png`,
+      pattern: `${rootPath}/tests/wdio/__snapshots__/reference/**/*.png`,
       // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/tests/wdio/__snapshots__/`,
+      entryPoint: `${rootPath}/tests/wdio/__snapshots__/reference/`,
     });
 
     return acc;
@@ -222,17 +222,12 @@ const buildScreenshotConfig = (generatePagesOptions, namespace) => {
       acc[key] = infoDerp;
     }
 
-    let dir1 = infoDerp.content[subpath[1]];
-    if (!dir1) {
-      dir1 = {};
-      infoDerp.content[subpath[1]] = dir1;
+    let dir = infoDerp.content[subpath[1]];
+    if (!dir) {
+      dir = {};
+      infoDerp.content[subpath[1]] = dir;
     }
-    let dir2 = dir1[subpath[2]];
-    if (!dir2) {
-      dir2 = {};
-      dir1[subpath[2]] = dir2;
-    }
-    dir2[subpath[0]] = contentPath;
+    dir[subpath[2]] = contentPath;
 
     return acc;
   }, {});

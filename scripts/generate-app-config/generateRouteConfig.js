@@ -42,16 +42,15 @@ const routeItem = (routePath, { contentPath, name }, props, routeImporter) => ({
 
 const screenshotProps = (contentConfig, routeImporter) => {
   const contentCopy = Object.assign({}, contentConfig);
-  return Object.keys(contentCopy).reduce((acc, contentKey) => {
-    const language = contentCopy[contentKey];
-    Object.keys(language).forEach((languageKey) => {
-      const formFactor = language[languageKey];
-      const contentPaths = {};
-      Object.keys(formFactor).forEach((formFactorKey) => { contentPaths[`${formFactorKey}ImageSrc`] = routeImporter.addImport(ImportAggregator.relativePath(formFactor[formFactorKey])); });
+  return Object.keys(contentCopy).reduce((acc, languageKey) => {
+    const viewports = contentCopy[languageKey];
+    Object.keys(viewports).forEach((viewportKey) => {
+      const viewport = viewports[viewportKey];
+      const contentPath = routeImporter.addImport(ImportAggregator.relativePath(viewport));
       acc.push({
-        language: contentKey,
-        formFactor: languageKey,
-        contentPaths,
+        language: languageKey,
+        viewport: viewportKey,
+        contentPath,
       });
     });
     return acc;
