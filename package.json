@@ -39,6 +39,12 @@
   "bin": {
     "tds-generate-app-config": "bin/generateAppConfig.js"
   },
+  "eslintConfig": {
+    "extends": "terra"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-terra"
+  },
   "scripts": {
     "clean": "node scripts/clean-modules/index.js",
     "clean:compiled": "rimraf lib",
@@ -114,11 +120,8 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.2.2",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.8.2",
+    "eslint": "^5.0.0",
+    "eslint-config-terra": "^2.1.0",
     "gh-pages": "^1.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.1.0",
@@ -128,10 +131,7 @@
     "react-test-renderer": "^16.4.2",
     "rimraf": "^2.6.1",
     "shelljs": "^0.8.2",
-    "stylelint": "^9.2.0",
-    "stylelint-config-sass-guidelines": "^5.0.0",
-    "stylelint-order": "^0.8.1",
-    "stylelint-scss": "^3.1.0",
-    "stylelint-suitcss": "^3.0.0"
+    "stylelint": "^9.0.0",
+    "stylelint-config-terra": "^1.2.0"
   }
 }
