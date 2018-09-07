@@ -1,6 +1,6 @@
-const ImportAggregator = require('./generation-objects/ImportAggregator');
 const kebabCase = require('lodash.kebabcase');
 const startCase = require('lodash.startcase');
+const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 // "require" items to be added to the generated config.
 const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
