@@ -2,6 +2,6 @@
   .image {
     border: 1px solid black;
     margin: 10px;
-    max-width: 100%;
+    max-width: calc(100% - 20px);
   }
 }

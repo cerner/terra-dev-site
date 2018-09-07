@@ -136,6 +136,91 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
   }, {})
 );
 
+const getScreenshotPatterns = (generatePagesOptions) => {
+  return generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
+    const rootPath = root.replace(/[\\]/g, '/');
+    acc.push({
+      pattern: `${rootPath}/packages/*/tests/wdio/__snapshots__/reference/**/*.png`,
+      // build out a regex for the entrypoint mask.
+      entryPoint: `${rootPath}/packages/[^/]*/tests/wdio/__snapshots__/reference/`,
+    });
+    acc.push({
+      pattern: `${rootPath}/tests/wdio/__snapshots__/reference/**/*.png`,
+      // build out a regex for the entrypoint mask.
+      entryPoint: `${rootPath}/tests/wdio/__snapshots__/reference/`,
+    });
+
+    return acc;
+  }, []);
+};
+
+const createScreenshotParent = (packageNamespace) => {
+  return {
+    name: startCase(packageNamespace),
+    path: `/${kebabCase(packageNamespace)}`,
+    group: '',
+    pages: {},
+  };
+};
+
+const createScreenshotPage = (packageNamespace, name) => {
+  return {
+    name: startCase(name),
+    path: packageNamespace ? `/${kebabCase(packageNamespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`,
+    group: '',
+    content: {},
+    type: 'screenshot',
+  };
+};
+
+const buildScreenshotConfig = (generatePagesOptions, namespace) => {
+  const patterns = getScreenshotPatterns(generatePagesOptions);
+
+  // Execute the globs and regex masks, to trim the directories.
+  const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
+    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
+  ), []);
+
+  const combinedPaths = filePaths.reduce((acc, { filePath }) => {
+    // Break up the file path
+    const parsedPath = path.parse(filePath);
+    // Grab the type (doc, test, etc) and the name without the extension.
+    const { name } = parseExtension(parsedPath.name);
+    const directory = parsedPath.dir;
+    const contentPath = relativePath(filePath);
+    const packageNamespace = getNamespace(directory, namespace);
+    const subpath = parsedPath.dir.split('__snapshots__/')[1].split('/');
+    const key = `${packageNamespace}:${name}`;
+
+    let parent = acc;
+    if (packageNamespace !== namespace) {
+      let parentPage = acc[packageNamespace];
+      if (!parentPage) {
+        parentPage = createScreenshotParent(packageNamespace);
+        acc[packageNamespace] = parentPage;
+      }
+      parent = parentPage.pages;
+    }
+
+    let page = parent[key];
+    if (!page) {
+      page = createScreenshotPage(packageNamespace, name);
+      parent[key] = page;
+    }
+
+    let dir = page.content[subpath[1]];
+    if (!dir) {
+      dir = {};
+      page.content[subpath[1]] = dir;
+    }
+    dir[subpath[2]] = contentPath;
+
+    return acc;
+  }, {});
+
+  return combinedPaths;
+};
+
 /**
 * Simple alpha sort. Copied from MDN, if I'm (Matt) being honest.
 */
@@ -176,64 +261,6 @@ const sortPageConfig = config => (
     return page;
   })
 );
-
-const buildScreenshotConfig = (generatePagesOptions, namespace) => {
-  const patterns = generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
-    const rootPath = root.replace(/[\\]/g, '/');
-    acc.push({
-      pattern: `${rootPath}/packages/*/tests/wdio/__snapshots__/reference/**/*.png`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/packages/[^/]*/tests/wdio/__snapshots__/reference/`,
-    });
-    acc.push({
-      pattern: `${rootPath}/tests/wdio/__snapshots__/reference/**/*.png`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/tests/wdio/__snapshots__/reference/`,
-    });
-
-    return acc;
-  }, []);
-
-  // Execute the globs and regex masks, to trim the directories.
-  const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
-    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
-  ), []);
-
-  const combinedPaths = filePaths.reduce((acc, { filePath }) => {
-    // Break up the file path
-    const parsedPath = path.parse(filePath);
-    // Grab the type (doc, test, etc) and the name without the extension.
-    const { name } = parseExtension(parsedPath.name);
-    const directory = parsedPath.dir;
-    const contentPath = relativePath(filePath);
-    const packageNamespace = getNamespace(directory, namespace);
-    const subpath = parsedPath.dir.split('__snapshots__/')[1].split('/');
-    const key = `${packageNamespace}:${name}`;
-
-    let infoDerp = acc[key];
-    if (!infoDerp) {
-      infoDerp = {
-        name: startCase(name),
-        path: namespace ? `/${kebabCase(namespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`,
-        group: '',
-        content: {},
-        type: 'screenshot',
-      };
-      acc[key] = infoDerp;
-    }
-
-    let dir = infoDerp.content[subpath[1]];
-    if (!dir) {
-      dir = {};
-      infoDerp.content[subpath[1]] = dir;
-    }
-    dir[subpath[2]] = contentPath;
-
-    return acc;
-  }, {});
-
-  return combinedPaths;
-};
 
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
@@ -293,7 +320,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     return acc;
   }, {});
 
-  if (!verbose) {
+  if (verbose) {
     // eslint-disable-next-line no-console
     console.log('Page Config', JSON.stringify(sortedConfig, null, 2));
   }
