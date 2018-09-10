@@ -7,6 +7,7 @@ const generateExtensions = require('./generateExtensions');
 const generateUtilitiesConfig = require('./generateUtilitiesConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
+const generateScreenshotLink = require('./generateScreenshotLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
 
@@ -39,6 +40,10 @@ const generateAppConfig = (siteConfig, production, verbose, includeScreenshots) 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   // This is where we are writing out the generated files.
   const buildPath = path.join(rootPath, 'build');
+
+  if (includeScreenshots) {
+    navConfig.navigation.links = generateScreenshotLink(navConfig);
+  }
 
   const utilityConfig = addConfig(
     generateUtilitiesConfig(appConfig),

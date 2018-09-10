@@ -22,11 +22,6 @@ const navConfig = {
       text: 'Tests',
       pageTypes: ['test'],
       isHidden: true,
-    }, {
-      path: '/screenshots',
-      text: 'Screenshots',
-      pageTypes: ['screenshot'],
-      isHidden: false,
     }],
   },
 };

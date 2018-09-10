@@ -136,8 +136,8 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
   }, {})
 );
 
-const getScreenshotPatterns = (generatePagesOptions) => {
-  return generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
+const getScreenshotPatterns = generatePagesOptions => (
+  generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
     const rootPath = root.replace(/[\\]/g, '/');
     acc.push({
       pattern: `${rootPath}/packages/*/tests/wdio/__snapshots__/reference/**/*.png`,
@@ -151,27 +151,27 @@ const getScreenshotPatterns = (generatePagesOptions) => {
     });
 
     return acc;
-  }, []);
-};
+  }, [])
+);
 
-const createScreenshotParent = (packageNamespace) => {
-  return {
+const createScreenshotParent = packageNamespace => (
+  {
     name: startCase(packageNamespace),
     path: `/${kebabCase(packageNamespace)}`,
     group: '',
     pages: {},
-  };
-};
+  }
+);
 
-const createScreenshotPage = (packageNamespace, name) => {
-  return {
+const createScreenshotPage = (packageNamespace, name) => (
+  {
     name: startCase(name),
     path: packageNamespace ? `/${kebabCase(packageNamespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`,
     group: '',
     content: {},
     type: 'screenshot',
-  };
-};
+  }
+);
 
 const buildScreenshotConfig = (generatePagesOptions, namespace) => {
   const patterns = getScreenshotPatterns(generatePagesOptions);
@@ -317,7 +317,7 @@ const generatePagesConfig = (siteConfig, production, verbose, includeScreenshots
   if (includeScreenshots) {
     config.screenshot = buildScreenshotConfig(generatePagesOptions, siteConfig.npmPackage.name);
   }
-  
+
   // Sort config and convert pages objects into ordered arrays.
   const sortedConfig = Object.keys(config).reduce((acc, key) => {
     acc[key] = sortPageConfig(config[key]);
