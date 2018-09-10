@@ -265,7 +265,7 @@ const sortPageConfig = config => (
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
-const generatePagesConfig = (siteConfig, production, verbose) => {
+const generatePagesConfig = (siteConfig, production, verbose, includeScreenshots) => {
   const {
     generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
   } = siteConfig;
@@ -312,8 +312,12 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   // Build out the page config from the discovered file paths.
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
-  config.screenshot = buildScreenshotConfig(generatePagesOptions, siteConfig.npmPackage.name);
 
+  // Check config here
+  if (includeScreenshots) {
+    config.screenshot = buildScreenshotConfig(generatePagesOptions, siteConfig.npmPackage.name);
+  }
+  
   // Sort config and convert pages objects into ordered arrays.
   const sortedConfig = Object.keys(config).reduce((acc, key) => {
     acc[key] = sortPageConfig(config[key]);

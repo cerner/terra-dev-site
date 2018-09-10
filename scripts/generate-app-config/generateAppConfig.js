@@ -26,7 +26,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 /**
 * Writes out a file consisting of the app config and imports with the given file name to the specified path.
 */
-const generateAppConfig = (siteConfig, production, verbose) => {
+const generateAppConfig = (siteConfig, production, verbose, includeScreenshots) => {
   const imports = new ImportAggregator();
 
   const {
@@ -57,7 +57,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   );
 
   const routingConfig = addConfig(
-    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose)),
+    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose, includeScreenshots)),
     'routeConfig.js',
     buildPath,
     fse,

@@ -49,6 +49,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const production = argv.p;
   const processPath = process.cwd();
   const verbose = env.verboseGenerateAppConfig;
+  const includeScreenshots = env.generateScreenshotConfig;
 
   // Get the site configuration to add as a resolve path
   const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
@@ -57,7 +58,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const siteConfig = loadSiteConfig();
 
   // Generate the files need to spin up the site.
-  generateAppConfig(siteConfig, production, verbose);
+  generateAppConfig(siteConfig, production, verbose, includeScreenshots);
 
   // Get the default package name.
   const packageName = siteConfig.npmPackage.name;
