@@ -1,13 +1,13 @@
 /**
-* Generates the file representing navigation items.
+* Return navigational links with the config for test evidence injected.
 */
-const generateScreenshotLink = (navConfig) => {
+const injectTestEvidenceLink = (navConfig) => {
   const { navigation } = navConfig;
   let addScreenshots = true;
   if (navigation.links.length) {
     for (let i = 0; i < navigation.links.length; i += 1) {
       const navigationItem = navigation.links[i];
-      if (navigationItem.path === '/screenshots') {
+      if (navigationItem.path === '/evidence') {
         addScreenshots = false;
         break;
       }
@@ -16,9 +16,9 @@ const generateScreenshotLink = (navConfig) => {
 
   if (addScreenshots) {
     return navigation.links.concat([{
-      path: '/screenshots',
-      text: 'Screenshots',
-      pageTypes: ['screenshot'],
+      path: '/evidence',
+      text: 'Evidence',
+      pageTypes: ['evidence'],
       isHidden: false,
     }]);
   }
@@ -26,4 +26,4 @@ const generateScreenshotLink = (navConfig) => {
   return navigation.links;
 };
 
-module.exports = generateScreenshotLink;
+module.exports = injectTestEvidenceLink;

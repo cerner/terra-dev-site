@@ -7,7 +7,7 @@ const generateExtensions = require('./generateExtensions');
 const generateUtilitiesConfig = require('./generateUtilitiesConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
-const generateScreenshotLink = require('./generateScreenshotLink');
+const injectTestEvidenceLink = require('./injectTestEvidenceLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
 
@@ -27,7 +27,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 /**
 * Writes out a file consisting of the app config and imports with the given file name to the specified path.
 */
-const generateAppConfig = (siteConfig, production, verbose, includeScreenshots) => {
+const generateAppConfig = (siteConfig, production, verbose, includeTestEvidence) => {
   const imports = new ImportAggregator();
 
   const {
@@ -41,8 +41,8 @@ const generateAppConfig = (siteConfig, production, verbose, includeScreenshots) 
   // This is where we are writing out the generated files.
   const buildPath = path.join(rootPath, 'build');
 
-  if (includeScreenshots) {
-    navConfig.navigation.links = generateScreenshotLink(navConfig);
+  if (includeTestEvidence) {
+    navConfig.navigation.links = injectTestEvidenceLink(navConfig);
   }
 
   const utilityConfig = addConfig(
@@ -62,7 +62,7 @@ const generateAppConfig = (siteConfig, production, verbose, includeScreenshots) 
   );
 
   const routingConfig = addConfig(
-    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose, includeScreenshots)),
+    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose, includeTestEvidence)),
     'routeConfig.js',
     buildPath,
     fse,

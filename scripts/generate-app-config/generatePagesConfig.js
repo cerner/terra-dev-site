@@ -154,7 +154,7 @@ const getScreenshotPatterns = generatePagesOptions => (
   }, [])
 );
 
-const createScreenshotParent = packageNamespace => (
+const createEvidenceParent = packageNamespace => (
   {
     name: startCase(packageNamespace),
     path: `/${kebabCase(packageNamespace)}`,
@@ -163,7 +163,7 @@ const createScreenshotParent = packageNamespace => (
   }
 );
 
-const createScreenshotPage = (packageNamespace, name) => (
+const createEvidencePage = (packageNamespace, name) => (
   {
     name: startCase(name),
     path: packageNamespace ? `/${kebabCase(packageNamespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`,
@@ -173,7 +173,7 @@ const createScreenshotPage = (packageNamespace, name) => (
   }
 );
 
-const buildScreenshotConfig = (generatePagesOptions, namespace) => {
+const buildTestEvidenceConfig = (generatePagesOptions, namespace) => {
   const patterns = getScreenshotPatterns(generatePagesOptions);
 
   // Execute the globs and regex masks, to trim the directories.
@@ -196,7 +196,7 @@ const buildScreenshotConfig = (generatePagesOptions, namespace) => {
     if (packageNamespace !== namespace) {
       let parentPage = acc[packageNamespace];
       if (!parentPage) {
-        parentPage = createScreenshotParent(packageNamespace);
+        parentPage = createEvidenceParent(packageNamespace);
         acc[packageNamespace] = parentPage;
       }
       parent = parentPage.pages;
@@ -204,7 +204,7 @@ const buildScreenshotConfig = (generatePagesOptions, namespace) => {
 
     let page = parent[key];
     if (!page) {
-      page = createScreenshotPage(packageNamespace, name);
+      page = createEvidencePage(packageNamespace, name);
       parent[key] = page;
     }
 
@@ -265,7 +265,7 @@ const sortPageConfig = config => (
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
-const generatePagesConfig = (siteConfig, production, verbose, includeScreenshots) => {
+const generatePagesConfig = (siteConfig, production, verbose, includeTestEvidence) => {
   const {
     generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
   } = siteConfig;
@@ -314,8 +314,8 @@ const generatePagesConfig = (siteConfig, production, verbose, includeScreenshots
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 
   // Check config here
-  if (includeScreenshots) {
-    config.screenshot = buildScreenshotConfig(generatePagesOptions, siteConfig.npmPackage.name);
+  if (includeTestEvidence) {
+    config.evidence = buildTestEvidenceConfig(generatePagesOptions, siteConfig.npmPackage.name);
   }
 
   // Sort config and convert pages objects into ordered arrays.
