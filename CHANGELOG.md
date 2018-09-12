@@ -6,6 +6,9 @@ Unreleased
 ### Changed
 * Updated linters and linter plugins to latest release
 
+### Added
+* Ability to display test evidence parsed from the snapshots directory
+
 2.5.0 - (September 5, 2018)
 ----------
 ### Changed
