@@ -1,5 +1,5 @@
-const IdentifierPlaceholder = require('./IdentifierPlaceholder');
 const path = require('path');
+const IdentifierPlaceholder = require('./IdentifierPlaceholder');
 
 /**
 * This class aggregates imports and helps insure things are not included more than once.

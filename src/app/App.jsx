@@ -136,15 +136,17 @@ class App extends React.Component {
               render={() => RawRoute(routingConfig, location, '/raw')}
             />
             <Route
-              render={() => (<ApplicationLayout
-                nameConfig={nameConfig}
-                utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-                routingConfig={routingConfig}
-                navigationItems={navigationItems}
-                extensions={extensions}
-                indexPath={indexPath}
-                navigationAlignment="start"
-              />)}
+              render={() => (
+                <ApplicationLayout
+                  nameConfig={nameConfig}
+                  utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+                  routingConfig={routingConfig}
+                  navigationItems={navigationItems}
+                  extensions={extensions}
+                  indexPath={indexPath}
+                  navigationAlignment="start"
+                />
+              )}
             />
           </Switch>
         </Base>

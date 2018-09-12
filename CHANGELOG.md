@@ -3,6 +3,14 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated linters and linter plugins to latest release
+
+2.5.0 - (September 5, 2018)
+----------
+### Changed
+* Bumped minimum react peerDependency version from ^16.2.0 to ^16.4.2
+* Bumped minimum react-dom peerDependency version from ^16.2.0 to ^16.4.2
 
 2.4.0 - (August 29, 2018)
 ----------

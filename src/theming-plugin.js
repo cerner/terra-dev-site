@@ -2,12 +2,11 @@ const postcss = require('postcss');
 const fs = require('fs');
 const path = require('path');
 
-const sortHash = data =>
-  Object.keys(data).sort().reduce((a, b) => {
-    // eslint-disable-next-line no-param-reassign
-    a[b] = data[b];
-    return a;
-  }, {});
+const sortHash = data => Object.keys(data).sort().reduce((a, b) => {
+  // eslint-disable-next-line no-param-reassign
+  a[b] = data[b];
+  return a;
+}, {});
 
 module.exports = postcss.plugin('theming-plugin', () => {
   const variables = {};
