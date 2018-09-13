@@ -169,7 +169,7 @@ const createEvidencePage = (packageNamespace, name) => (
     path: packageNamespace ? `/${kebabCase(packageNamespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`,
     group: '',
     content: {},
-    type: 'screenshot',
+    type: 'evidence',
   }
 );
 
