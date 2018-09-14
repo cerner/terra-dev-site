@@ -81,7 +81,7 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
     };
   }
 
-  if (type === 'screenshot') {
+  if (type === 'evidence') {
     contentProps = {
       content: routeImporter.addImport(TerraScreenshotWrapper),
       props: { imageConfig: screenshotProps(contentPath, routeImporter) },
