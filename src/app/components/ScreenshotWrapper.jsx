@@ -10,14 +10,13 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   imageConfig: PropTypes.arrayOf(PropTypes.shape({
-    language: PropTypes.string.isRequired,
     viewport: PropTypes.string.isRequired,
     contentPath: PropTypes.string.isRequired,
   })).isRequired,
 };
 
 const createImage = (config, index) => (
-  <ContentContainer header={<ActionHeader title={`Language: ${config.language}, Viewport: ${config.viewport}`} />} key={`image-${index}`}>
+  <ContentContainer header={<ActionHeader title={`Viewport: ${config.viewport}`} />} key={`image-${index}`}>
     <Image src={config.contentPath} className={cx('image')} />
   </ContentContainer>
 );

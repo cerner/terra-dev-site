@@ -215,7 +215,7 @@ const buildTestEvidenceConfig = (generatePagesOptions, namespace) => {
     }
 
     let localePage = parent[localeKey];
-    if (!parentPage) {
+    if (!localePage) {
       localePage = createLocaleParent(packageNamespace, locale);
       parent[localeKey] = localePage;
     }
@@ -280,7 +280,7 @@ const sortPageConfig = config => (
 */
 const generatePagesConfig = (siteConfig, production, verbose) => {
   const {
-    generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
+    generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading, appConfig,
   } = siteConfig;
   // If a pages config is supplied don't do this logic.
   if (pagesConfig) {
@@ -327,7 +327,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 
   // Check config here
-  if (siteConfig.includeTestEvidence) {
+  if (appConfig.includeTestEvidence) {
     config.evidence = buildTestEvidenceConfig(generatePagesOptions, siteConfig.npmPackage.name);
   }
 
