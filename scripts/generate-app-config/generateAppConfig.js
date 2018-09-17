@@ -27,7 +27,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 /**
 * Writes out a file consisting of the app config and imports with the given file name to the specified path.
 */
-const generateAppConfig = (siteConfig, production, verbose, includeTestEvidence) => {
+const generateAppConfig = (siteConfig, production, verbose) => {
   const imports = new ImportAggregator();
 
   const {
@@ -41,7 +41,7 @@ const generateAppConfig = (siteConfig, production, verbose, includeTestEvidence)
   // This is where we are writing out the generated files.
   const buildPath = path.join(rootPath, 'build');
 
-  if (includeTestEvidence) {
+  if (siteConfig.includeTestEvidence) {
     navConfig.navigation.links = injectTestEvidenceLink(navConfig);
   }
 
@@ -62,7 +62,7 @@ const generateAppConfig = (siteConfig, production, verbose, includeTestEvidence)
   );
 
   const routingConfig = addConfig(
-    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose, includeTestEvidence)),
+    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose)),
     'routeConfig.js',
     buildPath,
     fse,

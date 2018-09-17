@@ -163,10 +163,19 @@ const createEvidenceParent = packageNamespace => (
   }
 );
 
-const createEvidencePage = (packageNamespace, name) => (
+const createLocaleParent = (packageNamespace, locale) => (
+  {
+    name: startCase(locale),
+    path: `/${kebabCase(packageNamespace)}/${kebabCase(locale)}`,
+    group: '',
+    pages: {},
+  }
+);
+
+const createEvidencePage = (packageNamespace, locale, name) => (
   {
     name: startCase(name),
-    path: packageNamespace ? `/${kebabCase(packageNamespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`,
+    path: `/${kebabCase(packageNamespace)}/${kebabCase(locale)}/${kebabCase(name)}`,
     group: '',
     content: {},
     type: 'evidence',
@@ -190,7 +199,10 @@ const buildTestEvidenceConfig = (generatePagesOptions, namespace) => {
     const contentPath = relativePath(filePath);
     const packageNamespace = getNamespace(directory, namespace);
     const subpath = parsedPath.dir.split('__snapshots__/')[1].split('/');
-    const key = `${packageNamespace}:${name}`;
+    const locale = subpath[1];
+
+    const nameKey = `${packageNamespace}:${name}`;
+    const localeKey = `${packageNamespace}:${locale}`;
 
     let parent = acc;
     if (packageNamespace !== namespace) {
@@ -202,18 +214,19 @@ const buildTestEvidenceConfig = (generatePagesOptions, namespace) => {
       parent = parentPage.pages;
     }
 
-    let page = parent[key];
-    if (!page) {
-      page = createEvidencePage(packageNamespace, name);
-      parent[key] = page;
+    let localePage = parent[localeKey];
+    if (!parentPage) {
+      localePage = createLocaleParent(packageNamespace, locale);
+      parent[localeKey] = localePage;
     }
+    parent = localePage.pages;
 
-    let dir = page.content[subpath[1]];
-    if (!dir) {
-      dir = {};
-      page.content[subpath[1]] = dir;
+    let page = parent[nameKey];
+    if (!page) {
+      page = createEvidencePage(packageNamespace, locale, name);
+      parent[nameKey] = page;
     }
-    dir[subpath[2]] = contentPath;
+    page.content[subpath[2]] = contentPath;
 
     return acc;
   }, {});
@@ -265,7 +278,7 @@ const sortPageConfig = config => (
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
-const generatePagesConfig = (siteConfig, production, verbose, includeTestEvidence) => {
+const generatePagesConfig = (siteConfig, production, verbose) => {
   const {
     generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
   } = siteConfig;
@@ -314,7 +327,7 @@ const generatePagesConfig = (siteConfig, production, verbose, includeTestEvidenc
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 
   // Check config here
-  if (includeTestEvidence) {
+  if (siteConfig.includeTestEvidence) {
     config.evidence = buildTestEvidenceConfig(generatePagesOptions, siteConfig.npmPackage.name);
   }
 
