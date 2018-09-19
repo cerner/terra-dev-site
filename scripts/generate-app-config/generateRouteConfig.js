@@ -42,7 +42,7 @@ const routeItem = (routePath, { contentPath, name }, props, routeImporter) => ({
 
 const evidenceProps = (contentConfig, routeImporter) => {
   const contentCopy = Object.assign({}, contentConfig);
-  return Object.keys(contentCopy).reduce((acc, viewportKey) => {
+  return { imageConfig: Object.keys(contentCopy).reduce((acc, viewportKey) => {
     const viewport = contentCopy[viewportKey];
     const contentPath = routeImporter.addImport(ImportAggregator.relativePath(viewport));
     acc.push({
@@ -50,7 +50,7 @@ const evidenceProps = (contentConfig, routeImporter) => {
       contentPath,
     });
     return acc;
-  }, []);
+  }, [])};
 };
 
 /**
@@ -80,7 +80,7 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
   if (type === 'evidence') {
     contentProps = {
       content: routeImporter.addImport(TerraScreenshotWrapper),
-      props: { imageConfig: evidenceProps(contentPath, routeImporter) },
+      props: evidenceProps(contentPath, routeImporter),
     };
   }
 
