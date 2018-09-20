@@ -7,17 +7,16 @@ const injectTestEvidenceLink = (navConfig) => {
     for (let i = 0; i < navigation.links.length; i += 1) {
       const navigationItem = navigation.links[i];
       if (navigationItem.path === '/evidence') {
-        return navigation.links.concat([{
-          path: '/evidence',
-          text: 'Evidence',
-          pageTypes: ['evidence'],
-          isHidden: false,
-        }]);
+        return navigation.links;
       }
     }
   }
-
-  return navigation.links;
+  return navigation.links.concat([{
+    path: '/evidence',
+    text: 'Evidence',
+    pageTypes: ['evidence'],
+    isHidden: false,
+  }]);
 };
 
 module.exports = injectTestEvidenceLink;
