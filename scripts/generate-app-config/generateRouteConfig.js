@@ -42,15 +42,17 @@ const routeItem = (routePath, { contentPath, name }, props, routeImporter) => ({
 
 const evidenceProps = (contentConfig, routeImporter) => {
   const contentCopy = Object.assign({}, contentConfig);
-  return { imageConfig: Object.keys(contentCopy).reduce((acc, viewportKey) => {
-    const viewport = contentCopy[viewportKey];
-    const contentPath = routeImporter.addImport(ImportAggregator.relativePath(viewport));
-    acc.push({
-      viewport: viewportKey,
-      contentPath,
-    });
-    return acc;
-  }, [])};
+  return {
+    imageConfig: Object.keys(contentCopy).reduce((acc, viewportKey) => {
+      const viewport = contentCopy[viewportKey];
+      const contentPath = routeImporter.addImport(ImportAggregator.relativePath(viewport));
+      acc.push({
+        viewport: viewportKey,
+        contentPath,
+      });
+      return acc;
+    }, []),
+  };
 };
 
 /**

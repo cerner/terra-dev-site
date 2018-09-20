@@ -1,68 +1,15 @@
 const path = require('path');
 const glob = require('glob');
 const kebabCase = require('lodash.kebabcase');
-const lodashStartCase = require('lodash.startcase');
-
-/**
- * Cheat. If the filename still contains a period, don't run startcase. This allows for filenames of version (v0.5.0).
- */
-const startCase = (string) => {
-  if (string.includes('.')) {
-    return string;
-  }
-  return lodashStartCase(string);
-};
-
-/**
- * Gathers the complete set of requested page types.
- */
-const pageTypes = navConfig => (navConfig.navigation.links.reduce((acc, link) => acc.concat(link.pageTypes), []));
-
-/**
- * Gets the path relative to the dev-site-config directory.
- */
-const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config'), componentPath));
-
-/**
- * Provides the namespace for the package in this order, mono repo package, node_modules package, provided package name.
- */
-const getNamespace = (directory, namespace) => {
-  const afterPackages = (/packages\/([^/]*)/.exec(directory) || {})[1];
-  const afterNodeModules = (/node_modules\/([^/]*)/.exec(directory) || {})[1];
-
-  return afterPackages || afterNodeModules || namespace;
-};
-
-/**
- * Returns an array of routes based on folder path.
- */
-const getRoutes = (directory, type, fileName, entryPoint) => {
-  // Remove the directories up to the entry point.
-  const modifiedDirectory = directory.replace(entryPoint, '');
-
-  let routes = modifiedDirectory.split('/');
-
-  // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
-  routes.shift();
-
-  // Trim the first folder after entrypoints if it is named the same as the page type.
-  if ((routes[0] || '').toUpperCase() === type.toUpperCase()) {
-    routes = routes.slice(1);
-  }
-
-  // add on the file name as the last route
-  routes.push(fileName);
-
-  return routes;
-};
-
-/** Returns an object of the end most extention and the filename minus that extension.
- * This may be used mulitiple times on a string to retirve all extensions.
- */
-const parseExtension = fileName => ({
-  name: fileName.replace(/\.[^.]+$/, ''),
-  extension: /[^.]+$/.exec(fileName)[0],
-});
+const generateEvidenceConfig = require('./generateEvidenceConfig');
+const {
+  startCase,
+  pageTypes,
+  relativePath,
+  getNamespace,
+  getRoutes,
+  parseExtension,
+} = require('./configHelpers');
 
 /**
 * Creates the basic page config consisting of name of the page, the route to the page and the sort group for the page.
@@ -135,104 +82,6 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     return acc;
   }, {})
 );
-
-const getScreenshotPatterns = generatePagesOptions => (
-  generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
-    const rootPath = root.replace(/[\\]/g, '/');
-    acc.push({
-      pattern: `${rootPath}/packages/*/tests/wdio/__snapshots__/reference/**/*.png`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/packages/[^/]*/tests/wdio/__snapshots__/reference/`,
-    });
-    acc.push({
-      pattern: `${rootPath}/tests/wdio/__snapshots__/reference/**/*.png`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/tests/wdio/__snapshots__/reference/`,
-    });
-
-    return acc;
-  }, [])
-);
-
-const createEvidenceParent = packageNamespace => (
-  {
-    name: startCase(packageNamespace),
-    path: `/${kebabCase(packageNamespace)}`,
-    group: '',
-    pages: {},
-  }
-);
-
-const createLocaleParent = (packageNamespace, locale) => (
-  {
-    name: startCase(locale),
-    path: `/${kebabCase(packageNamespace)}/${kebabCase(locale)}`,
-    group: '',
-    pages: {},
-  }
-);
-
-const createEvidencePage = (packageNamespace, locale, name) => (
-  {
-    name: startCase(name),
-    path: `/${kebabCase(packageNamespace)}/${kebabCase(locale)}/${kebabCase(name)}`,
-    group: '',
-    content: {},
-    type: 'evidence',
-  }
-);
-
-const buildTestEvidenceConfig = (generatePagesOptions, namespace) => {
-  const patterns = getScreenshotPatterns(generatePagesOptions);
-
-  // Execute the globs and regex masks, to trim the directories.
-  const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
-    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
-  ), []);
-
-  const combinedPaths = filePaths.reduce((acc, { filePath }) => {
-    // Break up the file path
-    const parsedPath = path.parse(filePath);
-    // Grab the type (doc, test, etc) and the name without the extension.
-    const { name } = parseExtension(parsedPath.name);
-    const directory = parsedPath.dir;
-    const contentPath = relativePath(filePath);
-    const packageNamespace = getNamespace(directory, namespace);
-    const subpath = parsedPath.dir.split('__snapshots__/')[1].split('/');
-    const locale = subpath[1];
-
-    const nameKey = `${packageNamespace}:${name}`;
-    const localeKey = `${packageNamespace}:${locale}`;
-
-    let parent = acc;
-    if (packageNamespace !== namespace) {
-      let parentPage = acc[packageNamespace];
-      if (!parentPage) {
-        parentPage = createEvidenceParent(packageNamespace);
-        acc[packageNamespace] = parentPage;
-      }
-      parent = parentPage.pages;
-    }
-
-    let localePage = parent[localeKey];
-    if (!localePage) {
-      localePage = createLocaleParent(packageNamespace, locale);
-      parent[localeKey] = localePage;
-    }
-    parent = localePage.pages;
-
-    let page = parent[nameKey];
-    if (!page) {
-      page = createEvidencePage(packageNamespace, locale, name);
-      parent[nameKey] = page;
-    }
-    page.content[subpath[2]] = contentPath;
-
-    return acc;
-  }, {});
-
-  return combinedPaths;
-};
 
 /**
 * Simple alpha sort. Copied from MDN, if I'm (Matt) being honest.
@@ -328,7 +177,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   // Check config here
   if (appConfig.includeTestEvidence) {
-    config.evidence = buildTestEvidenceConfig(generatePagesOptions, siteConfig.npmPackage.name);
+    config.evidence = generateEvidenceConfig(generatePagesOptions, siteConfig.npmPackage.name);
   }
 
   // Sort config and convert pages objects into ordered arrays.
