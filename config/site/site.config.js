@@ -123,10 +123,10 @@ const siteConfig = {
         gitHubUrl: npmPackage.repository.url.replace('git+', ''),
       },
     },
-
-    /* The default for whether or not test evidence should be included. 'true' is the default value. */
-    includeTestEvidence: true,
   },
+
+  /* The default for whether or not test evidence should be included. 'true' is the default value. */
+  includeTestEvidence: true,
 };
 
 module.exports = siteConfig;

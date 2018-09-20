@@ -6,8 +6,9 @@ const siteConfig = {
   appConfig: {
     locales: ['en'],
     bidirectional: false,
-    includeTestEvidence: false,
   },
+
+  includeTestEvidence: false,
 };
 
 module.exports = siteConfig;

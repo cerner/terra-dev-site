@@ -129,7 +129,7 @@ const sortPageConfig = config => (
 */
 const generatePagesConfig = (siteConfig, production, verbose) => {
   const {
-    generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading, appConfig,
+    generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
   } = siteConfig;
   // If a pages config is supplied don't do this logic.
   if (pagesConfig) {
@@ -176,7 +176,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
   const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
 
   // Check config here
-  if (appConfig.includeTestEvidence) {
+  if (siteConfig.includeTestEvidence) {
     config.evidence = generateEvidenceConfig(generatePagesOptions, siteConfig.npmPackage.name);
   }
 

@@ -41,7 +41,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   // This is where we are writing out the generated files.
   const buildPath = path.join(rootPath, 'build');
 
-  if (appConfig.includeTestEvidence) {
+  if (siteConfig.includeTestEvidence) {
     navConfig.navigation.links = injectTestEvidenceLink(navConfig);
   }
 
