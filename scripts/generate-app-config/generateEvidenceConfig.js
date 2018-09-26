@@ -61,8 +61,6 @@ const generateEvidenceConfig = (generatePagesOptions, namespace) => {
     acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
   ), []);
 
-  console.log(filePaths);
-
   const combinedPaths = filePaths.reduce((acc, { filePath }) => {
     // Break up the file path
     const parsedPath = path.parse(filePath);
