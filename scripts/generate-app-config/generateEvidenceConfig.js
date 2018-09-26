@@ -12,24 +12,14 @@ const getScreenshotPatterns = generatePagesOptions => (
   generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
     const rootPath = root.replace(/[\\]/g, '/');
     acc.push({
-      pattern: `${rootPath}/packages/*/tests/wdio/__snapshots__/reference/**/*.png`,
+      pattern: `${rootPath}/packages/*/{test,tests}/wdio/__snapshots__/reference/**/*.png`,
       // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/packages/[^/]*/tests/wdio/__snapshots__/reference/`,
+      entryPoint: `${rootPath}/packages/[^/]*/(test|tests)/wdio/__snapshots__/reference/`,
     });
     acc.push({
-      pattern: `${rootPath}/tests/wdio/__snapshots__/reference/**/*.png`,
+      pattern: `${rootPath}/{test,tests}/wdio/__snapshots__/reference/**/*.png`,
       // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/tests/wdio/__snapshots__/reference/`,
-    });
-    acc.push({
-      pattern: `${rootPath}/packages/*/test/wdio/__snapshots__/reference/**/*.png`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/packages/[^/]*/test/wdio/__snapshots__/reference/`,
-    });
-    acc.push({
-      pattern: `${rootPath}/test/wdio/__snapshots__/reference/**/*.png`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/test/wdio/__snapshots__/reference/`,
+      entryPoint: `${rootPath}/(test|tests)/wdio/__snapshots__/reference/`,
     });
     return acc;
   }, [])
@@ -70,6 +60,8 @@ const generateEvidenceConfig = (generatePagesOptions, namespace) => {
   const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
     acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
   ), []);
+
+  console.log(filePaths);
 
   const combinedPaths = filePaths.reduce((acc, { filePath }) => {
     // Break up the file path

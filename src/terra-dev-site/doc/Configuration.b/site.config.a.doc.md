@@ -162,7 +162,8 @@ const siteConfig = {
 
   /* The default for whether or not test evidence should be included. 'true' is the default value. 
   * Matches on the default test strucural patthern for test evidence png's:
-  * /tests/wdio/__snapshots__/reference/ and /test/wdio/__snapshots__/reference/
+  * /tests/wdio/__snapshots__/reference/, /test/wdio/__snapshots__/reference/, packages/*/tests/wdio/__snapshots__/reference/,
+  *  and packages/*/test/wdio/__snapshots__/reference/
   */
   includeTestEvidence: true,
 };
