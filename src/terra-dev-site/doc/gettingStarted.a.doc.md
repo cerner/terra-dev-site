@@ -109,7 +109,7 @@ The menu navigation result will be:
 The terra-dev-site's webpack config calls the pre-build tool `generateAppConfig`. The generateAppConfig script builds out static configuration to the `./dev-site-config/build` folder. `generateAppConfig` also discovers pages based on its configuration. After the static config has been built, webpack continues to run, pulling in the static config and producing the webpack bundle.
 
 ## Debug
-To get verbose output, add `--env.verboseGenerateAppConfig` to your webpack command or run `tds:generate-app-config -v`.
+To get verbose output, add `--env.verboseGenerateAppConfig` to your webpack command or run `tds-generate-app-config -v`.
 
 ## Further customization:
 
