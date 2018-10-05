@@ -159,6 +159,13 @@ const siteConfig = {
       gitHubUrl: 'https://github.com/cerner',
     },
   },
+
+  /* The default for whether or not test evidence should be included. 'true' is the default value. 
+  * Matches on the default test strucural patthern for test evidence png's:
+  * /tests/wdio/__snapshots__/reference/, /test/wdio/__snapshots__/reference/, packages/*/tests/wdio/__snapshots__/reference/,
+  *  and packages/*/test/wdio/__snapshots__/reference/
+  */
+  includeTestEvidence: true,
 };
 
 module.exports = siteConfig;
