@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+2.6.0 - (October 8, 2018)
+----------
 ### Changed
 * Updated linters and linter plugins to latest release
 
