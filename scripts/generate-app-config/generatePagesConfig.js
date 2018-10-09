@@ -144,7 +144,10 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     root, source, dist, entryPoint,
   }) => {
     const rootPath = root.replace(/[\\]/g, '/');
-    const sourceDir = ((!production && hotReloading) ? `${source}/` : `${dist}/`) || '';
+    let sourceDir = '';
+    if (source && dist) {
+      sourceDir = (!production && hotReloading) ? `${source}/` : `${dist}/`;
+    }
     acc.push({
       pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
       entryPoint: `${rootPath}/${sourceDir}${entryPoint}`,
