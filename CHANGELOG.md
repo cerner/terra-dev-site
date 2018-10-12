@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+###
+* Fix page generation logic when source or dist options are not provided when using the generatePages configuration option
 
 2.6.0 - (October 8, 2018)
 ----------

@@ -8,6 +8,7 @@ Cerner Corporation
 - Nathan Faltermeier [@Blackop778]
 - Ben Boersma [@BenBoersma]
 - Noah Benham [@noahbenham]
+- Brett Jankord [@bjankord]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -17,4 +18,5 @@ Cerner Corporation
 [@Blackop778]: https://github.com/Blackop778
 [@BenBoersma]: https://github.com/BenBoersma
 [@noahbenham]: https://github.com/NoahBenham
+[@bjankord]: https://github.com/bjankord
 
