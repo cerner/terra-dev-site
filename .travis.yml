@@ -23,3 +23,5 @@ os:
   - windows
   - linux
   - mac
+node_js:
+  - "8"
