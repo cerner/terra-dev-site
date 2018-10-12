@@ -19,3 +19,7 @@ deploy:
   local_dir: build
   on:
     branch: master
+os:
+  - windows
+  - linux
+  - mac
