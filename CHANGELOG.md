@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Momentum scrolling to the site-content wrapper.
 
 2.6.1 - (October 16, 2018)
 ----------
