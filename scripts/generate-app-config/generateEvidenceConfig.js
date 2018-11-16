@@ -21,6 +21,11 @@ const getScreenshotPatterns = generatePagesOptions => (
       // build out a regex for the entrypoint mask.
       entryPoint: `${rootPath}/(test|tests)/wdio/__snapshots__/reference/`,
     });
+    acc.push({
+      pattern: `${rootPath}/{test,tests}/wdio/*/__snapshots__/reference/**/*.png`,
+      // build out a regex for the entrypoint mask.
+      entryPoint: `${rootPath}/(test|tests)/wdio/[^/]*/__snapshots__/reference/`,
+    });
     return acc;
   }, [])
 );
