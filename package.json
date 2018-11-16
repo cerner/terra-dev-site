@@ -100,7 +100,7 @@
     "terra-markdown": "^2.0.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
-    "terra-toolkit": "^4.5.0",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit#replace-uglify-with-terser",
     "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2",
     "xfc": "^1.2.1"

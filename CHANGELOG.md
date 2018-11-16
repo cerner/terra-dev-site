@@ -5,6 +5,7 @@ Unreleased
 ----------
 ### Added
 * Momentum scrolling to the site-content wrapper.
+* Test migrating to terser
 
 2.6.1 - (October 16, 2018)
 ----------
