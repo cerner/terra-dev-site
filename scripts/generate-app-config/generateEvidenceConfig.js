@@ -17,14 +17,9 @@ const getScreenshotPatterns = generatePagesOptions => (
       entryPoint: `${rootPath}/packages/[^/]*/(test|tests)/wdio/__snapshots__/reference/`,
     });
     acc.push({
-      pattern: `${rootPath}/{test,tests}/wdio/__snapshots__/reference/**/*.png`,
+      pattern: `${rootPath}/{test,tests}/wdio/**/__snapshots__/reference/**/*.png`,
       // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/(test|tests)/wdio/__snapshots__/reference/`,
-    });
-    acc.push({
-      pattern: `${rootPath}/{test,tests}/wdio/*/__snapshots__/reference/**/*.png`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/(test|tests)/wdio/[^/]*/__snapshots__/reference/`,
+      entryPoint: `${rootPath}/(test|tests)/wdio/.*__snapshots__/reference/`,
     });
     return acc;
   }, [])
@@ -61,6 +56,7 @@ const createEvidencePage = (packageNamespace, locale, name) => (
 const generateEvidenceConfig = (generatePagesOptions, namespace) => {
   const patterns = getScreenshotPatterns(generatePagesOptions);
 
+  console.log(patterns);
   // Execute the globs and regex masks, to trim the directories.
   const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
     acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
