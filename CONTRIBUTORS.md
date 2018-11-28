@@ -10,6 +10,7 @@ Cerner Corporation
 - Noah Benham [@noahbenham]
 - Brett Jankord [@bjankord]
 - Alisha Parvez [@parvezalisha]
+- Cody Price [@dev-cprice]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -21,4 +22,4 @@ Cerner Corporation
 [@noahbenham]: https://github.com/NoahBenham
 [@bjankord]: https://github.com/bjankord
 [@parvezalisha]: https://github.com/parvezalisha
-
+[@dev-cprice]: https://github.com/dev-cprice
