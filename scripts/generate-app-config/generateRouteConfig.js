@@ -3,7 +3,7 @@ const startCase = require('lodash.startcase');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 // "require" items to be added to the generated config.
-const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
+const DevSiteRoutingMenu = 'terra-application-layout/lib/menu/DevSiteRoutingMenu';
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 const TerraDocTemplate = 'terra-doc-template';
@@ -167,7 +167,7 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       contentHasMenu = !redirectRoute || childMenuItems.length > 1;
       if (contentHasMenu) {
         // Add a menu item containing links to the child content.
-        menu[routePath] = routeItem(routePath, { contentPath: RoutingMenu, name: 'RoutingMenu' }, menuProps(page.name, childMenuItems), routeImporter);
+        menu[routePath] = routeItem(routePath, { contentPath: DevSiteRoutingMenu, name: 'DevSiteRoutingMenu' }, menuProps(page.name, childMenuItems), routeImporter);
       }
     }
 
