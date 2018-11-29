@@ -49,6 +49,7 @@ const defaultProps = {
 };
 
 const devSiteRoutingMenuRootMenuKey = 'devSiteRoutingMenuRootMenuKey';
+const FILTER_DISPLAY_THRESHOLD = 10;
 
 /**
  * This function is curried and allows you to quickly determine if the searchable contains a case-insensitive match with
@@ -62,16 +63,18 @@ export const searchFilter = (by = '') => (searchable = '') => searchable.toLower
  * This function converts the given menuItems from the DevSiteRoutingMenu API to the NavigationSideMenu API.
  * The path is used to uniquely identify the item within the NavigationSideMenu. The path and hasSubMenu
  * values are set as metaData on the item so that `handleMenuChange` will have easy access to those values.
- * @param {Array} menuItems is the Array of menuItem objects as specified by the DevSiteRoutingMenu's proptype definition.
+ * @param {Array} items is the Array of menuItem objects as specified by the DevSiteRoutingMenu's proptype definition.
  */
-export const buildSideMenuItems = (menuItems = []) => menuItems.map(item => ({
-  key: item.path,
-  text: item.text,
-  hasSubMenu: !!item.hasSubMenu,
+export const buildSideMenuItems = (items = []) => items.map(({
+  path, text, hasSubMenu, externalLink,
+}) => ({
+  key: path,
+  text,
+  hasSubMenu: !!hasSubMenu,
   metaData: {
-    path: item.path,
-    externalLink: item.externalLink,
-    hasSubMenu: !!item.hasSubMenu,
+    path,
+    externalLink,
+    hasSubMenu: !!hasSubMenu,
   },
 }));
 
@@ -110,7 +113,7 @@ class DevSiteRoutingMenu extends Component {
     });
   }
 
-  handleMenuChange(event, data) {
+  handleMenuChange(_, data) {
     const { routingStackDelegate, layoutConfig } = this.props;
 
 
@@ -172,16 +175,20 @@ class DevSiteRoutingMenu extends Component {
       isRootMenu: !routingStackDelegate.showParent && !title,
     });
 
-    const toolbar = (
-      <FormattedMessage id="Terra.devSiteRoutingMenu.filter">
-        {placeholder => (
-          <SearchField
-            isBlock
-            placeholder={placeholder}
-            onChange={this.handleFilter}
-          />
-        )}
-      </FormattedMessage>
+    const hasToolbar = (items || []).length >= FILTER_DISPLAY_THRESHOLD;
+    const toolbar = (hasToolbar
+      ? (
+        <FormattedMessage id="Terra.devSiteRoutingMenu.filter">
+          {placeholder => (
+            <SearchField
+              isBlock
+              placeholder={placeholder}
+              onChange={this.handleFilter}
+            />
+          )}
+        </FormattedMessage>
+      )
+      : null
     );
 
     return (

@@ -233,5 +233,29 @@ describe('DevSiteRoutingMenu', () => {
 
       expect(result).toMatchSnapshot();
     });
+
+    it('renders a toolbar with 10 menuItems', () => {
+      const times = n => f => [...Array(n)].map((_, i) => f(i));
+      const tenMenuItems = times(10)(i => ({
+        path: `/${i}`,
+        text: `${i}`,
+        hasSubMenu: i % 2 === 0,
+      }));
+
+      const menu = (
+        <DevSiteRoutingMenu
+          menuItems={tenMenuItems}
+          layoutConfig={{ toggleMenu: jest.fn() }}
+          routingStackDelegate={{
+            show: jest.fn(),
+            showParent: jest.fn(),
+          }}
+          location={{ pathname: '/1' }}
+        />
+      );
+
+      const wrapper = shallow(menu);
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 });
