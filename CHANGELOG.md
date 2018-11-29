@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Use DevSiteRoutingMenu to add ability to filter the navigation by component 
 
 2.8.0 - (December 14, 2018)
 ----------
