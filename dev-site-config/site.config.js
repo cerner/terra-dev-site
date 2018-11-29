@@ -9,6 +9,8 @@ const siteConfig = {
   },
 
   includeTestEvidence: false,
+
+  filterSideMenu: true,
 };
 
 module.exports = siteConfig;

@@ -4,7 +4,8 @@ Changelog
 Unreleased
 ----------
 ### Added
-* Use DevSiteRoutingMenu to add ability to filter the navigation by component 
+* Add DevSiteRoutingMenu to add ability to filter the navigation side menu by component name.
+* Add site.config option 'filterSideMenu' to use new DevSiteRoutingMenu. Defaults to false to use legacy RoutingMenu
 
 2.8.0 - (December 14, 2018)
 ----------

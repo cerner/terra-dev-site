@@ -3,7 +3,8 @@ const startCase = require('lodash.startcase');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 // "require" items to be added to the generated config.
-const DevSiteRoutingMenu = 'terra-application-layout/lib/menu/DevSiteRoutingMenu';
+const RoutingMenu = 'terra-application-layout/lib/menu/RoutingMenu';
+const DevSiteRoutingMenu = 'terra-dev-site/lib/app/components/DevSiteRoutingMenu';
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
 const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 const TerraDocTemplate = 'terra-doc-template';
@@ -139,7 +140,7 @@ const flexibleRedirectRouteItem = (routePath, placeholder, redirectRoute, routeI
 /**
  * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
  */
-const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
+const generateRouteConfig = (config, rootPath, placeholder, routeImporter, filterSideMenu) => (
   config.reduce((acc, page) => {
     let { content, menu } = acc;
     const menuItems = acc.menuItems || [];
@@ -152,7 +153,7 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
     // If the given page, has sub menu items, add them to the overall route object.
     if (hasSubMenu) {
       // Recursively call to get child content, and menu items
-      const { content: childContent, menu: childMenu, menuItems: childMenuItems } = generateRouteConfig(page.pages, routePath, placeholder, routeImporter);
+      const { content: childContent, menu: childMenu, menuItems: childMenuItems } = generateRouteConfig(page.pages, routePath, placeholder, routeImporter, filterSideMenu);
 
       content = Object.assign(content, childContent);
       menu = Object.assign(menu, childMenu);
@@ -167,7 +168,11 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => (
       contentHasMenu = !redirectRoute || childMenuItems.length > 1;
       if (contentHasMenu) {
         // Add a menu item containing links to the child content.
-        menu[routePath] = routeItem(routePath, { contentPath: DevSiteRoutingMenu, name: 'DevSiteRoutingMenu' }, menuProps(page.name, childMenuItems), routeImporter);
+        const contentMenu = (filterSideMenu
+          ? { contentPath: DevSiteRoutingMenu, name: 'DevSiteRoutingMenu' }
+          : { contentPath: RoutingMenu, name: 'RoutingMenu' }
+        );
+        menu[routePath] = routeItem(routePath, contentMenu, menuProps(page.name, childMenuItems), routeImporter);
       }
     }
 
@@ -242,7 +247,7 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     return undefined;
   }
   const routeImporter = new ImportAggregator();
-  const { placeholderSrc, navConfig } = siteConfig;
+  const { placeholderSrc, navConfig, filterSideMenu } = siteConfig;
   const { navigation } = navConfig;
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
 
@@ -257,7 +262,7 @@ const routeConfiguration = (siteConfig, pageConfig) => {
     // Build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
 
-    const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkPageConfig, '', placeholder, routeImporter);
+    const { content: linkContent, menu: linkMenu } = generateRouteConfig(linkPageConfig, '', placeholder, routeImporter, filterSideMenu);
 
     content = Object.assign(content, linkContent);
     menu = Object.assign(menu, linkMenu);
