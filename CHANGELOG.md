@@ -3,8 +3,15 @@ Changelog
 
 Unreleased
 ----------
+
+2.7.0 - (December 3, 2018)
+----------
+### Changed
+* Updated version of terra-application-layout to 3.0.0
+
 ### Added
-* Momentum scrolling to the site-content wrapper.
+* Momentum scrolling to the site-content wrapper
+* Added dependency to terra-app-delegate to prevent transitive dependency issues
 
 2.6.1 - (October 16, 2018)
 ----------
