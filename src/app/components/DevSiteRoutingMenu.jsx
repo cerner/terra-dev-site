@@ -146,7 +146,7 @@ class DevSiteRoutingMenu extends Component {
   }
 
   render() {
-    const { title, routingStackDelegate } = this.props;
+    const { title, routingStackDelegate, menuItems: initialMenuItems } = this.props;
     const { selectedChildKey, menuItems } = this.state;
 
     /**
@@ -166,7 +166,7 @@ class DevSiteRoutingMenu extends Component {
       isRootMenu: !routingStackDelegate.showParent && !title,
     });
 
-    const hasToolbar = (menuItems || []).length >= FILTER_DISPLAY_THRESHOLD;
+    const hasToolbar = (initialMenuItems || []).length >= FILTER_DISPLAY_THRESHOLD;
     const toolbar = (hasToolbar
       ? (
         <FormattedMessage id="Terra.devSiteRoutingMenu.filter">
