@@ -6,6 +6,7 @@ import NavigationSideMenu from 'terra-navigation-side-menu';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import SearchField from 'terra-search-field';
 import { FormattedMessage } from 'react-intl';
+import { Utils } from 'terra-application-layout';
 
 const propTypes = {
   /**
@@ -15,21 +16,11 @@ const propTypes = {
   /**
    * The array of routing shapes to be rendered as menu items within the DevSiteRoutingMenu.
    */
-  menuItems: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    hasSubMenu: PropTypes.bool,
-  })),
+  menuItems: Utils.propTypes.navigationItemsPropType, // eslint-disable-line react/forbid-foreign-prop-types
   /**
    * The Object of layout-related APIs provided to the components of the Layout.
    */
-  layoutConfig: PropTypes.shape({
-    size: PropTypes.string,
-    toggleMenu: PropTypes.func,
-    menuIsOpen: PropTypes.bool,
-    togglePin: PropTypes.bool,
-    menuIsPinned: PropTypes.bool,
-  }).isRequired,
+  layoutConfig: Utils.propTypes.layoutConfigPropType.isRequired, // eslint-disable-line react/forbid-foreign-prop-types
   /**
    * The Object containing RoutingStack APIs provided to children of the RoutingStack. This is
    * used to render a Back button upon presence of a `showParent` implementation.
@@ -99,7 +90,7 @@ class DevSiteRoutingMenu extends Component {
      */
     this.state = {
       selectedChildKey: getSelectedChildKey(props.location.pathname, props.menuItems),
-      items: props.menuItems,
+      menuItems: props.menuItems,
     };
   }
 
@@ -109,7 +100,7 @@ class DevSiteRoutingMenu extends Component {
      */
     this.setState({
       selectedChildKey: getSelectedChildKey(nextProps.location.pathname, nextProps.menuItems),
-      items: nextProps.menuItems,
+      menuItems: nextProps.menuItems,
     });
   }
 
@@ -146,22 +137,22 @@ class DevSiteRoutingMenu extends Component {
 
   handleFilter(event) {
     const filterText = event.target.value;
-    const { menuItems } = this.props;
+    const { menuItems: initialMenuItems } = this.props;
 
     const filter = searchFilter(filterText);
-    const items = menuItems.filter(({ text }) => filter(text));
+    const menuItems = initialMenuItems.filter(({ text }) => filter(text));
 
-    this.setState({ items });
+    this.setState({ menuItems });
   }
 
   render() {
     const { title, routingStackDelegate } = this.props;
-    const { selectedChildKey, items } = this.state;
+    const { selectedChildKey, menuItems } = this.state;
 
     /**
      * The items using the simplified DevSiteRoutingMenu menuItem API must be converted into the NavigationSideMenu's API.
      */
-    const processedMenuItems = buildSideMenuItems(items);
+    const processedMenuItems = buildSideMenuItems(menuItems);
 
     /**
      * The DevSiteRoutingMenu then constructs a menuItem that will act as the main page and render the menuItems as child items.
@@ -175,7 +166,7 @@ class DevSiteRoutingMenu extends Component {
       isRootMenu: !routingStackDelegate.showParent && !title,
     });
 
-    const hasToolbar = (items || []).length >= FILTER_DISPLAY_THRESHOLD;
+    const hasToolbar = (menuItems || []).length >= FILTER_DISPLAY_THRESHOLD;
     const toolbar = (hasToolbar
       ? (
         <FormattedMessage id="Terra.devSiteRoutingMenu.filter">

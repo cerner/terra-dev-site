@@ -15,7 +15,7 @@ const propTypes = {
   /**
    * The layout configuration information to flex rendering..
    */
-  layoutConfig: Utils.propTypes.layoutConfigPropType,
+  layoutConfig: Utils.propTypes.layoutConfigPropType, // eslint-disable-line react/forbid-foreign-prop-types
 };
 
 const defaultProps = {
