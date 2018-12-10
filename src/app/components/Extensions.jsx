@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { Utils } from 'terra-application-layout';
+import { withActiveBreakpoint } from 'terra-breakpoints';
 
 import styles from './Extensions.scss';
 
@@ -13,19 +14,18 @@ const propTypes = {
    */
   children: PropTypes.node,
   /**
-   * The layout configuration information to flex rendering..
+   * The active window breakpoint. This should be provided automatically by a parent ActiveBreakpointProvider.
    */
-  layoutConfig: Utils.propTypes.layoutConfigPropType,
+  activeBreakpoint: PropTypes.string,
 };
 
 const defaultProps = {
   children: [],
-  layoutConfig: undefined,
 };
 
 const Extensions = (props) => {
-  const { children, layoutConfig } = props;
-  const isCompactSize = Utils.helpers.isSizeCompact(layoutConfig.size);
+  const { children, activeBreakpoint } = props;
+  const isCompactSize = Utils.helpers.isSizeCompact(activeBreakpoint);
 
   let containerProps = { className: cx('container') };
   if (isCompactSize) {
@@ -50,4 +50,4 @@ const Extensions = (props) => {
 Extensions.propTypes = propTypes;
 Extensions.defaultProps = defaultProps;
 
-export default Extensions;
+export default withActiveBreakpoint(Extensions);

@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Base from 'terra-base';
+import { ActiveBreakpointProvider } from 'terra-breakpoints';
 import ThemeProvider from 'terra-theme-provider';
 import ApplicationLayout from 'terra-application-layout';
+import ModalManager from 'terra-modal-manager';
 
 import ConfigureUtilities from './ConfigureUtilities';
 import RawRoute from './components/RawRoute';
@@ -130,25 +132,29 @@ class App extends React.Component {
     return (
       <ThemeProvider id="site" themeName={themes[theme]} isGlobalTheme>
         <Base className="base" locale={locale}>
-          <Switch>
-            <Route
-              path="/raw"
-              render={() => RawRoute(routingConfig, location, '/raw')}
-            />
-            <Route
-              render={() => (
-                <ApplicationLayout
-                  nameConfig={nameConfig}
-                  utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-                  routingConfig={routingConfig}
-                  navigationItems={navigationItems}
-                  extensions={extensions}
-                  indexPath={indexPath}
-                  navigationAlignment="start"
+          <ActiveBreakpointProvider>
+            <ModalManager>
+              <Switch>
+                <Route
+                  path="/raw"
+                  render={() => RawRoute(routingConfig, location, '/raw')}
                 />
-              )}
-            />
-          </Switch>
+                <Route
+                  render={() => (
+                    <ApplicationLayout
+                      nameConfig={nameConfig}
+                      utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+                      routingConfig={routingConfig}
+                      navigationItems={navigationItems}
+                      extensions={extensions}
+                      indexPath={indexPath}
+                      navigationAlignment="start"
+                    />
+                  )}
+                />
+              </Switch>
+            </ModalManager>
+          </ActiveBreakpointProvider>
         </Base>
       </ThemeProvider>
     );
