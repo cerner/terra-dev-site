@@ -7,6 +7,7 @@ import { ActiveBreakpointProvider } from 'terra-breakpoints';
 import ThemeProvider from 'terra-theme-provider';
 import ApplicationLayout from 'terra-application-layout';
 import ModalManager from 'terra-modal-manager';
+import NavigationLayout from 'terra-navigation-layout';
 
 import ConfigureUtilities from './ConfigureUtilities';
 import RawRoute from './components/RawRoute';
@@ -145,11 +146,20 @@ class App extends React.Component {
                       nameConfig={nameConfig}
                       utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
                       routingConfig={routingConfig}
-                      navigationItems={navigationItems}
+                      navigationItems={navigationItems.map(item => ({
+                        key: item.path,
+                        text: item.text,
+                      }))}
+                      activeNavigationItemKey="/home"
                       extensions={extensions}
                       indexPath={indexPath}
                       navigationAlignment="start"
-                    />
+                    >
+                      <NavigationLayout
+                        config={routingConfig}
+                        indexPath="/home"
+                      />
+                    </ApplicationLayout>
                   )}
                 />
               </Switch>

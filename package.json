@@ -101,6 +101,7 @@
     "terra-image": "^2.0.1",
     "terra-markdown": "^2.0.0",
     "terra-modal-manager": "^4.1.0",
+    "terra-navigation-layout": "^3.1.0",
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
     "terra-toolkit": "^4.5.0",
