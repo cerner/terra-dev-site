@@ -90,6 +90,7 @@ class App extends React.Component {
       dir: document.getElementsByTagName('html')[0].getAttribute('dir'),
       locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
       theme: props.defaultTheme,
+      menuIsOpen: false,
     };
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
@@ -127,7 +128,9 @@ class App extends React.Component {
     const {
       nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes,
     } = this.props;
-    const { theme, locale, dir } = this.state;
+    const {
+      theme, locale, dir, menuIsOpen,
+    } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
     return (
@@ -143,6 +146,12 @@ class App extends React.Component {
                 <Route
                   render={() => (
                     <ApplicationLayout
+                      menuIsOpen={menuIsOpen}
+                      onMenuToggle={() => {
+                        this.setState(state => ({
+                          menuIsOpen: !state.menuIsOpen,
+                        }));
+                      }}
                       nameConfig={nameConfig}
                       utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
                       routingConfig={routingConfig}
@@ -152,7 +161,6 @@ class App extends React.Component {
                       }))}
                       activeNavigationItemKey="/home"
                       extensions={extensions}
-                      indexPath={indexPath}
                       navigationAlignment="start"
                     >
                       <NavigationLayout
