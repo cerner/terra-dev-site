@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import {
+  withRouter, Switch, Route, matchPath,
+} from 'react-router-dom';
 
 import Base from 'terra-base';
 import { ActiveBreakpointProvider } from 'terra-breakpoints';
@@ -84,6 +86,22 @@ class App extends React.Component {
     return nextProp !== undefined && nextProp !== currentProp;
   }
 
+  static getActiveNavigationItem(location, navigationItems) {
+    for (let i = 0, numberOfNavigationItems = navigationItems.length; i < numberOfNavigationItems; i += 1) {
+      if (matchPath(location.pathname, navigationItems[i].path)) {
+        return navigationItems[i];
+      }
+    }
+
+    return undefined;
+  }
+
+  static getDerivedStateFromProps(newProps) {
+    return {
+      activeNavigationItemKey: this.getActiveNavigationItem(newProps.location, newProps.navigationItems),
+    };
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -163,12 +181,15 @@ class App extends React.Component {
                       activeNavigationItemKey={activeNavigationItem}
                       onSelectNavigationItem={(navigationItemKey) => {
                         if (activeNavigationItem !== navigationItemKey) {
-                          this.setState({
-                            activeNavigationItem: navigationItemKey,
-                            menuIsOpen: false,
-                          }, () => {
+                          if (this.state.menuIsOpen) {
+                            this.setState({
+                              menuIsOpen: false,
+                            }, () => {
+                              history.push(navigationItemKey);
+                            });
+                          } else {
                             history.push(navigationItemKey);
-                          });
+                          }
                         }
                       }}
                       extensions={extensions}
