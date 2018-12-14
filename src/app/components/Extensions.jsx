@@ -21,6 +21,7 @@ const propTypes = {
 
 const defaultProps = {
   children: [],
+  activeBreakpoint: undefined,
 };
 
 const Extensions = (props) => {

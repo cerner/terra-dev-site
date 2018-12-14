@@ -117,9 +117,12 @@ class App extends React.Component {
       menuIsOpen: false,
       activeNavigationItem: undefined,
     };
+
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
+    this.handleMenuToggle = this.handleMenuToggle.bind(this);
+    this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
 
     this.utilityConfig = this.setupUtilityConfig(props.utilityConfig);
   }
@@ -149,9 +152,32 @@ class App extends React.Component {
     this.setState({ theme: key });
   }
 
+  handleMenuToggle() {
+    this.setState(state => ({
+      menuIsOpen: !state.menuIsOpen,
+    }));
+  }
+
+  handleNavigationItemSelection(navigationItemKey) {
+    const { history } = this.props;
+    const { menuIsOpen, activeNavigationItem } = this.state;
+
+    if (activeNavigationItem.path !== navigationItemKey) {
+      if (menuIsOpen) {
+        this.setState({
+          menuIsOpen: false,
+        }, () => {
+          history.push(navigationItemKey);
+        });
+      } else {
+        history.push(navigationItemKey);
+      }
+    }
+  }
+
   render() {
     const {
-      nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes, history,
+      nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes,
     } = this.props;
     const {
       theme, locale, dir, menuIsOpen, activeNavigationItem,
@@ -172,34 +198,18 @@ class App extends React.Component {
                   render={() => (
                     <ApplicationLayout
                       menuIsOpen={menuIsOpen}
-                      onMenuToggle={() => {
-                        this.setState(state => ({
-                          menuIsOpen: !state.menuIsOpen,
-                        }));
-                      }}
+                      onMenuToggle={this.handleMenuToggle}
                       nameConfig={nameConfig}
-                      utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-                      routingConfig={routingConfig}
+                      navigationAlignment="start"
                       navigationItems={navigationItems.map(item => ({
                         key: item.path,
                         text: item.text,
                       }))}
                       activeNavigationItemKey={activeNavigationItem && activeNavigationItem.path}
-                      onSelectNavigationItem={(navigationItemKey) => {
-                        if (activeNavigationItem.path !== navigationItemKey) {
-                          if (menuIsOpen) {
-                            this.setState({
-                              menuIsOpen: false,
-                            }, () => {
-                              history.push(navigationItemKey);
-                            });
-                          } else {
-                            history.push(navigationItemKey);
-                          }
-                        }
-                      }}
+                      onSelectNavigationItem={this.handleNavigationItemSelection}
                       extensions={extensions}
-                      navigationAlignment="start"
+                      utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+                      routingConfig={routingConfig}
                     >
                       <NavigationLayout
                         config={routingConfig}
