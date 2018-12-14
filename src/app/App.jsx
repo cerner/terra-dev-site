@@ -98,7 +98,7 @@ class App extends React.Component {
 
   static getDerivedStateFromProps(newProps) {
     return {
-      activeNavigationItemKey: this.getActiveNavigationItem(newProps.location, newProps.navigationItems),
+      activeNavigationItemKey: App.getActiveNavigationItem(newProps.location, newProps.navigationItems),
     };
   }
 
