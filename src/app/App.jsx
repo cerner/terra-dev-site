@@ -98,7 +98,7 @@ class App extends React.Component {
 
   static getDerivedStateFromProps(newProps) {
     return {
-      activeNavigationItemKey: App.getActiveNavigationItem(newProps.location, newProps.navigationItems),
+      activeNavigationItem: App.getActiveNavigationItem(newProps.location, newProps.navigationItems),
     };
   }
 
@@ -109,7 +109,7 @@ class App extends React.Component {
       locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
       theme: props.defaultTheme,
       menuIsOpen: false,
-      activeNavigationItem: '/home',
+      activeNavigationItem: undefined,
     };
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
@@ -178,9 +178,9 @@ class App extends React.Component {
                         key: item.path,
                         text: item.text,
                       }))}
-                      activeNavigationItemKey={activeNavigationItem}
+                      activeNavigationItemKey={activeNavigationItem.path}
                       onSelectNavigationItem={(navigationItemKey) => {
-                        if (activeNavigationItem !== navigationItemKey) {
+                        if (activeNavigationItem.path !== navigationItemKey) {
                           if (this.state.menuIsOpen) {
                             this.setState({
                               menuIsOpen: false,
@@ -197,7 +197,7 @@ class App extends React.Component {
                     >
                       <NavigationLayout
                         config={routingConfig}
-                        indexPath="/home"
+                        indexPath={indexPath}
                       />
                     </ApplicationLayout>
                   )}
