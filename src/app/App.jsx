@@ -63,12 +63,17 @@ const propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   themes: PropTypes.object,
   /**
-   * Injected by react-routed: represent where the app is now, where you want it to go,
+   * Injected by react-router: represent where the app is now, where you want it to go,
    * or even where it was.
    */
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
+  /**
+   * Injected by react-router: the object representing browser history.
+   */
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object,
 };
 
 const defaultProps = {
@@ -79,6 +84,7 @@ const defaultProps = {
   extensions: undefined,
   utilityConfig: undefined,
   location: undefined,
+  history: undefined,
 };
 
 class App extends React.Component {
@@ -178,10 +184,10 @@ class App extends React.Component {
                         key: item.path,
                         text: item.text,
                       }))}
-                      activeNavigationItemKey={activeNavigationItem.path}
+                      activeNavigationItemKey={activeNavigationItem && activeNavigationItem.path}
                       onSelectNavigationItem={(navigationItemKey) => {
                         if (activeNavigationItem.path !== navigationItemKey) {
-                          if (this.state.menuIsOpen) {
+                          if (menuIsOpen) {
                             this.setState({
                               menuIsOpen: false,
                             }, () => {
