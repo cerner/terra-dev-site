@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+2.8.0 - (December 14, 2018)
+----------
 ### Fixed
 * Fix evidence page generation logic to handle `tests/wdio/**/snapshots_/` path
 
