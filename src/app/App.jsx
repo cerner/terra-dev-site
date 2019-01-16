@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import Base from 'terra-base';
-import { ActiveBreakpointProvider } from 'terra-breakpoints';
+import { ActiveBreakpointProvider, ActiveBreakpointContext } from 'terra-breakpoints';
 import ThemeProvider from 'terra-theme-provider';
 import ApplicationLayout from 'terra-application-layout';
 import ModalManager from 'terra-modal-manager';
@@ -114,14 +114,12 @@ class App extends React.Component {
       dir: document.getElementsByTagName('html')[0].getAttribute('dir'),
       locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
       theme: props.defaultTheme,
-      menuIsOpen: false,
       activeNavigationItem: undefined,
     };
 
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
-    this.handleMenuToggle = this.handleMenuToggle.bind(this);
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
 
     this.utilityConfig = this.setupUtilityConfig(props.utilityConfig);
@@ -152,26 +150,13 @@ class App extends React.Component {
     this.setState({ theme: key });
   }
 
-  handleMenuToggle() {
-    this.setState(state => ({
-      menuIsOpen: !state.menuIsOpen,
-    }));
-  }
 
   handleNavigationItemSelection(navigationItemKey) {
     const { history } = this.props;
-    const { menuIsOpen, activeNavigationItem } = this.state;
+    const { activeNavigationItem } = this.state;
 
     if (activeNavigationItem.path !== navigationItemKey) {
-      if (menuIsOpen) {
-        this.setState({
-          menuIsOpen: false,
-        }, () => {
-          history.push(navigationItemKey);
-        });
-      } else {
-        history.push(navigationItemKey);
-      }
+      history.push(navigationItemKey);
     }
   }
 
@@ -180,7 +165,7 @@ class App extends React.Component {
       nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes,
     } = this.props;
     const {
-      theme, locale, dir, menuIsOpen, activeNavigationItem,
+      theme, locale, dir, activeNavigationItem,
     } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
@@ -196,26 +181,29 @@ class App extends React.Component {
                 />
                 <Route
                   render={() => (
-                    <ApplicationLayout
-                      menuIsOpen={menuIsOpen}
-                      onMenuToggle={this.handleMenuToggle}
-                      nameConfig={nameConfig}
-                      navigationAlignment="start"
-                      navigationItems={navigationItems.map(item => ({
-                        key: item.path,
-                        text: item.text,
-                      }))}
-                      activeNavigationItemKey={activeNavigationItem && activeNavigationItem.path}
-                      onSelectNavigationItem={this.handleNavigationItemSelection}
-                      extensions={extensions}
-                      utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-                      routingConfig={routingConfig}
-                    >
-                      <NavigationLayout
-                        config={routingConfig}
-                        indexPath={indexPath}
-                      />
-                    </ApplicationLayout>
+                    <ActiveBreakpointContext.Consumer>
+                      {activeBreakpoint => (
+                        <ApplicationLayout
+                          activeBreakpoint={activeBreakpoint}
+                          nameConfig={nameConfig}
+                          navigationAlignment="start"
+                          navigationItems={navigationItems.map(item => ({
+                            key: item.path,
+                            text: item.text,
+                          }))}
+                          activeNavigationItemKey={activeNavigationItem && activeNavigationItem.path}
+                          onSelectNavigationItem={this.handleNavigationItemSelection}
+                          extensions={extensions}
+                          utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+                          routingConfig={routingConfig}
+                        >
+                          <NavigationLayout
+                            config={routingConfig}
+                            indexPath={indexPath}
+                          />
+                        </ApplicationLayout>
+                      )}
+                    </ActiveBreakpointContext.Consumer>
                   )}
                 />
               </Switch>
