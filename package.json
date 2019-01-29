@@ -71,7 +71,7 @@
     "start-heroku": "tt-heroku-serve-static",
     "start-static": "tt-serve-static --config config/webpack/webpack.config",
     "test": "npm run jest",
-    "tds:generate-app-config": "node bin/generateAppConfig.js"
+    "tds:generate-app-config": "node --inspect-brk bin/generateAppConfig.js"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
@@ -107,7 +107,8 @@
     "terra-toolkit": "^4.5.0",
     "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2",
-    "xfc": "^1.2.1"
+    "xfc": "^1.2.1",
+    "terra-framework": "cerner/terra-framework#application-layout-updates"
   },
   "peerDependencies": {
     "react": "^16.4.2",

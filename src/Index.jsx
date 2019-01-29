@@ -18,7 +18,7 @@ const Site = () => (
     <App
       nameConfig={siteConfig.nameConfig}
       utilityConfig={siteConfig.utilityConfig}
-      routingConfig={siteConfig.routingConfig}
+      routingConfig={siteConfig.contentConfig}
       navigationItems={siteConfig.navigationItems}
       extensions={siteConfig.extensions}
       indexPath={siteConfig.indexPath}

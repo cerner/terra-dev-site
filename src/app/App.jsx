@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter, Switch, Route, matchPath,
+  withRouter, Switch, Route, matchPath, Redirect,
 } from 'react-router-dom';
 
 import Base from 'terra-base';
 import { ActiveBreakpointProvider, ActiveBreakpointContext } from 'terra-breakpoints';
 import ThemeProvider from 'terra-theme-provider';
-import ApplicationLayout from 'terra-application-layout';
 import ModalManager from 'terra-modal-manager';
-import NavigationLayout from 'terra-navigation-layout';
+import ApplicationLayout from 'terra-framework/packages/terra-application-layout/lib/ApplicationLayout';
 
+import AppContent from './AppContent';
 import ConfigureUtilities from './ConfigureUtilities';
 import RawRoute from './components/RawRoute';
 import './App.scss';
@@ -162,12 +162,18 @@ class App extends React.Component {
 
   render() {
     const {
-      nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes,
+      nameConfig, routingConfig, navigationItems, indexPath, extensions, themes,
     } = this.props;
     const {
       theme, locale, dir, activeNavigationItem,
     } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
+
+    const activeNavigationItemPath = activeNavigationItem && activeNavigationItem.path;
+    const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
+    const pageContent = routingConfig.content[activeNavigationItemPath];
+
+    debugger;
 
     return (
       <ThemeProvider id="site" themeName={themes[theme]} isGlobalTheme>
@@ -175,36 +181,40 @@ class App extends React.Component {
           <ActiveBreakpointProvider>
             <ModalManager>
               <Switch>
+                {/* <RawRoute routingConfig={routingConfig} prefix="/raw" /> */}
                 <Route
-                  path="/raw"
-                  render={() => RawRoute(routingConfig, location, '/raw')}
-                />
-                <Route
-                  render={() => (
-                    <ActiveBreakpointContext.Consumer>
-                      {activeBreakpoint => (
-                        <ApplicationLayout
-                          activeBreakpoint={activeBreakpoint}
-                          nameConfig={nameConfig}
-                          navigationAlignment="start"
-                          navigationItems={navigationItems.map(item => ({
-                            key: item.path,
-                            text: item.text,
-                          }))}
-                          activeNavigationItemKey={activeNavigationItem && activeNavigationItem.path}
-                          onSelectNavigationItem={this.handleNavigationItemSelection}
-                          extensions={extensions}
-                          utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-                          routingConfig={routingConfig}
-                        >
-                          <NavigationLayout
-                            config={routingConfig}
-                            indexPath={indexPath}
-                          />
-                        </ApplicationLayout>
-                      )}
-                    </ActiveBreakpointContext.Consumer>
-                  )}
+                  render={() => {
+                    if (!activeNavigationItem) {
+                      return <Redirect to={indexPath} />;
+                    }
+
+                    return (
+                      <ActiveBreakpointContext.Consumer>
+                        {activeBreakpoint => (
+                          <ApplicationLayout
+                            activeBreakpoint={activeBreakpoint}
+                            nameConfig={nameConfig}
+                            navigationAlignment="start"
+                            navigationItems={navigationItems.map(item => ({
+                              key: item.path,
+                              text: item.text,
+                            }))}
+                            activeNavigationItemKey={activeNavigationItemPath}
+                            onSelectNavigationItem={this.handleNavigationItemSelection}
+                            extensions={extensions}
+                            utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+                          >
+                            <AppContent
+                              menuItems={pageMenuItems}
+                              content={pageContent}
+                              rootPath={activeNavigationItemPath}
+                              key={activeNavigationItemPath}
+                            />
+                          </ApplicationLayout>
+                        )}
+                      </ActiveBreakpointContext.Consumer>
+                    );
+                  }}
                 />
               </Switch>
             </ModalManager>

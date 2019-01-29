@@ -1,20 +1,27 @@
 import React from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, Route } from 'react-router-dom';
 
-const RawRoute = (routingConfig, location, prefix) => {
-  const routes = Object.keys(routingConfig.content).sort().reverse();
-  const nonRawPath = location.pathname.substring(prefix.length);
+const RawRoute = ({ routingConfig, location, prefix }) => (
+  <Route
+    path={prefix}
+    render={() => {
+      const flattenedRouteConfig = Object.keys(routingConfig).reduce((allRoutes, pageKey) => allRoutes.concat(routingConfig[pageKey]), []);
 
-  const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
+      const routes = Object.keys(flattenedRouteConfig).sort().reverse();
+      const nonRawPath = location.pathname.substring(prefix.length);
 
-  if (route) {
-    const routeData = routingConfig.content[route].component.default;
-    const ComponentClass = routeData.componentClass;
-    const componentProps = routeData.props;
+      const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
 
-    return <ComponentClass {...componentProps} />;
-  }
-  return 404;
-};
+      if (route) {
+        const routeData = flattenedRouteConfig[route].component.default;
+        const ComponentClass = routeData.componentClass;
+        const componentProps = routeData.props;
+
+        return <ComponentClass {...componentProps} />;
+      }
+      return 404;
+    }}
+  />
+);
 
 export default RawRoute;
