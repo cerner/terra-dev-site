@@ -179,14 +179,6 @@ const generateRouteConfig = (config, rootPath, placeholder, routeImporter) => co
   // If the pages has content, add the content render item. If not, add a placeholder item.
   if (page.content) {
     content[routePath] = contentRouteItem(routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
-  } else if (redirectRoute && contentHasMenu) {
-    // If content has a menu do not auto redirect to the first item at small form factors.
-    content[routePath] = flexibleRedirectRouteItem(routePath, placeholder, redirectRoute, routeImporter);
-  } else if (redirectRoute) {
-    // If content has a redirect and doesn't have a menu, always redirect.
-    content[routePath] = redirectRouteItem(routePath, redirectRoute, routeImporter);
-  } else {
-    content[routePath] = placeholderRouteItem(routePath, placeholder, routeImporter);
   }
 
   return { content, menu, menuItems };

@@ -173,8 +173,6 @@ class App extends React.Component {
     const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
     const pageContent = routingConfig.content[activeNavigationItemPath];
 
-    debugger;
-
     return (
       <ThemeProvider id="site" themeName={themes[theme]} isGlobalTheme>
         <Base className="base" locale={locale}>
@@ -206,7 +204,7 @@ class App extends React.Component {
                           >
                             <AppContent
                               menuItems={pageMenuItems}
-                              content={pageContent}
+                              contentConfig={pageContent}
                               rootPath={activeNavigationItemPath}
                               key={activeNavigationItemPath}
                             />

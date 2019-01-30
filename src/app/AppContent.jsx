@@ -1,33 +1,37 @@
 import React from 'react';
 import {
-  withRouter, matchPath, Redirect, Switch, Route,
+  withRouter, matchPath, Switch, Route,
 } from 'react-router-dom';
+import ContentContainer from 'terra-content-container';
 import SecondaryNavigationLayout from 'terra-framework/packages/terra-application-layout/lib/SecondaryNavigationLayout';
+import SecondaryNavigationLayoutActionHeader from 'terra-framework/packages/terra-application-layout/lib/SecondaryNavigationLayoutActionHeader';
+
+import Placeholder from './common/Placeholder';
 
 class AppContent extends React.Component {
-  // static getInitialSelectedKey(pathname) {
-  //   if (matchPath(pathname, '/page_1/about')) {
-  //     return 'about';
-  //   }
+  static getInitialSelectedKey(pathname, menuItems) {
+    if (matchPath(pathname, '/page_1/about')) {
+      return 'about';
+    }
 
-  //   if (matchPath(pathname, '/page_1/components/1')) {
-  //     return 'component_1';
-  //   }
+    if (matchPath(pathname, '/page_1/components/1')) {
+      return 'component_1';
+    }
 
-  //   if (matchPath(pathname, '/page_1/components/2')) {
-  //     return 'component_2';
-  //   }
+    if (matchPath(pathname, '/page_1/components/2')) {
+      return 'component_2';
+    }
 
-  //   if (matchPath(pathname, '/page_1/tests')) {
-  //     return 'tests';
-  //   }
+    if (matchPath(pathname, '/page_1/tests')) {
+      return 'tests';
+    }
 
-  //   /**
-  //    * If the path doesn't match any know values, the initial key is set to 'about'. This value is reinforced
-  //    * by the Redirect to the /page_1/about page.
-  //    */
-  //   return 'about';
-  // }
+    /**
+     * If the path doesn't match any know values, the initial key is set to 'about'. This value is reinforced
+     * by the Redirect to the /page_1/about page.
+     */
+    return 'about';
+  }
 
   static processMenuItems(menuItems) {
     return menuItems.reduce((accumulatedMenuItems, item) => {
@@ -52,34 +56,62 @@ class AppContent extends React.Component {
   constructor(props) {
     super(props);
 
+    this.generateContent = this.generateContent.bind(this);
+
     this.state = {
       menuItems: AppContent.processMenuItems(props.menuItems),
+      initialSelectedMenuKey: props.location.pathname,
     };
   }
 
-  render() {
-    const { history, contentConfig, rootPath } = this.props;
-    const { menuItems } = this.state;
+  generateContent() {
+    const { contentConfig } = this.props;
 
-    if (menuItems.length <= 1) {
-      return <div />;
+    return (
+      <Switch>
+        {Object.keys(contentConfig).sort().reverse().map(path => (
+          <Route
+            path={path}
+            render={() => (
+              React.createElement(contentConfig[path].component.default.componentClass, contentConfig[path].component.default.props)
+            )}
+          />
+        ))}
+        <Route
+          render={() => (
+            <Placeholder />
+          )}
+        />
+      </Switch>
+    );
+  }
+
+  render() {
+    const { history } = this.props;
+    const { menuItems, initialSelectedMenuKey } = this.state;
+
+    if (!menuItems) {
+      return null;
+    }
+
+    if (menuItems.length === 1) {
+      return this.generateContent();
     }
 
     return (
       <SecondaryNavigationLayout
         menuItems={menuItems}
-        initialSelectedMenuItemKey={rootPath}
+        initialSelectedMenuItemKey={initialSelectedMenuKey}
         onTerminalMenuItemSelection={(childKey, metaData) => {
           history.push(metaData.path);
         }}
       >
-        {/* <Switch>
-          <Route path="/page_1/about" render={() => <CommonContent contentName="About" />} />
-          <Route path="/page_1/components/1" render={() => <CommonContent contentName="Component 1" />} />
-          <Route path="/page_1/components/2" render={() => <CommonContent contentName="Component 2" />} />
-          <Route path="/page_1/tests" render={() => <CommonContent contentName="Tests" />} />
-          <Redirect to="/page_1/about" />
-        </Switch> */}
+        <ContentContainer
+          header={<SecondaryNavigationLayoutActionHeader />}
+          fill
+        >
+          {this.generateContent()}
+        </ContentContainer>
       </SecondaryNavigationLayout>
     );
   }
