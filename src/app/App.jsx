@@ -179,7 +179,24 @@ class App extends React.Component {
           <ActiveBreakpointProvider>
             <ModalManager>
               <Switch>
-                {/* <RawRoute routingConfig={routingConfig} prefix="/raw" /> */}
+                <Route
+                  path="/raw"
+                  render={({ location }) => {
+                    const flattenedRouteConfig = Object.keys(routingConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, routingConfig.content[pageKey]), {});
+
+                    const routes = Object.keys(flattenedRouteConfig).sort().reverse();
+                    const nonRawPath = location.pathname.substring(4);
+
+                    const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
+
+                    if (route) {
+                      const routeData = flattenedRouteConfig[route].component.default;
+                      return React.createElement(routeData.componentClass, routeData.props);
+                    }
+
+                    return 404;
+                  }}
+                />
                 <Route
                   render={() => {
                     if (!activeNavigationItem) {
