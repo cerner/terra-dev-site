@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  withRouter, Switch, Route,
+  withRouter, Switch, Route, Redirect,
 } from 'react-router-dom';
 import ContentContainer from 'terra-content-container';
 import SecondaryNavigationLayout from 'terra-framework/packages/terra-application-layout/lib/SecondaryNavigationLayout';
@@ -42,7 +42,7 @@ class AppContent extends React.Component {
   }
 
   generateContent() {
-    const { contentConfig, history } = this.props;
+    const { contentConfig, history, rootPath } = this.props;
     const { sortedContentPaths } = this.state;
 
     return (
@@ -56,14 +56,17 @@ class AppContent extends React.Component {
           />
         ))}
         <Route
-          render={() => <Placeholder />}
+          path={rootPath}
+          exact
+          component={Placeholder}
         />
+        <Redirect to="/404" />
       </Switch>
     );
   }
 
   render() {
-    const { history, rootPath } = this.props;
+    const { history } = this.props;
     const { menuItems, initialSelectedMenuKey } = this.state;
 
     if (!menuItems || menuItems.length === 1) {

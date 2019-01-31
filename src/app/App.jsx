@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter, Switch, Route, matchPath, Redirect,
+  withRouter, Switch, Route, matchPath, Redirect, Link,
 } from 'react-router-dom';
 
 import Base from 'terra-base';
@@ -12,7 +12,8 @@ import ApplicationLayout from 'terra-framework/packages/terra-application-layout
 
 import AppContent from './AppContent';
 import ConfigureUtilities from './ConfigureUtilities';
-import RawRoute from './components/RawRoute';
+import NotFoundPage from './common/NotFoundPage';
+
 import './App.scss';
 
 const propTypes = {
@@ -194,13 +195,19 @@ class App extends React.Component {
                       return React.createElement(routeData.componentClass, routeData.props);
                     }
 
-                    return 404;
+                    return <Redirect to="/404" />;
                   }}
+                />
+                <Route
+                  path="/404"
+                  render={() => (
+                    <NotFoundPage homePath={indexPath} />
+                  )}
                 />
                 <Route
                   render={() => {
                     if (!activeNavigationItem) {
-                      return <Redirect to={indexPath} />;
+                      return <Redirect to="/404" />;
                     }
 
                     return (
