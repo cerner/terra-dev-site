@@ -209,30 +209,25 @@ class App extends React.Component {
           />
           <Route
             render={() => (
-              <ActiveBreakpointContext.Consumer>
-                {activeBreakpoint => (
-                  <ApplicationLayout
-                    activeBreakpoint={activeBreakpoint}
-                    nameConfig={nameConfig}
-                    navigationAlignment="start"
-                    navigationItems={navigationItems.map(item => ({
-                      key: item.path,
-                      text: item.text,
-                    }))}
-                    activeNavigationItemKey={activeNavigationItemPath}
-                    onSelectNavigationItem={this.handleNavigationItemSelection}
-                    extensions={extensions}
-                    utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-                  >
-                    <AppContent
-                      menuItems={pageMenuItems}
-                      contentConfig={pageContent}
-                      rootPath={activeNavigationItemPath}
-                      key={activeNavigationItemPath}
-                    />
-                  </ApplicationLayout>
-                )}
-              </ActiveBreakpointContext.Consumer>
+              <ApplicationLayout
+                nameConfig={nameConfig}
+                navigationAlignment="start"
+                navigationItems={navigationItems.map(item => ({
+                  key: item.path,
+                  text: item.text,
+                }))}
+                activeNavigationItemKey={activeNavigationItemPath}
+                onSelectNavigationItem={this.handleNavigationItemSelection}
+                extensions={extensions}
+                utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+              >
+                <AppContent
+                  menuItems={pageMenuItems}
+                  contentConfig={pageContent}
+                  rootPath={activeNavigationItemPath}
+                  key={activeNavigationItemPath}
+                />
+              </ApplicationLayout>
             )}
           />
         </Switch>
