@@ -178,7 +178,9 @@ class App extends React.Component {
 
     return (
       <AppBase locale={locale} themeName={themes[theme]}>
-        <Switch>
+        <Switch
+          key={activeNavigationItemPath}
+        >
           <Route
             path="/raw"
             render={() => {
