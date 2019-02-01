@@ -224,7 +224,7 @@ class App extends React.Component {
                             key: item.path,
                             text: item.text,
                           }))}
-                          activeNavigationItemKey={activeNavigationItemPath}
+                          activeNavigationItemKey={activeNavigationItem && activeNavigationItem.path}
                           onSelectNavigationItem={this.handleNavigationItemSelection}
                           extensions={extensions}
                           utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
