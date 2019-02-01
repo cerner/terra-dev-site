@@ -42,13 +42,14 @@ class AppContent extends React.Component {
   }
 
   generateContent() {
-    const { contentConfig, history, rootPath } = this.props;
+    const { contentConfig, rootPath } = this.props;
     const { sortedContentPaths } = this.state;
 
     return (
       <Switch>
         {sortedContentPaths.map(path => (
           <Route
+            key={path}
             path={path}
             render={() => (
               React.createElement(contentConfig[path].component.default.componentClass, contentConfig[path].component.default.props)
