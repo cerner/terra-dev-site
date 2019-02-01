@@ -207,6 +207,7 @@ class App extends React.Component {
           />
           <Route
             render={() => {
+              const localActiveNavigationItemPath = this.state.activeNavigationItemPath;
               const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
               const pageContent = routingConfig.content[activeNavigationItemPath];
 
