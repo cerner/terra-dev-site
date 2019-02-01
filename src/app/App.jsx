@@ -4,17 +4,13 @@ import {
   withRouter, Switch, Route, matchPath, Redirect,
 } from 'react-router-dom';
 
-import Base from 'terra-base';
-import { ActiveBreakpointProvider, ActiveBreakpointContext } from 'terra-breakpoints';
-import ThemeProvider from 'terra-theme-provider';
-import ModalManager from 'terra-modal-manager';
+import { ActiveBreakpointContext } from 'terra-breakpoints';
 import ApplicationLayout from 'terra-framework/packages/terra-application-layout/lib/ApplicationLayout';
 
+import AppBase from './AppBase';
 import AppContent from './AppContent';
 import ConfigureUtilities from './ConfigureUtilities';
 import NotFoundPage from './common/NotFoundPage';
-
-import './App.scss';
 
 const propTypes = {
   /**
@@ -170,81 +166,77 @@ class App extends React.Component {
     } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
-    const activeNavigationItemPath = activeNavigationItem && activeNavigationItem.path;
+    const activeNavigationItemPath = activeNavigationItem ? activeNavigationItem.path : undefined;
     const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
     const pageContent = routingConfig.content[activeNavigationItemPath];
 
-    if (!activeNavigationItem && location.pathname === '/') {
-      return <Redirect to={indexPath} />;
-    }
+    if (!activeNavigationItemPath) {
+      if (location.pathname === '/') {
+        return <Redirect to={indexPath} />;
+      }
 
-    if (!activeNavigationItem && location.pathname !== '/404') {
-      return <Redirect to="/404" />;
+      if (location.pathname !== '/404') {
+        return <Redirect to="/404" />;
+      }
     }
 
     return (
-      <ThemeProvider id="site" themeName={themes[theme]} isGlobalTheme>
-        <Base className="base" locale={locale}>
-          <ActiveBreakpointProvider>
-            <ModalManager>
-              <Switch>
-                <Route
-                  path="/raw"
-                  render={() => {
-                    const flattenedRouteConfig = Object.keys(routingConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, routingConfig.content[pageKey]), {});
+      <AppBase locale={locale} themeName={themes[theme]}>
+        <Switch>
+          <Route
+            path="/raw"
+            render={() => {
+              const flattenedRouteConfig = Object.keys(routingConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, routingConfig.content[pageKey]), {});
 
-                    const routes = Object.keys(flattenedRouteConfig).sort().reverse();
-                    const nonRawPath = location.pathname.substring(4);
+              const routes = Object.keys(flattenedRouteConfig).sort().reverse();
+              const nonRawPath = location.pathname.substring(4);
 
-                    const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
+              const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
 
-                    if (route) {
-                      const routeData = flattenedRouteConfig[route].component.default;
-                      return React.createElement(routeData.componentClass, routeData.props);
-                    }
+              if (route) {
+                const routeData = flattenedRouteConfig[route].component.default;
+                return React.createElement(routeData.componentClass, routeData.props);
+              }
 
-                    return <Redirect to="/404" />;
-                  }}
-                />
-                <Route
-                  path="/404"
-                  render={() => (
-                    <NotFoundPage homePath={indexPath} />
-                  )}
-                />
-                <Route
-                  render={() => (
-                    <ActiveBreakpointContext.Consumer>
-                      {activeBreakpoint => (
-                        <ApplicationLayout
-                          activeBreakpoint={activeBreakpoint}
-                          nameConfig={nameConfig}
-                          navigationAlignment="start"
-                          navigationItems={navigationItems.map(item => ({
-                            key: item.path,
-                            text: item.text,
-                          }))}
-                          activeNavigationItemKey={activeNavigationItem && activeNavigationItem.path}
-                          onSelectNavigationItem={this.handleNavigationItemSelection}
-                          extensions={extensions}
-                          utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-                        >
-                          <AppContent
-                            menuItems={pageMenuItems}
-                            contentConfig={pageContent}
-                            rootPath={activeNavigationItemPath}
-                            key={activeNavigationItemPath}
-                          />
-                        </ApplicationLayout>
-                      )}
-                    </ActiveBreakpointContext.Consumer>
-                  )}
-                />
-              </Switch>
-            </ModalManager>
-          </ActiveBreakpointProvider>
-        </Base>
-      </ThemeProvider>
+              return <Redirect to="/404" />;
+            }}
+          />
+          <Route
+            path="/404"
+            render={() => (
+              <NotFoundPage homePath={indexPath} />
+            )}
+          />
+          <Route
+            render={() => (
+              <ActiveBreakpointContext.Consumer>
+                {activeBreakpoint => (
+                  <ApplicationLayout
+                    activeBreakpoint={activeBreakpoint}
+                    nameConfig={nameConfig}
+                    navigationAlignment="start"
+                    navigationItems={navigationItems.map(item => ({
+                      key: item.path,
+                      text: item.text,
+                    }))}
+                    activeNavigationItemKey={activeNavigationItemPath}
+                    onSelectNavigationItem={this.handleNavigationItemSelection}
+                    extensions={extensions}
+                    utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+                  >
+                    <AppContent
+                      menuItems={pageMenuItems}
+                      contentConfig={pageContent}
+                      rootPath={activeNavigationItemPath}
+                      key={activeNavigationItemPath}
+                    />
+                  </ApplicationLayout>
+                )}
+              </ActiveBreakpointContext.Consumer>
+            )}
+          />
+        </Switch>
+      </AppBase>
     );
   }
 }
