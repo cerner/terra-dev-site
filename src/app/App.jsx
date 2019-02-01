@@ -166,7 +166,7 @@ class App extends React.Component {
     } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
-    if (!activeNavigationItemPath) {
+    if (!activeNavigationItemPath && !location.pathname.match(/^\/raw/)) {
       if (location.pathname === '/') {
         return <Redirect to={indexPath} />;
       }
