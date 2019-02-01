@@ -246,8 +246,6 @@ const contentConfiguration = (siteConfig, pageConfig) => {
   const placeholderImage = routeImporter.addImport(placeholderSrc, 'placeholderSrc');
   const placeholder = { content: PlaceholderPath, props: { src: placeholderImage } };
 
-  debugger;
-
   // Spin through the valid links to build out the route config.
   const config = validLinks.reduce((acc, link) => {
     let { content, menuItems } = acc;

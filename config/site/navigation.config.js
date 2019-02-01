@@ -21,7 +21,6 @@ const navConfig = {
       path: '/tests',
       text: 'Tests',
       pageTypes: ['test'],
-      isHidden: true,
     }],
   },
 };
