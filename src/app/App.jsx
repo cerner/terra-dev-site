@@ -208,27 +208,31 @@ class App extends React.Component {
             )}
           />
           <Route
-            render={() => (
-              <ApplicationLayout
-                nameConfig={nameConfig}
-                navigationAlignment="start"
-                navigationItems={navigationItems.map(item => ({
-                  key: item.path,
-                  text: item.text,
-                }))}
-                activeNavigationItemKey={activeNavigationItemPath}
-                onSelectNavigationItem={this.handleNavigationItemSelection}
-                extensions={extensions}
-                utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-              >
-                <AppContent
-                  menuItems={pageMenuItems}
-                  contentConfig={pageContent}
-                  rootPath={activeNavigationItemPath}
-                  key={activeNavigationItemPath}
-                />
-              </ApplicationLayout>
-            )}
+            render={() => {
+              const { activeNavigationItem: localActiveNavigationItem } = this.state;
+
+              return (
+                <ApplicationLayout
+                  nameConfig={nameConfig}
+                  navigationAlignment="start"
+                  navigationItems={navigationItems.map(item => ({
+                    key: item.path,
+                    text: item.text,
+                  }))}
+                  activeNavigationItemKey={localActiveNavigationItem.path}
+                  onSelectNavigationItem={this.handleNavigationItemSelection}
+                  extensions={extensions}
+                  utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+                >
+                  <AppContent
+                    menuItems={pageMenuItems}
+                    contentConfig={pageContent}
+                    rootPath={localActiveNavigationItem.path}
+                    key={localActiveNavigationItem.path}
+                  />
+                </ApplicationLayout>
+              );
+            }}
           />
         </Switch>
       </AppBase>
