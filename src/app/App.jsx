@@ -89,10 +89,10 @@ class App extends React.Component {
     return nextProp !== undefined && nextProp !== currentProp;
   }
 
-  static getActiveNavigationItem(location, navigationItems) {
+  static getActiveNavigationItemPath(location, navigationItems) {
     for (let i = 0, numberOfNavigationItems = navigationItems.length; i < numberOfNavigationItems; i += 1) {
       if (matchPath(location.pathname, navigationItems[i].path)) {
-        return navigationItems[i];
+        return navigationItems[i].path;
       }
     }
 
@@ -101,7 +101,7 @@ class App extends React.Component {
 
   static getDerivedStateFromProps(newProps) {
     return {
-      activeNavigationItem: App.getActiveNavigationItem(newProps.location, newProps.navigationItems),
+      activeNavigationItemPath: App.getActiveNavigationItemPath(newProps.location, newProps.navigationItems),
     };
   }
 
@@ -150,9 +150,9 @@ class App extends React.Component {
 
   handleNavigationItemSelection(navigationItemKey) {
     const { history } = this.props;
-    const { activeNavigationItem } = this.state;
+    const { activeNavigationItemPath } = this.state;
 
-    if (activeNavigationItem.path !== navigationItemKey) {
+    if (activeNavigationItemPath !== navigationItemKey) {
       history.push(navigationItemKey);
     }
   }
@@ -162,13 +162,9 @@ class App extends React.Component {
       nameConfig, routingConfig, navigationItems, indexPath, extensions, themes, location,
     } = this.props;
     const {
-      theme, locale, dir, activeNavigationItem,
+      theme, locale, dir, activeNavigationItemPath,
     } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
-
-    const activeNavigationItemPath = activeNavigationItem ? activeNavigationItem.path : undefined;
-    const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
-    const pageContent = routingConfig.content[activeNavigationItemPath];
 
     if (!activeNavigationItemPath) {
       if (location.pathname === '/') {
@@ -209,7 +205,8 @@ class App extends React.Component {
           />
           <Route
             render={() => {
-              const { activeNavigationItem: localActiveNavigationItem } = this.state;
+              const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
+              const pageContent = routingConfig.content[activeNavigationItemPath];
 
               return (
                 <ApplicationLayout
@@ -219,7 +216,7 @@ class App extends React.Component {
                     key: item.path,
                     text: item.text,
                   }))}
-                  activeNavigationItemKey={localActiveNavigationItem.path}
+                  activeNavigationItemKey={activeNavigationItemPath}
                   onSelectNavigationItem={this.handleNavigationItemSelection}
                   extensions={extensions}
                   utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
@@ -227,8 +224,8 @@ class App extends React.Component {
                   <AppContent
                     menuItems={pageMenuItems}
                     contentConfig={pageContent}
-                    rootPath={localActiveNavigationItem.path}
-                    key={localActiveNavigationItem.path}
+                    rootPath={activeNavigationItemPath}
+                    key={activeNavigationItemPath}
                   />
                 </ApplicationLayout>
               );
