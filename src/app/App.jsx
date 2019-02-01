@@ -207,9 +207,9 @@ class App extends React.Component {
           />
           <Route
             render={() => {
-              const localActiveNavigationItemPath = this.state.activeNavigationItemPath;
-              const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
-              const pageContent = routingConfig.content[activeNavigationItemPath];
+              const { activeNavigationItemPath: localActiveNavigationItemPath } = this.state;
+              const pageMenuItems = routingConfig.menuItems[localActiveNavigationItemPath];
+              const pageContent = routingConfig.content[localActiveNavigationItemPath];
 
               return (
                 <ApplicationLayout
@@ -219,7 +219,7 @@ class App extends React.Component {
                     key: item.path,
                     text: item.text,
                   }))}
-                  activeNavigationItemKey={activeNavigationItemPath}
+                  activeNavigationItemKey={localActiveNavigationItemPath}
                   onSelectNavigationItem={this.handleNavigationItemSelection}
                   extensions={extensions}
                   utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
@@ -227,8 +227,8 @@ class App extends React.Component {
                   <AppContent
                     menuItems={pageMenuItems}
                     contentConfig={pageContent}
-                    rootPath={activeNavigationItemPath}
-                    key={activeNavigationItemPath}
+                    rootPath={localActiveNavigationItemPath}
+                    key={localActiveNavigationItemPath}
                   />
                 </ApplicationLayout>
               );
