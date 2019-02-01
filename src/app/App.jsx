@@ -111,13 +111,15 @@ class App extends React.Component {
       dir: document.getElementsByTagName('html')[0].getAttribute('dir'),
       locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
       theme: props.defaultTheme,
-      activeNavigationItem: undefined,
+      activeNavigationItemPath: undefined,
     };
 
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
+    this.renderRawRoute = this.renderRawRoute.bind(this);
+    this.renderAppRoute = this.renderAppRoute.bind(this);
 
     this.utilityConfig = this.setupUtilityConfig(props.utilityConfig);
   }
@@ -157,9 +159,59 @@ class App extends React.Component {
     }
   }
 
+  renderRawRoute({ location }) {
+    const { routingConfig } = this.props;
+
+    const flattenedRouteConfig = Object.keys(routingConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, routingConfig.content[pageKey]), {});
+
+    const routes = Object.keys(flattenedRouteConfig).sort().reverse();
+    const nonRawPath = location.pathname.substring(4);
+
+    const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
+
+    if (route) {
+      const routeData = flattenedRouteConfig[route].component.default;
+      return React.createElement(routeData.componentClass, routeData.props);
+    }
+
+    return <Redirect to="/404" />;
+  }
+
+  renderAppRoute() {
+    const {
+      nameConfig, navigationItems, extensions, routingConfig,
+    } = this.props;
+    const { activeNavigationItemPath } = this.state;
+
+    const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
+    const pageContent = routingConfig.content[activeNavigationItemPath];
+
+    return (
+      <ApplicationLayout
+        nameConfig={nameConfig}
+        navigationAlignment="start"
+        navigationItems={navigationItems.map(item => ({
+          key: item.path,
+          text: item.text,
+        }))}
+        activeNavigationItemKey={activeNavigationItemPath}
+        onSelectNavigationItem={this.handleNavigationItemSelection}
+        extensions={extensions}
+        utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+      >
+        <AppContent
+          menuItems={pageMenuItems}
+          contentConfig={pageContent}
+          rootPath={activeNavigationItemPath}
+          key={activeNavigationItemPath}
+        />
+      </ApplicationLayout>
+    );
+  }
+
   render() {
     const {
-      nameConfig, routingConfig, navigationItems, indexPath, extensions, themes, location,
+      indexPath, themes, location,
     } = this.props;
     const {
       theme, locale, dir, activeNavigationItemPath,
@@ -178,62 +230,10 @@ class App extends React.Component {
 
     return (
       <AppBase locale={locale} themeName={themes[theme]}>
-        <Switch
-          key={activeNavigationItemPath}
-        >
-          <Route
-            path="/raw"
-            render={() => {
-              const flattenedRouteConfig = Object.keys(routingConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, routingConfig.content[pageKey]), {});
-
-              const routes = Object.keys(flattenedRouteConfig).sort().reverse();
-              const nonRawPath = location.pathname.substring(4);
-
-              const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
-
-              if (route) {
-                const routeData = flattenedRouteConfig[route].component.default;
-                return React.createElement(routeData.componentClass, routeData.props);
-              }
-
-              return <Redirect to="/404" />;
-            }}
-          />
-          <Route
-            path="/404"
-            render={() => (
-              <NotFoundPage homePath={indexPath} />
-            )}
-          />
-          <Route
-            render={() => {
-              const { activeNavigationItemPath: localActiveNavigationItemPath } = this.state;
-              const pageMenuItems = routingConfig.menuItems[localActiveNavigationItemPath];
-              const pageContent = routingConfig.content[localActiveNavigationItemPath];
-
-              return (
-                <ApplicationLayout
-                  nameConfig={nameConfig}
-                  navigationAlignment="start"
-                  navigationItems={navigationItems.map(item => ({
-                    key: item.path,
-                    text: item.text,
-                  }))}
-                  activeNavigationItemKey={localActiveNavigationItemPath}
-                  onSelectNavigationItem={this.handleNavigationItemSelection}
-                  extensions={extensions}
-                  utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
-                >
-                  <AppContent
-                    menuItems={pageMenuItems}
-                    contentConfig={pageContent}
-                    rootPath={localActiveNavigationItemPath}
-                    key={localActiveNavigationItemPath}
-                  />
-                </ApplicationLayout>
-              );
-            }}
-          />
+        <Switch>
+          <Route path="/404" render={() => (<NotFoundPage homePath={indexPath} />)} />
+          <Route path="/raw" render={this.renderRawRoute} />
+          <Route render={this.renderAppRoute} />
         </Switch>
       </AppBase>
     );
