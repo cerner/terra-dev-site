@@ -190,8 +190,9 @@ const generateContentConfig = (siteConfig, pageConfig) => {
     return { content, menuItems };
   }, { content: {}, menuItems: {} });
 
+  config.placeholder = placeholder;
+
   return {
-    placeholder,
     config,
     imports: routeImporter,
   };
