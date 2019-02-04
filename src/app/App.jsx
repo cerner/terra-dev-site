@@ -30,13 +30,11 @@ const propTypes = {
     menuItems: PropTypes.object.isRequired,
     initialSelectedKey: PropTypes.string.isRequired,
   }),
-  /**
-  * The configuration Object that will be used to generate the specified regions of the terra-navigation-layout.
-  * Note: The config prop is treated as an immutable object to prevent unnecessary processing and improve performance.
-  * If the configuration is changed after the first render, a new configuration object instance must be provided.
-  */
-  // eslint-disable-next-line react/forbid-prop-types
-  routingConfig: PropTypes.object.isRequired,
+  contentConfig: PropTypes.shape({
+    placeholder: PropTypes.node,
+    content: PropTypes.object,
+    menuItems: PropTypes.array,
+  }).isRequired,
   /**
    * The navigaion links to display within the menu in the toolbar.
    */
@@ -160,9 +158,9 @@ class App extends React.Component {
   }
 
   renderRawRoute({ location }) {
-    const { routingConfig } = this.props;
+    const { contentConfig } = this.props;
 
-    const flattenedRouteConfig = Object.keys(routingConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, routingConfig.content[pageKey]), {});
+    const flattenedRouteConfig = Object.keys(contentConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, contentConfig.content[pageKey]), {});
 
     const routes = Object.keys(flattenedRouteConfig).sort().reverse();
     const nonRawPath = location.pathname.substring(4);
@@ -179,12 +177,12 @@ class App extends React.Component {
 
   renderAppRoute() {
     const {
-      nameConfig, navigationItems, extensions, routingConfig,
+      nameConfig, navigationItems, extensions, contentConfig,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
 
-    const pageMenuItems = routingConfig.menuItems[activeNavigationItemPath];
-    const pageContent = routingConfig.content[activeNavigationItemPath];
+    const pageMenuItems = contentConfig.menuItems[activeNavigationItemPath];
+    const pageContent = contentConfig.content[activeNavigationItemPath];
 
     return (
       <ApplicationLayout
@@ -200,6 +198,7 @@ class App extends React.Component {
         utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
       >
         <AppContent
+          placeholder={contentConfig.placeholder}
           menuItems={pageMenuItems}
           contentConfig={pageContent}
           rootPath={activeNavigationItemPath}

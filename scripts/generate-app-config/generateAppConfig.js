@@ -1,7 +1,6 @@
 const fse = require('fs-extra');
 const path = require('path');
 const writeConfig = require('./writeConfig');
-const generateRouteConfig = require('./generateRouteConfig');
 const generateContentConfig = require('./generateContentConfig');
 const generateNameConfig = require('./generateNameConfig');
 const generateExtensions = require('./generateExtensions');
@@ -62,14 +61,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
-  const routingConfig = addConfig(
-    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose)),
-    'routeConfig.js',
-    buildPath,
-    fse,
-    imports,
-  );
-
   const contentConfig = addConfig(
     generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose)),
     'contentConfig.js',
@@ -104,7 +95,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   const config = {
     nameConfig,
     utilityConfig,
-    routingConfig,
     contentConfig,
     navigationItems,
     extensions,
