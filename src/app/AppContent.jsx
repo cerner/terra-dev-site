@@ -6,6 +6,8 @@ import ContentContainer from 'terra-content-container';
 import SecondaryNavigationLayout from 'terra-framework/packages/terra-application-layout/lib/SecondaryNavigationLayout';
 import SecondaryNavigationLayoutActionHeader from 'terra-framework/packages/terra-application-layout/lib/SecondaryNavigationLayoutActionHeader';
 
+import Placeholder from './common/Placeholder';
+
 class AppContent extends React.Component {
   static flattenMenuItems(menuItems) {
     return menuItems.reduce((accumulatedMenuItems, item) => {
@@ -40,7 +42,7 @@ class AppContent extends React.Component {
   }
 
   generateContent() {
-    const { contentConfig, rootPath, placeholder } = this.props;
+    const { contentConfig, rootPath, placeholderSrc } = this.props;
     const { sortedContentPaths } = this.state;
 
     return (
@@ -57,7 +59,7 @@ class AppContent extends React.Component {
         <Route
           path={rootPath}
           exact
-          render={() => React.createElement(placeholder.content, placeholder.props)}
+          render={() => <Placeholder src={placeholderSrc} />}
         />
         <Redirect to="/404" />
       </Switch>

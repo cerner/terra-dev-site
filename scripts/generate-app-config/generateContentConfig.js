@@ -4,7 +4,6 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 // "require" items to be added to the generated config.
 const ContentWrapper = 'terra-dev-site/lib/app/components/ContentWrapper';
-const PlaceholderPath = 'terra-dev-site/lib/app/common/Placeholder';
 const TerraDocTemplate = 'terra-doc-template';
 const TerraScreenshotWrapper = 'terra-dev-site/lib/app/components/ScreenshotWrapper';
 
@@ -88,7 +87,7 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
 /**
  * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
  */
-const getPageContentConfig = (config, rootPath, placeholder, routeImporter) => config.reduce((acc, page) => {
+const getPageContentConfig = (config, rootPath, routeImporter) => config.reduce((acc, page) => {
   let { content } = acc;
   const menuItems = acc.menuItems || [];
   const hasSubMenu = page.pages && page.pages.length > 0;
@@ -99,7 +98,7 @@ const getPageContentConfig = (config, rootPath, placeholder, routeImporter) => c
   // If the given page, has sub menu items, add them to the overall route object.
   if (hasSubMenu) {
     // Recursively call to get child content, and menu items
-    const { content: childContent, menuItems: childMenuItems } = getPageContentConfig(page.pages, routePath, placeholder, routeImporter);
+    const { content: childContent, menuItems: childMenuItems } = getPageContentConfig(page.pages, routePath, routeImporter);
 
     content = Object.assign(content, childContent);
     descendantMenuItems = childMenuItems;
@@ -173,7 +172,6 @@ const generateContentConfig = (siteConfig, pageConfig) => {
 
   // Setup the placeholder object.
   const placeholderImage = routeImporter.addImport(placeholderSrc, 'placeholderSrc');
-  const placeholder = { content: PlaceholderPath, props: { src: placeholderImage } };
 
   // Spin through the valid links to build out the route config.
   const config = validLinks.reduce((acc, link) => {
@@ -182,7 +180,7 @@ const generateContentConfig = (siteConfig, pageConfig) => {
     // Build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
 
-    const { content: linkContent, menuItems: linkMenuItems } = getPageContentConfig(linkPageConfig, '', placeholder, routeImporter);
+    const { content: linkContent, menuItems: linkMenuItems } = getPageContentConfig(linkPageConfig, '', routeImporter);
 
     content = Object.assign(content, { [`${link.path}`]: linkContent });
     menuItems = Object.assign(menuItems, { [`${link.path}`]: linkMenuItems });
@@ -190,13 +188,12 @@ const generateContentConfig = (siteConfig, pageConfig) => {
     return { content, menuItems };
   }, { content: {}, menuItems: {} });
 
-  config.placeholder = placeholder;
+  config.placeholderSrc = placeholderImage;
 
   return {
     config,
     imports: routeImporter,
   };
 };
-
 
 module.exports = generateContentConfig;

@@ -198,7 +198,7 @@ class App extends React.Component {
         utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
       >
         <AppContent
-          placeholder={contentConfig.placeholder}
+          placeholderSrc={contentConfig.placeholderSrc}
           menuItems={pageMenuItems}
           contentConfig={pageContent}
           rootPath={activeNavigationItemPath}
