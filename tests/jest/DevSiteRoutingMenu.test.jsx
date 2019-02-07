@@ -20,6 +20,13 @@ describe('DevSiteRoutingMenu', () => {
       const result = searchFilter(by)(searchable);
       expect(result).toBe(false);
     });
+
+    it('should find with regular expression characters', () => {
+      const by = 'menu item 1\\submenu';
+      const searchable = 'Menu Item 1\\submenu';
+      const result = searchFilter(by)(searchable);
+      expect(result).toBe(true);
+    });
   });
 
   describe('buildSideMenuItems', () => {

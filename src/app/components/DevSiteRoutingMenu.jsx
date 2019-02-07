@@ -7,6 +7,7 @@ import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelega
 import SearchField from 'terra-search-field';
 import { FormattedMessage } from 'react-intl';
 import { Utils } from 'terra-application-layout';
+import escapeRegExp from 'lodash.escaperegexp';
 
 const propTypes = {
   /**
@@ -48,7 +49,7 @@ const FILTER_DISPLAY_THRESHOLD = 10;
  * @param {string} by is the string to match by
  * @returns {(searchable?: string) => Boolean}
  */
-export const searchFilter = (by = '') => (searchable = '') => searchable.toLowerCase().search(by.toLowerCase()) >= 0;
+export const searchFilter = (by = '') => (searchable = '') => searchable.toLowerCase().search(escapeRegExp(by.toLowerCase())) >= 0;
 
 /**
  * This function converts the given menuItems from the DevSiteRoutingMenu API to the NavigationSideMenu API.
