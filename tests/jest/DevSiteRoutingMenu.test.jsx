@@ -22,8 +22,8 @@ describe('DevSiteRoutingMenu', () => {
     });
 
     it('should find with regular expression characters', () => {
-      const by = 'menu item 1\\submenu';
-      const searchable = 'Menu Item 1\\submenu';
+      const by = 'menu item 1\\';
+      const searchable = 'Menu Item 1\\';
       const result = searchFilter(by)(searchable);
       expect(result).toBe(true);
     });
