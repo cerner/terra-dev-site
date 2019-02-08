@@ -83,6 +83,7 @@
     "fs-extra": "^6.0.1",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^3.1.0",
+    "lodash.escaperegexp": "^4.1.2",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
     "postcss": "^6.0.21",
