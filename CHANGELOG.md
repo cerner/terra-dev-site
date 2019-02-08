@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+2.10.0 - (February 8, 2019)
+----------
 ### Fixed
 * Fixed an issue with searching for components with a string that ends in a regular expression character.
 
