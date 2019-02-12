@@ -3,8 +3,8 @@ import {
   withRouter, Switch, Route, Redirect,
 } from 'react-router-dom';
 import ContentContainer from 'terra-content-container';
-import SecondaryNavigationLayout from 'terra-framework/packages/terra-application-layout/lib/SecondaryNavigationLayout';
-import SecondaryNavigationLayoutActionHeader from 'terra-framework/packages/terra-application-layout/lib/SecondaryNavigationLayoutActionHeader';
+import SecondaryNavigationLayout from './SecondaryNavigationLayout';
+import SecondaryNavigationLayoutActionHeader from './SecondaryNavigationLayoutActionHeader';
 
 import Placeholder from './common/Placeholder';
 

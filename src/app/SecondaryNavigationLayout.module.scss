@@ -1,0 +1,48 @@
+@import "~terra-breakpoints/lib/media-queries";
+
+:local {
+  .container {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .content {
+    height: 100%;
+    overflow: auto;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .panel {
+    background-color: var(--terra-application-layout-menu-panel-panel-background-color, #fff);
+    border-right: 0.07143rem solid var(--terra-application-layout-menu-panel-panel-border-color, #d3d4d5);
+    display: none;
+    height: 100%;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .container.panel-is-open {
+    .content {
+      @include terra-mq-medium-up {
+        width: calc(100% - #{var(--terra-application-layout-menu-panel-panel-width-large, 18.571rem)} - 0.07143rem);
+      } 
+    }
+  
+    .panel {
+      display: block;
+      width: 100%;
+      @include terra-mq-medium-up {
+        width: calc(0.07143rem + #{var(--terra-application-layout-menu-panel-panel-width-large, 18.571rem)});
+      } 
+    }  
+  }
+}
