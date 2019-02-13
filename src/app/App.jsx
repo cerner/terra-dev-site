@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {
   withRouter, Switch, Route, matchPath, Redirect,
 } from 'react-router-dom';
-import ApplicationNavigation from 'terra-application-navigation';
+
+import ApplicationNavigation from 'terra-framework/packages/terra-application-navigation/lib/ApplicationNavigation';
 
 import AppBase from './AppBase';
 import AppContent from './AppContent';
