@@ -104,6 +104,7 @@
     "terra-slide-panel": "^2.0.1",
     "terra-theme-provider": "^2.0.0",
     "terra-toolkit": "^4.5.0",
+    "terra-application-navigation": "^0.0.0",
     "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2",
     "xfc": "^1.2.1"

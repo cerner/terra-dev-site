@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import {
   withRouter, Switch, Route, matchPath, Redirect,
 } from 'react-router-dom';
-
-import { ActiveBreakpointContext } from 'terra-breakpoints';
-import ApplicationLayout from 'terra-framework/packages/terra-application-layout/lib/ApplicationLayout';
+import ApplicationNavigation from 'terra-application-navigation';
 
 import AppBase from './AppBase';
 import AppContent from './AppContent';
@@ -185,7 +183,7 @@ class App extends React.Component {
     const pageContent = contentConfig.content[activeNavigationItemPath];
 
     return (
-      <ApplicationLayout
+      <ApplicationNavigation
         nameConfig={nameConfig}
         navigationAlignment="start"
         navigationItems={navigationItems.map(item => ({
@@ -204,7 +202,7 @@ class App extends React.Component {
           rootPath={activeNavigationItemPath}
           key={activeNavigationItemPath}
         />
-      </ApplicationLayout>
+      </ApplicationNavigation>
     );
   }
 
