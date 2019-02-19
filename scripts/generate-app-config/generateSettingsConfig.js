@@ -41,32 +41,32 @@ const generateUtilitiesConfig = (appConfig) => {
     return undefined;
   }
 
-  const rootMenuChildKeys = {};
+  const config = {};
 
   // build out the menu items for themes, locals, and bidi.
   if (hasThemes) {
-    rootMenuChildKeys.Theme = generateItemConfig(appConfig.defaultTheme, Object.keys(appConfig.themes), 'Theme');
+    config.themes = {
+      default: appConfig.defaultTheme,
+      values: appConfig.themes,
+    };
   }
 
   if (hasLocals) {
-    rootMenuChildKeys.Locale = generateItemConfig(appConfig.defaultLocale, appConfig.locales, 'Locale');
+    config.locales = {
+      default: appConfig.defaultLocale,
+      values: appConfig.locales,
+    };
   }
 
   if (appConfig.bidirectional) {
-    rootMenuChildKeys.Bidi = generateItemConfig(appConfig.defaultDir, ['ltr', 'rtl'], 'Bidi');
+    config.directions = {
+      default: appConfig.defaultDir,
+      values: ['ltr', 'rtl'],
+    };
   }
 
   return {
-    config: {
-      accessory: utilsImports.addImport('terra-icon/lib/icon/IconSettings', 'IconSettings', '<IconSettings />'),
-      menuItems: {
-        key: 'menu',
-        title: 'Settings',
-        childKeys: rootMenuChildKeys,
-      },
-      initialSelectedKey: 'menu',
-      onChange: (event, { key, metaData }) => { metaData.onChange(key); },
-    },
+    config,
     imports: utilsImports,
   };
 };

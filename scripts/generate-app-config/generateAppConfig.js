@@ -4,7 +4,7 @@ const writeConfig = require('./writeConfig');
 const generateContentConfig = require('./generateContentConfig');
 const generateNameConfig = require('./generateNameConfig');
 const generateExtensions = require('./generateExtensions');
-const generateUtilitiesConfig = require('./generateUtilitiesConfig');
+const generateSettingsConfig = require('./generateSettingsConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
 const injectTestEvidenceLink = require('./injectTestEvidenceLink');
@@ -45,9 +45,9 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     navConfig.navigation.links = injectTestEvidenceLink(navConfig);
   }
 
-  const utilityConfig = addConfig(
-    generateUtilitiesConfig(appConfig),
-    'utilityConfig.jsx',
+  const settingsConfig = addConfig(
+    generateSettingsConfig(appConfig),
+    'settingsConfig.jsx',
     buildPath,
     fse,
     imports,
@@ -94,7 +94,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   // Building out the overall config import.
   const config = {
     nameConfig,
-    utilityConfig,
+    settingsConfig,
     contentConfig,
     navigationItems,
     extensions,

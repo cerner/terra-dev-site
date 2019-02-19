@@ -4,8 +4,8 @@ const siteConfig = {
   navConfig,
 
   appConfig: {
-    locales: ['en'],
-    bidirectional: false,
+    locales: ['en', 'es', 'en-US'],
+    bidirectional: true,
   },
 
   includeTestEvidence: false,

@@ -19,32 +19,65 @@ class DevSiteApplication extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleDirChange = this.handleDirChange.bind(this);
-    this.handleLocaleChange = this.handleLocaleChange.bind(this);
-    this.handleThemeChange = this.handleThemeChange.bind(this);
+    this.syncDomWithState = this.syncDomWithState.bind(this);
+
+    const initialLocale = (siteConfig.settingsConfig && siteConfig.settingsConfig.locales.default) || 'en';
+    const initialTheme = siteConfig.settingsConfig && siteConfig.settingsConfig.themes && siteConfig.settingsConfig.themes.default;
+    const initialDirection = (siteConfig.settingsConfig && siteConfig.settingsConfig.directions.default) || 'ltr';
 
     this.state = {
-      locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
-      theme: siteConfig.defaultTheme,
+      locale: initialLocale,
+      theme: initialTheme,
+      direction: initialDirection,
     };
   }
 
-  handleDirChange(key) {
-    document.getElementsByTagName('html')[0].setAttribute('dir', key);
-    this.setState({ dir: key });
+  componentDidMount() {
+    this.syncDomWithState();
   }
 
-  handleLocaleChange(key) {
-    document.getElementsByTagName('html')[0].setAttribute('lang', key);
-    this.setState({ locale: key });
+  componentDidUpdate() {
+    this.syncDomWithState();
   }
 
-  handleThemeChange(key) {
-    this.setState({ theme: key });
+  syncDomWithState() {
+    const { locale, direction } = this.state;
+
+    const htmlNode = document.getElementsByTagName('html')[0];
+
+    if (htmlNode.getAttribute('lang') !== locale) {
+      htmlNode.setAttribute('lang', locale);
+    }
+
+    if (htmlNode.getAttribute('dir') !== direction) {
+      htmlNode.setAttribute('dir', direction);
+    }
   }
 
   render() {
-    const { locale, theme, dir } = this.state;
+    const { locale, theme, direction } = this.state;
+
+    const settings = {};
+    if (siteConfig.settingsConfig.locales) {
+      settings.locales = {
+        values: siteConfig.settingsConfig.locales.values,
+        selectedValue: locale,
+      };
+    }
+
+    if (siteConfig.settingsConfig.themes) {
+      settings.themes = {
+        values: siteConfig.settingsConfig.themes.values,
+        selectedValue: theme,
+      };
+    }
+
+    if (siteConfig.settingsConfig.directions) {
+      settings.directions = {
+        values: siteConfig.settingsConfig.directions.values,
+        selectedValue: direction,
+      };
+    }
 
     return (
       <HashRouter>
@@ -55,13 +88,31 @@ class DevSiteApplication extends React.Component {
         >
           <DevSiteNavigation
             nameConfig={siteConfig.nameConfig}
-            utilityConfig={siteConfig.utilityConfig}
+            settingsConfig={settings}
+            onUpdateSettings={(newSettings) => {
+              const newState = {};
+              if (newSettings.locale && locale !== newSettings.locale) {
+                newState.locale = newSettings.locale;
+              }
+
+              if (newSettings.theme && theme !== newSettings.theme) {
+                newState.theme = newSettings.theme;
+              }
+
+              if (newSettings.direction && direction !== newSettings.direction) {
+                newState.direction = newSettings.direction;
+              }
+
+              if (Object.keys(newState).length) {
+                this.setState(newState);
+              }
+            }}
             contentConfig={siteConfig.contentConfig}
             navigationItems={siteConfig.navigationItems}
             extensions={siteConfig.extensions}
             indexPath={siteConfig.indexPath}
             themes={siteConfig.themes}
-            dir={dir}
+            direction={direction}
           />
         </Application>
       </HashRouter>

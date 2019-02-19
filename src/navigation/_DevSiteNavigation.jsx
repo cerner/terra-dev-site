@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import {
   withRouter, Switch, Route, matchPath, Redirect,
 } from 'react-router-dom';
+import { DisclosureManager } from 'terra-application';
 import ApplicationNavigation from 'terra-application-navigation';
 import Image from 'terra-image';
 
 import DevSitePage from './_DevSitePage';
-import ConfigureUtilities from '../ConfigureUtilities';
+import SettingsPicker from './_SettingsPicker';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 
 const propTypes = {
@@ -21,13 +22,21 @@ const propTypes = {
   /**
    * Configuration to setup the utilities menu.
    */
-  utilityConfig: PropTypes.shape({
-    title: PropTypes.string,
-    accessory: PropTypes.element,
-    onChange: PropTypes.func.isRequired,
-    menuItems: PropTypes.object.isRequired,
-    initialSelectedKey: PropTypes.string.isRequired,
+  settingsConfig: PropTypes.shape({
+    themes: PropTypes.shape({
+      default: PropTypes.string,
+      values: PropTypes.arrayOf(PropTypes.string),
+    }),
+    locales: PropTypes.shape({
+      default: PropTypes.string,
+      values: PropTypes.arrayOf(PropTypes.string),
+    }),
+    directions: PropTypes.shape({
+      default: PropTypes.string,
+      values: PropTypes.arrayOf(PropTypes.string),
+    }),
   }),
+  onUpdateSettings: PropTypes.func,
   contentConfig: PropTypes.shape({
     placeholder: PropTypes.node,
     content: PropTypes.object,
@@ -75,7 +84,7 @@ const defaultProps = {
   themes: undefined,
   navigationItems: undefined,
   extensions: undefined,
-  utilityConfig: undefined,
+  settingsConfig: undefined,
   location: undefined,
   history: undefined,
 };
@@ -110,19 +119,6 @@ class DevSiteNavigation extends React.Component {
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
     this.renderRawRoute = this.renderRawRoute.bind(this);
     this.renderNavigation = this.renderNavigation.bind(this);
-
-    this.utilityConfig = this.setupUtilityConfig(props.utilityConfig);
-  }
-
-  setupUtilityConfig(utilityConfig) {
-    return ConfigureUtilities.addCallbackFunctions(
-      utilityConfig,
-      {
-        Theme: { onChange: this.handleThemeChange },
-        Locale: { onChange: this.handleLocaleChange },
-        Bidi: { onChange: this.handleBidiChange },
-      },
-    );
   }
 
   handleNavigationItemSelection(navigationItemKey) {
@@ -154,7 +150,7 @@ class DevSiteNavigation extends React.Component {
 
   renderNavigation() {
     const {
-      nameConfig, navigationItems, extensions, contentConfig, indexPath,
+      nameConfig, navigationItems, extensions, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
 
@@ -179,10 +175,25 @@ class DevSiteNavigation extends React.Component {
           component: <Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />,
         }}
         onSelectSettings={() => {
-
-        }}
-        onSelectHelp={() => {
-
+          disclosureManager.disclose({
+            preferredType: 'modal',
+            size: 'small',
+            content: {
+              key: 'terra-dev-site.settings',
+              component: (
+                <SettingsPicker
+                  config={settingsConfig}
+                  onChangeSettings={(settingsValues, dismissSettingsPicker) => {
+                    dismissSettingsPicker().then(() => {
+                      if (onUpdateSettings) {
+                        onUpdateSettings(settingsValues);
+                      }
+                    });
+                  }}
+                />
+              ),
+            },
+          });
         }}
       >
         <DevSitePage
@@ -225,4 +236,4 @@ class DevSiteNavigation extends React.Component {
 DevSiteNavigation.propTypes = propTypes;
 DevSiteNavigation.defaultProps = defaultProps;
 
-export default withRouter(DevSiteNavigation);
+export default DisclosureManager.withDisclosureManager(withRouter(DevSiteNavigation));

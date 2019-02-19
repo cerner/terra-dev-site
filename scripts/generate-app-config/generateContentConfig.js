@@ -160,6 +160,9 @@ const getLinkPageConfig = (link, pageConfig, siteConfig, routeImporter) => {
   return [generatedPageConfig];
 };
 
+/**
+ * Generates the content configuration used to populate the terra-dev-site navigation components.
+ */
 const generateContentConfig = (siteConfig, pageConfig) => {
   if (!pageConfig) {
     return undefined;
@@ -180,10 +183,10 @@ const generateContentConfig = (siteConfig, pageConfig) => {
     // Build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
 
-    const { content: linkContent, menuItems: linkMenuItems } = getPageContentConfig(linkPageConfig, '', routeImporter);
+    const { content: pageContent, menuItems: pageMenuItems } = getPageContentConfig(linkPageConfig, '', routeImporter);
 
-    content = Object.assign(content, { [`${link.path}`]: linkContent });
-    menuItems = Object.assign(menuItems, { [`${link.path}`]: linkMenuItems });
+    content = Object.assign(content, { [`${link.path}`]: pageContent });
+    menuItems = Object.assign(menuItems, { [`${link.path}`]: pageMenuItems });
 
     return { content, menuItems };
   }, { content: {}, menuItems: {} });
