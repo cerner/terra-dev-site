@@ -4,7 +4,7 @@ import ButtonGroup from 'terra-button-group';
 import IconLeft from 'terra-icon/lib/icon/IconLeft';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
 
-import { withSecondaryNavigationLayout } from './SecondaryNavigationLayout';
+import { withSecondaryNavigationLayout } from './_SecondaryNavigationLayout';
 
 const SecondaryNavigationLayoutActionHeader = withSecondaryNavigationLayout(({
   secondaryNavigationLayout,

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
-import styles from './ContentWrapper.scss';
+import styles from './ContentWrapper.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -26,7 +26,7 @@ const defaultProps = {
 const ContentWrapper = ({ content: Content, props }) => (
   <div
     data-terra-dev-site-content
-    className={cx('site-content')}
+    className={cx('dev-site-content')}
   >
     <Content {...props} />
   </div>

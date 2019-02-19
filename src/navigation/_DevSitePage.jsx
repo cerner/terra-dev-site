@@ -1,14 +1,13 @@
 import React from 'react';
 import {
-  withRouter, Switch, Route, Redirect,
+  withRouter, Switch, Route,
 } from 'react-router-dom';
 import ContentContainer from 'terra-content-container';
-import SecondaryNavigationLayout from './SecondaryNavigationLayout';
-import SecondaryNavigationLayoutActionHeader from './SecondaryNavigationLayoutActionHeader';
+import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
+import SecondaryNavigationLayoutActionHeader from './_SecondaryNavigationLayoutActionHeader';
+import Placeholder from '../static-pages/_PlaceholderPage';
 
-import Placeholder from './common/Placeholder';
-
-class AppContent extends React.Component {
+class DevSitePage extends React.Component {
   static flattenMenuItems(menuItems) {
     return menuItems.reduce((accumulatedMenuItems, item) => {
       let generatedMenuItems = [{
@@ -22,7 +21,7 @@ class AppContent extends React.Component {
       }];
 
       if (item.childItems) {
-        generatedMenuItems = generatedMenuItems.concat(AppContent.flattenMenuItems(item.childItems));
+        generatedMenuItems = generatedMenuItems.concat(DevSitePage.flattenMenuItems(item.childItems));
       }
 
       return accumulatedMenuItems.concat(generatedMenuItems);
@@ -35,14 +34,16 @@ class AppContent extends React.Component {
     this.generateContent = this.generateContent.bind(this);
 
     this.state = {
-      menuItems: AppContent.flattenMenuItems(props.menuItems),
+      menuItems: DevSitePage.flattenMenuItems(props.menuItems),
       initialSelectedMenuKey: props.location.pathname,
       sortedContentPaths: Object.keys(props.contentConfig).sort().reverse(),
     };
   }
 
   generateContent() {
-    const { contentConfig, rootPath, placeholderSrc } = this.props;
+    const {
+      contentConfig, rootPath, placeholderSrc, notFoundComponent,
+    } = this.props;
     const { sortedContentPaths } = this.state;
 
     return (
@@ -61,7 +62,7 @@ class AppContent extends React.Component {
           exact
           render={() => <Placeholder src={placeholderSrc} />}
         />
-        <Redirect to="/404" />
+        <Route render={() => notFoundComponent} />
       </Switch>
     );
   }
@@ -94,4 +95,4 @@ class AppContent extends React.Component {
   }
 }
 
-export default withRouter(AppContent);
+export default withRouter(DevSitePage);

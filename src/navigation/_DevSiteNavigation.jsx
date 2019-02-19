@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import {
   withRouter, Switch, Route, matchPath, Redirect,
 } from 'react-router-dom';
+import ApplicationNavigation from 'terra-application-navigation';
+import Image from 'terra-image';
 
-import ApplicationNavigation from 'terra-framework/packages/terra-application-navigation/lib/ApplicationNavigation';
-
-import AppBase from './AppBase';
-import AppContent from './AppContent';
-import ConfigureUtilities from './ConfigureUtilities';
-import NotFoundPage from './common/NotFoundPage';
+import DevSitePage from './_DevSitePage';
+import ConfigureUtilities from '../ConfigureUtilities';
+import NotFoundPage from '../static-pages/_NotFoundPage';
 
 const propTypes = {
   /**
@@ -81,7 +80,7 @@ const defaultProps = {
   history: undefined,
 };
 
-class App extends React.Component {
+class DevSiteNavigation extends React.Component {
   static propExistsAndChanged(nextProp, currentProp) {
     return nextProp !== undefined && nextProp !== currentProp;
   }
@@ -98,25 +97,19 @@ class App extends React.Component {
 
   static getDerivedStateFromProps(newProps) {
     return {
-      activeNavigationItemPath: App.getActiveNavigationItemPath(newProps.location, newProps.navigationItems),
+      activeNavigationItemPath: DevSiteNavigation.getActiveNavigationItemPath(newProps.location, newProps.navigationItems),
     };
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      dir: document.getElementsByTagName('html')[0].getAttribute('dir'),
-      locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
-      theme: props.defaultTheme,
       activeNavigationItemPath: undefined,
     };
 
-    this.handleBidiChange = this.handleBidiChange.bind(this);
-    this.handleThemeChange = this.handleThemeChange.bind(this);
-    this.handleLocaleChange = this.handleLocaleChange.bind(this);
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
     this.renderRawRoute = this.renderRawRoute.bind(this);
-    this.renderAppRoute = this.renderAppRoute.bind(this);
+    this.renderNavigation = this.renderNavigation.bind(this);
 
     this.utilityConfig = this.setupUtilityConfig(props.utilityConfig);
   }
@@ -132,21 +125,6 @@ class App extends React.Component {
     );
   }
 
-  handleBidiChange(key) {
-    document.getElementsByTagName('html')[0].setAttribute('dir', key);
-    this.setState({ dir: key });
-  }
-
-  handleLocaleChange(key) {
-    document.getElementsByTagName('html')[0].setAttribute('lang', key);
-    this.setState({ locale: key });
-  }
-
-  handleThemeChange(key) {
-    this.setState({ theme: key });
-  }
-
-
   handleNavigationItemSelection(navigationItemKey) {
     const { history } = this.props;
     const { activeNavigationItemPath } = this.state;
@@ -157,7 +135,7 @@ class App extends React.Component {
   }
 
   renderRawRoute({ location }) {
-    const { contentConfig } = this.props;
+    const { indexPath, contentConfig } = this.props;
 
     const flattenedRouteConfig = Object.keys(contentConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, contentConfig.content[pageKey]), {});
 
@@ -171,12 +149,12 @@ class App extends React.Component {
       return React.createElement(routeData.componentClass, routeData.props);
     }
 
-    return <Redirect to="/404" />;
+    return <NotFoundPage homePath={indexPath} />;
   }
 
-  renderAppRoute() {
+  renderNavigation() {
     const {
-      nameConfig, navigationItems, extensions, contentConfig,
+      nameConfig, navigationItems, extensions, contentConfig, indexPath,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
 
@@ -194,14 +172,26 @@ class App extends React.Component {
         activeNavigationItemKey={activeNavigationItemPath}
         onSelectNavigationItem={this.handleNavigationItemSelection}
         extensions={extensions}
-        utilityConfig={ConfigureUtilities.convertChildkeysToArray(this.utilityConfig)}
+        menuHeroConfig={{
+          component: <Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />,
+        }}
+        utilityHeroConfig={{
+          component: <Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />,
+        }}
+        onSelectSettings={() => {
+
+        }}
+        onSelectHelp={() => {
+
+        }}
       >
-        <AppContent
+        <DevSitePage
           placeholderSrc={contentConfig.placeholderSrc}
           menuItems={pageMenuItems}
           contentConfig={pageContent}
           rootPath={activeNavigationItemPath}
           key={activeNavigationItemPath}
+          notFoundComponent={<NotFoundPage indexPath={indexPath} />}
         />
       </ApplicationNavigation>
     );
@@ -212,33 +202,27 @@ class App extends React.Component {
       indexPath, themes, location,
     } = this.props;
     const {
-      theme, locale, dir, activeNavigationItemPath,
+      activeNavigationItemPath,
     } = this.state;
-    this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
 
     if (!activeNavigationItemPath && !location.pathname.match(/^\/raw/)) {
       if (location.pathname === '/') {
         return <Redirect to={indexPath} />;
       }
 
-      if (location.pathname !== '/404') {
-        return <Redirect to="/404" />;
-      }
+      return <NotFoundPage homePath={indexPath} />;
     }
 
     return (
-      <AppBase locale={locale} themeName={themes[theme]}>
-        <Switch>
-          <Route path="/404" render={() => (<NotFoundPage homePath={indexPath} />)} />
-          <Route path="/raw" render={this.renderRawRoute} />
-          <Route render={this.renderAppRoute} />
-        </Switch>
-      </AppBase>
+      <Switch>
+        <Route path="/raw" render={this.renderRawRoute} />
+        <Route render={this.renderNavigation} />
+      </Switch>
     );
   }
 }
 
-App.propTypes = propTypes;
-App.defaultProps = defaultProps;
+DevSiteNavigation.propTypes = propTypes;
+DevSiteNavigation.defaultProps = defaultProps;
 
-export default withRouter(App);
+export default withRouter(DevSiteNavigation);

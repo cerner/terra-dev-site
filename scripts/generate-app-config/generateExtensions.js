@@ -12,14 +12,14 @@ const generateExtensions = (appConfig) => {
 
     if (gitHubUrl) {
       imports.addImport('react', 'React');
-      imports.addImport('terra-dev-site/lib/app/components/GitHubLinkExtension', 'GitHubLinkExtension');
-      imports.addImport('terra-dev-site/lib/app/components/Extensions', 'Extensions');
+      imports.addImport('terra-dev-site/lib/wrappers/_GitHubLinkExtension', 'GitHubLinkExtension');
+      imports.addImport('terra-dev-site/lib/wrappers/_ExtensionsWrapper', 'ExtensionsWrapper');
       return {
         // This places JSX inline for the component variable.
         config: new IdentifierPlaceholder(`(
-          <Extensions>
+          <ExtensionsWrapper>
             <GitHubLinkExtension href="${gitHubUrl}" />
-          </Extensions>
+          </ExtensionsWrapper>
           )`),
         imports,
       };

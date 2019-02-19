@@ -1,10 +1,9 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
-import { Utils } from 'terra-application-layout';
-import { withActiveBreakpoint } from 'terra-breakpoints';
+import { Breakpoints } from 'terra-application';
 
-import styles from './Extensions.scss';
+import styles from './ExtensionsWrapper.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -24,9 +23,9 @@ const defaultProps = {
   activeBreakpoint: undefined,
 };
 
-const Extensions = (props) => {
+const ExtensionsWrapper = (props) => {
   const { children, activeBreakpoint } = props;
-  const isCompactSize = Utils.helpers.isSizeCompact(activeBreakpoint);
+  const isCompactSize = activeBreakpoint === 'tiny' || activeBreakpoint === 'small' || activeBreakpoint === 'medium';
 
   let containerProps = { className: cx('container') };
   if (isCompactSize) {
@@ -48,7 +47,7 @@ const Extensions = (props) => {
   );
 };
 
-Extensions.propTypes = propTypes;
-Extensions.defaultProps = defaultProps;
+ExtensionsWrapper.propTypes = propTypes;
+ExtensionsWrapper.defaultProps = defaultProps;
 
-export default withActiveBreakpoint(Extensions);
+export default Breakpoints.withActiveBreakpoint(ExtensionsWrapper);

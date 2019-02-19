@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import Image from 'terra-image';
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
-import styles from './ScreenshotWrapper.scss';
+import styles from './ScreenshotWrapper.module.scss';
 
 const cx = classNames.bind(styles);
 

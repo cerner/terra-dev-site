@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { withActiveBreakpoint } from 'terra-breakpoints';
+import { Breakpoints } from 'terra-application';
 import NavigationSideMenu from 'terra-navigation-side-menu';
-
-import 'terra-base/lib/baseStyles';
 
 import styles from './SecondaryNavigationLayout.module.scss';
 
@@ -262,7 +260,7 @@ class SecondaryNavigationLayout extends React.Component {
 
 SecondaryNavigationLayout.propTypes = propTypes;
 
-export default withActiveBreakpoint(SecondaryNavigationLayout);
+export default Breakpoints.withActiveBreakpoint(SecondaryNavigationLayout);
 export {
   SecondaryNavigationLayoutContext,
   withSecondaryNavigationLayout,
