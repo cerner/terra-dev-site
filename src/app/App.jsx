@@ -8,6 +8,7 @@ import ApplicationLayout from 'terra-application-layout';
 
 import ConfigureUtilities from './ConfigureUtilities';
 import RawRoute from './components/RawRoute';
+import EmbeddedRoute from './components/EmbeddedRouteFunctional';
 import './App.scss';
 
 const propTypes = {
@@ -57,13 +58,7 @@ const propTypes = {
    */
   // eslint-disable-next-line react/forbid-prop-types
   themes: PropTypes.object,
-  /**
-   * Injected by react-routed: represent where the app is now, where you want it to go,
-   * or even where it was.
-   */
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
+  generateEmbeddedTestRoutes: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -72,8 +67,8 @@ const defaultProps = {
   themes: undefined,
   navigationItems: undefined,
   extensions: undefined,
+  generateEmbeddedTestRoutes: false,
   utilityConfig: undefined,
-  location: undefined,
 };
 
 class App extends React.Component {
@@ -122,7 +117,7 @@ class App extends React.Component {
 
   render() {
     const {
-      nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes,
+      nameConfig, routingConfig, navigationItems, indexPath, extensions, themes, generateEmbeddedTestRoutes,
     } = this.props;
     const { theme, locale, dir } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
@@ -133,8 +128,18 @@ class App extends React.Component {
           <Switch>
             <Route
               path="/raw"
-              render={() => RawRoute(routingConfig, location, '/raw')}
+              strict
+              render={routeProps => RawRoute(routingConfig, routeProps)}
             />
+            {generateEmbeddedTestRoutes
+              && (
+              <Route
+                path="/embedded"
+                strict
+                component={routeProps => EmbeddedRoute(routingConfig, routeProps)}
+              />
+              )
+            }
             <Route
               render={() => (
                 <ApplicationLayout

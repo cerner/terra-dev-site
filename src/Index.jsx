@@ -22,6 +22,7 @@ const Site = () => (
       navigationItems={siteConfig.navigationItems}
       extensions={siteConfig.extensions}
       indexPath={siteConfig.indexPath}
+      generateEmbeddedTestRoutes={siteConfig.generateEmbeddedTestRoutes}
       defaultTheme={siteConfig.defaultTheme}
       themes={siteConfig.themes}
     />

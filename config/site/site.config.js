@@ -128,6 +128,9 @@ const siteConfig = {
   /* The default for whether or not test evidence should be included. 'true' is the default value. */
   includeTestEvidence: true,
 
+  /* The default for whether or not test evidence should be included. 'true' is the default value. */
+  generateEmbeddedTestRoutes: false,
+
   /* The default for whether the navigation side menu includes a filter input. 'false' is the default value */
   filterSideMenu: false,
 };

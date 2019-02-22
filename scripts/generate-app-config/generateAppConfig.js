@@ -8,6 +8,7 @@ const generateUtilitiesConfig = require('./generateUtilitiesConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
 const injectTestEvidenceLink = require('./injectTestEvidenceLink');
+const injectEmbeddedTestLink = require('./injectEmbeddedTestLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
 
@@ -99,6 +100,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     navigationItems,
     extensions,
     indexPath: navConfig.navigation.index,
+    generateEmbeddedTestRoutes: siteConfig.generateEmbeddedTestRoutes,
     defaultTheme: appConfig.defaultTheme,
     themes: appConfig.themes,
   };
