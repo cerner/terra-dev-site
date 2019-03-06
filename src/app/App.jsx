@@ -58,7 +58,8 @@ const propTypes = {
    */
   // eslint-disable-next-line react/forbid-prop-types
   themes: PropTypes.object,
-  generateEmbeddedTestRoutes: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  embeddedTestsConfig: PropTypes.object,
 };
 
 const defaultProps = {
@@ -67,7 +68,7 @@ const defaultProps = {
   themes: undefined,
   navigationItems: undefined,
   extensions: undefined,
-  generateEmbeddedTestRoutes: false,
+  embeddedTestsConfig: undefined,
   utilityConfig: undefined,
 };
 
@@ -117,11 +118,11 @@ class App extends React.Component {
 
   render() {
     const {
-      nameConfig, routingConfig, navigationItems, indexPath, extensions, themes, generateEmbeddedTestRoutes,
+      nameConfig, routingConfig, navigationItems, indexPath, extensions, themes, embeddedTestsConfig,
     } = this.props;
     const { theme, locale, dir } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
-
+    const generateEmbeddedTestRoutes = embeddedTestsConfig && embeddedTestsConfig.generate;
     return (
       <ThemeProvider id="site" themeName={themes[theme]} isGlobalTheme>
         <Base className="base" locale={locale}>
@@ -136,7 +137,7 @@ class App extends React.Component {
               <Route
                 path="/embedded"
                 strict
-                component={routeProps => EmbeddedRoute(routingConfig, routeProps)}
+                component={routeProps => EmbeddedRoute(embeddedTestsConfig, routingConfig, routeProps)}
               />
               )
             }

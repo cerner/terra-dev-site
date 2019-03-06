@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
-import { Provider } from 'xfc';
+
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
 
 import App from './app/App';
 
-Provider.init({
-  acls: ['*'],
-  secret: () => (Promise.resolve('Success')),
-});
+// always initalize xfc provider for passivity
+siteConfig.embeddedConfig.Provider.init();
+
+// initalize xfc consumer for embedded test routes
+if (siteConfig.embeddedConfig.embeddedTests) {
+  siteConfig.embeddedConfig.Consumer.init();
+}
 
 const Site = () => (
   <Router>
@@ -22,7 +25,7 @@ const Site = () => (
       navigationItems={siteConfig.navigationItems}
       extensions={siteConfig.extensions}
       indexPath={siteConfig.indexPath}
-      generateEmbeddedTestRoutes={siteConfig.generateEmbeddedTestRoutes}
+      embeddedTestsConfig={siteConfig.embeddedConfig.embeddedTests}
       defaultTheme={siteConfig.defaultTheme}
       themes={siteConfig.themes}
     />

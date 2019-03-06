@@ -3,12 +3,12 @@ const path = require('path');
 const writeConfig = require('./writeConfig');
 const generateRouteConfig = require('./generateRouteConfig');
 const generateNameConfig = require('./generateNameConfig');
+const generateEmbeddedConfig = require('./generateEmbeddedConfig');
 const generateExtensions = require('./generateExtensions');
 const generateUtilitiesConfig = require('./generateUtilitiesConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
 const injectTestEvidenceLink = require('./injectTestEvidenceLink');
-const injectEmbeddedTestLink = require('./injectEmbeddedTestLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
 
@@ -33,6 +33,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
 
   const {
     appConfig,
+    embeddedConfig,
     navConfig,
     themeImports,
     sideEffectImports,
@@ -57,6 +58,14 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   const nameConfig = addConfig(
     generateNameConfig(appConfig),
     'nameConfig.js',
+    buildPath,
+    fse,
+    imports,
+  );
+
+  const embeddedSetup = addConfig(
+    generateEmbeddedConfig(embeddedConfig),
+    'embeddedConfig.js',
     buildPath,
     fse,
     imports,
@@ -100,7 +109,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     navigationItems,
     extensions,
     indexPath: navConfig.navigation.index,
-    generateEmbeddedTestRoutes: siteConfig.generateEmbeddedTestRoutes,
+    embeddedConfig: embeddedSetup,
     defaultTheme: appConfig.defaultTheme,
     themes: appConfig.themes,
   };
