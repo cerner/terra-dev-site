@@ -33,6 +33,19 @@ const siteConfig = {
     ],
   },
 
+
+  /* The embedded XFC configuration. */
+  embeddedConfig: {
+    /* path to the custom XFC provider initlization for the application */
+    providerInit: undefined,
+    /* path to the custom XFC consumer initlization for the application */
+    consumerInit: undefined,
+    embeddedTests: {
+      /* Whether or not embedded test routes should be generated. */
+      generate: false,
+    },
+  },
+
   /** Whether or not hot reloading section should be enabled. This applies to the search searchPatterns
    * and mono-repo package aliasing. This is enabled by default for dev builds.
    */
@@ -127,9 +140,6 @@ const siteConfig = {
 
   /* The default for whether or not test evidence should be included. 'true' is the default value. */
   includeTestEvidence: true,
-
-  /* The default for whether or not test evidence should be included. 'true' is the default value. */
-  generateEmbeddedTestRoutes: false,
 
   /* The default for whether the navigation side menu includes a filter input. 'false' is the default value */
   filterSideMenu: false,

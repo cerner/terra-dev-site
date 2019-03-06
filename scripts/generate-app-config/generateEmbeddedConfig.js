@@ -1,9 +1,8 @@
-const path = require('path');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const IdentifierPlaceholder = require('./generation-objects/IdentifierPlaceholder');
 
 /**
-* Generates the file representing extensions.
+* Generates the file representing embedded configuration.
 */
 const generateEmbeddedConfig = (embeddedConfig) => {
   const imports = new ImportAggregator();

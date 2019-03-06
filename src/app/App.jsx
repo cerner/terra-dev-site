@@ -8,7 +8,7 @@ import ApplicationLayout from 'terra-application-layout';
 
 import ConfigureUtilities from './ConfigureUtilities';
 import RawRoute from './components/RawRoute';
-import EmbeddedRoute from './components/EmbeddedRouteFunctional';
+import EmbeddedRoute from './components/EmbeddedRoute';
 import './App.scss';
 
 const propTypes = {
