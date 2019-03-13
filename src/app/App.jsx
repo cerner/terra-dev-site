@@ -57,13 +57,6 @@ const propTypes = {
    */
   // eslint-disable-next-line react/forbid-prop-types
   themes: PropTypes.object,
-  /**
-   * Injected by react-routed: represent where the app is now, where you want it to go,
-   * or even where it was.
-   */
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
 };
 
 const defaultProps = {
@@ -73,7 +66,6 @@ const defaultProps = {
   navigationItems: undefined,
   extensions: undefined,
   utilityConfig: undefined,
-  location: undefined,
 };
 
 class App extends React.Component {
@@ -122,7 +114,7 @@ class App extends React.Component {
 
   render() {
     const {
-      nameConfig, location, routingConfig, navigationItems, indexPath, extensions, themes,
+      nameConfig, routingConfig, navigationItems, indexPath, extensions, themes,
     } = this.props;
     const { theme, locale, dir } = this.state;
     this.utilityConfig = ConfigureUtilities.updateSelectedItems(this.utilityConfig, theme, locale, dir);
@@ -133,7 +125,7 @@ class App extends React.Component {
           <Switch>
             <Route
               path="/raw"
-              render={() => RawRoute(routingConfig, location, '/raw')}
+              render={routeProps => RawRoute(routingConfig, routeProps)}
             />
             <Route
               render={() => (
