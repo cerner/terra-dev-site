@@ -11,6 +11,7 @@ Cerner Corporation
 - Brett Jankord [@bjankord]
 - Alisha Parvez [@parvezalisha]
 - Cody Price [@dev-cprice]
+- Mike Hemesath [@mhemesath]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -23,3 +24,4 @@ Cerner Corporation
 [@bjankord]: https://github.com/bjankord
 [@parvezalisha]: https://github.com/parvezalisha
 [@dev-cprice]: https://github.com/dev-cprice
+[@mhemesath]: https://github.com/mhemesath
