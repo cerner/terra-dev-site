@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+2.11.0 - (March 13, 2019)
+----------
+### Added
+* Added theme variable `--terra-dev-site-content-background-color`. Defaults to `transparent`.
+
 2.10.0 - (February 8, 2019)
 ----------
 ### Fixed
