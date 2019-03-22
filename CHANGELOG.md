@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added alt text to app logo image
+* Added alt text to placeholder image
 
 3.2.0 - (March 13, 2019)
 ----------
