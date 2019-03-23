@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated react/react-dom to latest stable minor release
 
 3.2.1 - (March 22, 2019)
 ----------
