@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated terra-base to 5.0.0
+* Updated terra-i18n to 4.0.0
 
 3.3.0 - (March 26, 2019)
 ----------
