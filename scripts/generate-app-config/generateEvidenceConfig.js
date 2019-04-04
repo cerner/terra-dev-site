@@ -12,14 +12,14 @@ const getScreenshotPatterns = generatePagesOptions => (
   generatePagesOptions.searchPatterns.reduce((acc, { root }) => {
     const rootPath = root.replace(/[\\]/g, '/');
     acc.push({
-      pattern: `${rootPath}/packages/*/{test,tests}/wdio/__snapshots__/reference/**/*.png`,
+      pattern: `${rootPath}/packages/*/{test,tests}/wdio/**/__snapshots__/reference/**/*.png`,
       // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/packages/[^/]*/(test|tests)/wdio/__snapshots__/reference/`,
+      entryPoint: `${rootPath}/packages/[^/]*/(test|tests)/wdio/.*__snapshots__/reference/`,
     });
     acc.push({
-      pattern: `${rootPath}/{test,tests}/wdio/__snapshots__/reference/**/*.png`,
+      pattern: `${rootPath}/{test,tests}/wdio/**/__snapshots__/reference/**/*.png`,
       // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/(test|tests)/wdio/__snapshots__/reference/`,
+      entryPoint: `${rootPath}/(test|tests)/wdio/.*__snapshots__/reference/`,
     });
     return acc;
   }, [])

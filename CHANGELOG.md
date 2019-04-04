@@ -4,6 +4,38 @@ Changelog
 Unreleased
 ----------
 
+3.3.0 - (March 26, 2019)
+----------
+### Changed
+* Updated react/react-dom to latest stable minor release
+
+3.2.1 - (March 22, 2019)
+----------
+### Added
+* Added alt text to app logo image
+* Added alt text to placeholder image
+
+3.2.0 - (March 13, 2019)
+----------
+### Added
+* Added theme variable `--terra-dev-site-content-background-color`. Defaults to `transparent`.
+
+2.10.0 - (February 8, 2019)
+----------
+### Fixed
+* Fixed an issue with searching for components with a string that ends in a regular expression character.
+
+2.9.0 - (January 2, 2019)
+----------
+### Added
+* Add DevSiteRoutingMenu to add ability to filter the navigation side menu by component name.
+* Add site.config option 'filterSideMenu' to use new DevSiteRoutingMenu. Defaults to false to use legacy RoutingMenu
+
+2.8.0 - (December 14, 2018)
+----------
+### Fixed
+* Fix evidence page generation logic to handle `tests/wdio/**/snapshots_/` path
+
 2.7.0 - (December 3, 2018)
 ----------
 ### Changed

@@ -18,7 +18,7 @@ const generateNameConfig = (appConfig) => {
     config.accessory = imports.addImport(
       'terra-image',
       'Image',
-      `(<Image variant="rounded" src={${imageName}} height="26px" width="26px" isFluid />)`,
+      `(<Image variant="rounded" src={${imageName}} alt="App logo" height="26px" width="26px" isFluid />)`,
     );
   }
 

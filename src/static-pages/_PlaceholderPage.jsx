@@ -21,7 +21,7 @@ const Placeholder = ({ src }) => (
   <div className={cx('placeholder')}>
     <div className={cx('placeholder-content')}>
       <h3>
-        {!!src && <Image variant="rounded" src={src} height="160px" width="160px" isFluid style={{ opacity: '0.2' }} />}
+        {!!src && <Image variant="rounded" alt="Placeholder" src={src} height="160px" width="160px" isFluid style={{ opacity: '0.2' }} />}
       </h3>
     </div>
   </div>
