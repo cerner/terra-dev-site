@@ -87,6 +87,7 @@ const defaultProps = {
   settingsConfig: undefined,
   location: undefined,
   history: undefined,
+  onUpdateSettings: undefined,
 };
 
 class DevSiteNavigation extends React.Component {
@@ -159,21 +160,16 @@ class DevSiteNavigation extends React.Component {
 
     return (
       <ApplicationNavigation
-        nameConfig={nameConfig}
-        navigationAlignment="start"
+        title={nameConfig.title}
         navigationItems={navigationItems.map(item => ({
           key: item.path,
           text: item.text,
         }))}
         activeNavigationItemKey={activeNavigationItemPath}
         onSelectNavigationItem={this.handleNavigationItemSelection}
-        extensions={extensions}
-        menuHeroConfig={{
-          component: <Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />,
-        }}
-        utilityHeroConfig={{
-          component: <Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />,
-        }}
+        // extensions={extensions}
+        drawerMenuHero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
+        utilityMenuHero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
         onSelectSettings={() => {
           disclosureManager.disclose({
             preferredType: 'modal',
@@ -210,7 +206,7 @@ class DevSiteNavigation extends React.Component {
 
   render() {
     const {
-      indexPath, themes, location,
+      indexPath, location,
     } = this.props;
     const {
       activeNavigationItemPath,

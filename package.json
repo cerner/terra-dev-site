@@ -90,6 +90,8 @@
     "react-intl": "^2.4.0",
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^1.21.0",
+    "terra-application": "https://github.cerner.com/terra/terra-snapshots/raw/master/terra-framework/application-navigation/terra-application.tgz",
+    "terra-application-navigation": "https://github.cerner.com/terra/terra-snapshots/raw/master/terra-framework/application-navigation/terra-application-navigation.tgz",
     "terra-button": "^2.0.1",
     "terra-button-group": "^3.5.0",
     "terra-content-container": "^2.21.0",
