@@ -7,7 +7,8 @@ Unreleased
 * Updated terra-base version to 5.0.0
 
 ### Removed
-* Remove dependency on terra-i18n
+* Dependency on terra-app-delegate package
+* Dependency on terra-i18n package
 
 3.3.0 - (March 26, 2019)
 ----------
