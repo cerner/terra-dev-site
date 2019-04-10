@@ -92,11 +92,9 @@
     "terra-action-header": "^2.2.0",
     "terra-app-delegate": "^2.0.0",
     "terra-application-layout": "^4.0.0",
-    "terra-base": "^5.0.0",
     "terra-button": "^3.2.0",
     "terra-content-container": "^3.0.0",
     "terra-doc-template": "^2.2.0",
-    "terra-i18n": "^4.0.0",
     "terra-icon": "^3.0.0",
     "terra-image": "^3.0.0",
     "terra-markdown": "^2.0.0",
@@ -111,6 +109,7 @@
     "xfc": "^1.2.1"
   },
   "peerDependencies": {
+    "terra-base": "^5.0.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-router-dom": "^4.2.2"
@@ -139,6 +138,7 @@
     "rimraf": "^2.6.1",
     "shelljs": "^0.8.2",
     "stylelint": "^9.0.0",
-    "stylelint-config-terra": "^1.2.0"
+    "stylelint-config-terra": "^1.2.0",
+    "terra-base": "^5.0.0"
   }
 }
