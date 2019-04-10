@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Removed
+* Dependency on terra-app-delegate package
 
 3.3.0 - (March 26, 2019)
 ----------
