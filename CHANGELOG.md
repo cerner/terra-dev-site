@@ -3,9 +3,10 @@ Changelog
 
 Unreleased
 ----------
-### Changed
-* Updated terra-base to 5.0.0
-* Updated terra-i18n to 4.0.0
+### Breaking Changes
+* Move terra-base from dependency to peer dependency and dev dependency
+* Updated terra-base version to 5.0.0
+* Remove dependency on terra-i18n
 
 3.3.0 - (March 26, 2019)
 ----------
