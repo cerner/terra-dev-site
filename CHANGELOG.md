@@ -3,8 +3,12 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated terra-base version to 5.0.0
+
 ### Removed
 * Dependency on terra-app-delegate package
+* Dependency on terra-i18n package
 
 3.3.0 - (March 26, 2019)
 ----------
