@@ -4,6 +4,7 @@ Changelog
 Unreleased
 ----------
 ### Changed
+* Added an env to override the default locale at webpack time.
 * Updated terra-base version to 5.0.0
 
 ### Removed
