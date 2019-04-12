@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+4.0.0 - (April 12, 2019)
+----------
+### Changed
+* Upgrade terra-base version to 5.0.0
+
 3.4.1 - (April 12, 2019)
 ----------
 ### Changed
