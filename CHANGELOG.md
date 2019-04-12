@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+3.4.0 - (April 12, 2019)
+----------
 ### Changed
 * Added an env to override the default locale at webpack time.
 * Updated terra-base version to 5.0.0
