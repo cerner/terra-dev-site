@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'xfc';
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions
@@ -80,7 +80,7 @@ class DevSiteApplication extends React.Component {
     }
 
     return (
-      <HashRouter>
+      <BrowserRouter>
         <Application
           locale={locale}
           themeName={siteConfig.themes[theme]}
@@ -115,7 +115,7 @@ class DevSiteApplication extends React.Component {
             direction={direction}
           />
         </Application>
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 }

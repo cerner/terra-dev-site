@@ -1,13 +1,26 @@
 <!doctype html>
+<%
+  const mapToHtml = (filteredChunks, chunks) => filteredChunks.map(chunk => `<script type="text/javascript" src="${chunks[chunk].entry}"></script>`).join('\n    ');
+  const bodyChunks = (headChunks, chunks) => {
+    const body = Object.keys(chunks).filter(chunk => !headChunks.includes(chunk));
+    return mapToHtml(body, chunks)
+  };
+%>
 <html lang="<%= htmlWebpackPlugin.options.lang %>" dir="<%= htmlWebpackPlugin.options.dir %>">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%= htmlWebpackPlugin.options.newRelicJS %>
+    <%= htmlWebpackPlugin.options.headHtml.join('\n    ') %>
+    <%= htmlWebpackPlugin.files.css.map(css =>`<link href="${css}" rel="stylesheet">`).join('\n    ') %>
+    <%= mapToHtml(htmlWebpackPlugin.options.headChunks, htmlWebpackPlugin.files.chunks) %>
+    <% if (htmlWebpackPlugin.files.favicon) { %>
+    <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>">
+    <% } %>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <div id="root"></div>
+    <%= bodyChunks(htmlWebpackPlugin.options.headChunks, htmlWebpackPlugin.files.chunks) %>
   </body>
 </html>

@@ -40,7 +40,7 @@ const propTypes = {
   contentConfig: PropTypes.shape({
     placeholder: PropTypes.node,
     content: PropTypes.object,
-    menuItems: PropTypes.array,
+    menuItems: PropTypes.object,
   }).isRequired,
   /**
    * The navigaion links to display within the menu in the toolbar.

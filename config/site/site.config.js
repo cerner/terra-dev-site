@@ -123,6 +123,23 @@ const siteConfig = {
         gitHubUrl: npmPackage.repository.url.replace('git+', ''),
       },
     },
+
+    headHtml: [],
+
+    pathMap: [
+      {
+        host: /engineering\.cerner\.com/,
+        basePath: /\/[^/]*\//,
+      },
+      {
+        host: /[^.]*\.github\.com/,
+        basePath: /\/[^/]*\//,
+      },
+      {
+        host: /pages\.github\.[^.]*\.com/,
+        basePath: /\/[^/]*\/[^/]*\//,
+      },
+    ],
   },
 
   /* The default for whether or not test evidence should be included. 'true' is the default value. */
