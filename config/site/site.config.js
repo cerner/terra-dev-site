@@ -125,7 +125,7 @@ const siteConfig = {
     },
 
 
-    /** This section allows to you execute arbitrary html in the head of index.html
+    /** This section allows to you inject arbitrary html into the head tag of index.html.
      *  It takes an array of strings. You could load the string from an external file if desired.
      *  Add like:
      *  headHtml:[
