@@ -85,9 +85,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
-  // Add any side-effect theme imports.
-  importSideEffects(themeImports, imports);
-
   // Add any side-effect imports.
   importSideEffects(sideEffectImports, imports);
 

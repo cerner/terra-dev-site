@@ -60,9 +60,6 @@ const siteConfig = {
    */
   npmPackage,
 
-  /* The list of side effect theme files. */
-  themeImports: [],
-
   /* The list of side effect js files. */
   sideEffectImports: [],
 
@@ -124,17 +121,37 @@ const siteConfig = {
       },
     },
 
+    /** This section allows to you execute arbitratry html in the head of index.html
+     *  It takes an array of strings. You could load the string from an external file if desired.
+     *  Add like:
+     *  headHtml:[
+     *    '<script> console.log("Terra Dev Site!") </script>',
+     *  ],
+     */
     headHtml: [],
 
+    /** pathMap was implemented to allow the use of the browser router when content is served from gh-pages.
+     * Gh-pages will attempt to return a 404.html file when a route is not found. We exploit that behavior by
+     * returning a 404 page that stores the requested path and redirects to index.html
+     * to allow the SPA router to handle the route.
+     * This configuration is used to find the base path for the gh-pages deployment without having to explicitly
+     * specify it through config. If the host regex matches the location.host value the base path regex will match
+     * the base path from location.pathname
+     * The configuration will be attempted in order from first to last in the list. If no matches are found it will
+     * fall back to '/'
+     */
     pathMap: [
+      // For engineering.cerner.com the root should be the first subpath off of the host. ie. engineering.cerner.com/terra-ui/
       {
         host: /engineering\.cerner\.com/,
         basePath: /\/[^/]*\//,
       },
+      // For *.github.com the root should be the first subpath off of the host. ie. cerner.github.com/terra-ui/
       {
         host: /[^.]*\.github\.com/,
         basePath: /\/[^/]*\//,
       },
+      // For pages.github.*.com the root should be the first and second subpath off of the host. ie. pages.github.cerner.com/terra/terra-ui/
       {
         host: /pages\.github\.[^.]*\.com/,
         basePath: /\/[^/]*\/[^/]*\//,

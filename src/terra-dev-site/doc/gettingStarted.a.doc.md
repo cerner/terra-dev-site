@@ -10,9 +10,6 @@ npm install terra-dev-site
 ```
 
 ### Pre Reqs:
-* terra-toolkit 3.0.0 or greater
-* react 16
-* react-dom 16
 * README.md in the root project directory
 * Package.json in the root project directory
 * es6 code in src

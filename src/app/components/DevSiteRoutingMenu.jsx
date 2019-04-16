@@ -157,8 +157,6 @@ class DevSiteRoutingMenu extends Component {
 
     /**
      * The DevSiteRoutingMenu then constructs a menuItem that will act as the main page and render the menuItems as child items.
-     * If there is no title and no `showParent` implementation present, the isRootMenu flag is set on the item to hide
-     * the header altogether.
      */
     processedMenuItems.push({
       key: devSiteRoutingMenuRootMenuKey,

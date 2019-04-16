@@ -213,6 +213,10 @@ class DevSiteNavigation extends React.Component {
     } = this.state;
 
     if (!activeNavigationItemPath && !location.pathname.match(/^\/raw/)) {
+      // if a hash route is passed in, we're going to redirect to avoid breaking existing tests.
+      if (location.pathname === '/' && location.hash.startsWith('#/')) {
+        return <Redirect to={`/${location.hash.slice(2)}`} />;
+      }
       if (location.pathname === '/') {
         return <Redirect to={indexPath} />;
       }
