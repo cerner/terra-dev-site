@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* headHtml added to config.
 
 4.0.0 - (April 12, 2019)
 ----------
