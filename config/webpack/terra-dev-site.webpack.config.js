@@ -99,7 +99,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
         rewriteHistory,
         headChunks: ['rewriteHistory'],
         excludeChunks: ['redirect'],
-        inject: false,
+        inject: false, // This turns off auto injection. We handle this ourselves in the template.
       }),
       new HtmlWebpackPlugin({
         filename: '404.html',

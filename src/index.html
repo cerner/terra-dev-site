@@ -1,9 +1,26 @@
 <!doctype html>
 <%
   const mapToHtml = (filteredChunks, chunks) => filteredChunks.map(chunk => `<script type="text/javascript" src="${chunks[chunk].entry}"></script>`).join('\n    ');
+
+  const headChunks = (headChunks, chunks) => {
+    if (!headChunks) {
+      return '';
+    }
+    return mapToHtml(headChunks, chunks);
+  };
+
   const bodyChunks = (headChunks, chunks) => {
-    const body = Object.keys(chunks).filter(chunk => !headChunks.includes(chunk));
-    return mapToHtml(body, chunks)
+    let body = Object.keys(chunks);
+
+    if (headChunks) {
+      body = body.filter(chunk => !headChunks.includes(chunk));
+    }
+
+    if (!body) {
+      return 'undefined';
+    }
+
+    return mapToHtml(body, chunks);
   };
 %>
 <html lang="<%= htmlWebpackPlugin.options.lang %>" dir="<%= htmlWebpackPlugin.options.dir %>">
@@ -13,7 +30,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= htmlWebpackPlugin.options.headHtml.join('\n    ') %>
     <%= htmlWebpackPlugin.files.css.map(css =>`<link href="${css}" rel="stylesheet">`).join('\n    ') %>
-    <%= mapToHtml(htmlWebpackPlugin.options.headChunks, htmlWebpackPlugin.files.chunks) %>
+    <%= headChunks(htmlWebpackPlugin.options.headChunks, htmlWebpackPlugin.files.chunks) %>
     <% if (htmlWebpackPlugin.files.favicon) { %>
     <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>">
     <% } %>
