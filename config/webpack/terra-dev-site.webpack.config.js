@@ -1,14 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const glob = require('glob');
-const fs = require('fs');
 const webpack = require('webpack');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
-
-const rewriteHistory = fs.readFileSync(path.resolve(__dirname, '../../lib/rewriteHistory.js'), 'utf8');
-// const rewriteHistory = require('../../lib/rewriteHistory');
 
 /**
 * Adds the dist and source alias if not in prod mode and hot reloading is enabled.
@@ -54,7 +50,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const production = argv.p;
   const processPath = process.cwd();
   const verbose = env.verboseGenerateAppConfig;
-  const publicPath = argv['output-public-path'] || '/';
 
   // Get the site configuration to add as a resolve path
   const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
@@ -96,7 +91,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
         dir: siteConfig.appConfig.defaultDirection,
         favicon: siteConfig.appConfig.favicon,
         headHtml: [getNewRelicJS()].concat(siteConfig.appConfig.headHtml),
-        rewriteHistory,
         headChunks: ['rewriteHistory'],
         excludeChunks: ['redirect'],
         inject: false, // This turns off auto injection. We handle this ourselves in the template.
@@ -104,7 +98,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
       new HtmlWebpackPlugin({
         filename: '404.html',
         template: path.join(__dirname, '..', '..', 'lib', '404.html'),
-        publicPath,
         inject: 'head',
         chunks: ['redirect'],
       }),
@@ -115,9 +108,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
     resolve: {
       modules: [devSiteConfigPath],
       alias,
-    },
-    output: {
-      publicPath,
     },
     devServer: {
       historyApiFallback: true,
