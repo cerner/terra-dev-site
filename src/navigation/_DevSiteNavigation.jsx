@@ -111,6 +111,17 @@ class DevSiteNavigation extends React.Component {
     };
   }
 
+  static scrollToALink(location) {
+    if (!location || location.length < 2) {
+      return;
+    }
+    const elementName = location.hash.slice(1);
+    const element = document.getElementsByName(elementName);
+    if (element[0]) {
+      element[0].scrollIntoView();
+    }
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -120,6 +131,11 @@ class DevSiteNavigation extends React.Component {
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
     this.renderRawRoute = this.renderRawRoute.bind(this);
     this.renderNavigation = this.renderNavigation.bind(this);
+  }
+
+  componentDidMount() {
+    const { location } = this.props;
+    DevSiteNavigation.scrollToALink(location);
   }
 
   handleNavigationItemSelection(navigationItemKey) {

@@ -9,7 +9,7 @@ import config from '!raw-loader!../../../../config/site/site.config';
 const style = {
   height: '100%',
   overflow: 'auto',
-  padding: '15px',
+  padding: '24px',
   position: 'relative',
 };
 

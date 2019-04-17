@@ -9,13 +9,13 @@ import config from '!raw-loader!../../../../config/site/navigation.config';
 const style = {
   height: '100%',
   overflow: 'auto',
-  padding: '15px',
+  padding: '24px',
   position: 'relative',
 };
 
 const MarkdownExample = () => (
   <div style={style}>
-    <Markdown src={ReadMe} />
+    <Markdown src={ReadMe} hasHeadingAnchors />
     <Markdown src={`\`\`\`javascript\n${config}\n\`\`\``} />
   </div>
 );

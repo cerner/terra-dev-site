@@ -50,6 +50,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const production = argv.p;
   const processPath = process.cwd();
   const verbose = env.verboseGenerateAppConfig;
+  const publicPath = argv['output-public-path'] || '/';
 
   // Get the site configuration to add as a resolve path
   const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
@@ -102,12 +103,15 @@ const devSiteConfig = (env = {}, argv = {}) => {
         chunks: ['redirect'],
       }),
       new webpack.DefinePlugin({
-        PATHMAP: siteConfig.appConfig.pathMap,
+        TERRA_DEV_SITE_PUBLIC_PATH: JSON.stringify(publicPath)
       }),
     ],
     resolve: {
       modules: [devSiteConfigPath],
       alias,
+    },
+    output: {
+      publicPath,
     },
     devServer: {
       historyApiFallback: true,
