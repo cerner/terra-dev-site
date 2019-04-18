@@ -3,7 +3,6 @@ const path = require('path');
 const writeConfig = require('./writeConfig');
 const generateContentConfig = require('./generateContentConfig');
 const generateNameConfig = require('./generateNameConfig');
-const generateExtensions = require('./generateExtensions');
 const generateSettingsConfig = require('./generateSettingsConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
@@ -33,7 +32,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   const {
     appConfig,
     navConfig,
-    themeImports,
     sideEffectImports,
   } = siteConfig;
 
@@ -77,14 +75,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
-  const extensions = addConfig(
-    generateExtensions(appConfig),
-    'extensions.jsx',
-    buildPath,
-    fse,
-    imports,
-  );
-
   // Add any side-effect imports.
   importSideEffects(sideEffectImports, imports);
 
@@ -94,7 +84,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     settingsConfig,
     contentConfig,
     navigationItems,
-    extensions,
     indexPath: navConfig.navigation.index,
     defaultTheme: appConfig.defaultTheme,
     themes: appConfig.themes,

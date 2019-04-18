@@ -109,7 +109,6 @@ class DevSiteApplication extends React.Component {
             }}
             contentConfig={siteConfig.contentConfig}
             navigationItems={siteConfig.navigationItems}
-            extensions={siteConfig.extensions}
             indexPath={siteConfig.indexPath}
             themes={siteConfig.themes}
             direction={direction}

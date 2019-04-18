@@ -11,7 +11,7 @@ branches:
     - master
 cache: false
 before_deploy:
-  - TERRA_DEV_SITE_NEW_RELIC_LICENSE_KEY='c494ac44c8' TERRA_DEV_SITE_NEW_RELIC_APPLICATION_ID='141260567' npm run compile:prod
+  - TERRA_DEV_SITE_NEW_RELIC_LICENSE_KEY='c494ac44c8' TERRA_DEV_SITE_NEW_RELIC_APPLICATION_ID='141260567' TERRA_DEV_SITE_PUBLIC_PATH='/terra-dev-site/' npm run compile:prod
 deploy:
   provider: pages
   skip_cleanup: true

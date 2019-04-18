@@ -50,7 +50,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const production = argv.p;
   const processPath = process.cwd();
   const verbose = env.verboseGenerateAppConfig;
-  const publicPath = argv['output-public-path'] || '/';
+  const publicPath = argv['output-public-path'] || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
 
   // Get the site configuration to add as a resolve path
   const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));

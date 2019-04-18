@@ -48,10 +48,6 @@ const propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   navigationItems: PropTypes.array,
   /**
-   * React object to display in the utilities area in the application layout.
-   */
-  extensions: PropTypes.element,
-  /**
    * The path to the sites index.
    */
   indexPath: PropTypes.string.isRequired,
@@ -83,7 +79,6 @@ const defaultProps = {
   defaultTheme: undefined,
   themes: undefined,
   navigationItems: undefined,
-  extensions: undefined,
   settingsConfig: undefined,
   location: undefined,
   history: undefined,
@@ -167,7 +162,7 @@ class DevSiteNavigation extends React.Component {
 
   renderNavigation() {
     const {
-      nameConfig, navigationItems, extensions, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings,
+      nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
 
@@ -183,7 +178,6 @@ class DevSiteNavigation extends React.Component {
         }))}
         activeNavigationItemKey={activeNavigationItemPath}
         onSelectNavigationItem={this.handleNavigationItemSelection}
-        // extensions={extensions}
         drawerMenuHero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
         utilityMenuHero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
         onSelectSettings={() => {
