@@ -3,23 +3,23 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 /**
 * Build out the item config.
 */
-const generateItemConfig = (defaultItem, items, key) => {
-  const childKeys = {};
-  items.forEach((item) => {
-    childKeys[item] = {
-      key: item,
-      title: item,
-      isSelected: defaultItem === item,
-      isSelectable: true,
-    };
-  });
+// const generateItemConfig = (defaultItem, items, key) => {
+//   const childKeys = {};
+//   items.forEach((item) => {
+//     childKeys[item] = {
+//       key: item,
+//       title: item,
+//       isSelected: defaultItem === item,
+//       isSelectable: true,
+//     };
+//   });
 
-  return {
-    key,
-    title: `${key}: ${defaultItem}`,
-    childKeys,
-  };
-};
+//   return {
+//     key,
+//     title: `${key}: ${defaultItem}`,
+//     childKeys,
+//   };
+// };
 
 /**
 * Build utilities config file.

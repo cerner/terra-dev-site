@@ -103,7 +103,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
         chunks: ['redirect'],
       }),
       new webpack.DefinePlugin({
-        TERRA_DEV_SITE_PUBLIC_PATH: JSON.stringify(publicPath)
+        TERRA_DEV_SITE_PUBLIC_PATH: JSON.stringify(publicPath),
       }),
     ],
     resolve: {
