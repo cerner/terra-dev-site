@@ -71,7 +71,7 @@
     "start-heroku": "npm run compile:prod && tt-serve-static --port $PORT --site './build' ",
     "start-static": "npm run compile:prod && tt-serve-static --site ./build",
     "test": "npm run jest",
-    "tds:generate-app-config": "node --inspect-brk bin/generateAppConfig.js",
+    "tds:generate-app-config": "node --inspect-brk bin/generateAppConfig.js"
   },
   "dependencies": {
     "classnames": "^2.2.5",
