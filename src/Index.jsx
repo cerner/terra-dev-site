@@ -1,3 +1,5 @@
+/* global TERRA_DEV_SITE_PUBLIC_PATH */
+// TERRA_DEV_SITE_PUBLIC_PATH is defined by webpack
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -6,7 +8,6 @@ import { Provider } from 'xfc';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
 import Application from 'terra-application';
-
 import DevSiteNavigation from './navigation/_DevSiteNavigation';
 import './index.scss';
 
@@ -80,7 +81,8 @@ class DevSiteApplication extends React.Component {
     }
 
     return (
-      <BrowserRouter>
+      // TERRA_DEV_SITE_PUBLIC_PATH is expected to be '/' or '/*/' We want to remove the trailing /
+      <BrowserRouter basename={TERRA_DEV_SITE_PUBLIC_PATH.substring(-1)}>
         <Application
           locale={locale}
           themeName={siteConfig.themes[theme]}
