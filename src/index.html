@@ -12,12 +12,12 @@
   const bodyChunks = (headChunks, chunks) => {
     let body = Object.keys(chunks);
 
-    if (headChunks) {
-      body = body.filter(chunk => !headChunks.includes(chunk));
-    }
-
     if (!body) {
       return 'undefined';
+    }
+
+    if (headChunks) {
+      body = body.filter(chunk => !headChunks.includes(chunk));
     }
 
     return mapToHtml(body, chunks);
