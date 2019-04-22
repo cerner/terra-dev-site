@@ -8,33 +8,12 @@ import SecondaryNavigationLayoutActionHeader from './_SecondaryNavigationLayoutA
 import Placeholder from '../static-pages/_PlaceholderPage';
 
 class DevSitePage extends React.Component {
-  static flattenMenuItems(menuItems) {
-    return menuItems.reduce((accumulatedMenuItems, item) => {
-      let generatedMenuItems = [{
-        text: item.text,
-        key: item.path,
-        hasSubMenu: item.hasSubMenu,
-        childKeys: item.childItems && item.childItems.map(childItem => childItem.path),
-        metaData: !item.hasSubMenu ? {
-          path: item.path,
-        } : undefined,
-      }];
-
-      if (item.childItems) {
-        generatedMenuItems = generatedMenuItems.concat(DevSitePage.flattenMenuItems(item.childItems));
-      }
-
-      return accumulatedMenuItems.concat(generatedMenuItems);
-    }, []);
-  }
-
   constructor(props) {
     super(props);
 
     this.generateContent = this.generateContent.bind(this);
 
     this.state = {
-      menuItems: DevSitePage.flattenMenuItems(props.menuItems),
       initialSelectedMenuKey: props.location.pathname,
       sortedContentPaths: Object.keys(props.contentConfig).sort().reverse(),
     };
@@ -68,10 +47,10 @@ class DevSitePage extends React.Component {
   }
 
   render() {
-    const { history } = this.props;
-    const { menuItems, initialSelectedMenuKey } = this.state;
+    const { history, menuItems } = this.props;
+    const { initialSelectedMenuKey } = this.state;
 
-    if (!menuItems || menuItems.length === 1) {
+    if (!menuItems || !menuItems[0].childItems) {
       return this.generateContent();
     }
 

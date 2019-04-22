@@ -4,6 +4,8 @@ import classNames from 'classnames/bind';
 import { Breakpoints } from 'terra-application';
 import NavigationSideMenu from 'terra-navigation-side-menu';
 
+import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
+
 import styles from './SecondaryNavigationLayout.module.scss';
 
 const cx = classNames.bind(styles);
@@ -92,6 +94,26 @@ class SecondaryNavigationLayout extends React.Component {
     return newState;
   }
 
+  static flattenMenuItems(menuItems) {
+    return menuItems.reduce((accumulatedMenuItems, item) => {
+      let generatedMenuItems = [{
+        text: item.text,
+        key: item.path,
+        hasSubMenu: item.hasSubMenu,
+        childKeys: item.childItems && item.childItems.map(childItem => childItem.path),
+        metaData: !item.hasSubMenu ? {
+          path: item.path,
+        } : undefined,
+      }];
+
+      if (item.childItems) {
+        generatedMenuItems = generatedMenuItems.concat(SecondaryNavigationLayout.flattenMenuItems(item.childItems));
+      }
+
+      return accumulatedMenuItems.concat(generatedMenuItems);
+    }, []);
+  }
+
   constructor(props) {
     super(props);
 
@@ -99,10 +121,12 @@ class SecondaryNavigationLayout extends React.Component {
     this.pinMenu = this.pinMenu.bind(this);
     this.unpinMenu = this.unpinMenu.bind(this);
     this.handleMenuItemSelection = this.handleMenuItemSelection.bind(this);
+    this.handleCollapsingMenuSelection = this.handleCollapsingMenuSelection.bind(this);
 
-    this.ancestorMap = SecondaryNavigationLayout.buildAncestorMap(props.menuItems);
+    const flattenedMenuItems = SecondaryNavigationLayout.flattenMenuItems(props.menuItems);
 
-    const selectedItem = props.menuItems.find(item => item.key === props.initialSelectedMenuItemKey);
+    this.ancestorMap = SecondaryNavigationLayout.buildAncestorMap(flattenedMenuItems);
+    const selectedItem = flattenedMenuItems.find(item => item.key === props.initialSelectedMenuItemKey);
     const parentItem = this.ancestorMap[props.initialSelectedMenuItemKey];
 
     let selectedMenuKey;
@@ -119,6 +143,7 @@ class SecondaryNavigationLayout extends React.Component {
     }
 
     this.state = {
+      flattenedMenuItems,
       previousActiveBreakpoint: props.activeBreakpoint, // eslint-disable-line react/no-unused-state
       selectedMenuKey,
       selectedChildKey,
@@ -165,13 +190,13 @@ class SecondaryNavigationLayout extends React.Component {
   }
 
   handleMenuItemSelection(event, selectionData) {
-    const { menuItems, onTerminalMenuItemSelection } = this.props;
-    const { selectionPath } = this.state;
+    const { onTerminalMenuItemSelection } = this.props;
+    const { selectionPath, flattenedMenuItems } = this.state;
 
     const newChildKey = selectionData.selectedChildKey;
     const newMenuKey = selectionData.selectedMenuKey;
 
-    const newChildItem = menuItems.find(item => item.key === newChildKey);
+    const newChildItem = flattenedMenuItems.find(item => item.key === newChildKey);
 
     // If an endpoint has been reached, reset selection path and update.
     if (newChildKey && !newChildItem.childKeys) {
@@ -207,14 +232,31 @@ class SecondaryNavigationLayout extends React.Component {
     }
   }
 
+  handleCollapsingMenuSelection(selectionKey) {
+    const { onTerminalMenuItemSelection } = this.props;
+    const { selectionPath, flattenedMenuItems } = this.state;
+
+    const selectedItem = flattenedMenuItems.find(item => item.key === selectionKey);
+
+    this.setState({
+      selectedChildKey: selectionKey,
+    }, () => {
+    // If an endpoint has been reached, reset selection path and update.
+      if (onTerminalMenuItemSelection) {
+        onTerminalMenuItemSelection(selectionKey, selectedItem.metaData);
+      }
+    });
+  }
+
   render() {
     const {
-      menuItems,
       children,
+      menuItems,
       activeBreakpoint,
     } = this.props;
 
     const {
+      flattenedMenuItems,
       compactMenuIsOpen,
       menuIsPinnedOpen,
       compactContentProviderValue,
@@ -229,22 +271,35 @@ class SecondaryNavigationLayout extends React.Component {
      * At within compact viewports, the navigation menu should render each menu item as if it has
      * a submenu, as selecting a childless item will cause the menu close.
      */
-    let managedMenuItems = menuItems;
+    let managedMenuItems = flattenedMenuItems;
+    let menu;
     if (activeBreakpoint === 'tiny' || activeBreakpoint === 'small') {
       managedMenuItems = managedMenuItems.map(item => (
         Object.assign({}, item, { hasSubMenu: true })
       ));
+
+      menu = (
+        <NavigationSideMenu
+          menuItems={managedMenuItems}
+          selectedMenuKey={selectedMenuKey}
+          selectedChildKey={!isCompact ? selectedChildKey : null}
+          onChange={this.handleMenuItemSelection}
+        />
+      );
+    } else {
+      menu = (
+        <CollapsingNavigationMenu
+          menuItems={menuItems}
+          selectedPath={selectedChildKey}
+          onSelect={this.handleCollapsingMenuSelection}
+        />
+      );
     }
 
     return (
       <div className={cx(['container', { 'panel-is-open': isCompact ? compactMenuIsOpen : menuIsPinnedOpen }])}>
         <div className={cx('panel')}>
-          <NavigationSideMenu
-            menuItems={managedMenuItems}
-            selectedMenuKey={selectedMenuKey}
-            selectedChildKey={!isCompact ? selectedChildKey : null}
-            onChange={this.handleMenuItemSelection}
-          />
+          {menu}
         </div>
         <div className={cx('content')}>
           <SecondaryNavigationLayoutContext.Provider
