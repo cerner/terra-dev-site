@@ -19,6 +19,7 @@
 .nyc_output
 .repl_history
 .rvmrc
+.DS_Store
 .sass-cache/
 /.bundle/
 /.config
