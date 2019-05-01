@@ -58,6 +58,9 @@ const devSiteConfig = (env = {}, argv = {}) => {
   // Load the site configuration.
   const siteConfig = loadSiteConfig();
 
+  // Populate lang variable, prefer env over siteConfig;
+  const lang = env.defaultLocale || siteConfig.appConfig.defaultLocale;
+
   // Generate the files need to spin up the site.
   generateAppConfig(siteConfig, production, verbose);
 
@@ -88,7 +91,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
       new HtmlWebpackPlugin({
         title: siteConfig.appConfig.title,
         template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
-        lang: siteConfig.appConfig.defaultLocale,
+        lang,
         dir: siteConfig.appConfig.defaultDirection,
         favicon: siteConfig.appConfig.favicon,
         headHtml: [getNewRelicJS()].concat(siteConfig.appConfig.headHtml),

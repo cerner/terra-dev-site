@@ -3,6 +3,31 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* headHtml added to config.
+
+### Changed
+* Log warning if side-effects globs are not resolved to something.
+
+4.0.0 - (April 12, 2019)
+----------
+### Changed
+* Upgrade terra-base version to 5.0.0
+
+3.4.1 - (April 12, 2019)
+----------
+### Changed
+* Downgrade terra-base version to 4.0.0
+
+3.4.0 - (April 12, 2019)
+----------
+### Changed
+* Added an env to override the default locale at webpack time.
+* Updated terra-base version to 5.0.0
+
+### Removed
+* Dependency on terra-app-delegate package
+* Dependency on terra-i18n package
 
 3.3.0 - (March 26, 2019)
 ----------

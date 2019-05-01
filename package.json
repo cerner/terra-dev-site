@@ -1,6 +1,6 @@
 {
   "name": "terra-dev-site",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "main": "index.js",
   "repository": {
@@ -85,6 +85,7 @@
     "lodash.startcase": "^4.4.0",
     "prop-types": "^15.5.8",
     "react-intl": "^2.4.0",
+    "terra-base": "^5.0.0",
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.10.0",
     "terra-application-navigation": "https://github.cerner.com/terra/terra-snapshots/raw/master/terra-framework/application-navigation/terra-application-navigation.tgz",
