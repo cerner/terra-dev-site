@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { Breakpoints } from 'terra-application';
-import NavigationSideMenu from 'terra-navigation-side-menu';
+import Overlay from 'terra-overlay';
+import FocusTrap from 'focus-trap-react';
 
 import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
 
@@ -83,13 +84,13 @@ class SecondaryNavigationLayout extends React.Component {
       newState.compactMenuIsOpen = false;
     }
 
-    if ((!isCompactLayout(state.previousActiveBreakpoint) && isCompactLayout(props.activeBreakpoint))
-    || (isCompactLayout(state.previousActiveBreakpoint) && !isCompactLayout(props.activeBreakpoint))) {
-      if (state.selectionPath) {
-        newState.selectedMenuKey = state.selectionPath[state.selectionPath.length - 2];
-        newState.selectedChildKey = state.selectionPath[state.selectionPath.length - 1];
-      }
-    }
+    // if ((!isCompactLayout(state.previousActiveBreakpoint) && isCompactLayout(props.activeBreakpoint))
+    // || (isCompactLayout(state.previousActiveBreakpoint) && !isCompactLayout(props.activeBreakpoint))) {
+    //   if (state.selectionPath) {
+    //     newState.selectedMenuKey = state.selectionPath[state.selectionPath.length - 2];
+    //     newState.selectedChildKey = state.selectionPath[state.selectionPath.length - 1];
+    //   }
+    // }
 
     return newState;
   }
@@ -234,12 +235,13 @@ class SecondaryNavigationLayout extends React.Component {
 
   handleCollapsingMenuSelection(selectionKey) {
     const { onTerminalMenuItemSelection } = this.props;
-    const { selectionPath, flattenedMenuItems } = this.state;
+    const { flattenedMenuItems } = this.state;
 
     const selectedItem = flattenedMenuItems.find(item => item.key === selectionKey);
 
     this.setState({
       selectedChildKey: selectionKey,
+      compactMenuIsOpen: false,
     }, () => {
     // If an endpoint has been reached, reset selection path and update.
       if (onTerminalMenuItemSelection) {
@@ -256,12 +258,10 @@ class SecondaryNavigationLayout extends React.Component {
     } = this.props;
 
     const {
-      flattenedMenuItems,
       compactMenuIsOpen,
       menuIsPinnedOpen,
       compactContentProviderValue,
       defaultContentProviderValue,
-      selectedMenuKey,
       selectedChildKey,
     } = this.state;
 
@@ -271,30 +271,44 @@ class SecondaryNavigationLayout extends React.Component {
      * At within compact viewports, the navigation menu should render each menu item as if it has
      * a submenu, as selecting a childless item will cause the menu close.
      */
-    let managedMenuItems = flattenedMenuItems;
     let menu;
-    if (activeBreakpoint === 'tiny' || activeBreakpoint === 'small') {
-      managedMenuItems = managedMenuItems.map(item => (
-        Object.assign({}, item, { hasSubMenu: true })
-      ));
+    // if (activeBreakpoint === 'tiny' || activeBreakpoint === 'small') {
+    //   managedMenuItems = managedMenuItems.map(item => (
+    //     Object.assign({}, item, { hasSubMenu: true })
+    //   ));
 
-      menu = (
-        <NavigationSideMenu
-          menuItems={managedMenuItems}
-          selectedMenuKey={selectedMenuKey}
-          selectedChildKey={!isCompact ? selectedChildKey : null}
-          onChange={this.handleMenuItemSelection}
-        />
-      );
-    } else {
-      menu = (
+    //   menu = (
+    //     <NavigationSideMenu
+    //       menuItems={managedMenuItems}
+    //       selectedMenuKey={selectedMenuKey}
+    //       selectedChildKey={!isCompact ? selectedChildKey : null}
+    //       onChange={this.handleMenuItemSelection}
+    //     />
+    //   );
+    // } else {
+    menu = (
+      <FocusTrap
+        active={isCompact ? compactMenuIsOpen : false}
+        focusTrapOptions={{
+          escapeDeactivates: true,
+          clickOutsideDeactivates: true,
+          returnFocusOnDeactivate: true,
+          onDeactivate: () => {
+            this.setState({
+              compactMenuIsOpen: false,
+            });
+          },
+        }}
+        className={cx('focus-trap-container')}
+      >
         <CollapsingNavigationMenu
           menuItems={menuItems}
           selectedPath={selectedChildKey}
           onSelect={this.handleCollapsingMenuSelection}
         />
-      );
-    }
+      </FocusTrap>
+    );
+    // }
 
     return (
       <div className={cx(['container', { 'panel-is-open': isCompact ? compactMenuIsOpen : menuIsPinnedOpen }])}>
@@ -307,6 +321,7 @@ class SecondaryNavigationLayout extends React.Component {
           >
             {children}
           </SecondaryNavigationLayoutContext.Provider>
+          <Overlay isOpen={isCompact ? compactMenuIsOpen : false} isRelativeToContainer style={{ top: '0' }} />
         </div>
       </div>
     );

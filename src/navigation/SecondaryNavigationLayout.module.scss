@@ -10,9 +10,10 @@
 
   .content {
     height: 100%;
+    left: 0;
     overflow: auto;
-    position: absolute;
-    right: 0;
+    position: relative;
+    top: 0;
     width: 100%;
     z-index: 0;
   }
@@ -26,23 +27,24 @@
     overflow: hidden;
     position: absolute;
     top: 0;
-    width: 100%;
+    width: 320px;
     z-index: 1;
+  }
+
+  .focus-trap-container {
+    height: 100%;
   }
 
   .container.panel-is-open {
     .content {
       @include terra-mq-medium-up {
-        width: calc(100% - #{var(--terra-application-layout-menu-panel-panel-width-large, 18.571rem)} - 0.07143rem);
+        left: 320px;
+        width: calc(100% - 320px);
       } 
     }
   
     .panel {
       display: block;
-      width: 100%;
-      @include terra-mq-medium-up {
-        width: calc(0.07143rem + #{var(--terra-application-layout-menu-panel-panel-width-large, 18.571rem)});
-      } 
     }  
   }
 }
