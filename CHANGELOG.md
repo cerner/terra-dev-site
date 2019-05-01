@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* headHtml added to config.
+
 ### Changed
 * Log warning if side-effects globs are not resolved to something.
 

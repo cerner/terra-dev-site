@@ -90,7 +90,8 @@ const devSiteConfig = (env = {}, argv = {}) => {
         lang,
         dir: siteConfig.appConfig.defaultDirection,
         favicon: siteConfig.appConfig.favicon,
-        newRelicJS: getNewRelicJS(),
+        headHtml: [getNewRelicJS()].concat(siteConfig.appConfig.headHtml),
+        inject: false, // this turns off auto injection. We handle this ourselves in the template.
       }),
     ],
     resolve: {
