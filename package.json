@@ -46,9 +46,8 @@
     "extends": "stylelint-config-terra"
   },
   "scripts": {
-    "clean": "node scripts/clean-modules/index.js",
-    "clean:compiled": "rimraf lib",
-    "clean:install": "npm run clean && npm install",
+    "clean:compiled": "rm -rf lib",
+    "clean:install": "rm -rf node_modules && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
     "compile": "npm run clean:compiled && npm run compile:build",
     "compile:build": "babel src --out-dir lib --copy-files",
@@ -62,15 +61,14 @@
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
     "prepare": "npm run compile",
-    "prepublishOnly": "npm test",
-    "pretest": "npm run lint",
-    "release:major": "node scripts/release/release.js major",
-    "release:minor": "node scripts/release/release.js minor",
-    "release:patch": "node scripts/release/release.js patch",
+    "verify-release": "npm whoami && npm run compile && npm test",
+    "release:major": "npm run verify-release && npm version major -m 'Released version %s' && npm publish && git push",
+    "release:minor": "npm run verify-release && npm version minor -m 'Released version %s' && npm publish && git push",
+    "release:patch": "npm run verify-release && npm version patch -m 'Released version %s' && npm publish && git push",
     "start": "tt-serve --config config/webpack/webpack.config",
     "start-heroku": "npm run compile:prod && tt-serve-static --port $PORT --site './build' ",
     "start-static": "tt-serve-static --config config/webpack/webpack.config",
-    "test": "npm run jest",
+    "test": "npm run lint && npm run jest",
     "tds:generate-app-config": "node bin/generateAppConfig.js"
   },
   "dependencies": {
@@ -134,8 +132,6 @@
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.4.2",
-    "rimraf": "^2.6.1",
-    "shelljs": "^0.8.2",
     "stylelint": "^9.0.0",
     "stylelint-config-terra": "^1.2.0",
     "terra-toolkit": "^4.5.0"
