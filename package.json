@@ -85,7 +85,6 @@
     "lodash.startcase": "^4.4.0",
     "prop-types": "^15.5.8",
     "react-intl": "^2.4.0",
-    "terra-base": "^5.0.0",
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.10.0",
     "terra-application-navigation": "https://github.cerner.com/terra/terra-snapshots/raw/master/terra-framework/application-navigation/terra-application-navigation.tgz",
@@ -95,16 +94,13 @@
     "terra-content-container": "^3.6.0",
     "terra-doc-template": "^2.7.0",
     "terra-form-select": "^5.6.0",
-    "terra-i18n": "^3.5.1",
     "terra-icon": "^3.6.0",
     "terra-image": "^3.6.0",
     "terra-markdown": "^2.25.0",
-    "terra-navigation-side-menu": "^2.2.0",
     "terra-overlay": "^3.11.0",
     "terra-spacer": "^3.3.0",
     "terra-status-view": "^3.5.0",
-    "to-ast": "^1.0.0",
-    "xfc": "^1.2.1"
+    "to-ast": "^1.0.0"
   },
   "peerDependencies": {
     "html-webpack-plugin": "^3.1.0",

@@ -3,18 +3,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'xfc';
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
 import Application from 'terra-application';
 import DevSiteNavigation from './navigation/_DevSiteNavigation';
 import './index.scss';
-
-Provider.init({
-  acls: ['*'],
-  secret: () => (Promise.resolve('Success')),
-});
 
 class DevSiteApplication extends React.Component {
   constructor(props) {
