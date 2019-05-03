@@ -1,0 +1,33 @@
+:local {
+  .header {
+    align-items: center;
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+    padding: 0.714rem;
+  }
+
+  .toggle,
+  .content {
+    flex: 0 0 auto;
+  }
+
+  .content {
+    max-width: 50%;
+  }
+
+  .title-container {
+    flex: 1 1 auto;
+    overflow: hidden;
+    padding-left: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.286rem;
+    font-weight: normal;
+    hyphens: auto;
+    margin-bottom: 0;
+    margin-top: 0;
+    overflow-wrap: break-word; /* Modern browsers */
+    word-wrap: break-word; /* For IE 10 and IE 11 */
+  }
+}

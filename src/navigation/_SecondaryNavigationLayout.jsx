@@ -4,27 +4,16 @@ import classNames from 'classnames/bind';
 import { Breakpoints } from 'terra-application';
 import Overlay from 'terra-overlay';
 import FocusTrap from 'focus-trap-react';
+import ContentContainer from 'terra-content-container';
 
+import SecondaryNavigationLayoutActionHeader from './_SecondaryNavigationLayoutActionHeader';
 import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
+import SecondaryNavigationContext from './_SecondaryNavigationContext';
+import SecondaryNavHeaderAdapter from './_SecondaryNavHeaderAdapter';
 
 import styles from './SecondaryNavigationLayout.module.scss';
 
 const cx = classNames.bind(styles);
-
-const SecondaryNavigationLayoutContext = React.createContext();
-
-const withSecondaryNavigationLayout = (WrappedComponent) => {
-  const WithSecondaryNavigationLayoutComp = props => (
-    <SecondaryNavigationLayoutContext.Consumer>
-      {secondaryNavigationLayout => <WrappedComponent {...props} secondaryNavigationLayout={secondaryNavigationLayout} />}
-    </SecondaryNavigationLayoutContext.Consumer>
-  );
-
-  WithSecondaryNavigationLayoutComp.WrappedComponent = WrappedComponent;
-  WithSecondaryNavigationLayoutComp.displayName = `withSecondaryNavigationLayout(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
-
-  return WithSecondaryNavigationLayoutComp;
-};
 
 const isCompactLayout = activeBreakpoint => activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
 
@@ -82,15 +71,10 @@ class SecondaryNavigationLayout extends React.Component {
        * The compact menu state is reset when a non-compact breakpoint is active.
        */
       newState.compactMenuIsOpen = false;
+      newState.defaultContentProviderValue = Object.assign({}, state.defaultContentProviderValue, { menuIsVisible: state.menuIsPinnedOpen });
+    } else if (isCompactLayout(props.activeBreakpoint)) {
+      newState.defaultContentProviderValue = Object.assign({}, state.defaultContentProviderValue, { menuIsVisible: state.compactMenuisOpen });
     }
-
-    // if ((!isCompactLayout(state.previousActiveBreakpoint) && isCompactLayout(props.activeBreakpoint))
-    // || (isCompactLayout(state.previousActiveBreakpoint) && !isCompactLayout(props.activeBreakpoint))) {
-    //   if (state.selectionPath) {
-    //     newState.selectedMenuKey = state.selectionPath[state.selectionPath.length - 2];
-    //     newState.selectedChildKey = state.selectionPath[state.selectionPath.length - 1];
-    //   }
-    // }
 
     return newState;
   }
@@ -118,11 +102,10 @@ class SecondaryNavigationLayout extends React.Component {
   constructor(props) {
     super(props);
 
-    this.openCompactMenu = this.openCompactMenu.bind(this);
-    this.pinMenu = this.pinMenu.bind(this);
-    this.unpinMenu = this.unpinMenu.bind(this);
-    this.handleMenuItemSelection = this.handleMenuItemSelection.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
+    this.openMenu = this.openMenu.bind(this);
     this.handleCollapsingMenuSelection = this.handleCollapsingMenuSelection.bind(this);
+    this.setHeaderContent = this.setHeaderContent.bind(this);
 
     const flattenedMenuItems = SecondaryNavigationLayout.flattenMenuItems(props.menuItems);
 
@@ -144,6 +127,8 @@ class SecondaryNavigationLayout extends React.Component {
     }
 
     this.state = {
+      headerTitle: '',
+      headerContent: undefined,
       flattenedMenuItems,
       previousActiveBreakpoint: props.activeBreakpoint, // eslint-disable-line react/no-unused-state
       selectedMenuKey,
@@ -151,84 +136,47 @@ class SecondaryNavigationLayout extends React.Component {
       selectionPath,
       compactMenuIsOpen: false,
       menuIsPinnedOpen: true,
-      compactContentProviderValue: {
-        openMenu: this.openCompactMenu,
-      },
       defaultContentProviderValue: {
-        pinMenu: this.pinMenu,
-        unpinMenu: this.unpinMenu,
-        menuIsPinned: true,
+        setHeaderContent: this.setHeaderContent,
       },
     };
   }
 
-  openCompactMenu() {
+  setHeaderContent(content) {
     this.setState({
-      compactMenuIsOpen: true,
+      headerTitle: content.title,
+      headerContent: content.content,
     });
   }
 
-  pinMenu() {
-    this.setState({
-      menuIsPinnedOpen: true,
-      defaultContentProviderValue: {
-        pinMenu: this.pinMenu,
-        unpinMenu: this.unpinMenu,
-        menuIsPinned: true,
-      },
-    });
-  }
+  closeMenu() {
+    const { activeBreakpoint } = this.props;
 
-  unpinMenu() {
-    this.setState({
-      menuIsPinnedOpen: false,
-      defaultContentProviderValue: {
-        pinMenu: this.pinMenu,
-        unpinMenu: this.unpinMenu,
-        menuIsPinned: false,
-      },
-    });
-  }
+    const isCompact = isCompactLayout(activeBreakpoint);
 
-  handleMenuItemSelection(event, selectionData) {
-    const { onTerminalMenuItemSelection } = this.props;
-    const { selectionPath, flattenedMenuItems } = this.state;
-
-    const newChildKey = selectionData.selectedChildKey;
-    const newMenuKey = selectionData.selectedMenuKey;
-
-    const newChildItem = flattenedMenuItems.find(item => item.key === newChildKey);
-
-    // If an endpoint has been reached, reset selection path and update.
-    if (newChildKey && !newChildItem.childKeys) {
+    if (isCompact) {
       this.setState({
         compactMenuIsOpen: false,
-        selectionPath: SecondaryNavigationLayout.buildSelectionPath(newChildKey, this.ancestorMap),
-        selectedChildKey: newChildKey,
-        selectedMenuKey: newMenuKey,
-      }, () => {
-        if (onTerminalMenuItemSelection) {
-          onTerminalMenuItemSelection(newChildKey, selectionData.metaData);
-        }
-      });
-
-      return;
-    }
-
-    if (selectionPath && selectionPath.indexOf(newChildKey) >= 0) {
-      this.setState({
-        selectedMenuKey: newMenuKey,
-        selectedChildKey: newChildKey,
-      });
-    } else if (selectionPath && selectionPath.indexOf(newMenuKey) >= 0) {
-      this.setState({
-        selectedMenuKey: newMenuKey,
-        selectedChildKey: selectionPath[selectionPath.indexOf(newMenuKey) + 1],
       });
     } else {
       this.setState({
-        selectedMenuKey: newMenuKey,
-        selectedChildKey: undefined,
+        menuIsPinnedOpen: false,
+      });
+    }
+  }
+
+  openMenu() {
+    const { activeBreakpoint } = this.props;
+
+    const isCompact = isCompactLayout(activeBreakpoint);
+
+    if (isCompact) {
+      this.setState({
+        compactMenuIsOpen: true,
+      });
+    } else {
+      this.setState({
+        menuIsPinnedOpen: true,
       });
     }
   }
@@ -243,7 +191,7 @@ class SecondaryNavigationLayout extends React.Component {
       selectedChildKey: selectionKey,
       compactMenuIsOpen: false,
     }, () => {
-    // If an endpoint has been reached, reset selection path and update.
+      // If an endpoint has been reached, reset selection path and update.
       if (onTerminalMenuItemSelection) {
         onTerminalMenuItemSelection(selectionKey, selectedItem.metaData);
       }
@@ -260,33 +208,19 @@ class SecondaryNavigationLayout extends React.Component {
     const {
       compactMenuIsOpen,
       menuIsPinnedOpen,
-      compactContentProviderValue,
       defaultContentProviderValue,
       selectedChildKey,
+      headerTitle,
+      headerContent,
     } = this.state;
 
     const isCompact = isCompactLayout(activeBreakpoint);
-
+    const menuIsVisible = isCompact ? compactMenuIsOpen : menuIsPinnedOpen;
     /**
      * At within compact viewports, the navigation menu should render each menu item as if it has
      * a submenu, as selecting a childless item will cause the menu close.
      */
-    let menu;
-    // if (activeBreakpoint === 'tiny' || activeBreakpoint === 'small') {
-    //   managedMenuItems = managedMenuItems.map(item => (
-    //     Object.assign({}, item, { hasSubMenu: true })
-    //   ));
-
-    //   menu = (
-    //     <NavigationSideMenu
-    //       menuItems={managedMenuItems}
-    //       selectedMenuKey={selectedMenuKey}
-    //       selectedChildKey={!isCompact ? selectedChildKey : null}
-    //       onChange={this.handleMenuItemSelection}
-    //     />
-    //   );
-    // } else {
-    menu = (
+    const menu = (
       <FocusTrap
         active={isCompact ? compactMenuIsOpen : false}
         focusTrapOptions={{
@@ -308,19 +242,30 @@ class SecondaryNavigationLayout extends React.Component {
         />
       </FocusTrap>
     );
-    // }
+
+    let onToggle;
+    if (isCompact) {
+      onToggle = compactMenuIsOpen ? this.closeMenu : this.openMenu;
+    } else {
+      onToggle = menuIsPinnedOpen ? this.closeMenu : this.openMenu;
+    }
 
     return (
-      <div className={cx(['container', { 'panel-is-open': isCompact ? compactMenuIsOpen : menuIsPinnedOpen }])}>
+      <div className={cx(['container', { 'panel-is-open': menuIsVisible }])}>
         <div className={cx('panel')}>
           {menu}
         </div>
         <div className={cx('content')}>
-          <SecondaryNavigationLayoutContext.Provider
-            value={isCompact ? compactContentProviderValue : defaultContentProviderValue}
+          <SecondaryNavigationContext.Provider
+            value={defaultContentProviderValue}
           >
-            {children}
-          </SecondaryNavigationLayoutContext.Provider>
+            <ContentContainer
+              header={<SecondaryNavigationLayoutActionHeader title={headerTitle} content={headerContent} menuIsVisible={menuIsVisible} onToggle={onToggle} />}
+              fill
+            >
+              {children}
+            </ContentContainer>
+          </SecondaryNavigationContext.Provider>
           <Overlay isOpen={isCompact ? compactMenuIsOpen : false} isRelativeToContainer style={{ top: '0' }} />
         </div>
       </div>
@@ -332,7 +277,5 @@ SecondaryNavigationLayout.propTypes = propTypes;
 
 export default Breakpoints.withActiveBreakpoint(SecondaryNavigationLayout);
 export {
-  SecondaryNavigationLayoutContext,
-  withSecondaryNavigationLayout,
   isCompactLayout,
 };

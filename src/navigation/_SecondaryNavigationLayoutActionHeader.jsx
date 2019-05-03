@@ -1,61 +1,46 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
 import ButtonGroup from 'terra-button-group';
-import IconLeft from 'terra-icon/lib/icon/IconLeft';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
 
-import { withSecondaryNavigationLayout } from './_SecondaryNavigationLayout';
+import styles from './SecondaryNavigationLayoutActionHeader.module.scss';
 
-const SecondaryNavigationLayoutActionHeader = withSecondaryNavigationLayout(({
-  secondaryNavigationLayout,
-}) => {
-  let button;
-  if (secondaryNavigationLayout && secondaryNavigationLayout.openMenu) {
-    button = (
-      <ButtonGroup.Button
-        icon={<IconLeft />}
-        key="open-menu"
-        text="Open Menu"
-        onClick={secondaryNavigationLayout.openMenu}
-      />
-    );
-  } else if (secondaryNavigationLayout && secondaryNavigationLayout.menuIsPinned) {
-    button = (
-      <ButtonGroup.Button
-        icon={<IconLeftPane />}
-        key="pin-menu"
-        text="Pin Menu"
-        onClick={secondaryNavigationLayout.unpinMenu}
-      />
-    );
-  } else if (secondaryNavigationLayout) {
-    button = (
-      <ButtonGroup.Button
-        icon={<IconLeftPane />}
-        key="pin-menu"
-        text="Unpin Menu"
-        onClick={secondaryNavigationLayout.pinMenu}
-      />
-    );
-  }
+const cx = classNames.bind(styles);
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0.714rem',
-        borderBottom: '1px solid lightgrey',
-      }}
-    >
+const propTypes = {
+  onToggle: PropTypes.func,
+  menuIsVisible: PropTypes.bool,
+  title: PropTypes.string,
+  content: PropTypes.node,
+};
+
+const SecondaryNavigationLayoutActionHeader = ({
+  onToggle, menuIsVisible, title, content,
+}) => (
+  <div className={cx('header')}>
+    <div className={cx('toggle')}>
       <ButtonGroup
-        id="controlled-button-group"
-        selectedKeys={secondaryNavigationLayout && secondaryNavigationLayout.menuIsPinned ? ['pin-menu'] : undefined}
+        selectedKeys={menuIsVisible ? ['close-menu'] : undefined}
       >
-        {button}
+        <ButtonGroup.Button
+          icon={<IconLeftPane />}
+          key={menuIsVisible ? 'close-menu' : 'open-menu'}
+          text={menuIsVisible ? 'Close Menu' : 'Open Menu'}
+          onClick={onToggle}
+        />
       </ButtonGroup>
     </div>
-  );
-});
+    <div className={cx('title-container')}>
+      <div className={cx('title')} title={title}>
+        {title}
+      </div>
+    </div>
+    <div className={cx('content')}>{content}</div>
+  </div>
+);
+
+SecondaryNavigationLayoutActionHeader.propTypes = propTypes;
 
 export default SecondaryNavigationLayoutActionHeader;

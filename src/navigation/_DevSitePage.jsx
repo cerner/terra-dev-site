@@ -2,9 +2,7 @@ import React from 'react';
 import {
   withRouter, Switch, Route,
 } from 'react-router-dom';
-import ContentContainer from 'terra-content-container';
 import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
-import SecondaryNavigationLayoutActionHeader from './_SecondaryNavigationLayoutActionHeader';
 import Placeholder from '../static-pages/_PlaceholderPage';
 
 class DevSitePage extends React.Component {
@@ -31,9 +29,7 @@ class DevSitePage extends React.Component {
           <Route
             key={path}
             path={path}
-            render={() => (
-              React.createElement(contentConfig[path].component.default.componentClass, contentConfig[path].component.default.props)
-            )}
+            render={() => React.createElement(contentConfig[path].component.default.componentClass, contentConfig[path].component.default.props)}
           />
         ))}
         <Route
@@ -63,12 +59,7 @@ class DevSitePage extends React.Component {
         }}
         key={initialSelectedMenuKey}
       >
-        <ContentContainer
-          header={<SecondaryNavigationLayoutActionHeader />}
-          fill
-        >
-          {this.generateContent()}
-        </ContentContainer>
+        {this.generateContent()}
       </SecondaryNavigationLayout>
     );
   }

@@ -171,7 +171,9 @@ class DevSiteNavigation extends React.Component {
 
     return (
       <ApplicationNavigation
-        title={nameConfig.title}
+        titleConfig={{
+          title: nameConfig.title,
+        }}
         navigationItems={navigationItems.map(item => ({
           key: item.path,
           text: item.text,
