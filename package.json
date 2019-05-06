@@ -47,11 +47,9 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules",
-    "clean:compiled": "rm -rf lib",
     "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
-    "compile": "npm run clean:compiled && npm run compile:build",
-    "compile:build": "babel src --out-dir lib --copy-files",
+    "compile": "babel src --out-dir lib --copy-files",
     "compile:dev": "webpack --config config/webpack/webpack.config",
     "compile:prod": "webpack --config config/webpack/webpack.config -p",
     "danger": "danger ci",
@@ -62,6 +60,7 @@
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
     "postpublish": "git push --tag",
+    "precompile": "rm -rf lib"
     "prepare": "npm run compile",
     "prepublishOnly": "npm whoami && check-installed-dependencies && npm test",
     "release:major": "npm version major -m 'Released version %s' && npm publish",
