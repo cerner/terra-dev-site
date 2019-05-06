@@ -60,7 +60,7 @@
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
     "postpublish": "git push --tag",
-    "precompile": "rm -rf lib"
+    "precompile": "rm -rf lib",
     "prepare": "npm run compile",
     "prepublishOnly": "npm whoami && check-installed-dependencies && npm test",
     "release:major": "npm version major -m 'Released version %s' && npm publish",
