@@ -60,11 +60,12 @@
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
+    "postpublish": "git push --tag",
     "prepare": "npm run compile",
-    "verify-release": "npm whoami && npm run compile && npm test",
-    "release:major": "npm run verify-release && npm version major -m 'Released version %s' && npm publish && git push",
-    "release:minor": "npm run verify-release && npm version minor -m 'Released version %s' && npm publish && git push",
-    "release:patch": "npm run verify-release && npm version patch -m 'Released version %s' && npm publish && git push",
+    "prepublishOnly": "npm whoami && npm run compile && npm test",
+    "release:major": "npm version major -m 'Released version %s' && npm publish",
+    "release:minor": "npm version minor -m 'Released version %s' && npm publish",
+    "release:patch": "npm version patch -m 'Released version %s' && npm publish",
     "start": "tt-serve --config config/webpack/webpack.config",
     "start-heroku": "npm run compile:prod && tt-serve-static --port $PORT --site './build' ",
     "start-static": "tt-serve-static --config config/webpack/webpack.config",
@@ -101,6 +102,7 @@
     "terra-search-field": "^3.2.0",
     "terra-slide-panel": "^3.0.0",
     "terra-theme-provider": "^3.0.0",
+    "terra-toolkit": "^4.5.0",
     "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2",
     "xfc": "^1.2.1"
@@ -108,8 +110,7 @@
   "peerDependencies": {
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-router-dom": "^4.2.2",
-    "terra-toolkit": "^4.5.0"
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
@@ -133,7 +134,6 @@
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.4.2",
     "stylelint": "^9.0.0",
-    "stylelint-config-terra": "^1.2.0",
-    "terra-toolkit": "^4.5.0"
+    "stylelint-config-terra": "^1.2.0"
   }
 }
