@@ -61,7 +61,7 @@
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
     "postpublish": "git push --tag",
-    "prepare": "npm run compile",
+    "prepare": "check-installed-dependencies && npm run compile",
     "prepublishOnly": "npm whoami && npm test",
     "release:major": "npm version major -m 'Released version %s' && npm publish",
     "release:minor": "npm version minor -m 'Released version %s' && npm publish",
