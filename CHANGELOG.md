@@ -3,11 +3,16 @@ Changelog
 
 Unreleased
 ----------
+### Major Version Bump
+
 ### Added
 * headHtml added to config.
 
 ### Changed
 * Log warning if side-effects globs are not resolved to something.
+
+### Removed
+* **Breaking Change** Removed the custom webpack pluging- theming pluign. Use terra-toolkit aggregate-themes pre-build script instead.
 
 4.0.0 - (April 12, 2019)
 ----------
