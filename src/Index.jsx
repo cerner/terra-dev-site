@@ -2,7 +2,9 @@
 // TERRA_DEV_SITE_BASENAME is defined by webpack
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter, Switch, Route, Redirect,
+} from 'react-router-dom';
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
@@ -16,6 +18,14 @@ class DevSiteApplication extends React.Component {
     window.sessionStorage.redirect = window.location.href;
     window.location.pathname = match.url;
     return null;
+  }
+
+  static redirectSlashRoute({ location }) {
+    // if a hash route is passed in, we're going to redirect to avoid breaking existing tests.
+    if (location.hash.startsWith('#/')) {
+      return <Redirect to={`/${location.hash.slice(2)}`} />;
+    }
+    return <Redirect to={siteConfig.indexPath} />;
   }
 
   constructor(props) {
@@ -106,6 +116,7 @@ class DevSiteApplication extends React.Component {
       // TERRA_DEV_SITE_BASENAME is expected to be '' or '/*'
       <BrowserRouter basename={TERRA_DEV_SITE_BASENAME}>
         <Switch>
+          <Route exact path="/" render={DevSiteApplication.redirectSlashRoute} />
           { siteConfig.apps.map(app => <Route path={`/${app.path}`} key={app.path} render={DevSiteApplication.redirectToReservedRoute} />)}
           <Route>
             <Application
@@ -130,6 +141,7 @@ class DevSiteApplication extends React.Component {
                     indexPath={siteConfig.indexPath}
                     themes={siteConfig.themes}
                     direction={direction}
+                    appsConfig={siteConfig.apps}
                   />
                 </Route>
               </Switch>

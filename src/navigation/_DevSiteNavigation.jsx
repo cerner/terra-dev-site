@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter, matchPath, Redirect,
-} from 'react-router-dom';
+import { withRouter, matchPath } from 'react-router-dom';
 import { DisclosureManager } from 'terra-application';
 import ApplicationNavigation from 'terra-application-navigation';
 import Image from 'terra-image';
+import IconTile from 'terra-icon/lib/icon/IconTile';
 
 import DevSitePage from './_DevSitePage';
 import SettingsPicker from './_SettingsPicker';
+import ApplicationSwitcher from './_ApplicationSwitcher';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 
 const propTypes = {
@@ -142,19 +142,12 @@ class DevSiteNavigation extends React.Component {
 
   render() {
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings, location,
+      nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings, location, appsConfig,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
+    console.log('apps config', appsConfig);
 
     if (!activeNavigationItemPath) {
-      if (location.pathname === '/') {
-        // if a hash route is passed in, we're going to redirect to avoid breaking existing tests.
-        if (location.hash.startsWith('#/')) {
-          return <Redirect to={`/${location.hash.slice(2)}`} />;
-        }
-        return <Redirect to={indexPath} />;
-      }
-
       return <NotFoundPage homePath={indexPath} />;
     }
 
@@ -194,6 +187,25 @@ class DevSiteNavigation extends React.Component {
               ),
             },
           });
+        }}
+        utilityItems={[{
+          icon: <IconTile />,
+          key: 'terra-dev-site.application-switcher',
+          text: 'Application Switcher',
+        }]}
+        onSelectUtilityItem={(key) => {
+          if (key === 'terra-dev-site.application-switcher') {
+            disclosureManager.disclose({
+              preferredType: 'modal',
+              size: 'tiny',
+              content: {
+                key,
+                component: (
+                  <ApplicationSwitcher apps={appsConfig} />
+                ),
+              },
+            });
+          }
         }}
       >
         <DevSitePage

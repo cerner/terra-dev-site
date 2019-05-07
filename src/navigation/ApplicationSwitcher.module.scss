@@ -1,0 +1,13 @@
+:local {
+  .item {
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    width: 100%;
+
+    &:hover {
+      background-color: lightgrey;
+    }
+  }
+}
