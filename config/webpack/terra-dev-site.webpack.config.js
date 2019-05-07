@@ -64,13 +64,7 @@ const generateAppsEntryPoints = (apps, devSiteConfigPath) => {
 * Create index.html files for terra-dev-site and the additional apps.
 */
 const indexPlugin = ({
-  title,
-  filename,
-  lang,
-  rootElementId = 'root',
-  siteConfig,
-  indexEntryPoints,
-  entry,
+  title, filename, lang, rootElementId = 'root', siteConfig, indexEntryPoints, entry,
 }) => {
   const otherIndexChunks = indexEntryPoints.filter(indexEntry => indexEntry !== entry);
   return new HtmlWebpackPlugin({
@@ -93,10 +87,7 @@ const indexPlugin = ({
 */
 const generateAppsPlugins = (siteConfig, lang, rootBasename, indexEntryPoints) => siteConfig.apps.reduce((acc, app) => {
   const {
-    path: appPath,
-    title,
-    rootElementId,
-    basename,
+    path: appPath, title, rootElementId, basename,
   } = app;
   // Add an index.html file for the additional app.
   acc.push(indexPlugin({
@@ -163,7 +154,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   return {
     entry: {
-      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
+      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'src', 'Index')),
       rewriteHistory: path.resolve(path.join(__dirname, '..', '..', 'lib', 'rewriteHistory')),
       redirect: path.resolve(path.join(__dirname, '..', '..', 'lib', 'redirect')),
       // Additional apps entry points
@@ -189,8 +180,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
       new webpack.DefinePlugin({
         // Base name is used to namespace terra-dev-site
         TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
-        // List of reserved paths for additional apps. terra-dev-site will redirect to the app.
-        TERRA_DEV_SITE_RESERVED_PATHS: JSON.stringify(siteConfig.apps.map(app => `/${app.path}`)),
       }),
       // Add additional apps html and define plugin information.
       ...generateAppsPlugins(siteConfig, lang, basename, indexEntryPoints),

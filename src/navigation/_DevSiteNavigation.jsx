@@ -1,9 +1,7 @@
-/* global TERRA_DEV_SITE_RESERVED_PATHS */
-// TERRA_DEV_SITE_RESERVED_PATHS is defined by webpack
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter, Switch, Route, matchPath, Redirect,
+  withRouter, matchPath, Redirect,
 } from 'react-router-dom';
 import { DisclosureManager } from 'terra-application';
 import ApplicationNavigation from 'terra-application-navigation';

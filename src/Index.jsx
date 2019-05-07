@@ -106,7 +106,7 @@ class DevSiteApplication extends React.Component {
       // TERRA_DEV_SITE_BASENAME is expected to be '' or '/*'
       <BrowserRouter basename={TERRA_DEV_SITE_BASENAME}>
         <Switch>
-          { TERRA_DEV_SITE_RESERVED_PATHS.map(path => <Route path={path} key={path} render={DevSiteApplication.redirectToReservedRoute} />)}
+          { siteConfig.apps.map(app => <Route path={`/${app.path}`} key={app.path} render={DevSiteApplication.redirectToReservedRoute} />)}
           <Route>
             <Application
               locale={locale}
