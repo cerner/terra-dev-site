@@ -6,7 +6,7 @@ const generateNameConfig = require('./generateNameConfig');
 const generateSettingsConfig = require('./generateSettingsConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
-const injectTestEvidenceLink = require('./injectTestEvidenceLink');
+const injectLink = require('./injectLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
 
@@ -40,7 +40,11 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   const buildPath = path.join(rootPath, 'build');
 
   if (siteConfig.includeTestEvidence) {
-    navConfig.navigation.links = injectTestEvidenceLink(navConfig);
+    navConfig.navigation.links = injectLink(navConfig, {
+      path: '/evidence',
+      text: 'Evidence',
+      pageTypes: ['evidence'],
+    });
   }
 
   const settingsConfig = addConfig(

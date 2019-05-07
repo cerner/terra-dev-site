@@ -119,12 +119,6 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
-  static redirectToReservedRoute({ match }) {
-    window.sessionStorage.redirect = window.location.href;
-    window.location.pathname = match.url;
-    return null;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -132,8 +126,6 @@ class DevSiteNavigation extends React.Component {
     };
 
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
-    this.renderRawRoute = this.renderRawRoute.bind(this);
-    this.renderNavigation = this.renderNavigation.bind(this);
   }
 
   componentDidMount() {
@@ -150,36 +142,18 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
-  renderRawRoute({ location }) {
-    const { indexPath, contentConfig } = this.props;
-
-    const flattenedRouteConfig = Object.keys(contentConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, contentConfig.content[pageKey]), {});
-
-    const routes = Object.keys(flattenedRouteConfig).sort().reverse();
-    const nonRawPath = location.pathname.substring(4);
-
-    const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
-
-    if (route) {
-      const routeData = flattenedRouteConfig[route].component.default;
-      return React.createElement(routeData.componentClass, routeData.props);
-    }
-
-    return <NotFoundPage homePath={indexPath} />;
-  }
-
-  renderNavigation({ location }) {
+  render() {
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings,
+      nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings, location,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
 
     if (!activeNavigationItemPath) {
-      // if a hash route is passed in, we're going to redirect to avoid breaking existing tests.
-      if (location.pathname === '/' && location.hash.startsWith('#/')) {
-        return <Redirect to={`/${location.hash.slice(2)}`} />;
-      }
       if (location.pathname === '/') {
+        // if a hash route is passed in, we're going to redirect to avoid breaking existing tests.
+        if (location.hash.startsWith('#/')) {
+          return <Redirect to={`/${location.hash.slice(2)}`} />;
+        }
         return <Redirect to={indexPath} />;
       }
 
@@ -233,18 +207,6 @@ class DevSiteNavigation extends React.Component {
           notFoundComponent={<NotFoundPage indexPath={indexPath} />}
         />
       </ApplicationNavigation>
-    );
-  }
-
-  render() {
-    return (
-      <Switch>
-        <Route path="/raw" render={this.renderRawRoute} />
-        { TERRA_DEV_SITE_RESERVED_PATHS.map(path => <Route path={path} key={path} render={DevSiteNavigation.redirectToReservedRoute} />)}
-        {/* Use next line after upgrade to react router 5 */}
-        {/* <Route path={TERRA_DEV_SITE_RESERVED_PATHS} render={DevSiteNavigation.redirectToReservedRoute} /> */}
-        <Route render={this.renderNavigation} />
-      </Switch>
     );
   }
 }

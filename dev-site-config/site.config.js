@@ -26,7 +26,6 @@ const siteConfig = {
       title:'Browser Router App',
       file: '../src/testAppBrowserRouter/index',
       basename: 'BASENAME',
-      rootElementId: 'root',
     },
     {
       path: 'hash',
