@@ -19,6 +19,16 @@ const siteConfig = {
   includeTestEvidence: false,
 
   filterSideMenu: true,
+
+  apps: {
+    browser: {
+      file: '../src/testAppBrowserRouter/index',
+      basename: 'BASENAME',
+    },
+    hash: {
+      file: '../src/testAppHashRouter/index',
+    },
+  },
 };
 
 module.exports = siteConfig;

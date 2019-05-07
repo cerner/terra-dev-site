@@ -1,5 +1,5 @@
-/* global TERRA_DEV_SITE_PUBLIC_PATH */
-// TERRA_DEV_SITE_PUBLIC_PATH is defined by webpack
+/* global TERRA_DEV_SITE_BASENAME */
+// TERRA_DEV_SITE_BASENAME is defined by webpack
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -75,8 +75,8 @@ class DevSiteApplication extends React.Component {
     }
 
     return (
-      // TERRA_DEV_SITE_PUBLIC_PATH is expected to be '/' or '/*/' We want to remove the trailing /
-      <BrowserRouter basename={TERRA_DEV_SITE_PUBLIC_PATH.substring(-1)}>
+      // TERRA_DEV_SITE_BASENAME is expected to be '' or '/*'
+      <BrowserRouter basename={TERRA_DEV_SITE_BASENAME}>
         <Application
           locale={locale}
           themeName={siteConfig.themes[theme]}

@@ -162,7 +162,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   if (verbose) {
     // eslint-disable-next-line no-console
-    console.log('Patterns', patterns);
+    console.log('[terra-dev-site] Patterns', patterns);
   }
 
   // Execute the globs and regex masks, to trim the directories.
@@ -172,7 +172,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   if (verbose) {
     // eslint-disable-next-line no-console
-    console.log('File Paths', filePaths);
+    console.log('[terra-dev-site] File Paths', filePaths);
   }
 
   // Build out the page config from the discovered file paths.
@@ -191,7 +191,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   if (verbose) {
     // eslint-disable-next-line no-console
-    console.log('Page Config', JSON.stringify(sortedConfig, null, 2));
+    console.log('[terra-dev-site] Page Config', JSON.stringify(sortedConfig, null, 2));
   }
 
   return sortedConfig;

@@ -1,3 +1,5 @@
+/* global TERRA_DEV_SITE_RESERVED_PATHS */
+// TERRA_DEV_SITE_RESERVED_PATHS is defined by webpack
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -117,6 +119,12 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
+  static redirectToReservedRoute({ match }) {
+    window.sessionStorage.redirect = window.location.href;
+    window.location.pathname = match.url;
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -160,11 +168,23 @@ class DevSiteNavigation extends React.Component {
     return <NotFoundPage homePath={indexPath} />;
   }
 
-  renderNavigation() {
+  renderNavigation({ location }) {
     const {
       nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
+
+    if (!activeNavigationItemPath) {
+      // if a hash route is passed in, we're going to redirect to avoid breaking existing tests.
+      if (location.pathname === '/' && location.hash.startsWith('#/')) {
+        return <Redirect to={`/${location.hash.slice(2)}`} />;
+      }
+      if (location.pathname === '/') {
+        return <Redirect to={indexPath} />;
+      }
+
+      return <NotFoundPage homePath={indexPath} />;
+    }
 
     const pageMenuItems = contentConfig.menuItems[activeNavigationItemPath];
     const pageContent = contentConfig.content[activeNavigationItemPath];
@@ -217,28 +237,12 @@ class DevSiteNavigation extends React.Component {
   }
 
   render() {
-    const {
-      indexPath, location,
-    } = this.props;
-    const {
-      activeNavigationItemPath,
-    } = this.state;
-
-    if (!activeNavigationItemPath && !location.pathname.match(/^\/raw/)) {
-      // if a hash route is passed in, we're going to redirect to avoid breaking existing tests.
-      if (location.pathname === '/' && location.hash.startsWith('#/')) {
-        return <Redirect to={`/${location.hash.slice(2)}`} />;
-      }
-      if (location.pathname === '/') {
-        return <Redirect to={indexPath} />;
-      }
-
-      return <NotFoundPage homePath={indexPath} />;
-    }
-
     return (
       <Switch>
         <Route path="/raw" render={this.renderRawRoute} />
+        { TERRA_DEV_SITE_RESERVED_PATHS.map(path => <Route path={path} key={path} render={DevSiteNavigation.redirectToReservedRoute} />)}
+        {/* Use next line after upgrade to react router 5 */}
+        {/* <Route path={TERRA_DEV_SITE_RESERVED_PATHS} render={DevSiteNavigation.redirectToReservedRoute} /> */}
         <Route render={this.renderNavigation} />
       </Switch>
     );

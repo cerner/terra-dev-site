@@ -1,5 +1,5 @@
-/* global TERRA_DEV_SITE_PUBLIC_PATH */
-// TERRA_DEV_SITE_PUBLIC_PATH is defined by webpack
+/* global TERRA_DEV_SITE_BASENAME */
+// TERRA_DEV_SITE_BASENAME is defined by webpack
 // This file is served from 404.html. This was implemented to allow the use of
 // the browser router when content is served from gh-pages. Gh-pages will attempt to
 // to return a 404.html file when a route is not found. We exploit that behavior by
@@ -8,4 +8,4 @@
 // Store the not found window location in session storage
 window.sessionStorage.redirect = window.location.href;
 // Redirect to the base path. Once done react router will use the stored location to route SPA style.
-window.location.pathname = TERRA_DEV_SITE_PUBLIC_PATH;
+window.location.pathname = `${TERRA_DEV_SITE_BASENAME}/`;

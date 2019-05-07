@@ -43,6 +43,58 @@ const aliasMonoRepoPackages = (monoRepo, hotReloading, webpackAliasOptions = {},
   }, {});
 };
 
+const entryName = app => `${app}/index`;
+
+const generateAppsEntryPoints = (apps, devSiteConfigPath) => {
+  const entryPoints = {};
+  Object.keys(apps).forEach((app) => {
+    entryPoints[entryName(app)] = path.resolve(path.join(devSiteConfigPath, apps[app].file));
+  });
+  return entryPoints;
+};
+
+const indexPlugin = ({
+  title,
+  filename,
+  lang,
+  siteConfig,
+  indexEntryPoints,
+  entry,
+}) => {
+  const otherIndexChunks = indexEntryPoints.filter(indexEntry => indexEntry !== entry);
+  return new HtmlWebpackPlugin({
+    title,
+    filename,
+    template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
+    lang,
+    dir: siteConfig.appConfig.defaultDirection,
+    favicon: siteConfig.appConfig.favicon,
+    headHtml: [getNewRelicJS()].concat(siteConfig.appConfig.headHtml),
+    headChunks: ['rewriteHistory'],
+    excludeChunks: ['redirect', ...otherIndexChunks],
+    inject: false, // This turns off auto injection. We handle this ourselves in the template.
+  });
+};
+
+
+const generateAppsPlugins = (siteConfig, lang, rootBasename, indexEntryPoints) => Object.keys(siteConfig.apps).reduce((acc, app) => {
+  acc.push(indexPlugin({
+    app,
+    filename: `${app}/index.html`,
+    lang,
+    siteConfig,
+    indexEntryPoints,
+    entry: entryName(app),
+  }));
+  const { basename } = siteConfig.apps[app];
+  if (basename) {
+    acc.push(new webpack.DefinePlugin({
+      [siteConfig.apps[app].basename]: JSON.stringify(`${rootBasename}${app}`),
+    }));
+  }
+  return acc;
+}, []);
+
 /**
 * Generates the file representing app name configuration.
 */
@@ -80,24 +132,26 @@ const devSiteConfig = (env = {}, argv = {}) => {
     // eslint-disable-next-line no-console
     console.log('Generated Aliases', alias);
   }
+  const additionalSitesEntryPoints = generateAppsEntryPoints(siteConfig.apps, devSiteConfigPath);
+  const indexEntryPoints = Object.keys(additionalSitesEntryPoints);
+  indexEntryPoints.push('terra-dev-site');
+  const basename = publicPath.slice(0, -1);
 
   return {
     entry: {
       'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
       rewriteHistory: path.resolve(path.join(__dirname, '..', '..', 'lib', 'rewriteHistory')),
       redirect: path.resolve(path.join(__dirname, '..', '..', 'lib', 'redirect')),
+      ...additionalSitesEntryPoints,
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        title: siteConfig.appConfig.title,
-        template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
+      indexPlugin({
+        site: siteConfig.appConfig.title,
+        filename: 'index.html',
         lang,
-        dir: siteConfig.appConfig.defaultDirection,
-        favicon: siteConfig.appConfig.favicon,
-        headHtml: [getNewRelicJS()].concat(siteConfig.appConfig.headHtml),
-        headChunks: ['rewriteHistory'],
-        excludeChunks: ['redirect'],
-        inject: false, // This turns off auto injection. We handle this ourselves in the template.
+        siteConfig,
+        indexEntryPoints,
+        entry: 'terra-dev-site',
       }),
       new HtmlWebpackPlugin({
         filename: '404.html',
@@ -106,8 +160,10 @@ const devSiteConfig = (env = {}, argv = {}) => {
         chunks: ['redirect'],
       }),
       new webpack.DefinePlugin({
-        TERRA_DEV_SITE_PUBLIC_PATH: JSON.stringify(publicPath),
+        TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
+        TERRA_DEV_SITE_RESERVED_PATHS: JSON.stringify(Object.keys(siteConfig.apps).map(app => `/${app}`)),
       }),
+      ...generateAppsPlugins(siteConfig, lang, basename, indexEntryPoints),
     ],
     resolve: {
       modules: [devSiteConfigPath],
