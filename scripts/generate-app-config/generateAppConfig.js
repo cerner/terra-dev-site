@@ -87,6 +87,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     indexPath: navConfig.navigation.index,
     defaultTheme: appConfig.defaultTheme,
     themes: appConfig.themes,
+    apps: siteConfig.apps,
   };
 
   writeConfig({ config, imports }, 'appConfig.js', buildPath, fse);

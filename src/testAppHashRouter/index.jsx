@@ -35,4 +35,4 @@ class TestApplication extends React.Component {
   }
 }
 
-ReactDOM.render(<TestApplication />, document.getElementById('root'));
+ReactDOM.render(<TestApplication />, document.getElementById('hashroot'));

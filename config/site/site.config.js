@@ -124,7 +124,7 @@ const siteConfig = {
   /* The default for whether the navigation side menu includes a filter input. 'false' is the default value */
   filterSideMenu: false,
 
-  apps: {},
+  apps: [],
 };
 
 module.exports = siteConfig;

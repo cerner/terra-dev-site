@@ -43,20 +43,31 @@ const aliasMonoRepoPackages = (monoRepo, hotReloading, webpackAliasOptions = {},
   }, {});
 };
 
+/**
+* Creates the entry name for the additional app to be hosted.
+*/
 const entryName = app => `${app}/index`;
 
+/**
+* Generate entry points for the additional apps.
+*/
 const generateAppsEntryPoints = (apps, devSiteConfigPath) => {
   const entryPoints = {};
-  Object.keys(apps).forEach((app) => {
-    entryPoints[entryName(app)] = path.resolve(path.join(devSiteConfigPath, apps[app].file));
+  apps.forEach((app) => {
+    const { path: appPath, file } = app;
+    entryPoints[entryName(appPath)] = path.resolve(path.join(devSiteConfigPath, file));
   });
   return entryPoints;
 };
 
+/**
+* Create index.html files for terra-dev-site and the additional apps.
+*/
 const indexPlugin = ({
   title,
   filename,
   lang,
+  rootElementId = 'root',
   siteConfig,
   indexEntryPoints,
   entry,
@@ -67,6 +78,7 @@ const indexPlugin = ({
     filename,
     template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
     lang,
+    rootElementId,
     dir: siteConfig.appConfig.defaultDirection,
     favicon: siteConfig.appConfig.favicon,
     headHtml: [getNewRelicJS()].concat(siteConfig.appConfig.headHtml),
@@ -76,20 +88,30 @@ const indexPlugin = ({
   });
 };
 
-
-const generateAppsPlugins = (siteConfig, lang, rootBasename, indexEntryPoints) => Object.keys(siteConfig.apps).reduce((acc, app) => {
+/**
+* Generate the plugin files for the additional apps
+*/
+const generateAppsPlugins = (siteConfig, lang, rootBasename, indexEntryPoints) => siteConfig.apps.reduce((acc, app) => {
+  const {
+    path: appPath,
+    title,
+    rootElementId,
+    basename,
+  } = app;
+  // Add an index.html file for the additional app.
   acc.push(indexPlugin({
-    app,
-    filename: `${app}/index.html`,
+    title,
+    filename: `${appPath}/index.html`,
     lang,
+    rootElementId,
     siteConfig,
     indexEntryPoints,
-    entry: entryName(app),
+    entry: entryName(appPath),
   }));
-  const { basename } = siteConfig.apps[app];
+  // If a base name is specified, add it with the define plugin.
   if (basename) {
     acc.push(new webpack.DefinePlugin({
-      [siteConfig.apps[app].basename]: JSON.stringify(`${rootBasename}${app}`),
+      [basename]: JSON.stringify(`${rootBasename}${appPath}`),
     }));
   }
   return acc;
@@ -132,9 +154,11 @@ const devSiteConfig = (env = {}, argv = {}) => {
     // eslint-disable-next-line no-console
     console.log('Generated Aliases', alias);
   }
-  const additionalSitesEntryPoints = generateAppsEntryPoints(siteConfig.apps, devSiteConfigPath);
-  const indexEntryPoints = Object.keys(additionalSitesEntryPoints);
+  const appsEntryPoints = generateAppsEntryPoints(siteConfig.apps, devSiteConfigPath);
+  // Create the list of entry points that need index.html files created.
+  const indexEntryPoints = Object.keys(appsEntryPoints);
   indexEntryPoints.push('terra-dev-site');
+  // Strip the trailing / from the public path.
   const basename = publicPath.slice(0, -1);
 
   return {
@@ -142,9 +166,11 @@ const devSiteConfig = (env = {}, argv = {}) => {
       'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
       rewriteHistory: path.resolve(path.join(__dirname, '..', '..', 'lib', 'rewriteHistory')),
       redirect: path.resolve(path.join(__dirname, '..', '..', 'lib', 'redirect')),
-      ...additionalSitesEntryPoints,
+      // Additional apps entry points
+      ...appsEntryPoints,
     },
     plugins: [
+      // terra-dev-site index.html
       indexPlugin({
         site: siteConfig.appConfig.title,
         filename: 'index.html',
@@ -153,6 +179,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
         indexEntryPoints,
         entry: 'terra-dev-site',
       }),
+      // 404.html
       new HtmlWebpackPlugin({
         filename: '404.html',
         template: path.join(__dirname, '..', '..', 'lib', '404.html'),
@@ -160,9 +187,12 @@ const devSiteConfig = (env = {}, argv = {}) => {
         chunks: ['redirect'],
       }),
       new webpack.DefinePlugin({
+        // Base name is used to namespace terra-dev-site
         TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
-        TERRA_DEV_SITE_RESERVED_PATHS: JSON.stringify(Object.keys(siteConfig.apps).map(app => `/${app}`)),
+        // List of reserved paths for additional apps. terra-dev-site will redirect to the app.
+        TERRA_DEV_SITE_RESERVED_PATHS: JSON.stringify(siteConfig.apps.map(app => `/${app.path}`)),
       }),
+      // Add additional apps html and define plugin information.
       ...generateAppsPlugins(siteConfig, lang, basename, indexEntryPoints),
     ],
     resolve: {

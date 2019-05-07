@@ -20,15 +20,21 @@ const siteConfig = {
 
   filterSideMenu: true,
 
-  apps: {
-    browser: {
+  apps: [
+    {
+      path: 'browser',
+      title:'Browser Router App',
       file: '../src/testAppBrowserRouter/index',
       basename: 'BASENAME',
+      rootElementId: 'root',
     },
-    hash: {
+    {
+      path: 'hash',
+      title: 'Hash Router App',
       file: '../src/testAppHashRouter/index',
+      rootElementId: 'hashroot',
     },
-  },
+  ],
 };
 
 module.exports = siteConfig;

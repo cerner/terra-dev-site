@@ -14,7 +14,6 @@ class TestApplication extends React.Component {
   }
 
   render() {
-    console.log(BASENAME);
     return (
       // BASENAME is expected to be '' or '/*'
       <BrowserRouter basename={BASENAME}>
