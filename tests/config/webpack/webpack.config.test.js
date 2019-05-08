@@ -8,17 +8,17 @@ const configExpectations = processPath => ({
     'browser/index': `${processPath}/lib/testAppBrowserRouter/index`,
     'hash/index': `${processPath}/lib/testAppHashRouter/index`,
   }),
-  // resolve: expect.objectContaining({
-  //   modules: expect.arrayContaining([
-  //     `${processPath}/dev-site-config`,
-  //   ]),
-  //   alias: expect.objectContaining({
-  //     react: `${processPath}/node_modules/react`,
-  //     'react-intl': `${processPath}/node_modules/react-intl`,
-  //     'react-dom': `${processPath}/node_modules/react-dom`,
-  //     'terra-dev-site': `${processPath}`,
-  //   }),
-  // }),
+  resolve: expect.objectContaining({
+    modules: expect.arrayContaining([
+      `${processPath}/dev-site-config`,
+    ]),
+    alias: expect.objectContaining({
+      react: `${processPath}/node_modules/react`,
+      'react-intl': `${processPath}/node_modules/react-intl`,
+      'react-dom': `${processPath}/node_modules/react-dom`,
+      'terra-dev-site': `${processPath}`,
+    }),
+  }),
   plugins: expect.arrayContaining([
     expect.objectContaining({
       options: expect.objectContaining({
