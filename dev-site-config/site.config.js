@@ -24,13 +24,13 @@ const siteConfig = {
     {
       path: 'browser',
       title: 'Browser Router App',
-      file: '../src/testAppBrowserRouter/index',
+      file: '../lib/testAppBrowserRouter/index',
       basename: 'BASENAME',
     },
     {
       path: 'hash',
       title: 'Hash Router App',
-      file: '../src/testAppHashRouter/index',
+      file: '../lib/testAppHashRouter/index',
       rootElementId: 'hashroot',
     },
   ],
