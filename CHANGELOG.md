@@ -3,6 +3,10 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated stylelint-config-terra to ^3.0.0
+* Updated stylelint to ^10.0.1
+
 ### Added
 * headHtml added to config.
 

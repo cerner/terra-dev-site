@@ -133,7 +133,9 @@
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.4.2",
-    "stylelint": "^9.0.0",
-    "stylelint-config-terra": "^1.2.0"
+    "rimraf": "^2.6.1",
+    "shelljs": "^0.8.2",
+    "stylelint": "^10.0.1",
+    "stylelint-config-terra": "^3.0.0"
   }
 }
