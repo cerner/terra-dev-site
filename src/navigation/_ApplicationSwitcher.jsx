@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import List, { Item } from 'terra-list';
@@ -9,7 +10,23 @@ import styles from './ApplicationSwitcher.module.scss';
 
 const cx = classNames.bind(styles);
 
-const ApplicationSwitcher = ({ disclosureManager, apps}) => (
+const propTypes = {
+  /**
+   * Apps config
+   */
+  apps: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string,
+      title: PropTypes.string,
+    }),
+  ).isRequired,
+  /**
+   * Injected by disclosure manager
+   */
+  disclosureManager: DisclosureManager.disclosureManagerShape.isRequired,
+};
+
+const ApplicationSwitcher = ({ disclosureManager, apps }) => (
   <ContentContainer
     header={(
       <ActionHeader title="Application Switcher" onBack={disclosureManager.goBack} onClose={disclosureManager.closeDisclosure} />
@@ -17,15 +34,15 @@ const ApplicationSwitcher = ({ disclosureManager, apps}) => (
     fill
   >
     <List>
-      {apps.map((app) => {
-        return (
-          <Item key={app.path}>
-            <Hyperlink className={cx('item')} href={`/${app.path}/`}>{app.title}</Hyperlink>
-          </Item>
-        );
-      })}
+      {apps.map(app => (
+        <Item key={app.path}>
+          <Hyperlink className={cx('item')} href={`/${app.path}/`}>{app.title}</Hyperlink>
+        </Item>
+      ))}
     </List>
   </ContentContainer>
 );
+
+ApplicationSwitcher.propTypes = propTypes;
 
 export default DisclosureManager.withDisclosureManager(ApplicationSwitcher);

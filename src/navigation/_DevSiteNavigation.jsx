@@ -117,6 +117,18 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
+  static generateUtilityItems(appsConfig) {
+    const utilityItems = [];
+    if (appsConfig.length > 0) {
+      utilityItems.push({
+        icon: <IconTile />,
+        key: 'terra-dev-site.application-switcher',
+        text: 'Application Switcher',
+      });
+    }
+    return utilityItems;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -124,6 +136,7 @@ class DevSiteNavigation extends React.Component {
     };
 
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
+    this.handleUtilityItemSelection = this.handleUtilityItemSelection.bind(this);
   }
 
   componentDidMount() {
@@ -140,12 +153,27 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
+  handleUtilityItemSelection(UtilityItemKey) {
+    const { disclosureManager, appsConfig } = this.props;
+    if (UtilityItemKey === 'terra-dev-site.application-switcher') {
+      disclosureManager.disclose({
+        preferredType: 'modal',
+        size: 'tiny',
+        content: {
+          UtilityItemKey,
+          component: (
+            <ApplicationSwitcher apps={appsConfig} />
+          ),
+        },
+      });
+    }
+  }
+
   render() {
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings, location, appsConfig,
+      nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings, appsConfig,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
-    console.log('apps config', appsConfig);
 
     if (!activeNavigationItemPath) {
       return <NotFoundPage homePath={indexPath} />;
@@ -188,25 +216,8 @@ class DevSiteNavigation extends React.Component {
             },
           });
         }}
-        utilityItems={[{
-          icon: <IconTile />,
-          key: 'terra-dev-site.application-switcher',
-          text: 'Application Switcher',
-        }]}
-        onSelectUtilityItem={(key) => {
-          if (key === 'terra-dev-site.application-switcher') {
-            disclosureManager.disclose({
-              preferredType: 'modal',
-              size: 'tiny',
-              content: {
-                key,
-                component: (
-                  <ApplicationSwitcher apps={appsConfig} />
-                ),
-              },
-            });
-          }
-        }}
+        utilityItems={DevSiteNavigation.generateUtilityItems(appsConfig)}
+        onSelectUtilityItem={this.handleUtilityItemSelection}
       >
         <DevSitePage
           placeholderSrc={contentConfig.placeholderSrc}
