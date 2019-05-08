@@ -108,7 +108,7 @@ const siteConfig = {
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
-    /** This section allows to you inject arbitrary html into the head tag of index.html.
+    /** This section allows you to inject arbitrary html into the head tag of index.html.
      *  It takes an array of strings. You could load the string from an external file if desired.
      *  Add like:
      *  headHtml:[
@@ -124,6 +124,25 @@ const siteConfig = {
   /* The default for whether the navigation side menu includes a filter input. 'false' is the default value */
   filterSideMenu: false,
 
+  /** This section allows you to include additional apps within terra-dev-site.
+   *  This is intended for applications also desiring to have a static doc site, testing harness and not to create their own html template.
+   *  apps:[
+   *    {
+   *      // Required, This is path for the application. It must be unique across apps and navigation config.
+   *      path: 'browser',
+   *      // Required, The html title and name of the application.
+   *      title:'Browser Router App',
+   *      // Required, The entry point file for the application.
+   *      file: '../src/testAppBrowserRouter/index',
+   *      // Optional, Must be unique, A global variable for basename will be defined using this name.
+   *      // This variable will provide the basename for the application. i.e. /terra-dev-site/path which can be used as the base name for the react-router browser router.
+   *      // For example: <BrowserRouter basename={BASENAME}>
+   *      basename: 'BASENAME',
+   *      // Optional, the id for the react element render on. Defaults to 'root'.
+   *      rootElementId: 'root',
+   *    },
+   *  ],
+   */
   apps: [],
 };
 

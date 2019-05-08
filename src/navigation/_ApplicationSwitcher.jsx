@@ -35,7 +35,7 @@ const ApplicationSwitcher = ({ disclosureManager, apps }) => (
     )}
     fill
   >
-    <List>
+    <List dividerStyle="bottom-only">
       {apps.map(app => (
         <Item key={app.path}>
           <Hyperlink className={cx('item')} href={`${TERRA_DEV_SITE_BASENAME}/${app.path}/`}>{app.title}</Hyperlink>
