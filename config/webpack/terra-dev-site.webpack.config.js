@@ -85,7 +85,7 @@ const indexPlugin = ({
 /**
 * Generate the plugin files for the additional apps
 */
-const generateAppsPlugins = (siteConfig, lang, rootBasename, indexEntryPoints) => siteConfig.apps.reduce((acc, app) => {
+const generateAppsPlugins = (siteConfig, lang, publicPath, indexEntryPoints) => siteConfig.apps.reduce((acc, app) => {
   const {
     path: appPath, title, rootElementId, basename,
   } = app;
@@ -102,7 +102,7 @@ const generateAppsPlugins = (siteConfig, lang, rootBasename, indexEntryPoints) =
   // If a base name is specified, add it with the define plugin.
   if (basename) {
     acc.push(new webpack.DefinePlugin({
-      [basename]: JSON.stringify(`${rootBasename}${appPath}`),
+      [basename]: JSON.stringify(`${publicPath}${appPath}`),
     }));
   }
   return acc;
@@ -154,7 +154,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   return {
     entry: {
-      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'src', 'Index')),
+      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
       rewriteHistory: path.resolve(path.join(__dirname, '..', '..', 'lib', 'rewriteHistory')),
       redirect: path.resolve(path.join(__dirname, '..', '..', 'lib', 'redirect')),
       // Additional apps entry points
@@ -182,7 +182,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
         TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
       }),
       // Add additional apps html and define plugin information.
-      ...generateAppsPlugins(siteConfig, lang, basename, indexEntryPoints),
+      ...generateAppsPlugins(siteConfig, lang, publicPath, indexEntryPoints),
     ],
     resolve: {
       modules: [devSiteConfigPath],

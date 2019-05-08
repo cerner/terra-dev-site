@@ -16,7 +16,7 @@ import './index.scss';
 class DevSiteApplication extends React.Component {
   static redirectToReservedRoute({ match }) {
     window.sessionStorage.redirect = window.location.href;
-    window.location.pathname = match.url;
+    window.location.pathname = `${TERRA_DEV_SITE_BASENAME}${match.url}/`;
     return null;
   }
 

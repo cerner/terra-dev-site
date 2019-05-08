@@ -1,3 +1,5 @@
+/* global TERRA_DEV_SITE_BASENAME */
+// TERRA_DEV_SITE_BASENAME is defined by webpack
 import React from 'react';
 import PropTypes from 'prop-types';
 import ContentContainer from 'terra-content-container';
@@ -36,7 +38,7 @@ const ApplicationSwitcher = ({ disclosureManager, apps }) => (
     <List>
       {apps.map(app => (
         <Item key={app.path}>
-          <Hyperlink className={cx('item')} href={`/${app.path}/`}>{app.title}</Hyperlink>
+          <Hyperlink className={cx('item')} href={`${TERRA_DEV_SITE_BASENAME}/${app.path}/`}>{app.title}</Hyperlink>
         </Item>
       ))}
     </List>
