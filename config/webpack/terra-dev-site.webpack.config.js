@@ -163,7 +163,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
     plugins: [
       // terra-dev-site index.html
       indexPlugin({
-        site: siteConfig.appConfig.title,
+        title: siteConfig.appConfig.title,
         filename: 'index.html',
         lang,
         siteConfig,

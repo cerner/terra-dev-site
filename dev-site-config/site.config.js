@@ -23,7 +23,7 @@ const siteConfig = {
   apps: [
     {
       path: 'browser',
-      title:'Browser Router App',
+      title: 'Browser Router App',
       file: '../src/testAppBrowserRouter/index',
       basename: 'BASENAME',
     },

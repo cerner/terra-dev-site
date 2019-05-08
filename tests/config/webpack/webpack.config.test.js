@@ -7,6 +7,8 @@ describe('webpack config', () => {
     expect(config).toEqual(expect.objectContaining({
       entry: expect.objectContaining({
         'terra-dev-site': `${processPath}/lib/Index`,
+        rewriteHistory: `${processPath}/lib/rewriteHistory`,
+        redirect: `${processPath}/lib/redirect`,
       }),
       resolve: expect.objectContaining({
         modules: expect.arrayContaining([
@@ -30,6 +32,13 @@ describe('webpack config', () => {
             favicon: `${processPath}/terra-favicon/32px/favicon.ico`,
           }),
         }),
+        expect.objectContaining({
+          options: expect.objectContaining({
+            filename: '404.html',
+            template: `${processPath}/lib/404.html`,
+            inject: 'head',
+          }),
+        }),
       ]),
     }));
   });
@@ -40,6 +49,8 @@ describe('webpack config', () => {
     expect(config).toEqual(expect.objectContaining({
       entry: expect.objectContaining({
         'terra-dev-site': `${processPath}/lib/Index`,
+        rewriteHistory: `${processPath}/lib/rewriteHistory`,
+        redirect: `${processPath}/lib/redirect`,
       }),
       resolve: expect.objectContaining({
         modules: expect.arrayContaining([
@@ -60,6 +71,13 @@ describe('webpack config', () => {
             lang: 'en',
             dir: 'ltr',
             favicon: `${processPath}/terra-favicon/32px/favicon.ico`,
+          }),
+        }),
+        expect.objectContaining({
+          options: expect.objectContaining({
+            filename: '404.html',
+            template: `${processPath}/lib/404.html`,
+            inject: 'head',
           }),
         }),
       ]),
