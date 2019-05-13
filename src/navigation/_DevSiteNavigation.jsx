@@ -193,8 +193,7 @@ class DevSiteNavigation extends React.Component {
         }))}
         activeNavigationItemKey={activeNavigationItemPath}
         onSelectNavigationItem={this.handleNavigationItemSelection}
-        drawerMenuHero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
-        utilityMenuHero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
+        // hero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
         onSelectSettings={() => {
           disclosureManager.disclose({
             preferredType: 'modal',
