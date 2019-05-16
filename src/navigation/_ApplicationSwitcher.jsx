@@ -6,7 +6,7 @@ import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import List, { Item } from 'terra-list';
 import Hyperlink from 'terra-hyperlink';
-import { DisclosureManager } from 'terra-application';
+import { disclosureManagerShape, withDisclosureManager } from 'terra-application/lib/disclosure-manager';
 import classNames from 'classnames/bind';
 import styles from './ApplicationSwitcher.module.scss';
 
@@ -25,7 +25,7 @@ const propTypes = {
   /**
    * Injected by disclosure manager
    */
-  disclosureManager: DisclosureManager.disclosureManagerShape.isRequired,
+  disclosureManager: disclosureManagerShape.isRequired,
 };
 
 const ApplicationSwitcher = ({ disclosureManager, apps }) => (
@@ -47,4 +47,4 @@ const ApplicationSwitcher = ({ disclosureManager, apps }) => (
 
 ApplicationSwitcher.propTypes = propTypes;
 
-export default DisclosureManager.withDisclosureManager(ApplicationSwitcher);
+export default withDisclosureManager(ApplicationSwitcher);

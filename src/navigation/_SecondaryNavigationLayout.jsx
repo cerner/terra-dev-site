@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { Breakpoints } from 'terra-application';
+import { withActiveBreakpoint } from 'terra-application/lib/breakpoints';
 import Overlay from 'terra-overlay';
 import FocusTrap from 'focus-trap-react';
 import ContentContainer from 'terra-content-container';
@@ -275,7 +275,7 @@ class SecondaryNavigationLayout extends React.Component {
 
 SecondaryNavigationLayout.propTypes = propTypes;
 
-export default Breakpoints.withActiveBreakpoint(SecondaryNavigationLayout);
+export default withActiveBreakpoint(SecondaryNavigationLayout);
 export {
   isCompactLayout,
 };

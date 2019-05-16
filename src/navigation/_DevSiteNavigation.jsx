@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
-import { DisclosureManager } from 'terra-application';
+import { withDisclosureManager } from 'terra-application/lib/disclosure-manager';
 import ApplicationNavigation from 'terra-application-navigation';
 import Image from 'terra-image';
 import IconTile from 'terra-icon/lib/icon/IconTile';
@@ -234,4 +234,4 @@ class DevSiteNavigation extends React.Component {
 DevSiteNavigation.propTypes = propTypes;
 DevSiteNavigation.defaultProps = defaultProps;
 
-export default DisclosureManager.withDisclosureManager(withRouter(DevSiteNavigation));
+export default withDisclosureManager(withRouter(DevSiteNavigation));

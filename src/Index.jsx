@@ -9,6 +9,8 @@ import {
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
 import Application from 'terra-application';
+import ModalManager from 'terra-application/lib/modal-manager';
+
 import DevSiteNavigation from './navigation/_DevSiteNavigation';
 import Raw from './raw/_Raw';
 import './index.scss';
@@ -124,27 +126,29 @@ class DevSiteApplication extends React.Component {
               themeName={siteConfig.themes[theme]}
               themeIsGlobal
             >
-              <Switch>
-                <Route path="/raw">
-                  <Raw
-                    contentConfig={siteConfig.contentConfig}
-                    indexPath={siteConfig.indexPath}
-                  />
-                </Route>
-                <Route>
-                  <DevSiteNavigation
-                    nameConfig={siteConfig.nameConfig}
-                    settingsConfig={settings}
-                    onUpdateSettings={this.onUpdateSettings}
-                    contentConfig={siteConfig.contentConfig}
-                    navigationItems={siteConfig.navigationItems}
-                    indexPath={siteConfig.indexPath}
-                    themes={siteConfig.themes}
-                    direction={direction}
-                    appsConfig={siteConfig.apps}
-                  />
-                </Route>
-              </Switch>
+              <ModalManager>
+                <Switch>
+                  <Route path="/raw">
+                    <Raw
+                      contentConfig={siteConfig.contentConfig}
+                      indexPath={siteConfig.indexPath}
+                    />
+                  </Route>
+                  <Route>
+                    <DevSiteNavigation
+                      nameConfig={siteConfig.nameConfig}
+                      settingsConfig={settings}
+                      onUpdateSettings={this.onUpdateSettings}
+                      contentConfig={siteConfig.contentConfig}
+                      navigationItems={siteConfig.navigationItems}
+                      indexPath={siteConfig.indexPath}
+                      themes={siteConfig.themes}
+                      direction={direction}
+                      appsConfig={siteConfig.apps}
+                    />
+                  </Route>
+                </Switch>
+              </ModalManager>
             </Application>
           </Route>
         </Switch>
