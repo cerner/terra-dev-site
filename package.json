@@ -46,7 +46,7 @@
     "extends": "stylelint-config-terra"
   },
   "scripts": {
-    "clean": "rm package-lock.json && rm -rf node_modules",
+    "clean": "rm package-lock.json; rm -rf node_modules",
     "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
     "compile": "babel src --out-dir lib --copy-files",
@@ -87,6 +87,7 @@
     "react-intl": "^2.4.0",
     "react-router-dom": "^5.0.0",
     "terra-action-header": "^2.2.0",
+    "terra-aggregate-translations": "^1.0.0",
     "terra-application-layout": "^5.1.0",
     "terra-base": "^5.0.0",
     "terra-button": "^3.2.0",
@@ -106,7 +107,7 @@
   "peerDependencies": {
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
-    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#v5-update-deps",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#master",
     "webpack": "^4.28.1"
   },
   "devDependencies": {
@@ -134,7 +135,7 @@
     "stylelint-config-terra": "^3.0.0",
     "stylelint": "^10.0.1",
     "terra-disclosure-manager": "^4.9.0",
-    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#v5-update-deps",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#master",
     "webpack": "^4.28.1"
   }
 }
