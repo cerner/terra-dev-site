@@ -46,11 +46,10 @@
     "extends": "stylelint-config-terra"
   },
   "scripts": {
-    "clean:compiled": "rm -rf lib",
-    "clean:install": "rm -rf node_modules && npm install",
+    "clean": "rm package-lock.json && rm -rf node_modules",
+    "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
-    "compile": "npm run clean:compiled && npm run compile:build",
-    "compile:build": "babel src --out-dir lib --copy-files",
+    "compile": "babel src --out-dir lib --copy-files",
     "compile:dev": "webpack --config config/webpack/webpack.config",
     "compile:prod": "webpack --config config/webpack/webpack.config -p",
     "danger": "danger ci",
@@ -60,11 +59,13 @@
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:js": "eslint --ext .js,.jsx .",
     "lint:scss": "stylelint src/**/*.scss",
+    "postpublish": "git push --tag",
+    "precompile": "rm -rf lib",
     "prepare": "npm run compile",
-    "verify-release": "npm whoami && npm run compile && npm test",
-    "release:major": "npm run verify-release && npm version major -m 'Released version %s' && npm publish && git push",
-    "release:minor": "npm run verify-release && npm version minor -m 'Released version %s' && npm publish && git push",
-    "release:patch": "npm run verify-release && npm version patch -m 'Released version %s' && npm publish && git push",
+    "prepublishOnly": "npm whoami && check-installed-dependencies && npm test",
+    "release:major": "npm version major -m 'Released version %s' && npm publish",
+    "release:minor": "npm version minor -m 'Released version %s' && npm publish",
+    "release:patch": "npm version patch -m 'Released version %s' && npm publish",
     "start": "tt-serve --config config/webpack/webpack.config",
     "start-heroku": "npm run compile:prod && tt-serve-static --port $PORT --site './build' ",
     "start-static": "tt-serve-static --config config/webpack/webpack.config",
@@ -132,8 +133,9 @@
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.4.2",
-    "stylelint": "^9.0.0",
-    "stylelint-config-terra": "^1.2.0",
-    "terra-toolkit": "^4.5.0"
+    "rimraf": "^2.6.1",
+    "shelljs": "^0.8.2",
+    "stylelint": "^10.0.1",
+    "stylelint-config-terra": "^3.0.0"
   }
 }

@@ -123,6 +123,16 @@ const siteConfig = {
         gitHubUrl: npmPackage.repository.url.replace('git+', ''),
       },
     },
+
+
+    /** This section allows to you inject arbitrary html into the head tag of index.html.
+     *  It takes an array of strings. You could load the string from an external file if desired.
+     *  Add like:
+     *  headHtml:[
+     *    '<script> console.log("Terra Dev Site!") </script>',
+     *  ],
+     */
+    headHtml: [],
   },
 
   /* The default for whether or not test evidence should be included. 'true' is the default value. */
