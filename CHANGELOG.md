@@ -49,10 +49,15 @@ Unreleased
 ### Added
 * Added theme variable `--terra-dev-site-content-background-color`. Defaults to `transparent`.
 
-2.10.0 - (February 8, 2019)
+3.1.0 - (February 8, 2019)
 ----------
 ### Fixed
 * Fixed an issue with searching for components with a string that ends in a regular expression character.
+
+3.0.0 - (January 28, 2019)
+----------
+### Changed
+* Consume latest major versions of terra dependencies. These major versions updated CSS Custom properties and require no code changes.
 
 2.9.0 - (January 2, 2019)
 ----------

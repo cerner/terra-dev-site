@@ -106,7 +106,7 @@
   "peerDependencies": {
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
-    "terra-toolkit": "^4.5.0",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#v5-update-deps",
     "webpack": "^4.28.1"
   },
   "devDependencies": {
@@ -134,7 +134,7 @@
     "stylelint-config-terra": "^3.0.0",
     "stylelint": "^10.0.1",
     "terra-disclosure-manager": "^4.9.0",
-    "terra-toolkit": "^4.5.0",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#v5-update-deps",
     "webpack": "^4.28.1"
   }
 }
