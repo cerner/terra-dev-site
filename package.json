@@ -111,14 +111,14 @@
     "webpack": "^4.28.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^8.2.1",
-    "babel-jest": "^23.0.1",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "babel-jest": "^24.8.0",
     "check-installed-dependencies": "^1.0.0",
     "danger": "^3.7.14",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -128,7 +128,7 @@
     "eslint": "^5.0.0",
     "gh-pages": "^2.0.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23.1.0",
+    "jest": "^24.8.0",
     "react-dom": "^16.8.5",
     "react-test-renderer": "^16.4.2",
     "react": "^16.8.5",
@@ -136,6 +136,8 @@
     "stylelint": "^10.0.1",
     "terra-disclosure-manager": "^4.9.0",
     "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#master",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1",
     "webpack": "^4.28.1"
   }
 }
