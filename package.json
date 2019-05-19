@@ -82,7 +82,6 @@
     "lodash.escaperegexp": "^4.1.2",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
-    "postcss": "^6.0.21",
     "prop-types": "^15.5.8",
     "react-intl": "^2.4.0",
     "react-router-dom": "^5.0.0",
