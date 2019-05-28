@@ -17,7 +17,7 @@ const modifiedSrcFiles = danger.git.modified_files.filter((filePath) => {
 });
 
 const modifiedConfigFiles = danger.git.modified_files.filter((filePath) => {
-  const configFilePattern = /\/src/i;
+  const configFilePattern = /\/config/i;
   return configFilePattern.test(filePath);
 });
 
