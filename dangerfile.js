@@ -2,12 +2,12 @@
 import { danger, warn, fail, message } from 'danger';
 
 const newChangelog = danger.git.created_files.filter((filePath) => {
-  const srcFilePattern = /CHANGELOG.md/i;
+  const srcFilePattern = /CHANGELOG\.md/i;
   return srcFilePattern.test(filePath);
 });
 
 const modifiedChangelog = danger.git.modified_files.filter((filePath) => {
-  const srcFilePattern = /CHANGELOG.md/i;
+  const srcFilePattern = /CHANGELOG\.md/i;
   return srcFilePattern.test(filePath);
 });
 
