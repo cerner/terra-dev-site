@@ -35,9 +35,3 @@ const hasModifiedGenerateConfigScriptFiles = modifiedGenerateConfigScriptFiles.l
 if ((hasModifiedSrcFiles || hasModifiedConfigFiles || hasModifiedGenerateConfigScriptFiles) && !hasCHANGELOGChanges) {
   fail('Please include a CHANGELOG entry with this PR.');
 }
-
-// Warn when there is a big PR
-const bigPRThreshold = 1000;
-if (danger.github.pr.additions + danger.github.pr.deletions > bigPRThreshold) {
-  warn(':exclamation: Big PR. Consider breaking this into smaller PRs if applicaple');
-}
