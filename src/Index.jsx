@@ -1,17 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
-import { Provider } from 'xfc';
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
 
 import App from './app/App';
-
-Provider.init({
-  acls: ['*'],
-  secret: () => (Promise.resolve('Success')),
-});
 
 const Site = () => (
   <Router>
