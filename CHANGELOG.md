@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Unreleased
+4.1.0 - (May 31, 2019)
 ----------
 ### Changed
 * Updated stylelint-config-terra to ^3.0.0
