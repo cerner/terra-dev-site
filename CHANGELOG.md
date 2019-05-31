@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+5.0.0 - (May 31, 2019)
+----------
 ### Changed
 * Removed browser.refresh before hook
 * Removed theme plugin
