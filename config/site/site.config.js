@@ -1,4 +1,4 @@
-const i18nSupportedLocales = require('terra-toolkit/scripts/aggregate-translations/i18nSupportedLocales');
+const i18nSupportedLocales = require('terra-aggregate-translations/config/i18nSupportedLocales');
 const startCase = require('lodash.startcase');
 const fs = require('fs');
 const path = require('path');
