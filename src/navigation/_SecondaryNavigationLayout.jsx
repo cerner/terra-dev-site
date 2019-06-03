@@ -10,6 +10,7 @@ import SecondaryNavigationLayoutActionHeader from './_SecondaryNavigationLayoutA
 import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
 import SecondaryNavigationContext from './_SecondaryNavigationContext';
 import SecondaryNavHeaderAdapter from './_SecondaryNavHeaderAdapter';
+import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 
 import styles from './SecondaryNavigationLayout.module.scss';
 
@@ -263,7 +264,9 @@ class SecondaryNavigationLayout extends React.Component {
               header={<SecondaryNavigationLayoutActionHeader title={headerTitle} content={headerContent} menuIsVisible={menuIsVisible} onToggle={onToggle} />}
               fill
             >
-              {children}
+              <TerraMdxProvider>
+                {children}
+              </TerraMdxProvider>
             </ContentContainer>
           </SecondaryNavigationContext.Provider>
           <Overlay isOpen={isCompact ? compactMenuIsOpen : false} isRelativeToContainer style={{ top: '0' }} />

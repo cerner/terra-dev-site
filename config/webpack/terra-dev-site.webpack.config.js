@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const glob = require('glob');
 const webpack = require('webpack');
+const rehypePrism = require('@mapbox/rehype-prism');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
@@ -171,7 +172,12 @@ const devSiteConfig = (env = {}, argv = {}) => {
                 rootMode: 'upward', // needed to correctly resolve babel's config root in mono-repos
               },
             },
-            '@mdx-js/loader',
+            {
+              loader: '@mdx-js/loader',
+              options: {
+                rehypePlugins: [rehypePrism],
+              },
+            },
           ],
         },
       ],
