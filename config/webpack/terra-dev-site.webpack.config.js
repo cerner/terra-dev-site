@@ -154,11 +154,27 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   return {
     entry: {
-      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
+      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'src', 'Index')),
       rewriteHistory: path.resolve(path.join(__dirname, '..', '..', 'lib', 'rewriteHistory')),
       redirect: path.resolve(path.join(__dirname, '..', '..', 'lib', 'redirect')),
       // Additional apps entry points
       ...appsEntryPoints,
+    },
+    module: {
+      rules: [
+        {
+          test: /\.mdx$/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                rootMode: 'upward', // needed to correctly resolve babel's config root in mono-repos
+              },
+            },
+            '@mdx-js/loader',
+          ],
+        },
+      ],
     },
     plugins: [
       // terra-dev-site index.html

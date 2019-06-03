@@ -73,10 +73,11 @@
     "tds:generate-app-config": "node bin/generateAppConfig.js"
   },
   "dependencies": {
+    "@mdx-js/loader": "^1.0.0-rc.4",
     "classnames": "^2.2.5",
     "commander": "^2.9.0",
     "escodegen": "^1.9.1",
-    "focus-trap-react": "^4.0.0",
+    "focus-trap-react": "^6.0.0",
     "fs-extra": "^6.0.1",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^3.1.0",
@@ -88,8 +89,8 @@
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.2.0",
     "terra-aggregate-translations": "^1.0.0",
-    "terra-application-navigation": "https://github.cerner.com/terra/terra-snapshots/raw/master/terra-framework/application-navigation/terra-application-navigation.tgz",
     "terra-application": "https://github.cerner.com/terra/terra-snapshots/raw/master/terra-framework/application-navigation/terra-application.tgz",
+    "terra-application-navigation": "https://github.cerner.com/terra/terra-snapshots/raw/master/terra-framework/application-navigation/terra-application-navigation.tgz",
     "terra-button-group": "^3.5.0",
     "terra-content-container": "^3.0.0",
     "terra-doc-template": "^2.2.0",
