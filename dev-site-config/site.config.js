@@ -7,13 +7,19 @@ const siteConfig = {
   navConfig,
 
   appConfig: {
-    locales: ['en', 'es', 'en-US'],
+    // locales: ['en'],
     bidirectional: true,
 
     headHtml: [
       '<script> console.log("Terra Dev Site Derp") </script>',
       html,
     ],
+
+    themes: {
+      'Default Theme': '',
+      'Herp Theme': 'herp Theme',
+      'Derp Theme': 'derp Theme',
+    },
   },
 
   includeTestEvidence: false,

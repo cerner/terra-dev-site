@@ -5,8 +5,9 @@ import StatusView from 'terra-status-view';
 import Button from 'terra-button';
 
 const propTypes = {
-  history: PropTypes.object,
-  homePath: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
+  homePath: PropTypes.string.isRequired,
 };
 
 const NotFoundPage = ({ history, homePath }) => (

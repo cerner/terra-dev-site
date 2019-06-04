@@ -89,8 +89,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     contentConfig,
     navigationItems,
     indexPath: navConfig.navigation.index,
-    defaultTheme: appConfig.defaultTheme,
-    themes: appConfig.themes,
     apps: siteConfig.apps,
   };
 

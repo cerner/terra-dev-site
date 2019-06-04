@@ -1,4 +1,4 @@
-@import "~terra-application/lib/breakpoints/media-queries";
+@import '~terra-application/lib/breakpoints/media-queries';
 
 :local {
   .container {
@@ -19,8 +19,8 @@
   }
 
   .panel {
-    background-color: var(--terra-application-layout-menu-panel-panel-background-color, #fff);
-    border-right: 0.07143rem solid var(--terra-application-layout-menu-panel-panel-border-color, #d3d4d5);
+    background-color: var(--terra-dev-site-layout-menu-panel-panel-background-color, #fff);
+    border-right: 0.07143rem solid var(--terra-dev-site-layout-menu-panel-panel-border-right, #d3d4d5);
     display: none;
     height: 100%;
     left: 0;
@@ -40,11 +40,11 @@
       @include terra-mq-medium-up {
         left: 320px;
         width: calc(100% - 320px);
-      } 
+      }
     }
-  
+
     .panel {
       display: block;
-    }  
+    }
   }
 }

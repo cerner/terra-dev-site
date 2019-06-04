@@ -11,8 +11,16 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   selectedPath: PropTypes.string,
-  menuItems: PropTypes.array,
-  onSelect: PropTypes.func,
+  menuItems: PropTypes.PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string,
+    path: PropTypes.string,
+  })),
+  onSelect: PropTypes.func.isRequired,
+};
+
+const defaultProps = {
+  menuItems: undefined,
+  selectedPath: undefined,
 };
 
 class CollapsingNavigationMenu extends React.Component {
@@ -87,5 +95,6 @@ class CollapsingNavigationMenu extends React.Component {
 }
 
 CollapsingNavigationMenu.propTypes = propTypes;
+CollapsingNavigationMenu.defaultProps = defaultProps;
 
 export default CollapsingNavigationMenu;

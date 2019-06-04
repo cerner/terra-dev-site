@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
-import { withDisclosureManager } from 'terra-application/lib/disclosure-manager';
+import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
 import ApplicationNavigation from 'terra-application-navigation';
-import Image from 'terra-image';
+// import Image from 'terra-image';
 import IconTile from 'terra-icon/lib/icon/IconTile';
 
 import DevSitePage from './_DevSitePage';
@@ -23,18 +23,12 @@ const propTypes = {
    * Configuration to setup the utilities menu.
    */
   settingsConfig: PropTypes.shape({
-    themes: PropTypes.shape({
-      default: PropTypes.string,
-      values: PropTypes.arrayOf(PropTypes.string),
-    }),
-    locales: PropTypes.shape({
-      default: PropTypes.string,
-      values: PropTypes.arrayOf(PropTypes.string),
-    }),
-    directions: PropTypes.shape({
-      default: PropTypes.string,
-      values: PropTypes.arrayOf(PropTypes.string),
-    }),
+    themes: PropTypes.arrayOf(PropTypes.string),
+    selectedTheme: PropTypes.string,
+    locales: PropTypes.arrayOf(PropTypes.string),
+    selectedLocale: PropTypes.string,
+    directions: PropTypes.arrayOf(PropTypes.string),
+    selectedDirection: PropTypes.string,
   }),
   onUpdateSettings: PropTypes.func,
   contentConfig: PropTypes.shape({
@@ -43,7 +37,7 @@ const propTypes = {
     menuItems: PropTypes.object,
   }).isRequired,
   /**
-   * The navigaion links to display within the menu in the toolbar.
+   * The navigation links to display within the menu in the toolbar.
    */
   // eslint-disable-next-line react/forbid-prop-types
   navigationItems: PropTypes.array,
@@ -51,15 +45,14 @@ const propTypes = {
    * The path to the sites index.
    */
   indexPath: PropTypes.string.isRequired,
-  /**
-   * The theme the site should default to.
-   */
-  defaultTheme: PropTypes.string,
-  /**
-   * The themes the site could use.
-   */
-  // eslint-disable-next-line react/forbid-prop-types
-  themes: PropTypes.object,
+
+  appsConfig: PropTypes.arrayOf(PropTypes.shape({
+    path: PropTypes.string,
+    title: PropTypes.string,
+    file: PropTypes.string,
+    basename: PropTypes.string,
+    rootElementId: PropTypes.string,
+  })),
   /**
    * Injected by react-router: represent where the app is now, where you want it to go,
    * or even where it was.
@@ -72,17 +65,18 @@ const propTypes = {
    */
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object,
+
+  disclosureManager: disclosureManagerShape.isRequired,
 };
 
 const defaultProps = {
   nameConfig: undefined,
-  defaultTheme: undefined,
-  themes: undefined,
   navigationItems: undefined,
   settingsConfig: undefined,
   location: undefined,
   history: undefined,
   onUpdateSettings: undefined,
+  appsConfig: undefined,
 };
 
 class DevSiteNavigation extends React.Component {

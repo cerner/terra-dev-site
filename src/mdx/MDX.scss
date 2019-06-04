@@ -6,9 +6,9 @@
   line-height: 1.5;
   list-style: disc outside none;
   margin-bottom: 1.25rem;
+  padding: 15px;
   text-size-adjust: 100%;
   word-wrap: break-word;
-  padding: 15px;
 
   // Codeblocks for highlighting
   .codeblock {
@@ -388,7 +388,7 @@
 
   blockquote {
     border-left: 0.25em solid #dfe2e5;
-    color: var(--terra-markdown-blockquote-color, #24292e);
+    color: var(--terra-dev-site-blockquote-color, #24292e);
     padding: 0 1em;
   }
 

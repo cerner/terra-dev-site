@@ -1,9 +1,9 @@
 :local {
   .dev-site-content {
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--terra-dev-site-content-background-color, transparent);
     height: 100%;
     overflow: auto;
-    background-color: var(--terra-dev-site-content-background-color, transparent);
-    -webkit-overflow-scrolling: touch;
     position: relative;
     width: 100%;
   }

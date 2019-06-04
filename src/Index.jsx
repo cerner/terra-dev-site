@@ -13,6 +13,7 @@ import ModalManager from 'terra-application/lib/modal-manager';
 
 import DevSiteNavigation from './navigation/_DevSiteNavigation';
 import Raw from './raw/_Raw';
+import AppSettingsContext from './navigation/_AppSettingsContext';
 import './index.scss';
 
 class DevSiteApplication extends React.Component {
@@ -36,14 +37,16 @@ class DevSiteApplication extends React.Component {
     this.syncDomWithState = this.syncDomWithState.bind(this);
     this.onUpdateSettings = this.onUpdateSettings.bind(this);
 
-    const initialLocale = (siteConfig.settingsConfig && siteConfig.settingsConfig.locales.default) || 'en';
-    const initialTheme = siteConfig.settingsConfig && siteConfig.settingsConfig.themes && siteConfig.settingsConfig.themes.default;
-    const initialDirection = (siteConfig.settingsConfig && siteConfig.settingsConfig.directions.default) || 'ltr';
+    const {
+      defaultLocale: locale = 'en',
+      defaultTheme: theme,
+      defaultDirection: direction = 'ltr',
+    } = siteConfig.settingsConfig;
 
     this.state = {
-      locale: initialLocale,
-      theme: initialTheme,
-      direction: initialDirection,
+      locale,
+      theme,
+      direction,
     };
   }
 
@@ -92,27 +95,14 @@ class DevSiteApplication extends React.Component {
   render() {
     const { locale, theme, direction } = this.state;
 
-    const settings = {};
-    if (siteConfig.settingsConfig.locales) {
-      settings.locales = {
-        values: siteConfig.settingsConfig.locales.values,
-        selectedValue: locale,
-      };
-    }
-
-    if (siteConfig.settingsConfig.themes) {
-      settings.themes = {
-        values: siteConfig.settingsConfig.themes.values,
-        selectedValue: theme,
-      };
-    }
-
-    if (siteConfig.settingsConfig.directions) {
-      settings.directions = {
-        values: siteConfig.settingsConfig.directions.values,
-        selectedValue: direction,
-      };
-    }
+    const settings = {
+      locales: siteConfig.settingsConfig.locales,
+      selectedLocale: locale,
+      themes: Object.keys(siteConfig.settingsConfig.themes),
+      selectedTheme: theme,
+      directions: siteConfig.settingsConfig.directions,
+      selectedDirection: direction,
+    };
 
     return (
       // TERRA_DEV_SITE_BASENAME is expected to be '' or '/*'
@@ -121,35 +111,35 @@ class DevSiteApplication extends React.Component {
           <Route exact path="/" render={DevSiteApplication.redirectSlashRoute} />
           { siteConfig.apps.map(app => <Route path={`/${app.path}`} key={app.path} render={DevSiteApplication.redirectToReservedRoute} />)}
           <Route>
-            <Application
-              locale={locale}
-              themeName={siteConfig.themes[theme]}
-              themeIsGlobal
-            >
-              <ModalManager>
-                <Switch>
-                  <Route path="/raw">
-                    <Raw
-                      contentConfig={siteConfig.contentConfig}
-                      indexPath={siteConfig.indexPath}
-                    />
-                  </Route>
-                  <Route>
-                    <DevSiteNavigation
-                      nameConfig={siteConfig.nameConfig}
-                      settingsConfig={settings}
-                      onUpdateSettings={this.onUpdateSettings}
-                      contentConfig={siteConfig.contentConfig}
-                      navigationItems={siteConfig.navigationItems}
-                      indexPath={siteConfig.indexPath}
-                      themes={siteConfig.themes}
-                      direction={direction}
-                      appsConfig={siteConfig.apps}
-                    />
-                  </Route>
-                </Switch>
-              </ModalManager>
-            </Application>
+            <AppSettingsContext.Provider value={this.state}>
+              <Application
+                locale={locale}
+                themeName={siteConfig.settingsConfig.themes[theme]}
+                themeIsGlobal
+              >
+                <ModalManager>
+                  <Switch>
+                    <Route path="/raw">
+                      <Raw
+                        contentConfig={siteConfig.contentConfig}
+                        indexPath={siteConfig.indexPath}
+                      />
+                    </Route>
+                    <Route>
+                      <DevSiteNavigation
+                        nameConfig={siteConfig.nameConfig}
+                        settingsConfig={settings}
+                        onUpdateSettings={this.onUpdateSettings}
+                        contentConfig={siteConfig.contentConfig}
+                        navigationItems={siteConfig.navigationItems}
+                        indexPath={siteConfig.indexPath}
+                        appsConfig={siteConfig.apps}
+                      />
+                    </Route>
+                  </Switch>
+                </ModalManager>
+              </Application>
+            </AppSettingsContext.Provider>
           </Route>
         </Switch>
       </BrowserRouter>

@@ -1,20 +1,41 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import ActionFooter from 'terra-action-footer';
 import Spacer from 'terra-spacer';
 import Button from 'terra-button';
-import { withDisclosureManager } from 'terra-application/lib/disclosure-manager';
+import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
 import SelectField from 'terra-form-select/lib/SelectField';
+
+const propTypes = {
+  config: PropTypes.shape({
+    themes: PropTypes.arrayOf(PropTypes.string),
+    selectedTheme: PropTypes.string,
+    locales: PropTypes.arrayOf(PropTypes.string),
+    selectedLocale: PropTypes.string,
+    directions: PropTypes.arrayOf(PropTypes.string),
+    selectedDirection: PropTypes.string,
+  }),
+  onChangeSettings: PropTypes.func,
+  disclosureManager: disclosureManagerShape.isRequired,
+};
+
+const defaultProps = {
+  config: undefined,
+  onChangeSettings: undefined,
+};
 
 class SettingsPicker extends React.Component {
   constructor(props) {
     super(props);
 
+    const { selectedLocale: locale, selectedTheme: theme, selectedDirection: direction } = props.config;
+
     this.state = {
-      locale: props.config.locales && props.config.locales.selectedValue,
-      theme: props.config.themes && props.config.themes.selectedValue,
-      direction: props.config.directions && props.config.directions.selectedValue,
+      locale,
+      theme,
+      direction,
     };
   }
 
@@ -39,9 +60,9 @@ class SettingsPicker extends React.Component {
                     variant={Button.Opts.Variants.EMPHASIS}
                     onClick={() => {
                       onChangeSettings({
-                        locale: this.state.locale,
-                        theme: this.state.theme,
-                        direction: this.state.direction,
+                        locale,
+                        theme,
+                        direction,
                       }, disclosureManager.dismiss);
                     }}
                   />
@@ -59,7 +80,7 @@ class SettingsPicker extends React.Component {
         fill
       >
         <Spacer padding="medium">
-          {config.locales ? (
+          {config.locales.length > 1 ? (
             <SelectField
               label="Locale"
               selectId="terra-dev-site-locale-select"
@@ -70,12 +91,12 @@ class SettingsPicker extends React.Component {
                 });
               }}
             >
-              {config.locales.values.map(value => (
+              {config.locales.map(value => (
                 <SelectField.Option value={value} display={value} key={value} />
               ))}
             </SelectField>
           ) : undefined}
-          {config.themes ? (
+          {config.themes.length > 1 ? (
             <SelectField
               label="Theme"
               selectId="terra-dev-site-theme-select"
@@ -86,12 +107,12 @@ class SettingsPicker extends React.Component {
                 });
               }}
             >
-              {config.themes.values.map(value => (
+              {config.themes.map(value => (
                 <SelectField.Option value={value} display={value} key={value} />
               ))}
             </SelectField>
           ) : undefined}
-          {config.directions ? (
+          {config.directions.length > 1 ? (
             <SelectField
               label="Direction"
               selectId="terra-dev-site-direction-select"
@@ -102,7 +123,7 @@ class SettingsPicker extends React.Component {
                 });
               }}
             >
-              {config.directions.values.map(value => (
+              {config.directions.map(value => (
                 <SelectField.Option value={value} display={value} key={value} />
               ))}
             </SelectField>
@@ -112,5 +133,8 @@ class SettingsPicker extends React.Component {
     );
   }
 }
+
+SettingsPicker.propTypes = propTypes;
+SettingsPicker.defaultProps = defaultProps;
 
 export default withDisclosureManager(SettingsPicker);

@@ -33,37 +33,15 @@ const generateUtilitiesConfig = (appConfig) => {
     return undefined;
   }
 
-  // no point to bulding out the menu if there are no items or just one item.
-  const hasThemes = appConfig.themes && Object.keys(appConfig.themes).length > 1;
-  const hasLocals = appConfig.locales && appConfig.locales.length > 1;
-
-  if (!(hasThemes || hasLocals || appConfig.bidirectional)) {
-    return undefined;
-  }
-
-  const config = {};
-
   // build out the menu items for themes, locals, and bidi.
-  if (hasThemes) {
-    config.themes = {
-      default: appConfig.defaultTheme,
-      values: appConfig.themes,
-    };
-  }
-
-  if (hasLocals) {
-    config.locales = {
-      default: appConfig.defaultLocale,
-      values: appConfig.locales,
-    };
-  }
-
-  if (appConfig.bidirectional) {
-    config.directions = {
-      default: appConfig.defaultDir,
-      values: ['ltr', 'rtl'],
-    };
-  }
+  const config = {
+    defaultTheme: appConfig.defaultTheme,
+    themes: appConfig.themes || {},
+    defaultLocale: appConfig.defaultLocale,
+    locales: appConfig.locales || {},
+    defaultDirection: appConfig.defaultDir,
+    directions: ['ltr', 'rtl'],
+  };
 
   return {
     config,

@@ -1,33 +1,28 @@
 :local {
   .header {
-    align-items: center;
     border-bottom: 1px solid lightgrey;
     display: flex;
+    justify-content: space-between;
     padding: 0.714rem;
+    position: relative;
+    width: 100%;
+
+
+    .flex-collapse {
+      align-items: center;
+      display: flex;
+      flex: 0 0 auto;
+      height: 100%;
+      max-width: 40%;
+      position: relative;
+    }
   }
 
-  .toggle,
-  .content {
+  .toggle {
+    align-items: center;
+    display: flex;
     flex: 0 0 auto;
-  }
-
-  .content {
-    max-width: 50%;
-  }
-
-  .title-container {
-    flex: 1 1 auto;
-    overflow: hidden;
-    padding-left: 0.5rem;
-  }
-
-  .title {
-    font-size: 1.286rem;
-    font-weight: normal;
-    hyphens: auto;
-    margin-bottom: 0;
-    margin-top: 0;
-    overflow-wrap: break-word; /* Modern browsers */
-    word-wrap: break-word; /* For IE 10 and IE 11 */
+    height: 100%;
+    position: relative;
   }
 }

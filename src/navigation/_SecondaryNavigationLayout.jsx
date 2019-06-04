@@ -5,11 +5,13 @@ import { withActiveBreakpoint } from 'terra-application/lib/breakpoints';
 import Overlay from 'terra-overlay';
 import FocusTrap from 'focus-trap-react';
 import ContentContainer from 'terra-content-container';
+import Application from 'terra-application';
+// eslint-disable-next-line import/no-unresolved, import/extensions
+import siteConfig from 'build/appConfig';
 
 import SecondaryNavigationLayoutActionHeader from './_SecondaryNavigationLayoutActionHeader';
 import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
-import SecondaryNavigationContext from './_SecondaryNavigationContext';
-import SecondaryNavHeaderAdapter from './_SecondaryNavHeaderAdapter';
+import { withAppSettings } from './_AppSettingsContext';
 import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 
 import styles from './SecondaryNavigationLayout.module.scss';
@@ -19,17 +21,29 @@ const cx = classNames.bind(styles);
 const isCompactLayout = activeBreakpoint => activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
 
 const propTypes = {
-  menuItems: PropTypes.array,
+  menuItems: PropTypes.PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string,
+    path: PropTypes.string,
+  })).isRequired,
   initialSelectedMenuItemKey: PropTypes.string,
-  onTerminalMenuItemSelection: PropTypes.func,
+  onTerminalMenuItemSelection: PropTypes.func.isRequired,
   /**
    * The element to display in the main content area.
    */
-  children: PropTypes.element,
+  children: PropTypes.element.isRequired,
+  appSettings: PropTypes.shape({
+    locale: PropTypes.string,
+    theme: PropTypes.string,
+    direction: PropTypes.string,
+  }).isRequired,
   /**
    * @private
    */
-  activeBreakpoint: PropTypes.string,
+  activeBreakpoint: PropTypes.string.isRequired,
+};
+
+const defaultProps = {
+  initialSelectedMenuItemKey: undefined,
 };
 
 class SecondaryNavigationLayout extends React.Component {
@@ -72,9 +86,6 @@ class SecondaryNavigationLayout extends React.Component {
        * The compact menu state is reset when a non-compact breakpoint is active.
        */
       newState.compactMenuIsOpen = false;
-      newState.defaultContentProviderValue = Object.assign({}, state.defaultContentProviderValue, { menuIsVisible: state.menuIsPinnedOpen });
-    } else if (isCompactLayout(props.activeBreakpoint)) {
-      newState.defaultContentProviderValue = Object.assign({}, state.defaultContentProviderValue, { menuIsVisible: state.compactMenuisOpen });
     }
 
     return newState;
@@ -103,10 +114,13 @@ class SecondaryNavigationLayout extends React.Component {
   constructor(props) {
     super(props);
 
+    const { appSettings } = props;
+
     this.closeMenu = this.closeMenu.bind(this);
     this.openMenu = this.openMenu.bind(this);
     this.handleCollapsingMenuSelection = this.handleCollapsingMenuSelection.bind(this);
-    this.setHeaderContent = this.setHeaderContent.bind(this);
+    this.handleThemeSelection = this.handleThemeSelection.bind(this);
+    this.handleLocaleSelection = this.handleLocaleSelection.bind(this);
 
     const flattenedMenuItems = SecondaryNavigationLayout.flattenMenuItems(props.menuItems);
 
@@ -128,8 +142,8 @@ class SecondaryNavigationLayout extends React.Component {
     }
 
     this.state = {
-      headerTitle: '',
-      headerContent: undefined,
+      locale: appSettings.locale,
+      theme: appSettings.theme,
       flattenedMenuItems,
       previousActiveBreakpoint: props.activeBreakpoint, // eslint-disable-line react/no-unused-state
       selectedMenuKey,
@@ -137,17 +151,7 @@ class SecondaryNavigationLayout extends React.Component {
       selectionPath,
       compactMenuIsOpen: false,
       menuIsPinnedOpen: true,
-      defaultContentProviderValue: {
-        setHeaderContent: this.setHeaderContent,
-      },
     };
-  }
-
-  setHeaderContent(content) {
-    this.setState({
-      headerTitle: content.title,
-      headerContent: content.content,
-    });
   }
 
   closeMenu() {
@@ -199,6 +203,18 @@ class SecondaryNavigationLayout extends React.Component {
     });
   }
 
+  handleThemeSelection(theme) {
+    this.setState({
+      theme,
+    });
+  }
+
+  handleLocaleSelection(locale) {
+    this.setState({
+      locale,
+    });
+  }
+
   render() {
     const {
       children,
@@ -207,12 +223,11 @@ class SecondaryNavigationLayout extends React.Component {
     } = this.props;
 
     const {
+      locale,
+      theme,
       compactMenuIsOpen,
       menuIsPinnedOpen,
-      defaultContentProviderValue,
       selectedChildKey,
-      headerTitle,
-      headerContent,
     } = this.state;
 
     const isCompact = isCompactLayout(activeBreakpoint);
@@ -257,18 +272,32 @@ class SecondaryNavigationLayout extends React.Component {
           {menu}
         </div>
         <div className={cx('content')}>
-          <SecondaryNavigationContext.Provider
-            value={defaultContentProviderValue}
+          <ContentContainer
+            header={(
+              <SecondaryNavigationLayoutActionHeader
+                menuIsVisible={menuIsVisible}
+                onToggle={onToggle}
+                config={{
+                  themes: Object.keys(siteConfig.settingsConfig.themes),
+                  locales: siteConfig.settingsConfig.locales,
+                }}
+                selectedLocale={locale}
+                onChangeLocale={this.handleLocaleSelection}
+                selectedTheme={theme}
+                onChangeTheme={this.handleThemeSelection}
+              />
+            )}
+            fill
           >
-            <ContentContainer
-              header={<SecondaryNavigationLayoutActionHeader title={headerTitle} content={headerContent} menuIsVisible={menuIsVisible} onToggle={onToggle} />}
-              fill
+            <Application
+              locale={locale}
+              themeName={theme}
             >
               <TerraMdxProvider>
                 {children}
               </TerraMdxProvider>
-            </ContentContainer>
-          </SecondaryNavigationContext.Provider>
+            </Application>
+          </ContentContainer>
           <Overlay isOpen={isCompact ? compactMenuIsOpen : false} isRelativeToContainer style={{ top: '0' }} />
         </div>
       </div>
@@ -277,8 +306,9 @@ class SecondaryNavigationLayout extends React.Component {
 }
 
 SecondaryNavigationLayout.propTypes = propTypes;
+SecondaryNavigationLayout.defaultProps = defaultProps;
 
-export default withActiveBreakpoint(SecondaryNavigationLayout);
+export default withAppSettings(withActiveBreakpoint(SecondaryNavigationLayout));
 export {
   isCompactLayout,
 };

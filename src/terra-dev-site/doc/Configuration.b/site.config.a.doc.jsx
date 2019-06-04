@@ -2,7 +2,6 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies, import/no-unresolved, import/extensions
 import Markdown from 'terra-markdown';
 import ReadMe from './site.config.md';
-import SecondaryNavHeaderAdapter from '../../../../lib/navigation/_SecondaryNavHeaderAdapter';
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 import config from '!raw-loader!../../../../config/site/site.config';
 
@@ -16,9 +15,6 @@ const style = {
 
 const MarkdownExample = () => (
   <div style={style}>
-    <SecondaryNavHeaderAdapter
-      title="Site Config"
-    />
     <Markdown src={ReadMe} />
     <Markdown src={`\`\`\`javascript\n${config}\n\`\`\``} />
   </div>

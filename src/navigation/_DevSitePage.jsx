@@ -1,9 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   withRouter, Switch, Route,
 } from 'react-router-dom';
 import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
 import Placeholder from '../static-pages/_PlaceholderPage';
+
+const propTypes = {
+  rootPath: PropTypes.string.isRequired,
+  placeholderSrc: PropTypes.string.isRequired,
+  notFoundComponent: PropTypes.node.isRequired,
+  contentConfig: PropTypes.shape({
+    placeholder: PropTypes.node,
+    content: PropTypes.object,
+    menuItems: PropTypes.object,
+  }).isRequired,
+  menuItems: PropTypes.PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string,
+    path: PropTypes.string,
+  })).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
+};
 
 class DevSitePage extends React.Component {
   constructor(props) {
@@ -64,5 +85,7 @@ class DevSitePage extends React.Component {
     );
   }
 }
+
+DevSitePage.propTypes = propTypes;
 
 export default withRouter(DevSitePage);
