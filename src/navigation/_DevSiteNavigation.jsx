@@ -5,10 +5,12 @@ import { withDisclosureManager, disclosureManagerShape } from 'terra-application
 import ApplicationNavigation from 'terra-application-navigation';
 // import Image from 'terra-image';
 import IconTile from 'terra-icon/lib/icon/IconTile';
+import IconSearch from 'terra-icon/lib/icon/IconSearch';
 
 import DevSitePage from './_DevSitePage';
 import SettingsPicker from './_SettingsPicker';
 import ApplicationSwitcher from './_ApplicationSwitcher';
+import Search from './_Search';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 
 const propTypes = {
@@ -111,6 +113,32 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
+  static launchSearch(key, { disclosureManager }) {
+    disclosureManager.disclose({
+      preferredType: 'modal',
+      size: 'large',
+      content: {
+        key,
+        component: (
+          <Search />
+        ),
+      },
+    });
+  }
+
+  static launchAppSwitcher(key, { disclosureManager, appsConfig }) {
+    disclosureManager.disclose({
+      preferredType: 'modal',
+      size: 'tiny',
+      content: {
+        key,
+        component: (
+          <ApplicationSwitcher apps={appsConfig} />
+        ),
+      },
+    });
+  }
+
   static generateUtilityItems(appsConfig) {
     const utilityItems = [];
     if (appsConfig.length > 0) {
@@ -118,6 +146,7 @@ class DevSiteNavigation extends React.Component {
         icon: <IconTile />,
         key: 'terra-dev-site.application-switcher',
         text: 'Application Switcher',
+        metaData: { func: DevSiteNavigation.launchAppSwitcher },
       });
     }
     return utilityItems;
@@ -130,7 +159,8 @@ class DevSiteNavigation extends React.Component {
     };
 
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
-    this.handleUtilityItemSelection = this.handleUtilityItemSelection.bind(this);
+    this.handleItemSelection = this.handleItemSelection.bind(this);
+    this.handleSettingsSelection = this.handleSettingsSelection.bind(this);
   }
 
   componentDidMount() {
@@ -147,25 +177,38 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
-  handleUtilityItemSelection(UtilityItemKey) {
-    const { disclosureManager, appsConfig } = this.props;
-    if (UtilityItemKey === 'terra-dev-site.application-switcher') {
-      disclosureManager.disclose({
-        preferredType: 'modal',
-        size: 'tiny',
-        content: {
-          UtilityItemKey,
-          component: (
-            <ApplicationSwitcher apps={appsConfig} />
-          ),
-        },
-      });
-    }
+  handleItemSelection(key, metaData) {
+    metaData.func(key, this.props);
+  }
+
+  handleSettingsSelection() {
+    const {
+      disclosureManager, settingsConfig, onUpdateSettings,
+    } = this.props;
+    disclosureManager.disclose({
+      preferredType: 'modal',
+      size: 'small',
+      content: {
+        key: 'terra-dev-site.settings',
+        component: (
+          <SettingsPicker
+            config={settingsConfig}
+            onChangeSettings={(settingsValues, dismissSettingsPicker) => {
+              dismissSettingsPicker().then(() => {
+                if (onUpdateSettings) {
+                  onUpdateSettings(settingsValues);
+                }
+              });
+            }}
+          />
+        ),
+      },
+    });
   }
 
   render() {
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, disclosureManager, settingsConfig, onUpdateSettings, appsConfig,
+      nameConfig, navigationItems, contentConfig, indexPath, appsConfig,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
 
@@ -185,32 +228,21 @@ class DevSiteNavigation extends React.Component {
           key: item.path,
           text: item.text,
         }))}
+        extensionItems={[
+          {
+            icon: <IconSearch />,
+            key: 'terra-dev-site.search',
+            text: 'Search',
+            metaData: { func: DevSiteNavigation.launchSearch },
+          },
+        ]}
+        onSelectExtensionItem={this.handleItemSelection}
         activeNavigationItemKey={activeNavigationItemPath}
         onSelectNavigationItem={this.handleNavigationItemSelection}
         // hero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
-        onSelectSettings={() => {
-          disclosureManager.disclose({
-            preferredType: 'modal',
-            size: 'small',
-            content: {
-              key: 'terra-dev-site.settings',
-              component: (
-                <SettingsPicker
-                  config={settingsConfig}
-                  onChangeSettings={(settingsValues, dismissSettingsPicker) => {
-                    dismissSettingsPicker().then(() => {
-                      if (onUpdateSettings) {
-                        onUpdateSettings(settingsValues);
-                      }
-                    });
-                  }}
-                />
-              ),
-            },
-          });
-        }}
+        onSelectSettings={this.handleSettingsSelection}
         utilityItems={DevSiteNavigation.generateUtilityItems(appsConfig)}
-        onSelectUtilityItem={this.handleUtilityItemSelection}
+        onSelectUtilityItem={this.handleItemSelection}
       >
         <DevSitePage
           placeholderSrc={contentConfig.placeholderSrc}

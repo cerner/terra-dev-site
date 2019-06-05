@@ -20,7 +20,8 @@ const menuItem = (text, itemPath, hasSubMenu, childItems) => ({
 /**
  * Builds out a route item. Adds the props object conditionally.
  */
-const routeItem = (routePath, { contentPath, name }, props, routeImporter) => ({
+const routeItem = (text, routePath, { contentPath, name }, props, routeImporter) => ({
+  text,
   path: routePath,
   component: {
     default: {
@@ -48,7 +49,7 @@ const evidenceProps = (contentConfig, routeImporter) => {
 /**
  * Sets up content route item. All content items are wrapped with the content wrapper.
  */
-const contentRouteItem = (routePath, { contentPath, name, identifier }, props, type, routeImporter) => {
+const contentRouteItem = (text, routePath, { contentPath, name, identifier }, props, type, routeImporter) => {
   let relativeContent;
   let contentProps;
   if (typeof contentPath === 'string') {
@@ -77,6 +78,7 @@ const contentRouteItem = (routePath, { contentPath, name, identifier }, props, t
   }
 
   return routeItem(
+    text,
     routePath,
     { contentPath: ContentWrapper, name: 'ContentWrapper' },
     contentProps,
@@ -108,7 +110,7 @@ const getPageContentConfig = (config, rootPath, routeImporter) => config.reduce(
   menuItems.push(menuItem(page.name, routePath, hasSubMenu, descendantMenuItems));
 
   if (page.content) {
-    content[routePath] = contentRouteItem(routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
+    content[routePath] = contentRouteItem(page.name, routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
   }
 
   return { content, menuItems };

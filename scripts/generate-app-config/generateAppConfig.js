@@ -6,6 +6,7 @@ const generateNameConfig = require('./generateNameConfig');
 const generateSettingsConfig = require('./generateSettingsConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
+const generateSearchItems = require('./generateSearchItems');
 const injectLink = require('./injectLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
@@ -63,8 +64,9 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
-  const contentConfig = addConfig(
-    generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose)),
+  const contentConfig = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose));
+  const contentConfigImport = addConfig(
+    contentConfig,
     'contentConfig.js',
     buildPath,
     fse,
@@ -79,6 +81,13 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
+  writeConfig(
+    generateSearchItems(contentConfig),
+    'searchItems.js',
+    buildPath,
+    fse,
+  );
+
   // Add any side-effect imports.
   importSideEffects(sideEffectImports, imports);
 
@@ -86,7 +95,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   const config = {
     nameConfig,
     settingsConfig,
-    contentConfig,
+    contentConfig: contentConfigImport,
     navigationItems,
     indexPath: navConfig.navigation.index,
     apps: siteConfig.apps,
