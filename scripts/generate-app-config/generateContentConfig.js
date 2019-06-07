@@ -129,8 +129,15 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig) => {
   const config = {
     name: startCase(name),
     path: pagePath,
-    pages,
   };
+
+  // Flatten down page config that only has one page and no subsequent pages.
+  if (pages && pages.length === 1 && !pages[0].pages) {
+    config.content = pages[0].content;
+    config.type = pages[0].type;
+  } else {
+    config.pages = pages;
+  }
 
   // Special logic to add a home component with a readme if readme content is provided in site config and no other home items are found.
   if (type === 'home' && readMeContent) {
@@ -189,6 +196,7 @@ const generateContentConfig = (siteConfig, pageConfig) => {
 
     // Build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
+    console.log(JSON.stringify(linkPageConfig, null, 2));
     const { content: pageContent, menuItems: pageMenuItems } = getPageContentConfig(linkPageConfig, '', routeImporter);
 
     content = Object.assign(content, { [`${link.path}`]: pageContent });

@@ -61,6 +61,7 @@ const SettingsMenu = ({
           <CollapsibleMenuView.Item
             text={theme}
             key={theme}
+            shouldCloseOnClick
             isSelected={selectedTheme === theme}
           />
         ))}
@@ -83,6 +84,7 @@ const SettingsMenu = ({
           <CollapsibleMenuView.Item
             text={locale}
             key={locale}
+            shouldCloseOnClick
             isSelected={selectedLocale === locale}
           />
         ))}
