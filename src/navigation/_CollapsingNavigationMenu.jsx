@@ -4,7 +4,6 @@ import classNames from 'classnames/bind';
 
 import IconCaretRight from 'terra-icon/lib/icon/IconCaretRight';
 import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
-import { withRouter } from 'react-router-dom';
 
 import styles from './CollapsingNavigationMenu.module.scss';
 
@@ -17,13 +16,6 @@ const propTypes = {
     path: PropTypes.string,
   })),
   onSelect: PropTypes.func.isRequired,
-  /**
-   * Injected by react-router: represent where the app is now, where you want it to go,
-   * or even where it was.
-   */
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }).isRequired,
 };
 
 const defaultProps = {
@@ -43,7 +35,7 @@ class CollapsingNavigationMenu extends React.Component {
   }
 
   renderMenuItems(menuItems, firstLevel) {
-    const { onSelect, selectedPath, location } = this.props;
+    const { onSelect, selectedPath } = this.props;
     const { openKeys } = this.state;
 
     if (!menuItems) {
@@ -58,7 +50,7 @@ class CollapsingNavigationMenu extends React.Component {
         <React.Fragment key={item.path}>
           <div style={!firstLevel ? { paddingLeft: '15px' } : null}>
             <div
-              className={cx(['item', { 'is-selected': location.pathname === item.path }])}
+              className={cx(['item', { 'is-selected': selectedPath === item.path }])}
               tabIndex="0"
               role="button"
               onKeyDown={() => {
@@ -105,4 +97,4 @@ class CollapsingNavigationMenu extends React.Component {
 CollapsingNavigationMenu.propTypes = propTypes;
 CollapsingNavigationMenu.defaultProps = defaultProps;
 
-export default withRouter(CollapsingNavigationMenu);
+export default CollapsingNavigationMenu;

@@ -3,8 +3,8 @@ const startCase = require('lodash.startcase');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 // "require" items to be added to the generated config.
-const TerraDocTemplate = 'terra-doc-template';
 const ContentWrapper = 'terra-dev-site/lib/wrappers/_ContentWrapper';
+const MarkdownWrapper = 'terra-dev-site/lib/wrappers/_MarkdownWrapper';
 const TerraScreenshotWrapper = 'terra-dev-site/lib/wrappers/_ScreenshotWrapper';
 
 /**
@@ -52,8 +52,9 @@ const evidenceProps = (contentConfig, routeImporter) => {
 const contentRouteItem = (text, routePath, { contentPath, name, identifier }, props, type, routeImporter) => {
   let relativeContent;
   let contentProps;
+  let content = { contentPath: ContentWrapper, name: 'ContentWrapper' };
   if (typeof contentPath === 'string') {
-    relativeContent = routeImporter.addImport(ImportAggregator.relativePath(contentPath), name, identifier);
+    relativeContent = routeImporter.addDynamicImport(ImportAggregator.relativePath(contentPath), name, identifier);
     contentProps = {
       content: relativeContent,
       props,
@@ -61,18 +62,22 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
   }
 
   // If the type is md, we want to further wrap the file in a terra-doc-template, to render the markdown.
+  // if (type === 'md') {
+  //   contentProps = {
+  //     content: routeImporter.addDynamicImport(TerraDocTemplate),
+  //     props: {
+  //       readme: relativeContent,
+  //     },
+  //   };
+  // }
+
   if (type === 'md') {
-    contentProps = {
-      content: routeImporter.addImport(TerraDocTemplate),
-      props: {
-        readme: relativeContent,
-      },
-    };
+    content = { contentPath: MarkdownWrapper, name: 'MarkdownWrapper' };
   }
 
   if (type === 'evidence') {
     contentProps = {
-      content: routeImporter.addImport(TerraScreenshotWrapper),
+      content: routeImporter.addDynamicImport(TerraScreenshotWrapper),
       props: evidenceProps(contentPath, routeImporter),
     };
   }
@@ -80,7 +85,7 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
   return routeItem(
     text,
     routePath,
-    { contentPath: ContentWrapper, name: 'ContentWrapper' },
+    content,
     contentProps,
     routeImporter,
   );
@@ -119,7 +124,7 @@ const getPageContentConfig = (config, rootPath, routeImporter) => config.reduce(
 /**
 * Create a page config object for the top level page.
 */
-const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) => {
+const getPageConfig = (name, pagePath, pages, type, siteConfig) => {
   const { readMeContent } = siteConfig;
   const config = {
     name: startCase(name),
@@ -129,8 +134,8 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig, routeImporter) =
 
   // Special logic to add a home component with a readme if readme content is provided in site config and no other home items are found.
   if (type === 'home' && readMeContent) {
-    config.content = TerraDocTemplate;
-    config.props = { readme: routeImporter.addImport(ImportAggregator.relativePath(readMeContent)) };
+    config.content = readMeContent;
+    config.type = 'md';
   }
 
   return config;
@@ -184,7 +189,6 @@ const generateContentConfig = (siteConfig, pageConfig) => {
 
     // Build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
-
     const { content: pageContent, menuItems: pageMenuItems } = getPageContentConfig(linkPageConfig, '', routeImporter);
 
     content = Object.assign(content, { [`${link.path}`]: pageContent });

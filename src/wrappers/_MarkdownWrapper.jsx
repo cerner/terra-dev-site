@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
+import TerraDocTemplate from 'terra-doc-template';
 
 import styles from './ContentWrapper.module.scss';
 
@@ -10,41 +11,32 @@ const propTypes = {
   /**
    * The content to be placed within the main content area of the container.
    */
-  content: PropTypes.func,
-  /**
-   * The props to be applied to the content.
-   */
-  // eslint-disable-next-line react/forbid-prop-types
-  props: PropTypes.object,
+  content: PropTypes.func.isRequired,
 };
 
-const defaultProps = {
-  content: undefined,
-  props: undefined,
-};
-
-const ContentWrapper = ({ content, props }) => {
+const ContentWrapper = ({ content }) => {
   const [state, setState] = useState({
-    Content: undefined,
+    markdown: undefined,
     isErrored: false,
   });
-  const { Content, isErrored } = state;
+
+  const { markdown, isErrored } = state;
 
   useEffect(() => {
     let isSubscribed = true;
-    if (!Content && !isErrored) {
-      content().then(({ default: ContentFile }) => {
+    if (!markdown && !isErrored) {
+      content().then(({ default: mdString }) => {
         if (isSubscribed) {
           console.log('got the file?');
           setState({
-            Content: ContentFile,
+            markdown: mdString,
             isErrored: false,
           });
         }
       }).catch(() => {
         if (isSubscribed) {
           setState({
-            Content: undefined,
+            markdown: undefined,
             isErrored: true,
           });
         }
@@ -53,13 +45,13 @@ const ContentWrapper = ({ content, props }) => {
     return () => { isSubscribed = false; };
   });
 
-  if (Content) {
+  if (markdown) {
     return (
       <div
         data-terra-dev-site-content
         className={cx('dev-site-content')}
       >
-        <Content {...props} />
+        <TerraDocTemplate readme={markdown} />
       </div>
     );
   }
@@ -80,6 +72,5 @@ const ContentWrapper = ({ content, props }) => {
 };
 
 ContentWrapper.propTypes = propTypes;
-ContentWrapper.defaultProps = defaultProps;
 
 export default ContentWrapper;

@@ -5,11 +5,8 @@ import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import InfiniteList, { Item } from 'terra-infinite-list';
 import { disclosureManagerShape, withDisclosureManager } from 'terra-application/lib/disclosure-manager';
-import { withRouter } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import StatusView from 'terra-status-view';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import searchItems from 'build/searchItems';
 import classNames from 'classnames/bind';
 import styles from './search.module.scss';
 
@@ -20,8 +17,8 @@ const propTypes = {
    * Injected by disclosure manager
    */
   disclosureManager: disclosureManagerShape.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.object.isRequired,
+
+  onItemSelected: PropTypes.func.isRequired,
 };
 
 const clearResults = setState => setState({ results: [] });
@@ -41,18 +38,21 @@ const handleSearch = (string, setState) => {
       'path',
     ],
   };
-  const fuse = new Fuse(searchItems, options); // "list" is the item array
-  const results = fuse.search(string);
-  setState({ results });
-  console.log(results);
+  import(/* webpackPrefetch: true, webpackChunkName: "build/searchItems" */ 'build/searchItems').then(({ default: searchItems }) => {
+    console.log(searchItems);
+    const fuse = new Fuse(searchItems, options); // "list" is the item array
+    const results = fuse.search(string);
+    setState({ results });
+    console.log(results);
+  });
 };
 
-const handleSelect = (metaData, history, disclosureManager) => {
-  history.push(metaData.path);
+const handleSelect = (metaData, onItemSelected, disclosureManager) => {
+  onItemSelected(metaData.path);
   disclosureManager.closeDisclosure();
 };
 
-const ApplicationSwitcher = ({ disclosureManager, history }) => {
+const ApplicationSwitcher = ({ disclosureManager, onItemSelected }) => {
   const [state, setState] = useState({ results: [] });
 
   console.log(state);
@@ -87,7 +87,7 @@ const ApplicationSwitcher = ({ disclosureManager, history }) => {
               key={result.path}
               isSelectable
               metaData={result}
-              onSelect={(event, metaData) => handleSelect(metaData, history, disclosureManager)}
+              onSelect={(event, metaData) => handleSelect(metaData, onItemSelected, disclosureManager)}
             >
               <div className={cx('item')}>
                 <div className={cx('title')}>
@@ -107,4 +107,4 @@ const ApplicationSwitcher = ({ disclosureManager, history }) => {
 
 ApplicationSwitcher.propTypes = propTypes;
 
-export default withRouter(withDisclosureManager(ApplicationSwitcher));
+export default withDisclosureManager(ApplicationSwitcher);

@@ -5,8 +5,20 @@ const IdentifierPlaceholder = require('./IdentifierPlaceholder');
 * This class aggregates imports and helps insure things are not included more than once.
 */
 class ImportAggregator {
+  static internalAddImport(filePath, name, identifier, imports) {
+    if (!imports[filePath]) {
+      // eslint-disable-next-line no-param-reassign
+      imports[filePath] = name;
+    }
+
+    const ident = identifier || imports[filePath];
+
+    return new IdentifierPlaceholder(ident);
+  }
+
   constructor() {
     this.imports = {};
+    this.dynamicImports = {};
   }
 
   /**
@@ -15,21 +27,26 @@ class ImportAggregator {
   * returns the identifier specifed or the name.
   */
   addImport(filePath, name, identifier) {
-    if (!this.imports[filePath]) {
-      const componentName = name || `Component${Object.keys(this.imports).length + 1}`;
-      this.imports[filePath] = componentName;
-    }
+    const componentName = name || `Component${Object.keys(this.imports).length + 1}`;
+    return ImportAggregator.internalAddImport(filePath, componentName, identifier, this.imports);
+  }
 
-    const ident = identifier || this.imports[filePath];
-
-    return new IdentifierPlaceholder(ident);
+  addDynamicImport(filePath, name, identifier) {
+    const componentName = name || `DynamicComponent${Object.keys(this.dynamicImports).length + 1}`;
+    return ImportAggregator.internalAddImport(filePath, componentName, identifier, this.dynamicImports);
   }
 
   /**
   * Returns a string of all the code imports.
   */
   toCodeString() {
-    return Object.keys(this.imports).reduce((acc, cur) => `${acc} import ${this.imports[cur]} from '${cur.replace(/\\/g, '\\\\')}';\n`, '');
+    const imports = Object.keys(this.imports).reduce((acc, cur) => (
+      `${acc} import ${this.imports[cur]} from '${cur.replace(/\\/g, '\\\\')}';\n`
+    ), '');
+    const dynamicImports = Object.keys(this.dynamicImports).reduce((acc, cur) => (
+      `${acc} const  ${this.dynamicImports[cur]} = () => import('${cur.replace(/\\/g, '\\\\')}');\n`
+    ), '');
+    return imports + dynamicImports;
   }
 
   /**

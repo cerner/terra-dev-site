@@ -113,14 +113,16 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
-  static launchSearch(key, { disclosureManager }) {
+  static launchSearch(key, { disclosureManager, history }) {
     disclosureManager.disclose({
       preferredType: 'modal',
       size: 'large',
       content: {
         key,
         component: (
-          <Search />
+          <Search
+            onItemSelected={path => history.push(path)}
+          />
         ),
       },
     });
