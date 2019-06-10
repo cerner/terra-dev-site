@@ -55,3 +55,4 @@ target
 **/wdio/__snapshots__/diff
 errorScreenshots
 **/aggregated-translations/*.*
+stats.json
