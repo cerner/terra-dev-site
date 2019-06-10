@@ -13,6 +13,10 @@ const navConfig = {
       path: '/single-page-test',
       text: 'Single Page Test',
       pageTypes: ['spt'],
+    }, {
+      path: '/secondary-nav-test',
+      text: 'Secondary Nav Test',
+      pageTypes: ['snt'],
     }],
   },
 };

@@ -17,8 +17,7 @@ const siteConfig = {
 
     themes: {
       'Default Theme': '',
-      'Herp Theme': 'herpTheme',
-      'Derp Theme': 'derpTheme',
+      'Terra Dev Site Test Theme': 'terra-dev-site-test-theme',
     },
   },
 
