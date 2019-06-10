@@ -57,6 +57,7 @@ class SettingsPicker extends React.Component {
                 <Spacer isInlineBlock marginRight="medium">
                   <Button
                     text="Submit"
+                    id="submit"
                     variant={Button.Opts.Variants.EMPHASIS}
                     onClick={() => {
                       onChangeSettings({
@@ -69,6 +70,7 @@ class SettingsPicker extends React.Component {
                 </Spacer>
                 <Button
                   text="Cancel"
+                  id="cancel"
                   onClick={() => {
                     disclosureManager.dismiss();
                   }}

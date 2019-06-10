@@ -69,8 +69,9 @@
     "start": "tt-serve --config config/webpack/webpack.config",
     "start-heroku": "tt-serve-static --port $PORT --site './build' ",
     "start-static": "npm run compile:prod && tt-serve-static --site ./build",
-    "test": "npm run lint && npm run jest",
-    "tds:generate-app-config": "node bin/generateAppConfig.js"
+    "test": "npm run lint && npm run jest && npm run wdio",
+    "tds:generate-app-config": "node bin/generateAppConfig.js",
+    "wdio": "wdio config/wdio/wdio.conf.js"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.3.1",
@@ -98,14 +99,13 @@
     "terra-button-group": "^3.5.0",
     "terra-collapsible-menu-view": "^6.1.0",
     "terra-content-container": "^3.0.0",
-    "terra-doc-template": "^2.2.0",
     "terra-form-select": "^5.15.0",
     "terra-hyperlink": "^2.9.0",
     "terra-icon": "^3.0.0",
     "terra-image": "^3.0.0",
     "terra-infinite-list": "^3.5.0",
     "terra-list": "^4.6.0",
-    "terra-markdown": "^2.0.0",
+    "terra-markdown": "^2.26.0",
     "terra-overlay": "^3.11.0",
     "terra-search-field": "^3.13.0",
     "terra-spacer": "^3.3.0",

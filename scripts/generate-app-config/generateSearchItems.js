@@ -7,6 +7,7 @@ const generateSearchItems = (contentConfig) => {
     const navItem = content[navItemKey];
     Object.keys(navItem).map(pageKey => acc.push({
       title: navItem[pageKey].text,
+      tags: navItem[pageKey].path.replace(/\//gi, ' '),
       path: navItem[pageKey].path,
     }));
     return acc;

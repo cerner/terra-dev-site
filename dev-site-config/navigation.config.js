@@ -9,6 +9,10 @@ const navConfig = {
       path: '/getting-started',
       text: 'Getting Started',
       pageTypes: ['doc'],
+    }, {
+      path: '/single-page-test',
+      text: 'Single Page Test',
+      pageTypes: ['spt'],
     }],
   },
 };

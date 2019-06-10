@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TerraDocTemplate from 'terra-doc-template';
+import TerraMarkdown from 'terra-markdown';
+import classNames from 'classnames/bind';
 
 import DynamicImportWrapper from './_DynamicImportWrapper';
+import styles from './Markdown.module.scss';
+
+const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
@@ -18,7 +22,7 @@ const defaultProps = {
 const MarkdownWrapper = ({ content }) => (
   <DynamicImportWrapper
     content={content}
-    render={markdown => <TerraDocTemplate readme={markdown} />}
+    render={markdown => <div className={cx('markdown')}><TerraMarkdown src={markdown} /></div>}
   />
 );
 

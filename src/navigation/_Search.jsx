@@ -24,10 +24,10 @@ const propTypes = {
 const clearResults = setState => setState({ results: [] });
 
 const handleSearch = (string, setState) => {
-  console.log(string);
   const options = {
     shouldSort: true,
     tokenize: true,
+    includeMatches: true,
     threshold: 0.4,
     location: 0,
     distance: 100,
@@ -35,40 +35,70 @@ const handleSearch = (string, setState) => {
     minMatchCharLength: 2,
     keys: [
       'title',
-      'path',
+      'tags',
     ],
   };
+  // eslint-disable-next-line import/no-unresolved, import/extensions
   import(/* webpackPrefetch: true, webpackChunkName: "build/searchItems" */ 'build/searchItems').then(({ default: searchItems }) => {
-    console.log(searchItems);
     const fuse = new Fuse(searchItems, options); // "list" is the item array
     const results = fuse.search(string);
     setState({ results });
-    console.log(results);
   });
 };
 
 const handleSelect = (metaData, onItemSelected, disclosureManager) => {
-  onItemSelected(metaData.path);
+  onItemSelected(metaData.item.path);
   disclosureManager.closeDisclosure();
 };
 
-const ApplicationSwitcher = ({ disclosureManager, onItemSelected }) => {
+const highlight = (key, result) => {
+  // Filter the matches to only ones that match the key
+  const valueArray = result.matches.filter(item => item.key === key).map((match) => {
+    let startIndex = 0;
+    // Split the value string to have spans around the matching indices
+    const splitString = match.indices.reduce((acc, index) => {
+      acc.push(match.value.slice(startIndex, index[0]));
+      acc.push(<span key={index[0]}>{match.value.slice(index[0], index[1] + 1)}</span>);
+      startIndex = index[1] + 1;
+      return acc;
+    }, []);
+    splitString.push(match.value.slice(startIndex));
+    return splitString;
+  });
+  // The item has a match that should be highlighted
+  if (valueArray.length === 1) {
+    return valueArray[0];
+  }
+  // else return the item
+  return result.item[key];
+};
+
+const searchItem = result => (
+  <div className={cx('item')}>
+    <div className={cx('title')}>
+      {highlight('title', result)}
+    </div>
+    <div className={cx('path')}>
+      {highlight('path', result)}
+    </div>
+  </div>
+);
+
+const Search = ({ disclosureManager, onItemSelected }) => {
   const [state, setState] = useState({ results: [] });
-
-  console.log(state);
-
   return (
     <ContentContainer
       header={(
         <>
           <ActionHeader
-            title="Search"
+            title="Site Search"
             onBack={disclosureManager.goBack}
             onClose={disclosureManager.closeDisclosure}
           />
           <SearchField
             className={cx('searchField')}
             isBlock
+            placeholder="Search"
             onSearch={string => handleSearch(string, setState)}
             onInvalidSearch={() => clearResults(setState)}
           />
@@ -84,19 +114,12 @@ const ApplicationSwitcher = ({ disclosureManager, onItemSelected }) => {
         {
           state.results.map(result => (
             <Item
-              key={result.path}
+              key={result.item.path}
               isSelectable
               metaData={result}
               onSelect={(event, metaData) => handleSelect(metaData, onItemSelected, disclosureManager)}
             >
-              <div className={cx('item')}>
-                <div className={cx('title')}>
-                  {result.title}
-                </div>
-                <div className={cx('path')}>
-                  {result.path}
-                </div>
-              </div>
+              {searchItem(result)}
             </Item>
           ))
         }
@@ -105,6 +128,6 @@ const ApplicationSwitcher = ({ disclosureManager, onItemSelected }) => {
   );
 };
 
-ApplicationSwitcher.propTypes = propTypes;
+Search.propTypes = propTypes;
 
-export default withDisclosureManager(ApplicationSwitcher);
+export default withDisclosureManager(Search);

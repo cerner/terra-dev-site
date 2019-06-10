@@ -11,14 +11,14 @@ const siteConfig = {
     bidirectional: true,
 
     headHtml: [
-      '<script> console.log("Terra Dev Site Derp") </script>',
+      '<script> console.log("Inline head html script") </script>',
       html,
     ],
 
     themes: {
       'Default Theme': '',
-      'Herp Theme': 'herp Theme',
-      'Derp Theme': 'derp Theme',
+      'Herp Theme': 'herpTheme',
+      'Derp Theme': 'derpTheme',
     },
   },
 

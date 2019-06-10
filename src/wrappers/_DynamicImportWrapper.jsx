@@ -8,11 +8,11 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The content to be placed within the main content area of the container.
+   * The content to be loaded dynamically.
    */
   content: PropTypes.func.isRequired,
   /**
-   * The props to be applied to the content.
+   * The render prop to handle the loaded import.
    */
   render: PropTypes.func.isRequired,
 };
@@ -24,18 +24,19 @@ const DynamicImportWrapper = ({ content, render }) => {
   });
   const { Content, isErrored } = state;
 
+  // Dynamically import Javascript chunk
   useEffect(() => {
-    let isSubscribed = true;
+    let isActive = true;
     if (!Content && !isErrored) {
       content().then(({ default: ContentFile }) => {
-        if (isSubscribed) {
+        if (isActive) {
           setState({
             Content: ContentFile,
             isErrored: false,
           });
         }
       }).catch(() => {
-        if (isSubscribed) {
+        if (isActive) {
           setState({
             Content: undefined,
             isErrored: true,
@@ -43,7 +44,7 @@ const DynamicImportWrapper = ({ content, render }) => {
         }
       });
     }
-    return () => { isSubscribed = false; };
+    return () => { isActive = false; };
   });
 
   if (Content) {
