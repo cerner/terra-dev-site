@@ -19,6 +19,12 @@ const siteConfig = {
       'Default Theme': '',
       'Terra Dev Site Test Theme': 'terra-dev-site-test-theme',
     },
+
+    pageTypeCapabilities: {
+      doc: {
+        disableComponentToolbar: true,
+      },
+    },
   },
 
   includeTestEvidence: false,

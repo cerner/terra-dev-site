@@ -5,14 +5,9 @@ import { withActiveBreakpoint } from 'terra-application/lib/breakpoints';
 import Overlay from 'terra-overlay';
 import FocusTrap from 'focus-trap-react';
 import ContentContainer from 'terra-content-container';
-import Application from 'terra-application';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import siteConfig from 'build/appConfig';
 
 import SecondaryNavigationLayoutActionHeader from './_SecondaryNavigationLayoutActionHeader';
 import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
-import { withAppSettings } from './_AppSettingsContext';
-import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 
 import styles from './SecondaryNavigationLayout.module.scss';
 
@@ -31,11 +26,8 @@ const propTypes = {
    * The element to display in the main content area.
    */
   children: PropTypes.element.isRequired,
-  appSettings: PropTypes.shape({
-    locale: PropTypes.string,
-    theme: PropTypes.string,
-    direction: PropTypes.string,
-  }).isRequired,
+
+  headerToolbar: PropTypes.element,
   /**
    * @private
    */
@@ -114,8 +106,6 @@ class SecondaryNavigationLayout extends React.Component {
   constructor(props) {
     super(props);
 
-    const { appSettings } = props;
-
     this.closeMenu = this.closeMenu.bind(this);
     this.openMenu = this.openMenu.bind(this);
     this.handleCollapsingMenuSelection = this.handleCollapsingMenuSelection.bind(this);
@@ -142,8 +132,6 @@ class SecondaryNavigationLayout extends React.Component {
     }
 
     this.state = {
-      locale: appSettings.locale,
-      theme: appSettings.theme,
       flattenedMenuItems,
       previousActiveBreakpoint: props.activeBreakpoint, // eslint-disable-line react/no-unused-state
       selectedMenuKey,
@@ -220,11 +208,10 @@ class SecondaryNavigationLayout extends React.Component {
       children,
       menuItems,
       activeBreakpoint,
+      headerToolbar,
     } = this.props;
 
     const {
-      locale,
-      theme,
       compactMenuIsOpen,
       menuIsPinnedOpen,
       selectedChildKey,
@@ -277,26 +264,13 @@ class SecondaryNavigationLayout extends React.Component {
               <SecondaryNavigationLayoutActionHeader
                 menuIsVisible={menuIsVisible}
                 onToggle={onToggle}
-                config={{
-                  themes: Object.keys(siteConfig.settingsConfig.themes),
-                  locales: siteConfig.settingsConfig.locales,
-                }}
-                selectedLocale={locale}
-                onChangeLocale={this.handleLocaleSelection}
-                selectedTheme={theme}
-                onChangeTheme={this.handleThemeSelection}
-              />
+              >
+                {headerToolbar}
+              </SecondaryNavigationLayoutActionHeader>
             )}
             fill
           >
-            <Application
-              locale={locale}
-              themeName={theme}
-            >
-              <TerraMdxProvider>
-                {children}
-              </TerraMdxProvider>
-            </Application>
+            {children}
           </ContentContainer>
           <Overlay isOpen={isCompact ? compactMenuIsOpen : false} isRelativeToContainer style={{ top: '0' }} />
         </div>
@@ -308,7 +282,7 @@ class SecondaryNavigationLayout extends React.Component {
 SecondaryNavigationLayout.propTypes = propTypes;
 SecondaryNavigationLayout.defaultProps = defaultProps;
 
-export default withAppSettings(withActiveBreakpoint(SecondaryNavigationLayout));
+export default withActiveBreakpoint(SecondaryNavigationLayout);
 export {
   isCompactLayout,
 };

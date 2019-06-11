@@ -99,6 +99,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     navigationItems,
     indexPath: navConfig.navigation.index,
     apps: siteConfig.apps,
+    pageTypeCapabilities: siteConfig.appConfig.pageTypeCapabilities,
   };
 
   writeConfig({ config, imports }, 'appConfig.js', buildPath, fse);

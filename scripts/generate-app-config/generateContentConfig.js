@@ -20,9 +20,10 @@ const menuItem = (text, itemPath, hasSubMenu, childItems) => ({
 /**
  * Builds out a route item. Adds the props object conditionally.
  */
-const routeItem = (text, routePath, { contentPath, name }, props, routeImporter) => ({
+const routeItem = (text, routePath, { contentPath, name }, props, pageType, routeImporter) => ({
   text,
   path: routePath,
+  pageType,
   component: {
     default: {
       componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath), name),
@@ -49,7 +50,7 @@ const evidenceProps = (contentConfig, routeImporter) => {
 /**
  * Sets up content route item. All content items are wrapped with the content wrapper.
  */
-const contentRouteItem = (text, routePath, { contentPath, name, identifier }, props, type, routeImporter) => {
+const contentRouteItem = (text, routePath, { contentPath, name, identifier }, props, type, pageType, routeImporter) => {
   let relativeContent;
   let contentProps;
   let content = { contentPath: ContentWrapper, name: 'ContentWrapper' };
@@ -87,6 +88,7 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
     routePath,
     content,
     contentProps,
+    pageType,
     routeImporter,
   );
 };
@@ -94,10 +96,11 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
 /**
  * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
  */
-const getPageContentConfig = (config, rootPath, routeImporter) => config.reduce((acc, page) => {
+const getPageContentConfig = (config, rootPath, routeImporter, parentPageType) => config.reduce((acc, page) => {
   let { content } = acc;
   const menuItems = acc.menuItems || [];
   const hasSubMenu = page.pages && page.pages.length > 0;
+  const pageType = page.pageType || parentPageType;
 
   const routePath = `${rootPath}${page.path}`;
   let descendantMenuItems;
@@ -105,7 +108,7 @@ const getPageContentConfig = (config, rootPath, routeImporter) => config.reduce(
   // If the given page, has sub menu items, add them to the overall route object.
   if (hasSubMenu) {
     // Recursively call to get child content, and menu items
-    const { content: childContent, menuItems: childMenuItems } = getPageContentConfig(page.pages, routePath, routeImporter);
+    const { content: childContent, menuItems: childMenuItems } = getPageContentConfig(page.pages, routePath, routeImporter, pageType);
 
     content = Object.assign(content, childContent);
     descendantMenuItems = childMenuItems;
@@ -115,7 +118,7 @@ const getPageContentConfig = (config, rootPath, routeImporter) => config.reduce(
   menuItems.push(menuItem(page.name, routePath, hasSubMenu, descendantMenuItems));
 
   if (page.content) {
-    content[routePath] = contentRouteItem(page.name, routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
+    content[routePath] = contentRouteItem(page.name, routePath, { contentPath: page.content }, page.props, page.type, pageType, routeImporter);
   }
 
   return { content, menuItems };
@@ -129,6 +132,7 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig) => {
   const config = {
     name: startCase(name),
     path: pagePath,
+    pageType: type,
   };
 
   // Flatten down page config that only has one page and no subsequent pages.

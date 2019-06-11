@@ -56,3 +56,4 @@ target
 errorScreenshots
 **/aggregated-translations/*.*
 stats.json
+aggregated-themes.js
