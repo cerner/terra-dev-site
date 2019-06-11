@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies, no-unused-vars, object-curly-newline
-import { danger, warn, fail, message } from 'danger';
+import { danger, fail } from 'danger';
 
 const newChangelog = danger.git.created_files.filter((filePath) => {
   const srcFilePattern = /CHANGELOG\.md/i;
