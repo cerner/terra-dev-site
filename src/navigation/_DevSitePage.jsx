@@ -9,7 +9,6 @@ import siteConfig from 'build/appConfig';
 
 import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
 import Placeholder from '../static-pages/_PlaceholderPage';
-import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 import ComponentToolbar from './_ComponentToolbar';
 import { withAppSettings } from './_AppSettingsContext';
 
@@ -17,15 +16,12 @@ const propTypes = {
   rootPath: PropTypes.string.isRequired,
   placeholderSrc: PropTypes.string.isRequired,
   notFoundComponent: PropTypes.node.isRequired,
-  contentConfig: PropTypes.shape({
-    placeholder: PropTypes.node,
-    content: PropTypes.object,
-    menuItems: PropTypes.object,
-  }).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  pageContent: PropTypes.object.isRequired,
   menuItems: PropTypes.PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string,
     path: PropTypes.string,
-  })).isRequired,
+  })),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }).isRequired,
@@ -53,18 +49,20 @@ class DevSitePage extends React.Component {
 
   constructor(props) {
     super(props);
-    const { appSettings, location, contentConfig } = props;
+    const { appSettings, location, pageContent } = props;
 
     this.generateContent = this.generateContent.bind(this);
     this.handleThemeSelection = this.handleThemeSelection.bind(this);
     this.handleLocaleSelection = this.handleLocaleSelection.bind(this);
+
+    console.log(pageContent);
 
     this.state = {
       appSettings,
       locale: appSettings.locale,
       theme: appSettings.theme,
       initialSelectedMenuKey: location.pathname,
-      sortedContentPaths: Object.keys(contentConfig).sort().reverse(),
+      sortedContentPaths: Object.keys(pageContent).sort().reverse(),
     };
   }
 
@@ -82,7 +80,7 @@ class DevSitePage extends React.Component {
 
   generateContent() {
     const {
-      contentConfig, rootPath, placeholderSrc, notFoundComponent,
+      pageContent, rootPath, placeholderSrc, notFoundComponent,
     } = this.props;
     const { sortedContentPaths } = this.state;
 
@@ -92,7 +90,7 @@ class DevSitePage extends React.Component {
           <Route
             key={path}
             path={path}
-            render={() => React.createElement(contentConfig[path].component.default.componentClass, contentConfig[path].component.default.props)}
+            render={() => React.createElement(pageContent[path].component.default.componentClass, pageContent[path].component.default.props)}
           />
         ))}
         <Route
@@ -106,9 +104,9 @@ class DevSitePage extends React.Component {
   }
 
   renderToolbar() {
-    const { location, contentConfig } = this.props;
+    const { location, pageContent } = this.props;
     const { theme, locale } = this.state;
-    const config = contentConfig[location.pathname];
+    const config = pageContent[location.pathname];
     if (!config) {
       return null;
     }
@@ -132,7 +130,7 @@ class DevSitePage extends React.Component {
   }
 
   render() {
-    const { history, menuItems } = this.props;
+    const { history, menuItems, location } = this.props;
     const { initialSelectedMenuKey, theme, locale } = this.state;
 
     if (!menuItems || !menuItems[0].childItems) {
@@ -142,7 +140,7 @@ class DevSitePage extends React.Component {
     return (
       <SecondaryNavigationLayout
         menuItems={menuItems}
-        initialSelectedMenuItemKey={initialSelectedMenuKey}
+        selectedMenuItemKey={location.pathname}
         onTerminalMenuItemSelection={(childKey, metaData) => {
           const { appSettings } = this.state;
           this.setState({
@@ -159,9 +157,7 @@ class DevSitePage extends React.Component {
           locale={locale}
           themeName={siteConfig.settingsConfig.themes[theme]}
         >
-          <TerraMdxProvider>
-            {this.generateContent()}
-          </TerraMdxProvider>
+          {this.generateContent()}
         </Application>
       </SecondaryNavigationLayout>
     );

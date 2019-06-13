@@ -7,6 +7,7 @@ const ContentWrapper = 'terra-dev-site/lib/wrappers/_ContentWrapper';
 const MarkdownWrapper = 'terra-dev-site/lib/wrappers/_MarkdownWrapper';
 const TerraScreenshotWrapper = 'terra-dev-site/lib/wrappers/_ScreenshotWrapper';
 
+const routeImporter = new ImportAggregator();
 /**
 * Setup a menuItem object.
 */
@@ -20,19 +21,19 @@ const menuItem = (text, itemPath, hasSubMenu, childItems) => ({
 /**
  * Builds out a route item. Adds the props object conditionally.
  */
-const routeItem = (text, routePath, { contentPath, name }, props, pageType, routeImporter) => ({
+const routeItem = (text, routePath, { contentPath, name, identifier }, props, pageType) => ({
   text,
   path: routePath,
   pageType,
   component: {
     default: {
-      componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath), name),
+      componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath), name, identifier),
       ...(props) && { props },
     },
   },
 });
 
-const evidenceProps = (contentConfig, routeImporter) => {
+const evidenceProps = (contentConfig) => {
   const contentCopy = Object.assign({}, contentConfig);
   return {
     imageConfig: Object.keys(contentCopy).reduce((acc, viewportKey) => {
@@ -50,7 +51,7 @@ const evidenceProps = (contentConfig, routeImporter) => {
 /**
  * Sets up content route item. All content items are wrapped with the content wrapper.
  */
-const contentRouteItem = (text, routePath, { contentPath, name, identifier }, props, type, pageType, routeImporter) => {
+const contentRouteItem = (text, routePath, { contentPath, name, identifier }, props, type, pageType) => {
   let relativeContent;
   let contentProps;
   let content = { contentPath: ContentWrapper, name: 'ContentWrapper' };
@@ -62,16 +63,6 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
     };
   }
 
-  // If the type is md, we want to further wrap the file in a terra-doc-template, to render the markdown.
-  // if (type === 'md') {
-  //   contentProps = {
-  //     content: routeImporter.addDynamicImport(TerraDocTemplate),
-  //     props: {
-  //       readme: relativeContent,
-  //     },
-  //   };
-  // }
-
   if (type === 'md') {
     content = { contentPath: MarkdownWrapper, name: 'MarkdownWrapper' };
   }
@@ -79,7 +70,7 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
   if (type === 'evidence') {
     contentProps = {
       content: routeImporter.addDynamicImport(TerraScreenshotWrapper),
-      props: evidenceProps(contentPath, routeImporter),
+      props: evidenceProps(contentPath),
     };
   }
 
@@ -89,18 +80,33 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
     content,
     contentProps,
     pageType,
-    routeImporter,
   );
 };
 
 /**
- * Add's an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
+ * Sets up a redirect route item. This redirects to another page.
  */
-const getPageContentConfig = (config, rootPath, routeImporter, parentPageType) => config.reduce((acc, page) => {
+const redirectRouteItem = (text, routePath, redirectPath, pageType) => (
+  routeItem(
+    text,
+    routePath,
+    { contentPath: 'react-router-dom', name: '{ Redirect }', identifier: 'Redirect' },
+    { to: redirectPath },
+    pageType,
+  )
+);
+
+/**
+ * Adds an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
+ */
+const getPageContentConfig = (config, rootPath, parentPageType) => config.reduce((acc, page) => {
   let { content } = acc;
   const menuItems = acc.menuItems || [];
   const hasSubMenu = page.pages && page.pages.length > 0;
+  const firstItemsHasSubMenu = hasSubMenu && page.pages[0].pages;
+  const subMenuHasMoreThanOneItem = hasSubMenu && page.pages.length > 1;
   const pageType = page.pageType || parentPageType;
+  const isRootItem = !rootPath;
 
   const routePath = `${rootPath}${page.path}`;
   let descendantMenuItems;
@@ -108,17 +114,21 @@ const getPageContentConfig = (config, rootPath, routeImporter, parentPageType) =
   // If the given page, has sub menu items, add them to the overall route object.
   if (hasSubMenu) {
     // Recursively call to get child content, and menu items
-    const { content: childContent, menuItems: childMenuItems } = getPageContentConfig(page.pages, routePath, routeImporter, pageType);
+    const { content: childContent, menuItems: childMenuItems } = getPageContentConfig(page.pages, routePath, pageType);
 
     content = Object.assign(content, childContent);
     descendantMenuItems = childMenuItems;
   }
 
-  // Provide the menu item for this content page.
-  menuItems.push(menuItem(page.name, routePath, hasSubMenu, descendantMenuItems));
+  if (!isRootItem || firstItemsHasSubMenu || subMenuHasMoreThanOneItem) {
+    // Provide the menu item for this content page.
+    menuItems.push(menuItem(page.name, routePath, hasSubMenu, descendantMenuItems));
+  }
 
   if (page.content) {
-    content[routePath] = contentRouteItem(page.name, routePath, { contentPath: page.content }, page.props, page.type, pageType, routeImporter);
+    content[routePath] = contentRouteItem(page.name, routePath, { contentPath: page.content }, page.props, page.type, pageType);
+  } else if (isRootItem && !firstItemsHasSubMenu) {
+    content[routePath] = redirectRouteItem(page.name, routePath, descendantMenuItems[0].path, pageType);
   }
 
   return { content, menuItems };
@@ -133,15 +143,8 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig) => {
     name: startCase(name),
     path: pagePath,
     pageType: type,
+    pages,
   };
-
-  // Flatten down page config that only has one page and no subsequent pages.
-  if (pages && pages.length === 1 && !pages[0].pages) {
-    config.content = pages[0].content;
-    config.type = pages[0].type;
-  } else {
-    config.pages = pages;
-  }
 
   // Special logic to add a home component with a readme if readme content is provided in site config and no other home items are found.
   if (type === 'home' && readMeContent) {
@@ -155,7 +158,7 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig) => {
 /**
 * Build out the page config for the top level link.
 */
-const getLinkPageConfig = (link, pageConfig, siteConfig, routeImporter) => {
+const getLinkPageConfig = (link, pageConfig, siteConfig) => {
   let pages = [];
   let type;
 
@@ -173,7 +176,7 @@ const getLinkPageConfig = (link, pageConfig, siteConfig, routeImporter) => {
     pages = pageConfig[type];
   }
 
-  const generatedPageConfig = getPageConfig(link.text, link.path, pages, type, siteConfig, routeImporter);
+  const generatedPageConfig = getPageConfig(link.text, link.path, pages, type, siteConfig);
 
   return [generatedPageConfig];
 };
@@ -186,34 +189,37 @@ const generateContentConfig = (siteConfig, pageConfig) => {
     return undefined;
   }
 
-  const routeImporter = new ImportAggregator();
-  const { placeholderSrc, navConfig } = siteConfig;
+  const { navConfig } = siteConfig;
   const { navigation } = navConfig;
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
-
-  // Setup the placeholder object.
-  const placeholderImage = routeImporter.addImport(placeholderSrc, 'placeholderSrc');
 
   // Spin through the valid links to build out the route config.
   const config = validLinks.reduce((acc, link) => {
     let { content, menuItems } = acc;
 
     // Build the 'page config' for the navigation links.
-    const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
+    const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig);
     // console.log(JSON.stringify(linkPageConfig, null, 2));
-    const { content: pageContent, menuItems: pageMenuItems } = getPageContentConfig(linkPageConfig, '', routeImporter);
+    const { content: pageContent, menuItems: pageMenuItems } = getPageContentConfig(linkPageConfig, '');
 
     content = Object.assign(content, { [`${link.path}`]: pageContent });
-    menuItems = Object.assign(menuItems, { [`${link.path}`]: pageMenuItems });
+
+    // Don't add empty page items
+    if (pageMenuItems.length > 0) {
+      menuItems = Object.assign(menuItems, { [`${link.path}`]: pageMenuItems });
+    }
 
     return { content, menuItems };
   }, { content: {}, menuItems: {} });
 
-  config.placeholderSrc = placeholderImage;
-
   return {
-    config,
-    imports: routeImporter,
+    content: {
+      config: config.content,
+      imports: routeImporter,
+    },
+    menuItems: {
+      config: config.menuItems,
+    },
   };
 };
 

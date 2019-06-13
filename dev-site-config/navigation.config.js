@@ -17,6 +17,10 @@ const navConfig = {
       path: '/secondary-nav-test',
       text: 'Secondary Nav Test',
       pageTypes: ['snt'],
+    }, {
+      path: '/folder first',
+      text: 'Folder First Test',
+      pageTypes: ['ff'],
     }],
   },
 };

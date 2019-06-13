@@ -20,7 +20,7 @@ const propTypes = {
     text: PropTypes.string,
     path: PropTypes.string,
   })).isRequired,
-  initialSelectedMenuItemKey: PropTypes.string,
+  selectedMenuItemKey: PropTypes.string,
   onTerminalMenuItemSelection: PropTypes.func.isRequired,
   /**
    * The element to display in the main content area.
@@ -35,7 +35,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  initialSelectedMenuItemKey: undefined,
+  selectedMenuItemKey: undefined,
 };
 
 class SecondaryNavigationLayout extends React.Component {
@@ -115,28 +115,28 @@ class SecondaryNavigationLayout extends React.Component {
     const flattenedMenuItems = SecondaryNavigationLayout.flattenMenuItems(props.menuItems);
 
     this.ancestorMap = SecondaryNavigationLayout.buildAncestorMap(flattenedMenuItems);
-    const selectedItem = flattenedMenuItems.find(item => item.key === props.initialSelectedMenuItemKey);
-    const parentItem = this.ancestorMap[props.initialSelectedMenuItemKey];
+    // const selectedItem = flattenedMenuItems.find(item => item.key === props.selectedMenuItemKey);
+    // const parentItem = this.ancestorMap[props.selectedMenuItemKey];
 
-    let selectedMenuKey;
-    let selectedChildKey;
-    let selectionPath;
-    if (selectedItem.childKeys && selectedItem.childKeys.length) {
-      selectedMenuKey = selectedItem.key;
-      selectedChildKey = undefined;
-      selectionPath = undefined;
-    } else if (parentItem) {
-      selectedMenuKey = parentItem.key;
-      selectedChildKey = selectedItem.key;
-      selectionPath = SecondaryNavigationLayout.buildSelectionPath(selectedItem.key, this.ancestorMap);
-    }
+    // let selectedMenuKey;
+    // let selectedChildKey;
+    // let selectionPath;
+    // if (selectedItem.childKeys && selectedItem.childKeys.length) {
+    //   selectedMenuKey = selectedItem.key;
+    //   selectedChildKey = undefined;
+    //   selectionPath = undefined;
+    // } else if (parentItem) {
+    //   selectedMenuKey = parentItem.key;
+    //   selectedChildKey = selectedItem.key;
+    //   selectionPath = SecondaryNavigationLayout.buildSelectionPath(selectedItem.key, this.ancestorMap);
+    // }
 
     this.state = {
       flattenedMenuItems,
       previousActiveBreakpoint: props.activeBreakpoint, // eslint-disable-line react/no-unused-state
-      selectedMenuKey,
-      selectedChildKey,
-      selectionPath,
+      // selectedMenuKey,
+      // selectedChildKey,
+      // selectionPath,
       compactMenuIsOpen: false,
       menuIsPinnedOpen: true,
     };
@@ -181,7 +181,7 @@ class SecondaryNavigationLayout extends React.Component {
     const selectedItem = flattenedMenuItems.find(item => item.key === selectionKey);
 
     this.setState({
-      selectedChildKey: selectionKey,
+      // selectedChildKey: selectionKey,
       compactMenuIsOpen: false,
     }, () => {
       // If an endpoint has been reached, reset selection path and update.
@@ -209,12 +209,13 @@ class SecondaryNavigationLayout extends React.Component {
       menuItems,
       activeBreakpoint,
       headerToolbar,
+      selectedMenuItemKey,
     } = this.props;
 
     const {
       compactMenuIsOpen,
       menuIsPinnedOpen,
-      selectedChildKey,
+      // selectedChildKey,
     } = this.state;
 
     const isCompact = isCompactLayout(activeBreakpoint);
@@ -240,7 +241,7 @@ class SecondaryNavigationLayout extends React.Component {
       >
         <CollapsingNavigationMenu
           menuItems={menuItems}
-          selectedPath={selectedChildKey}
+          selectedPath={selectedMenuItemKey}
           onSelect={this.handleCollapsingMenuSelection}
         />
       </FocusTrap>

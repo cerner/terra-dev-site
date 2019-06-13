@@ -34,6 +34,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     appConfig,
     navConfig,
     sideEffectImports,
+    placeholderSrc,
   } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
@@ -65,8 +66,15 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   );
 
   const contentConfig = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose));
+  const menuConfigImport = addConfig(
+    contentConfig.menuItems,
+    'menuItems.js',
+    buildPath,
+    fse,
+    imports,
+  );
   const contentConfigImport = addConfig(
-    contentConfig,
+    contentConfig.content,
     'contentConfig.js',
     buildPath,
     fse,
@@ -82,7 +90,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   );
 
   writeConfig(
-    generateSearchItems(contentConfig),
+    generateSearchItems(contentConfig.content),
     'searchItems.js',
     buildPath,
     fse,
@@ -95,11 +103,13 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   const config = {
     nameConfig,
     settingsConfig,
+    menuItems: menuConfigImport,
     contentConfig: contentConfigImport,
     navigationItems,
     indexPath: navConfig.navigation.index,
     apps: siteConfig.apps,
     pageTypeCapabilities: siteConfig.appConfig.pageTypeCapabilities,
+    placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
   };
 
   writeConfig({ config, imports }, 'appConfig.js', buildPath, fse);

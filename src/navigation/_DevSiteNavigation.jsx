@@ -33,11 +33,11 @@ const propTypes = {
     selectedDirection: PropTypes.string,
   }),
   onUpdateSettings: PropTypes.func,
-  contentConfig: PropTypes.shape({
-    placeholder: PropTypes.node,
-    content: PropTypes.object,
-    menuItems: PropTypes.object,
-  }).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  contentConfig: PropTypes.object.isRequired,
+  placeholderSrc: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  menuItems: PropTypes.object.isRequired,
   /**
    * The navigation links to display within the menu in the toolbar.
    */
@@ -210,16 +210,13 @@ class DevSiteNavigation extends React.Component {
 
   render() {
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, appsConfig,
+      nameConfig, navigationItems, contentConfig, indexPath, appsConfig, placeholderSrc, menuItems,
     } = this.props;
     const { activeNavigationItemPath } = this.state;
 
     if (!activeNavigationItemPath) {
       return <NotFoundPage homePath={indexPath} />;
     }
-
-    const pageMenuItems = contentConfig.menuItems[activeNavigationItemPath];
-    const pageContent = contentConfig.content[activeNavigationItemPath];
 
     return (
       <ApplicationNavigation
@@ -247,9 +244,9 @@ class DevSiteNavigation extends React.Component {
         onSelectUtilityItem={this.handleItemSelection}
       >
         <DevSitePage
-          placeholderSrc={contentConfig.placeholderSrc}
-          menuItems={pageMenuItems}
-          contentConfig={pageContent}
+          placeholderSrc={placeholderSrc}
+          menuItems={menuItems[activeNavigationItemPath]}
+          pageContent={contentConfig[activeNavigationItemPath]}
           rootPath={activeNavigationItemPath}
           key={activeNavigationItemPath}
           notFoundComponent={<NotFoundPage indexPath={indexPath} />}

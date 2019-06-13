@@ -14,6 +14,8 @@ import ModalManager from 'terra-application/lib/modal-manager';
 import DevSiteNavigation from './navigation/_DevSiteNavigation';
 import Raw from './raw/_Raw';
 import AppSettingsContext from './navigation/_AppSettingsContext';
+import TerraMdxProvider from './mdx/_TerraMdxProvider';
+
 import './index.scss';
 
 class DevSiteApplication extends React.Component {
@@ -117,27 +119,31 @@ class DevSiteApplication extends React.Component {
                 themeName={siteConfig.settingsConfig.themes[theme]}
                 themeIsGlobal
               >
-                <ModalManager>
-                  <Switch>
-                    <Route path="/raw">
-                      <Raw
-                        contentConfig={siteConfig.contentConfig}
-                        indexPath={siteConfig.indexPath}
-                      />
-                    </Route>
-                    <Route>
-                      <DevSiteNavigation
-                        nameConfig={siteConfig.nameConfig}
-                        settingsConfig={settings}
-                        onUpdateSettings={this.onUpdateSettings}
-                        contentConfig={siteConfig.contentConfig}
-                        navigationItems={siteConfig.navigationItems}
-                        indexPath={siteConfig.indexPath}
-                        appsConfig={siteConfig.apps}
-                      />
-                    </Route>
-                  </Switch>
-                </ModalManager>
+                <TerraMdxProvider>
+                  <ModalManager>
+                    <Switch>
+                      <Route path="/raw">
+                        <Raw
+                          contentConfig={siteConfig.contentConfig}
+                          indexPath={siteConfig.indexPath}
+                        />
+                      </Route>
+                      <Route>
+                        <DevSiteNavigation
+                          nameConfig={siteConfig.nameConfig}
+                          settingsConfig={settings}
+                          onUpdateSettings={this.onUpdateSettings}
+                          contentConfig={siteConfig.contentConfig}
+                          menuItems={siteConfig.menuItems}
+                          placeholderSrc={siteConfig.placeholderSrc}
+                          navigationItems={siteConfig.navigationItems}
+                          indexPath={siteConfig.indexPath}
+                          appsConfig={siteConfig.apps}
+                        />
+                      </Route>
+                    </Switch>
+                  </ModalManager>
+                </TerraMdxProvider>
               </Application>
             </AppSettingsContext.Provider>
           </Route>
