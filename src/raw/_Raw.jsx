@@ -31,7 +31,7 @@ const defaultProps = {
 
 
 const Raw = ({ indexPath, contentConfig, location }) => {
-  const flattenedRouteConfig = Object.keys(contentConfig.content).reduce((allRoutes, pageKey) => Object.assign(allRoutes, contentConfig.content[pageKey]), {});
+  const flattenedRouteConfig = Object.keys(contentConfig).reduce((allRoutes, pageKey) => Object.assign(allRoutes, contentConfig[pageKey]), {});
 
   const routes = Object.keys(flattenedRouteConfig).sort().reverse();
   const nonRawPath = location.pathname.substring(4);
