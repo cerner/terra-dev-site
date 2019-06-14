@@ -94,7 +94,7 @@ class CollapsingNavigationMenu extends React.Component {
   }
 
   renderMenuItems(menuItems, firstLevel) {
-    const { onSelect, selectedPath } = this.props;
+    const { selectedPath } = this.props;
     const { openKeys } = this.state;
 
     if (!menuItems) {

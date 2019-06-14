@@ -4,6 +4,7 @@
 const generateNavigationItems = (navConfig) => {
   const { navigation } = navConfig;
   const configuredLinks = [];
+  const capabilities = {};
 
   const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
 
@@ -12,10 +13,16 @@ const generateNavigationItems = (navConfig) => {
       path: link.path,
       text: link.text,
     });
+    capabilities[link.path] = link.capabilities || {};
   });
 
   return {
-    config: configuredLinks,
+    navigationItems: {
+      config: configuredLinks,
+    },
+    capabilities: {
+      config: capabilities,
+    },
   };
 };
 

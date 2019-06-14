@@ -6,7 +6,7 @@ import Overlay from 'terra-overlay';
 import FocusTrap from 'focus-trap-react';
 import ContentContainer from 'terra-content-container';
 
-import SecondaryNavigationLayoutActionHeader from './_SecondaryNavigationLayoutActionHeader';
+import ComponentToolbar from './_ComponentToolbar';
 import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
 
 import styles from './SecondaryNavigationLayout.module.scss';
@@ -27,7 +27,7 @@ const propTypes = {
    */
   children: PropTypes.element.isRequired,
 
-  headerToolbar: PropTypes.element,
+  toolbarMenu: PropTypes.element,
   /**
    * @private
    */
@@ -208,7 +208,7 @@ class SecondaryNavigationLayout extends React.Component {
       children,
       menuItems,
       activeBreakpoint,
-      headerToolbar,
+      toolbarMenu,
       selectedMenuItemKey,
     } = this.props;
 
@@ -262,12 +262,12 @@ class SecondaryNavigationLayout extends React.Component {
         <div className={cx('content')}>
           <ContentContainer
             header={(
-              <SecondaryNavigationLayoutActionHeader
+              <ComponentToolbar
                 menuIsVisible={menuIsVisible}
                 onToggle={onToggle}
               >
-                {headerToolbar}
-              </SecondaryNavigationLayoutActionHeader>
+                {toolbarMenu}
+              </ComponentToolbar>
             )}
             fill
           >

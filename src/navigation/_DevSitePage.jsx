@@ -6,11 +6,13 @@ import {
 import Application from 'terra-application';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
+import ContentContainer from 'terra-content-container';
 
 import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
 import Placeholder from '../static-pages/_PlaceholderPage';
-import ComponentToolbar from './_ComponentToolbar';
+import ComponentToolbarMenu from './_ComponentToolbarMenu';
 import { withAppSettings } from './_AppSettingsContext';
+import ComponentToolbar from './_ComponentToolbar';
 
 const propTypes = {
   rootPath: PropTypes.string.isRequired,
@@ -55,8 +57,6 @@ class DevSitePage extends React.Component {
     this.handleThemeSelection = this.handleThemeSelection.bind(this);
     this.handleLocaleSelection = this.handleLocaleSelection.bind(this);
 
-    console.log(pageContent);
-
     this.state = {
       appSettings,
       locale: appSettings.locale,
@@ -82,41 +82,46 @@ class DevSitePage extends React.Component {
     const {
       pageContent, rootPath, placeholderSrc, notFoundComponent,
     } = this.props;
-    const { sortedContentPaths } = this.state;
+    const { sortedContentPaths, theme, locale } = this.state;
 
     return (
-      <Switch>
-        {sortedContentPaths.map(path => (
+      <Application
+        locale={locale}
+        themeName={siteConfig.settingsConfig.themes[theme]}
+      >
+        <Switch>
+          {sortedContentPaths.map(path => (
+            <Route
+              key={path}
+              path={path}
+              render={() => React.createElement(pageContent[path].component.default.componentClass, pageContent[path].component.default.props)}
+            />
+          ))}
           <Route
-            key={path}
-            path={path}
-            render={() => React.createElement(pageContent[path].component.default.componentClass, pageContent[path].component.default.props)}
+            path={rootPath}
+            exact
+            render={() => <Placeholder src={placeholderSrc} />}
           />
-        ))}
-        <Route
-          path={rootPath}
-          exact
-          render={() => <Placeholder src={placeholderSrc} />}
-        />
-        <Route render={() => notFoundComponent} />
-      </Switch>
+          <Route render={() => notFoundComponent} />
+        </Switch>
+      </Application>
     );
   }
 
-  renderToolbar() {
-    const { location, pageContent } = this.props;
+  renderToolbarMenu() {
+    const { location, pageContent, rootPath } = this.props;
     const { theme, locale } = this.state;
     const config = pageContent[location.pathname];
     if (!config) {
       return null;
     }
-    const { pageType } = config;
-    if (!pageType || (siteConfig.pageTypeCapabilities[pageType] && siteConfig.pageTypeCapabilities[pageType].disableComponentToolbar)) {
+
+    if (!siteConfig.capabilities[rootPath].devToolbar) {
       return null;
     }
 
     return (
-      <ComponentToolbar
+      <ComponentToolbarMenu
         config={{
           themes: Object.keys(siteConfig.settingsConfig.themes),
           locales: siteConfig.settingsConfig.locales,
@@ -131,10 +136,27 @@ class DevSitePage extends React.Component {
 
   render() {
     const { history, menuItems, location } = this.props;
-    const { initialSelectedMenuKey, theme, locale } = this.state;
+    const { initialSelectedMenuKey } = this.state;
 
-    if (!menuItems || !menuItems[0].childItems) {
-      return this.generateContent();
+    const devToolbarMenu = this.renderToolbarMenu();
+
+    if (!menuItems) {
+      if (!devToolbarMenu) {
+        return this.generateContent();
+      }
+
+      return (
+        <ContentContainer
+          header={(
+            <ComponentToolbar>
+              {devToolbarMenu}
+            </ComponentToolbar>
+          )}
+          fill
+        >
+          {this.generateContent()}
+        </ContentContainer>
+      );
     }
 
     return (
@@ -151,14 +173,9 @@ class DevSitePage extends React.Component {
           history.push(metaData.path);
         }}
         key={initialSelectedMenuKey}
-        headerToolbar={this.renderToolbar()}
+        toolbarMenu={devToolbarMenu}
       >
-        <Application
-          locale={locale}
-          themeName={siteConfig.settingsConfig.themes[theme]}
-        >
-          {this.generateContent()}
-        </Application>
+        {this.generateContent()}
       </SecondaryNavigationLayout>
     );
   }

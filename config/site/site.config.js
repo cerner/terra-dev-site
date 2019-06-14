@@ -117,11 +117,6 @@ const siteConfig = {
      */
     headHtml: [],
 
-    pageTypeCapabilities: {
-      // doc: {
-      //   disableComponentToolbar: true,
-      // },
-    },
   },
 
   /* The default for whether or not test evidence should be included. 'true' is the default value. */

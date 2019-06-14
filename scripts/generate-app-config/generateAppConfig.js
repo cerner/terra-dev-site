@@ -81,8 +81,9 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
-  const navigationItems = addConfig(
-    generateNavigationItems(navConfig),
+  const { navigationItems, capabilities } = generateNavigationItems(navConfig);
+  const navigationItemsImport = addConfig(
+    navigationItems,
     'navigationItems.js',
     buildPath,
     fse,
@@ -105,10 +106,10 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     settingsConfig,
     menuItems: menuConfigImport,
     contentConfig: contentConfigImport,
-    navigationItems,
+    navigationItems: navigationItemsImport,
     indexPath: navConfig.navigation.index,
     apps: siteConfig.apps,
-    pageTypeCapabilities: siteConfig.appConfig.pageTypeCapabilities,
+    capabilities: capabilities.config,
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
   };
 

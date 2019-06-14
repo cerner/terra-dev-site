@@ -16,10 +16,16 @@ const navConfig = {
       path: '/components',
       text: 'Components',
       pageTypes: ['doc'],
+      capabilities: {
+        devToolbar: true,
+      },
     }, {
       path: '/tests',
       text: 'Tests',
       pageTypes: ['test'],
+      capabilities: {
+        devToolbar: true,
+      },
     }],
   },
 };
