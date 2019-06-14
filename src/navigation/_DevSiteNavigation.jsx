@@ -238,7 +238,7 @@ class DevSiteNavigation extends React.Component {
         onSelectExtensionItem={this.handleItemSelection}
         activeNavigationItemKey={activeNavigationItemPath}
         onSelectNavigationItem={this.handleNavigationItemSelection}
-        // hero={<Image src={contentConfig.placeholderSrc} style={{ height: '50px', width: '50px' }} />}
+        // hero={<Image src={placeholderSrc} style={{ height: '50px', width: '50px' }} />}
         onSelectSettings={this.handleSettingsSelection}
         utilityItems={DevSiteNavigation.generateUtilityItems(appsConfig)}
         onSelectUtilityItem={this.handleItemSelection}

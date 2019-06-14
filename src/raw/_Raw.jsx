@@ -22,13 +22,8 @@ const propTypes = {
    */
   location: PropTypes.shape({
     pathname: PropTypes.string,
-  }),
+  }).isRequired,
 };
-
-const defaultProps = {
-  location: undefined,
-};
-
 
 const Raw = ({ indexPath, contentConfig, location }) => {
   const flattenedRouteConfig = Object.keys(contentConfig).reduce((allRoutes, pageKey) => Object.assign(allRoutes, contentConfig[pageKey]), {});
@@ -47,6 +42,5 @@ const Raw = ({ indexPath, contentConfig, location }) => {
 };
 
 Raw.propTypes = propTypes;
-Raw.defaultProps = defaultProps;
 
 export default withRouter(Raw);

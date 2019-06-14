@@ -28,7 +28,7 @@ Terra.describeViewports('utilities', ['huge'], () => {
     browser.click('#terra-select-option-en-AU');
 
     browser.click('#terra-dev-site-theme-select');
-    browser.click('[id="terra-select-option-Herp Theme"]');
+    browser.click('[id="terra-select-option-Terra Dev Site Test Theme"]');
 
     browser.click('#terra-dev-site-direction-select');
     browser.click('#terra-select-option-rtl');
@@ -76,7 +76,7 @@ Terra.describeViewports('utilities', ['tiny'], () => {
     browser.click('#terra-select-option-en-AU');
 
     browser.click('#terra-dev-site-theme-select');
-    browser.click('[id="terra-select-option-Herp Theme"]');
+    browser.click('[id="terra-select-option-Terra Dev Site Test Theme"]');
 
     browser.click('#terra-dev-site-direction-select');
     browser.click('#terra-select-option-rtl');
