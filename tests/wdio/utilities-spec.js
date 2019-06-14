@@ -1,7 +1,6 @@
 Terra.describeViewports('utilities', ['huge'], () => {
   it('checks accessibility', () => {
-    browser.url('/');
-    browser.pause(1500);
+    browser.url('/single-page-test');
     browser.click('[class*="UtilityMenuHeaderButton-module"]');
     Terra.validates.element({ selector: '#root' });
   });
@@ -17,7 +16,7 @@ Terra.describeViewports('utilities', ['huge'], () => {
   });
 
   it('selects config', () => {
-    browser.url('/');
+    browser.url('/single-page-test');
     browser.click('[class*="UtilityMenuHeaderButton-module"]');
     browser.click('[class*="PopupMenuListItem-module__item"]:nth-child(2)');
     Terra.validates.element('selects config', { selector: '#root' });
@@ -46,8 +45,7 @@ Terra.describeViewports('utilities', ['huge'], () => {
 
 Terra.describeViewports('utilities', ['tiny'], () => {
   it('opens menu', () => {
-    browser.url('/');
-    browser.pause(1500);
+    browser.url('/single-page-test');
     browser.click('[data-compact-header-toggle]');
     Terra.validates.element({ selector: '#root' });
   });
@@ -64,7 +62,7 @@ Terra.describeViewports('utilities', ['tiny'], () => {
   });
 
   it('selects config', () => {
-    browser.url('/');
+    browser.url('/single-page-test');
     browser.click('[data-compact-header-toggle]');
     browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(2)');
     // browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');

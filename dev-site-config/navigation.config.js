@@ -24,7 +24,7 @@ const navConfig = {
         devToolbar: true,
       },
     }, {
-      path: '/folder first',
+      path: '/folder-first',
       text: 'Folder First Test',
       pageTypes: ['ff'],
       capabilities: {
