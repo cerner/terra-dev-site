@@ -194,7 +194,7 @@ const generateContentConfig = (siteConfig, pageConfig) => {
 
     // Build the 'page config' for the navigation links.
     const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig);
-    // console.log(JSON.stringify(linkPageConfig, null, 2));
+
     const { content: pageContent, menuItems: pageMenuItems } = getPageContentConfig(linkPageConfig, '');
 
     content = Object.assign(content, { [`${link.path}`]: pageContent });

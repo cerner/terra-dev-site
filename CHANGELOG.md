@@ -3,6 +3,19 @@ Changelog
 
 Unreleased
 ----------
+### Breaking
+* Removed the hide option from navigation.config
+* Removed the theme imports option from site.conf
+* Removed extension config option from site.conf
+* The Browser router is now used instead of the hash router.
+
+### Added
+* connsumed new terra-application and terra-application-navigation packages
+* add devToolbar
+* new collapsible side navigation
+* added a site search.
+* added support for application switching
+* devsite is now code split for faster loading
 
 5.0.0 - (May 31, 2019)
 ----------

@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 import CollapsibleMenuView from 'terra-collapsible-menu-view';
 
-import styles from './SecondaryNavigationLayoutActionHeader.module.scss';
+import styles from './ComponentToolbar.module.scss';
 
 const cx = classNames.bind(styles);
 

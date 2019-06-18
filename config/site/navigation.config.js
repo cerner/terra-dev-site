@@ -7,6 +7,8 @@ const navConfig = {
      *      path: Path to the link.
      *      text: The text to display on the navigation link.
      *      pageTypes: The page extension(s) that should be displayed under this link.
+     *      capabilities: an object describing the capabilities of all pages listed under the specified path.
+     *          devToolbar: display a development toolbar that allows switching between locales and themes.
      */
     links: [{
       path: '/home',

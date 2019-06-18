@@ -1,4 +1,10 @@
 :local {
+  .collapsing-navigation-menu {
+    height: 100%;
+    overflow: auto;
+    padding: 10px;
+  }
+
   .item {
     cursor: pointer;
     padding-bottom: 10px;
@@ -7,11 +13,19 @@
     padding-top: 10px;
 
     &.is-selected {
-      background-color: lightblue;
+      background-color: rgba(89, 159, 253, 0.4);
     }
 
     &:hover {
-      background-color: lightgrey;
+      background-color: rgba(89, 159, 253, 0.2);
     }
+  }
+
+  .indent {
+    padding-left: 15px;
+  }
+
+  .disclosure {
+    padding-right: 3px;
   }
 }

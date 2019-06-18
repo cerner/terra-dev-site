@@ -133,7 +133,7 @@ const siteConfig = {
    *      path: 'browser',
    *      // Required, The html title and name of the application.
    *      title:'Browser Router App',
-   *      // Required, The entry point file for the application.
+   *      // optional, The entry point file for the application. If not supplied only the link will be added and it's assumed you've created the other site separately.
    *      file: '../src/testAppBrowserRouter/index',
    *      // Optional, Must be unique, A global variable for basename will be defined using this name.
    *      // This variable will provide the basename for the application. i.e. /terra-dev-site/path which can be used as the base name for the react-router browser router.

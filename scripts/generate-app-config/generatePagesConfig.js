@@ -29,7 +29,7 @@ const pageConfig = (route, namespace) => {
 * Recursively generates page configs.
 */
 const recurs = (config, routes, contentPath, ext, namespace) => {
-  // Prefer modying config over creating new config, this way we blend file paths together in the ui.
+  // Prefer modifying config over creating new config, this way we blend file paths together in the ui.
   const configCopy = config || pageConfig(routes[0], namespace);
 
   // Pop off the top most directory.
@@ -115,6 +115,7 @@ const sortPage = (a, b) => {
 * Sort the pages objects and convert them into ordered arrays.
 */
 const sortPageConfig = config => (
+  // eslint-disable-next-line compat/compat
   Object.values(config).sort(sortPage).map((page) => {
     if (page.pages) {
       // eslint-disable-next-line no-param-reassign

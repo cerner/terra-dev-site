@@ -107,7 +107,7 @@ class CollapsingNavigationMenu extends React.Component {
 
       return (
         <React.Fragment key={item.path}>
-          <div style={!firstLevel ? { paddingLeft: '15px' } : null}>
+          <div className={!firstLevel ? cx('indent') : null}>
             <div
               className={cx(['item', { 'is-selected': selectedPath === item.path }])}
               tabIndex="0"
@@ -115,7 +115,7 @@ class CollapsingNavigationMenu extends React.Component {
               onKeyDown={event => this.handleKeyDown(event, item)}
               onClick={event => this.handleOnClick(event, item)}
             >
-              {itemHasChildren ? <span style={{ paddingRight: '3px' }}>{ itemIsOpen ? <IconCaretDown /> : <IconCaretRight />}</span> : null}
+              {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown /> : <IconCaretRight />}</span> : null}
               {item.text}
             </div>
             {itemIsOpen ? this.renderMenuItems(item.childItems) : null}
@@ -128,7 +128,7 @@ class CollapsingNavigationMenu extends React.Component {
   render() {
     const { menuItems } = this.props;
     return (
-      <div style={{ height: '100%', overflow: 'auto', padding: '10px' }}>
+      <div className={cx('collapsing-navigation-menu')}>
         {menuItems ? this.renderMenuItems(menuItems[0].childItems, true) : undefined}
       </div>
     );

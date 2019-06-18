@@ -14,6 +14,7 @@ const style = {
 };
 
 const MarkdownExample = () => (
+  // eslint-disable-next-line react/forbid-dom-props
   <div style={style}>
     <Markdown src={ReadMe} />
     <Markdown src={`\`\`\`javascript\n${config}\n\`\`\``} />

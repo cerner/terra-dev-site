@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import ButtonGroup from 'terra-button-group';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
 
-import styles from './SecondaryNavigationLayoutActionHeader.module.scss';
+import styles from './ComponentToolbar.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -20,7 +20,7 @@ const defaultProps = {
   menuIsVisible: true,
 };
 
-const SecondaryNavigationLayoutActionHeader = ({
+const ComponentToolbar = ({
   onToggle,
   menuIsVisible,
   children,
@@ -46,7 +46,7 @@ const SecondaryNavigationLayoutActionHeader = ({
   </div>
 );
 
-SecondaryNavigationLayoutActionHeader.propTypes = propTypes;
-SecondaryNavigationLayoutActionHeader.defaultProps = defaultProps;
+ComponentToolbar.propTypes = propTypes;
+ComponentToolbar.defaultProps = defaultProps;
 
-export default SecondaryNavigationLayoutActionHeader;
+export default ComponentToolbar;

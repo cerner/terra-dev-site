@@ -273,7 +273,7 @@ class SecondaryNavigationLayout extends React.Component {
           >
             {children}
           </ContentContainer>
-          <Overlay isOpen={isCompact ? compactMenuIsOpen : false} isRelativeToContainer style={{ top: '0' }} />
+          <Overlay isOpen={isCompact ? compactMenuIsOpen : false} isRelativeToContainer className={cx('overlay')} />
         </div>
       </div>
     );

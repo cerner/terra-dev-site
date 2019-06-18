@@ -56,7 +56,9 @@ const generateAppsEntryPoints = (apps, devSiteConfigPath) => {
   const entryPoints = {};
   apps.forEach((app) => {
     const { path: appPath, file } = app;
-    entryPoints[entryName(appPath)] = path.resolve(path.join(devSiteConfigPath, file));
+    if (file) {
+      entryPoints[entryName(appPath)] = path.resolve(path.join(devSiteConfigPath, file));
+    }
   });
   return entryPoints;
 };
@@ -88,18 +90,20 @@ const indexPlugin = ({
 */
 const generateAppsPlugins = (siteConfig, lang, publicPath, indexEntryPoints) => siteConfig.apps.reduce((acc, app) => {
   const {
-    path: appPath, title, rootElementId, basename,
+    path: appPath, title, rootElementId, basename, file,
   } = app;
   // Add an index.html file for the additional app.
-  acc.push(indexPlugin({
-    title,
-    filename: `${appPath}/index.html`,
-    lang,
-    rootElementId,
-    siteConfig,
-    indexEntryPoints,
-    entry: entryName(appPath),
-  }));
+  if (file) {
+    acc.push(indexPlugin({
+      title,
+      filename: `${appPath}/index.html`,
+      lang,
+      rootElementId,
+      siteConfig,
+      indexEntryPoints,
+      entry: entryName(appPath),
+    }));
+  }
   // If a base name is specified, add it with the define plugin.
   if (basename) {
     acc.push(new webpack.DefinePlugin({
@@ -155,7 +159,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   return {
     entry: {
-      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
+      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'src', 'Index')),
       rewriteHistory: path.resolve(path.join(__dirname, '..', '..', 'lib', 'rewriteHistory')),
       redirect: path.resolve(path.join(__dirname, '..', '..', 'lib', 'redirect')),
       // Additional apps entry points

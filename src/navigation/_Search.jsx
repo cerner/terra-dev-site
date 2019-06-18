@@ -96,7 +96,7 @@ const Search = ({ disclosureManager, onItemSelected }) => {
             onClose={disclosureManager.closeDisclosure}
           />
           <SearchField
-            className={cx('searchField')}
+            className={cx('search-field')}
             isBlock
             placeholder="Search"
             onSearch={string => handleSearch(string, setState)}
