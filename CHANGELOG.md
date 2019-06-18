@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated fs-extra dependency to ^8.0.0
+* Updated babel-eslint dev-dependency to ^10.0.1
 
 5.0.0 - (May 31, 2019)
 ----------

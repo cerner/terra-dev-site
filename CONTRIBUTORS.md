@@ -12,6 +12,7 @@ Cerner Corporation
 - Alisha Parvez [@parvezalisha]
 - Cody Price [@dev-cprice]
 - Mike Hemesath [@mhemesath]
+- Adam Parker [@amichaelparker]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -25,3 +26,4 @@ Cerner Corporation
 [@parvezalisha]: https://github.com/parvezalisha
 [@dev-cprice]: https://github.com/dev-cprice
 [@mhemesath]: https://github.com/mhemesath
+[@amichaelparker]: https://github.com/amichaelparker
