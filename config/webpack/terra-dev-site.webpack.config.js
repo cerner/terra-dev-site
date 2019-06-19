@@ -159,7 +159,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   return {
     entry: {
-      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'src', 'Index')),
+      'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
       rewriteHistory: path.resolve(path.join(__dirname, '..', '..', 'lib', 'rewriteHistory')),
       redirect: path.resolve(path.join(__dirname, '..', '..', 'lib', 'redirect')),
       // Additional apps entry points
