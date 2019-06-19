@@ -55,6 +55,14 @@ const propTypes = {
     basename: PropTypes.string,
     rootElementId: PropTypes.string,
   })),
+
+  extensionConfig: PropTypes.arrayOf(PropTypes.shape({
+    icon: PropTypes.func,
+    key: PropTypes.string,
+    text: PropTypes.string,
+    component: PropTypes.func,
+    size: PropTypes.string,
+  })),
   /**
    * Injected by react-router: represent where the app is now, where you want it to go,
    * or even where it was.
@@ -79,6 +87,7 @@ const defaultProps = {
   history: undefined,
   onUpdateSettings: undefined,
   appsConfig: undefined,
+  extensionConfig: [],
 };
 
 class DevSiteNavigation extends React.Component {
@@ -113,17 +122,28 @@ class DevSiteNavigation extends React.Component {
     }
   }
 
-  static launchSearch(key, { disclosureManager, history }) {
+  // static launchSearch(key, { disclosureManager, history }) {
+  //   disclosureManager.disclose({
+  //     preferredType: 'modal',
+  //     size: 'large',
+  //     content: {
+  //       key,
+  //       component: (
+  //         <Search
+  //           onItemSelected={path => history.push(path)}
+  //         />
+  //       ),
+  //     },
+  //   });
+  // }
+
+  static launchExtension(key, disclosureManager, { Component, props = {}, size = 'large' }) {
     disclosureManager.disclose({
       preferredType: 'modal',
-      size: 'large',
+      size,
       content: {
         key,
-        component: (
-          <Search
-            onItemSelected={path => history.push(path)}
-          />
-        ),
+        component: <Component {...props} />,
       },
     });
   }
@@ -162,12 +182,40 @@ class DevSiteNavigation extends React.Component {
 
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
     this.handleItemSelection = this.handleItemSelection.bind(this);
+    this.handleExtensionSelection = this.handleExtensionSelection.bind(this);
     this.handleSettingsSelection = this.handleSettingsSelection.bind(this);
   }
 
   componentDidMount() {
     const { location } = this.props;
     DevSiteNavigation.scrollToALink(location);
+  }
+
+  getExtensionItems() {
+    const {
+      extensionConfig,
+      history,
+    } = this.props;
+    const searchExtension = {
+      icon: <IconSearch />,
+      key: 'terra-dev-site.search',
+      text: 'Search',
+      metaData: {
+        Component: Search,
+        size: 'large',
+        props: { onItemSelected: path => history.push(path) },
+      },
+    };
+    console.log(extensionConfig);
+    return extensionConfig.reduce((acc, ext) => acc.concat({
+      icon: <ext.icon />,
+      key: ext.key,
+      text: ext.text,
+      metaData: {
+        Component: ext.component,
+        size: ext.size,
+      },
+    }), [searchExtension]);
   }
 
   handleNavigationItemSelection(navigationItemKey) {
@@ -181,6 +229,10 @@ class DevSiteNavigation extends React.Component {
 
   handleItemSelection(key, metaData) {
     metaData.func(key, this.props);
+  }
+
+  handleExtensionSelection(key, metaData) {
+    DevSiteNavigation.launchExtension(key, this.props.disclosureManager, metaData);
   }
 
   handleSettingsSelection() {
@@ -227,15 +279,8 @@ class DevSiteNavigation extends React.Component {
           key: item.path,
           text: item.text,
         }))}
-        extensionItems={[
-          {
-            icon: <IconSearch />,
-            key: 'terra-dev-site.search',
-            text: 'Search',
-            metaData: { func: DevSiteNavigation.launchSearch },
-          },
-        ]}
-        onSelectExtensionItem={this.handleItemSelection}
+        extensionItems={this.getExtensionItems()}
+        onSelectExtensionItem={this.handleExtensionSelection}
         activeNavigationItemKey={activeNavigationItemPath}
         onSelectNavigationItem={this.handleNavigationItemSelection}
         // hero={<Image src={placeholderSrc} style={{ height: '50px', width: '50px' }} />}

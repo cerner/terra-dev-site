@@ -153,6 +153,7 @@ class DevSiteApplication extends React.Component {
                           placeholderSrc={siteConfig.placeholderSrc}
                           navigationItems={siteConfig.navigationItems}
                           indexPath={siteConfig.indexPath}
+                          extensionConfig={siteConfig.extensions}
                           appsConfig={siteConfig.apps}
                         />
                       </Route>

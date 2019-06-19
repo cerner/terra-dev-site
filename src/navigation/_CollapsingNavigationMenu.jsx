@@ -53,6 +53,11 @@ class CollapsingNavigationMenu extends React.Component {
     return paths;
   }
 
+  /**
+   * Returns an object containing the keys of the items to open to reveal the selected path in the tree.
+   * @param {*} menuItems list of all menu items
+   * @param {*} selectedPath the currently selected path
+   */
   static openKeysToItem(menuItems, selectedPath) {
     return CollapsingNavigationMenu.keysToItem(menuItems, selectedPath).reduce((acc, path) => {
       acc[path] = true;

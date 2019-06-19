@@ -19,6 +19,16 @@ const siteConfig = {
       'Default Theme': '',
       'Terra Dev Site Test Theme': 'terra-dev-site-test-theme',
     },
+
+    extensions: [
+      {
+        iconPath: 'terra-icon/lib/icon/IconSend',
+        key: 'terra-dev-site.test-extension',
+        text: 'Test Extension',
+        componentPath: '../src/test-extension/TestExtension',
+        size: 'small',
+      },
+    ],
   },
 
   includeTestEvidence: false,

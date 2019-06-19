@@ -7,6 +7,7 @@ const generateSettingsConfig = require('./generateSettingsConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
 const generateSearchItems = require('./generateSearchItems');
+const generateExtensionConfig = require('./generateExtensionConfig');
 const injectLink = require('./injectLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
@@ -90,6 +91,14 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
+  const extensionConfigImport = addConfig(
+    generateExtensionConfig(appConfig.extensions),
+    'extensionsConfig.js',
+    buildPath,
+    fse,
+    imports,
+  );
+
   // Create search items file
   writeConfig(
     generateSearchItems(contentConfig.content),
@@ -111,6 +120,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     indexPath: navConfig.navigation.index,
     apps: siteConfig.apps,
     capabilities: capabilities.config,
+    extensions: extensionConfigImport,
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
   };
 
