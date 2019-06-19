@@ -23,7 +23,9 @@ class ImportAggregator {
     return new IdentifierPlaceholder(ident);
   }
 
-  static formatString = importString => importString.replace(/\\/g, '\\\\');
+  static formatString(importString) {
+    return importString.replace(/\\/g, '\\\\');
+  }
 
   constructor() {
     this.imports = {};
