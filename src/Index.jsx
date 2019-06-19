@@ -19,12 +19,20 @@ import TerraMdxProvider from './mdx/_TerraMdxProvider';
 import './index.scss';
 
 class DevSiteApplication extends React.Component {
+  /**
+   * Redirect the page to one of the routes reserved for the additional apps
+   * @param {*} props.match the current matching route
+   */
   static redirectToReservedRoute({ match }) {
     window.sessionStorage.redirect = window.location.href;
     window.location.pathname = `${TERRA_DEV_SITE_BASENAME}${match.url}/`;
     return null;
   }
 
+  /**
+   * Redirect the page to the version of the page without the root hash route
+   * @param {*} props.location the current location
+   */
   static redirectSlashRoute({ location }) {
     // if a hash route is passed in, we're going to redirect to avoid breaking existing tests.
     if (location.hash.startsWith('#/')) {
@@ -60,6 +68,10 @@ class DevSiteApplication extends React.Component {
     this.syncDomWithState();
   }
 
+  /**
+   * Handle setting update and store new settings in state.
+   * @param {*} newSettings
+   */
   onUpdateSettings(newSettings) {
     const { locale, theme, direction } = this.state;
     const newState = {};
@@ -80,6 +92,9 @@ class DevSiteApplication extends React.Component {
     }
   }
 
+  /**
+   * Place settings on dom
+   */
   syncDomWithState() {
     const { locale, direction } = this.state;
 

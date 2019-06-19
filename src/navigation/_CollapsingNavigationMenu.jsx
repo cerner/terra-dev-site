@@ -25,18 +25,25 @@ const defaultProps = {
 };
 
 class CollapsingNavigationMenu extends React.Component {
+  /**
+   * Returns a list of keys in the tree to 'open' that lead to the selected path.
+   * @param {*} item the item to traverse
+   * @param {*} selectedPath the currently selected path
+   */
   static keysToItem(item, selectedPath) {
     let paths = [];
     if (item.childItems) {
       item.childItems.some((childItem) => {
         if (selectedPath === childItem.path) {
           paths = [item.path];
+          // if found bail early.
           return true;
         }
 
         const childPaths = CollapsingNavigationMenu.keysToItem(childItem, selectedPath);
         if (childPaths.length > 0) {
           paths = childPaths.concat([item.path]);
+          // if found bail early.
           return true;
         }
         return false;

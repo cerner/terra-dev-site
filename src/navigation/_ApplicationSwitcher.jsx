@@ -28,6 +28,11 @@ const propTypes = {
   disclosureManager: disclosureManagerShape.isRequired,
 };
 
+/**
+ * render a component to display apps available to switch to.
+ * @param {*} props.disclosureManager disclosure manager object
+ * @param {*} props.apps the apps to display
+ */
 const ApplicationSwitcher = ({ disclosureManager, apps }) => (
   <ContentContainer
     header={(

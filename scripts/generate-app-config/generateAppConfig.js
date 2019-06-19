@@ -51,7 +51,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
 
   const settingsConfig = addConfig(
     generateSettingsConfig(appConfig),
-    'settingsConfig.jsx',
+    'settingsConfig.js',
     buildPath,
     fse,
     imports,
@@ -90,6 +90,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
+  // Create search items file
   writeConfig(
     generateSearchItems(contentConfig.content),
     'searchItems.js',
