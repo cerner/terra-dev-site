@@ -14,13 +14,11 @@ const propTypes = {
 const TestExtension = ({ disclosureManager }) => (
   <ContentContainer
     header={(
-      <>
-        <ActionHeader
-          title="Test Extension"
-          onBack={disclosureManager.goBack}
-          onClose={disclosureManager.closeDisclosure}
-        />
-      </>
+      <ActionHeader
+        title="Test Extension"
+        onBack={disclosureManager.goBack}
+        onClose={disclosureManager.closeDisclosure}
+      />
     )}
     fill
   >

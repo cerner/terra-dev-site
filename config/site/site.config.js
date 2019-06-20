@@ -108,6 +108,22 @@ const siteConfig = {
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
+    /** This section allows you to set custom extensions.
+     * Extensions will be launched in a modal manager.
+     *  Add like:
+     *  extensions: [
+     * {
+     *     iconPath: 'terra-icon/lib/icon/IconSend',
+     *     key: 'terra-dev-site.search',
+     *     text: 'text',
+     *     componentPath: '../path/to/component',
+     *     size: 'small',
+     *   },
+     * ],
+     */
+
+    extensions: [],
+
     /** This section allows you to inject arbitrary html into the head tag of index.html.
      *  It takes an array of strings. You could load the string from an external file if desired.
      *  Add like:
