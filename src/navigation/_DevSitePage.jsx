@@ -10,7 +10,7 @@ import ContentContainer from 'terra-content-container';
 
 import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
 import Placeholder from '../static-pages/_PlaceholderPage';
-import ComponentToolbarMenu from './_ComponentToolbarMenu';
+import DevToolbarButtons from './_DevToolbarButtons';
 import { withAppSettings } from './_AppSettingsContext';
 import ComponentToolbar from './_ComponentToolbar';
 
@@ -112,16 +112,12 @@ class DevSitePage extends React.Component {
     const { location, pageContent, rootPath } = this.props;
     const { theme, locale } = this.state;
     const config = pageContent[location.pathname];
-    if (!config) {
-      return null;
-    }
-
-    if (!siteConfig.capabilities[rootPath].devToolbar) {
+    if (!config || !siteConfig.capabilities[rootPath].devToolbar) {
       return null;
     }
 
     return (
-      <ComponentToolbarMenu
+      <DevToolbarButtons
         config={{
           themes: Object.keys(siteConfig.settingsConfig.themes),
           locales: siteConfig.settingsConfig.locales,

@@ -60,7 +60,7 @@ const propTypes = {
     icon: PropTypes.func,
     key: PropTypes.string,
     text: PropTypes.string,
-    component: PropTypes.func,
+    component: PropTypes.element,
     size: PropTypes.string,
   })),
   /**
@@ -121,21 +121,6 @@ class DevSiteNavigation extends React.Component {
       element[0].scrollIntoView();
     }
   }
-
-  // static launchSearch(key, { disclosureManager, history }) {
-  //   disclosureManager.disclose({
-  //     preferredType: 'modal',
-  //     size: 'large',
-  //     content: {
-  //       key,
-  //       component: (
-  //         <Search
-  //           onItemSelected={path => history.push(path)}
-  //         />
-  //       ),
-  //     },
-  //   });
-  // }
 
   static launchExtension(key, disclosureManager, { Component, props = {}, size = 'large' }) {
     disclosureManager.disclose({
@@ -206,7 +191,7 @@ class DevSiteNavigation extends React.Component {
         props: { onItemSelected: path => history.push(path) },
       },
     };
-    console.log(extensionConfig);
+
     return extensionConfig.reduce((acc, ext) => acc.concat({
       icon: <ext.icon />,
       key: ext.key,

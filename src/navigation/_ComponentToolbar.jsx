@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
-import ButtonGroup from 'terra-button-group';
+import Button from 'terra-button';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
 
 import styles from './ComponentToolbar.module.scss';
@@ -28,21 +28,21 @@ const ComponentToolbar = ({
   <div className={cx('header')}>
     <div className={cx('toggle')}>
       { onToggle ? (
-        <ButtonGroup
-          selectedKeys={menuIsVisible ? ['close-menu'] : undefined}
-        >
-          <ButtonGroup.Button
-            icon={<IconLeftPane />}
-            key={menuIsVisible ? 'close-menu' : 'open-menu'}
-            text={menuIsVisible ? 'Close Menu' : 'Open Menu'}
-            onClick={onToggle}
-          />
-        </ButtonGroup>
+        <Button
+          text={menuIsVisible ? 'Close Menu' : 'Open Menu'}
+          key={menuIsVisible ? 'close-menu' : 'open-menu'}
+          icon={<IconLeftPane />}
+          variant="ghost"
+          isIconOnly
+          onClick={onToggle}
+        />
       )
         : null
       }
     </div>
-    {children}
+    <div className={cx('flex-collapse')}>
+      {children}
+    </div>
   </div>
 );
 
