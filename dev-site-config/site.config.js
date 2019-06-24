@@ -22,7 +22,7 @@ const siteConfig = {
 
     extensions: [
       {
-        iconPath: 'terra-icon/lib/icon/IconSend',
+        iconPath: 'terra-icon/lib/icon/IconAllergy',
         key: 'terra-dev-site.test-extension',
         text: 'Test Extension',
         componentPath: '../src/test-extension/TestExtension',
