@@ -60,7 +60,7 @@ const propTypes = {
     icon: PropTypes.func,
     key: PropTypes.string,
     text: PropTypes.string,
-    component: PropTypes.element,
+    component: PropTypes.func,
     size: PropTypes.string,
   })),
   /**

@@ -10,9 +10,10 @@ import ContentContainer from 'terra-content-container';
 
 import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
 import Placeholder from '../static-pages/_PlaceholderPage';
-import DevToolbarButtons from './_DevToolbarButtons';
 import { withAppSettings } from './_AppSettingsContext';
 import ComponentToolbar from './_ComponentToolbar';
+
+const { settingsConfig, capabilities } = siteConfig;
 
 const propTypes = {
   rootPath: PropTypes.string.isRequired,
@@ -66,6 +67,30 @@ class DevSitePage extends React.Component {
     };
   }
 
+  getDevToolbarConfig() {
+    const { location, pageContent, rootPath } = this.props;
+    const { theme, locale } = this.state;
+    const config = pageContent[location.pathname];
+    if (!config || !capabilities[rootPath].devToolbar) {
+      return null;
+    }
+
+    const themes = Object.keys(settingsConfig.themes);
+
+    if (settingsConfig.locales.length <= 1 && themes.length <= 1) {
+      return null;
+    }
+
+    return {
+      locales: settingsConfig.locales,
+      selectedLocale: locale,
+      onChangeLocale: this.handleLocaleSelection,
+      themes,
+      selectedTheme: theme,
+      onChangeTheme: this.handleThemeSelection,
+    };
+  }
+
   handleThemeSelection(theme) {
     this.setState({
       theme,
@@ -87,7 +112,7 @@ class DevSitePage extends React.Component {
     return (
       <Application
         locale={locale}
-        themeName={siteConfig.settingsConfig.themes[theme]}
+        themeName={settingsConfig.themes[theme]}
       >
         <Switch>
           {sortedContentPaths.map(path => (
@@ -108,45 +133,20 @@ class DevSitePage extends React.Component {
     );
   }
 
-  renderToolbarMenu() {
-    const { location, pageContent, rootPath } = this.props;
-    const { theme, locale } = this.state;
-    const config = pageContent[location.pathname];
-    if (!config || !siteConfig.capabilities[rootPath].devToolbar) {
-      return null;
-    }
-
-    return (
-      <DevToolbarButtons
-        config={{
-          themes: Object.keys(siteConfig.settingsConfig.themes),
-          locales: siteConfig.settingsConfig.locales,
-        }}
-        selectedLocale={locale}
-        onChangeLocale={this.handleLocaleSelection}
-        selectedTheme={theme}
-        onChangeTheme={this.handleThemeSelection}
-      />
-    );
-  }
-
   render() {
     const { history, menuItems, location } = this.props;
     const { initialSelectedMenuKey } = this.state;
 
-    const devToolbarMenu = this.renderToolbarMenu();
-
+    const devToolbarConfig = this.getDevToolbarConfig();
     if (!menuItems) {
-      if (!devToolbarMenu) {
+      if (!devToolbarConfig) {
         return this.generateContent();
       }
 
       return (
         <ContentContainer
           header={(
-            <ComponentToolbar>
-              {devToolbarMenu}
-            </ComponentToolbar>
+            <ComponentToolbar devToolbarConfig={devToolbarConfig} />
           )}
           fill
         >
@@ -169,7 +169,7 @@ class DevSitePage extends React.Component {
           history.push(metaData.path);
         }}
         key={initialSelectedMenuKey}
-        toolbarMenu={devToolbarMenu}
+        devToolbarConfig={devToolbarConfig}
       >
         {this.generateContent()}
       </SecondaryNavigationLayout>

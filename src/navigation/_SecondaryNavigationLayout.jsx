@@ -27,7 +27,14 @@ const propTypes = {
    */
   children: PropTypes.element.isRequired,
 
-  toolbarMenu: PropTypes.element,
+  devToolbarConfig: PropTypes.shape({
+    selectedTheme: PropTypes.string,
+    selectedLocale: PropTypes.string,
+    themes: PropTypes.arrayOf(PropTypes.string),
+    locales: PropTypes.arrayOf(PropTypes.string),
+    onChangeLocale: PropTypes.func,
+    onChangeTheme: PropTypes.func,
+  }),
   /**
    * @private
    */
@@ -115,28 +122,10 @@ class SecondaryNavigationLayout extends React.Component {
     const flattenedMenuItems = SecondaryNavigationLayout.flattenMenuItems(props.menuItems);
 
     this.ancestorMap = SecondaryNavigationLayout.buildAncestorMap(flattenedMenuItems);
-    // const selectedItem = flattenedMenuItems.find(item => item.key === props.selectedMenuItemKey);
-    // const parentItem = this.ancestorMap[props.selectedMenuItemKey];
-
-    // let selectedMenuKey;
-    // let selectedChildKey;
-    // let selectionPath;
-    // if (selectedItem.childKeys && selectedItem.childKeys.length) {
-    //   selectedMenuKey = selectedItem.key;
-    //   selectedChildKey = undefined;
-    //   selectionPath = undefined;
-    // } else if (parentItem) {
-    //   selectedMenuKey = parentItem.key;
-    //   selectedChildKey = selectedItem.key;
-    //   selectionPath = SecondaryNavigationLayout.buildSelectionPath(selectedItem.key, this.ancestorMap);
-    // }
 
     this.state = {
       flattenedMenuItems,
-      previousActiveBreakpoint: props.activeBreakpoint, // eslint-disable-line react/no-unused-state
-      // selectedMenuKey,
-      // selectedChildKey,
-      // selectionPath,
+      previousActiveBreakpoint: props.activeBreakpoint,
       compactMenuIsOpen: false,
       menuIsPinnedOpen: true,
     };
@@ -208,7 +197,7 @@ class SecondaryNavigationLayout extends React.Component {
       children,
       menuItems,
       activeBreakpoint,
-      toolbarMenu,
+      devToolbarConfig,
       selectedMenuItemKey,
     } = this.props;
 
@@ -265,9 +254,8 @@ class SecondaryNavigationLayout extends React.Component {
               <ComponentToolbar
                 menuIsVisible={menuIsVisible}
                 onToggle={onToggle}
-              >
-                {toolbarMenu}
-              </ComponentToolbar>
+                devToolbarConfig={devToolbarConfig}
+              />
             )}
             fill
           >
