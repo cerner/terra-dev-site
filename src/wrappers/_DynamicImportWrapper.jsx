@@ -50,6 +50,7 @@ const DynamicImportWrapper = ({ content, render }) => {
   if (Content) {
     return (
       <div
+        id="site"
         data-terra-dev-site-content
         className={cx('dev-site-content')}
       >
@@ -61,6 +62,7 @@ const DynamicImportWrapper = ({ content, render }) => {
   if (isErrored) {
     return (
       <div
+        id="site"
         data-terra-dev-site-content
         className={cx('dev-site-content')}
       >
