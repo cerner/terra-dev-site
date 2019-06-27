@@ -47,31 +47,19 @@ const DynamicImportWrapper = ({ content, render }) => {
     return () => { isActive = false; };
   });
 
-  if (Content) {
+  if (Content || isErrored) {
     return (
       <div
         id="site"
         data-terra-dev-site-content
         className={cx('dev-site-content')}
       >
-        { render(Content) }
+        { Content ? render(Content) : 'The page failed to load. Refresh the page to try again.' }
       </div>
     );
   }
 
-  if (isErrored) {
-    return (
-      <div
-        id="site"
-        data-terra-dev-site-content
-        className={cx('dev-site-content')}
-      >
-        The page failed to load. Refresh the page to try again.
-      </div>
-    );
-  }
-
-  return null;
+  return <div data-terra-dev-site-content-loading />;
 };
 
 DynamicImportWrapper.propTypes = propTypes;
