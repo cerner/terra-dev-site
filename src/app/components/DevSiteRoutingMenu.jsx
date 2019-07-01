@@ -136,8 +136,7 @@ class DevSiteRoutingMenu extends Component {
     return Promise.resolve().then(() => routeFunc());
   }
 
-  handleFilter(event) {
-    const filterText = event.target.value;
+  handleFilter(event, filterText) {
     const { menuItems: initialMenuItems } = this.props;
 
     const filter = searchFilter(filterText);

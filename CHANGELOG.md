@@ -7,6 +7,9 @@ Unreleased
 * Updated fs-extra dependency to ^8.0.0
 * Updated babel-eslint dev-dependency to ^10.0.1
 
+### Fixed
+* Fixed the console error which occured when ESC was pressed in the search filter.
+
 5.0.0 - (May 31, 2019)
 ----------
 ### Changed
