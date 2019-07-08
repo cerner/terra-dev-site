@@ -7,7 +7,7 @@ Terra-dev-site offers a quick site to host test examples and documentation for y
 ### Installation
 
 ``` bash
-npm install terra-dev-site
+npm install --save-dev terra-dev-site
 ```
 
 ### Pre Reqs:
