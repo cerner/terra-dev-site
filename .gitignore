@@ -57,3 +57,4 @@ errorScreenshots
 **/aggregated-translations/*.*
 stats.json
 aggregated-themes.js
+package-lock.json
