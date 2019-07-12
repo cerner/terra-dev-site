@@ -123,14 +123,14 @@
     "terra-overlay": "^3.11.0",
     "terra-search-field": "^3.13.0",
     "terra-spacer": "^3.3.0",
-    "terra-status-view": "^3.5.0",
+    "terra-status-view": "^4.1.0",
     "to-ast": "^1.0.0",
     "webpack-merge": "^4.1.2"
   },
   "peerDependencies": {
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
-    "terra-toolkit": "^5.0.0",
+    "terra-toolkit": "^5.2.0",
     "webpack": "^4.28.1"
   },
   "devDependencies": {
@@ -160,7 +160,7 @@
     "regenerator-runtime": "^0.13.2",
     "stylelint-config-terra": "^3.0.0",
     "stylelint": "^10.0.1",
-    "terra-toolkit": "^5.0.0",
+    "terra-toolkit": "^5.2.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",
     "webpack": "^4.28.1"

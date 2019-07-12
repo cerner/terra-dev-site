@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   withRouter, Switch, Route,
 } from 'react-router-dom';
-import Application from 'terra-application';
+import ApplicationBase from 'terra-application';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
 import ContentContainer from 'terra-content-container';
@@ -110,7 +110,7 @@ class DevSitePage extends React.Component {
     const { sortedContentPaths, theme, locale } = this.state;
 
     return (
-      <Application
+      <ApplicationBase
         locale={locale}
         themeName={settingsConfig.themes[theme]}
       >
@@ -129,7 +129,7 @@ class DevSitePage extends React.Component {
           />
           <Route render={() => notFoundComponent} />
         </Switch>
-      </Application>
+      </ApplicationBase>
     );
   }
 

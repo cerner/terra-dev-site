@@ -8,7 +8,7 @@ import {
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import siteConfig from 'build/appConfig';
-import Application from 'terra-application';
+import ApplicationBase from 'terra-application';
 import ModalManager from 'terra-application/lib/modal-manager';
 
 import DevSiteNavigation from './navigation/_DevSiteNavigation';
@@ -129,7 +129,7 @@ class DevSiteApplication extends React.Component {
           { siteConfig.apps.map(app => <Route path={`/${app.path}`} key={app.path} render={DevSiteApplication.redirectToReservedRoute} />)}
           <Route>
             <AppSettingsContext.Provider value={this.state}>
-              <Application
+              <ApplicationBase
                 locale={locale}
                 themeName={siteConfig.settingsConfig.themes[theme]}
                 themeIsGlobal
@@ -160,7 +160,7 @@ class DevSiteApplication extends React.Component {
                     </Switch>
                   </ModalManager>
                 </TerraMdxProvider>
-              </Application>
+              </ApplicationBase>
             </AppSettingsContext.Provider>
           </Route>
         </Switch>
