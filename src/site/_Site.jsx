@@ -123,7 +123,7 @@ class Site extends React.Component {
     return <Redirect to={siteConfig.indexPath} />;
   }
 
-  renderApplicationBaseChildren(settings) {
+  renderApplicationBaseChildren() {
     const { siteConfig, applicationNavigation, fetchSearchItems } = this.props;
     return (
       <TerraMdxProvider>
@@ -138,7 +138,6 @@ class Site extends React.Component {
             <Route>
               <DevSiteNavigation
                 siteConfig={siteConfig}
-                settingsConfig={settings}
                 onUpdateSettings={this.onUpdateSettings}
                 applicationNavigation={applicationNavigation}
                 fetchSearchItems={fetchSearchItems}
@@ -151,17 +150,8 @@ class Site extends React.Component {
   }
 
   render() {
-    const { locale, theme, direction } = this.state;
+    const { locale, theme } = this.state;
     const { applicationBase, siteConfig, basename } = this.props;
-
-    const settings = {
-      locales: siteConfig.settingsConfig.locales,
-      selectedLocale: locale,
-      themes: Object.keys(siteConfig.settingsConfig.themes),
-      selectedTheme: theme,
-      directions: siteConfig.settingsConfig.directions,
-      selectedDirection: direction,
-    };
 
     return (
       // basename is expected to be '' or '/*'
@@ -175,7 +165,7 @@ class Site extends React.Component {
                 applicationBase({
                   locale,
                   themeName: siteConfig.settingsConfig.themes[theme],
-                  child: this.renderApplicationBaseChildren(settings),
+                  child: this.renderApplicationBaseChildren(),
                 })
               }
             </AppSettingsContext.Provider>

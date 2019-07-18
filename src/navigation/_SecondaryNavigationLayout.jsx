@@ -116,8 +116,6 @@ class SecondaryNavigationLayout extends React.Component {
     this.closeMenu = this.closeMenu.bind(this);
     this.openMenu = this.openMenu.bind(this);
     this.handleCollapsingMenuSelection = this.handleCollapsingMenuSelection.bind(this);
-    this.handleThemeSelection = this.handleThemeSelection.bind(this);
-    this.handleLocaleSelection = this.handleLocaleSelection.bind(this);
 
     const flattenedMenuItems = SecondaryNavigationLayout.flattenMenuItems(props.menuItems);
 
@@ -177,18 +175,6 @@ class SecondaryNavigationLayout extends React.Component {
       if (onTerminalMenuItemSelection) {
         onTerminalMenuItemSelection(selectionKey, selectedItem.metaData);
       }
-    });
-  }
-
-  handleThemeSelection(theme) {
-    this.setState({
-      theme,
-    });
-  }
-
-  handleLocaleSelection(locale) {
-    this.setState({
-      locale,
     });
   }
 

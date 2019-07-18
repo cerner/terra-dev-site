@@ -7,30 +7,28 @@ import Spacer from 'terra-spacer';
 import Button from 'terra-button';
 import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
 import SelectField from 'terra-form-select/lib/SelectField';
+import { withAppSettings } from './_AppSettingsContext';
 
 const propTypes = {
   config: PropTypes.shape({
     themes: PropTypes.arrayOf(PropTypes.string),
-    selectedTheme: PropTypes.string,
     locales: PropTypes.arrayOf(PropTypes.string),
-    selectedLocale: PropTypes.string,
     directions: PropTypes.arrayOf(PropTypes.string),
-    selectedDirection: PropTypes.string,
-  }),
-  onChangeSettings: PropTypes.func,
+  }).isRequired,
+  appSettings: PropTypes.shape({
+    locale: PropTypes.string,
+    theme: PropTypes.string,
+    direction: PropTypes.string,
+  }).isRequired,
+  onChangeSettings: PropTypes.func.isRequired,
   disclosureManager: disclosureManagerShape.isRequired,
-};
-
-const defaultProps = {
-  config: undefined,
-  onChangeSettings: undefined,
 };
 
 class SettingsPicker extends React.Component {
   constructor(props) {
     super(props);
 
-    const { selectedLocale: locale, selectedTheme: theme, selectedDirection: direction } = props.config;
+    const { locale, theme, direction } = props.appSettings;
 
     this.state = {
       locale,
@@ -44,6 +42,7 @@ class SettingsPicker extends React.Component {
     const {
       locale, theme, direction,
     } = this.state;
+    const themes = Object.keys(config.themes);
 
     return (
       <ContentContainer
@@ -98,7 +97,7 @@ class SettingsPicker extends React.Component {
               ))}
             </SelectField>
           ) : undefined}
-          {config.themes.length > 1 ? (
+          {themes.length > 1 ? (
             <SelectField
               label="Theme"
               selectId="terra-dev-site-theme-select"
@@ -109,7 +108,7 @@ class SettingsPicker extends React.Component {
                 });
               }}
             >
-              {config.themes.map(value => (
+              {themes.map(value => (
                 <SelectField.Option value={value} display={value} key={value} />
               ))}
             </SelectField>
@@ -137,6 +136,5 @@ class SettingsPicker extends React.Component {
 }
 
 SettingsPicker.propTypes = propTypes;
-SettingsPicker.defaultProps = defaultProps;
 
-export default withDisclosureManager(SettingsPicker);
+export default withAppSettings(withDisclosureManager(SettingsPicker));

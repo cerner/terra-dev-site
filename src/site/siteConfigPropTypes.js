@@ -12,13 +12,19 @@ const settingsConfigPropType = PropTypes.shape({
 
 const capabilitiesPropType = PropTypes.object;
 
+const menuItemsPropType = PropTypes.PropTypes.arrayOf(PropTypes.shape({
+  text: PropTypes.string,
+  path: PropTypes.string,
+  childItems: PropTypes.arrayOf(PropTypes.object),
+}));
+
 const siteConfigPropType = PropTypes.shape({
   nameConfig: PropTypes.shape({
     title: PropTypes.string,
     accessory: PropTypes.element,
   }),
   settingsConfig: settingsConfigPropType,
-  menuItems: PropTypes.object,
+  menuItems: menuItemsPropType,
   contentConfig: PropTypes.object,
   navigationItems: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string,
@@ -41,4 +47,5 @@ export default siteConfigPropType;
 export {
   settingsConfigPropType,
   capabilitiesPropType,
+  menuItemsPropType,
 };
