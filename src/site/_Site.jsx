@@ -33,7 +33,6 @@ class Site extends React.Component {
 
     this.syncDomWithState = this.syncDomWithState.bind(this);
     this.onUpdateSettings = this.onUpdateSettings.bind(this);
-    this.redirectToReservedRoute = this.redirectToReservedRoute.bind(this);
     this.redirectSlashRoute = this.redirectSlashRoute.bind(this);
 
     const {
@@ -100,17 +99,6 @@ class Site extends React.Component {
   }
 
   /**
-   * Redirect the page to one of the routes reserved for the additional apps
-   * @param {*} props.match the current matching route
-   */
-  redirectToReservedRoute({ match }) {
-    const { basename } = this.props;
-    window.sessionStorage.redirect = window.location.href;
-    window.location.pathname = `${basename}${match.url}/`;
-    return null;
-  }
-
-  /**
    * Redirect the page to the version of the page without the root hash route
    * @param {*} props.location the current location
    */
@@ -159,7 +147,6 @@ class Site extends React.Component {
       <BrowserRouter basename={basename}>
         <Switch>
           <Route exact path="/" render={this.redirectSlashRoute} />
-          { siteConfig.apps.map(app => <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
           <Route>
             <AppSettingsContext.Provider value={this.state}>
               {
