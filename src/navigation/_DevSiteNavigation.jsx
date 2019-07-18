@@ -15,6 +15,7 @@ import siteConfigPropType from '../site/siteConfigPropTypes';
 
 const propTypes = {
   onUpdateSettings: PropTypes.func,
+  basename: PropTypes.string.isRequired,
   applicationNavigation: PropTypes.func.isRequired,
   fetchSearchItems: PropTypes.func.isRequired,
   /**
@@ -83,14 +84,14 @@ class DevSiteNavigation extends React.Component {
     });
   }
 
-  static launchAppSwitcher(key, { disclosureManager, appsConfig }) {
+  static launchAppSwitcher(key, { disclosureManager, siteConfig, basename }) {
     disclosureManager.disclose({
       preferredType: 'modal',
       size: 'tiny',
       content: {
         key,
         component: (
-          <ApplicationSwitcher apps={appsConfig} />
+          <ApplicationSwitcher apps={siteConfig.apps} basename={basename} />
         ),
       },
     });

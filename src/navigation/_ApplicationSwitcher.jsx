@@ -1,5 +1,3 @@
-/* global TERRA_DEV_SITE_BASENAME */
-// TERRA_DEV_SITE_BASENAME is defined by webpack
 import React from 'react';
 import PropTypes from 'prop-types';
 import ContentContainer from 'terra-content-container';
@@ -22,6 +20,8 @@ const propTypes = {
       title: PropTypes.string,
     }),
   ).isRequired,
+
+  basename: PropTypes.string.isRequired,
   /**
    * Injected by disclosure manager
    */
@@ -33,7 +33,7 @@ const propTypes = {
  * @param {*} props.disclosureManager disclosure manager object
  * @param {*} props.apps the apps to display
  */
-const ApplicationSwitcher = ({ disclosureManager, apps }) => (
+const ApplicationSwitcher = ({ disclosureManager, apps, basename }) => (
   <ContentContainer
     header={(
       <ActionHeader title="Application Switcher" onBack={disclosureManager.goBack} onClose={disclosureManager.closeDisclosure} />
@@ -43,7 +43,7 @@ const ApplicationSwitcher = ({ disclosureManager, apps }) => (
     <List dividerStyle="bottom-only">
       {apps.map(app => (
         <Item key={app.path}>
-          <Hyperlink className={cx('item')} href={`${TERRA_DEV_SITE_BASENAME}/${app.path}/`}>{app.title}</Hyperlink>
+          <Hyperlink className={cx('item')} href={`${basename}/${app.path}/`}>{app.title}</Hyperlink>
         </Item>
       ))}
     </List>

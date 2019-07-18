@@ -1,5 +1,3 @@
-/* global TERRA_DEV_SITE_BASENAME */
-// TERRA_DEV_SITE_BASENAME is defined by webpack
 import React from 'react';
 import {
   BrowserRouter, Switch, Route, Redirect,
@@ -31,21 +29,13 @@ const propTypes = {
 };
 
 class Site extends React.Component {
-  /**
-   * Redirect the page to one of the routes reserved for the additional apps
-   * @param {*} props.match the current matching route
-   */
-  static redirectToReservedRoute({ match }) {
-    window.sessionStorage.redirect = window.location.href;
-    window.location.pathname = `${TERRA_DEV_SITE_BASENAME}${match.url}/`;
-    return null;
-  }
-
   constructor(props) {
     super(props);
 
     this.syncDomWithState = this.syncDomWithState.bind(this);
     this.onUpdateSettings = this.onUpdateSettings.bind(this);
+    this.redirectToReservedRoute = this.redirectToReservedRoute.bind(this);
+    this.redirectSlashRoute = this.redirectSlashRoute.bind(this);
 
     const {
       defaultLocale: locale = 'en',
@@ -111,6 +101,17 @@ class Site extends React.Component {
   }
 
   /**
+   * Redirect the page to one of the routes reserved for the additional apps
+   * @param {*} props.match the current matching route
+   */
+  redirectToReservedRoute({ match }) {
+    const { basename } = this.props;
+    window.sessionStorage.redirect = window.location.href;
+    window.location.pathname = `${basename}${match.url}/`;
+    return null;
+  }
+
+  /**
    * Redirect the page to the version of the page without the root hash route
    * @param {*} props.location the current location
    */
@@ -124,7 +125,9 @@ class Site extends React.Component {
   }
 
   renderApplicationBaseChildren() {
-    const { siteConfig, applicationNavigation, fetchSearchItems } = this.props;
+    const {
+      siteConfig, applicationNavigation, fetchSearchItems, basename,
+    } = this.props;
     return (
       <TerraMdxProvider>
         <ModalManager>
@@ -138,6 +141,7 @@ class Site extends React.Component {
             <Route>
               <DevSiteNavigation
                 siteConfig={siteConfig}
+                basename={basename}
                 onUpdateSettings={this.onUpdateSettings}
                 applicationNavigation={applicationNavigation}
                 fetchSearchItems={fetchSearchItems}
@@ -157,8 +161,8 @@ class Site extends React.Component {
       // basename is expected to be '' or '/*'
       <BrowserRouter basename={basename}>
         <Switch>
-          <Route exact path="/" render={Site.redirectSlashRoute} />
-          { siteConfig.apps.map(app => <Route path={`/${app.path}`} key={app.path} render={Site.redirectToReservedRoute} />)}
+          <Route exact path="/" render={this.redirectSlashRoute} />
+          { siteConfig.apps.map(app => <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
           <Route>
             <AppSettingsContext.Provider value={this.state}>
               {
