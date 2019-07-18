@@ -30,6 +30,7 @@ class ImportAggregator {
   constructor() {
     this.imports = {};
     this.dynamicImports = {};
+    this.reactLazyImports = {};
   }
 
   /**
@@ -53,6 +54,17 @@ class ImportAggregator {
   }
 
   /**
+  * Imports are aggregated and only added once. Name and identifier are optional.
+  * Import name from <filepath>
+  * returns the identifier specified or the name.
+  */
+  addReactLazyImport(filePath, name, identifier) {
+    this.addImport('react', 'React');
+    const componentName = name || `ReactLazyImport${Object.keys(this.reactLazyImports).length + 1}`;
+    return ImportAggregator.internalAddImport(filePath, componentName, identifier, this.reactLazyImports);
+  }
+
+  /**
   * Returns a string of all the code imports.
   */
   toCodeString() {
@@ -62,7 +74,10 @@ class ImportAggregator {
     const dynamicImports = Object.keys(this.dynamicImports).reduce((acc, cur) => (
       `${acc} const  ${this.dynamicImports[cur]} = () => import('${ImportAggregator.formatString(cur)}');\n`
     ), '');
-    return imports + dynamicImports;
+    const reactLazyImports = Object.keys(this.reactLazyImports).reduce((acc, cur) => (
+      `${acc} const  ${this.reactLazyImports[cur]} = React.lazy(() => import('${ImportAggregator.formatString(cur)}'));\n`
+    ), '');
+    return imports + dynamicImports + reactLazyImports;
   }
 
   /**

@@ -12,13 +12,13 @@ const settingsConfigPropType = PropTypes.shape({
 
 const capabilitiesPropType = PropTypes.object;
 
-const menuItemPropType = PropTypes.shape({
+const menuItemPropType = PropTypes.arrayOf(PropTypes.shape({
   text: PropTypes.string,
   path: PropTypes.string,
   childItems: PropTypes.arrayOf(PropTypes.object),
-});
+}));
 
-const menuItemsPropType = PropTypes.PropTypes.objectOf(PropTypes.arrayOf(menuItemPropType));
+const menuItemsPropType = PropTypes.PropTypes.objectOf(menuItemPropType);
 
 const siteConfigPropType = PropTypes.shape({
   nameConfig: PropTypes.shape({

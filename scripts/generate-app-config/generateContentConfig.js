@@ -51,11 +51,15 @@ const evidenceProps = (contentConfig) => {
  * Sets up content route item. All content items are wrapped with the content wrapper.
  */
 const contentRouteItem = (text, routePath, { contentPath, name, identifier }, props, type) => {
-  let relativeContent;
   let contentProps;
   let content = { contentPath: ContentWrapper, name: 'ContentWrapper' };
   if (typeof contentPath === 'string') {
-    relativeContent = routeImporter.addDynamicImport(ImportAggregator.relativePath(contentPath), name, identifier);
+    let relativeContent;
+    if (type === 'md') {
+      relativeContent = routeImporter.addDynamicImport(ImportAggregator.relativePath(contentPath), name, identifier);
+    } else {
+      relativeContent = routeImporter.addReactLazyImport(ImportAggregator.relativePath(contentPath), name, identifier);
+    }
     contentProps = {
       content: relativeContent,
       props,
@@ -68,7 +72,7 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
 
   if (type === 'evidence') {
     contentProps = {
-      content: routeImporter.addDynamicImport(TerraScreenshotWrapper),
+      content: routeImporter.addReactLazyImport(TerraScreenshotWrapper),
       props: evidenceProps(contentPath),
     };
   }

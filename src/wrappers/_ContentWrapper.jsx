@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
 
-import DynamicImportWrapper from './_DynamicImportWrapper';
+import ContentErrorBoundary from './_ContentErrorBoundary';
+import ContentLoaded from './_ContentLoaded';
+import ContentLoading from './_ContentLoading';
 
 const propTypes = {
   /**
    * The content to be placed within the main content area of the container.
    */
-  content: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  content: PropTypes.object.isRequired,
   /**
    * The props to be applied to the content.
    */
@@ -16,15 +19,17 @@ const propTypes = {
 };
 
 const defaultProps = {
-  content: undefined,
   props: undefined,
 };
 
-const ContentWrapper = ({ content, props }) => (
-  <DynamicImportWrapper
-    content={content}
-    render={Content => <Content {...props} />}
-  />
+const ContentWrapper = ({ content: Content, props }) => (
+  <ContentErrorBoundary>
+    <Suspense fallback={<ContentLoading />}>
+      <ContentLoaded>
+        <Content {...props} />
+      </ContentLoaded>
+    </Suspense>
+  </ContentErrorBoundary>
 );
 
 ContentWrapper.propTypes = propTypes;
