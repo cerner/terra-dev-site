@@ -9,7 +9,7 @@ import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import DevSitePage from './_DevSitePage';
 import SettingsPicker from './_SettingsPicker';
 import ApplicationSwitcher from './_ApplicationSwitcher';
-import Search from './_Search';
+import Search from '../search/_Search';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 import siteConfigPropType from '../site/siteConfigPropTypes';
 

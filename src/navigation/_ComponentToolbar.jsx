@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 import Button from 'terra-button';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
-import MenuButton from './_MenuButton';
+import MenuButton from '../menu-button/_MenuButton';
 
 import styles from './ComponentToolbar.module.scss';
 

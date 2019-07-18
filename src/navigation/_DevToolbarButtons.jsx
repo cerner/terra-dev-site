@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MenuButton from './_MenuButton';
+import MenuButton from '../menu-button/_MenuButton';
 
 const propTypes = {
   selectedTheme: PropTypes.string,
