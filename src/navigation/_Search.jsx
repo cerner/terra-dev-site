@@ -13,6 +13,7 @@ import styles from './search.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  fetchSearchItems: PropTypes.func.isRequired,
   /**
    * Injected by disclosure manager
    */
@@ -23,7 +24,7 @@ const propTypes = {
 
 const clearResults = setState => setState({ results: [] });
 
-const handleSearch = (string, setState) => {
+const handleSearch = (string, fetchSearchItems, setState) => {
   const options = {
     shouldSort: true,
     tokenize: true,
@@ -38,8 +39,7 @@ const handleSearch = (string, setState) => {
       'tags',
     ],
   };
-  // eslint-disable-next-line import/no-unresolved, import/extensions
-  import(/* webpackPrefetch: true, webpackChunkName: "build/searchItems" */ 'build/searchItems').then(({ default: searchItems }) => {
+  fetchSearchItems().then((searchItems) => {
     const fuse = new Fuse(searchItems, options); // "list" is the item array
     const results = fuse.search(string);
     setState({ results });
@@ -84,7 +84,7 @@ const searchItem = result => (
   </div>
 );
 
-const Search = ({ disclosureManager, onItemSelected }) => {
+const Search = ({ disclosureManager, fetchSearchItems, onItemSelected }) => {
   const [state, setState] = useState({ results: [] });
   return (
     <ContentContainer
@@ -99,7 +99,7 @@ const Search = ({ disclosureManager, onItemSelected }) => {
             className={cx('search-field')}
             isBlock
             placeholder="Search"
-            onSearch={string => handleSearch(string, setState)}
+            onSearch={string => handleSearch(string, fetchSearchItems, setState)}
             onInvalidSearch={() => clearResults(setState)}
           />
         </>

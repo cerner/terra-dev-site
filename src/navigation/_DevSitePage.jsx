@@ -4,16 +4,13 @@ import {
   withRouter, Switch, Route,
 } from 'react-router-dom';
 import ApplicationBase from 'terra-application';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import siteConfig from 'build/appConfig';
 import ContentContainer from 'terra-content-container';
 
 import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
 import Placeholder from '../static-pages/_PlaceholderPage';
 import { withAppSettings } from './_AppSettingsContext';
+import { settingsConfigPropType, capabilitiesPropType } from '../site/siteConfigPropTypes';
 import ComponentToolbar from './_ComponentToolbar';
-
-const { settingsConfig, capabilities } = siteConfig;
 
 const propTypes = {
   rootPath: PropTypes.string.isRequired,
@@ -36,6 +33,9 @@ const propTypes = {
     theme: PropTypes.string,
     direction: PropTypes.string,
   }).isRequired,
+
+  settingsConfig: settingsConfigPropType.isRequired,
+  capabilities: capabilitiesPropType.isRequired,
 };
 
 class DevSitePage extends React.Component {
@@ -68,7 +68,9 @@ class DevSitePage extends React.Component {
   }
 
   getDevToolbarConfig() {
-    const { location, pageContent, rootPath } = this.props;
+    const {
+      location, pageContent, rootPath, settingsConfig, capabilities,
+    } = this.props;
     const { theme, locale } = this.state;
     const config = pageContent[location.pathname];
     if (!config || !capabilities[rootPath].devToolbar) {
@@ -105,7 +107,7 @@ class DevSitePage extends React.Component {
 
   generateContent() {
     const {
-      pageContent, rootPath, placeholderSrc, notFoundComponent,
+      pageContent, rootPath, placeholderSrc, notFoundComponent, settingsConfig,
     } = this.props;
     const { sortedContentPaths, theme, locale } = this.state;
 

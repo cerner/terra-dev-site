@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
-import ApplicationNavigation from 'terra-application-navigation';
 // import Image from 'terra-image';
 import IconTile from 'terra-icon/lib/icon/IconTile';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
@@ -12,57 +11,12 @@ import SettingsPicker from './_SettingsPicker';
 import ApplicationSwitcher from './_ApplicationSwitcher';
 import Search from './_Search';
 import NotFoundPage from '../static-pages/_NotFoundPage';
+import siteConfigPropType from '../site/siteConfigPropTypes';
 
 const propTypes = {
-  /**
-   * The title branding of the site.
-   */
-  nameConfig: PropTypes.shape({
-    accessory: PropTypes.element,
-    title: PropTypes.string,
-  }),
-  /**
-   * Configuration to setup the utilities menu.
-   */
-  settingsConfig: PropTypes.shape({
-    themes: PropTypes.arrayOf(PropTypes.string),
-    selectedTheme: PropTypes.string,
-    locales: PropTypes.arrayOf(PropTypes.string),
-    selectedLocale: PropTypes.string,
-    directions: PropTypes.arrayOf(PropTypes.string),
-    selectedDirection: PropTypes.string,
-  }),
   onUpdateSettings: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
-  contentConfig: PropTypes.object.isRequired,
-  placeholderSrc: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  menuItems: PropTypes.object.isRequired,
-  /**
-   * The navigation links to display within the menu in the toolbar.
-   */
-  // eslint-disable-next-line react/forbid-prop-types
-  navigationItems: PropTypes.array,
-  /**
-   * The path to the sites index.
-   */
-  indexPath: PropTypes.string.isRequired,
-
-  appsConfig: PropTypes.arrayOf(PropTypes.shape({
-    path: PropTypes.string,
-    title: PropTypes.string,
-    file: PropTypes.string,
-    basename: PropTypes.string,
-    rootElementId: PropTypes.string,
-  })),
-
-  extensionConfig: PropTypes.arrayOf(PropTypes.shape({
-    icon: PropTypes.func,
-    key: PropTypes.string,
-    text: PropTypes.string,
-    component: PropTypes.func,
-    size: PropTypes.string,
-  })),
+  applicationNavigation: PropTypes.func.isRequired,
+  fetchSearchItems: PropTypes.func.isRequired,
   /**
    * Injected by react-router: represent where the app is now, where you want it to go,
    * or even where it was.
@@ -76,18 +30,14 @@ const propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object,
 
+  siteConfig: siteConfigPropType.isRequired,
+
   disclosureManager: disclosureManagerShape.isRequired,
 };
 
 const defaultProps = {
-  nameConfig: undefined,
-  navigationItems: undefined,
-  settingsConfig: undefined,
   location: undefined,
   history: undefined,
-  onUpdateSettings: undefined,
-  appsConfig: undefined,
-  extensionConfig: [],
 };
 
 class DevSiteNavigation extends React.Component {
@@ -107,7 +57,7 @@ class DevSiteNavigation extends React.Component {
 
   static getDerivedStateFromProps(newProps) {
     return {
-      activeNavigationItemPath: DevSiteNavigation.getActiveNavigationItemPath(newProps.location, newProps.navigationItems),
+      activeNavigationItemPath: DevSiteNavigation.getActiveNavigationItemPath(newProps.location, newProps.siteConfig.navigationItems),
     };
   }
 
@@ -177,10 +127,8 @@ class DevSiteNavigation extends React.Component {
   }
 
   getExtensionItems() {
-    const {
-      extensionConfig,
-      history,
-    } = this.props;
+    const { history, fetchSearchItems } = this.props;
+    const { extensions } = this.props.siteConfig;
     const searchExtension = {
       icon: <IconSearch />,
       key: 'terra-dev-site.search',
@@ -188,11 +136,11 @@ class DevSiteNavigation extends React.Component {
       metaData: {
         Component: Search,
         size: 'large',
-        props: { onItemSelected: path => history.push(path) },
+        props: { fetchSearchItems, onItemSelected: path => history.push(path) },
       },
     };
 
-    return extensionConfig.reduce((acc, ext) => acc.concat({
+    return extensions.reduce((acc, ext) => acc.concat({
       icon: <ext.icon />,
       key: ext.key,
       text: ext.text,
@@ -221,9 +169,8 @@ class DevSiteNavigation extends React.Component {
   }
 
   handleSettingsSelection() {
-    const {
-      disclosureManager, settingsConfig, onUpdateSettings,
-    } = this.props;
+    const { disclosureManager, onUpdateSettings } = this.props;
+    const { settingsConfig } = this.props.siteConfig;
     disclosureManager.disclose({
       preferredType: 'modal',
       size: 'small',
@@ -246,9 +193,10 @@ class DevSiteNavigation extends React.Component {
   }
 
   render() {
+    const { applicationNavigation } = this.props;
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, appsConfig, placeholderSrc, menuItems,
-    } = this.props;
+      nameConfig, navigationItems, contentConfig, indexPath, apps, placeholderSrc, menuItems, settingsConfig, capabilities,
+    } = this.props.siteConfig;
     const { activeNavigationItemPath } = this.state;
 
     if (!activeNavigationItemPath) {
@@ -256,32 +204,37 @@ class DevSiteNavigation extends React.Component {
     }
 
     return (
-      <ApplicationNavigation
-        titleConfig={{
-          title: nameConfig.title,
-        }}
-        navigationItems={navigationItems.map(item => ({
-          key: item.path,
-          text: item.text,
-        }))}
-        extensionItems={this.getExtensionItems()}
-        onSelectExtensionItem={this.handleExtensionSelection}
-        activeNavigationItemKey={activeNavigationItemPath}
-        onSelectNavigationItem={this.handleNavigationItemSelection}
-        // hero={<Image src={placeholderSrc} style={{ height: '50px', width: '50px' }} />}
-        onSelectSettings={this.handleSettingsSelection}
-        utilityItems={DevSiteNavigation.generateUtilityItems(appsConfig)}
-        onSelectUtilityItem={this.handleItemSelection}
-      >
-        <DevSitePage
-          placeholderSrc={placeholderSrc}
-          menuItems={menuItems[activeNavigationItemPath]}
-          pageContent={contentConfig[activeNavigationItemPath]}
-          rootPath={activeNavigationItemPath}
-          key={activeNavigationItemPath}
-          notFoundComponent={<NotFoundPage indexPath={indexPath} />}
-        />
-      </ApplicationNavigation>
+      <>
+        {
+          applicationNavigation({
+            titleConfig: { title: nameConfig.title },
+            navigationItems: navigationItems.map(item => ({
+              key: item.path,
+              text: item.text,
+            })),
+            extensionItems: this.getExtensionItems(),
+            onSelectExtensionItem: this.handleExtensionSelection,
+            activeNavigationItemKey: activeNavigationItemPath,
+            onSelectNavigationItem: this.handleNavigationItemSelection,
+            // hero={<Image src={placeholderSrc} style={{ height: '50px', width: '50px' }} />}
+            onSelectSettings: this.handleSettingsSelection,
+            utilityItems: DevSiteNavigation.generateUtilityItems(apps),
+            onSelectUtilityItem: this.handleItemSelection,
+            child: (
+              <DevSitePage
+                placeholderSrc={placeholderSrc}
+                menuItems={menuItems[activeNavigationItemPath]}
+                pageContent={contentConfig[activeNavigationItemPath]}
+                rootPath={activeNavigationItemPath}
+                key={activeNavigationItemPath}
+                notFoundComponent={<NotFoundPage indexPath={indexPath} />}
+                settingsConfig={settingsConfig}
+                capabilities={capabilities}
+              />
+            ),
+          })
+        }
+      </>
     );
   }
 }
