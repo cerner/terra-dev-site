@@ -5,7 +5,7 @@ import KeyCode from 'keycode-js';
 
 import IconCaretRight from 'terra-icon/lib/icon/IconCaretRight';
 import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
-import { menuItemsPropType } from '../site/siteConfigPropTypes';
+import { menuItemPropType } from '../site/siteConfigPropTypes';
 
 import styles from './CollapsingNavigationMenu.module.scss';
 
@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   selectedPath: PropTypes.string,
-  menuItems: menuItemsPropType.isRequired,
+  menuItems: menuItemPropType.isRequired,
   onSelect: PropTypes.func.isRequired,
 };
 
