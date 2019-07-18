@@ -86,9 +86,6 @@
     "wdio": "wdio config/wdio/wdio.conf.js"
   },
   "dependencies": {
-    "@mapbox/rehype-prism": "^0.3.1",
-    "@mdx-js/loader": "^1.0.0-rc.4",
-    "@mdx-js/react": "^1.0.20",
     "classnames": "^2.2.5",
     "commander": "^2.9.0",
     "escodegen": "^1.9.1",

@@ -118,7 +118,6 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     contentConfig: contentConfigImport,
     navigationItems: navigationItemsImport,
     indexPath: navConfig.navigation.index,
-    apps: [], // siteConfig.apps,
     capabilities: capabilities.config,
     extensions: extensionConfigImport,
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),

@@ -5,16 +5,6 @@ Terra.describeViewports('utilities', ['huge'], () => {
     Terra.validates.element({ selector: '#root' });
   });
 
-  // it('opens app switcher', () => {
-  //   browser.click('[class*="PopupMenuListItem-module"]');
-  //   Terra.validates.element('opens app switcher', { selector: '#root' });
-  // });
-
-  // it('selects an app', () => {
-  //   browser.click('[class*="ApplicationSwitcher-module__item"]');
-  //   Terra.validates.element('selects an app', { selector: '#root' });
-  // });
-
   it('selects config', () => {
     browser.url('/single-page-test');
     browser.click('[class*="UtilityMenuHeaderButton-module"]');
@@ -49,17 +39,6 @@ Terra.describeViewports('utilities', ['tiny'], () => {
     browser.click('[data-compact-header-toggle]');
     Terra.validates.element({ selector: '#root' });
   });
-
-  // it('opens app switcher', () => {
-  //   browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]');
-  //   browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');
-  //   Terra.validates.element('opens app switcher', { selector: '#root' });
-  // });
-
-  // it('selects an app', () => {
-  //   browser.click('[class*="ApplicationSwitcher-module__item"]');
-  //   Terra.validates.element('selects an app', { selector: '#root' });
-  // });
 
   it('selects config', () => {
     browser.url('/single-page-test');

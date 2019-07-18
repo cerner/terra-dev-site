@@ -9,7 +9,6 @@ import DevSiteNavigation from '../navigation/_DevSiteNavigation';
 import Raw from '../raw/_Raw';
 import AppSettingsContext from '../navigation/_AppSettingsContext';
 import siteConfigPropType from './siteConfigPropTypes';
-import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 
 import './site.module.scss';
 
@@ -129,27 +128,25 @@ class Site extends React.Component {
       siteConfig, applicationNavigation, fetchSearchItems, basename,
     } = this.props;
     return (
-      <TerraMdxProvider>
-        <ModalManager>
-          <Switch>
-            <Route path="/raw">
-              <Raw
-                contentConfig={siteConfig.contentConfig}
-                indexPath={siteConfig.indexPath}
-              />
-            </Route>
-            <Route>
-              <DevSiteNavigation
-                siteConfig={siteConfig}
-                basename={basename}
-                onUpdateSettings={this.onUpdateSettings}
-                applicationNavigation={applicationNavigation}
-                fetchSearchItems={fetchSearchItems}
-              />
-            </Route>
-          </Switch>
-        </ModalManager>
-      </TerraMdxProvider>
+      <ModalManager>
+        <Switch>
+          <Route path="/raw">
+            <Raw
+              contentConfig={siteConfig.contentConfig}
+              indexPath={siteConfig.indexPath}
+            />
+          </Route>
+          <Route>
+            <DevSiteNavigation
+              siteConfig={siteConfig}
+              basename={basename}
+              onUpdateSettings={this.onUpdateSettings}
+              applicationNavigation={applicationNavigation}
+              fetchSearchItems={fetchSearchItems}
+            />
+          </Route>
+        </Switch>
+      </ModalManager>
     );
   }
 

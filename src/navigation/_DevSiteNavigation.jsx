@@ -2,13 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
-// import Image from 'terra-image';
-import IconTile from 'terra-icon/lib/icon/IconTile';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 
 import DevSitePage from './_DevSitePage';
 import SettingsPicker from './_SettingsPicker';
-import ApplicationSwitcher from './_ApplicationSwitcher';
 import Search from '../search/_Search';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 import siteConfigPropType from '../site/siteConfigPropTypes';
@@ -82,32 +79,6 @@ class DevSiteNavigation extends React.Component {
         component: <Component {...props} />,
       },
     });
-  }
-
-  static launchAppSwitcher(key, { disclosureManager, siteConfig, basename }) {
-    disclosureManager.disclose({
-      preferredType: 'modal',
-      size: 'tiny',
-      content: {
-        key,
-        component: (
-          <ApplicationSwitcher apps={siteConfig.apps} basename={basename} />
-        ),
-      },
-    });
-  }
-
-  static generateUtilityItems(appsConfig) {
-    const utilityItems = [];
-    if (appsConfig.length > 0) {
-      utilityItems.push({
-        icon: <IconTile />,
-        key: 'terra-dev-site.application-switcher',
-        text: 'Application Switcher',
-        metaData: { func: DevSiteNavigation.launchAppSwitcher },
-      });
-    }
-    return utilityItems;
   }
 
   constructor(props) {
@@ -196,7 +167,7 @@ class DevSiteNavigation extends React.Component {
   render() {
     const { applicationNavigation } = this.props;
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, apps, placeholderSrc, menuItems, settingsConfig, capabilities,
+      nameConfig, navigationItems, contentConfig, indexPath, placeholderSrc, menuItems, settingsConfig, capabilities,
     } = this.props.siteConfig;
     const { activeNavigationItemPath } = this.state;
 
@@ -217,9 +188,7 @@ class DevSiteNavigation extends React.Component {
             onSelectExtensionItem: this.handleExtensionSelection,
             activeNavigationItemKey: activeNavigationItemPath,
             onSelectNavigationItem: this.handleNavigationItemSelection,
-            // hero={<Image src={placeholderSrc} style={{ height: '50px', width: '50px' }} />}
             onSelectSettings: this.handleSettingsSelection,
-            utilityItems: DevSiteNavigation.generateUtilityItems(apps),
             onSelectUtilityItem: this.handleItemSelection,
             child: (
               <DevSitePage

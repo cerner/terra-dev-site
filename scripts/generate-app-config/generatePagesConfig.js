@@ -150,11 +150,11 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
       sourceDir = (!production && hotReloading && source) ? `${source}/` : `${dist}/`;
     }
     acc.push({
-      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md,mdx}`,
+      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
       entryPoint: `${rootPath}/${sourceDir}${entryPoint}`,
     });
     acc.push({
-      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md,mdx}`,
+      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
       // build out a regex for the entrypoint mask.
       entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}${entryPoint}`,
     });

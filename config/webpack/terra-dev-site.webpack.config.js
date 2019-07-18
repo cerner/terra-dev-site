@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const glob = require('glob');
 const webpack = require('webpack');
-const rehypePrism = require('@mapbox/rehype-prism');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
@@ -45,25 +44,6 @@ const aliasMonoRepoPackages = (monoRepo, hotReloading, webpackAliasOptions = {},
 };
 
 /**
-* Creates the entry name for the additional app to be hosted.
-*/
-const entryName = app => `${app}/index`;
-
-/**
-* Generate entry points for the additional apps.
-*/
-const generateAppsEntryPoints = (apps, devSiteConfigPath) => {
-  const entryPoints = {};
-  apps.forEach((app) => {
-    const { path: appPath, file } = app;
-    if (file) {
-      entryPoints[entryName(appPath)] = path.resolve(path.join(devSiteConfigPath, file));
-    }
-  });
-  return entryPoints;
-};
-
-/**
 * Create index.html files for terra-dev-site and the additional apps.
 */
 const indexPlugin = ({
@@ -84,34 +64,6 @@ const indexPlugin = ({
     inject: false, // This turns off auto injection. We handle this ourselves in the template.
   });
 };
-
-/**
-* Generate the plugin files for the additional apps
-*/
-const generateAppsPlugins = (siteConfig, lang, publicPath, indexEntryPoints) => siteConfig.apps.reduce((acc, app) => {
-  const {
-    path: appPath, title, rootElementId, basename, file,
-  } = app;
-  // Add an index.html file for the additional app.
-  if (file) {
-    acc.push(indexPlugin({
-      title,
-      filename: `${appPath}/index.html`,
-      lang,
-      rootElementId,
-      siteConfig,
-      indexEntryPoints,
-      entry: entryName(appPath),
-    }));
-  }
-  // If a base name is specified, add it with the define plugin.
-  if (basename) {
-    acc.push(new webpack.DefinePlugin({
-      [basename]: JSON.stringify(`${publicPath}${appPath}`),
-    }));
-  }
-  return acc;
-}, []);
 
 /**
 * Generates the file representing app name configuration.
@@ -150,9 +102,8 @@ const devSiteConfig = (env = {}, argv = {}) => {
     // eslint-disable-next-line no-console
     console.log('Generated Aliases', alias);
   }
-  const appsEntryPoints = generateAppsEntryPoints(siteConfig.apps, devSiteConfigPath);
-  // Create the list of entry points that need index.html files created.
-  const indexEntryPoints = Object.keys(appsEntryPoints);
+
+  const indexEntryPoints = [];
   indexEntryPoints.push('terra-dev-site');
   // Strip the trailing / from the public path.
   const basename = publicPath.slice(0, -1);
@@ -162,29 +113,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
       'terra-dev-site': path.resolve(path.join(__dirname, '..', '..', 'lib', 'Index')),
       rewriteHistory: path.resolve(path.join(__dirname, '..', '..', 'lib', 'rewriteHistory')),
       redirect: path.resolve(path.join(__dirname, '..', '..', 'lib', 'redirect')),
-      // Additional apps entry points
-      ...appsEntryPoints,
-    },
-    module: {
-      rules: [
-        {
-          test: /\.mdx$/,
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                rootMode: 'upward', // needed to correctly resolve babel's config root in mono-repos
-              },
-            },
-            {
-              loader: '@mdx-js/loader',
-              options: {
-                rehypePlugins: [rehypePrism],
-              },
-            },
-          ],
-        },
-      ],
     },
     plugins: [
       // terra-dev-site index.html
@@ -207,8 +135,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
         // Base name is used to namespace terra-dev-site
         TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
       }),
-      // Add additional apps html and define plugin information.
-      ...generateAppsPlugins(siteConfig, lang, publicPath, indexEntryPoints),
     ],
     resolve: {
       modules: [devSiteConfigPath],
