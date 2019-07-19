@@ -5,17 +5,12 @@ const configExpectations = processPath => ({
     'terra-dev-site': `${processPath}/lib/Index`,
     rewriteHistory: `${processPath}/lib/rewriteHistory`,
     redirect: `${processPath}/lib/redirect`,
-    'browser/index': `${processPath}/lib/testAppBrowserRouter/index`,
-    'hash/index': `${processPath}/lib/testAppHashRouter/index`,
   }),
   resolve: expect.objectContaining({
     modules: expect.arrayContaining([
       `${processPath}/dev-site-config`,
     ]),
     alias: expect.objectContaining({
-      react: `${processPath}/node_modules/react`,
-      'react-intl': `${processPath}/node_modules/react-intl`,
-      'react-dom': `${processPath}/node_modules/react-dom`,
       'terra-dev-site': `${processPath}`,
     }),
   }),
