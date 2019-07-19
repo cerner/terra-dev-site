@@ -7,7 +7,6 @@ const siteConfig = {
   navConfig,
 
   appConfig: {
-    // locales: ['en'],
     bidirectional: true,
 
     headHtml: [
@@ -34,21 +33,6 @@ const siteConfig = {
   includeTestEvidence: false,
 
   filterSideMenu: true,
-
-  apps: [
-    {
-      path: 'browser',
-      title: 'Browser Router App',
-      file: '../lib/testAppBrowserRouter/index',
-      basename: 'BASENAME',
-    },
-    {
-      path: 'hash',
-      title: 'Hash Router App',
-      file: '../lib/testAppHashRouter/index',
-      rootElementId: 'hashroot',
-    },
-  ],
 };
 
 module.exports = siteConfig;
