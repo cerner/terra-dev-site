@@ -14,7 +14,7 @@ const propTypes = {
    * Config describing the secondary navigation menu
    */
   config: PropTypes.shape({
-    themes: PropTypes.arrayOf(PropTypes.string),
+    themes: PropTypes.object,
     locales: PropTypes.arrayOf(PropTypes.string),
     directions: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
