@@ -10,17 +10,32 @@ import SelectField from 'terra-form-select/lib/SelectField';
 import { withAppSettings } from './_AppSettingsContext';
 
 const propTypes = {
+  /**
+   * Config describing the secondary navigation menu
+   */
   config: PropTypes.shape({
     themes: PropTypes.arrayOf(PropTypes.string),
     locales: PropTypes.arrayOf(PropTypes.string),
     directions: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+
+  /**
+   * The current state of app settings, set by withAppSettings
+   */
   appSettings: PropTypes.shape({
     locale: PropTypes.string,
     theme: PropTypes.string,
     direction: PropTypes.string,
   }).isRequired,
+
+  /**
+   * callback for changed settings.
+   */
   onChangeSettings: PropTypes.func.isRequired,
+
+  /**
+   * Injected by with disclosure manager.
+   */
   disclosureManager: disclosureManagerShape.isRequired,
 };
 

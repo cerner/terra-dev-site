@@ -4,8 +4,19 @@ import PropTypes from 'prop-types';
 import MenuButton from '../menu-button/_MenuButton';
 
 const propTypes = {
+  /**
+   * Current Theme
+   */
   selectedTheme: PropTypes.string,
+
+  /**
+   * Current Locale
+   */
   selectedLocale: PropTypes.string,
+
+  /**
+   * config for themes and locales
+   */
   config: PropTypes.shape({
     themes: PropTypes.arrayOf(PropTypes.string),
     selectedTheme: PropTypes.string,
@@ -14,7 +25,15 @@ const propTypes = {
     directions: PropTypes.arrayOf(PropTypes.string),
     selectedDirection: PropTypes.string,
   }),
+
+  /**
+   * Callback for changing locale
+   */
   onChangeLocale: PropTypes.func,
+
+  /**
+   * Callback for changing Theme
+   */
   onChangeTheme: PropTypes.func,
 };
 

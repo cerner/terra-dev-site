@@ -16,17 +16,32 @@ const cx = classNames.bind(styles);
 const isCompactLayout = activeBreakpoint => activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
 
 const propTypes = {
+  /**
+   * Items to display for the menu
+   */
   menuItems: PropTypes.PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string,
     path: PropTypes.string,
   })).isRequired,
+
+  /**
+   * The menu item selected.
+   */
   selectedMenuItemKey: PropTypes.string,
+
+  /**
+   * Callback on selecting a terminal menu item.
+   */
   onTerminalMenuItemSelection: PropTypes.func.isRequired,
+
   /**
    * The element to display in the main content area.
    */
   children: PropTypes.element.isRequired,
 
+  /**
+   * Config to setup the dev toolbar, when applicable.
+   */
   devToolbarConfig: PropTypes.shape({
     selectedTheme: PropTypes.string,
     selectedLocale: PropTypes.string,
@@ -35,6 +50,7 @@ const propTypes = {
     onChangeLocale: PropTypes.func,
     onChangeTheme: PropTypes.func,
   }),
+
   /**
    * @private
    */

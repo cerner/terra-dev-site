@@ -5,8 +5,15 @@ import StatusView from 'terra-status-view';
 import Button from 'terra-button';
 
 const propTypes = {
+  /**
+   * Injected by react-router: the object representing browser history.
+   */
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
+
+  /**
+   * Path to home
+   */
   homePath: PropTypes.string.isRequired,
 };
 

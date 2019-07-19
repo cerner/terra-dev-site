@@ -10,9 +10,24 @@ import styles from './MenuButton.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * Button text
+   */
   text: PropTypes.string.isRequired,
+
+  /**
+   * menu items
+   */
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+  /**
+   * Selected menu item
+   */
   selectedKey: PropTypes.string,
+
+  /**
+   * On change callback
+   */
   onChange: PropTypes.func.isRequired,
 };
 

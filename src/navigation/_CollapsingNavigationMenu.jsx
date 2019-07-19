@@ -12,8 +12,19 @@ import styles from './CollapsingNavigationMenu.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * Currently selected path
+   */
   selectedPath: PropTypes.string,
+
+  /**
+   * menu items to display.
+   */
   menuItems: menuItemPropType.isRequired,
+
+  /**
+   * On select callback
+   */
   onSelect: PropTypes.func.isRequired,
 };
 

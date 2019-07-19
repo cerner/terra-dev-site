@@ -14,17 +14,29 @@ import './site.module.scss';
 
 const propTypes = {
   /**
-   * The content to be placed within the main content area of the container.
+   * Render prop for rendering terra-application-base or a variant of it.
    */
   applicationBase: PropTypes.func.isRequired,
 
+  /**
+   * Render prop for rendering application navigation or a variant of it.
+   */
   applicationNavigation: PropTypes.func.isRequired,
 
+  /**
+   * basename is expected to be '' or '/*', used for react router
+   */
   basename: PropTypes.string.isRequired,
 
+  /**
+   * The site config for the application.
+   */
   siteConfig: siteConfigPropType.isRequired,
 
-  fetchSearchItems: PropTypes.func.isRequired,
+  /**
+   * function to return search items
+   */
+  fetchSearchItems: PropTypes.func,
 };
 
 class Site extends React.Component {

@@ -13,12 +13,19 @@ import styles from './search.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * Function to fetch items to search.
+   */
   fetchSearchItems: PropTypes.func.isRequired,
+
   /**
    * Injected by disclosure manager
    */
   disclosureManager: disclosureManagerShape.isRequired,
 
+  /**
+   * item selected callback
+   */
   onItemSelected: PropTypes.func.isRequired,
 };
 

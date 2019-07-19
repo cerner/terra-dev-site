@@ -11,8 +11,19 @@ import styles from './ComponentToolbar.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * Callback for showing the side menu
+   */
   onToggle: PropTypes.func,
+
+  /**
+   * Menu visible external state
+   */
   menuIsVisible: PropTypes.bool,
+
+  /**
+   * Config for the theme and locale menu button.
+   */
   devToolbarConfig: PropTypes.shape({
     selectedTheme: PropTypes.string,
     selectedLocale: PropTypes.string,

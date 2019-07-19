@@ -11,10 +11,31 @@ import NotFoundPage from '../static-pages/_NotFoundPage';
 import siteConfigPropType from '../site/siteConfigPropTypes';
 
 const propTypes = {
+  /**
+   * function called with updated settings.
+   */
   onUpdateSettings: PropTypes.func,
+
+  /**
+   * basename is expected to be '' or '/*', used for react router
+   */
   basename: PropTypes.string.isRequired,
+
+  /**
+   * Render prop for rendering application navigation or a variant of it.
+   */
   applicationNavigation: PropTypes.func.isRequired,
+
+  /**
+   * function to return search items
+   */
   fetchSearchItems: PropTypes.func.isRequired,
+
+  /**
+   * The site config for the application.
+   */
+  siteConfig: siteConfigPropType.isRequired,
+
   /**
    * Injected by react-router: represent where the app is now, where you want it to go,
    * or even where it was.
@@ -22,14 +43,16 @@ const propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
+
   /**
    * Injected by react-router: the object representing browser history.
    */
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object,
 
-  siteConfig: siteConfigPropType.isRequired,
-
+  /**
+   * Injected by with disclosure manager.
+   */
   disclosureManager: disclosureManagerShape.isRequired,
 };
 
