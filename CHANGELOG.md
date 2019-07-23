@@ -4,6 +4,9 @@ Changelog
 Unreleased
 ----------
 ### Changed
+* Added mixin pattern rule in package.json.
+
+### Changed
 * Updated fs-extra dependency to ^8.0.0
 * Updated babel-eslint dev-dependency to ^10.0.1
 
