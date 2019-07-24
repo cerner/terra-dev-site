@@ -123,7 +123,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
   };
 
-  writeConfig({ config, imports }, 'appConfig.js', buildPath, fse);
+  writeConfig({ config, imports }, 'siteConfig.js', buildPath, fse);
 };
 
 module.exports = generateAppConfig;

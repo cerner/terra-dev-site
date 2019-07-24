@@ -8,7 +8,7 @@ import ApplicationNavigation from 'terra-application-navigation';
 
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import siteConfig from 'build/appConfig';
+import siteConfig from 'build/siteConfig';
 
 import Site from './site/_Site';
 
