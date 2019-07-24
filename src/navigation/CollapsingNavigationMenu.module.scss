@@ -21,11 +21,15 @@
     padding-top: 10px;
 
     &.is-selected {
-      background-color: rgba(89, 159, 253, 0.4);
+      // background-color: rgba(89, 159, 253, 0.4);
+      background-color: #e1f3fd;
+      box-shadow: inset 0 0 0 1px #fff;
     }
 
     &:hover {
-      background-color: rgba(89, 159, 253, 0.2);
+      // background-color: rgba(89, 159, 253, 0.2);
+      background-color: #e1f2fd;
+      box-shadow: inset 0 0 0 1px #fff;
     }
   }
 
