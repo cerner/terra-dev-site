@@ -13,7 +13,6 @@ CODE_OF_CONDUCT.md
 componentConfig.js
 CONTRIBUTING.md
 CONTRIBUTORS.md
-dangerfile.js
 /wdio.conf.js
 jestsetup.js
 /navigation.config.js
