@@ -200,12 +200,6 @@ class DevSitePage extends React.Component {
         menuItems={menuItems}
         selectedMenuItemKey={location.pathname}
         onTerminalMenuItemSelection={(childKey, metaData) => {
-          const { appSettings } = this.state;
-          this.setState({
-            theme: appSettings.theme,
-            locale: appSettings.locale,
-          });
-
           history.push(metaData.path);
         }}
         key={initialSelectedMenuKey}
