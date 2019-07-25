@@ -6,6 +6,7 @@ Unreleased
 ### Changed
 * Updated fs-extra dependency to ^8.0.0
 * Updated babel-eslint dev-dependency to ^10.0.1
+* Added mixin pattern rule in package.json.
 
 ### Fixed
 * Fixed the console error which occured when ESC was pressed in the search filter.
