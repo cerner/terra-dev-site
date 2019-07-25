@@ -6,9 +6,11 @@ import IconSearch from 'terra-icon/lib/icon/IconSearch';
 
 import DevSitePage from './_DevSitePage';
 import SettingsPicker from './_SettingsPicker';
-import Search from '../search/_Search';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 import siteConfigPropType from '../site/siteConfigPropTypes';
+import ContentWrapper from '../wrappers/_ContentWrapper';
+
+const Search = React.lazy(() => import('../search/_Search'));
 
 const propTypes = {
   /**
@@ -129,9 +131,12 @@ class DevSiteNavigation extends React.Component {
       key: 'terra-dev-site.search',
       text: 'Search',
       metaData: {
-        Component: Search,
+        Component: ContentWrapper,
         size: 'large',
-        props: { fetchSearchItems, onItemSelected: path => history.push(path) },
+        props: {
+          content: Search,
+          props: { fetchSearchItems, onItemSelected: path => history.push(path) },
+        },
       },
     };
 
@@ -140,8 +145,9 @@ class DevSiteNavigation extends React.Component {
       key: ext.key,
       text: ext.text,
       metaData: {
-        Component: ext.component,
+        Component: ContentWrapper,
         size: ext.size,
+        props: { content: ext.component },
       },
     }), [searchExtension]);
   }

@@ -12,7 +12,7 @@ const generateExtensionConfig = (extensionConfig) => {
       icon: imports.addImport(ImportAggregator.relativePath(ext.iconPath)),
       key: ext.key,
       text: ext.text,
-      component: imports.addImport(ImportAggregator.relativePath(ext.componentPath)),
+      component: imports.addReactLazyImport(ImportAggregator.relativePath(ext.componentPath)),
       size: ext.size,
     }
   ));
