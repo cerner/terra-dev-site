@@ -52,6 +52,7 @@ const ComponentToolbar = ({
       <div className={cx('toggle')}>
         { onToggle ? (
           <Button
+            id="terra-dev-site-menu-toggle"
             text={menuIsVisible ? 'Close Menu' : 'Open Menu'}
             key={menuIsVisible ? 'close-menu' : 'open-menu'}
             icon={<IconLeftPane />}

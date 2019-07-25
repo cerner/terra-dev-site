@@ -35,10 +35,6 @@
     }
   }
 
-  .focus-trap-container {
-    height: 100%;
-  }
-
   .container.panel-is-open {
     .content {
       @include terra-mq-medium-up {

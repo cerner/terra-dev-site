@@ -149,7 +149,7 @@ class CollapsingNavigationMenu extends React.Component {
   render() {
     const { menuItems } = this.props;
     return (
-      <div className={cx('collapsing-navigation-menu')}>
+      <div className={cx('collapsing-navigation-menu')} id="terra-dev-site-nav-menu" tabIndex="-1">
         {menuItems ? this.renderMenuItems(menuItems[0].childItems, true) : undefined}
       </div>
     );

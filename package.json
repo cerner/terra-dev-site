@@ -91,7 +91,6 @@
     "classnames": "^2.2.5",
     "commander": "^2.9.0",
     "escodegen": "^1.9.1",
-    "focus-trap-react": "^6.0.0",
     "fs-extra": "^8.0.0",
     "fuse.js": "^3.4.5",
     "glob": "^7.1.1",

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { withActiveBreakpoint } from 'terra-application/lib/breakpoints';
 import Overlay from 'terra-overlay';
-import FocusTrap from 'focus-trap-react';
+import OverlayContainer from 'terra-overlay/lib/OverlayContainer';
 import ContentContainer from 'terra-content-container';
 
 import ComponentToolbar from './_ComponentToolbar';
@@ -12,6 +12,9 @@ import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
 import styles from './SecondaryNavigationLayout.module.scss';
 
 const cx = classNames.bind(styles);
+
+let shouldFocusToggle = false;
+let shouldFocusMenu = false;
 
 const isCompactLayout = activeBreakpoint => activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
 
@@ -136,6 +139,7 @@ class SecondaryNavigationLayout extends React.Component {
     this.closeMenu = this.closeMenu.bind(this);
     this.openMenu = this.openMenu.bind(this);
     this.handleCollapsingMenuSelection = this.handleCollapsingMenuSelection.bind(this);
+    this.menuRef = React.createRef();
 
     const flattenedMenuItems = SecondaryNavigationLayout.flattenMenuItems(props.menuItems);
 
@@ -149,12 +153,24 @@ class SecondaryNavigationLayout extends React.Component {
     };
   }
 
+  componentDidUpdate() {
+    if (shouldFocusToggle) {
+      document.getElementById('terra-dev-site-menu-toggle').focus();
+      shouldFocusToggle = false;
+    }
+    if (shouldFocusMenu) {
+      document.getElementById('terra-dev-site-nav-menu').focus();
+      shouldFocusMenu = false;
+    }
+  }
+
   closeMenu() {
     const { activeBreakpoint } = this.props;
 
     const isCompact = isCompactLayout(activeBreakpoint);
 
     if (isCompact) {
+      shouldFocusToggle = true;
       this.setState({
         compactMenuIsOpen: false,
       });
@@ -169,8 +185,8 @@ class SecondaryNavigationLayout extends React.Component {
     const { activeBreakpoint } = this.props;
 
     const isCompact = isCompactLayout(activeBreakpoint);
-
     if (isCompact) {
+      shouldFocusMenu = true;
       this.setState({
         compactMenuIsOpen: true,
       });
@@ -209,7 +225,6 @@ class SecondaryNavigationLayout extends React.Component {
     const {
       compactMenuIsOpen,
       menuIsPinnedOpen,
-      // selectedChildKey,
     } = this.state;
 
     const isCompact = isCompactLayout(activeBreakpoint);
@@ -218,42 +233,6 @@ class SecondaryNavigationLayout extends React.Component {
      * At within compact viewports, the navigation menu should render each menu item as if it has
      * a submenu, as selecting a childless item will cause the menu close.
      */
-    const menu = (
-      <FocusTrap
-        active={isCompact ? compactMenuIsOpen : false}
-        focusTrapOptions={{
-          escapeDeactivates: true,
-          returnFocusOnDeactivate: true,
-          onDeactivate: () => {
-            this.setState({
-              compactMenuIsOpen: false,
-            });
-          },
-          allowOutsideClick: () => true,
-        }}
-        className={cx('focus-trap-container')}
-      >
-        <div>
-          <div className={cx('panel')}>
-            <CollapsingNavigationMenu
-              menuItems={menuItems}
-              selectedPath={selectedMenuItemKey}
-              onSelect={this.handleCollapsingMenuSelection}
-            />
-          </div>
-          <Overlay
-            isOpen={isCompact ? compactMenuIsOpen : false}
-            isRelativeToContainer
-            className={cx('overlay')}
-            onRequestClose={() => {
-              this.setState({
-                compactMenuIsOpen: false,
-              });
-            }}
-          />
-        </div>
-      </FocusTrap>
-    );
 
     let onToggle;
     if (isCompact) {
@@ -264,8 +243,26 @@ class SecondaryNavigationLayout extends React.Component {
 
     return (
       <div className={cx(['container', { 'panel-is-open': menuIsVisible }])}>
-        {menu}
-        <div className={cx('content')}>
+        <div className={cx('panel')}>
+          <CollapsingNavigationMenu
+            tabIndex="-1"
+            ref={this.menuRef}
+            menuItems={menuItems}
+            selectedPath={selectedMenuItemKey}
+            onSelect={this.handleCollapsingMenuSelection}
+          />
+        </div>
+        <OverlayContainer
+          className={cx('content')}
+          overlay={(
+            <Overlay
+              isOpen={isCompact ? compactMenuIsOpen : false}
+              isRelativeToContainer
+              className={cx('overlay')}
+              onRequestClose={this.closeMenu}
+            />
+          )}
+        >
           <ContentContainer
             header={(
               <ComponentToolbar
@@ -278,7 +275,7 @@ class SecondaryNavigationLayout extends React.Component {
           >
             {children}
           </ContentContainer>
-        </div>
+        </OverlayContainer>
       </div>
     );
   }
