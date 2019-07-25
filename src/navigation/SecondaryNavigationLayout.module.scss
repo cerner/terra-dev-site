@@ -27,8 +27,12 @@
     overflow: hidden;
     position: absolute;
     top: 0;
-    width: 320px;
-    z-index: 1;
+    width: 19.29rem;
+    z-index: 101;
+
+    @include terra-mq-small-up {
+      width: 22.86rem;
+    }
   }
 
   .focus-trap-container {
@@ -38,8 +42,8 @@
   .container.panel-is-open {
     .content {
       @include terra-mq-medium-up {
-        left: 320px;
-        width: calc(100% - 320px);
+        left: 22.86rem;
+        width: calc(100% - 22.86rem);
       }
     }
 

@@ -184,7 +184,6 @@ class SecondaryNavigationLayout extends React.Component {
     const selectedItem = flattenedMenuItems.find(item => item.key === selectionKey);
 
     this.setState({
-      // selectedChildKey: selectionKey,
       compactMenuIsOpen: false,
     }, () => {
       // If an endpoint has been reached, reset selection path and update.
@@ -220,21 +219,35 @@ class SecondaryNavigationLayout extends React.Component {
         active={isCompact ? compactMenuIsOpen : false}
         focusTrapOptions={{
           escapeDeactivates: true,
-          clickOutsideDeactivates: true,
           returnFocusOnDeactivate: true,
           onDeactivate: () => {
             this.setState({
               compactMenuIsOpen: false,
             });
           },
+          allowOutsideClick: () => true,
         }}
         className={cx('focus-trap-container')}
       >
-        <CollapsingNavigationMenu
-          menuItems={menuItems}
-          selectedPath={selectedMenuItemKey}
-          onSelect={this.handleCollapsingMenuSelection}
-        />
+        <div>
+          <div className={cx('panel')}>
+            <CollapsingNavigationMenu
+              menuItems={menuItems}
+              selectedPath={selectedMenuItemKey}
+              onSelect={this.handleCollapsingMenuSelection}
+            />
+          </div>
+          <Overlay
+            isOpen={isCompact ? compactMenuIsOpen : false}
+            isRelativeToContainer
+            className={cx('overlay')}
+            onRequestClose={() => {
+              this.setState({
+                compactMenuIsOpen: false,
+              });
+            }}
+          />
+        </div>
       </FocusTrap>
     );
 
@@ -247,9 +260,7 @@ class SecondaryNavigationLayout extends React.Component {
 
     return (
       <div className={cx(['container', { 'panel-is-open': menuIsVisible }])}>
-        <div className={cx('panel')}>
-          {menu}
-        </div>
+        {menu}
         <div className={cx('content')}>
           <ContentContainer
             header={(
@@ -263,7 +274,6 @@ class SecondaryNavigationLayout extends React.Component {
           >
             {children}
           </ContentContainer>
-          <Overlay isOpen={isCompact ? compactMenuIsOpen : false} isRelativeToContainer className={cx('overlay')} />
         </div>
       </div>
     );
