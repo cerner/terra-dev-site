@@ -14,6 +14,7 @@ Cerner Corporation
 - Mike Hemesath [@mhemesath]
 - Adam Parker [@amichaelparker]
 - Avinash Gupta [@avinashg1994]
+- Saket Bajaj [@saket2403]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -29,3 +30,4 @@ Cerner Corporation
 [@mhemesath]: https://github.com/mhemesath
 [@amichaelparker]: https://github.com/amichaelparker
 [@avinashg1994]: https://github.com/avinashg1994
+[saket2403]: https://github.com/saket2403

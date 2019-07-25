@@ -3,11 +3,17 @@ Changelog
 
 Unreleased
 ----------
+
 ### Breaking
 * Removed the hide option from navigation.config
 * Removed the theme imports option from site.conf
 * Removed extension config option from site.conf
 * The Browser router is now used instead of the hash router.
+
+### Changed
+* Updated fs-extra dependency to ^8.0.0
+* Updated babel-eslint dev-dependency to ^10.0.1
+* Added mixin pattern rule in package.json.
 
 ### Added
 * consumed new terra-application and terra-application-navigation packages
