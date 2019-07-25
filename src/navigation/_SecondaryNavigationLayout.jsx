@@ -35,6 +35,11 @@ const propTypes = {
   onTerminalMenuItemSelection: PropTypes.func.isRequired,
 
   /**
+   * Sets initial menu open state.
+   */
+  isMenuOpen: PropTypes.bool,
+
+  /**
    * The element to display in the main content area.
    */
   children: PropTypes.element.isRequired,
@@ -128,7 +133,6 @@ class SecondaryNavigationLayout extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.closeMenu = this.closeMenu.bind(this);
     this.openMenu = this.openMenu.bind(this);
     this.handleCollapsingMenuSelection = this.handleCollapsingMenuSelection.bind(this);
@@ -140,7 +144,7 @@ class SecondaryNavigationLayout extends React.Component {
     this.state = {
       flattenedMenuItems,
       previousActiveBreakpoint: props.activeBreakpoint,
-      compactMenuIsOpen: false,
+      compactMenuIsOpen: props.isMenuOpen,
       menuIsPinnedOpen: true,
     };
   }

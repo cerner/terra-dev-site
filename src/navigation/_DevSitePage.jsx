@@ -107,11 +107,10 @@ class DevSitePage extends React.Component {
 
   getDevToolbarConfig() {
     const {
-      location, pageContent, rootPath, settingsConfig, capabilities,
+      rootPath, settingsConfig, capabilities,
     } = this.props;
     const { theme, locale } = this.state;
-    const config = pageContent[location.pathname];
-    if (!config || !capabilities[rootPath].devToolbar) {
+    if (!capabilities[rootPath].devToolbar) {
       return null;
     }
 
@@ -174,7 +173,9 @@ class DevSitePage extends React.Component {
   }
 
   render() {
-    const { history, menuItems, location } = this.props;
+    const {
+      history, menuItems, location, pageContent,
+    } = this.props;
     const { initialSelectedMenuKey } = this.state;
 
     const devToolbarConfig = this.getDevToolbarConfig();
@@ -198,6 +199,7 @@ class DevSitePage extends React.Component {
     return (
       <SecondaryNavigationLayout
         menuItems={menuItems}
+        isMenuOpen={pageContent[location.pathname] === undefined}
         selectedMenuItemKey={location.pathname}
         onTerminalMenuItemSelection={(childKey, metaData) => {
           history.push(metaData.path);
