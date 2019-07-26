@@ -31,7 +31,7 @@ const propTypes = {
 
 const clearResults = setState => setState({ results: [] });
 
-const handleSearch = (string, fetchSearchItems, setState) => {
+const handleSearch = (searchString, state, setState) => {
   const options = {
     shouldSort: true,
     tokenize: true,
@@ -46,11 +46,12 @@ const handleSearch = (string, fetchSearchItems, setState) => {
       'tags',
     ],
   };
-  fetchSearchItems().then((searchItems) => {
+  const { searchItems } = state;
+  if (searchItems) {
     const fuse = new Fuse(searchItems, options); // "list" is the item array
-    const results = fuse.search(string);
-    setState({ results });
-  });
+    const results = fuse.search(searchString);
+    setState({ results, searchString, searchItems });
+  }
 };
 
 const handleSelect = (metaData, onItemSelected, disclosureManager) => {
@@ -91,8 +92,20 @@ const searchItem = result => (
   </div>
 );
 
+const cacheSearchItems = (fetchSearchItems, state, setState) => {
+  if (!state.searchItems) {
+    fetchSearchItems().then((searchItems) => {
+      const { results, searchString } = state;
+      setState({ results, searchString, searchItems });
+      handleSearch(searchString, state, setState);
+    });
+  }
+};
+
 const Search = ({ disclosureManager, fetchSearchItems, onItemSelected }) => {
   const [state, setState] = useState({ results: [] });
+  cacheSearchItems(fetchSearchItems, state, setState);
+  const { searchItems, searchString, results } = state;
   return (
     <ContentContainer
       header={(
@@ -106,31 +119,32 @@ const Search = ({ disclosureManager, fetchSearchItems, onItemSelected }) => {
             className={cx('search-field')}
             isBlock
             placeholder="Search"
-            onSearch={string => handleSearch(string, fetchSearchItems, setState)}
+            onSearch={string => handleSearch(string, state, setState)}
             onInvalidSearch={() => clearResults(setState)}
           />
         </>
       )}
       fill
     >
-      <InfiniteList
-        dividerStyle="standard"
-        isFinishedLoading={state.results.length > 0}
-        initialLoadingIndicator={<StatusView variant="no-matching-results" />}
-      >
-        {
-          state.results.map(result => (
-            <Item
-              key={result.item.path}
-              isSelectable
-              metaData={result}
-              onSelect={(event, metaData) => handleSelect(metaData, onItemSelected, disclosureManager)}
-            >
-              {searchItem(result)}
-            </Item>
-          ))
-        }
-      </InfiniteList>
+      {searchItems && searchString && results.length <= 0 && <StatusView variant="no-matching-results" />}
+      {results.length > 0 && (
+        <InfiniteList
+          dividerStyle="standard"
+        >
+          {
+            state.results.map(result => (
+              <Item
+                key={result.item.path}
+                isSelectable
+                metaData={result}
+                onSelect={(event, metaData) => handleSelect(metaData, onItemSelected, disclosureManager)}
+              >
+                {searchItem(result)}
+              </Item>
+            ))
+          }
+        </InfiniteList>
+      )}
     </ContentContainer>
   );
 };

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import CodesplitWrapper from './_CodesplitWrapper';
+import ContentLoaded from './_ContentLoaded';
+import ContentLoading from './_ContentLoading';
 
 const propTypes = {
   /**
@@ -21,7 +23,7 @@ const defaultProps = {
 };
 
 const ContentWrapper = props => (
-  <CodesplitWrapper {...props} fallback={<div />} contentWrapper={ContentWrapper} errorWrapper={ContentWrapper} />
+  <CodesplitWrapper {...props} fallback={<ContentLoading />} contentWrapper={ContentLoaded} errorWrapper={ContentLoaded} />
 );
 
 ContentWrapper.propTypes = propTypes;

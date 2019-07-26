@@ -17,24 +17,24 @@ const propTypes = {
 
   fallback: PropTypes.element.isRequired,
 
-  contentWrapper: PropTypes.element,
+  contentWrapper: PropTypes.func,
 
-  errorWrapper: PropTypes.element,
+  errorWrapper: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   props: undefined,
 };
 
-const ExtensionWrapper = ({
+const CodesplitWrapper = ({
   content: Content, props, contentWrapper: ContentWrapper, errorWrapper, fallback,
 }) => (
   <ContentErrorBoundary errorWrapper={errorWrapper}>
     <Suspense fallback={fallback}>
       {ContentWrapper ? (
-        <contentWrapper>
+        <ContentWrapper>
           <Content {...props} />
-        </contentWrapper>
+        </ContentWrapper>
       ) : (
         <Content {...props} />
       )
@@ -43,7 +43,7 @@ const ExtensionWrapper = ({
   </ContentErrorBoundary>
 );
 
-ExtensionWrapper.propTypes = propTypes;
-ExtensionWrapper.defaultProps = defaultProps;
+CodesplitWrapper.propTypes = propTypes;
+CodesplitWrapper.defaultProps = defaultProps;
 
-export default ExtensionWrapper;
+export default CodesplitWrapper;

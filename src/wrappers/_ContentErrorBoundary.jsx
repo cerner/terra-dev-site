@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   children: PropTypes.element.isRequired,
-  errorWrapper: PropTypes.element,
+  errorWrapper: PropTypes.func.isRequired,
 };
 
 class ContentErrorBoundary extends React.Component {
@@ -20,14 +20,11 @@ class ContentErrorBoundary extends React.Component {
   render() {
     const { errorWrapper: ErrorWrapper, children } = this.props;
     if (this.state.hasError) {
-      if (ErrorWrapper) {
-        return (
-          <ErrorWrapper>
-            {this.state.error.toString()}
-          </ErrorWrapper>
-        );
-      }
-      return this.state.error.toString();
+      return (
+        <ErrorWrapper>
+          {this.state.error.toString()}
+        </ErrorWrapper>
+      );
     }
     return children;
   }
