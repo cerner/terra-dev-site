@@ -2,7 +2,9 @@
   .collapsing-navigation-menu {
     height: 100%;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     padding: 0.7143rem;
+    position: relative;
   }
 
   .caret {
@@ -21,14 +23,15 @@
     padding-top: 0.7143rem;
 
     &.is-selected {
-      // background-color: rgba(89, 159, 253, 0.4);
       background-color: #e1f3fd;
       box-shadow: inset 0 0 0 0.07143rem #fff;
     }
 
-    &:hover {
-      background-color: #e1f2fd;
-      box-shadow: inset 0 0 0 0.07143rem #fff;
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none), (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: #e1f2fd;
+        box-shadow: inset 0 0 0 0.07143rem #fff;
+      }
     }
   }
 
