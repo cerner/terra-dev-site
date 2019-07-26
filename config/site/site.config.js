@@ -109,7 +109,7 @@ const siteConfig = {
     defaultDirection: 'ltr',
 
     /** This section allows you to set custom extensions.
-     * Extensions will be launched in a modal manager.
+     * Extensions will be launched in a modal manager. All fields are required.
      *  Add like:
      *  extensions: [
      * {

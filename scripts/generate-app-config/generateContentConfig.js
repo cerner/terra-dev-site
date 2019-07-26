@@ -11,8 +11,8 @@ const routeImporter = new ImportAggregator();
 /**
 * Setup a menuItem object.
 */
-const menuItem = (text, itemPath, hasSubMenu, childItems) => ({
-  text,
+const menuItem = (name, itemPath, hasSubMenu, childItems) => ({
+  name,
   path: itemPath,
   childItems,
   ...(hasSubMenu) && { hasSubMenu: true },
@@ -21,12 +21,12 @@ const menuItem = (text, itemPath, hasSubMenu, childItems) => ({
 /**
  * Builds out a route item. Adds the props object conditionally.
  */
-const routeItem = (text, routePath, { contentPath, name, identifier }, props) => ({
-  text,
+const routeItem = (name, routePath, { contentPath, importName, identifier }, props) => ({
+  name,
   path: routePath,
   component: {
     default: {
-      componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath), name, identifier),
+      componentClass: routeImporter.addImport(ImportAggregator.relativePath(contentPath), importName, identifier),
       ...(props) && { props },
     },
   },
@@ -50,22 +50,22 @@ const evidenceProps = (contentConfig) => {
 /**
  * Sets up content route item. All content items are wrapped with the content wrapper.
  */
-const contentRouteItem = (text, routePath, { contentPath, name, identifier }, props, type) => {
+const contentRouteItem = (name, routePath, { contentPath, importName, identifier }, props, type) => {
   const contentProps = { props };
-  let content = { contentPath: ContentWrapper, name: 'ContentWrapper' };
+  let content = { contentPath: ContentWrapper, importName: 'ContentWrapper' };
 
   if (type === 'md') {
-    content = { contentPath: MarkdownWrapper, name: 'MarkdownWrapper' };
-    contentProps.content = routeImporter.addDynamicImport(ImportAggregator.relativePath(contentPath), name, identifier);
+    content = { contentPath: MarkdownWrapper, importName: 'MarkdownWrapper' };
+    contentProps.content = routeImporter.addDynamicImport(ImportAggregator.relativePath(contentPath), importName, identifier);
   } else if (type === 'evidence') {
     contentProps.content = routeImporter.addReactLazyImport(TerraScreenshotWrapper);
     contentProps.props = evidenceProps(contentPath);
   } else {
-    contentProps.content = routeImporter.addReactLazyImport(ImportAggregator.relativePath(contentPath), name, identifier);
+    contentProps.content = routeImporter.addReactLazyImport(ImportAggregator.relativePath(contentPath), importName, identifier);
   }
 
   return routeItem(
-    text,
+    name,
     routePath,
     content,
     contentProps,
@@ -75,11 +75,11 @@ const contentRouteItem = (text, routePath, { contentPath, name, identifier }, pr
 /**
  * Sets up a redirect route item. This redirects to another page.
  */
-const redirectRouteItem = (text, routePath, redirectPath) => (
+const redirectRouteItem = (name, routePath, redirectPath) => (
   routeItem(
-    text,
+    name,
     routePath,
-    { contentPath: 'react-router-dom', name: '{ Redirect }', identifier: 'Redirect' },
+    { contentPath: 'react-router-dom', importName: '{ Redirect }', identifier: 'Redirect' },
     { to: redirectPath },
   )
 );

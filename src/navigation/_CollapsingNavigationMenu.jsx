@@ -137,7 +137,7 @@ class CollapsingNavigationMenu extends React.Component {
               onClick={event => this.handleOnClick(event, item)}
             >
               {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown className={cx('caret')} /> : <IconCaretRight className={cx('caret')} />}</span> : null}
-              {item.text}
+              {item.name}
             </div>
             {itemIsOpen ? this.renderMenuItems(item.childItems) : null}
           </div>
