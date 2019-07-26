@@ -6,9 +6,10 @@ Unreleased
 
 ### Breaking
 * Removed the hide option from navigation.config
-* Removed the theme imports option from site.conf
-* Removed extension config option from site.conf
+* Removed the theme imports option from site.conf. Themes should be aggregated by webpack.
+* Changed extension config option in site.conf to expect content launched from a disclosure manager.
 * The Browser router is now used instead of the hash router.
+* Secondary nav filter has been replaced by site search.
 
 ### Changed
 * Updated fs-extra dependency to ^8.0.0
@@ -16,8 +17,8 @@ Unreleased
 * Added mixin pattern rule in package.json.
 
 ### Added
-* consumed new terra-application and terra-application-navigation packages
-* add devToolbar
+* consumed terra-application 1.x.x and terra-application-navigation 1.x.x packages
+* add devToolbar to display a development toolbar that allows switching between locales and themes.
 * new collapsible side navigation
 * added a site search.
 * added support for application switching

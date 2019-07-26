@@ -14,6 +14,6 @@ Terra.describeViewports('home', ['tiny', 'huge'], () => {
     browser.waitForVisible('a [alt="License"]');
     browser.waitForVisible('a [alt="Cerner OSS"]');
     browser.waitForVisible('a [alt="NPM version"]');
-    Terra.validates.element({ selector: '#root' });
+    Terra.validates.accessibility({ selector: '#root' });
   });
 });

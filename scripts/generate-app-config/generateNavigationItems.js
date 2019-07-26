@@ -20,9 +20,7 @@ const generateNavigationItems = (navConfig) => {
     navigationItems: {
       config: configuredLinks,
     },
-    capabilities: {
-      config: capabilities,
-    },
+    capabilities,
   };
 };
 

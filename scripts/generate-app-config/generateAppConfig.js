@@ -66,16 +66,16 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
-  const contentConfig = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose));
+  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose));
   const menuConfigImport = addConfig(
-    contentConfig.menuItems,
+    menuItems,
     'menuItems.js',
     buildPath,
     fse,
     imports,
   );
   const contentConfigImport = addConfig(
-    contentConfig.content,
+    content,
     'contentConfig.js',
     buildPath,
     fse,
@@ -101,7 +101,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
 
   // Create search items file
   writeConfig(
-    generateSearchItems(contentConfig.content),
+    generateSearchItems(content),
     'searchItems.js',
     buildPath,
     fse,
@@ -118,7 +118,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     contentConfig: contentConfigImport,
     navigationItems: navigationItemsImport,
     indexPath: navConfig.navigation.index,
-    capabilities: capabilities.config,
+    capabilities,
     extensions: extensionConfigImport,
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
   };
