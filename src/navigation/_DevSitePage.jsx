@@ -105,12 +105,12 @@ class DevSitePage extends React.Component {
     };
   }
 
-  getDevToolbarConfig() {
+  getDevToolsConfig() {
     const {
       rootPath, settingsConfig, capabilities,
     } = this.props;
     const { theme, locale } = this.state;
-    if (!capabilities[rootPath].devToolbar) {
+    if (!capabilities[rootPath].devTools) {
       return null;
     }
 
@@ -178,16 +178,16 @@ class DevSitePage extends React.Component {
     } = this.props;
     const { initialSelectedMenuKey } = this.state;
 
-    const devToolbarConfig = this.getDevToolbarConfig();
+    const devToolsConfig = this.getDevToolsConfig();
     if (!menuItems) {
-      if (!devToolbarConfig) {
+      if (!devToolsConfig) {
         return this.generateContent();
       }
 
       return (
         <ContentContainer
           header={(
-            <ComponentToolbar devToolbarConfig={devToolbarConfig} />
+            <ComponentToolbar devToolsConfig={devToolsConfig} />
           )}
           fill
         >
@@ -205,7 +205,7 @@ class DevSitePage extends React.Component {
           history.push(metaData.path);
         }}
         key={initialSelectedMenuKey}
-        devToolbarConfig={devToolbarConfig}
+        devToolsConfig={devToolsConfig}
       >
         {this.generateContent()}
       </SecondaryNavigationLayout>

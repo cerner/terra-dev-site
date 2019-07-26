@@ -24,7 +24,7 @@ const propTypes = {
   /**
    * Config for the theme and locale menu button.
    */
-  devToolbarConfig: PropTypes.shape({
+  devToolsConfig: PropTypes.shape({
     selectedTheme: PropTypes.string,
     selectedLocale: PropTypes.string,
     themes: PropTypes.arrayOf(PropTypes.string),
@@ -42,10 +42,10 @@ const defaultProps = {
 const ComponentToolbar = ({
   onToggle,
   menuIsVisible,
-  devToolbarConfig,
+  devToolsConfig,
 }) => {
-  const hasThemes = devToolbarConfig && devToolbarConfig.themes && devToolbarConfig.themes.length > 1;
-  const hasLocales = devToolbarConfig && devToolbarConfig.locales && devToolbarConfig.locales.length > 1;
+  const hasThemes = devToolsConfig && devToolsConfig.themes && devToolsConfig.themes.length > 1;
+  const hasLocales = devToolsConfig && devToolsConfig.locales && devToolsConfig.locales.length > 1;
 
   return (
     <div className={cx('header')}>
@@ -68,17 +68,17 @@ const ComponentToolbar = ({
         {hasThemes && (
           <MenuButton
             text="Theme"
-            items={devToolbarConfig.themes}
-            selectedKey={devToolbarConfig.selectedTheme}
-            onChange={devToolbarConfig.onChangeTheme}
+            items={devToolsConfig.themes}
+            selectedKey={devToolsConfig.selectedTheme}
+            onChange={devToolsConfig.onChangeTheme}
           />
         )}
         {hasLocales && (
           <MenuButton
             text="Locale"
-            items={devToolbarConfig.locales}
-            selectedKey={devToolbarConfig.selectedLocale}
-            onChange={devToolbarConfig.onChangeLocale}
+            items={devToolsConfig.locales}
+            selectedKey={devToolsConfig.selectedLocale}
+            onChange={devToolsConfig.onChangeLocale}
           />
         )}
       </div>

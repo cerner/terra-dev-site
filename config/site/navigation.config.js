@@ -8,7 +8,7 @@ const navConfig = {
      *      text: The text to display on the navigation link.
      *      pageTypes: The page extension(s) that should be displayed under this link.
      *      capabilities: an object describing the capabilities of all pages listed under the specified path.
-     *          devToolbar: display a development toolbar that allows switching between locales and themes.
+     *          devTools: display development tools to allow switching between locales and themes.
      */
     links: [{
       path: '/home',
@@ -19,14 +19,14 @@ const navConfig = {
       text: 'Components',
       pageTypes: ['doc'],
       capabilities: {
-        devToolbar: true,
+        devTools: true,
       },
     }, {
       path: '/tests',
       text: 'Tests',
       pageTypes: ['test'],
       capabilities: {
-        devToolbar: true,
+        devTools: true,
       },
     }],
   },

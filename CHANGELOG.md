@@ -18,7 +18,7 @@ Unreleased
 
 ### Added
 * consumed terra-application 1.x.x and terra-application-navigation 1.x.x packages
-* add devToolbar to display a development toolbar that allows switching between locales and themes.
+* add devTools to display a development toolbar that allows switching between locales and themes.
 * new collapsible side navigation
 * added a site search.
 * added support for application switching

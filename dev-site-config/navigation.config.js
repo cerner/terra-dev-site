@@ -14,21 +14,21 @@ const navConfig = {
       text: 'Single Page Test',
       pageTypes: ['spt'],
       capabilities: {
-        devToolbar: true,
+        devTools: true,
       },
     }, {
       path: '/secondary-nav-test',
       text: 'Secondary Nav Test',
       pageTypes: ['snt'],
       capabilities: {
-        devToolbar: true,
+        devTools: true,
       },
     }, {
       path: '/folder-first',
       text: 'Folder First Test',
       pageTypes: ['ff'],
       capabilities: {
-        devToolbar: true,
+        devTools: true,
       },
     }],
   },

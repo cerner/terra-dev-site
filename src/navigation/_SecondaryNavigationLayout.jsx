@@ -50,7 +50,7 @@ const propTypes = {
   /**
    * Config to setup the dev toolbar, when applicable.
    */
-  devToolbarConfig: PropTypes.shape({
+  devToolsConfig: PropTypes.shape({
     selectedTheme: PropTypes.string,
     selectedLocale: PropTypes.string,
     themes: PropTypes.arrayOf(PropTypes.string),
@@ -217,7 +217,7 @@ class SecondaryNavigationLayout extends React.Component {
       children,
       menuItems,
       activeBreakpoint,
-      devToolbarConfig,
+      devToolsConfig,
       selectedMenuItemKey,
     } = this.props;
 
@@ -265,7 +265,7 @@ class SecondaryNavigationLayout extends React.Component {
               <ComponentToolbar
                 menuIsVisible={menuIsVisible}
                 onToggle={onToggle}
-                devToolbarConfig={devToolbarConfig}
+                devToolsConfig={devToolsConfig}
               />
             )}
             fill
