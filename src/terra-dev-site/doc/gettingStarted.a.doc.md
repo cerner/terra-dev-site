@@ -10,7 +10,7 @@ Terra-dev-site offers a quick site to host test examples and documentation for y
 npm install --save-dev terra-dev-site
 ```
 
-### Pre Reqs:
+### Prerequisites
 
 * README.md in the root project directory
 * Package.json in the root project directory
@@ -34,7 +34,7 @@ To serve using `tt-serve`, add the following terra-toolkit command to your packa
 
 ### Quick Start
 
-After adding the star command to your package.json, run it and navigate to http://localhost:8080/#/site to view the site in your browser:
+After adding the start command to your package.json, run it and navigate to http://localhost:8080/#/site to view the site in your browser:
 
 ```bash
 npm run start

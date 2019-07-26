@@ -123,7 +123,7 @@ class CollapsingNavigationMenu extends React.Component {
 
     return menuItems.map((item) => {
       const itemIsOpen = openKeys[item.path];
-      const itemHasChildren = item.childItems;
+      const itemHasChildren = item.childItems !== undefined;
 
       return (
         <React.Fragment key={item.path}>
@@ -131,7 +131,7 @@ class CollapsingNavigationMenu extends React.Component {
             <div
               className={cx(['item', { 'is-selected': selectedPath === item.path }])}
               tabIndex="0"
-              role="button"
+              role="link"
               aria-haspopup={itemHasChildren}
               onKeyDown={event => this.handleKeyDown(event, item)}
               onClick={event => this.handleOnClick(event, item)}

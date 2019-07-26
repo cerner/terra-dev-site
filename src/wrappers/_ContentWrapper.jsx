@@ -1,9 +1,7 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import ContentErrorBoundary from './_ContentErrorBoundary';
-import ContentLoaded from './_ContentLoaded';
-import ContentLoading from './_ContentLoading';
+import CodesplitWrapper from './_CodesplitWrapper';
 
 const propTypes = {
   /**
@@ -22,14 +20,8 @@ const defaultProps = {
   props: undefined,
 };
 
-const ContentWrapper = ({ content: Content, props }) => (
-  <ContentErrorBoundary>
-    <Suspense fallback={<ContentLoading />}>
-      <ContentLoaded>
-        <Content {...props} />
-      </ContentLoaded>
-    </Suspense>
-  </ContentErrorBoundary>
+const ContentWrapper = props => (
+  <CodesplitWrapper {...props} fallback={<div />} contentWrapper={ContentWrapper} errorWrapper={ContentWrapper} />
 );
 
 ContentWrapper.propTypes = propTypes;

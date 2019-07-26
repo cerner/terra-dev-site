@@ -139,7 +139,6 @@ class SecondaryNavigationLayout extends React.Component {
     this.closeMenu = this.closeMenu.bind(this);
     this.openMenu = this.openMenu.bind(this);
     this.handleCollapsingMenuSelection = this.handleCollapsingMenuSelection.bind(this);
-    this.menuRef = React.createRef();
 
     const flattenedMenuItems = SecondaryNavigationLayout.flattenMenuItems(props.menuItems);
 
@@ -245,8 +244,6 @@ class SecondaryNavigationLayout extends React.Component {
       <div className={cx(['container', { 'panel-is-open': menuIsVisible }])}>
         <div className={cx('panel')}>
           <CollapsingNavigationMenu
-            tabIndex="-1"
-            ref={this.menuRef}
             menuItems={menuItems}
             selectedPath={selectedMenuItemKey}
             onSelect={this.handleCollapsingMenuSelection}

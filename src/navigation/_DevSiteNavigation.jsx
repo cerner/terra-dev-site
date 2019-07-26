@@ -8,7 +8,7 @@ import DevSitePage from './_DevSitePage';
 import SettingsPicker from './_SettingsPicker';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 import siteConfigPropType from '../site/siteConfigPropTypes';
-import ContentWrapper from '../wrappers/_ContentWrapper';
+import ExtensionWrapper from '../wrappers/_ExtensionWrapper';
 
 const Search = React.lazy(() => import('../search/_Search'));
 
@@ -131,7 +131,7 @@ class DevSiteNavigation extends React.Component {
       key: 'terra-dev-site.search',
       text: 'Search',
       metaData: {
-        Component: ContentWrapper,
+        Component: ExtensionWrapper,
         size: 'large',
         props: {
           content: Search,
@@ -145,7 +145,7 @@ class DevSiteNavigation extends React.Component {
       key: ext.key,
       text: ext.text,
       metaData: {
-        Component: ContentWrapper,
+        Component: ExtensionWrapper,
         size: ext.size,
         props: { content: ext.component },
       },

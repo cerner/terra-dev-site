@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ContentLoaded from './_ContentLoaded';
-
 const propTypes = {
   children: PropTypes.element.isRequired,
+  errorWrapper: PropTypes.element,
 };
 
 class ContentErrorBoundary extends React.Component {
@@ -19,14 +18,18 @@ class ContentErrorBoundary extends React.Component {
   }
 
   render() {
+    const { errorWrapper: ErrorWrapper, children } = this.props;
     if (this.state.hasError) {
-      return (
-        <ContentLoaded>
-          {this.state.error.toString()}
-        </ContentLoaded>
-      );
+      if (ErrorWrapper) {
+        return (
+          <ErrorWrapper>
+            {this.state.error.toString()}
+          </ErrorWrapper>
+        );
+      }
+      return this.state.error.toString();
     }
-    return this.props.children;
+    return children;
   }
 }
 
