@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ErrorPage from './_ErrorPage';
 
 const propTypes = {
   children: PropTypes.element.isRequired,
@@ -22,7 +23,7 @@ class ContentErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <ErrorWrapper>
-          {this.state.error.toString()}
+          <ErrorPage error={this.state.error.toString()} />
         </ErrorWrapper>
       );
     }

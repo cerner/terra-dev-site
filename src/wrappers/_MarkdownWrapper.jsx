@@ -4,6 +4,7 @@ import TerraMarkdown from 'terra-markdown';
 import classNames from 'classnames/bind';
 import ContentLoaded from './_ContentLoaded';
 import ContentLoading from './_ContentLoading';
+import ErrorPage from './_ErrorPage';
 
 import styles from './Markdown.module.scss';
 
@@ -53,7 +54,10 @@ const MarkdownWrapper = ({ content }) => {
   if (markdown || isErrored) {
     return (
       <ContentLoaded>
-        { markdown ? <div className={cx('markdown')}><TerraMarkdown src={markdown} /></div> : 'The page failed to load. Refresh the page to try again.' }
+        { markdown
+          ? <div className={cx('markdown')}><TerraMarkdown src={markdown} /></div>
+          : <ErrorPage error="The page failed to load. Refresh the page to try again." />
+        }
       </ContentLoaded>
     );
   }
