@@ -5,6 +5,7 @@ import ContentContainer from 'terra-content-container';
 import { withDisclosureManager } from 'terra-application/lib/disclosure-manager';
 
 import CodesplitWrapper from './_CodesplitWrapper';
+import LoadingPage from '../static-pages/_LoadingPage';
 
 const ErrorWrapper = withDisclosureManager(({ children, disclosureManager }) => (
   <ContentContainer
@@ -18,6 +19,21 @@ const ErrorWrapper = withDisclosureManager(({ children, disclosureManager }) => 
     fill
   >
     {children}
+  </ContentContainer>
+));
+
+const Fallback = withDisclosureManager(({ disclosureManager }) => (
+  <ContentContainer
+    header={(
+      <ActionHeader
+        title="Loading"
+        onBack={disclosureManager.goBack}
+        onClose={disclosureManager.closeDisclosure}
+      />
+    )}
+    fill
+  >
+    <LoadingPage />
   </ContentContainer>
 ));
 
@@ -41,7 +57,7 @@ const defaultProps = {
 const ExtensionWrapper = props => (
   <CodesplitWrapper
     {...props}
-    fallback={<div />}
+    fallback={<Fallback />}
     errorWrapper={ErrorWrapper}
   />
 );
