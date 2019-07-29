@@ -2,40 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ActionHeader from 'terra-action-header';
 import ContentContainer from 'terra-content-container';
-import { withDisclosureManager } from 'terra-application/lib/disclosure-manager';
+import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manager';
 
 import CodesplitWrapper from './_CodesplitWrapper';
 import LoadingPage from '../static-pages/_LoadingPage';
 
-const ErrorWrapper = withDisclosureManager(({ children, disclosureManager }) => (
-  <ContentContainer
-    header={(
-      <ActionHeader
-        title="Error"
-        onBack={disclosureManager.goBack}
-        onClose={disclosureManager.closeDisclosure}
-      />
-    )}
-    fill
-  >
-    {children}
-  </ContentContainer>
-));
+// eslint-disable-next-line react/prop-types
+const ExtensionShell = ({ title, children }) => {
+  const disclosureManager = React.useContext(DisclosureManagerContext);
+  return (
+    <ContentContainer
+      header={(
+        <ActionHeader
+          title={title}
+          onBack={disclosureManager.goBack}
+          onClose={disclosureManager.closeDisclosure}
+        />
+      )}
+      fill
+    >
+      {children}
+    </ContentContainer>
+  );
+};
 
-const Fallback = withDisclosureManager(({ disclosureManager }) => (
-  <ContentContainer
-    header={(
-      <ActionHeader
-        title="Loading"
-        onBack={disclosureManager.goBack}
-        onClose={disclosureManager.closeDisclosure}
-      />
-    )}
-    fill
-  >
-    <LoadingPage />
-  </ContentContainer>
-));
+const ErrorWrapper = props => (
+  <ExtensionShell {...props} title="Error" />
+);
 
 const propTypes = {
   /**
@@ -57,7 +50,11 @@ const defaultProps = {
 const ExtensionWrapper = props => (
   <CodesplitWrapper
     {...props}
-    fallback={<Fallback />}
+    fallback={(
+      <ExtensionShell title="Loading">
+        <LoadingPage />
+      </ExtensionShell>
+    )}
     errorWrapper={ErrorWrapper}
   />
 );

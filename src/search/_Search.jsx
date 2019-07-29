@@ -4,7 +4,7 @@ import SearchField from 'terra-search-field';
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import InfiniteList, { Item } from 'terra-infinite-list';
-import { disclosureManagerShape, withDisclosureManager } from 'terra-application/lib/disclosure-manager';
+import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manager';
 import Fuse from 'fuse.js';
 import StatusView from 'terra-status-view';
 import classNames from 'classnames/bind';
@@ -17,11 +17,6 @@ const propTypes = {
    * Function to fetch items to search.
    */
   fetchSearchItems: PropTypes.func.isRequired,
-
-  /**
-   * Injected by disclosure manager
-   */
-  disclosureManager: disclosureManagerShape.isRequired,
 
   /**
    * item selected callback
@@ -102,10 +97,11 @@ const cacheSearchItems = (fetchSearchItems, state, setState) => {
   }
 };
 
-const Search = ({ disclosureManager, fetchSearchItems, onItemSelected }) => {
+const Search = ({ fetchSearchItems, onItemSelected }) => {
   const [state, setState] = useState({ results: [] });
   cacheSearchItems(fetchSearchItems, state, setState);
   const { searchItems, searchString, results } = state;
+  const disclosureManager = React.useContext(DisclosureManagerContext);
   return (
     <ContentContainer
       header={(
@@ -151,4 +147,4 @@ const Search = ({ disclosureManager, fetchSearchItems, onItemSelected }) => {
 
 Search.propTypes = propTypes;
 
-export default withDisclosureManager(Search);
+export default Search;

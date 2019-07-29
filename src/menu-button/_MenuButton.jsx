@@ -35,19 +35,19 @@ const MenuButton = ({
   text, items, selectedKey, onChange,
 }) => {
   const buttonRef = useRef(null);
-  const [state, setState] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <Menu
-        isOpen={state}
+        isOpen={isOpen}
         targetRef={() => buttonRef.current}
-        onRequestClose={() => setState(false)}
+        onRequestClose={() => setIsOpen(false)}
       >
         <Menu.ItemGroup
           key={text}
           onChange={(event, index) => {
-            setState(false);
+            setIsOpen(false);
             onChange(items[index]);
           }}
 
@@ -68,7 +68,7 @@ const MenuButton = ({
         isReversed
         variant="ghost"
         refCallback={(node) => { buttonRef.current = node; }}
-        onClick={() => setState(true)}
+        onClick={() => setIsOpen(true)}
       />
     </>
   );

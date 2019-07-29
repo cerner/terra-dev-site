@@ -16,7 +16,7 @@ npm install --save-dev terra-dev-site
 * Package.json in the root project directory
 * es6 code in src
 * transpiled code in lib
-* babel is required to transpile the `dev-site-config/build` folder at webpack time. Specifically the `@babel/plugin-syntax-dynamic-import` plugin must be enabled to support code splitting.
+* babel 7.5 is required to transpile the `dev-site-config/build` folder at webpack time.
 
 ### Running terra-dev-site
 

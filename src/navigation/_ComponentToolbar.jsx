@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import Button from 'terra-button';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
 import MenuButton from '../menu-button/_MenuButton';
+import devToolsConfigPropType from './_devToolsConfigPropType';
 
 import styles from './ComponentToolbar.module.scss';
 
@@ -24,19 +25,12 @@ const propTypes = {
   /**
    * Config for the theme and locale menu button.
    */
-  devToolsConfig: PropTypes.shape({
-    selectedTheme: PropTypes.string,
-    selectedLocale: PropTypes.string,
-    themes: PropTypes.arrayOf(PropTypes.string),
-    locales: PropTypes.arrayOf(PropTypes.string),
-    onChangeLocale: PropTypes.func,
-    onChangeTheme: PropTypes.func,
-  }),
+  devToolsConfig: devToolsConfigPropType,
 };
 
 const defaultProps = {
   onToggle: undefined,
-  menuIsVisible: true,
+  menuIsVisible: false,
 };
 
 const ComponentToolbar = ({

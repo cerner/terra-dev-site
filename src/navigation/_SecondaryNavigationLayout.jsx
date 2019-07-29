@@ -8,6 +8,7 @@ import ContentContainer from 'terra-content-container';
 
 import ComponentToolbar from './_ComponentToolbar';
 import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
+import devToolsConfigPropType from './_devToolsConfigPropType';
 
 import styles from './SecondaryNavigationLayout.module.scss';
 
@@ -50,23 +51,12 @@ const propTypes = {
   /**
    * Config to setup the dev toolbar, when applicable.
    */
-  devToolsConfig: PropTypes.shape({
-    selectedTheme: PropTypes.string,
-    selectedLocale: PropTypes.string,
-    themes: PropTypes.arrayOf(PropTypes.string),
-    locales: PropTypes.arrayOf(PropTypes.string),
-    onChangeLocale: PropTypes.func,
-    onChangeTheme: PropTypes.func,
-  }),
+  devToolsConfig: devToolsConfigPropType,
 
   /**
-   * @private
+   * @private Passed in through withActiveBreakpoint
    */
   activeBreakpoint: PropTypes.string.isRequired,
-};
-
-const defaultProps = {
-  selectedMenuItemKey: undefined,
 };
 
 class SecondaryNavigationLayout extends React.Component {
@@ -279,7 +269,6 @@ class SecondaryNavigationLayout extends React.Component {
 }
 
 SecondaryNavigationLayout.propTypes = propTypes;
-SecondaryNavigationLayout.defaultProps = defaultProps;
 
 export default withActiveBreakpoint(SecondaryNavigationLayout);
 export {

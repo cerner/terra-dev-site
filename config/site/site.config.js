@@ -70,9 +70,6 @@ const siteConfig = {
   readMeContent: path.resolve(process.cwd(), 'README.md'),
 
   appConfig: {
-    /* Path to the logo the site header should display. */
-    logoSrc: path.join(__dirname, '..', '..', 'terra.png'),
-
     /* The title the site header should display. */
     title: startCase(npmPackage.name), // maps to appTitle
 

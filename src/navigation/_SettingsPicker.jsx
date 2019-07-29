@@ -5,7 +5,7 @@ import ActionHeader from 'terra-action-header';
 import ActionFooter from 'terra-action-footer';
 import Spacer from 'terra-spacer';
 import Button from 'terra-button';
-import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
+import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manager';
 import SelectField from 'terra-form-select/lib/SelectField';
 import { withAppSettings } from './_AppSettingsContext';
 
@@ -32,11 +32,6 @@ const propTypes = {
    * callback for changed settings.
    */
   onChangeSettings: PropTypes.func.isRequired,
-
-  /**
-   * Injected by with disclosure manager.
-   */
-  disclosureManager: disclosureManagerShape.isRequired,
 };
 
 class SettingsPicker extends React.Component {
@@ -53,11 +48,13 @@ class SettingsPicker extends React.Component {
   }
 
   render() {
-    const { disclosureManager, config, onChangeSettings } = this.props;
+    const { config, onChangeSettings } = this.props;
     const {
       locale, theme, direction,
     } = this.state;
     const themes = Object.keys(config.themes);
+    const disclosureManager = React.useContext(DisclosureManagerContext);
+
 
     return (
       <ContentContainer
@@ -152,4 +149,4 @@ class SettingsPicker extends React.Component {
 
 SettingsPicker.propTypes = propTypes;
 
-export default withAppSettings(withDisclosureManager(SettingsPicker));
+export default withAppSettings(SettingsPicker);
