@@ -10,6 +10,17 @@ Terra-dev-site offers a quick site to host test examples and documentation for y
 npm install --save-dev terra-dev-site
 ```
 
+## Peer Dependencies
+
+This component requires the following peer dependencies be installed in your app for the component to properly function.
+
+| Peer Dependency | Version |
+|-|-|
+| react | ^16.8.5 |
+| react-dom | ^16.8.5 |
+| terra-toolkit | ^5.2.0 |
+| webpack | ^4.28.1 |
+
 ### Prerequisites
 
 * README.md in the root project directory

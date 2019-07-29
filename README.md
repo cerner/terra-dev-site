@@ -15,7 +15,7 @@
 [![Dependencies status](https://badgen.net/david/dep/cerner/terra-dev-site)](https://david-dm.org/cerner/terra-dev-site)
 [![devDependencies status](https://badgen.net/david/dev/cerner/terra-dev-site)](https://david-dm.org/cerner/terra-dev-site?type=dev)
 
-Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and page configuration.
+Dynamically builds a site based on site configuration, navigation configuration and page configuration.
 
 The provided webpack config includes a call to the generateAppConfig script. The generateAppConfig script builds out static config to the ./dev-site-config/build folder. generateAppConfig also discovers pages based on it's configuration. After the static config has been built webpack continues to run, pulling in the static config, and producing the webpack bundle.
 
@@ -37,7 +37,18 @@ Provides the following default configuration:
 
 ## Getting Started
 
-* Install with [npm](https://www.npmjs.com): `npm install terra-dev-site`
+* Install with [npm](https://www.npmjs.com): `npm install --save-dev terra-dev-site`
+
+## Peer Dependencies
+
+This component requires the following peer dependencies be installed in your app for the component to properly function.
+
+| Peer Dependency | Version |
+|-|-|
+| react | ^16.8.5 |
+| react-dom | ^16.8.5 |
+| terra-toolkit | ^5.2.0 |
+| webpack | ^4.28.1 |
 
 ## Versioning
 
