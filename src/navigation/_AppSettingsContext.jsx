@@ -5,7 +5,7 @@ import React from 'react';
 const AppSettingsContext = React.createContext({});
 
 /**
- * Helper to add the app settings context as a prop to teh wrapped component.
+ * Helper to add the app settings context as a prop to the wrapped component.
  * @param {*} WrappedComponent
  */
 const withAppSettings = (WrappedComponent) => {

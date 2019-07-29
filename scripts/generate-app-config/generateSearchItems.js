@@ -3,12 +3,11 @@
 */
 const generateSearchItems = (contentConfig) => {
   const content = contentConfig.config;
-  const config = Object.keys(content).reduce((acc, navItemKey) => {
-    const navItem = content[navItemKey];
-    Object.keys(navItem).map(pageKey => acc.push({
-      title: navItem[pageKey].name,
-      tags: navItem[pageKey].path.replace(/\//gi, ' '),
-      path: navItem[pageKey].path,
+  const config = Object.entries(content).reduce((acc, [, navItem]) => {
+    Object.entries(navItem).map(([, page]) => acc.push({
+      title: page.name,
+      tags: page.path.replace(/\//gi, ' '),
+      path: page.path,
     }));
     return acc;
   }, []);
