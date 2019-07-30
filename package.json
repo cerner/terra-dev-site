@@ -85,7 +85,7 @@
     "start-static": "npm run compile:prod && tt-serve-static --site ./build",
     "test": "npm run lint && npm run jest && npm run wdio",
     "tds:generate-app-config": "node bin/generateAppConfig.js",
-    "wdio": "wdio config/wdio/wdio.conf.js"
+    "wdio": "wdio node_modules/terra-toolkit/config/wdio/wdio.conf.js"
   },
   "dependencies": {
     "classnames": "^2.2.5",

@@ -11,6 +11,7 @@ Unreleased
 * The Browser router is now used instead of the hash router.
 * Secondary nav filter has been replaced by site search.
 * logo config removed.
+* WDIO config removed.
 
 ### Changed
 * Updated fs-extra dependency to ^8.0.0

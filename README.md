@@ -28,7 +28,6 @@ Provides the following default configuration:
 * `config/site/site.config.js`
 * `config/site/navigation.config.js`
 * `config/webpack/webpack.config.js`
-* `config/wdio/wdio.conf.js`
 
 * [Getting Started](#getting-started)
 * [Versioning](#versioning)

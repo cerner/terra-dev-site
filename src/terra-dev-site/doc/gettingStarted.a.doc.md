@@ -31,14 +31,14 @@ This component requires the following peer dependencies be installed in your app
 
 ### Running terra-dev-site
 
-Using the provided terra-dev-site webpack config a static site will be built to the `dev-site-config/build` directory and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. If you have a custom webpack config, you must extend the provided webpack config using webpack-merge.
+Using the provided terra-dev-site webpack config a static site will be built to the `dev-site-config/build` directory and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. You must extend the provided webpack config using webpack-merge or simply returning the webpack config from a root level webpack.config.
 
 To serve using `tt-serve`, add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit/tree/master/scripts/serve#cli) for more information on the command options.
 
 ```json
 {
   "scripts": {
-    "start": "tt-serve --config node_modules/terra-dev-site/config/webpack/webpack.config.js"
+    "start": "tt-serve
   }
 }
 ```
