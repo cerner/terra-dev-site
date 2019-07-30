@@ -32,6 +32,20 @@ const defaultProps = {
   selectedPath: undefined,
 };
 
+/**
+ * Enables focus styles for the target of the given event. Typically used as an onBlur callback on selectable elements.
+ */
+const enableFocusStyles = (event) => {
+  event.currentTarget.setAttribute('data-focus-styles-enabled', 'true');
+};
+
+/**
+ * Disables focus styles for the target of the given event. Typically used as an onMouseDown callback on selectable elements.
+ */
+const disableFocusStyles = (event) => {
+  event.currentTarget.setAttribute('data-focus-styles-enabled', 'false');
+};
+
 class CollapsingNavigationMenu extends React.Component {
   /**
    * Returns a list of keys in the tree to 'open' that lead to the selected path.
@@ -135,6 +149,8 @@ class CollapsingNavigationMenu extends React.Component {
               aria-haspopup={itemHasChildren}
               onKeyDown={event => this.handleKeyDown(event, item)}
               onClick={event => this.handleOnClick(event, item)}
+              onBlur={enableFocusStyles}
+              onMouseDown={disableFocusStyles}
             >
               {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown className={cx('caret')} /> : <IconCaretRight className={cx('caret')} />}</span> : null}
               {item.name}
