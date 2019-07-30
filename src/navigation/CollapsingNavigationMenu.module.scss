@@ -17,11 +17,11 @@
     align-items: flex-end;
     cursor: pointer;
     display: flex;
+    outline: 0;
     padding-bottom: 0.7143rem;
     padding-left: 0.3571rem;
     padding-right: 0.3571rem;
     padding-top: 0.7143rem;
-    outline: 0;
 
     &.is-selected {
       background-color: #e1f3fd;
