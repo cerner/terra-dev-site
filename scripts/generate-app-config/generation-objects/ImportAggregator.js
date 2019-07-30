@@ -5,31 +5,79 @@ const IdentifierPlaceholder = require('./IdentifierPlaceholder');
 * This class aggregates imports and helps insure things are not included more than once.
 */
 class ImportAggregator {
+  /**
+   * Adds the import to the appropriate collection and returns the placeholder
+   * @param {*} filePath filepath to the import
+   * @param {*} name the string identifying the import.
+   * @param {*} identifier optional identifier for the placeholder.
+   * @param {*} imports the object to add the import to.
+   */
+  static internalAddImport(filePath, name, identifier, imports) {
+    if (!imports[filePath]) {
+      // eslint-disable-next-line no-param-reassign
+      imports[filePath] = name;
+    }
+
+    const ident = identifier || imports[filePath];
+
+    return new IdentifierPlaceholder(ident);
+  }
+
+  static formatString(importString) {
+    return importString.replace(/\\/g, '\\\\');
+  }
+
   constructor() {
     this.imports = {};
+    this.dynamicImports = {};
+    this.reactLazyImports = {};
   }
 
   /**
-  * Imports are aggregaged and only added once. Name and identifier are optional.
+  * Imports are aggregated and only added once. Name and identifier are optional.
   * Import name from <filepath>
-  * returns the identifier specifed or the name.
+  * returns the identifier specified or the name.
   */
   addImport(filePath, name, identifier) {
-    if (!this.imports[filePath]) {
-      const componentName = name || `Component${Object.keys(this.imports).length + 1}`;
-      this.imports[filePath] = componentName;
-    }
+    const componentName = name || `Component${Object.keys(this.imports).length + 1}`;
+    return ImportAggregator.internalAddImport(filePath, componentName, identifier, this.imports);
+  }
 
-    const ident = identifier || this.imports[filePath];
+  /**
+  * Imports are aggregated and only added once. Name and identifier are optional.
+  * Import name from <filepath>
+  * returns the identifier specified or the name.
+  */
+  addDynamicImport(filePath, name, identifier) {
+    const componentName = name || `DynamicComponent${Object.keys(this.dynamicImports).length + 1}`;
+    return ImportAggregator.internalAddImport(filePath, componentName, identifier, this.dynamicImports);
+  }
 
-    return new IdentifierPlaceholder(ident);
+  /**
+  * Imports are aggregated and only added once. Name and identifier are optional.
+  * Import name from <filepath>
+  * returns the identifier specified or the name.
+  */
+  addReactLazyImport(filePath, name, identifier) {
+    this.addImport('react', 'React');
+    const componentName = name || `ReactLazyImport${Object.keys(this.reactLazyImports).length + 1}`;
+    return ImportAggregator.internalAddImport(filePath, componentName, identifier, this.reactLazyImports);
   }
 
   /**
   * Returns a string of all the code imports.
   */
   toCodeString() {
-    return Object.keys(this.imports).reduce((acc, cur) => `${acc} import ${this.imports[cur]} from '${cur.replace(/\\/g, '\\\\')}';\n`, '');
+    const imports = Object.keys(this.imports).reduce((acc, cur) => (
+      `${acc} import ${this.imports[cur]} from '${ImportAggregator.formatString(cur)}';\n`
+    ), '');
+    const dynamicImports = Object.keys(this.dynamicImports).reduce((acc, cur) => (
+      `${acc} const  ${this.dynamicImports[cur]} = () => import('${ImportAggregator.formatString(cur)}');\n`
+    ), '');
+    const reactLazyImports = Object.keys(this.reactLazyImports).reduce((acc, cur) => (
+      `${acc} const  ${this.reactLazyImports[cur]} = React.lazy(() => import('${ImportAggregator.formatString(cur)}'));\n`
+    ), '');
+    return imports + dynamicImports + reactLazyImports;
   }
 
   /**

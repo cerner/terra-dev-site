@@ -29,7 +29,7 @@ const pageConfig = (route, namespace) => {
 * Recursively generates page configs.
 */
 const recurs = (config, routes, contentPath, ext, namespace) => {
-  // Prefer modying config over creating new config, this way we blend file paths together in the ui.
+  // Prefer modifying config over creating new config, this way we blend file paths together in the ui.
   const configCopy = config || pageConfig(routes[0], namespace);
 
   // Pop off the top most directory.
@@ -115,6 +115,7 @@ const sortPage = (a, b) => {
 * Sort the pages objects and convert them into ordered arrays.
 */
 const sortPageConfig = config => (
+  // eslint-disable-next-line compat/compat
   Object.values(config).sort(sortPage).map((page) => {
     if (page.pages) {
       // eslint-disable-next-line no-param-reassign
@@ -162,7 +163,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   if (verbose) {
     // eslint-disable-next-line no-console
-    console.log('Patterns', patterns);
+    console.log('[terra-dev-site] Patterns', patterns);
   }
 
   // Execute the globs and regex masks, to trim the directories.
@@ -172,7 +173,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   if (verbose) {
     // eslint-disable-next-line no-console
-    console.log('File Paths', filePaths);
+    console.log('[terra-dev-site] File Paths', filePaths);
   }
 
   // Build out the page config from the discovered file paths.
@@ -191,7 +192,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
 
   if (verbose) {
     // eslint-disable-next-line no-console
-    console.log('Page Config', JSON.stringify(sortedConfig, null, 2));
+    console.log('[terra-dev-site] Page Config', JSON.stringify(sortedConfig, null, 2));
   }
 
   return sortedConfig;

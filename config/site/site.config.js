@@ -60,9 +60,6 @@ const siteConfig = {
    */
   npmPackage,
 
-  /* The list of side effect theme files. */
-  themeImports: [],
-
   /* The list of side effect js files. */
   sideEffectImports: [],
 
@@ -73,9 +70,6 @@ const siteConfig = {
   readMeContent: path.resolve(process.cwd(), 'README.md'),
 
   appConfig: {
-    /* Path to the logo the site header should display. */
-    logoSrc: path.join(__dirname, '..', '..', 'terra.png'),
-
     /* The title the site header should display. */
     title: startCase(npmPackage.name), // maps to appTitle
 
@@ -111,21 +105,23 @@ const siteConfig = {
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
-    /** The configuration for adding the external extensions section of the site.
-     *   Add like:
-     *     extensions: {
-     *       // The url to link to github. If this is supplied a github extention will be display to link to the supplied url
-     *       gitHubUrl: 'https://github.com/cerner',
-     *     },
+    /** This section allows you to set custom extensions.
+     * Extensions will be launched in a modal manager. All fields are required.
+     *  Add like:
+     *  extensions: [
+     * {
+     *     iconPath: 'terra-icon/lib/icon/IconSend',
+     *     key: 'terra-dev-site.search',
+     *     text: 'text',
+     *     componentPath: '../path/to/component',
+     *     size: 'small',
+     *   },
+     * ],
      */
-    ...(npmPackage.repository && npmPackage.repository.url) && {
-      extensions: {
-        gitHubUrl: npmPackage.repository.url.replace('git+', ''),
-      },
-    },
 
+    extensions: [],
 
-    /** This section allows to you inject arbitrary html into the head tag of index.html.
+    /** This section allows you to inject arbitrary html into the head tag of index.html.
      *  It takes an array of strings. You could load the string from an external file if desired.
      *  Add like:
      *  headHtml:[
@@ -133,6 +129,7 @@ const siteConfig = {
      *  ],
      */
     headHtml: [],
+
   },
 
   /* The default for whether or not test evidence should be included. 'true' is the default value. */
@@ -140,6 +137,7 @@ const siteConfig = {
 
   /* The default for whether the navigation side menu includes a filter input. 'false' is the default value */
   filterSideMenu: false,
+
 };
 
 module.exports = siteConfig;

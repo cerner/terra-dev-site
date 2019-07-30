@@ -7,7 +7,8 @@ const navConfig = {
      *      path: Path to the link.
      *      text: The text to display on the navigation link.
      *      pageTypes: The page extension(s) that should be displayed under this link.
-     *      isHidden: (option) Whether or not to display the link in the top navigation.
+     *      capabilities: an object describing the capabilities of all pages listed under the specified path.
+     *          devTools: display development tools to allow switching between locales and themes.
      */
     links: [{
       path: '/home',
@@ -17,11 +18,16 @@ const navConfig = {
       path: '/components',
       text: 'Components',
       pageTypes: ['doc'],
+      capabilities: {
+        devTools: true,
+      },
     }, {
       path: '/tests',
       text: 'Tests',
       pageTypes: ['test'],
-      isHidden: true,
+      capabilities: {
+        devTools: true,
+      },
     }],
   },
 };

@@ -3,13 +3,28 @@ Changelog
 
 Unreleased
 ----------
+
+### Breaking
+* Removed the hide option from navigation.config
+* Removed the theme imports option from site.conf. Themes should be aggregated by webpack.
+* Changed extension config option in site.conf to expect content launched from a disclosure manager.
+* The Browser router is now used instead of the hash router.
+* Secondary nav filter has been replaced by site search.
+* logo config removed.
+* WDIO config removed.
+
 ### Changed
 * Updated fs-extra dependency to ^8.0.0
 * Updated babel-eslint dev-dependency to ^10.0.1
 * Added mixin pattern rule in package.json.
 
-### Fixed
-* Fixed the console error which occured when ESC was pressed in the search filter.
+### Added
+* consumed terra-application 1.x.x and terra-application-navigation 1.x.x packages
+* add devTools to display a development toolbar that allows switching between locales and themes.
+* new collapsible side navigation
+* added a site search.
+* added support for application switching
+* dev-site is now code split for faster loading
 
 5.0.0 - (May 31, 2019)
 ----------

@@ -19,6 +19,7 @@
 .nyc_output
 .repl_history
 .rvmrc
+.DS_Store
 .sass-cache/
 /.bundle/
 /.config
@@ -54,3 +55,6 @@ target
 **/wdio/__snapshots__/diff
 errorScreenshots
 **/aggregated-translations/*.*
+stats.json
+aggregated-themes.js
+package-lock.json

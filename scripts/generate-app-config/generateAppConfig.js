@@ -1,13 +1,14 @@
 const fse = require('fs-extra');
 const path = require('path');
 const writeConfig = require('./writeConfig');
-const generateRouteConfig = require('./generateRouteConfig');
+const generateContentConfig = require('./generateContentConfig');
 const generateNameConfig = require('./generateNameConfig');
-const generateExtensions = require('./generateExtensions');
-const generateUtilitiesConfig = require('./generateUtilitiesConfig');
+const generateSettingsConfig = require('./generateSettingsConfig');
 const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
-const injectTestEvidenceLink = require('./injectTestEvidenceLink');
+const generateSearchItems = require('./generateSearchItems');
+const generateExtensionConfig = require('./generateExtensionConfig');
+const injectLink = require('./injectLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
 
@@ -33,8 +34,8 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   const {
     appConfig,
     navConfig,
-    themeImports,
     sideEffectImports,
+    placeholderSrc,
   } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
@@ -42,12 +43,16 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   const buildPath = path.join(rootPath, 'build');
 
   if (siteConfig.includeTestEvidence) {
-    navConfig.navigation.links = injectTestEvidenceLink(navConfig);
+    navConfig.navigation.links = injectLink(navConfig, {
+      path: '/evidence',
+      text: 'Evidence',
+      pageTypes: ['evidence'],
+    });
   }
 
-  const utilityConfig = addConfig(
-    generateUtilitiesConfig(appConfig),
-    'utilityConfig.jsx',
+  const settingsConfig = addConfig(
+    generateSettingsConfig(appConfig),
+    'settingsConfig.js',
     buildPath,
     fse,
     imports,
@@ -61,32 +66,46 @@ const generateAppConfig = (siteConfig, production, verbose) => {
     imports,
   );
 
-  const routingConfig = addConfig(
-    generateRouteConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose)),
-    'routeConfig.js',
+  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose));
+  const menuConfigImport = addConfig(
+    menuItems,
+    'menuItems.js',
+    buildPath,
+    fse,
+    imports,
+  );
+  const contentConfigImport = addConfig(
+    content,
+    'contentConfig.js',
     buildPath,
     fse,
     imports,
   );
 
-  const navigationItems = addConfig(
-    generateNavigationItems(navConfig),
+  const { navigationItems, capabilities } = generateNavigationItems(navConfig);
+  const navigationItemsImport = addConfig(
+    navigationItems,
     'navigationItems.js',
     buildPath,
     fse,
     imports,
   );
 
-  const extensions = addConfig(
-    generateExtensions(appConfig),
-    'extensions.jsx',
+  const extensionConfigImport = addConfig(
+    generateExtensionConfig(appConfig.extensions),
+    'extensionsConfig.js',
     buildPath,
     fse,
     imports,
   );
 
-  // Add any side-effect theme imports.
-  importSideEffects(themeImports, imports);
+  // Create search items file
+  writeConfig(
+    generateSearchItems(content),
+    'searchItems.js',
+    buildPath,
+    fse,
+  );
 
   // Add any side-effect imports.
   importSideEffects(sideEffectImports, imports);
@@ -94,16 +113,17 @@ const generateAppConfig = (siteConfig, production, verbose) => {
   // Building out the overall config import.
   const config = {
     nameConfig,
-    utilityConfig,
-    routingConfig,
-    navigationItems,
-    extensions,
+    settingsConfig,
+    menuItems: menuConfigImport,
+    contentConfig: contentConfigImport,
+    navigationItems: navigationItemsImport,
     indexPath: navConfig.navigation.index,
-    defaultTheme: appConfig.defaultTheme,
-    themes: appConfig.themes,
+    capabilities,
+    extensions: extensionConfigImport,
+    placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
   };
 
-  writeConfig({ config, imports }, 'appConfig.js', buildPath, fse);
+  writeConfig({ config, imports }, 'siteConfig.js', buildPath, fse);
 };
 
 module.exports = generateAppConfig;

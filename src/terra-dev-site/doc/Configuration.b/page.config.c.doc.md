@@ -65,12 +65,6 @@ const config = {
           type: 'md'
         },
         {
-          name: 'wdio.conf',
-          path: '/wdio-conf',
-          content: '../src/terra-dev-site/doc/Configuration/wdio.conf.md',
-          type: 'md'
-        },
-        {
           name: 'webpack.config',
           path: '/webpack-config',
           content: '../src/terra-dev-site/doc/Configuration/webpack.config.md',

@@ -4,18 +4,18 @@ import Markdown from 'terra-markdown';
 import ReadMe from './navigation.config.md';
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 import config from '!raw-loader!../../../../config/site/navigation.config';
-
 // We're not using the doc template here to avoid circular dependencies.
 const style = {
   height: '100%',
   overflow: 'auto',
-  padding: '15px',
+  padding: '24px',
   position: 'relative',
 };
 
 const MarkdownExample = () => (
+  // eslint-disable-next-line react/forbid-dom-props
   <div style={style}>
-    <Markdown src={ReadMe} />
+    <Markdown src={ReadMe} hasHeadingAnchors />
     <Markdown src={`\`\`\`javascript\n${config}\n\`\`\``} />
   </div>
 );
