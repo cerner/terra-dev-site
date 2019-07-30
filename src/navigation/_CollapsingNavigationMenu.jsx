@@ -151,6 +151,7 @@ class CollapsingNavigationMenu extends React.Component {
               onClick={event => this.handleOnClick(event, item)}
               onBlur={enableFocusStyles}
               onMouseDown={disableFocusStyles}
+              data-focus-styles-enabled
             >
               {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown className={cx('caret')} /> : <IconCaretRight className={cx('caret')} />}</span> : null}
               {item.name}
