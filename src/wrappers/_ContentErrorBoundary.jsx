@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import ErrorPage from './_ErrorPage';
 
 const propTypes = {
+  /**
+   * children are children
+   */
   children: PropTypes.element.isRequired,
+
+  /**
+   * Component to wrap around errored content
+   */
   errorWrapper: PropTypes.func.isRequired,
 };
 

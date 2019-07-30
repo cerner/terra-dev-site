@@ -44,7 +44,6 @@ Terra.describeViewports('utilities', ['tiny'], () => {
     browser.url('/single-page-test');
     browser.click('[data-compact-header-toggle]');
     browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(1)');
-    // browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');
     Terra.validates.element('selects config', { selector: '#root' });
   });
 

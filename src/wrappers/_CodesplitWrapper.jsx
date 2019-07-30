@@ -15,10 +15,19 @@ const propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   props: PropTypes.object,
 
+  /**
+   * Loading indicator to be displayed while loading
+   */
   fallback: PropTypes.element.isRequired,
 
+  /**
+   * Component to wrap around loaded content
+   */
   contentWrapper: PropTypes.func,
 
+  /**
+   * Component to wrap around errored content
+   */
   errorWrapper: PropTypes.func.isRequired,
 };
 

@@ -36,7 +36,7 @@ const propTypes = {
   /**
    * function to return search items
    */
-  fetchSearchItems: PropTypes.func,
+  fetchSearchItems: PropTypes.func.isRequired,
 };
 
 class Site extends React.Component {

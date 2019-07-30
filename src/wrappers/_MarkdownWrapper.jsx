@@ -14,11 +14,7 @@ const propTypes = {
   /**
    * The content to be placed within the main content area of the container.
    */
-  content: PropTypes.func,
-};
-
-const defaultProps = {
-  content: undefined,
+  content: PropTypes.func.isRequired,
 };
 
 const MarkdownWrapper = ({ content }) => {
@@ -66,6 +62,5 @@ const MarkdownWrapper = ({ content }) => {
 };
 
 MarkdownWrapper.propTypes = propTypes;
-MarkdownWrapper.defaultProps = defaultProps;
 
 export default MarkdownWrapper;
