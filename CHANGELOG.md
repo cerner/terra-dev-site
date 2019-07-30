@@ -4,6 +4,8 @@ Changelog
 Unreleased
 ----------
 
+6.0.0 - (July 30, 2019)
+----------
 ### Breaking
 * Removed the hide option from navigation.config
 * Removed the theme imports option from site.conf. Themes should be aggregated by webpack.
