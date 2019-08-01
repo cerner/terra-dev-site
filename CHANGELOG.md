@@ -6,6 +6,9 @@ Unreleased
 ### Fixed
 * Add back github icon for old site passivity
 
+### changed
+* Remove div containing status view to center component.
+
 6.0.0 - (July 30, 2019)
 ----------
 ### Breaking
