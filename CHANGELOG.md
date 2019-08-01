@@ -4,7 +4,10 @@ Changelog
 Unreleased
 ----------
 ### Fixed
-* Add back github icon for old site passivity
+* Add back github icon for old site passivity.
+* Scroll to location if an anchor is present.
+* Log error boundry error to console.
+* Add missing keys to status views.
 
 ### changed
 * Remove div containing status view to center component.
