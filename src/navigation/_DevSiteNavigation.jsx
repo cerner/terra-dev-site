@@ -84,17 +84,6 @@ class DevSiteNavigation extends React.Component {
     };
   }
 
-  static scrollToALink(location) {
-    if (!location || location.length < 2) {
-      return;
-    }
-    const elementName = location.hash.slice(1);
-    const element = document.getElementsByName(elementName);
-    if (element[0]) {
-      element[0].scrollIntoView();
-    }
-  }
-
   static launchExtension(key, disclosureManager, { Component, props = {}, size = 'large' }) {
     disclosureManager.disclose({
       preferredType: 'modal',
@@ -116,11 +105,6 @@ class DevSiteNavigation extends React.Component {
     this.handleItemSelection = this.handleItemSelection.bind(this);
     this.handleExtensionSelection = this.handleExtensionSelection.bind(this);
     this.handleSettingsSelection = this.handleSettingsSelection.bind(this);
-  }
-
-  componentDidMount() {
-    const { location } = this.props;
-    DevSiteNavigation.scrollToALink(location);
   }
 
   getExtensionItems() {
