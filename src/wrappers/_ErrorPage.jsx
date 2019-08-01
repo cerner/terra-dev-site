@@ -14,6 +14,7 @@ const ErrorPage = ({ error }) => (
     buttonAttrs={[
       {
         text: 'Refresh',
+        key: 'Refresh',
         onClick: () => { window.location.reload(true); },
       },
     ]}

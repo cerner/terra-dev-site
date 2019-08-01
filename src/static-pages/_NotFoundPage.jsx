@@ -25,10 +25,12 @@ const NotFoundPage = ({ history, homePath }) => (
       buttonAttrs={[
         {
           text: 'Go Back',
+          key: 'Go Back',
           onClick: () => { history.goBack(); },
         },
         {
           text: 'Home',
+          key: 'Home',
           onClick: () => { history.replace(homePath); },
         },
       ]}
