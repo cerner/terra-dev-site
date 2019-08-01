@@ -4,10 +4,10 @@ Changelog
 Unreleased
 ----------
 ### Fixed
-* Add back github icon for old site passivity
-
-### Added
-* Heading anchors for md files included direclty. This does not include markdown pulled in through terra-doc-template.
+* Add back github icon for old site passivity.
+* Scroll to location if an anchor is present.
+* Log error boundry error to console.
+* Add missing keys to status views.
 
 6.0.0 - (July 30, 2019)
 ----------
