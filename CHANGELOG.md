@@ -6,6 +6,9 @@ Unreleased
 ### Fixed
 * Add back github icon for old site passivity
 
+### Added
+* Heading anchors for md files included direclty. This does not include markdown pulled in through terra-doc-template.
+
 6.0.0 - (July 30, 2019)
 ----------
 ### Breaking

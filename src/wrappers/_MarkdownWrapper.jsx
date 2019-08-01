@@ -51,7 +51,7 @@ const MarkdownWrapper = ({ content }) => {
     return (
       <ContentLoaded>
         { markdown
-          ? <div className={cx('markdown')}><TerraMarkdown src={markdown} /></div>
+          ? <div className={cx('markdown')}><TerraMarkdown src={markdown} hasHeadingAnchors /></div>
           : <ErrorPage error="The page failed to load. Refresh the page to try again." />
         }
       </ContentLoaded>
