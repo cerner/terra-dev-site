@@ -9,6 +9,9 @@ Unreleased
 * Log error boundry error to console.
 * Add missing keys to status views.
 
+### changed
+* Remove div containing status view to center component.
+
 6.0.0 - (July 30, 2019)
 ----------
 ### Breaking

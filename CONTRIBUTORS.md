@@ -15,6 +15,7 @@ Cerner Corporation
 - Adam Parker [@amichaelparker]
 - Avinash Gupta [@avinashg1994]
 - Saket Bajaj [@saket2403]
+- Derek Yu [yuderekyu]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -31,3 +32,4 @@ Cerner Corporation
 [@amichaelparker]: https://github.com/amichaelparker
 [@avinashg1994]: https://github.com/avinashg1994
 [saket2403]: https://github.com/saket2403
+[yuderekyu]: https://github.com/yuderekyu
