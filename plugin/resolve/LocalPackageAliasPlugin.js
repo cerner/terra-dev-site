@@ -12,7 +12,7 @@ class LocalPackageAliasPlugin {
   constructor({ rootDirectories = [process.cwd()] } = {}) {
     // Creates a structure like this for aliases, this is the expected structure for the alias plugin.
     // {
-    //   item:'item/to/alias',
+    //   name:'item/to/alias',
     //   onlyModule: false,
     //   alias:'/new/alias/name',
     // }

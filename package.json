@@ -81,6 +81,7 @@
     "release:minor": "npm version minor -m 'Released version %s' && npm publish",
     "release:patch": "npm version patch -m 'Released version %s' && npm publish",
     "start": "tt-serve --config config/webpack/webpack.config",
+    "start-prod": "tt-serve --config config/webpack/webpack.config -p",
     "start-heroku": "tt-serve-static --port $PORT --site './build' ",
     "start-static": "npm run compile:prod && tt-serve-static --site ./build",
     "test": "npm run lint && npm run jest && npm run wdio",
