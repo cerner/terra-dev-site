@@ -6,7 +6,7 @@ Unreleased
 ### Fixed
 * Add back github icon for old site passivity.
 * Scroll to location if an anchor is present.
-* Log error boundry error to console.
+* Log error boundary error to console.
 * Add missing keys to status views.
 
 ### Changed
