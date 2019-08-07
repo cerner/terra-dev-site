@@ -19,7 +19,7 @@ class DevSitePlugin {
 
     new HtmlWebpackPlugin({
       filename: '404.html',
-      template: path.join(__dirname, '..', 'lib', '404.html'),
+      template: path.join(__dirname, '..', '..', 'lib', '404.html'),
       inject: 'head',
       chunks: ['redirect'],
     }).apply(compiler);
