@@ -9,8 +9,9 @@ Unreleased
 * Log error boundry error to console.
 * Add missing keys to status views.
 
-### changed
+### Changed
 * Remove div containing status view to center component.
+* Resolver plugins now allow more types of requires for hot reloading.
 
 6.0.0 - (July 30, 2019)
 ----------
