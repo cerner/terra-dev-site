@@ -1,7 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const glob = require('glob');
-const webpack = require('webpack');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
@@ -38,7 +36,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const production = argv.p;
   const processPath = process.cwd();
   const verbose = env.verboseGenerateAppConfig;
-  const publicPath = argv['output-public-path'] || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
 
   // Load the site configuration.
   const siteConfig = loadSiteConfig();
@@ -46,21 +43,14 @@ const devSiteConfig = (env = {}, argv = {}) => {
   // Populate lang variable, prefer env over siteConfig;
   const lang = env.defaultLocale || siteConfig.appConfig.defaultLocale;
 
-  // Generate the files need to spin up the site.
-  generateAppConfig(siteConfig, production, verbose);
+  // // Generate the files need to spin up the site.
+  // generateAppConfig(siteConfig, production, verbose);
 
   // Is hot reloading enabled?
   const { hotReloading, webpackAliasOptions } = siteConfig;
 
-  // if (verbose) {
-  //   // eslint-disable-next-line no-console
-  //   console.log('Generated Aliases', alias);
-  // }
-
   const indexEntryPoints = [];
   indexEntryPoints.push('terra-dev-site');
-  // Strip the trailing / from the public path.
-  const basename = publicPath.slice(0, -1);
 
   return {
     entry: {
@@ -79,20 +69,8 @@ const devSiteConfig = (env = {}, argv = {}) => {
         indexEntryPoints,
         entry: 'terra-dev-site',
       }),
-      // // 404.html
-      // new HtmlWebpackPlugin({
-      //   filename: '404.html',
-      //   template: path.join(__dirname, '..', '..', 'lib', '404.html'),
-      //   inject: 'head',
-      //   chunks: ['redirect'],
-      // }),
-      new webpack.DefinePlugin({
-        // Base name is used to namespace terra-dev-site
-        TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
-      }),
     ],
     resolve: {
-      // modules: [devSiteConfigPath],
       plugins: [
         new DirectorySwitcherPlugin({
           shouldSwitch: hotReloading && !production,
@@ -111,13 +89,10 @@ const devSiteConfig = (env = {}, argv = {}) => {
         }),
       ],
     },
-    output: {
-      publicPath,
-    },
-    devServer: {
-      historyApiFallback: true,
-    },
-    ...(production) && { devtool: 'source-map' },
+    // devServer: {
+    //   historyApiFallback: true,
+    // },
+    // ...(production) && { devtool: 'source-map' },
   };
 };
 

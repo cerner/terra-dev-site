@@ -7,22 +7,53 @@ const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig
 const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
 
 class DevSitePlugin {
-  constructor(options) {
+  constructor(options = {}) {
     this.options = options;
+    // this.lang = options.lang;
   }
 
   apply(compiler) {
+    // Load the site configuration.
+    const production = compiler.options.mode === 'production';
+    const siteConfig = loadSiteConfig();
     const processPath = process.cwd();
+
+    // GENERATE
+    // Generate the files need to spin up the site.
+    generateAppConfig(siteConfig, production, false);
+
+    // OUTPUT
+    const publicPath = compiler.options.output.publicPath || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
+    compiler.options.output.publicPath = publicPath;
+
+    // Strip the trailing / from the public path.
+    const basename = publicPath.slice(0, -1);
+    new webpack.DefinePlugin({
+      // Base name is used to namespace terra-dev-site
+      TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
+    }).apply(compiler);
+
+    // RESOLVE
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
-    // console.log(compiler);
     compiler.options.resolve.modules.push([devSiteConfigPath]);
 
+    // PLUGIN
     new HtmlWebpackPlugin({
       filename: '404.html',
       template: path.join(__dirname, '..', '..', 'lib', '404.html'),
       inject: 'head',
       chunks: ['redirect'],
     }).apply(compiler);
+
+
+    // WEBPACK DEV SERVER
+    compiler.options.devServer.historyApiFallback = true;
+
+    // DEVTOOL
+    if (production) {
+      compiler.options.devtool = 'source-map';
+    }
+
 
     // compiler.options.plugins.
     console.log('[VIKING] options', this.options);
