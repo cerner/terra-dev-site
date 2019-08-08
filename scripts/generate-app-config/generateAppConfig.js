@@ -18,7 +18,7 @@ const importSideEffects = require('./importSideEffects');
 */
 const addConfig = (config, fileName, buildPath, fs, imports) => {
   if (config) {
-    writeConfig(config, fileName, buildPath, fse);
+    writeConfig(config, fileName, buildPath, fs);
     const { name } = path.parse(fileName);
     return imports.addImport(`./${name}`, name);
   }
@@ -28,7 +28,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 /**
 * Writes out a file consisting of the app config and imports with the given file name to the specified path.
 */
-const generateAppConfig = (siteConfig, production, verbose) => {
+const generateAppConfig = (siteConfig, production, prefix, verbose = false) => {
   const imports = new ImportAggregator();
 
   const {
@@ -40,7 +40,7 @@ const generateAppConfig = (siteConfig, production, verbose) => {
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   // This is where we are writing out the generated files.
-  const buildPath = path.join(rootPath, 'build');
+  const buildPath = prefix ? path.join(rootPath, 'build', prefix) : path.join(rootPath, 'build');
 
   if (siteConfig.includeTestEvidence) {
     navConfig.navigation.links = injectLink(navConfig, {

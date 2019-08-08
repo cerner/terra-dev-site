@@ -85,10 +85,7 @@ class ImportAggregator {
   */
   static relativePath(contentPath) {
     if (contentPath[0] === '.') {
-      return path.relative(
-        path.join(process.cwd(), 'dev-site-config', 'build'),
-        path.resolve(process.cwd(), 'dev-site-config', contentPath),
-      );
+      return path.resolve(process.cwd(), 'dev-site-config', contentPath);
     }
 
     return contentPath;
