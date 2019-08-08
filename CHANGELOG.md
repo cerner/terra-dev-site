@@ -12,6 +12,7 @@ Unreleased
 ### Changed
 * Remove div containing status view to center component.
 * Resolver plugins now allow more types of requires for hot reloading.
+* Raw routes are wrapped in main.
 
 6.0.0 - (July 30, 2019)
 ----------
