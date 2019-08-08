@@ -2,8 +2,10 @@ const path = require('path');
 const fs = require('fs');
 const defaultConfig = require('../../config/site/site.config.js');
 
+let siteConfig;
+
 /**
-* Detemine if the path resolves to a file.
+* Determine if the path resolves to a file.
 */
 const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
 
@@ -33,22 +35,26 @@ const resolve = (filePath) => {
 
 /**
  * Returns the site configuration. It will attempt to load the configuration from the provided configPath first or
- * the defualt config path and then merge with the default config or it will just return the default site config.
+ * the default config path and then merge with the default config or it will just return the default site config.
  */
 const loadSiteConfig = (configPath) => {
+  if (siteConfig) {
+    return siteConfig;
+  }
+  siteConfig = defaultConfig;
   // Merge the provided site config with the defaults
   if (configPath) {
-    return applyDefaults(path.resolve(configPath));
+    siteConfig = applyDefaults(path.resolve(configPath));
   }
 
-  // Try to find the site config at the defualt path and then merge it with the defaults.
+  // Try to find the site config at the default path and then merge it with the defaults.
   const localConfig = resolve(path.resolve(process.cwd(), 'dev-site-config', 'site.config.js'));
   if (localConfig) {
-    return localConfig;
+    siteConfig = localConfig;
   }
 
   // Return the default config.
-  return defaultConfig;
+  return siteConfig;
 };
 
 module.exports = loadSiteConfig;
