@@ -6,12 +6,12 @@ const generateAppConfig = require('../../scripts/generate-app-config/generateApp
 const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
 
 const indexPlugin = ({
-  lang, siteConfig, siteEntries, entry,
+  filename, lang, siteConfig, siteEntries, entry,
 }) => {
   const otherSiteEntries = siteEntries.filter(indexEntry => indexEntry !== entry);
   return new HtmlWebpackPlugin({
     title: siteConfig.appConfig.title,
-    filename: 'index.html',
+    filename,
     template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
     lang,
     rootElementId: 'root',
@@ -50,6 +50,7 @@ class TerraDevSitePlugin {
       indexEntryPoints.push('terra-dev-site');
       // terra-dev-site index.html
       indexPlugin({
+        filename: site.prefix ? `${site.prefix}/index.html` : 'index.html',
         lang: this.lang,
         siteConfig: site.siteConfig,
         siteEntries: this.entries,
