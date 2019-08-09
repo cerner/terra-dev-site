@@ -5,11 +5,8 @@ const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig
 class TerraDevSitePlugin {
   constructor({ env } = {}) {
     this.env = env;
-    const siteConfig = loadSiteConfig();
-    this.sites = [{
-      siteConfig,
-    }];
-    this.lang = env.defaultLocale || siteConfig.appConfig.defaultLocale;
+    this.siteConfig = loadSiteConfig();
+    this.lang = env.defaultLocale || this.siteConfig.appConfig.defaultLocale;
   }
 
   apply(compiler) {
