@@ -34,6 +34,7 @@ const TerraDevSite = () => (
       activeNavigationItemKey,
       onSelectNavigationItem,
       onSelectSettings,
+      utilityItems,
       onSelectUtilityItem,
       child,
     }) => (
@@ -45,6 +46,7 @@ const TerraDevSite = () => (
         activeNavigationItemKey={activeNavigationItemKey}
         onSelectNavigationItem={onSelectNavigationItem}
         onSelectSettings={onSelectSettings}
+        utilityItems={utilityItems}
         onSelectUtilityItem={onSelectUtilityItem}
       >
         {child}
