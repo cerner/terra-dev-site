@@ -121,6 +121,7 @@ const generateAppConfig = (siteConfig, production, prefix, verbose = false) => {
     capabilities,
     extensions: extensionConfigImport,
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
+    apps: siteConfig.apps || [],
   };
 
   writeConfig({ config, imports }, 'siteConfig.js', buildPath, fse);
