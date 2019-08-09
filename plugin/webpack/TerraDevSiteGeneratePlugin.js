@@ -24,11 +24,14 @@ const indexPlugin = ({
   });
 };
 
+const prefixEntry = site => (site.prefix ? `${site.prefix}/${site.entry}` : site.entry);
+
 class TerraDevSitePlugin {
-  constructor({ sites, lang } = {}) {
+  constructor({ sites, lang, basename } = {}) {
     this.sites = sites;
-    this.entries = sites.map(site => site.entry);
+    this.entries = sites.map(site => prefixEntry(site));
     this.lang = lang;
+    this.basename = basename;
   }
 
   apply(compiler) {
@@ -40,9 +43,17 @@ class TerraDevSitePlugin {
       // Generate the files need to spin up the site.
       generateAppConfig(site.siteConfig, production, site.prefix);
 
+      let filename = 'index.html';
+      let { basename } = this;
+
+      if (site.prefix) {
+        filename = `${site.prefix}/index.html`;
+        basename = `${this.basename}/${site.prefix}`;
+      }
+
       new webpack.DefinePlugin({
         // Base name is used to namespace terra-dev-site
-        [site.basenameDefine]: JSON.stringify(site.basename),
+        [site.basenameDefine]: JSON.stringify(basename),
       }).apply(compiler);
 
       // indexes
@@ -50,11 +61,11 @@ class TerraDevSitePlugin {
       indexEntryPoints.push('terra-dev-site');
       // terra-dev-site index.html
       indexPlugin({
-        filename: site.prefix ? `${site.prefix}/index.html` : 'index.html',
+        filename,
         lang: this.lang,
         siteConfig: site.siteConfig,
         siteEntries: this.entries,
-        entry: site.entry,
+        entry: prefixEntry(site),
       }).apply(compiler);
     });
   }

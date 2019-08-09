@@ -14,11 +14,11 @@ class TerraDevSitePlugin {
     new TerraDevSiteGeneratePlugin({
       sites: [{
         siteConfig: loadSiteConfig(),
-        // Strip the trailing / from the public path.
-        basename: publicPath.slice(0, -1),
         basenameDefine: 'TERRA_DEV_SITE_BASENAME',
         entry: 'terra-dev-site',
       }],
+      // Strip the trailing / from the public path.
+      basename: publicPath.slice(0, -1),
       lang: this.lang,
     }).apply(compiler);
     new TerraDevSiteSetupPlugin({
