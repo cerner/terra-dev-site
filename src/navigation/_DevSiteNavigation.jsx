@@ -221,7 +221,11 @@ class DevSiteNavigation extends React.Component {
       <>
         {
           applicationNavigation({
-            titleConfig: { title: nameConfig.title },
+            titleConfig: {
+              title: nameConfig.title,
+              ...nameConfig.headline && { headline: nameConfig.headline },
+              ...nameConfig.subline && { subline: nameConfig.subline },
+            },
             navigationItems: navigationItems.map(item => ({
               key: item.path,
               text: item.text,

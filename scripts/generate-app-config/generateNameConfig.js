@@ -8,8 +8,8 @@ const generateNameConfig = (appConfig) => {
   const imports = new ImportAggregator();
   const config = {
     title: startCase(appConfig.title),
-    headline: startCase(appConfig.headline),
-    subline: startCase(appConfig.subline),
+    ...appConfig.headline && { headline: appConfig.headline },
+    ...appConfig.subline && { subline: appConfig.subline },
   };
 
   return { config, imports };
