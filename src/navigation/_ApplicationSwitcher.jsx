@@ -41,7 +41,7 @@ const ApplicationSwitcher = ({ disclosureManager, apps }) => (
   >
     <List dividerStyle="bottom-only">
       {apps.map(app => (
-        <Item key={app.path}>
+        <Item key={app.url}>
           <Hyperlink className={cx('item')} href={app.url}>{app.title}</Hyperlink>
         </Item>
       ))}

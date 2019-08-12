@@ -51,7 +51,7 @@ class TerraDevSitePlugin {
 
       this.apps.push({
         path: site.prefix,
-        url: siteBasename,
+        url: siteBasename || '/',
         title: appTitle(site),
       });
       return ({
