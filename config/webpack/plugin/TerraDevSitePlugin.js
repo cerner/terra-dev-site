@@ -1,6 +1,6 @@
 const TerraDevSiteSetupPlugin = require('./TerraDevSiteSetupPlugin');
 const TerraDevSiteGeneratePlugin = require('./TerraDevSiteGeneratePlugin');
-const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
+const loadSiteConfig = require('../../../scripts/generate-app-config/loadSiteConfig');
 
 class TerraDevSitePlugin {
   constructor({ env, sites = [] } = {}) {

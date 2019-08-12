@@ -1,7 +1,7 @@
 const path = require('path');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
-const TerraDevSitePlugin = require('../../plugin/webpack/TerraDevSitePlugin');
-const TerraDevSiteEntryPoints = require('../../plugin/webpack/TerraDevSiteEntryPoints');
+const TerraDevSitePlugin = require('./plugin/TerraDevSitePlugin');
+const TerraDevSiteEntryPoints = require('./plugin/TerraDevSiteEntryPoints');
 const DirectorySwitcherPlugin = require('../../plugin/resolve/DirectorySwitcherPlugin');
 const LocalPackageAliasPlugin = require('../../plugin/resolve/LocalPackageAliasPlugin');
 

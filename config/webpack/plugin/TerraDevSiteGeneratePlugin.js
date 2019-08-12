@@ -2,8 +2,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
-const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
-const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
+const generateAppConfig = require('../../../scripts/generate-app-config/generateAppConfig');
+const getNewRelicJS = require('../../../scripts/new-relic/getNewRelicJS');
 
 const indexPlugin = ({
   filename, lang, siteConfig, siteEntries, entry,
