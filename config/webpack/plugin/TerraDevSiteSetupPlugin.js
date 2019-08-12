@@ -18,7 +18,7 @@ class TerraDevSitePlugin {
 
     // RESOLVE
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
-    compiler.options.resolve.modules.push([devSiteConfigPath]);
+    compiler.options.resolve.modules.unshift([devSiteConfigPath]);
 
     new HtmlWebpackPlugin({
       filename: '404.html',
@@ -28,10 +28,12 @@ class TerraDevSitePlugin {
     }).apply(compiler);
 
     // WEBPACK DEV SERVER
-    compiler.options.devServer.historyApiFallback = true;
+    if (compiler.options.devServer) {
+      compiler.options.devServer.historyApiFallback = true;
+    }
 
     // DEVTOOL
-    if (production) {
+    if (production && !compiler.options.devtool) {
       compiler.options.devtool = 'source-map';
     }
   }
