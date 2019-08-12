@@ -25,7 +25,7 @@ const indexPlugin = ({
 };
 
 const prefixEntry = site => (site.prefix ? `${site.prefix}/${'index'}` : 'index');
-const appTitle = site => site.title;
+const appTitle = site => site.siteConfig.appConfig.title;
 
 class TerraDevSitePlugin {
   constructor({
@@ -37,7 +37,7 @@ class TerraDevSitePlugin {
       const entry = prefixEntry(site);
       this.entries.push(entry);
       this.apps.push({
-        path: entry,
+        path: site.prefix,
         title: appTitle(site),
       });
       return ({
@@ -57,7 +57,7 @@ class TerraDevSitePlugin {
         siteConfig: site.siteConfig,
         mode: compiler.options.mode,
         prefix: site.prefix,
-        apps: this.apps.filter(app => app.path !== site.entry),
+        apps: this.apps.filter(app => app.path !== site.prefix),
       });
 
       let filename = 'index.html';
