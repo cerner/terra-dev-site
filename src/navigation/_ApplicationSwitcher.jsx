@@ -16,12 +16,11 @@ const propTypes = {
    */
   apps: PropTypes.arrayOf(
     PropTypes.shape({
-      path: PropTypes.string,
+      url: PropTypes.string,
       title: PropTypes.string,
     }),
   ).isRequired,
 
-  basename: PropTypes.string.isRequired,
   /**
    * Injected by disclosure manager
    */
@@ -33,7 +32,7 @@ const propTypes = {
  * @param {*} props.disclosureManager disclosure manager object
  * @param {*} props.apps the apps to display
  */
-const ApplicationSwitcher = ({ disclosureManager, apps, basename }) => (
+const ApplicationSwitcher = ({ disclosureManager, apps }) => (
   <ContentContainer
     header={(
       <ActionHeader title="Application Switcher" onBack={disclosureManager.goBack} onClose={disclosureManager.closeDisclosure} />
@@ -43,7 +42,7 @@ const ApplicationSwitcher = ({ disclosureManager, apps, basename }) => (
     <List dividerStyle="bottom-only">
       {apps.map(app => (
         <Item key={app.path}>
-          <Hyperlink className={cx('item')} href={`${basename}/${app.path}`}>{app.title}</Hyperlink>
+          <Hyperlink className={cx('item')} href={app.url}>{app.title}</Hyperlink>
         </Item>
       ))}
     </List>

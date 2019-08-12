@@ -137,7 +137,7 @@ class Site extends React.Component {
 
   renderApplicationBaseChildren() {
     const {
-      siteConfig, applicationNavigation, fetchSearchItems, basename,
+      siteConfig, applicationNavigation, fetchSearchItems,
     } = this.props;
     return (
       <ModalManager>
@@ -151,7 +151,6 @@ class Site extends React.Component {
           <Route>
             <DevSiteNavigation
               siteConfig={siteConfig}
-              basename={basename}
               onUpdateSettings={this.onUpdateSettings}
               applicationNavigation={applicationNavigation}
               fetchSearchItems={fetchSearchItems}

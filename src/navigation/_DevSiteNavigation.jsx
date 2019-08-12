@@ -21,11 +21,6 @@ const propTypes = {
   onUpdateSettings: PropTypes.func,
 
   /**
-   * basename is expected to be '' or '/*', used for react router
-   */
-  basename: PropTypes.string.isRequired,
-
-  /**
    * Render prop for rendering application navigation or a variant of it.
    */
   applicationNavigation: PropTypes.func.isRequired,
@@ -97,14 +92,14 @@ class DevSiteNavigation extends React.Component {
     });
   }
 
-  static launchAppSwitcher(key, { disclosureManager, siteConfig, basename }) {
+  static launchAppSwitcher(key, { disclosureManager, siteConfig }) {
     disclosureManager.disclose({
       preferredType: 'modal',
       size: 'tiny',
       content: {
         key,
         component: (
-          <ApplicationSwitcher apps={siteConfig.apps} basename={basename} />
+          <ApplicationSwitcher apps={siteConfig.apps} />
         ),
       },
     });

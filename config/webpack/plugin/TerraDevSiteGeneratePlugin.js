@@ -36,41 +36,48 @@ class TerraDevSitePlugin {
     this.sites = sites.map((site) => {
       const entry = prefixEntry(site);
       this.entries.push(entry);
+
+      let filename = 'index.html';
+      let siteBasename = basename;
+
+      if (site.prefix) {
+        filename = `${site.prefix}/index.html`;
+        siteBasename = `${this.basename}/${site.prefix}`;
+      }
+
       this.apps.push({
-        path: site.prefix || '',
+        path: site.prefix,
+        url: siteBasename,
         title: appTitle(site),
       });
       return ({
         ...site,
         entry,
+        filename,
+        basename: siteBasename,
+        lang: lang || site.siteConfig.appConfig.defaultLocale,
       });
     });
-    this.lang = lang;
-    this.basename = basename;
   }
 
   apply(compiler) {
     this.sites.forEach((site) => {
+      const {
+        siteConfig, prefix, basenameDefine, basename, filename, lang, entry,
+      } = site;
+
       // GENERATE
       // Generate the files need to spin up the site.
       generateAppConfig({
-        siteConfig: site.siteConfig,
+        siteConfig,
         mode: compiler.options.mode,
-        prefix: site.prefix,
-        apps: this.apps.filter(app => app.path !== site.prefix),
+        prefix,
+        apps: this.apps.filter(app => app.path !== prefix),
       });
-
-      let filename = 'index.html';
-      let { basename } = this;
-
-      if (site.prefix) {
-        filename = `${site.prefix}/index.html`;
-        basename = `${this.basename}/${site.prefix}`;
-      }
 
       new webpack.DefinePlugin({
         // Base name is used to namespace terra-dev-site
-        [site.basenameDefine]: JSON.stringify(basename),
+        [basenameDefine]: JSON.stringify(basename),
       }).apply(compiler);
 
       // indexes
@@ -79,10 +86,10 @@ class TerraDevSitePlugin {
       // terra-dev-site index.html
       indexPlugin({
         filename,
-        lang: this.lang || site.siteConfig.appConfig.defaultLocale,
-        siteConfig: site.siteConfig,
+        lang,
+        siteConfig,
         siteEntries: this.entries,
-        entry: site.entry,
+        entry,
       }).apply(compiler);
     });
   }
