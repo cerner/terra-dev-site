@@ -42,7 +42,7 @@ class TerraDevSitePlugin {
 
       if (site.prefix) {
         filename = `${site.prefix}/index.html`;
-        siteBasename = `${this.basename}/${site.prefix}`;
+        siteBasename = `${basename}/${site.prefix}`;
       }
 
       this.apps.push({
