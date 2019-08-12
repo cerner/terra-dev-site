@@ -10,9 +10,6 @@ const configExpectations = processPath => ({
     modules: expect.arrayContaining([
       `${processPath}/dev-site-config`,
     ]),
-    alias: expect.objectContaining({
-      'terra-dev-site': `${processPath}`,
-    }),
   }),
   plugins: expect.arrayContaining([
     expect.objectContaining({
