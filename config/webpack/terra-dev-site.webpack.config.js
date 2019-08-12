@@ -19,7 +19,9 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const { hotReloading } = siteConfig;
 
   return {
+    entry: TerraDevSiteEntryPoints,
     plugins: [
+      new TerraDevSitePlugin({ env }),
     ],
     resolve: {
       plugins: [
