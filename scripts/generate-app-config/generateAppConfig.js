@@ -28,7 +28,9 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 /**
 * Writes out a file consisting of the app config and imports with the given file name to the specified path.
 */
-const generateAppConfig = (siteConfig, production, prefix, verbose = false) => {
+const generateAppConfig = ({
+  siteConfig, mode, prefix, apps = [], verbose = false,
+}) => {
   const imports = new ImportAggregator();
 
   const {
@@ -66,7 +68,7 @@ const generateAppConfig = (siteConfig, production, prefix, verbose = false) => {
     imports,
   );
 
-  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose));
+  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, mode, verbose));
   const menuConfigImport = addConfig(
     menuItems,
     'menuItems.js',
@@ -121,7 +123,7 @@ const generateAppConfig = (siteConfig, production, prefix, verbose = false) => {
     capabilities,
     extensions: extensionConfigImport,
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
-    apps: siteConfig.apps || [],
+    apps,
   };
 
   writeConfig({ config, imports }, 'siteConfig.js', buildPath, fse);

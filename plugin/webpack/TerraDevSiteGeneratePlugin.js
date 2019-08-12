@@ -24,24 +24,41 @@ const indexPlugin = ({
   });
 };
 
-const prefixEntry = site => (site.prefix ? `${site.prefix}/${site.entry}` : site.entry);
+const prefixEntry = site => (site.prefix ? `${site.prefix}/${'index'}` : 'index');
+const appTitle = site => site.title;
 
 class TerraDevSitePlugin {
-  constructor({ sites, lang, basename } = {}) {
-    this.sites = sites;
-    this.entries = sites.map(site => prefixEntry(site));
+  constructor({
+    sites, lang, basename,
+  } = {}) {
+    this.entries = [];
+    this.apps = [];
+    this.sites = sites.map((site) => {
+      const entry = prefixEntry(site);
+      this.entries.push(entry);
+      this.apps.push({
+        path: entry,
+        title: appTitle(site),
+      });
+      return ({
+        ...site,
+        entry,
+      });
+    });
     this.lang = lang;
     this.basename = basename;
   }
 
   apply(compiler) {
-    // Load the site configuration.
-    const production = compiler.options.mode === 'production';
-
     this.sites.forEach((site) => {
       // GENERATE
       // Generate the files need to spin up the site.
-      generateAppConfig(site.siteConfig, production, site.prefix);
+      generateAppConfig({
+        siteConfig: site.siteConfig,
+        mode: compiler.options.mode,
+        prefix: site.prefix,
+        apps: this.apps.filter(app => app.path !== site.entry),
+      });
 
       let filename = 'index.html';
       let { basename } = this;
@@ -62,10 +79,10 @@ class TerraDevSitePlugin {
       // terra-dev-site index.html
       indexPlugin({
         filename,
-        lang: this.lang,
+        lang: this.lang || site.siteConfig.appConfig.defaultLocale,
         siteConfig: site.siteConfig,
         siteEntries: this.entries,
-        entry: prefixEntry(site),
+        entry: site.entry,
       }).apply(compiler);
     });
   }

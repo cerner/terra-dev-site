@@ -3,20 +3,19 @@ const TerraDevSiteGeneratePlugin = require('./TerraDevSiteGeneratePlugin');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 
 class TerraDevSitePlugin {
-  constructor({ env } = {}) {
-    this.env = env;
-    this.siteConfig = loadSiteConfig();
-    this.lang = env.defaultLocale || this.siteConfig.appConfig.defaultLocale;
+  constructor({ env, sites = [] } = {}) {
+    this.lang = env.defaultLocale;
+    this.sites = sites;
+    this.sites.unshift({
+      siteConfig: loadSiteConfig(),
+      basenameDefine: 'TERRA_DEV_SITE_BASENAME',
+    });
   }
 
   apply(compiler) {
     const publicPath = compiler.options.output.publicPath || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
     new TerraDevSiteGeneratePlugin({
-      sites: [{
-        siteConfig: loadSiteConfig(),
-        basenameDefine: 'TERRA_DEV_SITE_BASENAME',
-        entry: 'terra-dev-site',
-      }],
+      sites: this.sites,
       // Strip the trailing / from the public path.
       basename: publicPath.slice(0, -1),
       lang: this.lang,
