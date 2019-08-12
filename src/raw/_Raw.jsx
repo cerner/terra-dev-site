@@ -34,8 +34,12 @@ const Raw = ({ indexPath, contentConfig, location }) => {
   const route = routes.find(routeToMatch => matchPath(nonRawPath, routeToMatch));
 
   if (route) {
-    const routeData = flattenedRouteConfig[route].component.default;
-    return React.createElement(routeData.componentClass, routeData.props);
+    const { componentClass: ComponentClass, props } = flattenedRouteConfig[route].component.default;
+    return (
+      <main>
+        <ComponentClass {...props} />
+      </main>
+    );
   }
 
   return <NotFoundPage homePath={indexPath} />;

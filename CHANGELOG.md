@@ -12,6 +12,7 @@ Unreleased
 ### Changed
 * Remove div containing status view to center component.
 * Resolver plugins now allow more types of requires for hot reloading.
+* Raw routes are wrapped in main.
 
 ### Removed (considerd non breaking)
 * Removed the webpackAliasOptions and monoRepo config sections from site.config. These were unused in any known repo and added complexity.
