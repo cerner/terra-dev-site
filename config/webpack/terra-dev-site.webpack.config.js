@@ -4,8 +4,8 @@ const webpack = require('webpack');
 const generateAppConfig = require('../../scripts/generate-app-config/generateAppConfig');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
-const DirectorySwitcherPlugin = require('../../plugin/resolve/DirectorySwitcherPlugin');
-const LocalPackageAliasPlugin = require('../../plugin/resolve/LocalPackageAliasPlugin');
+const DirectorySwitcherPlugin = require('./resolve/DirectorySwitcherPlugin');
+const LocalPackageAliasPlugin = require('./resolve/LocalPackageAliasPlugin');
 
 /**
 * Create index.html files for terra-dev-site and the additional apps.
@@ -50,9 +50,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
   // Generate the files need to spin up the site.
   generateAppConfig(siteConfig, production, verbose);
 
-  // Is hot reloading enabled?
-  const { hotReloading, webpackAliasOptions } = siteConfig;
-
   const indexEntryPoints = [];
   indexEntryPoints.push('terra-dev-site');
   // Strip the trailing / from the public path.
@@ -90,9 +87,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
       modules: [devSiteConfigPath],
       plugins: [
         new DirectorySwitcherPlugin({
-          shouldSwitch: hotReloading && !production,
-          source: webpackAliasOptions.source,
-          distribution: webpackAliasOptions.dist,
+          shouldSwitch: !production,
           rootDirectories: [
             processPath,
             path.resolve(processPath, 'packages', '*'),

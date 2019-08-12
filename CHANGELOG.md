@@ -13,6 +13,9 @@ Unreleased
 * Remove div containing status view to center component.
 * Resolver plugins now allow more types of requires for hot reloading.
 
+### Removed (considerd non breaking)
+* Removed the webpackAliasOptions and monoRepo config sections from site.config. These were unused in any known repo and added complexity.
+
 6.0.0 - (July 30, 2019)
 ----------
 ### Breaking

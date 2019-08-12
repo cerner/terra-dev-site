@@ -18,6 +18,12 @@ Would transform into:
 import BrandFooter from '/root/terra-framework/packages/terra-brand-footer';
 ```
 
+### API
+
+| Name  | Required | Default Value | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| **rootDirectories**  | false | `[process.cwd()]` | An array of globs of directories with package.json entries to alias. |
+
 ## DirectorySwitcherPlugin
 
 This plugin enables hot reloading by switching all references to one folder to another. This allows for main includes and files directly referencing the dist folder to be hot reloaded. This plugin runs after dependency resolution so all aliases are applied first then the folder location is changed. This plugin does not check for the existence of a file in the new location before changing the path.
@@ -45,3 +51,12 @@ Finally the DirectorySwitcherPlugin transforms it into this:
 ```javascript
 import BrandFooter from '/root/terra-framework/packages/terra-brand-footer/src/BrandFooter.js';;
 ```
+
+### API
+
+| Name  | Required | Default Value | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| **shouldSwitch**  | false | `true` | A bool indicating that the plugin should switch, commonly pairs with the production mode. |
+| **source**  | false | `'src'` | Name of the directory to switch to.|
+| **distribution**  | false | `'lib'` | Name of the directory to switch from. |
+| **rootDirectories**  | false | `[process.cwd()]` | An array of globs of directories with package.json entries to alias. |

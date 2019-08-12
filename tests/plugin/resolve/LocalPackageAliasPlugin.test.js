@@ -1,6 +1,6 @@
 const path = require('path');
 
-const LocalPackageAliasPlugin = require('../../../plugin/resolve/LocalPackageAliasPlugin');
+const LocalPackageAliasPlugin = require('../../../config/webpack/resolve/LocalPackageAliasPlugin');
 
 describe('LocalPackageAliasPlugin', () => {
   it('generates the alias structure', () => {
