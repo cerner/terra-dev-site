@@ -11,4 +11,8 @@ commander
   .option('-v, --verbose', 'Print out debug information.', false)
   .parse(process.argv);
 
-generate(loadSiteConfig(), commander.production, commander.verbose);
+generate({
+  siteConfig: loadSiteConfig(),
+  mode: commander.production ? 'production' : 'development',
+  verbose: commander.verbose,
+});
