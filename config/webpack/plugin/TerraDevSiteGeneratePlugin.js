@@ -25,7 +25,11 @@ const indexPlugin = ({
 };
 
 const prefixEntry = site => (site.prefix ? `${site.prefix}/${'index'}` : 'index');
-const appTitle = site => site.siteConfig.appConfig.title;
+const appTitle = (site) => {
+  const { headline, title, subline } = site.siteConfig.appConfig;
+
+  return [headline, title, subline].filter(item => item).join(' - ');
+};
 
 class TerraDevSitePlugin {
   constructor({
