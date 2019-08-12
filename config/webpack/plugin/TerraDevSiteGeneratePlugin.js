@@ -37,7 +37,7 @@ class TerraDevSitePlugin {
       const entry = prefixEntry(site);
       this.entries.push(entry);
       this.apps.push({
-        path: site.prefix,
+        path: site.prefix || '',
         title: appTitle(site),
       });
       return ({

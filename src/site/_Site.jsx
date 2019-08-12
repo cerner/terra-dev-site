@@ -171,7 +171,7 @@ class Site extends React.Component {
       <BrowserRouter basename={basename}>
         <Switch>
           <Route exact path="/" render={this.redirectSlashRoute} />
-          { siteConfig.apps.map(app => <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
+          { siteConfig.apps.map(app => app.path && <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
           <Route>
             <AppSettingsContext.Provider value={this.state}>
               {
