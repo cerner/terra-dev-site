@@ -17,25 +17,21 @@ const propTypes = {
 };
 
 const NotFoundPage = ({ history, homePath }) => (
-  <div>
-    <StatusView
-      variant="error"
-      title="404"
-      message="Page not found"
-      buttonAttrs={[
-        {
-          text: 'Go Back',
-          key: 'Go Back',
-          onClick: () => { history.goBack(); },
-        },
-        {
-          text: 'Home',
-          key: 'Home',
-          onClick: () => { history.replace(homePath); },
-        },
-      ]}
-    />
-  </div>
+  <StatusView
+    variant="error"
+    title="404"
+    message="Page not found"
+    buttonAttrs={[
+      {
+        text: 'Go Back',
+        onClick: () => { history.goBack(); },
+      },
+      {
+        text: 'Home',
+        onClick: () => { history.replace(homePath); },
+      },
+    ]}
+  />
 );
 
 NotFoundPage.propTypes = propTypes;

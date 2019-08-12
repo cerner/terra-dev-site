@@ -6,8 +6,16 @@ Unreleased
 ### Fixed
 * Add back github icon for old site passivity.
 * Scroll to location if an anchor is present.
-* Log error boundry error to console.
+* Log error boundary error to console.
 * Add missing keys to status views.
+
+### Changed
+* Remove div containing status view to center component.
+* Resolver plugins now allow more types of requires for hot reloading.
+* Raw routes are wrapped in main.
+
+### Removed (considered non breaking)
+* Removed the webpackAliasOptions and monoRepo config sections from site.config. These were unused in any known repo and added complexity.
 
 6.0.0 - (July 30, 2019)
 ----------

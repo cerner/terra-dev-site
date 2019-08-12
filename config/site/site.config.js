@@ -38,23 +38,6 @@ const siteConfig = {
    */
   hotReloading: true,
 
-  /* The mono-repo package path(s). This is used to automatically alias package directories in webpack. We can support multiple. */
-  monoRepo: {
-    packages: [
-      path.resolve(process.cwd(), 'packages'),
-    ],
-  },
-
-  /** This options will automatically alias package directories in webpack based on hot reloading and prod settings.
-   *  Note: dist will be aliased as source.
-   *     dist: the directories containing transpiled code to use if hot reloading is enabled and is in prod.
-   *     source: the directories containing source code to use if hot reloading is enabled and not in prod mode.
-   */
-  webpackAliasOptions: {
-    dist: 'lib',
-    source: 'src',
-  },
-
   /** The root-level npm package.json file. Change this if you have a non-standard package.json path.
    * Defaults to the <root_dir>/package.json
    */

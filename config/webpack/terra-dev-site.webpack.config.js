@@ -2,8 +2,8 @@ const path = require('path');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const TerraDevSitePlugin = require('./plugin/TerraDevSitePlugin');
 const TerraDevSiteEntryPoints = require('./plugin/TerraDevSiteEntryPoints');
-const DirectorySwitcherPlugin = require('../../plugin/resolve/DirectorySwitcherPlugin');
-const LocalPackageAliasPlugin = require('../../plugin/resolve/LocalPackageAliasPlugin');
+const DirectorySwitcherPlugin = require('./plugin/resolve/DirectorySwitcherPlugin');
+const LocalPackageAliasPlugin = require('./plugin/resolve/LocalPackageAliasPlugin');
 
 /**
 * Generates the file representing app name configuration.
@@ -19,9 +19,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const { hotReloading } = siteConfig;
 
   return {
-    entry: TerraDevSiteEntryPoints,
     plugins: [
-      new TerraDevSitePlugin({ env }),
     ],
     resolve: {
       plugins: [
