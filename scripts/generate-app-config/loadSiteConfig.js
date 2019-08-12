@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const applySiteConfigDefaults = require('./applySiteConfigDefaults');
 
 // let siteConfig;
 
@@ -16,7 +15,9 @@ const applyDefaults = (filePath, defaultConfig) => {
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const config = require(filePath);
 
-  return applySiteConfigDefaults(config, defaultConfig);
+  const combinedConfig = Object.assign({}, defaultConfig, config);
+  combinedConfig.appConfig = Object.assign({}, defaultConfig.appConfig, config.appConfig);
+  return combinedConfig;
 };
 
 /**

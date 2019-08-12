@@ -16,7 +16,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const siteConfig = loadSiteConfig();
 
   // Is hot reloading enabled?
-  const { hotReloading, webpackAliasOptions } = siteConfig;
+  const { hotReloading } = siteConfig;
 
   return {
     entry: TerraDevSiteEntryPoints,
@@ -27,8 +27,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
       plugins: [
         new DirectorySwitcherPlugin({
           shouldSwitch: hotReloading && !production,
-          source: webpackAliasOptions.source,
-          distribution: webpackAliasOptions.dist,
           rootDirectories: [
             processPath,
             path.resolve(processPath, 'packages', '*'),

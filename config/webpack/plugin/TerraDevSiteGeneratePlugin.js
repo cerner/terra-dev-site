@@ -12,7 +12,7 @@ const indexPlugin = ({
   return new HtmlWebpackPlugin({
     title: siteConfig.appConfig.title,
     filename,
-    template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
+    template: path.join(__dirname, '..', '..', '..', 'lib', 'index.html'),
     lang,
     rootElementId: 'root',
     dir: siteConfig.appConfig.defaultDirection,
