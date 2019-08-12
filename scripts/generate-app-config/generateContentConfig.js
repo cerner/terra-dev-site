@@ -7,7 +7,6 @@ const ContentWrapper = 'terra-dev-site/lib/wrappers/_ContentWrapper';
 const MarkdownWrapper = 'terra-dev-site/lib/wrappers/_MarkdownWrapper';
 const TerraScreenshotWrapper = 'terra-dev-site/lib/wrappers/_ScreenshotWrapper';
 
-const routeImporter = new ImportAggregator();
 /**
 * Setup a menuItem object.
 */
@@ -21,7 +20,7 @@ const menuItem = (name, itemPath, hasSubMenu, childItems) => ({
 /**
  * Builds out a route item. Adds the props object conditionally.
  */
-const routeItem = (name, routePath, { contentPath, importName, identifier }, props) => ({
+const routeItem = (name, routePath, { contentPath, importName, identifier }, props, routeImporter) => ({
   name,
   path: routePath,
   component: {
@@ -32,7 +31,7 @@ const routeItem = (name, routePath, { contentPath, importName, identifier }, pro
   },
 });
 
-const evidenceProps = (contentConfig) => {
+const evidenceProps = (contentConfig, routeImporter) => {
   const contentCopy = Object.assign({}, contentConfig);
   return {
     imageConfig: Object.keys(contentCopy).reduce((acc, viewportKey) => {
@@ -50,7 +49,7 @@ const evidenceProps = (contentConfig) => {
 /**
  * Sets up content route item. All content items are wrapped with the content wrapper.
  */
-const contentRouteItem = (name, routePath, { contentPath, importName, identifier }, props, type) => {
+const contentRouteItem = (name, routePath, { contentPath, importName, identifier }, props, type, routeImporter) => {
   const contentProps = { props };
   let content = { contentPath: ContentWrapper, importName: 'ContentWrapper' };
 
@@ -59,7 +58,7 @@ const contentRouteItem = (name, routePath, { contentPath, importName, identifier
     contentProps.content = routeImporter.addDynamicImport(ImportAggregator.relativePath(contentPath), importName, identifier);
   } else if (type === 'evidence') {
     contentProps.content = routeImporter.addReactLazyImport(TerraScreenshotWrapper);
-    contentProps.props = evidenceProps(contentPath);
+    contentProps.props = evidenceProps(contentPath, routeImporter);
   } else {
     contentProps.content = routeImporter.addReactLazyImport(ImportAggregator.relativePath(contentPath), importName, identifier);
   }
@@ -69,25 +68,27 @@ const contentRouteItem = (name, routePath, { contentPath, importName, identifier
     routePath,
     content,
     contentProps,
+    routeImporter,
   );
 };
 
 /**
  * Sets up a redirect route item. This redirects to another page.
  */
-const redirectRouteItem = (name, routePath, redirectPath) => (
+const redirectRouteItem = (name, routePath, redirectPath, routeImporter) => (
   routeItem(
     name,
     routePath,
     { contentPath: 'react-router-dom', importName: '{ Redirect }', identifier: 'Redirect' },
     { to: redirectPath },
+    routeImporter,
   )
 );
 
 /**
  * Adds an alias and a 'source' alias if not in prod mode and hot reloading is enabled.
  */
-const getPageContentConfig = (config, rootPath) => config.reduce((acc, page) => {
+const getPageContentConfig = (config, rootPath, routeImporter) => config.reduce((acc, page) => {
   let { content } = acc;
   const menuItems = acc.menuItems || [];
   const hasSubMenu = page.pages && page.pages.length > 0;
@@ -101,7 +102,7 @@ const getPageContentConfig = (config, rootPath) => config.reduce((acc, page) => 
   // If the given page, has sub menu items, add them to the overall route object.
   if (hasSubMenu) {
     // Recursively call to get child content, and menu items
-    const { content: childContent, menuItems: childMenuItems } = getPageContentConfig(page.pages, routePath);
+    const { content: childContent, menuItems: childMenuItems } = getPageContentConfig(page.pages, routePath, routeImporter);
 
     content = Object.assign(content, childContent);
     descendantMenuItems = childMenuItems;
@@ -113,9 +114,9 @@ const getPageContentConfig = (config, rootPath) => config.reduce((acc, page) => 
   }
 
   if (page.content) {
-    content[routePath] = contentRouteItem(page.name, routePath, { contentPath: page.content }, page.props, page.type);
+    content[routePath] = contentRouteItem(page.name, routePath, { contentPath: page.content }, page.props, page.type, routeImporter);
   } else if (isRootItem && !firstItemsHasSubMenu && hasSubMenu) {
-    content[routePath] = redirectRouteItem(page.name, routePath, descendantMenuItems[0].path);
+    content[routePath] = redirectRouteItem(page.name, routePath, descendantMenuItems[0].path, routeImporter);
   }
 
   return { content, menuItems };
@@ -144,7 +145,7 @@ const getPageConfig = (name, pagePath, pages, type, siteConfig) => {
 /**
 * Build out the page config for the top level link.
 */
-const getLinkPageConfig = (link, pageConfig, siteConfig) => {
+const getLinkPageConfig = (link, pageConfig, siteConfig, routeImporter) => {
   let pages = [];
   let type;
 
@@ -174,6 +175,7 @@ const generateContentConfig = (siteConfig, pageConfig) => {
   if (!pageConfig) {
     return undefined;
   }
+  const routeImporter = new ImportAggregator();
 
   const { navConfig } = siteConfig;
   const { navigation } = navConfig;
@@ -184,9 +186,9 @@ const generateContentConfig = (siteConfig, pageConfig) => {
     let { content, menuItems } = acc;
 
     // Build the 'page config' for the navigation links.
-    const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig);
+    const linkPageConfig = getLinkPageConfig(link, pageConfig, siteConfig, routeImporter);
 
-    const { content: pageContent, menuItems: pageMenuItems } = getPageContentConfig(linkPageConfig, '');
+    const { content: pageContent, menuItems: pageMenuItems } = getPageContentConfig(linkPageConfig, '', routeImporter);
 
     content = Object.assign(content, { [`${link.path}`]: pageContent });
 
