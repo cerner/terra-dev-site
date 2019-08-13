@@ -8,6 +8,7 @@ Unreleased
 * Scroll to location if an anchor is present.
 * Log error boundary error to console.
 * Add missing keys to status views.
+* Generation succeeds with an empty section.
 
 ### Changed
 * Remove div containing status view to center component.

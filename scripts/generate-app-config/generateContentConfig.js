@@ -114,7 +114,7 @@ const getPageContentConfig = (config, rootPath) => config.reduce((acc, page) => 
 
   if (page.content) {
     content[routePath] = contentRouteItem(page.name, routePath, { contentPath: page.content }, page.props, page.type);
-  } else if (isRootItem && !firstItemsHasSubMenu) {
+  } else if (isRootItem && !firstItemsHasSubMenu && hasSubMenu) {
     content[routePath] = redirectRouteItem(page.name, routePath, descendantMenuItems[0].path);
   }
 
