@@ -30,6 +30,10 @@ const navConfig = {
       capabilities: {
         devTools: true,
       },
+    }, {
+      path: '/empty',
+      text: 'Empty',
+      pageTypes: ['empty'],
     }],
   },
 };
