@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Fixed
+* Add height 100% to main tag for raw pages.
 
 6.1.0 - (August 13, 2019)
 ----------

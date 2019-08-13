@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
+import classNames from 'classnames/bind';
 import NotFoundPage from '../static-pages/_NotFoundPage';
+
+import styles from './Raw.module.scss';
+
+const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
@@ -36,7 +41,7 @@ const Raw = ({ indexPath, contentConfig, location }) => {
   if (route) {
     const { componentClass: ComponentClass, props } = flattenedRouteConfig[route].component.default;
     return (
-      <main>
+      <main className={cx('main')}>
         <ComponentClass {...props} />
       </main>
     );
