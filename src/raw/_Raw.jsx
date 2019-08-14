@@ -41,7 +41,7 @@ const Raw = ({ indexPath, contentConfig, location }) => {
   if (route) {
     const { componentClass: ComponentClass, props } = flattenedRouteConfig[route].component.default;
     return (
-      <main className={cx('main')}>
+      <main className={cx('main')} role="main">
         <ComponentClass {...props} />
       </main>
     );
