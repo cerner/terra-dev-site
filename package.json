@@ -130,7 +130,7 @@
   "peerDependencies": {
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
-    "terra-toolkit": "^5.2.0",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#reusable-webpack-entries",
     "webpack": "^4.28.1"
   },
   "devDependencies": {
@@ -159,7 +159,7 @@
     "regenerator-runtime": "^0.13.2",
     "stylelint-config-terra": "^3.0.0",
     "stylelint": "^10.0.1",
-    "terra-toolkit": "^5.2.0",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#reusable-webpack-entries",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",
     "webpack": "^4.28.1"
