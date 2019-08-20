@@ -55,8 +55,7 @@ const ComponentToolbar = ({
             onClick={onToggle}
           />
         )
-          : null
-        }
+          : null}
       </div>
       <div className={cx('flex-collapse')}>
         {hasThemes && (

@@ -46,7 +46,7 @@
     "extends": "terra",
     "settings": {
       "polyfills": [
-        "promises"
+        "Promise"
       ]
     },
     "parser": "babel-eslint",
@@ -148,8 +148,8 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.2.2",
     "enzyme": "^3.3.0",
-    "eslint-config-terra": "^2.1.0",
-    "eslint": "^5.0.0",
+    "eslint-config-terra": "^3.0.0",
+    "eslint": "^6.1.0",
     "gh-pages": "^2.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",

@@ -90,7 +90,7 @@ class CollapsingNavigationMenu extends React.Component {
   static getDerivedStateFromProps({ menuItems, selectedPath }, state) {
     const newState = {};
     if (state.previousSelectedPath !== selectedPath) {
-      newState.openKeys = Object.assign({}, state.openKeys, CollapsingNavigationMenu.openKeysToItem(menuItems[0], selectedPath));
+      newState.openKeys = { ...state.openKeys, ...CollapsingNavigationMenu.openKeysToItem(menuItems[0], selectedPath) };
       newState.previousSelectedPath = selectedPath;
     }
     return newState;
