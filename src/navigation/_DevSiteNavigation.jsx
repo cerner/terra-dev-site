@@ -28,7 +28,7 @@ const propTypes = {
   /**
    * function to return search items
    */
-  fetchSearchItems: PropTypes.func.isRequired,
+  fetchSearchItems: PropTypes.func,
 
   /**
    * The site config for the application.
@@ -148,6 +148,8 @@ class DevSiteNavigation extends React.Component {
       },
     };
 
+    const extensionArray = fetchSearchItems ? [searchExtension] : [];
+
     return extensions.reduce((acc, ext) => acc.concat({
       icon: <ext.icon />,
       key: ext.key,
@@ -157,7 +159,7 @@ class DevSiteNavigation extends React.Component {
         size: ext.size,
         props: { content: ext.component },
       },
-    }), [searchExtension]);
+    }), extensionArray);
   }
 
   handleNavigationItemSelection(navigationItemKey) {
