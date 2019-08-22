@@ -1,3 +1,4 @@
+const path = require('path');
 const TerraDevSiteSetupPlugin = require('./TerraDevSiteSetupPlugin');
 const TerraDevSiteGeneratePlugin = require('./TerraDevSiteGeneratePlugin');
 const loadSiteConfig = require('../../../scripts/generate-app-config/loadSiteConfig');
@@ -9,6 +10,7 @@ class TerraDevSitePlugin {
     this.sites.unshift({
       siteConfig: loadSiteConfig(),
       basenameDefine: 'TERRA_DEV_SITE_BASENAME',
+      indexPath: path.resolve(path.join(__dirname, '..', '..', '..', 'lib', 'Index')),
     });
   }
 

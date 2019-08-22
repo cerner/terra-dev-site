@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
@@ -67,8 +68,10 @@ class TerraDevSitePlugin {
   apply(compiler) {
     this.sites.forEach((site) => {
       const {
-        siteConfig, prefix, basenameDefine, basename, filename, lang, entry,
+        siteConfig, prefix, basenameDefine, basename, filename, lang, entry, indexPath,
       } = site;
+
+      compiler.options.entry[entry] = indexPath;
 
       // GENERATE
       // Generate the files need to spin up the site.
