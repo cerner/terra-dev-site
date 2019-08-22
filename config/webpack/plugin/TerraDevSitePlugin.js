@@ -9,7 +9,6 @@ class TerraDevSitePlugin {
     this.sites = sites;
     this.sites.unshift({
       siteConfig: loadSiteConfig(),
-      basenameDefine: 'TERRA_DEV_SITE_BASENAME',
       indexPath: path.resolve(path.join(__dirname, '..', '..', '..', 'lib', 'Index')),
     });
   }

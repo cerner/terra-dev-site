@@ -29,7 +29,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 * Writes out a file consisting of the app config and imports with the given file name to the specified path.
 */
 const generateAppConfig = ({
-  siteConfig, mode, prefix, apps = [], verbose = false,
+  siteConfig, mode, prefix, apps = [], verbose = false, basename,
 }) => {
   const imports = new ImportAggregator();
 
@@ -124,6 +124,7 @@ const generateAppConfig = ({
     extensions: extensionConfigImport,
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
     apps,
+    basename,
   };
 
   writeConfig({ config, imports }, 'siteConfig.js', buildPath, fse);

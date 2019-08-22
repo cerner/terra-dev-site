@@ -24,11 +24,6 @@ const propTypes = {
   applicationNavigation: PropTypes.func.isRequired,
 
   /**
-   * basename is expected to be '' or '/*', used for react router
-   */
-  basename: PropTypes.string.isRequired,
-
-  /**
    * The site config for the application.
    */
   siteConfig: siteConfigPropType.isRequired,
@@ -116,9 +111,9 @@ class Site extends React.Component {
    * @param {*} props.match the current matching route
    */
   redirectToReservedRoute({ match }) {
-    const { basename } = this.props;
+    const { siteConfig } = this.props;
     window.sessionStorage.redirect = window.location.href;
-    window.location.pathname = `${basename}${match.url}/`;
+    window.location.pathname = `${siteConfig.basename}${match.url}/`;
     return null;
   }
 
@@ -163,11 +158,11 @@ class Site extends React.Component {
 
   render() {
     const { locale, theme } = this.state;
-    const { applicationBase, siteConfig, basename } = this.props;
+    const { applicationBase, siteConfig } = this.props;
 
     return (
       // basename is expected to be '' or '/*'
-      <BrowserRouter basename={basename}>
+      <BrowserRouter basename={siteConfig.basename}>
         <Switch>
           <Route exact path="/" render={this.redirectSlashRoute} />
           { siteConfig.apps.map(app => app.path && <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}

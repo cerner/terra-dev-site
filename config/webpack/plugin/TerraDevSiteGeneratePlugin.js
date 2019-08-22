@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const path = require('path');
 
 const generateAppConfig = require('../../../scripts/generate-app-config/generateAppConfig');
@@ -68,9 +67,10 @@ class TerraDevSitePlugin {
   apply(compiler) {
     this.sites.forEach((site) => {
       const {
-        siteConfig, prefix, basenameDefine, basename, filename, lang, entry, indexPath,
+        siteConfig, prefix, basename, filename, lang, entry, indexPath,
       } = site;
 
+      // Add the entry to options, this should already be valued.
       compiler.options.entry[entry] = indexPath;
 
       // GENERATE
@@ -80,12 +80,8 @@ class TerraDevSitePlugin {
         mode: compiler.options.mode,
         prefix,
         apps: this.apps.filter(app => app.path !== prefix),
+        basename,
       });
-
-      new webpack.DefinePlugin({
-        // Base name is used to namespace terra-dev-site
-        [basenameDefine]: JSON.stringify(basename),
-      }).apply(compiler);
 
       // indexes
       const indexEntryPoints = [];
