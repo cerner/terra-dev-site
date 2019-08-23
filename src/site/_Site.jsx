@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter, Switch, Route, Redirect,
+  Switch, Route, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ModalManager from 'terra-application/lib/modal-manager';
@@ -135,24 +135,32 @@ class Site extends React.Component {
       siteConfig, applicationNavigation, fetchSearchItems,
     } = this.props;
     return (
-      <ModalManager>
-        <Switch>
-          <Route path="/raw">
-            <Raw
-              contentConfig={siteConfig.contentConfig}
-              indexPath={siteConfig.indexPath}
-            />
-          </Route>
-          <Route>
-            <DevSiteNavigation
-              siteConfig={siteConfig}
-              onUpdateSettings={this.onUpdateSettings}
-              applicationNavigation={applicationNavigation}
-              fetchSearchItems={fetchSearchItems}
-            />
-          </Route>
-        </Switch>
-      </ModalManager>
+      <Switch>
+        <Route exact path="/" render={this.redirectSlashRoute} />
+        { siteConfig.apps.map(app => app.path && <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
+        <Route>
+          <AppSettingsContext.Provider value={this.state}>
+            <ModalManager>
+              <Switch>
+                <Route path="/raw">
+                  <Raw
+                    contentConfig={siteConfig.contentConfig}
+                    indexPath={siteConfig.indexPath}
+                  />
+                </Route>
+                <Route>
+                  <DevSiteNavigation
+                    siteConfig={siteConfig}
+                    onUpdateSettings={this.onUpdateSettings}
+                    applicationNavigation={applicationNavigation}
+                    fetchSearchItems={fetchSearchItems}
+                  />
+                </Route>
+              </Switch>
+            </ModalManager>
+          </AppSettingsContext.Provider>
+        </Route>
+      </Switch>
     );
   }
 
@@ -161,24 +169,11 @@ class Site extends React.Component {
     const { applicationBase, siteConfig } = this.props;
 
     return (
-      // basename is expected to be '' or '/*'
-      <BrowserRouter basename={siteConfig.basename}>
-        <Switch>
-          <Route exact path="/" render={this.redirectSlashRoute} />
-          { siteConfig.apps.map(app => app.path && <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
-          <Route>
-            <AppSettingsContext.Provider value={this.state}>
-              {
-                applicationBase({
-                  locale,
-                  themeName: siteConfig.settingsConfig.themes[theme],
-                  child: this.renderApplicationBaseChildren(),
-                })
-              }
-            </AppSettingsContext.Provider>
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      applicationBase({
+        locale,
+        themeName: siteConfig.settingsConfig.themes[theme],
+        child: this.renderApplicationBaseChildren(),
+      })
     );
   }
 }

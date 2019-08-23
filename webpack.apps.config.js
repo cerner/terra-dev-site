@@ -1,6 +1,5 @@
 const merge = require('webpack-merge');
 const defaultWebpackConfig = require('terra-toolkit/config/webpack/webpack.config');
-const path = require('path');
 const loadSiteConfig = require('./scripts/generate-app-config/loadSiteConfig');
 const TerraDevSitePlugin = require('./config/webpack/plugin/TerraDevSitePlugin');
 const TerraDevSiteEntryPoints = require('./config/webpack/plugin/TerraDevSiteEntryPoints');
@@ -23,7 +22,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   return {
     entry: {
-      'terra-application/index': path.resolve(path.join(__dirname, 'lib', 'AppsIndex')),
       ...TerraDevSiteEntryPoints,
     },
     plugins: [
@@ -31,7 +29,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
         env,
         sites: [{
           siteConfig,
-          basenameDefine: 'TERRA_APPLICATION_DEV_SITE_BASENAME',
           prefix: 'terra-application',
         }],
       }),

@@ -1,5 +1,3 @@
-/* global TERRA_APPLICATION_DEV_SITE_BASENAME */
-// TERRA_APPLICATION_DEV_SITE_BASENAME is defined by webpack
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -52,7 +50,6 @@ const TerraDevSite = () => (
         {child}
       </ApplicationNavigation>
     )}
-    basename={TERRA_APPLICATION_DEV_SITE_BASENAME}
     fetchSearchItems={fetchSearchItems}
     siteConfig={siteConfig}
   />
