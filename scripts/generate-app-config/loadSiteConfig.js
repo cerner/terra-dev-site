@@ -13,9 +13,9 @@ const applyDefaults = (filePath, defaultConfig) => {
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const config = require(filePath);
 
-  const combinedConfig = Object.assign({}, defaultConfig, config);
-  combinedConfig.appConfig = Object.assign({}, defaultConfig.appConfig, config.appConfig);
-  return combinedConfig;
+  config.appConfig = { ...defaultConfig.appConfig, ...config.appConfig };
+
+  return { ...defaultConfig, ...config };
 };
 
 /**

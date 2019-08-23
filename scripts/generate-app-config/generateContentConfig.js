@@ -32,7 +32,7 @@ const routeItem = (name, routePath, { contentPath, importName, identifier }, pro
 });
 
 const evidenceProps = (contentConfig, routeImporter) => {
-  const contentCopy = Object.assign({}, contentConfig);
+  const contentCopy = { ...contentConfig };
   return {
     imageConfig: Object.keys(contentCopy).reduce((acc, viewportKey) => {
       const viewport = contentCopy[viewportKey];

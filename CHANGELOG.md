@@ -3,6 +3,13 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated Object.assign syntax to Object spread syntax
+
+6.1.1 - (August 13, 2019)
+----------
+### Fixed
+* Add height 100% to main tag for raw pages.
 
 6.1.0 - (August 13, 2019)
 ----------

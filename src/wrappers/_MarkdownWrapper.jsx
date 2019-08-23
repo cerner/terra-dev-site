@@ -52,8 +52,7 @@ const MarkdownWrapper = ({ content }) => {
       <ContentLoaded>
         { markdown
           ? <div className={cx('markdown')}><TerraMarkdown src={markdown} /></div>
-          : <ErrorPage error="The page failed to load. Refresh the page to try again." />
-        }
+          : <ErrorPage error="The page failed to load. Refresh the page to try again." />}
       </ContentLoaded>
     );
   }
