@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import ApplicationBase from 'terra-application';
 import ApplicationNavigation from 'terra-application-navigation';
@@ -21,7 +22,9 @@ const TerraDevSite = () => (
         themeName={themeName}
         themeIsGlobal
       >
-        {child}
+        <BrowserRouter basename={siteConfig.basename}>
+          {child}
+        </BrowserRouter>
       </ApplicationBase>
     )}
     applicationNavigation={({

@@ -16,10 +16,10 @@ class TerraDevSitePlugin {
 
   apply(compiler) {
     const publicPath = compiler.options.output.publicPath || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
+    // Strip the trailing / from the public path.
     const basename = publicPath.slice(0, -1);
     new TerraDevSiteGeneratePlugin({
       sites: this.sites,
-      // Strip the trailing / from the public path.
       basename,
       lang: this.lang,
     }).apply(compiler);
@@ -27,7 +27,7 @@ class TerraDevSitePlugin {
       publicPath,
     }).apply(compiler);
     new webpack.DefinePlugin({
-      // Base name is used to namespace terra-dev-site
+      // Base name is used to namespace terra-dev-site this is used in redirect.js
       TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
     }).apply(compiler);
   }

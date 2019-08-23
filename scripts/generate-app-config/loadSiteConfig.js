@@ -1,8 +1,6 @@
 const path = require('path');
 const fs = require('fs');
 
-// let siteConfig;
-
 /**
 * Determine if the path resolves to a file.
 */

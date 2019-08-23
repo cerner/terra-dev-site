@@ -1,4 +1,5 @@
 const merge = require('webpack-merge');
+const path = require('path');
 const defaultWebpackConfig = require('terra-toolkit/config/webpack/webpack.config');
 const loadSiteConfig = require('./scripts/generate-app-config/loadSiteConfig');
 const TerraDevSitePlugin = require('./config/webpack/plugin/TerraDevSitePlugin');
@@ -15,7 +16,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   // Load the site configuration.
   const siteConfig = loadSiteConfig();
   siteConfig.generatePages.searchPatterns[0].entryPoint = 'terra-application';
-  siteConfig.appConfig.headline = 'Terra Application';
+  siteConfig.appConfig.subline = 'Terra Application';
 
   // Is hot reloading enabled?
   const { hotReloading } = siteConfig;
@@ -30,6 +31,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
         sites: [{
           siteConfig,
           prefix: 'terra-application',
+          indexPath: path.resolve(path.join(__dirname, 'lib', 'AppsIndex')),
         }],
       }),
     ],
