@@ -5,7 +5,7 @@ const path = require('path');
 const generateAppConfig = require('../../../scripts/generate-app-config/generateAppConfig');
 const getNewRelicJS = require('../../../scripts/new-relic/getNewRelicJS');
 
-const indexPlugin = ({
+const addHtmlPlugin = ({
   filename, lang, siteConfig, siteEntries, entry,
 }) => {
   const otherSiteEntries = siteEntries.filter(indexEntry => indexEntry !== entry);
@@ -31,9 +31,9 @@ const appTitle = (site) => {
   return [headline, title, subline].filter(item => item).join(' - ');
 };
 
-class TerraDevSitePlugin {
+class GeneratePlugin {
   constructor({
-    sites, lang, basename,
+    sites, lang, basename = '',
   } = {}) {
     this.entries = [];
     this.apps = [];
@@ -70,7 +70,7 @@ class TerraDevSitePlugin {
         siteConfig, prefix, basename, filename, lang, entry, indexPath,
       } = site;
 
-      // Add the entry to options, this should already be valued.
+      // Add the entry to options, entry should already be valued.
       compiler.options.entry[entry] = indexPath;
 
       // GENERATE
@@ -84,10 +84,7 @@ class TerraDevSitePlugin {
       });
 
       // indexes
-      const indexEntryPoints = [];
-      indexEntryPoints.push('terra-dev-site');
-      // terra-dev-site index.html
-      indexPlugin({
+      addHtmlPlugin({
         filename,
         lang,
         siteConfig,
@@ -98,4 +95,4 @@ class TerraDevSitePlugin {
   }
 }
 
-module.exports = TerraDevSitePlugin;
+module.exports = GeneratePlugin;

@@ -18,7 +18,7 @@ class TerraDevSitePlugin {
 
     // RESOLVE
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
-    compiler.options.resolve.modules.unshift([devSiteConfigPath]);
+    compiler.options.resolve.modules.unshift(devSiteConfigPath);
 
     new HtmlWebpackPlugin({
       filename: '404.html',
