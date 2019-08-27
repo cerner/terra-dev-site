@@ -5,10 +5,20 @@ Terra.describeViewports('utilities', ['huge'], () => {
     Terra.validates.element({ selector: '#root' });
   });
 
+  it('opens app switcher', () => {
+    browser.click('[class*="PopupMenuListItem-module"]');
+    Terra.validates.element('opens app switcher', { selector: '#root' });
+  });
+
+  it('selects an app', () => {
+    browser.click('[class*="ApplicationSwitcher-module__item"]');
+    Terra.validates.element('selects an app', { selector: '#root' });
+  });
+
   it('selects config', () => {
     browser.url('/single-page-test');
     browser.click('[class*="UtilityMenuHeaderButton-module"]');
-    browser.click('[class*="PopupMenuListItem-module__item"]:nth-child(1)');
+    browser.click('[class*="PopupMenuListItem-module__item"]:nth-child(2)');
     Terra.validates.element('selects config', { selector: '#root' });
   });
 
@@ -27,7 +37,7 @@ Terra.describeViewports('utilities', ['huge'], () => {
     Terra.validates.element('config changed', { selector: '#root' });
 
     browser.click('[class*="UtilityMenuHeaderButton-module"]');
-    browser.click('[class*="PopupMenuListItem-module__item"]:nth-child(1)');
+    browser.click('[class*="PopupMenuListItem-module__item"]:nth-child(2)');
     Terra.validates.element('confirms config', { selector: '#root' });
     browser.refresh();
   });
@@ -40,10 +50,22 @@ Terra.describeViewports('utilities', ['tiny'], () => {
     Terra.validates.element({ selector: '#root' });
   });
 
+  it('opens app switcher', () => {
+    browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]');
+    browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');
+    Terra.validates.element('opens app switcher', { selector: '#root' });
+  });
+
+  it('selects an app', () => {
+    browser.click('[class*="ApplicationSwitcher-module__item"]');
+    Terra.validates.element('selects an app', { selector: '#root' });
+  });
+
   it('selects config', () => {
     browser.url('/single-page-test');
     browser.click('[data-compact-header-toggle]');
-    browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(1)');
+    browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(2)');
+    // browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');
     Terra.validates.element('selects config', { selector: '#root' });
   });
 
@@ -62,7 +84,7 @@ Terra.describeViewports('utilities', ['tiny'], () => {
     Terra.validates.element('config changed', { selector: '#root' });
 
     browser.click('[data-compact-header-toggle]');
-    browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(1)');
+    browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(2)');
     Terra.validates.element('confirms config', { selector: '#root' });
     browser.refresh();
   });

@@ -14,7 +14,7 @@ import Site from './site/_Site';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 const fetchSearchItems = () => import(/* webpackPrefetch: true, webpackChunkName: "build/searchItems" */ 'build/searchItems').then(({ default: items }) => items);
 
-const TerraDevSite = () => (
+const ExtendDevSite = () => (
   <Site
     applicationBase={({ locale, themeName, child }) => (
       <ApplicationBase
@@ -58,4 +58,4 @@ const TerraDevSite = () => (
   />
 );
 
-ReactDOM.render(<TerraDevSite />, document.getElementById('root'));
+ReactDOM.render(<ExtendDevSite />, document.getElementById('root'));

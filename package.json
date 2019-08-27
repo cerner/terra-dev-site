@@ -82,7 +82,6 @@
     "release:patch": "npm version patch -m 'Released version %s' && npm publish",
     "start": "tt-serve",
     "start-prod": "tt-serve -p",
-    "start-apps": "tt-serve --config webpack.apps.config",
     "start-heroku": "tt-serve-static --port $PORT --site './build' ",
     "start-static": "npm run compile:prod && tt-serve-static --site ./build",
     "test": "npm run lint && npm run jest && npm run wdio",

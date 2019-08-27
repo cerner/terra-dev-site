@@ -11,7 +11,7 @@ class TerraDevSitePlugin {
       {
         configFileName: 'site.config.js',
         defaultConfigPath: path.resolve(__dirname, '..', '..', 'site', 'site.config.js'),
-        indexPath: path.resolve(__dirname, '..', '..', '..', 'lib', 'Index'),
+        indexPath: path.resolve(__dirname, '..', '..', '..', 'lib', 'TerraDevSite'),
       },
       ...sites,
     ].map(site => ({
