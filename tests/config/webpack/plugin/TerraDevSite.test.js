@@ -8,7 +8,7 @@ const webpack = require('webpack');
 const loadSiteConfig = require('../../../../scripts/generate-app-config/loadSiteConfig');
 const GeneratePlugin = require('../../../../config/webpack/plugin/GeneratePlugin');
 const SetupPlugin = require('../../../../config/webpack/plugin/SetupPlugin');
-const TerraDevSitePlugin = require('../../../../config/webpack/plugin/TerraDevSitePlugin');
+const TerraDevSitePlugin = require('../../../../config/webpack/plugin/TerraDevSite');
 
 describe('TerraDevSiteGeneratePlugin', () => {
   it('sets up member variables', () => {
