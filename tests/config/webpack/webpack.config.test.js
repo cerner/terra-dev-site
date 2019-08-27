@@ -12,7 +12,7 @@ describe('webpack config', () => {
     const config = webpackConfig();
     const processPath = process.cwd();
     expect(config).toEqual(expect.objectContaining(configExpectations(processPath)));
-    expect(config.plugins.slice(-1)[0].constructor.name).toBe('TerraDevSitePlugin');
+    expect(config.plugins.slice(-1)[0].constructor.name).toBe('TerraDevSite');
     expect(config.resolve.plugins.slice(-2)[0].constructor.name).toBe('DirectorySwitcherPlugin');
     expect(config.resolve.plugins.slice(-1)[0].constructor.name).toBe('LocalPackageAliasPlugin');
   });

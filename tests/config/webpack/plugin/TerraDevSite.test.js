@@ -8,12 +8,12 @@ const webpack = require('webpack');
 const loadSiteConfig = require('../../../../scripts/generate-app-config/loadSiteConfig');
 const GeneratePlugin = require('../../../../config/webpack/plugin/GeneratePlugin');
 const SetupPlugin = require('../../../../config/webpack/plugin/SetupPlugin');
-const TerraDevSitePlugin = require('../../../../config/webpack/plugin/TerraDevSite');
+const TerraDevSite = require('../../../../config/webpack/plugin/TerraDevSite');
 
 describe('TerraDevSiteGeneratePlugin', () => {
   it('sets up member variables', () => {
     loadSiteConfig.mockReturnValue({ config: 'config' });
-    const plug = new TerraDevSitePlugin({
+    const plug = new TerraDevSite({
       env: {
         defaultLocale: 'lang',
       },
@@ -29,7 +29,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
         configFileName: 'site.config.js',
         defaultConfigPath: path.join(process.cwd(), 'config', 'site', 'site.config.js'),
         siteConfig: { config: 'config' },
-        indexPath: path.join(process.cwd(), 'lib', 'Index'),
+        indexPath: path.join(process.cwd(), 'lib', 'TerraDevSite'),
       },
       {
         siteConfig: { herp: 'derp' },
@@ -39,7 +39,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
   });
   it('applies the plugin', () => {
     loadSiteConfig.mockReturnValue({ config: 'config' });
-    const plug = new TerraDevSitePlugin({
+    const plug = new TerraDevSite({
       env: {
         defaultLocale: 'lang',
       },
@@ -58,7 +58,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
           configFileName: 'site.config.js',
           defaultConfigPath: path.join(process.cwd(), 'config', 'site', 'site.config.js'),
           siteConfig: { config: 'config' },
-          indexPath: path.join(process.cwd(), 'lib', 'Index'),
+          indexPath: path.join(process.cwd(), 'lib', 'TerraDevSite'),
         },
         {
           siteConfig: { herp: 'derp' },
