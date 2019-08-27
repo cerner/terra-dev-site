@@ -5,6 +5,15 @@ const path = require('path');
 const generateAppConfig = require('../../../scripts/generate-app-config/generateAppConfig');
 const getNewRelicJS = require('../../../scripts/new-relic/getNewRelicJS');
 
+/**
+ * Generate the html file
+ * @param {*} object
+ * filename - name for the generated html file
+ * lang - language for the page
+ * siteConfig - config for the page
+ * siteEntries - all entries
+ * entry - this entry
+ */
 const addHtmlPlugin = ({
   filename, lang, siteConfig, siteEntries, entry,
 }) => {
@@ -24,13 +33,25 @@ const addHtmlPlugin = ({
   });
 };
 
+/**
+ * Generate the prefixed entry name
+ * @param {*} site
+ */
 const prefixEntry = site => (site.prefix ? `${site.prefix}/${'index'}` : 'index');
+
+/**
+ * Generate app title based on the app config.
+ * @param {*} site
+ */
 const appTitle = (site) => {
   const { headline, title, subline } = site.siteConfig.appConfig;
 
   return [headline, title, subline].filter(item => item).join(' - ');
 };
 
+/**
+ * Generate the config files needed for the sites passed in.
+ */
 class GeneratePlugin {
   constructor({
     sites, lang, basename = '',
@@ -44,11 +65,13 @@ class GeneratePlugin {
       let filename = 'index.html';
       let siteBasename = basename;
 
+      // update filename and basename with the prefix for the site
       if (site.prefix) {
         filename = `${site.prefix}/index.html`;
         siteBasename = `${basename}/${site.prefix}`;
       }
 
+      // list of all apps to switch to
       this.apps.push({
         path: site.prefix,
         url: siteBasename || '/',
@@ -56,9 +79,13 @@ class GeneratePlugin {
       });
       return ({
         ...site,
+        // name of webpack entry to be added
         entry,
+        // name of html file to be generated
         filename,
+        // basename for react router
         basename: siteBasename,
+        // default lang to add to the html file
         lang: lang || site.siteConfig.appConfig.defaultLocale,
       });
     });
@@ -73,7 +100,6 @@ class GeneratePlugin {
       // Add the entry to options, entry should already be valued.
       compiler.options.entry[entry] = indexPath;
 
-      // GENERATE
       // Generate the files need to spin up the site.
       generateAppConfig({
         siteConfig,
@@ -83,7 +109,7 @@ class GeneratePlugin {
         basename,
       });
 
-      // indexes
+      // generate index html files
       addHtmlPlugin({
         filename,
         lang,

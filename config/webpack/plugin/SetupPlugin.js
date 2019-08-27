@@ -2,12 +2,14 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
+/**
+ * Updates the webpack options with defaults that terra-dev-site requires.
+ */
 class TerraDevSitePlugin {
   constructor({ publicPath } = {}) {
     this.publicPath = publicPath;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   apply(compiler) {
     // Load the site configuration.
     const production = compiler.options.mode === 'production';
