@@ -31,7 +31,36 @@ This component requires the following peer dependencies be installed in your app
 
 ### Running terra-dev-site
 
-Using the provided terra-dev-site webpack config a static site will be built to the `dev-site-config/build` directory and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. You must extend the provided webpack config using webpack-merge or simply returning the webpack config from a root level webpack.config.
+Using the TerraDevSite webpack plugin, a static site will be built to the `dev-site-config/build` directory and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. A simple example consuming the webpack plugin is shown below.
+
+```javascript
+const { TerraDevSite, TerraDevSiteEntryPoints } = require('terra-dev-site');
+
+/**
+* Generates the file representing app name configuration.
+*/
+const devSiteConfig = (env = {}, argv = {}) => {
+  const production = argv.p;
+
+  return {
+    entry: TerraDevSiteEntryPoints,
+    plugins: [
+      new TerraDevSite({ env }),
+    ],
+    resolve: {
+      plugins: [
+        new DirectorySwitcherPlugin({
+          shouldSwitch: !production,
+        }),
+        new LocalPackageAliasPlugin({}),
+      ],
+    },
+  };
+};
+
+module.exports = devSiteConfig;
+```
+
 
 To serve using `tt-serve`, add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit/tree/master/scripts/serve#cli) for more information on the command options.
 
@@ -137,7 +166,7 @@ Without the environment variable set assets will assume they are served from `/`
 
 ## How Terra-Dev-Site Works
 
-The terra-dev-site's webpack config calls the pre-build tool `generateAppConfig`. The generateAppConfig script builds out static configuration to the `./dev-site-config/build` folder. `generateAppConfig` also discovers pages based on its configuration. After the static config has been built, webpack continues to run, pulling in the static config and producing the webpack bundle.
+The terra-dev-site's webpack plugin calls the pre-build tool `generateAppConfig`. The generateAppConfig script builds out static configuration to the `./dev-site-config/build` folder. `generateAppConfig` also discovers pages based on its configuration. After the static config has been built, webpack continues to run, pulling in the static config and producing the webpack bundle.
 
 ## Debug
 

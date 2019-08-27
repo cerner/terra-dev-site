@@ -1,7 +1,7 @@
 const path = require('path');
 const defaultWebpackConfig = require('./config/webpack/webpack.config');
 const loadSiteConfig = require('./scripts/generate-app-config/loadSiteConfig');
-const TerraDevSitePlugin = require('./config/webpack/plugin/TerraDevSitePlugin');
+const TerraDevSite = require('./config/webpack/plugin/TerraDevSite');
 
 /**
 * Generates the file representing app name configuration.
@@ -19,7 +19,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   return {
     ...config,
     plugins: config.plugins.slice(0, -1).concat([
-      new TerraDevSitePlugin({
+      new TerraDevSite({
         env,
         sites: [{
           siteConfig,

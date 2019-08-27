@@ -7,7 +7,7 @@ const loadSiteConfig = require('../../../scripts/generate-app-config/loadSiteCon
 /**
  * Generate a terra-dev-site
  */
-class TerraDevSitePlugin {
+class TerraDevSite {
   constructor({ env, sites = [] } = {}) {
     // default local for site
     this.lang = env.defaultLocale;
@@ -50,4 +50,4 @@ class TerraDevSitePlugin {
   }
 }
 
-module.exports = TerraDevSitePlugin;
+module.exports = TerraDevSite;
