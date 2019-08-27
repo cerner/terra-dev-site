@@ -27,7 +27,7 @@ class TerraDevSite {
   }
 
   apply(compiler) {
-    // Use default plublic path else the env else /
+    // Use default public path else the env else /
     let publicPath = process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
     if (compiler.options.output && compiler.options.output.publicPath) {
       ({ publicPath } = compiler.options.output);

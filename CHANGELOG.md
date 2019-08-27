@@ -5,6 +5,7 @@ Unreleased
 ----------
 ### Changed
 * Updated Object.assign syntax to Object spread syntax
+* Provide a webpack plugin for consumption vs a webpack config.
 
 6.1.1 - (August 13, 2019)
 ----------
