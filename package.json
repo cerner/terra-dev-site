@@ -97,7 +97,7 @@
     "fuse.js": "^3.4.5",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^3.1.0",
-    "keycode-js": "^1.0.4",
+    "keycode-js": "^2.0.1",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
