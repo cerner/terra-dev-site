@@ -43,7 +43,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const siteConfig = loadSiteConfig();
 
   // Populate lang variable, prefer env over siteConfig;
-  const lang = 'de'; //env.defaultLocale;
+  const lang = env.defaultLocale;
 
   // Generate the files need to spin up the site.
   generateAppConfig(siteConfig, production, verbose, lang);
