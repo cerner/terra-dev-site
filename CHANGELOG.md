@@ -8,6 +8,9 @@ Unreleased
 * Updated `keycode-js` to `V2.0.1`
 * Provide a webpack plugin for consumption vs a webpack config.
 
+### Fixed
+* locale override was not being applied.
+
 6.1.1 - (August 13, 2019)
 ----------
 ### Fixed
