@@ -15,16 +15,14 @@ const getNewRelicJS = require('../../../scripts/new-relic/getNewRelicJS');
  * entry - this entry
  */
 const addHtmlPlugin = ({
-  filename, lang, siteConfig, siteEntries, entry,
+  filename, siteConfig, siteEntries, entry,
 }) => {
   const otherSiteEntries = siteEntries.filter(indexEntry => indexEntry !== entry);
   return new HtmlWebpackPlugin({
     title: siteConfig.appConfig.title,
     filename,
     template: path.join(__dirname, '..', '..', '..', 'lib', 'index.html'),
-    lang,
     rootElementId: 'root',
-    dir: siteConfig.appConfig.defaultDirection,
     favicon: siteConfig.appConfig.favicon,
     headHtml: [getNewRelicJS()].concat(siteConfig.appConfig.headHtml),
     headChunks: ['rewriteHistory'],
@@ -58,6 +56,7 @@ class GeneratePlugin {
   } = {}) {
     this.entries = [];
     this.apps = [];
+    this.lang = lang;
     this.sites = sites.map((site) => {
       const entry = prefixEntry(site);
       this.entries.push(entry);
@@ -85,8 +84,6 @@ class GeneratePlugin {
         filename,
         // basename for react router
         basename: siteBasename,
-        // default lang to add to the html file
-        lang: lang || site.siteConfig.appConfig.defaultLocale,
       });
     });
   }
@@ -94,7 +91,7 @@ class GeneratePlugin {
   apply(compiler) {
     this.sites.forEach((site) => {
       const {
-        siteConfig, prefix, basename, filename, lang, entry, indexPath,
+        siteConfig, prefix, basename, filename, entry, indexPath,
       } = site;
 
       // Add the entry to options, entry should already be valued.
@@ -107,12 +104,12 @@ class GeneratePlugin {
         prefix,
         apps: this.apps.filter(app => app.path !== prefix),
         basename,
+        locale: this.lang,
       });
 
       // generate index html files
       addHtmlPlugin({
         filename,
-        lang,
         siteConfig,
         siteEntries: this.entries,
         entry,
