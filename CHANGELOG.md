@@ -6,6 +6,7 @@ Unreleased
 ### Changed
 * Updated Object.assign syntax to Object spread syntax
 * Updated `keycode-js` to `V2.0.1`
+* auto focus the search field
 
 ### Fixed
 * locale override was not being applied.
