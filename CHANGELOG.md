@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.2.0 - (August 30, 2019)
+----------
 ### Changed
 * Updated Object.assign syntax to Object spread syntax
 * Updated `keycode-js` to `V2.0.1`
