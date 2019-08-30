@@ -52,11 +52,10 @@ const appTitle = (site) => {
  */
 class GeneratePlugin {
   constructor({
-    sites, lang, basename = '',
+    sites, basename = '',
   } = {}) {
     this.entries = [];
     this.apps = [];
-    this.lang = lang;
     this.sites = sites.map((site) => {
       const entry = prefixEntry(site);
       this.entries.push(entry);
@@ -104,7 +103,6 @@ class GeneratePlugin {
         prefix,
         apps: this.apps.filter(app => app.path !== prefix),
         basename,
-        locale: this.lang,
       });
 
       // generate index html files

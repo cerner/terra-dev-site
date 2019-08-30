@@ -8,9 +8,7 @@ const loadSiteConfig = require('../../../scripts/generate-app-config/loadSiteCon
  * Generate a terra-dev-site
  */
 class TerraDevSite {
-  constructor({ env, sites = [] } = {}) {
-    // default local for site
-    this.lang = env.defaultLocale;
+  constructor({ env = {}, sites = [] } = {}) {
     // Sites to generate. Add the default site then load the config if not present
     this.sites = [
       {
@@ -19,11 +17,18 @@ class TerraDevSite {
         indexPath: path.resolve(__dirname, '..', '..', '..', 'lib', 'TerraDevSite'),
       },
       ...sites,
-    ].map(site => ({
-      ...site,
-      // load config if siteConfig is not already defined.
-      siteConfig: site.siteConfig || loadSiteConfig(site.configFileName, site.defaultConfigPath),
-    }));
+    ].map((site) => {
+      const siteConfig = site.siteConfig || loadSiteConfig(site.configFileName, site.defaultConfigPath);
+      const locale = env.defaultLocale;
+      if (locale) {
+        siteConfig.appConfig.defaultLocale = locale;
+      }
+      return ({
+        ...site,
+        // load config if siteConfig is not already defined.
+        siteConfig,
+      });
+    });
   }
 
   apply(compiler) {
@@ -38,7 +43,6 @@ class TerraDevSite {
     new GeneratePlugin({
       sites: this.sites,
       basename,
-      lang: this.lang,
     }).apply(compiler);
     new SetupPlugin({
       publicPath,

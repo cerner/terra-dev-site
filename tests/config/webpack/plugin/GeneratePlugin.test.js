@@ -15,7 +15,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
               title: 'title',
               headline: 'headline',
               subline: 'subline',
-              defaultLocale: 'defaultLocale',
             },
           },
           indexPath: '/path/index',
@@ -25,13 +24,11 @@ describe('TerraDevSiteGeneratePlugin', () => {
           siteConfig: {
             appConfig: {
               title: 'title',
-              defaultLocale: 'defaultLocale2',
             },
           },
           indexPath: '/path/index2',
         },
       ],
-      lang: 'lang',
       basename: 'basename',
     });
     expect(plug.entries).toEqual([
@@ -57,7 +54,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
             title: 'title',
             headline: 'headline',
             subline: 'subline',
-            defaultLocale: 'defaultLocale',
           },
         },
         indexPath: '/path/index',
@@ -65,20 +61,17 @@ describe('TerraDevSiteGeneratePlugin', () => {
         entry: 'prefix/index',
         filename: 'prefix/index.html',
         basename: 'basename/prefix',
-        lang: 'lang',
       },
       {
         siteConfig: {
           appConfig: {
             title: 'title',
-            defaultLocale: 'defaultLocale2',
           },
         },
         indexPath: '/path/index2',
         entry: 'index',
         filename: 'index.html',
         basename: 'basename',
-        lang: 'lang',
       },
     ]);
   });
@@ -92,7 +85,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
               title: 'title',
               headline: 'headline',
               subline: 'subline',
-              defaultLocale: 'defaultLocale',
             },
           },
           indexPath: '/path/index',
@@ -102,7 +94,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
           siteConfig: {
             appConfig: {
               title: 'title',
-              defaultLocale: 'defaultLocale2',
             },
           },
           indexPath: '/path/index2',
@@ -132,7 +123,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
             title: 'title',
             headline: 'headline',
             subline: 'subline',
-            defaultLocale: 'defaultLocale',
           },
         },
         indexPath: '/path/index',
@@ -140,20 +130,17 @@ describe('TerraDevSiteGeneratePlugin', () => {
         entry: 'prefix/index',
         filename: 'prefix/index.html',
         basename: '/prefix',
-        lang: 'defaultLocale',
       },
       {
         siteConfig: {
           appConfig: {
             title: 'title',
-            defaultLocale: 'defaultLocale2',
           },
         },
         indexPath: '/path/index2',
         entry: 'index',
         filename: 'index.html',
         basename: '',
-        lang: 'defaultLocale2',
       },
     ]);
   });
@@ -167,8 +154,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
               title: 'title',
               headline: 'headline',
               subline: 'subline',
-              defaultLocale: 'defaultLocale',
-              defaultDirection: 'defaultDirection',
               favicon: 'favicon',
               headHtml: [],
             },
@@ -180,8 +165,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
           siteConfig: {
             appConfig: {
               title: 'title',
-              defaultLocale: 'defaultLocale2',
-              defaultDirection: 'defaultDirection',
               favicon: 'favicon',
               headHtml: [],
             },
@@ -189,7 +172,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
           indexPath: '/path/index2',
         },
       ],
-      lang: 'lang',
       basename: 'basename',
     });
     const compiler = {
@@ -206,8 +188,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
           title: 'title',
           headline: 'headline',
           subline: 'subline',
-          defaultLocale: 'defaultLocale',
-          defaultDirection: 'defaultDirection',
           favicon: 'favicon',
           headHtml: [],
         },
@@ -225,8 +205,6 @@ describe('TerraDevSiteGeneratePlugin', () => {
       siteConfig: {
         appConfig: {
           title: 'title',
-          defaultLocale: 'defaultLocale2',
-          defaultDirection: 'defaultDirection',
           favicon: 'favicon',
           headHtml: [],
         },
@@ -244,9 +222,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
       title: 'title',
       filename: 'prefix/index.html',
       template: path.join(process.cwd(), 'lib', 'index.html'),
-      lang: 'lang',
       rootElementId: 'root',
-      dir: 'defaultDirection',
       favicon: 'favicon',
       headHtml: [''],
       headChunks: ['rewriteHistory'],
@@ -257,9 +233,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
       title: 'title',
       filename: 'index.html',
       template: path.join(process.cwd(), 'lib', 'index.html'),
-      lang: 'lang',
       rootElementId: 'root',
-      dir: 'defaultDirection',
       favicon: 'favicon',
       headHtml: [''],
       headChunks: ['rewriteHistory'],

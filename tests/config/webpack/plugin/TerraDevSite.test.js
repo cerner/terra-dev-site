@@ -12,39 +12,35 @@ const TerraDevSite = require('../../../../config/webpack/plugin/TerraDevSite');
 
 describe('TerraDevSiteGeneratePlugin', () => {
   it('sets up member variables', () => {
-    loadSiteConfig.mockReturnValue({ config: 'config' });
+    loadSiteConfig.mockReturnValue({ config: 'config', appConfig: { defaultLocale: 'en' } });
     const plug = new TerraDevSite({
       env: {
         defaultLocale: 'lang',
       },
       sites: [{
-        siteConfig: { herp: 'derp' },
+        siteConfig: { herp: 'derp', appConfig: { defaultLocale: 'en' } },
         indexPath: 'place',
       }],
     });
     expect(loadSiteConfig).toHaveBeenCalledWith('site.config.js', path.join(process.cwd(), 'config', 'site', 'site.config.js'));
-    expect(plug.lang).toEqual('lang');
     expect(plug.sites).toEqual([
       {
         configFileName: 'site.config.js',
         defaultConfigPath: path.join(process.cwd(), 'config', 'site', 'site.config.js'),
-        siteConfig: { config: 'config' },
+        siteConfig: { config: 'config', appConfig: { defaultLocale: 'lang' } },
         indexPath: path.join(process.cwd(), 'lib', 'TerraDevSite'),
       },
       {
-        siteConfig: { herp: 'derp' },
+        siteConfig: { herp: 'derp', appConfig: { defaultLocale: 'lang' } },
         indexPath: 'place',
       },
     ]);
   });
   it('applies the plugin', () => {
-    loadSiteConfig.mockReturnValue({ config: 'config' });
+    loadSiteConfig.mockReturnValue({ config: 'config', appConfig: { defaultLocale: 'en' } });
     const plug = new TerraDevSite({
-      env: {
-        defaultLocale: 'lang',
-      },
       sites: [{
-        siteConfig: { herp: 'derp' },
+        siteConfig: { herp: 'derp', appConfig: { defaultLocale: 'en' } },
         indexPath: 'place',
       }],
     });
@@ -57,16 +53,15 @@ describe('TerraDevSiteGeneratePlugin', () => {
         {
           configFileName: 'site.config.js',
           defaultConfigPath: path.join(process.cwd(), 'config', 'site', 'site.config.js'),
-          siteConfig: { config: 'config' },
+          siteConfig: { config: 'config', appConfig: { defaultLocale: 'en' } },
           indexPath: path.join(process.cwd(), 'lib', 'TerraDevSite'),
         },
         {
-          siteConfig: { herp: 'derp' },
+          siteConfig: { herp: 'derp', appConfig: { defaultLocale: 'en' } },
           indexPath: 'place',
         },
       ],
       basename: '',
-      lang: 'lang',
     });
     expect(SetupPlugin).toHaveBeenCalledWith({
       publicPath: '/',
