@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import SearchField from 'terra-search-field';
 import ContentContainer from 'terra-content-container';
@@ -102,6 +102,13 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
   cacheSearchItems(fetchSearchItems, state, setState);
   const { searchItems, searchString, results } = state;
   const disclosureManager = React.useContext(DisclosureManagerContext);
+
+  let searchRef = useRef(null);
+
+  useEffect(() => {
+    searchRef.focus();
+  }, []);
+
   return (
     <ContentContainer
       header={(
@@ -117,6 +124,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
             placeholder="Search"
             onSearch={string => handleSearch(string, state, setState)}
             onInvalidSearch={() => clearResults(setState)}
+            inputRefCallback={(inputRef) => { searchRef = inputRef; }}
           />
         </>
       )}
