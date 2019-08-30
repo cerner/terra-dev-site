@@ -107,7 +107,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
 
   useEffect(() => {
     searchRef.focus();
-  });
+  }, []);
 
   return (
     <ContentContainer
