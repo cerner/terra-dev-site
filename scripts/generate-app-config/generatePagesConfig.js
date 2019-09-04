@@ -71,7 +71,7 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     // Drop the period for the extenion.
     const ext = parsedPath.ext.slice(1);
     // For jsx or js files, we want to drop the extention for including them, because we don't know if the file will be transpiled.
-    const fileName = (ext === 'jsx' || ext === 'js') ? parsedPath.name : parsedPath.base;
+    const fileName = ('tsx' || ext === 'ts' || ext === 'jsx' || ext === 'js') ? parsedPath.name : parsedPath.base;
     const contentPath = relativePath(path.join(directory, fileName));
     const routes = getRoutes(directory, fileType, name, entryPoint);
     const packageNamespace = getNamespace(directory, namespace);
@@ -150,11 +150,11 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
       sourceDir = (!production && hotReloading && source) ? `${source}/` : `${dist}/`;
     }
     acc.push({
-      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{tsx,ts,jsx,js,md}`,
       entryPoint: `${rootPath}/${sourceDir}${entryPoint}`,
     });
     acc.push({
-      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${types},}.{tsx,ts,jsx,js,md}`,
       // build out a regex for the entrypoint mask.
       entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}${entryPoint}`,
     });
