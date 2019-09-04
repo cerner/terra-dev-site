@@ -71,7 +71,8 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     // Drop the period for the extenion.
     const ext = parsedPath.ext.slice(1);
     // For jsx or js files, we want to drop the extention for including them, because we don't know if the file will be transpiled.
-    const fileName = (ext === 'tsx' || ext === 'ts' || ext === 'jsx' || ext === 'js') ? parsedPath.name : parsedPath.base;
+    const extensions = ['tsx', 'ts', 'jsx', 'js'];
+    const fileName = (extensions.includes(ext)) ? parsedPath.name : parsedPath.base;
     const contentPath = relativePath(path.join(directory, fileName));
     const routes = getRoutes(directory, fileType, name, entryPoint);
     const packageNamespace = getNamespace(directory, namespace);
