@@ -16,8 +16,6 @@ const configExpectations = processPath => ({
       options: expect.objectContaining({
         title: 'Terra Dev Site',
         template: `${processPath}/lib/index.html`,
-        lang: 'en',
-        dir: 'ltr',
         favicon: `${processPath}/terra-favicon/32px/favicon.ico`,
         inject: false,
         headChunks: expect.arrayContaining(['rewriteHistory']),

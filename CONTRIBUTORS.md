@@ -17,6 +17,7 @@ Cerner Corporation
 - Saket Bajaj [@saket2403]
 - Derek Yu [yuderekyu]
 - Daniel Flieg [PandaFlieg]
+- Lokesh P[@lokesh-0813 ]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -35,3 +36,4 @@ Cerner Corporation
 [saket2403]: https://github.com/saket2403
 [yuderekyu]: https://github.com/yuderekyu
 [PandaFlieg]: https://github.com/PandaFlieg
+[@lokesh-0813]: https://github.com/lokesh-0813

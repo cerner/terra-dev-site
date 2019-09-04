@@ -4,6 +4,16 @@ Changelog
 Unreleased
 ----------
 
+6.2.0 - (August 30, 2019)
+----------
+### Changed
+* Updated Object.assign syntax to Object spread syntax
+* Updated `keycode-js` to `V2.0.1`
+* auto focus the search field
+
+### Fixed
+* locale override was not being applied.
+
 6.1.1 - (August 13, 2019)
 ----------
 ### Fixed

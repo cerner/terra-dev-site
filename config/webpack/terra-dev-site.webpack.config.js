@@ -11,16 +11,14 @@ const LocalPackageAliasPlugin = require('./plugin/resolve/LocalPackageAliasPlugi
 * Create index.html files for terra-dev-site and the additional apps.
 */
 const indexPlugin = ({
-  title, filename, lang, rootElementId = 'root', siteConfig, indexEntryPoints, entry,
+  title, filename, rootElementId = 'root', siteConfig, indexEntryPoints, entry,
 }) => {
   const otherIndexChunks = indexEntryPoints.filter(indexEntry => indexEntry !== entry);
   return new HtmlWebpackPlugin({
     title,
     filename,
     template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
-    lang,
     rootElementId,
-    dir: siteConfig.appConfig.defaultDirection,
     favicon: siteConfig.appConfig.favicon,
     headHtml: [getNewRelicJS()].concat(siteConfig.appConfig.headHtml),
     headChunks: ['rewriteHistory'],
@@ -45,10 +43,10 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const siteConfig = loadSiteConfig();
 
   // Populate lang variable, prefer env over siteConfig;
-  const lang = env.defaultLocale || siteConfig.appConfig.defaultLocale;
+  const lang = env.defaultLocale;
 
   // Generate the files need to spin up the site.
-  generateAppConfig(siteConfig, production, verbose);
+  generateAppConfig(siteConfig, production, verbose, lang);
 
   // Is hot reloading enabled?
   const { hotReloading } = siteConfig;
@@ -69,7 +67,6 @@ const devSiteConfig = (env = {}, argv = {}) => {
       indexPlugin({
         title: siteConfig.appConfig.title,
         filename: 'index.html',
-        lang,
         siteConfig,
         indexEntryPoints,
         entry: 'terra-dev-site',

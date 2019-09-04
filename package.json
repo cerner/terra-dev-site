@@ -1,6 +1,6 @@
 {
   "name": "terra-dev-site",
-  "version": "6.1.1",
+  "version": "6.2.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "main": "index.js",
   "repository": {
@@ -46,7 +46,7 @@
     "extends": "terra",
     "settings": {
       "polyfills": [
-        "promises"
+        "Promise"
       ]
     },
     "parser": "babel-eslint",
@@ -86,7 +86,7 @@
     "start-static": "npm run compile:prod && tt-serve-static --site ./build",
     "test": "npm run lint && npm run jest && npm run wdio",
     "tds:generate-app-config": "node bin/generateAppConfig.js",
-    "wdio": "wdio node_modules/terra-toolkit/config/wdio/wdio.conf.js"
+    "wdio": "tt-wdio --config node_modules/terra-toolkit/config/wdio/wdio.conf.js --locales=['en','de'] "
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -97,7 +97,7 @@
     "fuse.js": "^3.4.5",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^3.1.0",
-    "keycode-js": "^1.0.4",
+    "keycode-js": "^2.0.1",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
@@ -148,8 +148,8 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.2.2",
     "enzyme": "^3.3.0",
-    "eslint-config-terra": "^2.1.0",
-    "eslint": "^5.0.0",
+    "eslint-config-terra": "^3.0.0",
+    "eslint": "^6.1.0",
     "gh-pages": "^2.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",

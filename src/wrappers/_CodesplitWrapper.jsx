@@ -46,8 +46,7 @@ const CodesplitWrapper = ({
         </ContentWrapper>
       ) : (
         <Content {...props} />
-      )
-      }
+      )}
     </Suspense>
   </ContentErrorBoundary>
 );

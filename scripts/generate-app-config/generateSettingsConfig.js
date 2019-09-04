@@ -1,7 +1,7 @@
 /**
 * Build utilities config file.
 */
-const generateUtilitiesConfig = (appConfig) => {
+const generateUtilitiesConfig = (appConfig, locale) => {
   if (!appConfig) {
     return undefined;
   }
@@ -10,7 +10,7 @@ const generateUtilitiesConfig = (appConfig) => {
   const config = {
     defaultTheme: appConfig.defaultTheme,
     themes: appConfig.themes || {},
-    defaultLocale: appConfig.defaultLocale,
+    defaultLocale: locale || appConfig.defaultLocale,
     locales: appConfig.locales || {},
     defaultDirection: appConfig.defaultDir,
     directions: ['ltr', 'rtl'],
