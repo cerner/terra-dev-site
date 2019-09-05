@@ -26,8 +26,16 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 };
 
 /**
-* Writes out a file consisting of the app config and imports with the given file name to the specified path.
-*/
+ * Writes out a file consisting of the app config and imports with the given file name to the specified path.
+ * @param {
+ * siteConfig, // config defining how the site is setup.
+ * mode, // string, production or development
+ * prefix, // prefix path defining where to write out files
+ * apps = [], // Array of apps to link to through the application switcher
+ * verbose = false, // print out info
+ * basename, // Basename for react router, https://reacttraining.com/react-router/web/api/BrowserRouter/basename-string
+ * } param0
+ */
 const generateAppConfig = ({
   siteConfig, mode, prefix, apps = [], verbose = false, basename,
 }) => {
