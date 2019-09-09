@@ -34,7 +34,7 @@ This component requires the following peer dependencies be installed in your app
 Using the TerraDevSite webpack plugin, a static site will be built to the `dev-site-config/build` directory and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. A simple example consuming the webpack plugin is shown below.
 
 ```javascript
-const { TerraDevSite, TerraDevSiteEntryPoints } = require('terra-dev-site');
+const { TerraDevSite, TerraDevSiteEntrypoints } = require('terra-dev-site');
 
 /**
 * Generates the file representing app name configuration.
@@ -43,7 +43,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const production = argv.p;
 
   return {
-    entry: TerraDevSiteEntryPoints,
+    entry: TerraDevSiteEntrypoints,
     plugins: [
       new TerraDevSite({ env }),
     ],

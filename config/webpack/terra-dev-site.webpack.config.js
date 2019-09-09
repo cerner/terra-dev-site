@@ -1,7 +1,7 @@
 const path = require('path');
 const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
 const TerraDevSite = require('./plugin/TerraDevSite');
-const TerraDevSiteEntryPoints = require('./plugin/TerraDevSiteEntrypoints');
+const TerraDevSiteEntrypoints = require('./plugin/TerraDevSiteEntrypoints');
 const DirectorySwitcherPlugin = require('./plugin/resolve/DirectorySwitcherPlugin');
 const LocalPackageAliasPlugin = require('./plugin/resolve/LocalPackageAliasPlugin');
 
@@ -19,7 +19,7 @@ const devSiteConfig = (env = {}, argv = {}) => {
   const { hotReloading } = siteConfig;
 
   return {
-    entry: TerraDevSiteEntryPoints,
+    entry: TerraDevSiteEntrypoints,
     plugins: [
       new TerraDevSite({ env }),
     ],

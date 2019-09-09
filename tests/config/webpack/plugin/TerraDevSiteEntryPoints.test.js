@@ -1,6 +1,6 @@
 const path = require('path');
 
-const DirectorySwitcherPlugin = require('../../../../config/webpack/plugin/TerraDevSiteEntryPoints');
+const DirectorySwitcherPlugin = require('../../../../config/webpack/plugin/TerraDevSiteEntrypoints');
 
 describe('DirectorySwitcherPlugin', () => {
   it('returns expected entries', () => {
