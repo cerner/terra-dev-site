@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import ApplicationBase from 'terra-application';
 import ApplicationNavigation from 'terra-application-navigation';
+import ContentContainer from 'terra-content-container';
 
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions
@@ -50,7 +51,14 @@ const ExtendDevSite = () => (
         utilityItems={utilityItems}
         onSelectUtilityItem={onSelectUtilityItem}
       >
-        {child}
+        <ContentContainer
+          header={(
+            <h1 className="terra-dev-site-extended">Terra Dev Site Extended Example</h1>
+          )}
+          fill
+        >
+          {child}
+        </ContentContainer>
       </ApplicationNavigation>
     )}
     fetchSearchItems={fetchSearchItems}

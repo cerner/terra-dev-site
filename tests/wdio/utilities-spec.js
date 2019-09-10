@@ -12,7 +12,7 @@ Terra.describeViewports('utilities', ['huge'], () => {
 
   it('selects an app', () => {
     browser.click('[class*="ApplicationSwitcher-module__item"]');
-    Terra.validates.element('selects an app', { selector: '#root' });
+    Terra.validates.element('selects an app', { selector: '.terra-dev-site-extended' });
   });
 
   it('selects config', () => {
@@ -58,7 +58,7 @@ Terra.describeViewports('utilities', ['tiny'], () => {
 
   it('selects an app', () => {
     browser.click('[class*="ApplicationSwitcher-module__item"]');
-    Terra.validates.element('selects an app', { selector: '#root' });
+    Terra.validates.element('selects an app', { selector: '.terra-dev-site-extended' });
   });
 
   it('selects config', () => {
