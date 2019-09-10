@@ -19,6 +19,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
       },
       sites: [{
         siteConfig: { herp: 'derp', appConfig: { defaultLocale: 'en' } },
+        prefix: 'prefix',
         indexPath: 'place',
       }],
     });
@@ -32,6 +33,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
       },
       {
         siteConfig: { herp: 'derp', appConfig: { defaultLocale: 'lang' } },
+        prefix: 'prefix',
         indexPath: 'place',
       },
     ]);
@@ -41,6 +43,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
     const plug = new TerraDevSite({
       sites: [{
         siteConfig: { herp: 'derp', appConfig: { defaultLocale: 'en' } },
+        prefix: 'prefix',
         indexPath: 'place',
       }],
     });
@@ -58,6 +61,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
         },
         {
           siteConfig: { herp: 'derp', appConfig: { defaultLocale: 'en' } },
+          prefix: 'prefix',
           indexPath: 'place',
         },
       ],

@@ -15,10 +15,9 @@ const getNewRelicJS = require('../../../scripts/new-relic/getNewRelicJS');
  * entry - this entry
  */
 const addHtmlPlugin = ({
-  filename, siteConfig, siteEntries, entry,
-}) => {
-  const otherSiteEntries = siteEntries.filter(indexEntry => indexEntry !== entry);
-  return new HtmlWebpackPlugin({
+  filename, siteConfig, otherSiteEntries,
+}) => (
+  new HtmlWebpackPlugin({
     title: siteConfig.appConfig.title,
     filename,
     template: path.join(__dirname, '..', '..', '..', 'lib', 'index.html'),
@@ -28,8 +27,8 @@ const addHtmlPlugin = ({
     headChunks: ['rewriteHistory'],
     excludeChunks: ['redirect', ...otherSiteEntries],
     inject: false, // This turns off auto injection. We handle this ourselves in the template.
-  });
-};
+  })
+);
 
 /**
  * Generate the prefixed entry name
@@ -109,8 +108,7 @@ class GeneratePlugin {
       addHtmlPlugin({
         filename,
         siteConfig,
-        siteEntries: this.entries,
-        entry,
+        otherSiteEntries: this.entries.filter(indexEntry => indexEntry !== entry),
       }).apply(compiler);
     });
   }

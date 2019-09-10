@@ -4,11 +4,36 @@ const SetupPlugin = require('./SetupPlugin');
 const GeneratePlugin = require('./GeneratePlugin');
 const loadSiteConfig = require('../../../scripts/generate-app-config/loadSiteConfig');
 
+const validate = (sites) => {
+  sites.forEach((site) => {
+    let exit = false;
+    if (!(site.configFileName && site.defaultConfigPath) && !site.siteConfig) {
+      // eslint-disable-next-line no-console
+      console.error('Site missing config. either the configFileName and the default configPath or the siteConfig string');
+      exit = true;
+    }
+    if (!site.prefix) {
+      // eslint-disable-next-line no-console
+      console.error('Site missing prefix. A unique prefix must be added to the site.');
+      exit = true;
+    }
+    if (!site.indexPath) {
+      // eslint-disable-next-line no-console
+      console.error('Site missing indexPath. A valid path to the entry javascript file must be included.');
+      exit = true;
+    }
+    if (exit) {
+      process.exit(0);
+    }
+  });
+};
 /**
  * Generate a terra-dev-site
  */
 class TerraDevSite {
   constructor({ env = {}, sites = [] } = {}) {
+    // Validate sites.
+    validate(sites);
     // Sites to generate. Add the default site then load the config if not present
     this.sites = [
       {
