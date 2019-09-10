@@ -5,7 +5,7 @@ const path = require('path');
 /**
  * Updates the webpack options with defaults that terra-dev-site requires.
  */
-class TerraDevSitePlugin {
+class SetupPlugin {
   constructor({ publicPath } = {}) {
     this.publicPath = publicPath;
   }
@@ -41,4 +41,4 @@ class TerraDevSitePlugin {
   }
 }
 
-module.exports = TerraDevSitePlugin;
+module.exports = SetupPlugin;

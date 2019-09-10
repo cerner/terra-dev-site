@@ -18,6 +18,7 @@ class TerraDevSite {
       },
       ...sites,
     ].map((site) => {
+      // load config if siteConfig is not already defined.n
       const siteConfig = site.siteConfig || loadSiteConfig(site.configFileName, site.defaultConfigPath);
       const locale = env.defaultLocale;
       if (locale) {
@@ -25,7 +26,6 @@ class TerraDevSite {
       }
       return ({
         ...site,
-        // load config if siteConfig is not already defined.
         siteConfig,
       });
     });
@@ -33,10 +33,11 @@ class TerraDevSite {
 
   apply(compiler) {
     // Use default public path else the env else /
-    let publicPath = process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
+    let defaultPublicPath;
     if (compiler.options.output && compiler.options.output.publicPath) {
-      ({ publicPath } = compiler.options.output);
+      ({ defaultPublicPath } = compiler.options.output);
     }
+    const publicPath = defaultPublicPath || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
 
     // Strip the trailing / from the public path.
     const basename = publicPath.slice(0, -1);
@@ -48,7 +49,7 @@ class TerraDevSite {
       publicPath,
     }).apply(compiler);
     new DefinePlugin({
-      // Base name is used to namespace terra-dev-site this is used in redirect.js
+      // Base name is used to namespace terra-dev-site this is used in redirect.js which is only used in the 404 page.
       TERRA_DEV_SITE_BASENAME: JSON.stringify(basename),
     }).apply(compiler);
   }
