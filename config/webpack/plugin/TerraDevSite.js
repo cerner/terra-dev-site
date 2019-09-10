@@ -43,7 +43,7 @@ class TerraDevSite {
       },
       ...sites,
     ].map((site) => {
-      // load config if siteConfig is not already defined.n
+      // load config if siteConfig is not already defined.
       const siteConfig = site.siteConfig || loadSiteConfig(site.configFileName, site.defaultConfigPath);
       const locale = env.defaultLocale;
       if (locale) {
@@ -60,7 +60,7 @@ class TerraDevSite {
     // Use default public path else the env else /
     let defaultPublicPath;
     if (compiler.options.output && compiler.options.output.publicPath) {
-      ({ defaultPublicPath } = compiler.options.output);
+      defaultPublicPath = compiler.options.output.publicPath;
     }
     const publicPath = defaultPublicPath || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
 
