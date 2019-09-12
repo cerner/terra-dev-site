@@ -102,6 +102,7 @@ class GeneratePlugin {
         prefix,
         apps: this.apps.filter(app => app.path !== prefix),
         basename,
+        resolveExtensions: compiler.options.resolve.extensions,
       });
 
       // generate index html files

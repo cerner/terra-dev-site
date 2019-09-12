@@ -15,6 +15,7 @@ const siteConfig = {
 
   /** These options are used to find the pages to serve via terra-dev-site. If 'pagesConfig' is provided, this
    * configuration is not used.
+   * The file extensions pulled in are 'md' extensions and any extension defined in the resolve extensions set in the webpack config.
    *   The search pattern key options:
    *      root: where the search pattern starts.
    *      entryPoint: added to the search pattern and is where the of the directory structure

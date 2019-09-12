@@ -8,6 +8,7 @@ Unreleased
 
 ### Changed
 * Updated `commander` to `v3.0.1`
+* Terra-dev-site now looks to the webpack resolve extensions to add to the files pulled in when the site is generated.
 
 6.2.0 - (August 30, 2019)
 ----------

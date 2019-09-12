@@ -178,6 +178,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
       options: {
         mode: 'dev',
         entry: [],
+        resolve: {},
       },
     };
 

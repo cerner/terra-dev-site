@@ -38,6 +38,10 @@ const navConfig = {
       path: '/empty',
       text: 'Empty',
       pageTypes: ['empty'],
+    }, {
+      path: '/file-extension-test',
+      text: 'File Extension Test',
+      pageTypes: ['fet'],
     }],
   },
 };
