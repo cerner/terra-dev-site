@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added terra-props-table-loader
+
 ### Changed
 * Updated `commander` to `v3.0.1`
 

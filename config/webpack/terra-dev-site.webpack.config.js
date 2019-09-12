@@ -40,6 +40,11 @@ const devSiteConfig = (env = {}, argv = {}) => {
         }),
       ],
     },
+    resolveLoader: {
+      alias: {
+        'terra-props-table-loader': path.join('loaders', 'terra-props-table-loader.js'),
+      },
+    },
   };
 };
 

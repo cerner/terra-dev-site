@@ -18,6 +18,11 @@ const devSiteConfig = (env = {}, argv = {}) => {
 
   return {
     ...config,
+    resolveLoader: {
+      alias: {
+        'terra-props-table-loader': path.join(__dirname, 'scripts/props-table-loader'),
+      },
+    },
     plugins: config.plugins.slice(0, -1).concat([
       new TerraDevSite({
         env,
