@@ -16,6 +16,10 @@ const devSiteConfig = (env = {}, argv = {}) => {
     subline: 'Extended',
   };
 
+  config.resolve.extensions = ['.js', '.jsx', '.jst'];
+  // Brittle
+  config.module.rules[0].test = /\.(jsx|js|jst)$/;
+
   return {
     ...config,
     plugins: config.plugins.slice(0, -1).concat([

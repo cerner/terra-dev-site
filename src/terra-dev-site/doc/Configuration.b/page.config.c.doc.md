@@ -16,7 +16,7 @@ If you need or want custom page config, you can provide your own by including th
 
 This page configuration must provide the `name`, and `path` keys. These keys are needed to successfully create the navigation and routes. Then use the following keys to add meaningful content:
 - `content` - the content to render at this route
-- `type` - the file type. Options include `js`, `jsx`, or `md`
+- `type` - the file type. Options include but are not limited to `js`, `jsx`, or `md`
 - `pages` - an array of pages configuration objects for nested navigation
 
 Terra-dev-site will create sub-navigation for any component configuration using the `pages` key and will add a default Placeholder to render at that route.
