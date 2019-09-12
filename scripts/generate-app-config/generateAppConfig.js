@@ -37,7 +37,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
  * } param0
  */
 const generateAppConfig = ({
-  siteConfig, mode, prefix, apps = [], verbose = false, basename,
+  siteConfig, mode, prefix, apps = [], verbose = false, basename, resolveExtensions,
 }) => {
   const imports = new ImportAggregator();
 
@@ -76,7 +76,7 @@ const generateAppConfig = ({
     imports,
   );
 
-  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, mode, verbose));
+  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, resolveExtensions, mode, verbose));
   const menuConfigImport = addConfig(
     menuItems,
     'menuItems.js',

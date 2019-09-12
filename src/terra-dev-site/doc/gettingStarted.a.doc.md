@@ -122,7 +122,7 @@ The components of the file name pattern are:
 * filename - This is the name that will be added to the side menu for the site. These are sorted alphabetically.
 * group - (optional) This allows you to sort menu items. The group is sorted alphabetically.
 * pageType - This indicates which primary navigation item the page will be rendered under. The default pageTypes are 'home', 'doc', and 'test'.
-* extension - .md .js and .jsx are supported. Any other type will have unexpected behavior.
+* extension - .md extensions are supported by default. Other extensions can be added by updating the projects webpack config by adding additional extensions to the resolve field.
 
 
 ### Auto Discovery Example
