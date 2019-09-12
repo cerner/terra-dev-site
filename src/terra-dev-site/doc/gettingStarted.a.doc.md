@@ -31,9 +31,11 @@ This component requires the following peer dependencies be installed in your app
 
 ### Running terra-dev-site
 
-Using the TerraDevSite webpack plugin, a static site will be built to the `dev-site-config/build` directory and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. A simple example consuming the webpack plugin is shown below.
+Using the TerraDevSite webpack plugin, a static site will be built to the `dev-site-config/build` directory and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. A simple example consuming the webpack plugin is shown below. Extending from terra-toolkit's webpack config is highly recommended.
 
 ```javascript
+const toolkitWebpackConfig = require('terra-toolkit/config/webpack/webpack.config')
+const merge = require('webpack-merge');
 const { TerraDevSite, TerraDevSiteEntrypoints } = require('terra-dev-site');
 
 /**
@@ -58,9 +60,12 @@ const devSiteConfig = (env = {}, argv = {}) => {
   };
 };
 
-module.exports = devSiteConfig;
-```
+const webpackConfig = (env, argv) => (
+  merge(toolkitWebpackConfig(env, argv), devSiteConfig(env, argv))
+);
 
+module.exports = webpackConfig;
+```
 
 To serve using `tt-serve`, add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit/tree/master/scripts/serve#cli) for more information on the command options.
 
