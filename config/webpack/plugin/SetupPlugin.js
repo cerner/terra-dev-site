@@ -21,12 +21,7 @@ class SetupPlugin {
     // RESOLVE
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
     compiler.options.resolve.modules.unshift(devSiteConfigPath);
-    const terraPropsTableLoader = { 'terra-props-table-loader': path.join(__dirname, '..', 'loaders', 'terra-props-table-loader') };
-    const alias = compiler.options.resolveLoader.alias
-      ? Object.assign(compiler.options.resolveLoader.alias, { 'terra-props-table-loader': path.join(__dirname, '..', 'loaders', 'terra-props-table-loader') })
-      : Object.assign({}, terraPropsTableLoader); // eslint-disable-line prefer-object-spread
-
-        if (!compiler.options.resolveLoader.alias) {
+    if (!compiler.options.resolveLoader.alias) {
       compiler.options.resolveLoader.alias = {};
     }
     compiler.options.resolveLoader.alias['terra-props-table-loader'] = path.join(__dirname, '..', 'loaders', 'terra-props-table-loader');
