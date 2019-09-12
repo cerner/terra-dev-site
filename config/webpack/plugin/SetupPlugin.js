@@ -24,7 +24,7 @@ class SetupPlugin {
     const terraPropsTableLoader = { 'terra-props-table-loader': path.join(__dirname, '..', 'loaders', 'terra-props-table-loader') };
     const alias = compiler.options.resolveLoader.alias
       ? Object.assign(compiler.options.resolveLoader.alias, { 'terra-props-table-loader': path.join(__dirname, '..', 'loaders', 'terra-props-table-loader') })
-      : Object.assign(...terraPropsTableLoader);
+      : Object.assign({}, terraPropsTableLoader); // eslint-disable-line prefer-object-spread
 
     compiler.options.resolveLoader.alias = alias;
 

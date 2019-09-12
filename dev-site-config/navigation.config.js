@@ -31,6 +31,10 @@ const navConfig = {
         devTools: true,
       },
     }, {
+      path: '/terra-props-table-loader',
+      text: 'Terra Props Table Loader Test',
+      pageTypes: ['tptl'],
+    }, {
       path: '/empty',
       text: 'Empty',
       pageTypes: ['empty'],
