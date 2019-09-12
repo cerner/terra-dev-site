@@ -26,7 +26,10 @@ class SetupPlugin {
       ? Object.assign(compiler.options.resolveLoader.alias, { 'terra-props-table-loader': path.join(__dirname, '..', 'loaders', 'terra-props-table-loader') })
       : Object.assign({}, terraPropsTableLoader); // eslint-disable-line prefer-object-spread
 
-    compiler.options.resolveLoader.alias = alias;
+        if (!compiler.options.resolveLoader.alias) {
+      compiler.options.resolveLoader.alias = {};
+    }
+    compiler.options.resolveLoader.alias['terra-props-table-loader'] = path.join(__dirname, '..', 'loaders', 'terra-props-table-loader');
 
     new HtmlWebpackPlugin({
       filename: '404.html',
