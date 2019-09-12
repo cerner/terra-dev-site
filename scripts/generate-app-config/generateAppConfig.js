@@ -18,7 +18,7 @@ const importSideEffects = require('./importSideEffects');
 */
 const addConfig = (config, fileName, buildPath, fs, imports) => {
   if (config) {
-    writeConfig(config, fileName, buildPath, fse);
+    writeConfig(config, fileName, buildPath, fs);
     const { name } = path.parse(fileName);
     return imports.addImport(`./${name}`, name);
   }
@@ -26,9 +26,19 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
 };
 
 /**
-* Writes out a file consisting of the app config and imports with the given file name to the specified path.
-*/
-const generateAppConfig = (siteConfig, production, verbose, locale) => {
+ * Writes out a file consisting of the app config and imports with the given file name to the specified path.
+ * @param {
+ * siteConfig, // config defining how the site is setup.
+ * mode, // string, production or development
+ * prefix, // prefix path defining where to write out files
+ * apps = [], // Array of apps to link to through the application switcher
+ * verbose = false, // print out info
+ * basename, // Basename for react router, https://reacttraining.com/react-router/web/api/BrowserRouter/basename-string
+ * } param0
+ */
+const generateAppConfig = ({
+  siteConfig, mode, prefix, apps = [], verbose = false, basename,
+}) => {
   const imports = new ImportAggregator();
 
   const {
@@ -40,7 +50,7 @@ const generateAppConfig = (siteConfig, production, verbose, locale) => {
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   // This is where we are writing out the generated files.
-  const buildPath = path.join(rootPath, 'build');
+  const buildPath = prefix ? path.join(rootPath, 'build', prefix) : path.join(rootPath, 'build');
 
   if (siteConfig.includeTestEvidence) {
     navConfig.navigation.links = injectLink(navConfig, {
@@ -51,7 +61,7 @@ const generateAppConfig = (siteConfig, production, verbose, locale) => {
   }
 
   const settingsConfig = addConfig(
-    generateSettingsConfig(appConfig, locale),
+    generateSettingsConfig(appConfig),
     'settingsConfig.js',
     buildPath,
     fse,
@@ -66,7 +76,7 @@ const generateAppConfig = (siteConfig, production, verbose, locale) => {
     imports,
   );
 
-  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, production, verbose));
+  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, mode, verbose));
   const menuConfigImport = addConfig(
     menuItems,
     'menuItems.js',
@@ -121,6 +131,8 @@ const generateAppConfig = (siteConfig, production, verbose, locale) => {
     capabilities,
     extensions: extensionConfigImport,
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
+    apps,
+    basename,
   };
 
   writeConfig({ config, imports }, 'siteConfig.js', buildPath, fse);

@@ -12,6 +12,7 @@ Unreleased
 * Updated Object.assign syntax to Object spread syntax
 * Updated `keycode-js` to `V2.0.1`
 * auto focus the search field
+* Provide a webpack plugin for consumption vs a webpack config.
 
 ### Fixed
 * locale override was not being applied.

@@ -128,7 +128,7 @@ const sortPageConfig = config => (
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
-const generatePagesConfig = (siteConfig, production, verbose) => {
+const generatePagesConfig = (siteConfig, mode, verbose) => {
   const {
     generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
   } = siteConfig;
@@ -147,7 +147,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     const rootPath = root.replace(/[\\]/g, '/');
     let sourceDir = '';
     if (dist) {
-      sourceDir = (!production && hotReloading && source) ? `${source}/` : `${dist}/`;
+      sourceDir = (mode !== 'production' && hotReloading && source) ? `${source}/` : `${dist}/`;
     }
     acc.push({
       pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md}`,

@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
+import IconTile from 'terra-icon/lib/icon/IconTile';
 
 import DevSitePage from './_DevSitePage';
 import SettingsPicker from './_SettingsPicker';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 import siteConfigPropType from '../site/siteConfigPropTypes';
 import ExtensionWrapper from '../wrappers/_ExtensionWrapper';
+import ApplicationSwitcher from './_ApplicationSwitcher';
 
 const Search = React.lazy(() => import('../search/_Search'));
 
@@ -19,11 +21,6 @@ const propTypes = {
   onUpdateSettings: PropTypes.func,
 
   /**
-   * basename is expected to be '' or '/*', used for react router
-   */
-  basename: PropTypes.string.isRequired,
-
-  /**
    * Render prop for rendering application navigation or a variant of it.
    */
   applicationNavigation: PropTypes.func.isRequired,
@@ -31,7 +28,7 @@ const propTypes = {
   /**
    * function to return search items
    */
-  fetchSearchItems: PropTypes.func.isRequired,
+  fetchSearchItems: PropTypes.func,
 
   /**
    * The site config for the application.
@@ -95,6 +92,33 @@ class DevSiteNavigation extends React.Component {
     });
   }
 
+  static launchAppSwitcher(key, { disclosureManager, siteConfig }) {
+    disclosureManager.disclose({
+      preferredType: 'modal',
+      size: 'tiny',
+      content: {
+        key,
+        component: (
+          <ApplicationSwitcher apps={siteConfig.apps} />
+        ),
+      },
+    });
+  }
+
+  static getUtilityItems(appsConfig) {
+    const utilityItems = [];
+    if (appsConfig.length > 0) {
+      utilityItems.push({
+        icon: <IconTile />,
+        key: 'terra-dev-site.application-switcher',
+        text: 'Application Switcher',
+        metaData: { func: DevSiteNavigation.launchAppSwitcher },
+      });
+    }
+    return utilityItems;
+  }
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -124,6 +148,8 @@ class DevSiteNavigation extends React.Component {
       },
     };
 
+    const extensionArray = fetchSearchItems ? [searchExtension] : [];
+
     return extensions.reduce((acc, ext) => acc.concat({
       icon: <ext.icon />,
       key: ext.key,
@@ -133,7 +159,7 @@ class DevSiteNavigation extends React.Component {
         size: ext.size,
         props: { content: ext.component },
       },
-    }), [searchExtension]);
+    }), extensionArray);
   }
 
   handleNavigationItemSelection(navigationItemKey) {
@@ -180,7 +206,7 @@ class DevSiteNavigation extends React.Component {
   render() {
     const { applicationNavigation } = this.props;
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, placeholderSrc, menuItems, settingsConfig, capabilities,
+      nameConfig, navigationItems, contentConfig, indexPath, placeholderSrc, menuItems, settingsConfig, capabilities, apps,
     } = this.props.siteConfig;
     const { activeNavigationItemPath } = this.state;
 
@@ -192,7 +218,11 @@ class DevSiteNavigation extends React.Component {
       <>
         {
           applicationNavigation({
-            titleConfig: { title: nameConfig.title },
+            titleConfig: {
+              title: nameConfig.title,
+              ...nameConfig.headline && { headline: nameConfig.headline },
+              ...nameConfig.subline && { subline: nameConfig.subline },
+            },
             navigationItems: navigationItems.map(item => ({
               key: item.path,
               text: item.text,
@@ -202,6 +232,7 @@ class DevSiteNavigation extends React.Component {
             activeNavigationItemKey: activeNavigationItemPath,
             onSelectNavigationItem: this.handleNavigationItemSelection,
             onSelectSettings: this.handleSettingsSelection,
+            utilityItems: DevSiteNavigation.getUtilityItems(apps),
             onSelectUtilityItem: this.handleItemSelection,
             child: (
               <DevSitePage
