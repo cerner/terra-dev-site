@@ -54,7 +54,7 @@ const recurs = (config, routes, contentPath, ext, namespace) => {
 /**
 * Builds out config for a root page.
 */
-const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
+const buildPageConfig = (filePaths, resolveExtensions, namespace) => (
   filePaths.reduce((acc, { filePath, entryPoint }) => {
     // Break up the file path
     const parsedPath = path.parse(filePath);
@@ -68,14 +68,14 @@ const buildPageConfig = (filePaths, generatePagesOptions, namespace) => (
     }
 
     const directory = parsedPath.dir;
-    // Drop the period for the extenion.
+    // Drop the period for the extension.
     const ext = parsedPath.ext.slice(1);
-    // For jsx or js files, we want to drop the extention for including them, because we don't know if the file will be transpiled.
-    const fileName = (ext === 'jsx' || ext === 'js') ? parsedPath.name : parsedPath.base;
+    // For the resolve extensions identified in the webpack config we want to drop the extension to be resolved by webpack.
+    const fileName = (resolveExtensions.includes(ext)) ? parsedPath.name : parsedPath.base;
     const contentPath = relativePath(path.join(directory, fileName));
     const routes = getRoutes(directory, fileType, name, entryPoint);
     const packageNamespace = getNamespace(directory, namespace);
-    // Name space all the generated config by pakcage.
+    // Name space all the generated config by package.
     const key = `${packageNamespace}:${routes[0]}`;
 
     pages[key] = recurs(pages[key], routes, contentPath, ext, packageNamespace);
@@ -128,7 +128,7 @@ const sortPageConfig = config => (
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
-const generatePagesConfig = (siteConfig, production, verbose) => {
+const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   const {
     generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
   } = siteConfig;
@@ -140,6 +140,12 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
   // Gather the types to search for.
   const types = pageTypes(navConfig).join(',');
 
+  // remove . from extensions
+  const extensions = resolveExtensions.map((ext) => ext.slice(1));
+
+  // the markdown extension is not optional.
+  const ext = [...extensions, 'md'];
+
   // Get the default search patterns for both normal and lerna mono repos.
   const patterns = generatePagesOptions.searchPatterns.reduce((acc, {
     root, source, dist, entryPoint,
@@ -147,14 +153,14 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
     const rootPath = root.replace(/[\\]/g, '/');
     let sourceDir = '';
     if (dist) {
-      sourceDir = (!production && hotReloading && source) ? `${source}/` : `${dist}/`;
+      sourceDir = (mode !== 'production' && hotReloading && source) ? `${source}/` : `${dist}/`;
     }
     acc.push({
-      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{${ext.join(',')}}`,
       entryPoint: `${rootPath}/${sourceDir}${entryPoint}`,
     });
     acc.push({
-      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${types},}.{jsx,js,md}`,
+      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${types},}.{${ext.join(',')}}`,
       // build out a regex for the entrypoint mask.
       entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}${entryPoint}`,
     });
@@ -177,7 +183,7 @@ const generatePagesConfig = (siteConfig, production, verbose) => {
   }
 
   // Build out the page config from the discovered file paths.
-  const config = buildPageConfig(filePaths, generatePagesOptions, siteConfig.npmPackage.name);
+  const config = buildPageConfig(filePaths, extensions, siteConfig.npmPackage.name);
 
   // Check config here
   if (siteConfig.includeTestEvidence) {

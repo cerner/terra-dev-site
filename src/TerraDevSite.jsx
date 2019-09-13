@@ -1,7 +1,6 @@
-/* global TERRA_DEV_SITE_BASENAME */
-// TERRA_DEV_SITE_BASENAME is defined by webpack
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import ApplicationBase from 'terra-application';
 import ApplicationNavigation from 'terra-application-navigation';
@@ -23,7 +22,9 @@ const TerraDevSite = () => (
         themeName={themeName}
         themeIsGlobal
       >
-        {child}
+        <BrowserRouter basename={siteConfig.basename}>
+          {child}
+        </BrowserRouter>
       </ApplicationBase>
     )}
     applicationNavigation={({
@@ -34,6 +35,7 @@ const TerraDevSite = () => (
       activeNavigationItemKey,
       onSelectNavigationItem,
       onSelectSettings,
+      utilityItems,
       onSelectUtilityItem,
       child,
     }) => (
@@ -45,12 +47,12 @@ const TerraDevSite = () => (
         activeNavigationItemKey={activeNavigationItemKey}
         onSelectNavigationItem={onSelectNavigationItem}
         onSelectSettings={onSelectSettings}
+        utilityItems={utilityItems}
         onSelectUtilityItem={onSelectUtilityItem}
       >
         {child}
       </ApplicationNavigation>
     )}
-    basename={TERRA_DEV_SITE_BASENAME}
     fetchSearchItems={fetchSearchItems}
     siteConfig={siteConfig}
   />

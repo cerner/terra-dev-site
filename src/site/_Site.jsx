@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter, Switch, Route, Redirect,
+  Switch, Route, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ModalManager from 'terra-application/lib/modal-manager';
@@ -24,11 +24,6 @@ const propTypes = {
   applicationNavigation: PropTypes.func.isRequired,
 
   /**
-   * basename is expected to be '' or '/*', used for react router
-   */
-  basename: PropTypes.string.isRequired,
-
-  /**
    * The site config for the application.
    */
   siteConfig: siteConfigPropType.isRequired,
@@ -36,7 +31,7 @@ const propTypes = {
   /**
    * function to return search items
    */
-  fetchSearchItems: PropTypes.func.isRequired,
+  fetchSearchItems: PropTypes.func,
 };
 
 class Site extends React.Component {
@@ -46,6 +41,7 @@ class Site extends React.Component {
     this.syncDomWithState = this.syncDomWithState.bind(this);
     this.onUpdateSettings = this.onUpdateSettings.bind(this);
     this.redirectSlashRoute = this.redirectSlashRoute.bind(this);
+    this.redirectToReservedRoute = this.redirectToReservedRoute.bind(this);
 
     const {
       defaultLocale: locale = 'en',
@@ -111,6 +107,17 @@ class Site extends React.Component {
   }
 
   /**
+   * Redirect the page to one of the routes reserved for the additional apps
+   * @param {*} props.match the current matching route
+   */
+  redirectToReservedRoute({ match }) {
+    const { siteConfig } = this.props;
+    window.sessionStorage.redirect = window.location.href;
+    window.location.pathname = `${siteConfig.basename}${match.url}/`;
+    return null;
+  }
+
+  /**
    * Redirect the page to the version of the page without the root hash route
    * @param {*} props.location the current location
    */
@@ -125,53 +132,48 @@ class Site extends React.Component {
 
   renderApplicationBaseChildren() {
     const {
-      siteConfig, applicationNavigation, fetchSearchItems, basename,
+      siteConfig, applicationNavigation, fetchSearchItems,
     } = this.props;
     return (
-      <ModalManager>
-        <Switch>
-          <Route path="/raw">
-            <Raw
-              contentConfig={siteConfig.contentConfig}
-              indexPath={siteConfig.indexPath}
-            />
-          </Route>
-          <Route>
-            <DevSiteNavigation
-              siteConfig={siteConfig}
-              basename={basename}
-              onUpdateSettings={this.onUpdateSettings}
-              applicationNavigation={applicationNavigation}
-              fetchSearchItems={fetchSearchItems}
-            />
-          </Route>
-        </Switch>
-      </ModalManager>
+      <Switch>
+        <Route exact path="/" render={this.redirectSlashRoute} />
+        { siteConfig.apps.map(app => app.path && <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
+        <Route>
+          <AppSettingsContext.Provider value={this.state}>
+            <ModalManager>
+              <Switch>
+                <Route path="/raw">
+                  <Raw
+                    contentConfig={siteConfig.contentConfig}
+                    indexPath={siteConfig.indexPath}
+                  />
+                </Route>
+                <Route>
+                  <DevSiteNavigation
+                    siteConfig={siteConfig}
+                    onUpdateSettings={this.onUpdateSettings}
+                    applicationNavigation={applicationNavigation}
+                    fetchSearchItems={fetchSearchItems}
+                  />
+                </Route>
+              </Switch>
+            </ModalManager>
+          </AppSettingsContext.Provider>
+        </Route>
+      </Switch>
     );
   }
 
   render() {
     const { locale, theme } = this.state;
-    const { applicationBase, siteConfig, basename } = this.props;
+    const { applicationBase, siteConfig } = this.props;
 
     return (
-      // basename is expected to be '' or '/*'
-      <BrowserRouter basename={basename}>
-        <Switch>
-          <Route exact path="/" render={this.redirectSlashRoute} />
-          <Route>
-            <AppSettingsContext.Provider value={this.state}>
-              {
-                applicationBase({
-                  locale,
-                  themeName: siteConfig.settingsConfig.themes[theme],
-                  child: this.renderApplicationBaseChildren(),
-                })
-              }
-            </AppSettingsContext.Provider>
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      applicationBase({
+        locale,
+        themeName: siteConfig.settingsConfig.themes[theme],
+        child: this.renderApplicationBaseChildren(),
+      })
     );
   }
 }

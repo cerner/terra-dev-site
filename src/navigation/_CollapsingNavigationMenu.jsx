@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import KeyCode from 'keycode-js';
+import * as KeyCode from 'keycode-js';
 
 import IconCaretRight from 'terra-icon/lib/icon/IconCaretRight';
 import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
@@ -90,7 +90,7 @@ class CollapsingNavigationMenu extends React.Component {
   static getDerivedStateFromProps({ menuItems, selectedPath }, state) {
     const newState = {};
     if (state.previousSelectedPath !== selectedPath) {
-      newState.openKeys = Object.assign({}, state.openKeys, CollapsingNavigationMenu.openKeysToItem(menuItems[0], selectedPath));
+      newState.openKeys = { ...state.openKeys, ...CollapsingNavigationMenu.openKeysToItem(menuItems[0], selectedPath) };
       newState.previousSelectedPath = selectedPath;
     }
     return newState;

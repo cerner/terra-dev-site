@@ -1,6 +1,6 @@
 {
   "name": "terra-dev-site",
-  "version": "6.1.1",
+  "version": "6.2.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "main": "index.js",
   "repository": {
@@ -46,7 +46,7 @@
     "extends": "terra",
     "settings": {
       "polyfills": [
-        "promises"
+        "Promise"
       ]
     },
     "parser": "babel-eslint",
@@ -65,8 +65,8 @@
     "clean:install": "npm run clean && npm install",
     "clean:obsolete-snapshots": "npm test -- -u",
     "compile": "babel src --out-dir lib --copy-files",
-    "compile:dev": "webpack --config config/webpack/webpack.config",
-    "compile:prod": "webpack --config config/webpack/webpack.config -p",
+    "compile:dev": "webpack",
+    "compile:prod": "webpack -p",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
     "jest": "jest",
     "jest:coverage": "jest --coverage",
@@ -80,24 +80,24 @@
     "release:major": "npm version major -m 'Released version %s' && npm publish",
     "release:minor": "npm version minor -m 'Released version %s' && npm publish",
     "release:patch": "npm version patch -m 'Released version %s' && npm publish",
-    "start": "tt-serve --config config/webpack/webpack.config",
-    "start-prod": "tt-serve --config config/webpack/webpack.config -p",
+    "start": "tt-serve",
+    "start-prod": "tt-serve -p",
     "start-heroku": "tt-serve-static --port $PORT --site './build' ",
     "start-static": "npm run compile:prod && tt-serve-static --site ./build",
     "test": "npm run lint && npm run jest && npm run wdio",
     "tds:generate-app-config": "node bin/generateAppConfig.js",
-    "wdio": "wdio node_modules/terra-toolkit/config/wdio/wdio.conf.js"
+    "wdio": "tt-wdio --config node_modules/terra-toolkit/config/wdio/wdio.conf.js --locales=['en','de'] "
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "commander": "^2.9.0",
+    "commander": "^3.0.1",
     "enhanced-resolve": "^4.1.0",
     "escodegen": "^1.9.1",
     "fs-extra": "^8.0.0",
     "fuse.js": "^3.4.5",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^3.1.0",
-    "keycode-js": "^1.0.4",
+    "keycode-js": "^2.0.1",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
@@ -148,8 +148,8 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.2.2",
     "enzyme": "^3.3.0",
-    "eslint-config-terra": "^2.1.0",
-    "eslint": "^5.0.0",
+    "eslint-config-terra": "^3.0.0",
+    "eslint": "^6.1.0",
     "gh-pages": "^2.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
@@ -159,7 +159,7 @@
     "regenerator-runtime": "^0.13.2",
     "stylelint-config-terra": "^3.0.0",
     "stylelint": "^10.0.1",
-    "terra-toolkit": "^5.2.0",
+    "terra-toolkit": "^5.6.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",
     "webpack": "^4.28.1"
