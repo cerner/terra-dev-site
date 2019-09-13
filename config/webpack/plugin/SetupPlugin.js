@@ -32,6 +32,16 @@ class SetupPlugin {
     /**
      * TODO: Wrap this react-docgen stuff in a site config option so people can opt-in to this behavior
      */
+
+    if (!compiler.options.node) {
+      compiler.options.node = {};
+    }
+
+    if (!compiler.options.node.fs) {
+      compiler.options.node.fs = {};
+    }
+    compiler.options.node.fs = 'empty';
+
     // Resolve version of react-docgen defined with terra-dev-site
     if (!compiler.options.resolve.alias) {
       compiler.options.resolve.alias = {};
