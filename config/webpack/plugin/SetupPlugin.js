@@ -1,6 +1,13 @@
 /* eslint-disable no-param-reassign */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs');
 const path = require('path');
+
+/**
+ * Determine if the path resolves to a file.
+ */
+const isFile = filePath => (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory());
+
 
 /**
  * Updates the webpack options with defaults that terra-dev-site requires.
@@ -21,6 +28,32 @@ class SetupPlugin {
     // RESOLVE
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
     compiler.options.resolve.modules.unshift(devSiteConfigPath);
+
+    /**
+     * TODO: Wrap this react-docgen stuff in a site config option so people can opt-in to this behavior
+     */
+    // Resolve version of react-docgen defined with terra-dev-site
+    if (!compiler.options.resolve.alias) {
+      compiler.options.resolve.alias = {};
+    }
+
+    const getReactDocgenLocation = () => {
+      let reactDocgenPath = path.resolve(process.cwd(), 'node_modules', 'react-docgen');
+      /**
+       * Check if there is another version of react-docgen that is installed in the root node_modules
+       * This can happen if multiple versions of react-docgen are in the dependency tree
+       * In that case, we want to resolve the one associated with terra-dev-site
+       */
+      if (isFile(path.resolve(process.cwd(), 'node_modules', 'terra-dev-site', 'node_modules', 'react-docgen', 'package.json'))) {
+        reactDocgenPath = path.resolve(process.cwd(), 'node_modules', 'terra-dev-site', 'node_modules', 'react-docgen');
+      }
+
+      return reactDocgenPath;
+    };
+
+    compiler.options.resolve.alias['react-docgen'] = getReactDocgenLocation();
+
+    // Resolve custom react-docgen based props-table-loader
     if (!compiler.options.resolveLoader.alias) {
       compiler.options.resolveLoader.alias = {};
     }
