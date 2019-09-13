@@ -119,6 +119,9 @@ const siteConfig = {
   /* The default for whether or not test evidence should be included. 'true' is the default value. */
   includeTestEvidence: true,
 
+  /* The default for whether or not terra-props-table-loader should be included. 'false' is the default value. When true, this will resolve the version of react-docgen specified by terra-dev-site */
+  includePropsTableLoader: false,
+
   /* The default for whether the navigation side menu includes a filter input. 'false' is the default value */
   filterSideMenu: false,
 

@@ -32,6 +32,8 @@ const siteConfig = {
 
   includeTestEvidence: false,
 
+  includePropsTableLoader: true,
+
   filterSideMenu: true,
 };
 

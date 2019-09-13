@@ -72,6 +72,7 @@ class TerraDevSite {
     }).apply(compiler);
     new SetupPlugin({
       publicPath,
+      includePropsTableLoader: this.sites[0].siteConfig.includePropsTableLoader,
     }).apply(compiler);
     new DefinePlugin({
       // Base name is used to namespace terra-dev-site this is used in redirect.js which is only used in the 404 page.
