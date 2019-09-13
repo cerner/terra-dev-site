@@ -9,6 +9,7 @@ import DevSiteNavigation from '../navigation/_DevSiteNavigation';
 import Raw from '../raw/_Raw';
 import AppSettingsContext from '../navigation/_AppSettingsContext';
 import siteConfigPropType from './siteConfigPropTypes';
+import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 
 import './site.module.scss';
 
@@ -140,24 +141,26 @@ class Site extends React.Component {
         { siteConfig.apps.map(app => app.path && <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
         <Route>
           <AppSettingsContext.Provider value={this.state}>
-            <ModalManager>
-              <Switch>
-                <Route path="/raw">
-                  <Raw
-                    contentConfig={siteConfig.contentConfig}
-                    indexPath={siteConfig.indexPath}
-                  />
-                </Route>
-                <Route>
-                  <DevSiteNavigation
-                    siteConfig={siteConfig}
-                    onUpdateSettings={this.onUpdateSettings}
-                    applicationNavigation={applicationNavigation}
-                    fetchSearchItems={fetchSearchItems}
-                  />
-                </Route>
-              </Switch>
-            </ModalManager>
+            <TerraMdxProvider>
+              <ModalManager>
+                <Switch>
+                  <Route path="/raw">
+                    <Raw
+                      contentConfig={siteConfig.contentConfig}
+                      indexPath={siteConfig.indexPath}
+                    />
+                  </Route>
+                  <Route>
+                    <DevSiteNavigation
+                      siteConfig={siteConfig}
+                      onUpdateSettings={this.onUpdateSettings}
+                      applicationNavigation={applicationNavigation}
+                      fetchSearchItems={fetchSearchItems}
+                    />
+                  </Route>
+                </Switch>
+              </ModalManager>
+            </TerraMdxProvider>
           </AppSettingsContext.Provider>
         </Route>
       </Switch>

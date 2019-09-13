@@ -89,6 +89,9 @@
     "wdio": "tt-wdio --config node_modules/terra-toolkit/config/wdio/wdio.conf.js --locales=['en','de'] "
   },
   "dependencies": {
+    "@mapbox/rehype-prism": "^0.3.1",
+    "@mdx-js/loader": "^1.4.5",
+    "@mdx-js/react": "^1.4.5",
     "classnames": "^2.2.5",
     "commander": "^3.0.1",
     "enhanced-resolve": "^4.1.0",
@@ -104,6 +107,9 @@
     "prop-types": "^15.5.8",
     "react-intl": "^2.9.0",
     "react-router-dom": "^5.0.0",
+    "rehype-autolink-headings": "^2.0.5",
+    "rehype-slug": "^2.0.3",
+    "rehype-toc": "^2.2.1",
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.2.0",
     "terra-aggregate-translations": "^1.0.0",
@@ -120,6 +126,7 @@
     "terra-list": "^4.6.0",
     "terra-markdown": "^2.26.0",
     "terra-menu": "^6.3.0",
+    "terra-mixins": "^1.33.0",
     "terra-overlay": "^3.11.0",
     "terra-search-field": "^3.13.0",
     "terra-spacer": "^3.3.0",
