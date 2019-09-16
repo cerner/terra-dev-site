@@ -3,9 +3,13 @@ Changelog
 
 Unreleased
 ----------
+
+6.3.0 - (September 16, 2019)
+----------
 ### Changed
 * Updated `commander` to `v3.0.1`
 * Terra-dev-site now looks to the webpack resolve extensions to add to the files pulled in when the site is generated.
+* Provide a webpack plugin for consumption vs a webpack config.
 
 6.2.0 - (August 30, 2019)
 ----------
@@ -13,7 +17,6 @@ Unreleased
 * Updated Object.assign syntax to Object spread syntax
 * Updated `keycode-js` to `V2.0.1`
 * auto focus the search field
-* Provide a webpack plugin for consumption vs a webpack config.
 
 ### Fixed
 * locale override was not being applied.
