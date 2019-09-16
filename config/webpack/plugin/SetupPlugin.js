@@ -52,6 +52,7 @@ class SetupPlugin {
             img: 'terra-dev-site-img',
             input: 'terra-dev-site-input',
             kbd: 'terra-dev-site-kbd',
+            li: 'terra-dev-site-li',
             ol: 'terra-dev-site-ol',
             p: 'terra-dev-site-p',
             pre: 'terra-dev-site-pre',
@@ -61,7 +62,6 @@ class SetupPlugin {
             th: 'terra-dev-site-th',
             tr: 'terra-dev-site-tr',
             ul: 'terra-dev-site-ul',
-            li: 'terra-dev-site-li',
           }],
         ],
         // remarkPlugins: [
