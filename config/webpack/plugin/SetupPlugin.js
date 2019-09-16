@@ -4,6 +4,7 @@ const path = require('path');
 const rehypePrism = require('@mapbox/rehype-prism');
 const rehypeSlug = require('rehype-slug');
 const rehypeLink = require('rehype-autolink-headings');
+const rehypeAddClasses = require('rehype-add-classes');
 // const rehypeToc = require("rehype-toc");
 
 /**
@@ -30,8 +31,38 @@ class SetupPlugin {
       options: {
         rehypePlugins: [
           rehypeSlug,
-          [rehypeLink, { properties: {ariaHidden: true, class: 'anchor'} }],
+          [rehypeLink, {
+            properties: { ariaHidden: true, class: 'anchor' },
+          }],
           rehypePrism,
+          [rehypeAddClasses, {
+            a: 'terra-dev-site-a',
+            blockquote: 'terra-dev-site-blockquote',
+            code: 'terra-dev-site-code',
+            dd: 'terra-dev-site-dd',
+            dl: 'terra-dev-site-dl',
+            dt: 'terra-dev-site-dt',
+            h1: 'terra-dev-site-h1',
+            h2: 'terra-dev-site-h2',
+            h3: 'terra-dev-site-h3',
+            h4: 'terra-dev-site-h4',
+            h5: 'terra-dev-site-h5',
+            h6: 'terra-dev-site-h6',
+            hr: 'terra-dev-site-hr',
+            img: 'terra-dev-site-img',
+            input: 'terra-dev-site-input',
+            kbd: 'terra-dev-site-kbd',
+            ol: 'terra-dev-site-ol',
+            p: 'terra-dev-site-p',
+            pre: 'terra-dev-site-pre',
+            strong: 'terra-dev-site-strong',
+            table: 'terra-dev-site-table',
+            td: 'terra-dev-site-td',
+            th: 'terra-dev-site-th',
+            tr: 'terra-dev-site-tr',
+            ul: 'terra-dev-site-ul',
+            li: 'terra-dev-site-li',
+          }],
         ],
         // remarkPlugins: [
         // ],
@@ -40,8 +71,8 @@ class SetupPlugin {
 
     // MODULE
     // Remove raw markdown rule if found.
-    const mdIndex = compiler.options.module.rules.findIndex((rule) => rule.test.toString && rule.test.toString() === '/\\\.md$/')
-    if(mdIndex > -1) {
+    const mdIndex = compiler.options.module.rules.findIndex((rule) => rule.test.toString && rule.test.toString() === '/\\.md$/');
+    if (mdIndex > -1) {
       compiler.options.module.rules.splice(mdIndex, 1);
     }
 
@@ -50,7 +81,7 @@ class SetupPlugin {
       use: mdxUse,
     }, {
       test: /\.md$/,
-      oneOf:[
+      oneOf: [
         {
           // To preserve previous behaviour, we will only apply mdx to requests issued
           // from either the content config files or from .md or .mdx files
@@ -62,8 +93,8 @@ class SetupPlugin {
         },
         {
           use: 'raw-loader',
-        }
-      ]
+        },
+      ],
     });
 
     // OUTPUT

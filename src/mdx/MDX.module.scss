@@ -125,51 +125,51 @@
     vertical-align: text-top;
   }
 
-  a {
+  .terra-dev-site-a {
     background-color: transparent;
   }
 
-  a:active,
-  a:hover {
+  .terra-dev-site-a:active,
+  .terra-dev-site-a:hover {
     outline-width: 0;
   }
 
-  strong {
+  .terra-dev-site-strong {
     font-weight: inherit;
   }
 
-  strong {
+  .terra-dev-site-strong {
     font-weight: bolder;
   }
 
-  h1 {
+  .terra-dev-site-h1 {
     font-size: 2em;
     margin: 0.67em 0;
   }
 
-  img {
+  .terra-dev-site-img {
     border-style: none;
   }
 
-  code,
-  kbd,
-  pre {
+  .terra-dev-site-code,
+  .terra-dev-site-kbd,
+  .terra-dev-site-pre {
     font-family: monospace, monospace;
     font-size: 1em;
   }
 
-  hr {
+  .terra-dev-site-hr {
     box-sizing: content-box;
     height: 0;
     overflow: visible;
   }
 
-  input {
+  .terra-dev-site-input {
     font: inherit;
     margin: 0;
   }
 
-  input {
+  .terra-dev-site-input {
     overflow: visible;
   }
 
@@ -182,26 +182,26 @@
     box-sizing: border-box;
   }
 
-  input {
+  .terra-dev-site-input {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
   }
 
-  a {
+  .terra-dev-site-a {
     color: #0366d6;
     text-decoration: none;
   }
 
-  a:hover {
+  .terra-dev-site-a:hover {
     text-decoration: underline;
   }
 
-  strong {
+  .terra-dev-site-strong {
     font-weight: 600;
   }
 
-  hr {
+  .terra-dev-site-hr {
     background: transparent;
     border: 0;
     border-bottom: 1px solid #dfe2e5;
@@ -210,109 +210,109 @@
     overflow: hidden;
   }
 
-  hr::before {
+  .terra-dev-site-hr::before {
     content: '';
     display: table;
   }
 
-  hr::after {
+  .terra-dev-site-hr::after {
     clear: both;
     content: '';
     display: table;
   }
 
-  table {
+  .terra-dev-site-table {
     border-collapse: collapse;
     border-spacing: 0;
   }
 
-  td,
-  th {
+  .terra-dev-site-td,
+  .terra-dev-site-th {
     padding: 0;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  .terra-dev-site-h1,
+  .terra-dev-site-h2,
+  .terra-dev-site-h3,
+  .terra-dev-site-h4,
+  .terra-dev-site-h5,
+  .terra-dev-site-h6 {
     margin-bottom: 0;
     margin-top: 0;
   }
 
-  h1 {
+  .terra-dev-site-h1 {
     font-size: 32px;
     font-weight: 600;
   }
 
-  h2 {
+  .terra-dev-site-h2 {
     font-size: 24px;
     font-weight: 600;
   }
 
-  h3 {
+  .terra-dev-site-h3 {
     font-size: 20px;
     font-weight: 600;
   }
 
-  h4 {
+  .terra-dev-site-h4 {
     font-size: 16px;
     font-weight: 600;
   }
 
-  h5 {
+  .terra-dev-site-h5 {
     font-size: 14px;
     font-weight: 600;
   }
 
-  h6 {
+  .terra-dev-site-h6 {
     font-size: 12px;
     font-weight: 600;
   }
 
-  p {
+  .terra-dev-site-p {
     margin-bottom: 10px;
     margin-top: 0;
   }
 
-  blockquote {
+  .terra-dev-site-blockquote {
     margin: 0;
   }
 
-  ul,
-  ol {
+  .terra-dev-site-ul,
+  .terra-dev-site-ol {
     margin-bottom: 0;
     margin-top: 0;
     padding-left: 0;
   }
 
-  ol ol,
-  ul ol {
+  .terra-dev-site-ol .terra-dev-site-ol,
+  .terra-dev-site-ul .terra-dev-site-ol {
     list-style-type: lower-roman;
   }
 
   /* stylelint-disable-next-line selector-max-compound-selectors */
-  ul ul ol,
+  .terra-dev-site-ul .terra-dev-site-ul .terra-dev-site-ol,
   /* stylelint-disable-next-line selector-max-compound-selectors */
-  ul ol ol,
+  .terra-dev-site-ul .terra-dev-site-ol .terra-dev-site-ol,
   /* stylelint-disable-next-line selector-max-compound-selectors */
-  ol ul ol,
+  .terra-dev-site-ol .terra-dev-site-ul .terra-dev-site-ol,
   /* stylelint-disable-next-line selector-max-compound-selectors */
-  ol ol ol {
+  .terra-dev-site-ol .terra-dev-site-ol .terra-dev-site-ol {
     list-style-type: lower-alpha;
   }
 
-  dd {
+  .terra-dev-site-dd {
     margin-left: 0;
   }
 
-  code {
+  .terra-dev-site-code {
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-size: 12px;
   }
 
-  pre {
+  .terra-dev-site-pre {
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-size: 12px;
     margin-bottom: 0;
@@ -342,7 +342,7 @@
     margin-bottom: 0 !important;
   }
 
-  a:not([href]) {
+  .terra-dev-site-a:not([href]) {
     color: inherit;
     text-decoration: none;
   }
@@ -359,18 +359,18 @@
     outline: none;
   }
 
-  p,
-  blockquote,
-  ul,
-  ol,
-  dl,
-  table,
-  pre {
+  .terra-dev-site-p,
+  .terra-dev-site-blockquote,
+  .terra-dev-site-ul,
+  .terra-dev-site-ol,
+  .terra-dev-site-dl,
+  .terra-dev-site-table,
+  .terra-dev-site-pre {
     margin-bottom: 16px;
     margin-top: 0;
   }
 
-  hr {
+  .terra-dev-site-hr {
     background-color: #e1e4e8;
     border: 0;
     height: 0.25em;
@@ -378,21 +378,21 @@
     padding: 0;
   }
 
-  blockquote {
+  .terra-dev-site-blockquote {
     border-left: 0.25em solid #dfe2e5;
     color: var(--terra-dev-site-blockquote-color, #24292e);
     padding: 0 1em;
   }
 
-  blockquote>:first-child {
+  .terra-dev-site-blockquote>:first-child {
     margin-top: 0;
   }
 
-  blockquote>:last-child {
+  .terra-dev-site-blockquote>:last-child {
     margin-bottom: 0;
   }
 
-  kbd {
+  .terra-dev-site-kbd {
     background-color: #fafbfc;
     border: solid 1px #c6cbd1;
     border-bottom-color: #959da5;
@@ -406,12 +406,12 @@
     vertical-align: middle;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  .terra-dev-site-h1,
+  .terra-dev-site-h2,
+  .terra-dev-site-h3,
+  .terra-dev-site-h4,
+  .terra-dev-site-h5,
+  .terra-dev-site-h6 {
     font-weight: 600;
     line-height: 1.25;
     margin-bottom: 16px;
@@ -428,83 +428,83 @@
     background-image: var(--terra-dev-site-icon-link-background-image, inline-svg('<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="is-bidi octicon octicon-link"><path d="M10.5 26.3a16 16 0 0 1 .9-5.3L8 17.6a6.73 6.73 0 0 1-2-4.8A6.41 6.41 0 0 1 8 8a6.76 6.76 0 0 1 9.6 0l9 9a6.88 6.88 0 0 1 0 9.6 6.27 6.27 0 0 1-3.4 1.8 2.65 2.65 0 0 0 .5.6l4.1 4.1a11.36 11.36 0 0 0 3.1-2.3 12.8 12.8 0 0 0 0-18.1l-9-9a12.63 12.63 0 0 0-9-3.7 12.63 12.63 0 0 0-9 3.7A12.1 12.1 0 0 0 0 12.8a12.63 12.63 0 0 0 3.7 9l7 7a21.05 21.05 0 0 1-.2-2.5zm27-4.6a16 16 0 0 1-.9 5.3l3.4 3.4a6.79 6.79 0 1 1-9.6 9.6l-9-9a6.88 6.88 0 0 1 0-9.6 6.27 6.27 0 0 1 3.4-1.8 2.65 2.65 0 0 0-.5-.6l-4-4a11.36 11.36 0 0 0-3.1 2.3 12.8 12.8 0 0 0 0 18.1l9 9a12.73 12.73 0 0 0 18-18l-7-7a8 8 0 0 1 .3 2.3z"/></svg>'));
   }
 
-  h1:hover .anchor,
-  h2:hover .anchor,
-  h3:hover .anchor,
-  h4:hover .anchor,
-  h5:hover .anchor,
-  h6:hover .anchor {
+  .terra-dev-site-h1:hover .anchor,
+  .terra-dev-site-h2:hover .anchor,
+  .terra-dev-site-h3:hover .anchor,
+  .terra-dev-site-h4:hover .anchor,
+  .terra-dev-site-h5:hover .anchor,
+  .terra-dev-site-h6:hover .anchor {
     text-decoration: none;
   }
 
-  h1:hover .icon-link,
-  h2:hover .icon-link,
-  h3:hover .icon-link,
-  h4:hover .icon-link,
-  h5:hover .icon-link,
-  h6:hover .icon-link {
+  .terra-dev-site-h1:hover .icon-link,
+  .terra-dev-site-h2:hover .icon-link,
+  .terra-dev-site-h3:hover .icon-link,
+  .terra-dev-site-h4:hover .icon-link,
+  .terra-dev-site-h5:hover .icon-link,
+  .terra-dev-site-h6:hover .icon-link {
     visibility: visible;
   }
 
-  h1 {
+  .terra-dev-site-h1 {
     border-bottom: 1px solid #eaecef;
     font-size: 2em;
     padding-bottom: 0.3em;
   }
 
-  h2 {
+  .terra-dev-site-h2 {
     border-bottom: 1px solid #eaecef;
     font-size: 1.5em;
     padding-bottom: 0.3em;
   }
 
-  h3 {
+  .terra-dev-site-h3 {
     font-size: 1.25em;
   }
 
-  h4 {
+  .terra-dev-site-h4 {
     font-size: 1em;
   }
 
-  h5 {
+  .terra-dev-site-h5 {
     font-size: 0.875em;
   }
 
-  h6 {
+  .terra-dev-site-h6 {
     color: #6a737d;
     font-size: 0.85em;
   }
 
-  ul,
-  ol {
+  .terra-dev-site-ul,
+  .terra-dev-site-ol {
     padding-left: 2em;
   }
 
-  ul ul,
-  ul ol,
-  ol ol,
-  ol ul {
+  .terra-dev-site-ul .terra-dev-site-ul,
+  .terra-dev-site-ul .terra-dev-site-ol,
+  .terra-dev-site-ol .terra-dev-site-ol,
+  .terra-dev-site-ol .terra-dev-site-ul {
     margin-bottom: 0;
     margin-top: 0;
   }
 
-  li {
+  .terra-dev-site-li {
     word-wrap: break-all;
   }
 
-  li>p {
+  .terra-dev-site-li>.terra-dev-site-p {
     margin-top: 16px;
   }
 
-  li+li {
+  .terra-dev-site-li+.terra-dev-site-li {
     margin-top: 0.25em;
   }
 
-  dl {
+  .terra-dev-site-dl {
     padding: 0;
   }
 
-  dl dt {
+  .terra-dev-site-dl .terra-dev-site-dt {
     font-size: 1em;
     font-style: italic;
     font-weight: 600;
@@ -512,52 +512,52 @@
     padding: 0;
   }
 
-  dl dd {
+  .terra-dev-site-dl .terra-dev-site-dd {
     margin-bottom: 16px;
     padding: 0 16px;
   }
 
-  table {
+  .terra-dev-site-table {
     display: block;
     overflow: auto;
     width: 100%;
   }
 
-  table th {
+  .terra-dev-site-table .terra-dev-site-th {
     font-weight: 600;
   }
 
-  table th,
-  table td {
+  .terra-dev-site-table .terra-dev-site-th,
+  .terra-dev-site-table .terra-dev-site-td {
     border: 1px solid #dfe2e5;
     padding: 6px 13px;
   }
 
-  table tr {
+  .terra-dev-site-table .terra-dev-site-tr {
     background-color: #fff;
     border-top: 1px solid #c6cbd1;
   }
 
-  table tr:nth-child(2n) {
+  .terra-dev-site-table .terra-dev-site-tr:nth-child(2n) {
     background-color: #f6f8fa;
   }
 
-  img {
+  .terra-dev-site-img {
     background-color: #fff;
     box-sizing: content-box;
     max-width: 100%;
   }
 
-  img[align=right] { /* stylelint-disable-line selector-no-qualifying-type */
+  .terra-dev-site-img[align=right] { /* stylelint-disable-line selector-no-qualifying-type */
     padding-left: 20px;
   }
 
 
-  img[align=left] { /* stylelint-disable-line selector-no-qualifying-type */
+  .terra-dev-site-img[align=left] { /* stylelint-disable-line selector-no-qualifying-type */
     padding-right: 20px;
   }
 
-  code {
+  .terra-dev-site-code {
     background-color: rgba(27, 31, 35, 0.05);
     border-radius: 3px;
     color: #24292e;
@@ -566,11 +566,11 @@
     padding: 0.2em 0.4em;
   }
 
-  pre {
+  .terra-dev-site-pre {
     word-wrap: normal;
   }
 
-  pre>code {
+  .terra-dev-site-pre>.terra-dev-site-code {
     background: transparent;
     border: 0;
     font-size: 100%;
@@ -584,13 +584,13 @@
     margin-bottom: 16px;
   }
 
-  .highlight pre {
+  .highlight .terra-dev-site-pre {
     margin-bottom: 0;
     word-break: normal;
   }
 
-  .highlight pre,
-  pre {
+  .highlight .terra-dev-site-pre,
+  .terra-dev-site-pre {
     background-color: #f6f8fa;
     border-radius: 3px;
     font-size: 85%;
@@ -599,7 +599,7 @@
     padding: 16px;
   }
 
-  pre code {
+  .terra-dev-site-pre .terra-dev-site-code {
     background-color: transparent;
     border: 0;
     display: inline;
@@ -616,7 +616,7 @@
     color: #005cc5;
   }
 
-  kbd {
+  .terra-dev-site-kbd {
     background-color: #fafbfc;
     border: solid 1px #d1d5da;
     border-bottom-color: #c6cbd1;
@@ -644,12 +644,12 @@
     margin-top: 3px;
   }
 
-  .task-list-item input {
+  .task-list-item .terra-dev-site-input {
     margin: 0 0.2em 0.25em -1.6em;
     vertical-align: middle;
   }
 
-  hr {
+  .terra-dev-site-hr {
     border-bottom-color: #eee;
   }
 
