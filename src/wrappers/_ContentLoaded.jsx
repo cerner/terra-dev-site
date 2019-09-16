@@ -7,10 +7,11 @@ import styles from './ContentLoaded.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  className: PropTypes.string,
   children: PropTypes.element.isRequired,
 };
 
-const ContentLoaded = ({ children }) => {
+const ContentLoaded = ({ children, className }) => {
   useEffect(() => {
     if (!window.location || window.location.length < 2) {
       return;
@@ -25,7 +26,7 @@ const ContentLoaded = ({ children }) => {
     <div
       id="site"
       data-terra-dev-site-content
-      className={cx('dev-site-content')}
+      className={`${cx('dev-site-content')} ${className}`}
     >
       {children}
     </div>

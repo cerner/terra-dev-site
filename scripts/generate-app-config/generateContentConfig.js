@@ -4,7 +4,7 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 // "require" items to be added to the generated config.
 const ContentWrapper = 'terra-dev-site/lib/wrappers/_ContentWrapper';
-// const MarkdownWrapper = 'terra-dev-site/lib/wrappers/_MarkdownWrapper';
+const MarkdownWrapper = 'terra-dev-site/lib/wrappers/_MarkdownWrapper';
 const TerraScreenshotWrapper = 'terra-dev-site/lib/wrappers/_ScreenshotWrapper';
 
 /**
@@ -51,15 +51,17 @@ const evidenceProps = (contentConfig, routeImporter) => {
  */
 const contentRouteItem = (name, routePath, { contentPath, importName, identifier }, props, type, routeImporter) => {
   const contentProps = { props };
-  const content = { contentPath: ContentWrapper, importName: 'ContentWrapper' };
+  let content = { contentPath: ContentWrapper, importName: 'ContentWrapper' };
 
   // if (type === 'md') {
   //   content = { contentPath: MarkdownWrapper, importName: 'MarkdownWrapper' };
   //   contentProps.content = routeImporter.addDynamicImport(ImportAggregator.relativePath(contentPath), importName, identifier);
   // } else
-  if (type === 'md') {
-    contentProps.content = routeImporter.addReactLazyImport(`!${ImportAggregator.relativePath(contentPath)}`, importName, identifier);
-  } else if (type === 'evidence') {
+  if (type === 'md' || type === 'mdx') {
+    content = { contentPath: MarkdownWrapper, importName: 'MarkdownWrapper' };
+  }
+
+  if (type === 'evidence') {
     contentProps.content = routeImporter.addReactLazyImport(TerraScreenshotWrapper);
     contentProps.props = evidenceProps(contentPath, routeImporter);
   } else {

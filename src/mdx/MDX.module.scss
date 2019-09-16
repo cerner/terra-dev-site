@@ -1,17 +1,6 @@
 @import '~terra-mixins/lib/Mixins';
 
 :local(.mdx) {
-  color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  font-size: 16px;
-  line-height: 1.5;
-  line-height: 1.5;
-  list-style: disc outside none;
-  margin-bottom: 1.25rem;
-  padding: 20px;
-  text-size-adjust: 100%;
-  word-wrap: break-word;
-
   // Codeblocks for highlighting
   .codeblock {
     color: #24292e;

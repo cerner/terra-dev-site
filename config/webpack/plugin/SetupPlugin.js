@@ -4,7 +4,7 @@ const path = require('path');
 const rehypePrism = require('@mapbox/rehype-prism');
 const rehypeSlug = require('rehype-slug');
 const rehypeLink = require('rehype-autolink-headings');
-const rehypeToc = require("rehype-toc");
+// const rehypeToc = require("rehype-toc");
 
 /**
  * Updates the webpack options with defaults that terra-dev-site requires.
@@ -31,24 +31,39 @@ class SetupPlugin {
         rehypePlugins: [
           rehypeSlug,
           [rehypeLink, { properties: {ariaHidden: true, class: 'anchor'} }],
-          rehypeToc,
           rehypePrism,
         ],
         // remarkPlugins: [
-        //   remarkToc,
         // ],
       },
     }];
 
     // MODULE
+    // Remove raw markdown rule if found.
+    const mdIndex = compiler.options.module.rules.findIndex((rule) => rule.test.toString && rule.test.toString() === '/\\\.md$/')
+    if(mdIndex > -1) {
+      compiler.options.module.rules.splice(mdIndex, 1);
+    }
+
     compiler.options.module.rules.push({
       test: /\.mdx$/,
       use: mdxUse,
     }, {
-      issuer: /dev-site-config.*\/contentConfig\.js$/,
       test: /\.md$/,
-      enforce: 'pre',
-      use: mdxUse,
+      oneOf:[
+        {
+          // To preserve previous behaviour, we will only apply mdx to requests issued
+          // from either the content config files or from .md or .mdx files
+          issuer: [
+            /dev-site-config.*\/contentConfig\.js$/,
+            /\.mdx?$/,
+          ],
+          use: mdxUse,
+        },
+        {
+          use: 'raw-loader',
+        }
+      ]
     });
 
     // OUTPUT
