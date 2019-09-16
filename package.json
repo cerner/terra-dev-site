@@ -130,7 +130,7 @@
   "peerDependencies": {
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
-    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#theme-patch",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#update-theme-aggregation",
     "webpack": "^4.28.1"
   },
   "devDependencies": {
