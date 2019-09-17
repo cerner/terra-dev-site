@@ -6,7 +6,7 @@ import CodesplitWrapper from './_CodesplitWrapper';
 import ContentLoaded from './_ContentLoaded';
 import ContentLoading from './_ContentLoading';
 
-import styles from './Markdown.module.scss';
+import styles from './MarkdownWrapper.module.scss';
 
 const cx = classNames.bind(styles);
 const propTypes = {
@@ -30,7 +30,13 @@ const MarkdownWrapper = (props) => (
   <CodesplitWrapper
     {...props}
     fallback={<ContentLoading />}
-    loadedWrapper={(things) => (<ContentLoaded {...things} className={cx('markdown')} />)}
+    loadedWrapper={({ children }) => (
+      <ContentLoaded>
+        <div className={cx('markdown')}>
+          {children}
+        </div>
+      </ContentLoaded>
+    )}
     errorWrapper={ContentLoaded}
   />
 );
