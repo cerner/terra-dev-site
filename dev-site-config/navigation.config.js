@@ -31,17 +31,13 @@ const navConfig = {
         devTools: true,
       },
     }, {
-      path: '/terra-props-table-loader',
-      text: 'Terra Props Table Loader Test',
-      pageTypes: ['tptl'],
-    }, {
       path: '/empty',
       text: 'Empty',
       pageTypes: ['empty'],
     }, {
-      path: '/file-extension-test',
-      text: 'File Extension Test',
-      pageTypes: ['fet'],
+      path: '/test',
+      text: 'Test',
+      pageTypes: ['test'],
     }],
   },
 };
