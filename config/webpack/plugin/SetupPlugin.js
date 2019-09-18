@@ -4,6 +4,7 @@ const path = require('path');
 const rehypePrism = require('@mapbox/rehype-prism');
 const rehypeSlug = require('rehype-slug');
 const rehypeUrl = require('rehype-urls');
+const remarkPlugin = require('../../../scripts/remark/plugin');
 
 /**
  * Updates the webpack options with defaults that terra-dev-site requires.
@@ -38,8 +39,9 @@ class SetupPlugin {
             return url.href;
           }],
         ],
-        // remarkPlugins: [
-        // ],
+        remarkPlugins: [
+          remarkPlugin,
+        ],
       },
     }];
 
