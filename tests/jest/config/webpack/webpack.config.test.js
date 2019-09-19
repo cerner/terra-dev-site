@@ -1,4 +1,4 @@
-const webpackConfig = require('../../../config/webpack/webpack.config');
+const webpackConfig = require('../../../../config/webpack/webpack.config');
 
 const configExpectations = processPath => ({
   entry: expect.objectContaining({

@@ -1,7 +1,7 @@
 jest.mock('html-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const SetupPlugin = require('../../../../config/webpack/plugin/SetupPlugin');
+const SetupPlugin = require('../../../../../config/webpack/plugin/SetupPlugin');
 
 const processPath = process.cwd();
 
@@ -18,6 +18,7 @@ describe('TerraDevSiteSetupPlugin', () => {
         resolve: {
           modules: [],
         },
+        resolveLoader: {},
         devServer: {},
       },
     };
@@ -34,6 +35,11 @@ describe('TerraDevSiteSetupPlugin', () => {
       },
       resolve: {
         modules: [path.join(processPath, 'dev-site-config')],
+      },
+      resolveLoader: {
+        alias: {
+          'terra-props-table-loader': path.join(__dirname, '..', '..', '..', '..', '..', 'config', 'webpack', 'loaders', 'terra-props-table-loader'),
+        },
       },
       devServer: {
         historyApiFallback: true,
@@ -52,6 +58,7 @@ describe('TerraDevSiteSetupPlugin', () => {
         resolve: {
           modules: [],
         },
+        resolveLoader: {},
       },
     };
     plug.apply(compiler);
@@ -71,6 +78,7 @@ describe('TerraDevSiteSetupPlugin', () => {
         resolve: {
           modules: [],
         },
+        resolveLoader: {},
         devtool: 'derp',
       },
     };
