@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import SearchField from 'terra-search-field';
 import ContentContainer from 'terra-content-container';
@@ -23,6 +23,12 @@ const propTypes = {
    */
   onItemSelected: PropTypes.func.isRequired,
 };
+
+const ENTER = 13;
+const ARROW_UP = 38;
+const ARROW_DOWN = 40;
+const KEY_END = 35;
+const KEY_HOME = 36;
 
 const clearResults = setState => setState({ results: [] });
 
@@ -97,20 +103,88 @@ const cacheSearchItems = (fetchSearchItems, state, setState) => {
   }
 };
 
+function isActive(active, result) {
+  return active && active.item.path === result.item.path;
+}
+
 const Search = ({ fetchSearchItems, onItemSelected }) => {
-  const [state, setState] = useState({ results: [] });
+  const [state, setState] = React.useState({ results: [] });
   cacheSearchItems(fetchSearchItems, state, setState);
   const { searchItems, searchString, results } = state;
   const disclosureManager = React.useContext(DisclosureManagerContext);
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const active = results.length > 0 ? results[activeIndex] : null;
 
-  let searchRef = useRef(null);
+  const searchRef = React.useRef(null);
+  const activeRef = React.useRef(null);
 
-  useEffect(() => {
-    searchRef.focus();
+  // focus on the searchbox onMount
+  React.useEffect(() => {
+    const { current: search } = searchRef;
+    search.focus();
   }, []);
+
+  const handleKeyDown = React.useCallback(event => {
+    const { keyCode } = event;
+
+    // only handle key presses when there are results present
+    if (results.length === 0) {
+      return;
+    }
+
+    // Find previous result
+    if (keyCode === ARROW_UP) {
+      event.preventDefault();
+      setActiveIndex(index => Math.max(index - 1, 0));
+
+    // Find next result
+    } else if (keyCode === ARROW_DOWN) {
+      event.preventDefault();
+      setActiveIndex(index => Math.min(index + 1, results.length - 1));
+
+    // Find first result
+    } else if (keyCode === KEY_HOME) {
+      event.preventDefault();
+      setActiveIndex(0);
+
+    // Find last result
+    } else if (keyCode === KEY_END) {
+      event.preventDefault();
+      setActiveIndex(results.length - 1);
+
+    // Select active result
+    } else if (keyCode === ENTER) {
+      const selection = results[activeIndex];
+      handleSelect(selection, onItemSelected, disclosureManager);
+    }
+  }, [activeIndex, disclosureManager, onItemSelected, results]);
+
+  // scroll to the active result when it changes
+  React.useEffect(() => {
+    // get ref to list using getElementById since terra-infinite-list doesn't
+    // expose the refCallback on the terra-list
+    const list = document.getElementById('infinite-search-list');
+    const { current: activeResult } = activeRef;
+
+    if (!list || !activeResult) {
+      return;
+    }
+
+    const listRect = list.parentNode.getBoundingClientRect();
+    const activeResultRect = activeResult.parentNode.getBoundingClientRect();
+
+    // determine scroll direction, only scrollIntoView if we're on the bounds
+    // of the listbox
+    if (activeResultRect.top < listRect.top) {
+      activeResult.scrollIntoView();
+    } else if (activeResultRect.bottom > listRect.bottom) {
+      activeResult.scrollIntoView(false);
+    }
+  }, [active]);
 
   return (
     <ContentContainer
+      onKeyDown={handleKeyDown}
       header={(
         <>
           <ActionHeader
@@ -124,7 +198,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
             placeholder="Search"
             onSearch={string => handleSearch(string, state, setState)}
             onInvalidSearch={() => clearResults(setState)}
-            inputRefCallback={(inputRef) => { searchRef = inputRef; }}
+            inputRefCallback={(inputRef) => { searchRef.current = inputRef; }}
           />
         </>
       )}
@@ -134,18 +208,27 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
       {results.length > 0 && (
         <InfiniteList
           dividerStyle="standard"
+          id="infinite-search-list" // use id for finding DOM node until refCallback is exposed
         >
           {
-            state.results.map(result => (
-              <Item
-                key={result.item.path}
-                isSelectable
-                metaData={result}
-                onSelect={(event, metaData) => handleSelect(metaData, onItemSelected, disclosureManager)}
-              >
-                {searchItem(result)}
-              </Item>
-            ))
+            state.results.map((result, index) => {
+              const isActiveResult = isActive(active, result);
+
+              return (
+                <Item
+                  className={cx({ 'is-active': isActiveResult })}
+                  refCallback={(ref) => { if (isActiveResult) { activeRef.current = ref; } }}
+                  key={result.item.path}
+                  isSelectable
+                  metaData={result}
+                  onMouseOver={() => setActiveIndex(index)}
+                  onFocus={() => setActiveIndex(index)}
+                  onSelect={(event, metaData) => handleSelect(metaData, onItemSelected, disclosureManager)}
+                >
+                  {searchItem(result)}
+                </Item>
+              );
+            })
           }
         </InfiniteList>
       )}

@@ -15,6 +15,10 @@
     padding-top: 0.7143rem;
   }
 
+  .is-active {
+    background-color: lighten(#ebf6fd, 2%);
+  }
+
   .title {
     color: #1c1f21;
     font-size: 1.1428571428571428rem;
