@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Keyboard a11y for site search
 
 6.4.0 - (September 19, 2019)
 ----------
