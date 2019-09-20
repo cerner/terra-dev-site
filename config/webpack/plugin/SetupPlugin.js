@@ -4,7 +4,6 @@ const path = require('path');
 const rehypePrism = require('@mapbox/rehype-prism');
 const rehypeSlug = require('rehype-slug');
 const rehypeUrl = require('rehype-urls');
-const remarkPlugin = require('../../../scripts/remark/plugin');
 
 /**
  * Updates the webpack options with defaults that terra-dev-site requires.
@@ -19,13 +18,13 @@ class SetupPlugin {
     const production = compiler.options.mode === 'production';
     const processPath = process.cwd();
 
-    const mdxUse = [{
+    const babelLoader = {
       loader: 'babel-loader',
       options: {
         rootMode: 'upward', // needed to correctly resolve babel's config root in mono-repos
       },
-    },
-    {
+    };
+    const mdxLoader = {
       loader: '@mdx-js/loader',
       options: {
         rehypePlugins: [
@@ -39,11 +38,9 @@ class SetupPlugin {
             return url.href;
           }],
         ],
-        remarkPlugins: [
-          remarkPlugin,
-        ],
+
       },
-    }];
+    };
 
     // MODULE
     // Remove raw markdown rule if found.
@@ -54,7 +51,10 @@ class SetupPlugin {
 
     compiler.options.module.rules.push({
       test: /\.mdx$/,
-      use: mdxUse,
+      use: [
+        babelLoader,
+        mdxLoader,
+      ],
     }, {
       test: /\.md$/,
       oneOf: [
@@ -65,11 +65,37 @@ class SetupPlugin {
             /dev-site-config.*\/contentConfig\.js$/,
             /\.mdx?$/,
           ],
-          use: mdxUse,
+          use: [
+            babelLoader,
+            mdxLoader,
+          ],
         },
         {
           use: 'raw-loader',
         },
+      ],
+    }, {
+      test: /\.jsx?$/,
+      resourceQuery: /codeblock/,
+      use: [
+        babelLoader,
+        mdxLoader,
+        'codeblockLoader',
+      ],
+    }, {
+      test: /\.jsx?$/,
+      resourceQuery: /example/,
+      use: [
+        babelLoader,
+        'exampleLoader',
+      ],
+    }, {
+      test: /\.json$/,
+      type: 'javascript/auto',
+      resourceQuery: /dev-site-package/,
+      use: [
+        babelLoader,
+        'packageLoader',
       ],
     });
 
@@ -79,6 +105,11 @@ class SetupPlugin {
     // RESOLVE
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
     compiler.options.resolve.modules.unshift(devSiteConfigPath);
+
+    compiler.options.resolveLoader.modules = [
+      'node_modules',
+      path.resolve(__dirname, '..', 'loaders'),
+    ];
 
     new HtmlWebpackPlugin({
       filename: '404.html',
