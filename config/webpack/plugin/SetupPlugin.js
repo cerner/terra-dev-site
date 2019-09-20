@@ -75,19 +75,18 @@ class SetupPlugin {
         },
       ],
     }, {
-      test: /\.jsx?$/,
-      resourceQuery: /codeblock/,
+      resourceQuery: /dev-site-codeblock/,
+      type: 'javascript/auto',
       use: [
         babelLoader,
         mdxLoader,
-        'codeblockLoader',
+        'devSiteCodeblock',
       ],
     }, {
-      test: /\.jsx?$/,
-      resourceQuery: /example/,
+      resourceQuery: /dev-site-example/,
       use: [
         babelLoader,
-        'exampleLoader',
+        'devSiteExample',
       ],
     }, {
       test: /\.json$/,
@@ -95,7 +94,7 @@ class SetupPlugin {
       resourceQuery: /dev-site-package/,
       use: [
         babelLoader,
-        'packageLoader',
+        'devSitePackage',
       ],
     });
 

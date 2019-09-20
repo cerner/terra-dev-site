@@ -15,7 +15,7 @@ const loader = async function loader() {
     const code = [
       'import React from \'react\';',
       `import Example from '${exampleSource}';`,
-      `import Code from '${sourcePath}?codeblock';`,
+      `import Code from '${sourcePath}?dev-site-codeblock';`,
       'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\'',
       '',
       `export default () => (<ExampleTemplate title="${startCase(parsedResourcePath.name)}" example={<Example />} exampleSrc={<Code />} />);`,
