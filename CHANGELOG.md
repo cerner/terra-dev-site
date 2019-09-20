@@ -6,6 +6,9 @@ Unreleased
 ### Added
 * Added terra-props-table-loader
 
+### Changed
+* Updated WDIO screenshots
+
 6.4.0 - (September 19, 2019)
 ----------
 ### Added
