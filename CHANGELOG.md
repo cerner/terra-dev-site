@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated WDIO screenshots
 
 6.4.0 - (September 19, 2019)
 ----------
