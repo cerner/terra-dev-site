@@ -6,6 +6,11 @@ Unreleased
 ### Added
 * Added terra-props-table-loader
 
+6.4.0 - (September 19, 2019)
+----------
+### Added
+* Added en-CA translations.
+
 6.3.0 - (September 16, 2019)
 ----------
 ### Changed
