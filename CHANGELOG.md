@@ -6,6 +6,9 @@ Unreleased
 ### Added
 * Keyboard a11y for site search
 
+### Changed
+* Updated WDIO screenshots
+
 6.4.0 - (September 19, 2019)
 ----------
 ### Added
