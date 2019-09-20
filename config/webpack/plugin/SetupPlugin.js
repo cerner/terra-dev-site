@@ -32,7 +32,7 @@ class SetupPlugin {
           [rehypePrism, { ignoreMissing: true }],
           [rehypeUrl, (url) => {
             // Re-write relative urls to include public path.
-            if (!url.protocol && url.pathname && url.pathname.startsWith('/')) {
+            if (!url.protocol && url.pathname && url.pathname.startsWith('/') && this.publicPath.length > 1) {
               return `${this.publicPath}${url.pathname}`;
             }
             return url.href;
