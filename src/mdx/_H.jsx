@@ -16,7 +16,7 @@ const propTypes = {
 
 const H = ({ Tag, props: componentProps }) => (
   <Tag {...componentProps} className={[cx(Tag), componentProps.className].join(' ')}>
-    <a aria-hidden="true" href={`#${componentProps.id}`} className={cx('a', 'anchor')}>
+    <a aria-hidden="true" href={`#${componentProps.id}`} tabIndex="-1" className={cx('a', 'anchor')}>
       <span className={cx('icon', 'icon-link')} />
     </a>
     { componentProps.children }

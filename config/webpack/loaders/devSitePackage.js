@@ -9,7 +9,13 @@ const loader = async function loader(content) {
     'import React from \'react\';',
     'import NpmBadge from \'terra-dev-site/lib/loader-components/_NpmBadge\'',
     '',
-    `export const Badge = () => (<NpmBadge packageName="${json.name}" packageVersion="${json.version}" />)`,
+    `export const Badge = ({ url }) => (
+      <NpmBadge
+        name="${json.name}"
+        version="${json.version}"
+        url={url}
+      />
+    )`,
   ];
 
   return callback(null, code.join('\n'));

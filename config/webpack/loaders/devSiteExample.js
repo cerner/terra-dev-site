@@ -18,7 +18,14 @@ const loader = async function loader() {
       `import Code from '${sourcePath}?dev-site-codeblock';`,
       'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\'',
       '',
-      `export default () => (<ExampleTemplate title="${startCase(parsedResourcePath.name)}" example={<Example />} exampleSrc={<Code />} />);`,
+      `export default ({ title, description }) => (
+        <ExampleTemplate
+          title={ title || '${startCase(parsedResourcePath.name)}'}
+          description={description}
+          example={<Example />}
+          exampleSrc={<Code />}
+        />
+      );`,
     ];
 
     return callback(null, code.join('\n'));

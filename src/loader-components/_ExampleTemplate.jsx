@@ -18,6 +18,10 @@ const propTypes = {
    * The example title.
    */
   title: PropTypes.string,
+  /**
+   * The example description.
+   */
+  description: PropTypes.node,
 };
 
 class ExampleTemplate extends React.Component {
@@ -46,6 +50,7 @@ class ExampleTemplate extends React.Component {
       example,
       exampleSrc,
       title,
+      description,
     } = this.props;
 
     const { isExpanded, isBackgroundTransparent } = this.state;
@@ -70,6 +75,12 @@ class ExampleTemplate extends React.Component {
           )}
         {/* eslint-disable react/forbid-dom-props */}
         <div className={cx('content')} style={dynamicContentStyle}>
+          {description
+            && (
+            <div className={cx('description')}>
+              {description}
+            </div>
+            )}
           {example}
         </div>
         {/* eslint-enable react/forbid-dom-props */}

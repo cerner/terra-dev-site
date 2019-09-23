@@ -38,6 +38,9 @@ const navConfig = {
       path: '/test',
       text: 'Test',
       pageTypes: ['test'],
+      capabilities: {
+        devTools: true,
+      },
     }],
   },
 };
