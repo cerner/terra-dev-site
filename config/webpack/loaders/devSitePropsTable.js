@@ -73,10 +73,11 @@ const propDefaultValue = (value) => {
  */
 const loader = async function loader() {
   // Find src
-  const parsedResourcePath = path.parse(this.resourcePath);
-  const originalSource = path.join(parsedResourcePath.dir.replace(/\/lib\//, '/src/'), parsedResourcePath.name);
-  const callback = this.async();
+  const resourcePath = this.resourcePath.replace('/lib/', '/src/');
+  const parsedResourcePath = path.parse(resourcePath);
+  const originalSource = path.join(parsedResourcePath.dir, parsedResourcePath.name);
 
+  const callback = this.async();
   // ensure src exists
   this.resolve('', originalSource, async (err, result) => {
     if (err) {
@@ -93,7 +94,7 @@ const loader = async function loader() {
     try {
       parsedProps = reactDocs.parse(srcFile);
     } catch (e) {
-      return callback(e);
+      return callback(`Could not convert file to props table:\n${result}\n${e}`);
     }
 
     // Retrieve mdx options

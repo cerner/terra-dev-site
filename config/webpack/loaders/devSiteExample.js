@@ -9,8 +9,10 @@ const loader = async function loader() {
   const callback = this.async();
 
   const exampleSource = this.resourcePath;
-  const parsedResourcePath = path.parse(this.resourcePath);
-  const originalSource = path.join(parsedResourcePath.dir.replace(/\/lib\//, '/src/'), parsedResourcePath.name);
+  // Find src
+  const resourcePath = exampleSource.replace('/lib/', '/src/');
+  const parsedResourcePath = path.parse(resourcePath);
+  const originalSource = path.join(parsedResourcePath.dir, parsedResourcePath.name);
 
   this.resolve('', originalSource, (err, result) => {
     const sourcePath = result || exampleSource;
