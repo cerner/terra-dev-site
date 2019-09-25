@@ -1,6 +1,9 @@
-// const { getOptions } = require('loader-utils');
 
-// Don't use an arrow function
+/**
+ * Generate react components based off the package.json file
+ * Don't use an arrow function
+ * @param {*} content the json file
+ */
 const loader = async function loader(content) {
   const callback = this.async();
 
@@ -16,9 +19,9 @@ const loader = async function loader(content) {
         url={url}
       />
     )`,
-  ];
+  ].join('\n');
 
-  return callback(null, code.join('\n'));
+  return callback(null, code);
 };
 
 module.exports = loader;

@@ -1,8 +1,10 @@
-// const { getOptions } = require('loader-utils');
 const path = require('path');
 const startCase = require('lodash.startcase');
 
-// Don't use an arrow function
+/**
+ * Generate the example with the supplied file.
+ * Don't use an arrow function
+ */
 const loader = async function loader() {
   const callback = this.async();
 
@@ -26,9 +28,9 @@ const loader = async function loader() {
           exampleSrc={<Code />}
         />
       );`,
-    ];
+    ].join('\n');
 
-    return callback(null, code.join('\n'));
+    return callback(null, code);
   });
 };
 

@@ -39,6 +39,11 @@ Terra.describeViewports('mdx', ['huge'], () => {
     Terra.validates.element('scss syntax');
   });
 
+  it('validates inline syntax', () => {
+    browser.url('/raw/test/terra-dev-site/syntax-highlighting/inline');
+    Terra.validates.element('inline syntax');
+  });
+
   it('renders mdx', () => {
     browser.url('/raw/test/terra-dev-site/mdx');
     Terra.validates.element('mdx');

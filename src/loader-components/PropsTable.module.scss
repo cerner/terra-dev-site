@@ -1,0 +1,17 @@
+@import '../mdx/MarkdownTags.module';
+
+:local {
+  .required {
+    color: #d53040;
+  }
+
+  .props-tr {
+    vertical-align: top;
+  }
+
+  .props-td {
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+}

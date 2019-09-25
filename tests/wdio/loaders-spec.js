@@ -23,4 +23,12 @@ Terra.describeViewports('loaders', ['huge'], () => {
     browser.url('/raw/test/terra-dev-site/loaders/package');
     Terra.validates.element('package');
   });
+
+  it('loads a props table', () => {
+    const viewport = browser.getViewportSize();
+    viewport.height = 2000;
+    browser.setViewportSize(viewport);
+    browser.url('/raw/test/terra-dev-site/loaders/props-table');
+    Terra.validates.element('package');
+  });
 });

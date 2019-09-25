@@ -1,34 +1,34 @@
 :local(.markdown) {
-  height: 100%;
-  overflow: auto;
-  padding: 1.714rem;
-  position: relative;
   color: inherit;
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
   font-size: 16px;
+  height: 100%;
   line-height: 1.5;
   list-style: disc outside none;
   margin-bottom: 1.25rem;
+  overflow: auto;
+  padding: 1.714rem;
+  position: relative;
   text-size-adjust: 100%;
   word-wrap: break-word;
 
-  &:before {
-    content: "";
+  &::before {
+    content: '';
     display: table;
   }
 
-  &:after {
+  &::after {
     clear: both;
-    content: "";
+    content: '';
     display: table;
   }
 
-  &>:first-child {
-    margin-top: 0!important;
+  >:first-child {
+    margin-top: 0 !important;
   }
 
-  &>:last-child {
-    margin-bottom: 0!important;
+  >:last-child {
+    margin-bottom: 0 !important;
   }
 
   // Prism classes, cannot be class modules

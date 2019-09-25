@@ -24,22 +24,25 @@ class SetupPlugin {
         rootMode: 'upward', // needed to correctly resolve babel's config root in mono-repos
       },
     };
+
+    const mdxOptions = {
+      rehypePlugins: [
+        // Add id's to h-tags
+        rehypeSlug,
+        // Don't fail on missing languages
+        [rehypePrism, { ignoreMissing: true }],
+        [rehypeUrl, (url) => {
+          // Re-write relative urls to include public path.
+          if (!url.protocol && url.pathname && url.pathname.startsWith('/') && this.publicPath.length > 1) {
+            return `${this.publicPath}${url.pathname}`;
+          }
+          return url.href;
+        }],
+      ],
+    };
     const mdxLoader = {
       loader: '@mdx-js/loader',
-      options: {
-        rehypePlugins: [
-          rehypeSlug,
-          [rehypePrism, { ignoreMissing: true }],
-          [rehypeUrl, (url) => {
-            // Re-write relative urls to include public path.
-            if (!url.protocol && url.pathname && url.pathname.startsWith('/') && this.publicPath.length > 1) {
-              return `${this.publicPath}${url.pathname}`;
-            }
-            return url.href;
-          }],
-        ],
-
-      },
+      options: mdxOptions,
     };
 
     // MODULE
@@ -95,6 +98,17 @@ class SetupPlugin {
       use: [
         babelLoader,
         'devSitePackage',
+      ],
+    }, {
+      resourceQuery: /dev-site-props-table/,
+      use: [
+        babelLoader,
+        {
+          loader: 'devSitePropsTable',
+          options: {
+            mdx: mdxOptions,
+          },
+        },
       ],
     });
 
