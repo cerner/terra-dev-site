@@ -2,8 +2,8 @@ jest.mock('html-webpack-plugin');
 jest.mock('../../../../scripts/generate-app-config/generateAppConfig');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const generateAppConfig = require('../../../../scripts/generate-app-config/generateAppConfig');
-const GeneratePlugin = require('../../../../config/webpack/plugin/GeneratePlugin');
+const generateAppConfig = require('../../../../../scripts/generate-app-config/generateAppConfig');
+const GeneratePlugin = require('../../../../../config/webpack/plugin/GeneratePlugin');
 
 describe('TerraDevSiteGeneratePlugin', () => {
   it('sets up member variables', () => {

@@ -19,6 +19,22 @@ Terra.describeViewports('loaders', ['huge'], () => {
     Terra.validates.element('example');
   });
 
+  it('Reveals the examples code', () => {
+    browser.click('[class*=code-toggle]');
+    // Reliably causes on hover styling of button to deactivate
+    browser.click('h1=Examples');
+
+    Terra.validates.screenshot('Reveals the examples code');
+  });
+
+  it('Hides the examples code again', () => {
+    browser.click('[class*=code-toggle]');
+    // Reliably causes on hover styling of button to deactivate
+    browser.click('h1=Examples');
+
+    Terra.validates.screenshot('Hides the examples code again');
+  });
+
   it('loads a package', () => {
     browser.url('/raw/test/terra-dev-site/loaders/package');
     Terra.validates.element('package');

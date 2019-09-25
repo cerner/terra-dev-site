@@ -1,7 +1,7 @@
 jest.mock('html-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const SetupPlugin = require('../../../../config/webpack/plugin/SetupPlugin');
+const SetupPlugin = require('../../../../../config/webpack/plugin/SetupPlugin');
 
 const processPath = process.cwd();
 

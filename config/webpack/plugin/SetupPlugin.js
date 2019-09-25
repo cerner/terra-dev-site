@@ -79,6 +79,7 @@ class SetupPlugin {
       ],
     }, {
       resourceQuery: /dev-site-codeblock/,
+      // this bypasses the default json loader
       type: 'javascript/auto',
       use: [
         babelLoader,
@@ -93,6 +94,7 @@ class SetupPlugin {
       ],
     }, {
       test: /\.json$/,
+      // this bypasses the default json loader
       type: 'javascript/auto',
       resourceQuery: /dev-site-package/,
       use: [
@@ -119,11 +121,14 @@ class SetupPlugin {
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
     compiler.options.resolve.modules.unshift(devSiteConfigPath);
 
+    // RESOLVE LOADER
+    // add the path to search for dev site loaders
     compiler.options.resolveLoader.modules = [
       'node_modules',
       path.resolve(__dirname, '..', 'loaders'),
     ];
 
+    // generate the 404 page.
     new HtmlWebpackPlugin({
       filename: '404.html',
       template: path.join(__dirname, '..', '..', '..', 'lib', '404.html'),
