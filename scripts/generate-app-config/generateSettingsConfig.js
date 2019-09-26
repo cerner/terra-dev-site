@@ -11,7 +11,7 @@ const generateUtilitiesConfig = (appConfig) => {
     defaultTheme: appConfig.defaultTheme,
     themes: appConfig.themes || {},
     defaultLocale: appConfig.defaultLocale,
-    locales: appConfig.locales || {},
+    locales: appConfig.locales || [],
     defaultDirection: appConfig.defaultDirection,
     directions: appConfig.bidirectional ? ['ltr', 'rtl'] : [],
   };
