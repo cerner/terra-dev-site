@@ -1,6 +1,6 @@
-jest.mock('../../../../scripts/generate-app-config/loadSiteConfig');
-jest.mock('../../../../config/webpack/plugin/GeneratePlugin');
-jest.mock('../../../../config/webpack/plugin/SetupPlugin');
+jest.mock('../../../../../scripts/generate-app-config/loadSiteConfig');
+jest.mock('../../../../../config/webpack/plugin/GeneratePlugin');
+jest.mock('../../../../../config/webpack/plugin/SetupPlugin');
 // eslint-disable-next-line no-unused-vars
 jest.mock('webpack', () => ({ DefinePlugin: jest.fn(() => ({ apply: _compiler => ({}) })) }));
 const path = require('path');

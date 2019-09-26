@@ -5,6 +5,34 @@ const rehypePrism = require('@mapbox/rehype-prism');
 const rehypeSlug = require('rehype-slug');
 const rehypeUrl = require('rehype-urls');
 
+const babelLoader = {
+  loader: 'babel-loader',
+  options: {
+    rootMode: 'upward', // needed to correctly resolve babel's config root in mono-repos
+  },
+};
+
+const mdxOptions = (publicPath) => ({
+  rehypePlugins: [
+    // Add id's to h-tags
+    rehypeSlug,
+    // Don't fail on missing languages
+    [rehypePrism, { ignoreMissing: true }],
+    [rehypeUrl, (url) => {
+      // Re-write relative urls to include public path.
+      if (!url.protocol && url.pathname && url.pathname.startsWith('/') && publicPath.length > 1) {
+        return `${publicPath}${url.pathname}`;
+      }
+      return url.href;
+    }],
+  ],
+});
+
+const mdxLoader= (publicPath) => ({
+  loader: '@mdx-js/loader',
+  options: mdxOptions(publicPath),
+});
+
 /**
  * Updates the webpack options with defaults that terra-dev-site requires.
  */
@@ -18,39 +46,14 @@ class SetupPlugin {
     const production = compiler.options.mode === 'production';
     const processPath = process.cwd();
 
-    const babelLoader = {
-      loader: 'babel-loader',
-      options: {
-        rootMode: 'upward', // needed to correctly resolve babel's config root in mono-repos
-      },
-    };
-
-    const mdxOptions = {
-      rehypePlugins: [
-        // Add id's to h-tags
-        rehypeSlug,
-        // Don't fail on missing languages
-        [rehypePrism, { ignoreMissing: true }],
-        [rehypeUrl, (url) => {
-          // Re-write relative urls to include public path.
-          if (!url.protocol && url.pathname && url.pathname.startsWith('/') && this.publicPath.length > 1) {
-            return `${this.publicPath}${url.pathname}`;
-          }
-          return url.href;
-        }],
-      ],
-    };
-    const mdxLoader = {
-      loader: '@mdx-js/loader',
-      options: mdxOptions,
-    };
-
     // MODULE
     // Remove raw markdown rule if found.
     const mdIndex = compiler.options.module.rules.findIndex((rule) => rule.test.toString && rule.test.toString() === '/\\.md$/');
     if (mdIndex > -1) {
       compiler.options.module.rules.splice(mdIndex, 1);
     }
+
+
 
     compiler.options.module.rules.push({
       test: /\.mdx$/,

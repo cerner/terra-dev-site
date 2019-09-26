@@ -18,6 +18,11 @@ describe('TerraDevSiteSetupPlugin', () => {
         resolve: {
           modules: [],
         },
+        resolveLoader: {
+        },
+        module: {
+          rules: [],
+        },
         devServer: {},
       },
     };
@@ -35,6 +40,12 @@ describe('TerraDevSiteSetupPlugin', () => {
       resolve: {
         modules: [path.join(processPath, 'dev-site-config')],
       },
+      resolveLoader: {
+        modules: [
+          'node_modules',
+          path.resolve(process.cwd(), 'config', 'webpack', 'loaders'),
+        ],
+      },
       devServer: {
         historyApiFallback: true,
       },
@@ -51,6 +62,11 @@ describe('TerraDevSiteSetupPlugin', () => {
         },
         resolve: {
           modules: [],
+        },
+        resolveLoader: {
+        },
+        module: {
+          rules: [],
         },
       },
     };
@@ -70,6 +86,11 @@ describe('TerraDevSiteSetupPlugin', () => {
         },
         resolve: {
           modules: [],
+        },
+        resolveLoader: {
+        },
+        module: {
+          rules: [],
         },
         devtool: 'derp',
       },

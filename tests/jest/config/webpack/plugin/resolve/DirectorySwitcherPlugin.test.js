@@ -1,6 +1,6 @@
 const path = require('path');
 
-const DirectorySwitcherPlugin = require('../../../../../config/webpack/plugin/resolve/DirectorySwitcherPlugin');
+const DirectorySwitcherPlugin = require('../../../../../../config/webpack/plugin/resolve/DirectorySwitcherPlugin');
 
 describe('DirectorySwitcherPlugin', () => {
   it('generates the dir structure', () => {

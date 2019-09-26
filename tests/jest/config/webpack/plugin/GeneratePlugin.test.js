@@ -1,5 +1,5 @@
 jest.mock('html-webpack-plugin');
-jest.mock('../../../../scripts/generate-app-config/generateAppConfig');
+jest.mock('../../../../../scripts/generate-app-config/generateAppConfig');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const generateAppConfig = require('../../../../../scripts/generate-app-config/generateAppConfig');
