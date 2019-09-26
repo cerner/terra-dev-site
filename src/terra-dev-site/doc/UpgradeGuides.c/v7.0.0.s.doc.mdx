@@ -1,0 +1,34 @@
+# v6.0.0 Upgrade Guide
+
+This document will provide information on upgrading from Terra Dev Site `6.x.x` to `7.0.0`.
+
+## Reasoning for major version bump
+
+With stricter markdown parsing, existing dev-sites may fail with this update.
+
+## MDX loader
+
+Markdown is now loaded at build time rather than interpreted at run time. The mdx loader that is used is more strict that the 'marked' library previously used.
+
+The MDX loader requires closing tags. For example the before markdown would fail because the img tag was not closed.
+
+```diff
+- <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/master/terra.png" alt="terra logo" />
++ <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/master/terra.png" alt="terra logo" >
+```
+
+MDX also has a bug where a comment cannot directly follow a closing tag.
+
+```diff
+-<h1>
+-hi mom
+-</h1>
+-<!-- AUTO-GENERATED-CONTENT:END -->
+
++<h1>
++hi mom
++</h1>
+
++<!-- AUTO-GENERATED-CONTENT:END -->
+
+```

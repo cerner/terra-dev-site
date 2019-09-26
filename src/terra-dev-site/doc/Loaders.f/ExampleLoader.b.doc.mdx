@@ -1,0 +1,32 @@
+import Example from '../../test/loaders/example?dev-site-example';
+
+# Example Loader
+
+The Example loader will take the passed in file, add it to an example template then location the source for the file in the src folder and render the example output.
+The file must be a return a react component that has no required props to render.
+
+## Resource query
+
+`?dev-site-example`
+
+## Props
+
+Prop | type
+--- | ---
+title | string
+description | string
+
+## Example
+
+```jsx
+import Example from './example?dev-site-example';
+
+<Example />
+
+// A custom title and description can be added.
+<Example title="Custom Title" description="Custom description" />
+```
+
+## Rendered Example
+
+<Example />

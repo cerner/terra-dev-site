@@ -1,0 +1,37 @@
+import Codeblock from '../../test/loaders/example?dev-site-codeblock'
+
+# Codeblock Loader
+
+The codeblock loader will take the passed in file and return an mdx react component containing a codeblock with the source of the passed in file and a type of the file extension.
+
+## Resource query
+
+`?dev-site-codeblock`
+
+## Example
+
+```jsx
+import Codeblock from './example?dev-site-codeblock';
+
+< Codeblock />
+```
+
+### Markdown output
+
+```md
+```js
+import React from 'react';
+
+const TagComp = () => (
+  <h1>
+    I am a test
+  </h1>
+);
+
+export default TagComp;
+'''
+```
+
+## Rendered codeblock
+
+<Codeblock />

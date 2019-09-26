@@ -28,7 +28,7 @@ const mdxOptions = (publicPath) => ({
   ],
 });
 
-const mdxLoader= (publicPath) => ({
+const getMdxLoader = (publicPath) => ({
   loader: '@mdx-js/loader',
   options: mdxOptions(publicPath),
 });
@@ -53,7 +53,7 @@ class SetupPlugin {
       compiler.options.module.rules.splice(mdIndex, 1);
     }
 
-
+    const mdxLoader = getMdxLoader(this.publicPath);
 
     compiler.options.module.rules.push({
       test: /\.mdx$/,
@@ -111,7 +111,7 @@ class SetupPlugin {
         {
           loader: 'devSitePropsTable',
           options: {
-            mdx: mdxOptions,
+            mdx: mdxOptions(this.publicPath),
           },
         },
       ],

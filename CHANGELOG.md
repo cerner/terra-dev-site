@@ -3,6 +3,10 @@ Changelog
 
 Unreleased
 ----------
+
+### Breaking
+* Markdown is now loaded at build time through the mdx loader which is more strict than 'marked' was.
+
 ### Changed
 * Updated WDIO screenshots
 

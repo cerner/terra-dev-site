@@ -17,9 +17,11 @@ const ContentLoaded = ({ children, className }) => {
       return;
     }
     const elementName = window.location.hash.slice(1);
-    const element = document.getElementsByName(elementName);
-    if (element[0]) {
-      element[0].scrollIntoView();
+    console.log('elementName', elementName);
+    const element = document.getElementById(elementName);
+    console.log('element', element);
+    if (element) {
+      element.scrollIntoView();
     }
   });
   return (

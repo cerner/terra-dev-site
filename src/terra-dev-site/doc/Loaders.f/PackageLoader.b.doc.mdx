@@ -1,0 +1,31 @@
+import { Badge } from '../../test/loaders/pretendPackage.json?dev-site-package';
+
+# Package Loader
+
+The Package Loader will take the passed in json file and return a set of react components including a badge component with a customizable url.
+The file must be a json file.
+
+## Resource query
+
+`?dev-site-package`
+
+## Badge Props
+
+Prop | type
+--- | ---
+url | string
+
+## Badge Example
+
+```jsx
+import { Badge } from './pretendPackage.json?dev-site-package';
+
+<Badge />
+
+<Badge url="https://www.google.com"/>
+```
+## Rendered Example
+
+<Badge />
+
+<Badge url="https://www.google.com"/>
