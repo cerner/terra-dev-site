@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * component name.
+   * The props table rows.
    */
   rows: PropTypes.arrayOf(
     PropTypes.shape({

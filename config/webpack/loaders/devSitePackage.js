@@ -1,4 +1,3 @@
-
 /**
  * Generate react components based off the package.json file
  * Don't use an arrow function

@@ -83,7 +83,6 @@ class ExampleTemplate extends React.Component {
             )}
           {example}
         </div>
-        {/* eslint-enable react/forbid-dom-props */}
         {exampleSrc
           && (
           <div className={cx('footer')}>

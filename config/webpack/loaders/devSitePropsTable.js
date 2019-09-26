@@ -1,7 +1,7 @@
 const { getOptions } = require('loader-utils');
 const mdx = require('@mdx-js/mdx');
 const reactDocs = require('react-docgen');
-const path = require('path');
+const findSource = require('../loaderUtils/findSource');
 
 /**
  * Create an inline mdx react component.
@@ -38,7 +38,8 @@ const propType = (type, options, callback) => {
   let { value } = type;
 
   if (type.name === 'enum') {
-    value = Object.values(value).map((obj) => obj.value);
+    // strip single quotes.
+    value = Object.values(value).map((obj) => obj.value.replace(/'/gi, ''));
   }
 
   const val = [
@@ -73,13 +74,11 @@ const propDefaultValue = (value) => {
  */
 const loader = async function loader() {
   // Find src
-  const resourcePath = this.resourcePath.replace('/lib/', '/src/');
-  const parsedResourcePath = path.parse(resourcePath);
-  const originalSource = path.join(parsedResourcePath.dir, parsedResourcePath.name);
+  const { source } = findSource(this.resourcePath);
 
   const callback = this.async();
   // ensure src exists
-  this.resolve('', originalSource, async (err, result) => {
+  this.resolve('', source, async (err, result) => {
     if (err) {
       return callback(err);
     }
