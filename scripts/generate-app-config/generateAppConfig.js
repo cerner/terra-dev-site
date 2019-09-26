@@ -37,7 +37,7 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
  * } param0
  */
 const generateAppConfig = ({
-  siteConfig, mode, prefix, apps = [], verbose = false, basename, resolveExtensions,
+  siteConfig, mode, prefix, apps = [], verbose = false, basename, resolveExtensions = [],
 }) => {
   const imports = new ImportAggregator();
 

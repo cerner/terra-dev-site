@@ -5,6 +5,7 @@ Unreleased
 ----------
 ### Changed
 * Updated WDIO screenshots
+* Enable/Disable BiDi settings based on the app configuration.
 
 6.4.0 - (September 19, 2019)
 ----------
