@@ -5,9 +5,16 @@ import Tag from './_Tag';
 import H from './_H';
 
 const propTypes = {
+  /**
+   * Children are children.
+   */
   children: PropTypes.node,
 };
 
+/**
+ * The components to substitute in for the mdx components
+ * We do this to be able to use css modules to style the tags.
+ */
 const components = {
   a: props => (Tag({ Tag: 'a', props })),
   blockquote: props => (Tag({ Tag: 'blockquote', props })),
@@ -37,6 +44,9 @@ const components = {
   ul: props => (Tag({ Tag: 'ul', props })),
 };
 
+/**
+ * The MDX provider to have MDX use our base react components.
+ */
 const TerraMDXProvider = ({ children }) => (
   <MDXProvider components={components}>
     {children}
