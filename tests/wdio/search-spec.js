@@ -1,6 +1,7 @@
 Terra.describeViewports('search', ['tiny', 'huge'], () => {
   it('checks accessibility', () => {
     browser.url('/single-page-test');
+    Terra.hideInputCaret('body');
     browser.click('[class*="Extension-module__extension"]');
     Terra.validates.element({ selector: '#root' });
   });
