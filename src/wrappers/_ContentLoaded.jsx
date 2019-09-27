@@ -23,7 +23,7 @@ const ContentLoaded = ({ children, className }) => {
     if (element) {
       element.scrollIntoView();
     }
-  });
+  }, []);
   return (
     <div
       id="site"

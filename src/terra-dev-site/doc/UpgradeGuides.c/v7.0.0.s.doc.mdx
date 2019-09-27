@@ -13,8 +13,8 @@ Markdown is now loaded at build time rather than interpreted at run time. The md
 The MDX loader requires closing tags. For example the before markdown would fail because the img tag was not closed.
 
 ```diff
-- <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/master/terra.png" alt="terra logo" />
-+ <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/master/terra.png" alt="terra logo" >
+- <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/master/terra.png" alt="terra logo" >
++ <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/master/terra.png" alt="terra logo" />
 ```
 
 MDX also has a bug where a comment cannot directly follow a closing tag.

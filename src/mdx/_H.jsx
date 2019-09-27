@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './MarkdownTags.module.scss';
@@ -24,14 +24,26 @@ const propTypes = {
  * A component to represent an H tag for MDX.
  * @param {{ Tag, props: componentProps }} props
  */
-const H = ({ Tag, props: componentProps }) => (
-  <Tag {...componentProps} className={[cx(Tag), componentProps.className].join(' ')}>
-    <a aria-hidden="true" href={`#${componentProps.id}`} tabIndex="-1" className={cx('a', 'anchor')}>
-      <span className={cx('icon', 'icon-link')} />
-    </a>
-    { componentProps.children }
-  </Tag>
-);
+const H = ({ Tag, props: componentProps }) => {
+  const aRef = useRef(null);
+  useEffect(() => {
+    if (!window.location || window.location.length < 2) {
+      return;
+    }
+    const requestedId = window.location.hash.slice(1);
+    if (componentProps.id === requestedId) {
+      aRef.current.scrollIntoView();
+    }
+  }, [componentProps.id]);
+  return (
+    <Tag {...componentProps} className={[cx(Tag), componentProps.className].join(' ')}>
+      <a ref={aRef} aria-hidden="true" href={`#${componentProps.id}`} tabIndex="-1" className={cx('a', 'anchor')}>
+        <span className={cx('icon', 'icon-link')} />
+      </a>
+      { componentProps.children }
+    </Tag>
+  );
+};
 
 H.propTypes = propTypes;
 
