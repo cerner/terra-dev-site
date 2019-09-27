@@ -4,7 +4,6 @@ const findSource = require('../loaderUtils/findSource');
 /**
  * Load the contents of the file into the codeblock
  * This loader expects to be chained with the mdx loader.
- * @param {*} content
  */
 const loader = async function loader() {
   const callback = this.async();

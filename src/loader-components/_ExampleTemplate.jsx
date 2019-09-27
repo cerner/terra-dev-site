@@ -25,6 +25,30 @@ const propTypes = {
 };
 
 class ExampleTemplate extends React.Component {
+  static renderHeader(title) {
+    if (title) {
+      return (
+        <div className={cx('header')}>
+          <h2 className={cx('title')}>
+            {title}
+          </h2>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  static renderDescription(description) {
+    if (description) {
+      return (
+        <div className={cx('description')}>
+          {description}
+        </div>
+      );
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
 
@@ -55,32 +79,11 @@ class ExampleTemplate extends React.Component {
 
     const { isExpanded, isBackgroundTransparent } = this.state;
 
-    let dynamicContentStyle = {};
-
-    if (isBackgroundTransparent) {
-      dynamicContentStyle = {
-        backgroundColor: 'rgba(0, 0, 0, 0)',
-      };
-    }
-
     return (
       <div className={cx('template')}>
-        {title
-          && (
-          <div className={cx('header')}>
-            <h2 className={cx('title')}>
-              {title}
-            </h2>
-          </div>
-          )}
-        {/* eslint-disable react/forbid-dom-props */}
-        <div className={cx('content')} style={dynamicContentStyle}>
-          {description
-            && (
-            <div className={cx('description')}>
-              {description}
-            </div>
-            )}
+        {ExampleTemplate.renderHeader(title)}
+        <div className={cx('content', { 'dynamic-content': isBackgroundTransparent })}>
+          {description}
           {example}
         </div>
         {exampleSrc
@@ -96,11 +99,12 @@ class ExampleTemplate extends React.Component {
                 <span className={cx('chevron-right')} />
               </button>
             </div>
-            <div className={cx('code', { 'is-expanded': isExpanded })} aria-hidden={!isExpanded}>
-              {isExpanded ? (
-                exampleSrc
-              ) : undefined }
-            </div>
+            {isExpanded
+              && (
+              <div className={cx('code', 'is-expanded')}>
+                {exampleSrc}
+              </div>
+              )}
           </div>
           )}
       </div>

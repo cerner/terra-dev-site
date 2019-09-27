@@ -127,8 +127,8 @@ class SetupPlugin {
     // RESOLVE LOADER
     // add the path to search for dev site loaders
     compiler.options.resolveLoader.modules = [
-      'node_modules',
       path.resolve(__dirname, '..', 'loaders'),
+      'node_modules',
     ];
 
     // generate the 404 page.

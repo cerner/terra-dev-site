@@ -39,7 +39,7 @@ const propType = (type, options, callback) => {
 
   if (type.name === 'enum') {
     // strip single quotes.
-    value = Object.values(value).map((obj) => obj.value.replace(/'/gi, ''));
+    value = Object.values(value).map((obj) => obj.value.replace(/'/g, ''));
   }
 
   const val = [
@@ -65,7 +65,7 @@ const propDefaultValue = (value) => {
     return 'none';
   }
   // re-escape the string
-  return value.value.replace(/'/gi, '\\\'');
+  return value.value.replace(/'/g, '\\\'');
 };
 
 /**
