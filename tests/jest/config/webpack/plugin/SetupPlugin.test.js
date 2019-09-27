@@ -42,8 +42,8 @@ describe('TerraDevSiteSetupPlugin', () => {
       },
       resolveLoader: {
         modules: [
-          'node_modules',
           path.resolve(process.cwd(), 'config', 'webpack', 'loaders'),
+          'node_modules',
         ],
       },
       devServer: {
