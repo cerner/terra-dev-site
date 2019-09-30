@@ -2,6 +2,7 @@ Terra.describeViewports('search', ['tiny', 'huge'], () => {
   it('checks accessibility', () => {
     browser.url('/single-page-test');
     browser.click('[class*="Extension-module__extension"]');
+    browser.waitForVisible('[class*="Input-module__form-input"]');
     Terra.hideInputCaret('[class*="Input-module__form-input"]');
     Terra.validates.element({ selector: '#root' });
   });
