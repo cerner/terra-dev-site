@@ -88,6 +88,7 @@ Terra.describeViewports('mdx', ['huge'], () => {
 
   it('validates Images md', () => {
     browser.url('/raw/test/terra-dev-site/markdown/images');
+    browser.pause(3000);// to display image
     Terra.validates.element('md images');
   });
 
