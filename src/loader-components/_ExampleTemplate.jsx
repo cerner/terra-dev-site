@@ -101,7 +101,7 @@ class ExampleTemplate extends React.Component {
             </div>
             {isExpanded
               && (
-              <div className={cx('code', 'is-expanded')}>
+              <div className={cx('code')}>
                 {exampleSrc}
               </div>
               )}

@@ -26,6 +26,7 @@ const propTypes = {
  */
 const H = ({ Tag, props: componentProps }) => {
   const aRef = useRef(null);
+  // This effect is for scrolling the h-tag into view after initial load of the page.
   useEffect(() => {
     if (!window.location || window.location.length < 2) {
       return;
