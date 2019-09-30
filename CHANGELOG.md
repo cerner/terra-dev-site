@@ -9,6 +9,7 @@ Unreleased
 
 ### Changed
 * Updated WDIO screenshots
+* Support MDX syntax in .mdx and .md files.
 
 6.4.0 - (September 19, 2019)
 ----------
