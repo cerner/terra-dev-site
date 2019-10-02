@@ -1,7 +1,5 @@
-# MD
-
-## MD Heading
+# MD Heading
 
 <h2>
-  React Heading
+  React Heading in MD
 </h2>

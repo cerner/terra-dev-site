@@ -65,15 +65,29 @@ class SetupPlugin {
       test: /\.md$/,
       oneOf: [
         {
-          // To preserve previous behaviour, we will only apply mdx to requests issued
-          // from either the content config files or from .md or .mdx files
+          // Use MDX to import any md files imported from an mdx file.
           issuer: [
-            /dev-site-config.*\/contentConfig\.js$/,
             /\.mdx?$/,
           ],
           use: [
             babelLoader,
             mdxLoader,
+          ],
+        },
+        {
+          // Use the marked loader to load any md files included by the content config file.
+          // LOAD USING MDX ON NEXT MAJOR VERSION.
+          issuer: [
+            /dev-site-config.*\/contentConfig\.js$/,
+          ],
+          use: [
+            babelLoader,
+            {
+              loader: 'devSiteMarked',
+              options: {
+                baseUrl: this.publicPath,
+              },
+            },
           ],
         },
         {

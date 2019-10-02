@@ -4,12 +4,12 @@ Changelog
 Unreleased
 ----------
 
-### Breaking
-* Markdown is now loaded at build time through the mdx loader which is more strict than 'marked' was.
-
 ### Changed
-* Updated WDIO screenshots
-* Support MDX syntax in .mdx and .md files.
+* Updated WDIO screenshots.
+* Use a custom loader to load md files at build time.
+
+### Added
+* Support MDX syntax in .mdx files.
 
 6.4.0 - (September 19, 2019)
 ----------
