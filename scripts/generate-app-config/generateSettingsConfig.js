@@ -13,7 +13,7 @@ const generateUtilitiesConfig = (appConfig) => {
     defaultLocale: appConfig.defaultLocale,
     locales: appConfig.locales || [],
     defaultDirection: appConfig.defaultDirection,
-    directions: appConfig.bidirectional ? ['ltr', 'rtl'] : [],
+    directions: ['ltr', 'rtl'],
   };
 
   return {

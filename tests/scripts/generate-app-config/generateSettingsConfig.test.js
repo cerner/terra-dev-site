@@ -12,7 +12,6 @@ describe('settings config', () => {
       themes: {
         'Default Theme': '',
       },
-      bidirectional: true,
       defaultDirection: 'ltr',
       locales: ['en', 'es'],
       defaultLocale: 'en',
@@ -28,29 +27,6 @@ describe('settings config', () => {
         defaultDirection: 'ltr',
         locales: ['en', 'es'],
         defaultLocale: 'en',
-      },
-    };
-
-    const config = generateSettingsConfig(testAppConfig);
-    expect(config).toEqual(expectedSettingsConfig);
-  });
-
-  it('generates settings config without BiDi support', () => {
-    const testAppConfig = {
-      defaultTheme: 'Default Theme',
-      bidirectional: false,
-      defaultDirection: 'rtl',
-      defaultLocale: 'es',
-    };
-
-    const expectedSettingsConfig = {
-      config: {
-        defaultTheme: 'Default Theme',
-        themes: {},
-        directions: [],
-        defaultDirection: 'rtl',
-        locales: [],
-        defaultLocale: 'es',
       },
     };
 

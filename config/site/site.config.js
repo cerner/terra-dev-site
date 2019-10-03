@@ -81,11 +81,6 @@ const siteConfig = {
     /* The default locale of the site. 'en' is the default theme. */
     defaultLocale: 'en',
 
-    /** Indicates if the site supports bidirectionality. If enabled, the directionality
-     * utility will display in the toolbar.
-     */
-    bidirectional: true,
-
     /* The default direction of the site. 'ltr' is the default direction. */
     defaultDirection: 'ltr',
 
