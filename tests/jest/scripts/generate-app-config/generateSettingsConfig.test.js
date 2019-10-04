@@ -1,4 +1,4 @@
-const generateSettingsConfig = require('../../../scripts/generate-app-config/generateSettingsConfig');
+const generateSettingsConfig = require('../../../../scripts/generate-app-config/generateSettingsConfig');
 
 describe('settings config', () => {
   it('returns undefined when app config is not supplied', () => {
