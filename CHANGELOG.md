@@ -6,6 +6,10 @@ Unreleased
 ### Changed
 * Updated WDIO screenshots
 
+### Removed
+* Removed the ability to explicitly configure bidirectionality in app configuration.
+  * Bidirectionality is _always_ supported.
+
 6.4.0 - (September 19, 2019)
 ----------
 ### Added
