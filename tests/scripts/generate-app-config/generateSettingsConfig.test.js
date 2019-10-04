@@ -6,7 +6,7 @@ describe('settings config', () => {
     expect(config).toEqual(undefined);
   });
 
-  it('generates settings config with BiDi support', () => {
+  it('generates settings with BiDi support by default', () => {
     const testAppConfig = {
       defaultTheme: 'Default Theme',
       themes: {
