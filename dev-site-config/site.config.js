@@ -7,8 +7,6 @@ const siteConfig = {
   navConfig,
 
   appConfig: {
-    bidirectional: true,
-
     headHtml: [
       '<script> console.log("Inline head html script") </script>',
       html,

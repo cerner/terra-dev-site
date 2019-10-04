@@ -8,7 +8,7 @@ const configExpectations = processPath => ({
 });
 
 describe('webpack config', () => {
-  it('generates wepack config for dev', () => {
+  it('generates webpack config for dev', () => {
     const config = webpackConfig();
     const processPath = process.cwd();
     expect(config).toEqual(expect.objectContaining(configExpectations(processPath)));
