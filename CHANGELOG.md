@@ -4,6 +4,8 @@ Changelog
 Unreleased
 ----------
 
+6.5.0 - (October 8, 2019)
+----------
 ### Changed
 * Updated WDIO screenshots.
 * Use a custom loader to load md files at build time.
@@ -13,7 +15,7 @@ Unreleased
 
 ### Removed
 * Removed the ability to explicitly configure bidirectionality in app configuration.
-  * Bidirectionality is _always_ supported.
+* Bidirectionality is _always_ supported.
 
 6.4.0 - (September 19, 2019)
 ----------
