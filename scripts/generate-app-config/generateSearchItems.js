@@ -6,7 +6,7 @@ const generateSearchItems = (contentConfig) => {
   const config = Object.entries(content).reduce((acc, [, navItem]) => {
     Object.entries(navItem).map(([, page]) => acc.push({
       title: page.name,
-      tags: page.path.replace(/\//gi, ' '),
+      tags: page.path.replace(/\//g, ' '),
       path: page.path,
     }));
     return acc;

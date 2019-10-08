@@ -3,8 +3,13 @@ Changelog
 
 Unreleased
 ----------
+
 ### Changed
-* Updated WDIO screenshots
+* Updated WDIO screenshots.
+* Use a custom loader to load md files at build time.
+
+### Added
+* Support MDX syntax in .mdx files.
 
 ### Removed
 * Removed the ability to explicitly configure bidirectionality in app configuration.

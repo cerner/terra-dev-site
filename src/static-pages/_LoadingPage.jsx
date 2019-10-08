@@ -13,7 +13,7 @@ const LoadingPage = () => {
       }
     }, 500);
     return () => { isActive = false; };
-  });
+  }, []);
 
   return <LoadingOverlay message="" isOpen={state.isOpen} isAnimated isRelativeToContainer zIndex="6000" />;
 };

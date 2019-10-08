@@ -144,7 +144,7 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   const extensions = resolveExtensions.map((ext) => ext.slice(1));
 
   // the markdown extension is not optional.
-  const ext = [...extensions, 'md'];
+  const ext = [...extensions, 'md', 'mdx'];
 
   // Get the default search patterns for both normal and lerna mono repos.
   const patterns = generatePagesOptions.searchPatterns.reduce((acc, {

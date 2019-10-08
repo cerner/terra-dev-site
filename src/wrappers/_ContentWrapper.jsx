@@ -11,6 +11,7 @@ const propTypes = {
    */
   // eslint-disable-next-line react/forbid-prop-types
   content: PropTypes.object.isRequired,
+
   /**
    * The props to be applied to the content.
    */
@@ -23,7 +24,12 @@ const defaultProps = {
 };
 
 const ContentWrapper = props => (
-  <CodesplitWrapper {...props} fallback={<ContentLoading />} contentWrapper={ContentLoaded} errorWrapper={ContentLoaded} />
+  <CodesplitWrapper
+    {...props}
+    fallback={<ContentLoading />}
+    loadedWrapper={ContentLoaded}
+    errorWrapper={ContentLoaded}
+  />
 );
 
 ContentWrapper.propTypes = propTypes;

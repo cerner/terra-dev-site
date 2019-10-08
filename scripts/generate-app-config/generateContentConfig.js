@@ -53,10 +53,11 @@ const contentRouteItem = (name, routePath, { contentPath, importName, identifier
   const contentProps = { props };
   let content = { contentPath: ContentWrapper, importName: 'ContentWrapper' };
 
-  if (type === 'md') {
+  if (type === 'md' || type === 'mdx') {
     content = { contentPath: MarkdownWrapper, importName: 'MarkdownWrapper' };
-    contentProps.content = routeImporter.addDynamicImport(ImportAggregator.relativePath(contentPath), importName, identifier);
-  } else if (type === 'evidence') {
+  }
+
+  if (type === 'evidence') {
     contentProps.content = routeImporter.addReactLazyImport(TerraScreenshotWrapper);
     contentProps.props = evidenceProps(contentPath, routeImporter);
   } else {

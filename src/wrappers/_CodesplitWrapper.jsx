@@ -23,7 +23,7 @@ const propTypes = {
   /**
    * Component to wrap around loaded content
    */
-  contentWrapper: PropTypes.func,
+  loadedWrapper: PropTypes.func,
 
   /**
    * Component to wrap around errored content
@@ -36,14 +36,14 @@ const defaultProps = {
 };
 
 const CodesplitWrapper = ({
-  content: Content, props, contentWrapper: ContentWrapper, errorWrapper, fallback,
+  content: Content, props, loadedWrapper: LoadedWrapper, errorWrapper, fallback,
 }) => (
   <ContentErrorBoundary errorWrapper={errorWrapper}>
     <Suspense fallback={fallback}>
-      {ContentWrapper ? (
-        <ContentWrapper>
+      {LoadedWrapper ? (
+        <LoadedWrapper>
           <Content {...props} />
-        </ContentWrapper>
+        </LoadedWrapper>
       ) : (
         <Content {...props} />
       )}
