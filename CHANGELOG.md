@@ -4,6 +4,9 @@ Changelog
 Unreleased
 ----------
 
+### Fixed
+* Deployed site relative urls not appropriately generated.
+
 6.5.0 - (October 8, 2019)
 ----------
 ### Changed

@@ -21,7 +21,8 @@ const mdxOptions = (publicPath) => ({
     [rehypeUrl, (url) => {
       // Re-write relative urls to include public path.
       if (!url.protocol && url.pathname && url.pathname.startsWith('/') && publicPath.length > 1) {
-        return `${publicPath}${url.pathname}`;
+        // Remove the first slash from the url.pathname because publicPath always ends with one.
+        return `${publicPath}${url.pathname.slice(1)}`;
       }
       return url.href;
     }],
