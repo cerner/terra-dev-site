@@ -6,6 +6,7 @@ Unreleased
 
 ### Fixed
 * Deployed site relative urls not appropriately generated.
+* Use the static renderDescription method in example template component.
 
 6.5.0 - (October 8, 2019)
 ----------
