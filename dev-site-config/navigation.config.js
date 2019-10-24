@@ -41,6 +41,13 @@ const navConfig = {
       capabilities: {
         devTools: true,
       },
+    }, {
+     path: '/secondary-scroll',
+     text: 'Secondary Scroll Test',
+     pageTypes: ['ss'],
+     capabilities: {
+       devTools: true,
+     },
     }],
   },
 };

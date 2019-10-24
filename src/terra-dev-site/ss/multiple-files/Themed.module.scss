@@ -1,0 +1,13 @@
+:local {
+  .themed {
+    height: 100%;
+    overflow: auto;
+    padding: 24px;
+    position: relative;
+  }
+
+  .themed-block {
+    background-color: var(--terra-dev-site-themed-block-background-color, #0079be);
+    height: 24px
+  }
+}
