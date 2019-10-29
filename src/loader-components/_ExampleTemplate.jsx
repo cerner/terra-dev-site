@@ -83,7 +83,7 @@ class ExampleTemplate extends React.Component {
       <div className={cx('template')}>
         {ExampleTemplate.renderHeader(title)}
         <div className={cx('content', { 'dynamic-content': isBackgroundTransparent })}>
-          {description}
+          {ExampleTemplate.renderDescription(description)}
           {example}
         </div>
         {exampleSrc
