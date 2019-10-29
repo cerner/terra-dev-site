@@ -16,7 +16,7 @@ const propTypes = {
 const Themed = ({ intl }) => (
   <div className={cx('themed')}>
     <h1>
-      Themed block below
+      Example File
     </h1>
     <div className={cx('themed-block')} />
     <h1>

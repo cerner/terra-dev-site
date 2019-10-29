@@ -147,7 +147,7 @@ class CollapsingNavigationMenu extends React.Component {
       const itemIsOpen = openKeys[item.path];
       const itemHasChildren = item.childItems !== undefined;
       let isSelected = false;
-      let selectedRef = undefined;
+      let selectedRef;
 
       if (selectedPath === item.path) {
         isSelected = true;
