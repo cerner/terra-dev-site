@@ -2,6 +2,9 @@
   "name": "terra-dev-site",
   "version": "6.5.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
+  "engines": {
+    "node": ">=8.9.2 <11"
+  },
   "main": "index.js",
   "repository": {
     "type": "git",
