@@ -20,6 +20,8 @@ class DirectorySwitcherPlugin {
       )),
       [],
     );
+    // Temporary https://github.com/webpack/enhanced-resolve/issues/200 or prop driven or just hard coded ¯\_(ツ)_/¯
+    this.extensions = ['.js'];
   }
 
   apply(resolver) {
@@ -31,7 +33,15 @@ class DirectorySwitcherPlugin {
           const index = this.dirs.findIndex(pairs => request.path.startsWith(pairs.distribution));
           if (index >= 0) {
             const { distribution, source } = this.dirs[index];
-            const remainingRequest = request.path.substr(distribution.length);
+            // trim the request
+            let remainingRequest = request.path.substring(distribution.length);
+
+            // if the remaining request extension is one that is resolved, remove it. This allows .js files to resolve to .jsx files
+            const extension = remainingRequest.substring(remainingRequest.lastIndexOf('.'));
+            if (this.extensions.includes(extension)) {
+              remainingRequest = remainingRequest.replace(/\.[^/.]+$/, '');
+            }
+
             const newPathStr = source + remainingRequest;
             const obj = {
               ...request,

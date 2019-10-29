@@ -24,5 +24,6 @@ describe('DirectorySwitcherPlugin', () => {
         source: path.join(__dirname, 'packages', 'test', 'src'),
       },
     ]);
+    expect(plugin.extensions).toEqual(['.js']);
   });
 });
