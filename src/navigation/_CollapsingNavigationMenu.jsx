@@ -112,7 +112,6 @@ class CollapsingNavigationMenu extends React.Component {
 
   componentDidMount() {
     if (this.selectedItem && this.selectedItem.current) {
-      // window.scrollTo(0, this.selectedItem.current.offsetTop);
       this.selectedItem.current.scrollIntoView();
     }
   }
