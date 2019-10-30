@@ -4,6 +4,8 @@ Changelog
 Unreleased
 ----------
 
+6.6.0 - (October 30, 2019)
+----------
 ### Fixed
 * Deployed site relative urls not appropriately generated.
 * Use the static renderDescription method in example template component.
