@@ -116,6 +116,12 @@ class CollapsingNavigationMenu extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.selectedItem && this.selectedItem.current) {
+      this.selectedItem.current.scrollIntoView();
+    }
+  }
+
   handleKeyDown(event, item) {
     if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
       this.handleOnClick(event, item);
