@@ -178,4 +178,4 @@ To get verbose output, add `--env.verboseGenerateAppConfig` to your webpack comm
 
 ## Further customization:
 
-Check out our [Customization docs](http://engineering.cerner.com/terra-dev-site/#/getting-started/terra-dev-site/configuration/site-config).
+Check out our [Customization docs](https://engineering.cerner.com/terra-dev-site/getting-started/terra-dev-site/site-config/site-config).
