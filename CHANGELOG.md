@@ -6,6 +6,9 @@ Unreleased
 ### Fixed
 * Fixed broken urls in the docs.
 
+### Changed
+* Remove markdown styles to look more like 'terra'.
+
 6.6.0 - (October 30, 2019)
 ----------
 ### Fixed
