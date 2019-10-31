@@ -57,7 +57,7 @@ Consult the component CHANGELOGs, related issues, and PRs for more information.
 
 ## Contributing
 
-Please read through our [contributing guidelines](CONTRIBUTING.md). Included are directions for issue reporting and pull requests.
+Please read through our [contributing guidelines](https://github.com/cerner/terra-dev-site/blob/master/CONTRIBUTING.md). Included are directions for issue reporting and pull requests.
 
 ## LICENSE
 
