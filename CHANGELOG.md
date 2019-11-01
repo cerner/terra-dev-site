@@ -4,6 +4,16 @@ Changelog
 Unreleased
 ----------
 
+6.7.0 - (November 1, 2019)
+----------
+### Fixed
+* Fixed broken urls in the docs.
+
+### Changed
+* Remove markdown styles to look more like 'terra'.
+
+6.6.0 - (October 30, 2019)
+----------
 ### Fixed
 * Deployed site relative urls not appropriately generated.
 * Use the static renderDescription method in example template component.
