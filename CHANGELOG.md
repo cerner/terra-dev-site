@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.7.0 - (November 1, 2019)
+----------
 ### Fixed
 * Fixed broken urls in the docs.
 
