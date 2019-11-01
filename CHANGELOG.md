@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Secondary Nav Scroll Restoration
 
 6.7.0 - (November 1, 2019)
 ----------
