@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.8.0 - (November 12, 2019)
+----------
 ### Added
 * Secondary navigation now scrolls to the current selected item
 
