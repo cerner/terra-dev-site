@@ -4,7 +4,7 @@ Changelog
 Unreleased
 ----------
 ### Added
-* Secondary Nav Scroll Restoration
+* Secondary navigation now scrolls to the current selected item
 
 6.7.0 - (November 1, 2019)
 ----------
