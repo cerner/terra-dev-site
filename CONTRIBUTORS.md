@@ -17,6 +17,7 @@ Cerner Corporation
 - Saket Bajaj [@saket2403]
 - Derek Yu [yuderekyu]
 - Lokesh P[@lokesh-0813 ]
+- Gabe Parra [@gabeparra01]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -35,3 +36,4 @@ Cerner Corporation
 [saket2403]: https://github.com/saket2403
 [yuderekyu]: https://github.com/yuderekyu
 [@lokesh-0813]: https://github.com/lokesh-0813
+[@gabeparra01]: https://github.com/gabeparra01

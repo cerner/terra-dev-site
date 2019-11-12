@@ -88,8 +88,9 @@ class CollapsingNavigationMenu extends React.Component {
   }
 
   static getDerivedStateFromProps({ menuItems, selectedPath }, state) {
-    const newState = {};
+    const newState = { isNewSelectedPath: false };
     if (state.previousSelectedPath !== selectedPath) {
+      newState.isNewSelectedPath = true;
       newState.openKeys = { ...state.openKeys, ...CollapsingNavigationMenu.openKeysToItem(menuItems[0], selectedPath) };
       newState.previousSelectedPath = selectedPath;
     }
@@ -102,11 +103,26 @@ class CollapsingNavigationMenu extends React.Component {
     this.renderMenuItems = this.renderMenuItems.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.selectedItem = React.createRef();
 
     this.state = {
       previousSelectedPath: selectedPath,
       openKeys: CollapsingNavigationMenu.openKeysToItem(menuItems[0], selectedPath),
+      isNewSelectedPath: false,
     };
+  }
+
+  componentDidMount() {
+    if (this.selectedItem && this.selectedItem.current) {
+      this.selectedItem.current.scrollIntoView();
+    }
+  }
+
+  componentDidUpdate() {
+    const { isNewSelectedPath } = this.state;
+    if (isNewSelectedPath && this.selectedItem && this.selectedItem.current) {
+      this.selectedItem.current.scrollIntoView();
+    }
   }
 
   handleKeyDown(event, item) {
@@ -138,12 +154,19 @@ class CollapsingNavigationMenu extends React.Component {
     return menuItems.map((item) => {
       const itemIsOpen = openKeys[item.path];
       const itemHasChildren = item.childItems !== undefined;
+      let isSelected = false;
+      let selectedRef;
+
+      if (selectedPath === item.path) {
+        isSelected = true;
+        selectedRef = this.selectedItem;
+      }
 
       return (
         <React.Fragment key={item.path}>
           <div className={!firstLevel ? cx('indent') : null}>
             <div
-              className={cx(['item', { 'is-selected': selectedPath === item.path }])}
+              className={cx(['item', { 'is-selected': isSelected }])}
               tabIndex="0"
               role="link"
               aria-haspopup={itemHasChildren}
@@ -152,6 +175,7 @@ class CollapsingNavigationMenu extends React.Component {
               onBlur={enableFocusStyles}
               onMouseDown={disableFocusStyles}
               data-focus-styles-enabled
+              ref={selectedRef}
             >
               {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown className={cx('caret')} /> : <IconCaretRight className={cx('caret')} />}</span> : null}
               {item.name}
