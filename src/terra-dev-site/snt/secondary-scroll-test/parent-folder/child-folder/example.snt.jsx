@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import { injectIntl, intlShape } from 'react-intl';
 
-import styles from '../../Themed.module.scss';
+import styles from '../../../Themed.module.scss';
 
 const cx = classNames.bind(styles);
 
