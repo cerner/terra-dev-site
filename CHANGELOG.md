@@ -6,6 +6,9 @@ Unreleased
 ### Changed
 * Updated docker dev environment
 
+### Fixed
+* Update md loader regex to accept either a forward slash or a backslash.
+
 6.8.0 - (November 12, 2019)
 ----------
 ### Added
