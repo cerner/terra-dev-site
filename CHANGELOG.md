@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated docker dev environment
 
 6.7.0 - (November 1, 2019)
 ----------
