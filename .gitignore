@@ -58,3 +58,4 @@ errorScreenshots
 stats.json
 aggregated-themes.js
 package-lock.json
+.idea/
