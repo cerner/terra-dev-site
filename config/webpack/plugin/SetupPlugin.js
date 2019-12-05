@@ -79,7 +79,7 @@ class SetupPlugin {
           // Use the marked loader to load any md files included by the content config file.
           // LOAD USING MDX ON NEXT MAJOR VERSION.
           issuer: [
-            /dev-site-config.*\/contentConfig\.js$/,
+            /dev-site-config.*[/\\]contentConfig\.js$/,
           ],
           use: [
             babelLoader,
