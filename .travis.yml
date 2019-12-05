@@ -15,7 +15,7 @@ env:
 before_install:
   - sudo chown -R travis:travis $HOME/docker
   # Load cached docker images
-  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} bash -c "zcat {file} | docker load"; fi
 before_cache:
   - sudo chown -R travis:travis $HOME/docker
   - if [ $TRAVIS_TEST_RESULT == 1 ]; then rm -f $HOME/docker/*.tar.gz; fi
