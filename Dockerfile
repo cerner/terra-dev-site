@@ -1,1 +1,1 @@
-FROM mjhenkes/terra-node-ci
+FROM cerner/terra-node-ci:1
