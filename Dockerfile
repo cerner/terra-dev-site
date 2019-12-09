@@ -1,2 +1,1 @@
-ARG project_name=terra-dev-site
-FROM cerner/terra-node
+FROM cerner/terra-node-ci:1

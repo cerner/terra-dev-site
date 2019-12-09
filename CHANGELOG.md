@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated docker dev environment
+
 ### Fixed
 * Update md loader regex to accept either a forward slash or a backslash.
 
