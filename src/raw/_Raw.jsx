@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import { PromptRegistrationContext } from 'terra-application/lib/navigation-prompt';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 
 import styles from './Raw.module.scss';
@@ -30,6 +31,11 @@ const propTypes = {
   }).isRequired,
 };
 
+const promptProviderValue = {
+  registerPrompt: () => { },
+  unregisterPrompt: () => { },
+};
+
 const Raw = ({ indexPath, contentConfig, location }) => {
   const flattenedRouteConfig = Object.keys(contentConfig).reduce((allRoutes, pageKey) => Object.assign(allRoutes, contentConfig[pageKey]), {});
 
@@ -42,7 +48,10 @@ const Raw = ({ indexPath, contentConfig, location }) => {
     const { componentClass: ComponentClass, props } = flattenedRouteConfig[route].component.default;
     return (
       <main className={cx('main')} role="main">
-        <ComponentClass {...props} />
+        {/* The following context provider will prevent the navigation prompt from registering any new prompts through raw routes.  */}
+        <PromptRegistrationContext.Provider value={promptProviderValue}>
+          <ComponentClass {...props} />
+        </PromptRegistrationContext.Provider>
       </main>
     );
   }
