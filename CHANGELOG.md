@@ -4,6 +4,7 @@ Changelog
 Unreleased
 ----------
 ### Changed
+* Raw routes now prevent the default navigation prompt check.
 * Updated docker dev environment
 
 ### Fixed

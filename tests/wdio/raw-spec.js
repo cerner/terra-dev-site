@@ -8,4 +8,12 @@ Terra.describeViewports('raw route', ['tiny', 'huge'], () => {
     browser.url('#/raw/secondary-nav-test/terra-dev-site/themed');
     Terra.validates.element('hash route', { selector: '#root' });
   });
+
+  it('does not prevent navigation', () => {
+    browser.url('/raw/test/terra-dev-site/navigation-prompt');
+    browser.click('[id="PendingStateButton"]');
+    Terra.validates.element('navigation-prompt', { selector: '#root' });
+    browser.url('/raw/test/terra-dev-site/relative-link');
+    Terra.validates.element('redirected', { selector: '#root' });
+  });
 });
