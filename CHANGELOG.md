@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.9.0 - (December 10, 2019)
+----------
 ### Changed
 * Raw routes now prevent the default navigation prompt check.
 * Updated docker dev environment
