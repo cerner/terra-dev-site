@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Code examples can be expanded by default.
 
 6.9.0 - (December 10, 2019)
 ----------
