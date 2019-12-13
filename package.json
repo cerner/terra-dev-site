@@ -175,7 +175,7 @@
     "regenerator-runtime": "^0.13.2",
     "stylelint-config-terra": "^3.0.0",
     "stylelint": "^10.0.1",
-    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#disable-axe-rules",
+    "terra-toolkit": "git://github.com/cerner/terra-toolkit.git#master",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",
     "webpack": "^4.28.1"
