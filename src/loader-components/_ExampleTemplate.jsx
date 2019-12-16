@@ -22,6 +22,12 @@ const propTypes = {
    * The example description.
    */
   description: PropTypes.node,
+
+  isExpanded: PropTypes.bool,
+};
+
+const defaultProps = {
+  isExpanded: false,
 };
 
 class ExampleTemplate extends React.Component {
@@ -53,7 +59,7 @@ class ExampleTemplate extends React.Component {
     super(props);
 
     this.state = {
-      isExpanded: false,
+      isExpanded: props.isExpanded,
       isBackgroundTransparent: false,
     };
 
@@ -113,5 +119,6 @@ class ExampleTemplate extends React.Component {
 }
 
 ExampleTemplate.propTypes = propTypes;
+ExampleTemplate.defaultProps = defaultProps;
 
 export default ExampleTemplate;
