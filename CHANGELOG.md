@@ -5,6 +5,8 @@ Unreleased
 ----------
 ### Changed
 * Code examples can be expanded by default.
+* Update WDIO screenshots.
+* Update terra-toolkit dependency to ^5.18.0.
 
 6.9.0 - (December 10, 2019)
 ----------

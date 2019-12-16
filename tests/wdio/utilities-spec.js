@@ -47,6 +47,10 @@ Terra.describeViewports('utilities', ['tiny'], () => {
   it('opens menu', () => {
     browser.url('/single-page-test');
     browser.click('[data-compact-header-toggle]');
+    browser.waitForExist('[class*="ApplicationNavigation-module__drawer-menu-is-open"]');
+
+    browser.pause(300);
+
     Terra.validates.element({ selector: '#root' });
   });
 
