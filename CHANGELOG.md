@@ -8,6 +8,9 @@ Unreleased
 * Update WDIO screenshots.
 * Update terra-toolkit dependency to ^5.18.0.
 
+### Remove
+* Remove non-existent site.config option 'filterSideMenu'. This option was removed in v6.0.0 release.
+
 6.9.0 - (December 10, 2019)
 ----------
 ### Changed
