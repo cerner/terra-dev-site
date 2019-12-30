@@ -6,7 +6,6 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 const generateExtensionConfig = (extensionConfig) => {
   const imports = new ImportAggregator();
 
-
   const config = extensionConfig.map(ext => (
     {
       icon: imports.addImport(ImportAggregator.relativePath(ext.iconPath)),

@@ -37,7 +37,6 @@ renderer.heading = (text, level) => {
           + `</h${level}>`;
 };
 
-
 const loader = async function loader(markdown) {
   const callback = this.async();
 
