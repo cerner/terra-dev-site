@@ -29,7 +29,6 @@ const resolve = (filePath, defaultConfig) => {
   return undefined;
 };
 
-
 /**
  * Returns the site configuration. It will attempt to load the configuration from the provided configPath first or
  * the default config path and then merge with the default config or it will just return the default site config.

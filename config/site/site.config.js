@@ -97,7 +97,6 @@ const siteConfig = {
      *   },
      * ],
      */
-
     extensions: [],
 
     /** This section allows you to inject arbitrary html into the head tag of index.html.
@@ -113,10 +112,6 @@ const siteConfig = {
 
   /* The default for whether or not test evidence should be included. 'true' is the default value. */
   includeTestEvidence: true,
-
-  /* The default for whether the navigation side menu includes a filter input. 'false' is the default value */
-  filterSideMenu: false,
-
 };
 
 module.exports = siteConfig;

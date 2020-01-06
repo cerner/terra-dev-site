@@ -65,7 +65,6 @@ class Site extends React.Component {
     this.syncDomWithState();
   }
 
-
   /**
    * Handle setting update and store new settings in state.
    * @param {*} newSettings

@@ -118,7 +118,6 @@ class DevSiteNavigation extends React.Component {
     return utilityItems;
   }
 
-
   constructor(props) {
     super(props);
     this.state = {
