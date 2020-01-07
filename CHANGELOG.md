@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.10.0 - (January 7, 2020)
+----------
 ### Changed
 * Code examples can be expanded by default.
 * Update WDIO screenshots.
