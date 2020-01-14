@@ -8,6 +8,7 @@ import ModalManager from 'terra-application/lib/modal-manager';
 import DevSiteNavigation from '../navigation/_DevSiteNavigation';
 import Raw from '../raw/_Raw';
 import AppSettingsContext from '../navigation/_AppSettingsContext';
+import AppSettingsProvider from '../navigation/_AppSettingsProvider';
 import siteConfigPropType from './siteConfigPropTypes';
 import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 
@@ -39,71 +40,8 @@ class Site extends React.Component {
   constructor(props) {
     super(props);
 
-    this.syncDomWithState = this.syncDomWithState.bind(this);
-    this.onUpdateSettings = this.onUpdateSettings.bind(this);
     this.redirectSlashRoute = this.redirectSlashRoute.bind(this);
     this.redirectToReservedRoute = this.redirectToReservedRoute.bind(this);
-
-    const {
-      defaultLocale: locale = 'en',
-      defaultTheme: theme,
-      defaultDirection: direction = 'ltr',
-    } = props.siteConfig.settingsConfig;
-
-    this.state = {
-      locale,
-      theme,
-      direction,
-    };
-  }
-
-  componentDidMount() {
-    this.syncDomWithState();
-  }
-
-  componentDidUpdate() {
-    this.syncDomWithState();
-  }
-
-  /**
-   * Handle setting update and store new settings in state.
-   * @param {*} newSettings
-   */
-  onUpdateSettings(newSettings) {
-    const { locale, theme, direction } = this.state;
-    const newState = {};
-    if (newSettings.locale && locale !== newSettings.locale) {
-      newState.locale = newSettings.locale;
-    }
-
-    if (newSettings.theme && theme !== newSettings.theme) {
-      newState.theme = newSettings.theme;
-    }
-
-    if (newSettings.direction && direction !== newSettings.direction) {
-      newState.direction = newSettings.direction;
-    }
-
-    if (Object.keys(newState).length) {
-      this.setState(newState);
-    }
-  }
-
-  /**
-   * Place settings on dom
-   */
-  syncDomWithState() {
-    const { locale, direction } = this.state;
-
-    const htmlNode = document.getElementsByTagName('html')[0];
-
-    if (htmlNode.getAttribute('lang') !== locale) {
-      htmlNode.setAttribute('lang', locale);
-    }
-
-    if (htmlNode.getAttribute('dir') !== direction) {
-      htmlNode.setAttribute('dir', direction);
-    }
   }
 
   /**
@@ -139,43 +77,45 @@ class Site extends React.Component {
         <Route exact path="/" render={this.redirectSlashRoute} />
         { siteConfig.apps.map(app => app.path && <Route path={`/${app.path}`} key={app.path} render={this.redirectToReservedRoute} />)}
         <Route>
-          <AppSettingsContext.Provider value={this.state}>
-            <TerraMdxProvider>
-              <ModalManager>
-                <Switch>
-                  <Route path="/raw">
-                    <Raw
-                      contentConfig={siteConfig.contentConfig}
-                      indexPath={siteConfig.indexPath}
-                    />
-                  </Route>
-                  <Route>
-                    <DevSiteNavigation
-                      siteConfig={siteConfig}
-                      onUpdateSettings={this.onUpdateSettings}
-                      applicationNavigation={applicationNavigation}
-                      fetchSearchItems={fetchSearchItems}
-                    />
-                  </Route>
-                </Switch>
-              </ModalManager>
-            </TerraMdxProvider>
-          </AppSettingsContext.Provider>
+          <TerraMdxProvider>
+            <ModalManager>
+              <Switch>
+                <Route path="/raw">
+                  <Raw
+                    contentConfig={siteConfig.contentConfig}
+                    indexPath={siteConfig.indexPath}
+                  />
+                </Route>
+                <Route>
+                  <DevSiteNavigation
+                    siteConfig={siteConfig}
+                    applicationNavigation={applicationNavigation}
+                    fetchSearchItems={fetchSearchItems}
+                  />
+                </Route>
+              </Switch>
+            </ModalManager>
+          </TerraMdxProvider>
         </Route>
       </Switch>
     );
   }
 
   render() {
-    const { locale, theme } = this.state;
     const { applicationBase, siteConfig } = this.props;
 
     return (
-      applicationBase({
-        locale,
-        themeName: siteConfig.settingsConfig.themes[theme],
-        child: this.renderApplicationBaseChildren(),
-      })
+      <AppSettingsProvider settingsConfig={siteConfig.settingsConfig}>
+        <AppSettingsContext.Consumer>
+          {({ state }) => (
+            applicationBase({
+              locale: state.locale,
+              themeName: state.themeName,
+              child: this.renderApplicationBaseChildren(),
+            })
+          )}
+        </AppSettingsContext.Consumer>
+      </AppSettingsProvider>
     );
   }
 }

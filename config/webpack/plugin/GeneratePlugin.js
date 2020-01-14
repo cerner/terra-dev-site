@@ -19,6 +19,7 @@ const addHtmlPlugin = ({
 }) => (
   new HtmlWebpackPlugin({
     title: siteConfig.appConfig.title,
+    direction: siteConfig.appConfig.defaultDirection,
     filename,
     template: path.join(__dirname, '..', '..', '..', 'lib', 'index.html'),
     rootElementId: 'root',

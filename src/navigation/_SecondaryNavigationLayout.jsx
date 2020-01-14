@@ -8,7 +8,6 @@ import ContentContainer from 'terra-content-container';
 
 import ComponentToolbar from './_ComponentToolbar';
 import CollapsingNavigationMenu from './_CollapsingNavigationMenu';
-import devToolsConfigPropType from './_devToolsConfigPropType';
 
 import styles from './SecondaryNavigationLayout.module.scss';
 
@@ -47,11 +46,6 @@ const propTypes = {
    * The element to display in the main content area.
    */
   children: PropTypes.element.isRequired,
-
-  /**
-   * Config to setup the dev toolbar, when applicable.
-   */
-  devToolsConfig: devToolsConfigPropType,
 
   /**
    * @private Passed in through withActiveBreakpoint
@@ -207,7 +201,6 @@ class SecondaryNavigationLayout extends React.Component {
       children,
       menuItems,
       activeBreakpoint,
-      devToolsConfig,
       selectedMenuItemKey,
     } = this.props;
 
@@ -255,7 +248,6 @@ class SecondaryNavigationLayout extends React.Component {
               <ComponentToolbar
                 menuIsVisible={menuIsVisible}
                 onToggle={onToggle}
-                devToolsConfig={devToolsConfig}
               />
             )}
             fill

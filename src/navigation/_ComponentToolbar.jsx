@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import Button from 'terra-button';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
 import MenuButton from '../menu-button/_MenuButton';
-import devToolsConfigPropType from './_devToolsConfigPropType';
+import AppSettingsContext from './_AppSettingsContext';
 
 import styles from './ComponentToolbar.module.scss';
 
@@ -21,11 +21,6 @@ const propTypes = {
    * Menu visible external state
    */
   menuIsVisible: PropTypes.bool,
-
-  /**
-   * Config for the theme and locale menu button.
-   */
-  devToolsConfig: devToolsConfigPropType,
 };
 
 const defaultProps = {
@@ -36,10 +31,17 @@ const defaultProps = {
 const ComponentToolbar = ({
   onToggle,
   menuIsVisible,
-  devToolsConfig,
 }) => {
-  const hasThemes = devToolsConfig && devToolsConfig.themes && devToolsConfig.themes.length > 1;
-  const hasLocales = devToolsConfig && devToolsConfig.locales && devToolsConfig.locales.length > 1;
+  const appSettings = React.useContext(AppSettingsContext);
+  const hasThemes = appSettings.themes && Object.keys(appSettings.themes).length > 1;
+  const hasLocales = appSettings.locales && appSettings.locales.length > 1;
+
+  const onChangeTheme = (theme) => (
+    appSettings.onUpdate({ ...appSettings.state, theme })
+  );
+  const onChangeLocale = (locale) => (
+    appSettings.onUpdate({ ...appSettings.state, locale })
+  );
 
   return (
     <div className={cx('header')}>
@@ -61,17 +63,17 @@ const ComponentToolbar = ({
         {hasThemes && (
           <MenuButton
             text="Theme"
-            items={devToolsConfig.themes}
-            selectedKey={devToolsConfig.selectedTheme}
-            onChange={devToolsConfig.onChangeTheme}
+            items={Object.keys(appSettings.themes)}
+            selectedKey={appSettings.state.theme}
+            onChange={onChangeTheme}
           />
         )}
         {hasLocales && (
           <MenuButton
             text="Locale"
-            items={devToolsConfig.locales}
-            selectedKey={devToolsConfig.selectedLocale}
-            onChange={devToolsConfig.onChangeLocale}
+            items={appSettings.locales}
+            selectedKey={appSettings.state.locale}
+            onChange={onChangeLocale}
           />
         )}
       </div>
