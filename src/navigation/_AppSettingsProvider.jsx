@@ -1,6 +1,7 @@
 import React, {
   useState,
   useEffect,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import AppSettingsContext from './_AppSettingsContext';
@@ -18,36 +19,10 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
     defaultDirection = 'ltr',
     themes,
   } = settingsConfig;
-  const [state, setState] = useState({
-    locale: defaultLocale,
-    theme: defaultTheme,
-    themeName: themes[defaultTheme],
-    direction: defaultDirection,
-  });
 
-  /**
-   * Handle setting update and store new settings in state.
-   * @param {*} newSettings
-   */
-  const onUpdate = ({ locale, theme, direction }) => {
-    const newState = {};
-    if (locale) {
-      newState.locale = locale;
-    }
-
-    if (theme) {
-      newState.theme = theme;
-      newState.themeName = themes[theme];
-    }
-
-    if (direction) {
-      newState.direction = direction;
-    }
-
-    if (Object.keys(newState).length) {
-      setState(newState);
-    }
-  };
+  const [currentLocale, setCurrentLocale] = useState(defaultLocale);
+  const [currentDirection, setCurrentDirection] = useState(defaultDirection);
+  const [currentTheme, setCurrentTheme] = useState(defaultTheme);
 
   /**
    * Place settings on dom
@@ -55,17 +30,48 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
   useEffect(() => {
     const htmlNode = document.getElementsByTagName('html')[0];
 
-    if (htmlNode.getAttribute('lang') !== state.locale) {
-      htmlNode.setAttribute('lang', state.locale);
+    if (htmlNode.getAttribute('lang') !== currentLocale) {
+      htmlNode.setAttribute('lang', currentLocale);
     }
 
-    if (htmlNode.getAttribute('dir') !== state.direction) {
-      htmlNode.setAttribute('dir', state.direction);
+    if (htmlNode.getAttribute('dir') !== currentDirection) {
+      htmlNode.setAttribute('dir', currentDirection);
     }
-  }, [state.locale, state.direction]);
+  }, [currentLocale, currentDirection]);
+
+  const AppSettings = useMemo(() => {
+    /**
+     * Handle setting update and store new settings in state.
+     * @param {*} newSettings
+     */
+    const onUpdate = ({ locale, theme, direction }) => {
+      if (locale) {
+        setCurrentLocale(locale);
+      }
+
+      if (theme) {
+        setCurrentTheme(theme);
+      }
+
+      if (direction) {
+        setCurrentDirection(direction);
+      }
+    };
+
+    return ({
+      ...settingsConfig,
+      currentLocale,
+      currentTheme,
+      currentDirection,
+      currentThemeName: themes[currentTheme],
+      onUpdate,
+    });
+  }, [settingsConfig, themes, currentLocale, currentTheme, currentDirection]);
+
+  console.log('AppSettings', AppSettings);
 
   return (
-    <AppSettingsContext.Provider value={{ ...settingsConfig, state, onUpdate }}>
+    <AppSettingsContext.Provider value={AppSettings}>
       {children}
     </AppSettingsContext.Provider>
   );

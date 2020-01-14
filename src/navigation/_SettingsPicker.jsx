@@ -22,7 +22,7 @@ const propTypes = {
 
 const SettingsPicker = ({ config }) => {
   const appSettings = React.useContext(AppSettingsContext);
-  const [state, setState] = useState({ locale: appSettings.state.locale, theme: appSettings.state.theme, direction: appSettings.state.direction });
+  const [state, setState] = useState({ locale: appSettings.currentLocale, theme: appSettings.currentTheme, direction: appSettings.currentDirection });
   const {
     locale, theme, direction,
   } = state;

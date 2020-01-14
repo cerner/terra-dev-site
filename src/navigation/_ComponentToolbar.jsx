@@ -37,10 +37,10 @@ const ComponentToolbar = ({
   const hasLocales = appSettings.locales && appSettings.locales.length > 1;
 
   const onChangeTheme = (theme) => (
-    appSettings.onUpdate({ ...appSettings.state, theme })
+    appSettings.onUpdate({ theme })
   );
   const onChangeLocale = (locale) => (
-    appSettings.onUpdate({ ...appSettings.state, locale })
+    appSettings.onUpdate({ locale })
   );
 
   return (
@@ -64,7 +64,7 @@ const ComponentToolbar = ({
           <MenuButton
             text="Theme"
             items={Object.keys(appSettings.themes)}
-            selectedKey={appSettings.state.theme}
+            selectedKey={appSettings.currentTheme}
             onChange={onChangeTheme}
           />
         )}
@@ -72,7 +72,7 @@ const ComponentToolbar = ({
           <MenuButton
             text="Locale"
             items={appSettings.locales}
-            selectedKey={appSettings.state.locale}
+            selectedKey={appSettings.currentLocale}
             onChange={onChangeLocale}
           />
         )}
