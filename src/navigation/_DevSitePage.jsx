@@ -103,9 +103,10 @@ class DevSitePage extends React.Component {
       history, menuItems, location, pageContent, capabilities, rootPath,
     } = this.props;
     const { initialSelectedMenuKey } = this.state;
+    const hideDevTools = !capabilities[rootPath].devTools;
 
     if (!menuItems) {
-      if (!capabilities[rootPath].devTools) {
+      if (hideDevTools) {
         return this.generateContent();
       }
 
@@ -129,6 +130,7 @@ class DevSitePage extends React.Component {
         onTerminalMenuItemSelection={(childKey, metaData) => {
           history.push(metaData.path);
         }}
+        hideDevTools={hideDevTools}
         key={initialSelectedMenuKey}
       >
         {this.generateContent()}

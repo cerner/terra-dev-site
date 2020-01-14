@@ -21,20 +21,27 @@ const propTypes = {
    * Menu visible external state
    */
   menuIsVisible: PropTypes.bool,
+
+  /**
+   * Hide the dev tools part of the toolbar.
+   */
+  hideDevTools: PropTypes.bool,
 };
 
 const defaultProps = {
   onToggle: undefined,
   menuIsVisible: false,
+  hideDevTools: false,
 };
 
 const ComponentToolbar = ({
   onToggle,
   menuIsVisible,
+  hideDevTools,
 }) => {
   const appSettings = React.useContext(AppSettingsContext);
-  const hasThemes = appSettings.themes && Object.keys(appSettings.themes).length > 1;
-  const hasLocales = appSettings.locales && appSettings.locales.length > 1;
+  const hasThemes = !hideDevTools && appSettings.themes && Object.keys(appSettings.themes).length > 1;
+  const hasLocales = !hideDevTools && appSettings.locales && appSettings.locales.length > 1;
 
   const onChangeTheme = (theme) => (
     appSettings.onUpdate({ theme })

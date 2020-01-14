@@ -43,6 +43,11 @@ const propTypes = {
   isMenuOpen: PropTypes.bool,
 
   /**
+   * Hide the dev tools part of the toolbar.
+   */
+  hideDevTools: PropTypes.bool,
+
+  /**
    * The element to display in the main content area.
    */
   children: PropTypes.element.isRequired,
@@ -202,6 +207,7 @@ class SecondaryNavigationLayout extends React.Component {
       menuItems,
       activeBreakpoint,
       selectedMenuItemKey,
+      hideDevTools,
     } = this.props;
 
     const {
@@ -248,6 +254,7 @@ class SecondaryNavigationLayout extends React.Component {
               <ComponentToolbar
                 menuIsVisible={menuIsVisible}
                 onToggle={onToggle}
+                hideDevTools={hideDevTools}
               />
             )}
             fill
