@@ -39,7 +39,7 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
     }
   }, [currentLocale, currentDirection]);
 
-  const AppSettings = useMemo(() => {
+  const appSettings = useMemo(() => {
     /**
      * Handle setting update and store new settings in state.
      * @param {*} newSettings
@@ -68,10 +68,8 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
     });
   }, [settingsConfig, themes, currentLocale, currentTheme, currentDirection]);
 
-  console.log('AppSettings', AppSettings);
-
   return (
-    <AppSettingsContext.Provider value={AppSettings}>
+    <AppSettingsContext.Provider value={appSettings}>
       {children}
     </AppSettingsContext.Provider>
   );
