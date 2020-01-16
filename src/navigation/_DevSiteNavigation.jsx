@@ -16,11 +16,6 @@ const Search = React.lazy(() => import('../search/_Search'));
 
 const propTypes = {
   /**
-   * function called with updated settings.
-   */
-  onUpdateSettings: PropTypes.func,
-
-  /**
    * Render prop for rendering application navigation or a variant of it.
    */
   applicationNavigation: PropTypes.func.isRequired,
@@ -179,7 +174,7 @@ class DevSiteNavigation extends React.Component {
   }
 
   handleSettingsSelection() {
-    const { disclosureManager, onUpdateSettings } = this.props;
+    const { disclosureManager } = this.props;
     const { settingsConfig } = this.props.siteConfig;
     disclosureManager.disclose({
       preferredType: 'modal',
@@ -189,13 +184,6 @@ class DevSiteNavigation extends React.Component {
         component: (
           <SettingsPicker
             config={settingsConfig}
-            onChangeSettings={(settingsValues, dismissSettingsPicker) => {
-              dismissSettingsPicker().then(() => {
-                if (onUpdateSettings) {
-                  onUpdateSettings(settingsValues);
-                }
-              });
-            }}
           />
         ),
       },
@@ -205,7 +193,7 @@ class DevSiteNavigation extends React.Component {
   render() {
     const { applicationNavigation } = this.props;
     const {
-      nameConfig, navigationItems, contentConfig, indexPath, placeholderSrc, menuItems, settingsConfig, capabilities, apps,
+      nameConfig, navigationItems, contentConfig, indexPath, placeholderSrc, menuItems, capabilities, apps,
     } = this.props.siteConfig;
     const { activeNavigationItemPath } = this.state;
 
@@ -241,7 +229,6 @@ class DevSiteNavigation extends React.Component {
                 rootPath={activeNavigationItemPath}
                 key={activeNavigationItemPath}
                 notFoundComponent={<NotFoundPage indexPath={indexPath} />}
-                settingsConfig={settingsConfig}
                 capabilities={capabilities}
               />
             ),

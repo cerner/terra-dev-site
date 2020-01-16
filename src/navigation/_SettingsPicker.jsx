@@ -18,16 +18,11 @@ const propTypes = {
     locales: PropTypes.arrayOf(PropTypes.string),
     directions: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-
-  /**
-   * callback for changed settings.
-   */
-  onChangeSettings: PropTypes.func.isRequired,
 };
 
-const SettingsPicker = ({ config, onChangeSettings }) => {
+const SettingsPicker = ({ config }) => {
   const appSettings = React.useContext(AppSettingsContext);
-  const [state, setState] = useState({ locale: appSettings.locale, theme: appSettings.theme, direction: appSettings.direction });
+  const [state, setState] = useState({ locale: appSettings.currentLocale, theme: appSettings.currentTheme, direction: appSettings.currentDirection });
   const {
     locale, theme, direction,
   } = state;
@@ -49,11 +44,12 @@ const SettingsPicker = ({ config, onChangeSettings }) => {
                   id="submit"
                   variant={Button.Opts.Variants.EMPHASIS}
                   onClick={() => {
-                    onChangeSettings({
+                    appSettings.onUpdate({
                       locale,
                       theme,
                       direction,
-                    }, disclosureManager.dismiss);
+                    });
+                    disclosureManager.dismiss();
                   }}
                 />
               </Spacer>

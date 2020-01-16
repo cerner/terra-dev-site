@@ -1,7 +1,8 @@
 const themeConfig = {
-  exclude: [], // Files to exclude. Accepts glob patterns.
-  theme: '', // The default theme.
-  scoped: ['terra-dev-site-test-theme'], // An array of scoped themes.
+  scoped: [
+    'terra-dev-site-test-theme',
+    'orion-fusion-theme',
+  ],
 };
 
 module.exports = themeConfig;
