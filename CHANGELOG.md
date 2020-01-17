@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.11.0 - (January 17, 2020)
+----------
 ### Changed
 * Dev toolbar theme and locale changes are applied globally, to avoid theme issues.
 
