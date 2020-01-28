@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import Button from 'terra-button';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
 import MenuButton from '../menu-button/_MenuButton';
-import devToolsConfigPropType from './_devToolsConfigPropType';
+import AppSettingsContext from './_AppSettingsContext';
 
 import styles from './ComponentToolbar.module.scss';
 
@@ -23,23 +23,32 @@ const propTypes = {
   menuIsVisible: PropTypes.bool,
 
   /**
-   * Config for the theme and locale menu button.
+   * Hide the dev tools part of the toolbar.
    */
-  devToolsConfig: devToolsConfigPropType,
+  hideDevTools: PropTypes.bool,
 };
 
 const defaultProps = {
   onToggle: undefined,
   menuIsVisible: false,
+  hideDevTools: false,
 };
 
 const ComponentToolbar = ({
   onToggle,
   menuIsVisible,
-  devToolsConfig,
+  hideDevTools,
 }) => {
-  const hasThemes = devToolsConfig && devToolsConfig.themes && devToolsConfig.themes.length > 1;
-  const hasLocales = devToolsConfig && devToolsConfig.locales && devToolsConfig.locales.length > 1;
+  const appSettings = React.useContext(AppSettingsContext);
+  const hasThemes = !hideDevTools && appSettings.themes && Object.keys(appSettings.themes).length > 1;
+  const hasLocales = !hideDevTools && appSettings.locales && appSettings.locales.length > 1;
+
+  const onChangeTheme = (theme) => (
+    appSettings.onUpdate({ theme })
+  );
+  const onChangeLocale = (locale) => (
+    appSettings.onUpdate({ locale })
+  );
 
   return (
     <div className={cx('header')}>
@@ -61,17 +70,17 @@ const ComponentToolbar = ({
         {hasThemes && (
           <MenuButton
             text="Theme"
-            items={devToolsConfig.themes}
-            selectedKey={devToolsConfig.selectedTheme}
-            onChange={devToolsConfig.onChangeTheme}
+            items={Object.keys(appSettings.themes)}
+            selectedKey={appSettings.currentTheme}
+            onChange={onChangeTheme}
           />
         )}
         {hasLocales && (
           <MenuButton
             text="Locale"
-            items={devToolsConfig.locales}
-            selectedKey={devToolsConfig.selectedLocale}
-            onChange={devToolsConfig.onChangeLocale}
+            items={appSettings.locales}
+            selectedKey={appSettings.currentLocale}
+            onChange={onChangeLocale}
           />
         )}
       </div>

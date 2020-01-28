@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import {
   withRouter, Switch, Route,
 } from 'react-router-dom';
-import ApplicationBase from 'terra-application';
 import ContentContainer from 'terra-content-container';
 
 import SecondaryNavigationLayout from './_SecondaryNavigationLayout';
 import Placeholder from '../static-pages/_PlaceholderPage';
-import { withAppSettings } from './_AppSettingsContext';
-import { settingsConfigPropType, capabilitiesPropType } from '../site/siteConfigPropTypes';
+import { capabilitiesPropType } from '../site/siteConfigPropTypes';
 import ComponentToolbar from './_ComponentToolbar';
 
 const propTypes = {
@@ -43,20 +41,6 @@ const propTypes = {
   })),
 
   /**
-   * The current state of app settings, set by withAppSettings
-   */
-  appSettings: PropTypes.shape({
-    locale: PropTypes.string,
-    theme: PropTypes.string,
-    direction: PropTypes.string,
-  }).isRequired,
-
-  /**
-   * Application settings, things like locale and theme
-   */
-  settingsConfig: settingsConfigPropType.isRequired,
-
-  /**
    * capabilities set per root route.
    */
   capabilities: capabilitiesPropType.isRequired,
@@ -77,117 +61,59 @@ const propTypes = {
 };
 
 class DevSitePage extends React.Component {
-  static getDerivedStateFromProps(props, state) {
-    const newState = {};
-
-    if (state.appSettings.theme !== props.appSettings.theme) {
-      newState.appSettings = props.appSettings;
-      newState.theme = props.appSettings.theme;
-    }
-
-    return newState;
-  }
-
   constructor(props) {
     super(props);
-    const { appSettings, location, pageContent } = props;
+    const { location, pageContent } = props;
 
     this.generateContent = this.generateContent.bind(this);
-    this.handleThemeSelection = this.handleThemeSelection.bind(this);
-    this.handleLocaleSelection = this.handleLocaleSelection.bind(this);
 
     this.state = {
-      appSettings,
-      locale: appSettings.locale,
-      theme: appSettings.theme,
       initialSelectedMenuKey: location.pathname,
       sortedContentPaths: Object.keys(pageContent).sort().reverse(),
     };
   }
 
-  getDevToolsConfig() {
-    const {
-      rootPath, settingsConfig, capabilities,
-    } = this.props;
-    const { theme, locale } = this.state;
-    if (!capabilities[rootPath].devTools) {
-      return null;
-    }
-
-    const themes = Object.keys(settingsConfig.themes);
-
-    if (settingsConfig.locales.length <= 1 && themes.length <= 1) {
-      return null;
-    }
-
-    return {
-      locales: settingsConfig.locales,
-      selectedLocale: locale,
-      onChangeLocale: this.handleLocaleSelection,
-      themes,
-      selectedTheme: theme,
-      onChangeTheme: this.handleThemeSelection,
-    };
-  }
-
-  handleThemeSelection(theme) {
-    this.setState({
-      theme,
-    });
-  }
-
-  handleLocaleSelection(locale) {
-    this.setState({
-      locale,
-    });
-  }
-
   generateContent() {
     const {
-      pageContent, rootPath, placeholderSrc, notFoundComponent, settingsConfig,
+      pageContent, rootPath, placeholderSrc, notFoundComponent,
     } = this.props;
-    const { sortedContentPaths, theme, locale } = this.state;
+    const { sortedContentPaths } = this.state;
 
     return (
-      <ApplicationBase
-        locale={locale}
-        themeName={settingsConfig.themes[theme]}
-      >
-        <Switch>
-          {sortedContentPaths.map(path => (
-            <Route
-              key={path}
-              path={path}
-              render={() => React.createElement(pageContent[path].component.default.componentClass, pageContent[path].component.default.props)}
-            />
-          ))}
+      <Switch>
+        {sortedContentPaths.map(path => (
           <Route
-            path={rootPath}
-            exact
-            render={() => <Placeholder src={placeholderSrc} />}
+            key={path}
+            path={path}
+            render={() => React.createElement(pageContent[path].component.default.componentClass, pageContent[path].component.default.props)}
           />
-          <Route render={() => notFoundComponent} />
-        </Switch>
-      </ApplicationBase>
+        ))}
+        <Route
+          path={rootPath}
+          exact
+          render={() => <Placeholder src={placeholderSrc} />}
+        />
+        <Route render={() => notFoundComponent} />
+      </Switch>
     );
   }
 
   render() {
     const {
-      history, menuItems, location, pageContent,
+      history, menuItems, location, pageContent, capabilities, rootPath,
     } = this.props;
     const { initialSelectedMenuKey } = this.state;
+    const hideDevTools = !capabilities[rootPath].devTools;
 
-    const devToolsConfig = this.getDevToolsConfig();
     if (!menuItems) {
-      if (!devToolsConfig) {
+      if (hideDevTools) {
         return this.generateContent();
       }
 
       return (
         <ContentContainer
           header={(
-            <ComponentToolbar devToolsConfig={devToolsConfig} />
+            <ComponentToolbar />
           )}
           fill
         >
@@ -204,8 +130,8 @@ class DevSitePage extends React.Component {
         onTerminalMenuItemSelection={(childKey, metaData) => {
           history.push(metaData.path);
         }}
+        hideDevTools={hideDevTools}
         key={initialSelectedMenuKey}
-        devToolsConfig={devToolsConfig}
       >
         {this.generateContent()}
       </SecondaryNavigationLayout>
@@ -215,4 +141,4 @@ class DevSitePage extends React.Component {
 
 DevSitePage.propTypes = propTypes;
 
-export default withAppSettings(withRouter(DevSitePage));
+export default withRouter(DevSitePage);

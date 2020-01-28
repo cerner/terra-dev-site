@@ -6,6 +6,11 @@ Unreleased
 ### Changed
 * Update copyright to include 2020
 
+6.11.0 - (January 17, 2020)
+----------
+### Changed
+* Dev toolbar theme and locale changes are applied globally, to avoid theme issues.
+
 6.10.0 - (January 7, 2020)
 ----------
 ### Changed
