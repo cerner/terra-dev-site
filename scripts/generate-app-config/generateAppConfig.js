@@ -91,7 +91,7 @@ const generateAppConfig = ({
     imports,
   );
 
-  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, resolveExtensions, mode, verbose));
+  const { menuItems, content } = generateContentConfig(siteConfig, generatePagesConfig(siteConfig, navConfig, resolveExtensions, mode, verbose));
   const menuConfigImport = addConfig(
     menuItems,
     'menuItems.js',

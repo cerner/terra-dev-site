@@ -128,9 +128,9 @@ const sortPageConfig = config => (
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
-const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
+const generatePagesConfig = (siteConfig, navConfig, resolveExtensions, mode, verbose) => {
   const {
-    generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
+    generatePages: generatePagesOptions, pagesConfig, hotReloading,
   } = siteConfig;
   // If a pages config is supplied don't do this logic.
   if (pagesConfig) {
