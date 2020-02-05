@@ -10,6 +10,12 @@ const siteConfig = {
   /* The navigation configuration. */
   navConfig,
 
+  /** This navigation configuration is used if the webpack env variable `inTest` is present.
+   * This setting allows you us flex the nav config to only render test components when testing.
+   * The config options are identical to navigation config options.
+   */
+  inTestNavConfig: undefined,
+
   /* The path to the pages configuration. If this is enabled, the `generatePages` configuration will not be used. */
   pagesConfig: undefined,
 

@@ -37,15 +37,26 @@ const addConfig = (config, fileName, buildPath, fs, imports) => {
  * } param0
  */
 const generateAppConfig = ({
-  siteConfig, mode, prefix, apps = [], verbose = false, basename, resolveExtensions = [],
+  siteConfig,
+  mode,
+  prefix,
+  apps = [],
+  verbose = false,
+  basename,
+  resolveExtensions = [],
+  inTest = false,
 }) => {
   const imports = new ImportAggregator();
 
   const {
     appConfig,
-    navConfig,
+    inTestNavConfig,
     sideEffectImports,
     placeholderSrc,
+  } = siteConfig;
+
+  let {
+    navConfig,
   } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
@@ -58,6 +69,10 @@ const generateAppConfig = ({
       text: 'Evidence',
       pageTypes: ['evidence'],
     });
+  }
+
+  if (inTest && inTestNavConfig) {
+    navConfig = inTestNavConfig;
   }
 
   const settingsConfig = addConfig(

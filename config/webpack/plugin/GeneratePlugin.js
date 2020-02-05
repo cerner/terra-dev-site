@@ -52,8 +52,9 @@ const appTitle = (site) => {
  */
 class GeneratePlugin {
   constructor({
-    sites, basename = '',
+    sites, basename = '', inTest = false,
   } = {}) {
+    this.inTest = inTest;
     this.entries = [];
     this.apps = [];
     this.sites = sites.map((site) => {
@@ -104,6 +105,7 @@ class GeneratePlugin {
         apps: this.apps.filter(app => app.path !== prefix),
         basename,
         resolveExtensions: compiler.options.resolve.extensions,
+        inTest: this.inTest,
       });
 
       // generate index html files

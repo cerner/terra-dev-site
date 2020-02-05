@@ -34,6 +34,7 @@ class TerraDevSite {
   constructor({ env = {}, sites = [] } = {}) {
     // Validate sites.
     validate(sites);
+    this.inTest = env.inTest || false;
     // Sites to generate. Add the default site then load the config if not present
     this.sites = [
       {
@@ -69,6 +70,7 @@ class TerraDevSite {
     new GeneratePlugin({
       sites: this.sites,
       basename,
+      inTest: this.inTest,
     }).apply(compiler);
     new SetupPlugin({
       publicPath,

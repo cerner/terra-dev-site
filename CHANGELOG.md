@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Use inTestNavigation config if the inTest env variable is passed to webpack.
 
 6.12.0 - (January 28, 2020)
 ----------
