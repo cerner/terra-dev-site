@@ -201,6 +201,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
         title: 'title',
       }],
       basename: 'basename/prefix',
+      inTest: false,
     });
     expect(generateAppConfig).toHaveBeenNthCalledWith(2, {
       siteConfig: {
@@ -218,6 +219,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
         title: 'headline - title - subline',
       }],
       basename: 'basename',
+      inTest: false,
     });
     expect(HtmlWebpackPlugin).toHaveBeenNthCalledWith(1, {
       title: 'title',

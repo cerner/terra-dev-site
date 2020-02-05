@@ -10,7 +10,7 @@ const GeneratePlugin = require('../../../../../config/webpack/plugin/GeneratePlu
 const SetupPlugin = require('../../../../../config/webpack/plugin/SetupPlugin');
 const TerraDevSite = require('../../../../../config/webpack/plugin/TerraDevSite');
 
-describe('TerraDevSiteGeneratePlugin', () => {
+describe('TerraDevSitePlugin', () => {
   it('sets up member variables', () => {
     loadSiteConfig.mockReturnValue({ config: 'config', appConfig: { defaultLocale: 'en' } });
     const plug = new TerraDevSite({
@@ -66,6 +66,7 @@ describe('TerraDevSiteGeneratePlugin', () => {
         },
       ],
       basename: '',
+      inTest: false,
     });
     expect(SetupPlugin).toHaveBeenCalledWith({
       publicPath: '/',
