@@ -1,36 +1,39 @@
 const path = require('path');
 const findSource = require('../loaderUtils/findSource');
 
+const generateMarkdown = (content, extension) => ([
+  `\`\`\`${extension}`,
+  content,
+  '```',
+].join('\n'));
+
 /**
  * Load the contents of the file into the codeblock
  * This loader expects to be chained with the mdx loader.
  */
-const loader = async function loader() {
+
+const loader = async function loader(content) {
   const callback = this.async();
 
-  const exampleSource = this.resourcePath;
-  const { source } = findSource(exampleSource);
+  const { resourcePath } = this;
+  const { source, filePath, extension } = findSource(resourcePath);
 
-  this.resolve('', source, (err, result) => {
-    const sourcePath = result || exampleSource;
+  // short circuit, if this already is the source file, just return that.
+  if (filePath === resourcePath) {
+    return callback(null, generateMarkdown(content, extension));
+  }
 
+  return this.resolve('', source, (resolveError, result) => {
     if (result) {
-      // Add the src file to webpack's dependency list
       this.addDependency(result);
+      // remove . from extension;
+      const srcExtension = path.extname(result).slice(1);
+      return this.fs.readFile(result, (readFileError, srcFile) => (
+        callback(null, generateMarkdown(srcFile, srcExtension))
+      ));
     }
-
-    // remove . from extension;
-    const extension = path.extname(sourcePath).slice(1);
-    // Read src file
-    const srcFile = this.fs.readFileSync(sourcePath);
-
-    const md = [
-      `\`\`\`${extension}`,
-      srcFile,
-      '```',
-    ].join('\n');
-
-    return callback(null, md);
+    // Fallback, if no result is found generate the snippet from the existing file,
+    return callback(null, generateMarkdown(content, extension));
   });
 };
 
