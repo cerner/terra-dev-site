@@ -95,7 +95,6 @@
     "wdio": "tt-wdio --config node_modules/terra-toolkit/config/wdio/wdio.conf.js --locales=['en','de'] "
   },
   "dependencies": {
-    "@mapbox/rehype-prism": "^0.3.1",
     "@mdx-js/loader": "^1.4.5",
     "@mdx-js/mdx": "^1.5.0",
     "@mdx-js/react": "^1.4.5",
@@ -113,6 +112,7 @@
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
     "marked": "^0.7.0",
+    "prism-react-renderer": "^1.0.2",
     "prismjs": "^1.17.1",
     "prop-types": "^15.5.8",
     "react-docgen": "^4.1.1",

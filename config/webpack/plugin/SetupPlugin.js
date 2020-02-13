@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const rehypePrism = require('@mapbox/rehype-prism');
 const rehypeSlug = require('rehype-slug');
 const rehypeUrl = require('rehype-urls');
 
@@ -16,8 +15,6 @@ const mdxOptions = (publicPath) => ({
   rehypePlugins: [
     // Add id's to h-tags
     rehypeSlug,
-    // Don't fail on missing languages
-    [rehypePrism, { ignoreMissing: true }],
     [rehypeUrl, (url) => {
       // Re-write relative urls to include public path.
       if (!url.protocol && url.pathname && url.pathname.startsWith('/') && publicPath.length > 1) {

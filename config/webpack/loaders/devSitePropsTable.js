@@ -68,17 +68,62 @@ const propDefaultValue = (value) => {
   return value.value.replace(/'/g, '\\\'');
 };
 
+const generatePropsTable = async function generatePropsTable(filePath, source, mdxOptions, callback) {
+  let parsedProps;
+  try {
+    parsedProps = reactDocs.parse(source);
+  } catch (e) {
+    return callback(`Could not convert file to props table:\n${filePath}\n${e}`);
+  }
+
+  // loop through parsed props to generate table.
+  const rows = await Promise.all(Object.entries(parsedProps.props).map(async ([name, prop]) => {
+    if (prop.description.includes('@private')) {
+      return '';
+    }
+    const type = await propType(prop.type, mdxOptions, callback);
+    const defaultValue = propDefaultValue(prop.defaultValue);
+    const description = await propMdx(prop.description, mdxOptions, callback);
+    const required = prop.required ? 'true' : 'false';
+
+    // create the string for the props table component
+    return `{ name: '${name}', type: ${type}, required: ${required}, defaultValue: '${defaultValue}', description: ${description}, },`;
+  }));
+
+  return [
+    'import React from \'react\';',
+    'import { mdx } from \'@mdx-js/react\';',
+    'import PropsTable from \'terra-dev-site/lib/loader-components/_PropsTable\';',
+    '',
+    'export default () => (',
+    ' <PropsTable',
+    '   rows={[',
+    ...rows,
+    '   ]}',
+    ' />',
+    ');',
+  ].join('\n');
+};
+
 /**
  * The async loader to create the props table component
  * Don't use an arrow function or you wont have access to `this`
  */
-const loader = async function loader() {
+const loader = async function loader(content) {
   // Find src
-  const { source } = findSource(this.resourcePath);
+  const { resourcePath } = this;
+  const { source, filePath } = findSource(resourcePath);
+  // Retrieve mdx options
+  const mdxOptions = getOptions(this).mdx;
 
   const callback = this.async();
+
+  // short circuit, if this already is the source file, just return that.
+  if (filePath === resourcePath) {
+    return callback(null, await generatePropsTable(filePath, content, mdxOptions, callback));
+  }
   // ensure src exists
-  this.resolve('', source, async (err, result) => {
+  return this.resolve('', source, async (err, result) => {
     if (err) {
       return callback(err);
     }
@@ -87,47 +132,9 @@ const loader = async function loader() {
     this.addDependency(result);
 
     // Read src file
-    const srcFile = this.fs.readFileSync(result);
-
-    let parsedProps;
-    try {
-      parsedProps = reactDocs.parse(srcFile);
-    } catch (e) {
-      return callback(`Could not convert file to props table:\n${result}\n${e}`);
-    }
-
-    // Retrieve mdx options
-    const mdxOptions = getOptions(this).mdx;
-
-    // loop through parsed props to generate table.
-    const rows = await Promise.all(Object.entries(parsedProps.props).map(async ([name, prop]) => {
-      if (prop.description.includes('@private')) {
-        return '';
-      }
-      const type = await propType(prop.type, mdxOptions, callback);
-      const defaultValue = propDefaultValue(prop.defaultValue);
-      const description = await propMdx(prop.description, mdxOptions, callback);
-      const required = prop.required ? 'true' : 'false';
-
-      // create the string for the props table component
-      return `{ name: '${name}', type: ${type}, required: ${required}, defaultValue: '${defaultValue}', description: ${description}, },`;
-    }));
-
-    const code = [
-      'import React from \'react\';',
-      'import { mdx } from \'@mdx-js/react\';',
-      'import PropsTable from \'terra-dev-site/lib/loader-components/_PropsTable\';',
-      '',
-      'export default () => (',
-      ' <PropsTable',
-      '   rows={[',
-      ...rows,
-      '   ]}',
-      ' />',
-      ');',
-    ].join('\n');
-
-    return callback(null, code);
+    return this.fs.readFile(result, async (readFileError, srcFile) => (
+      callback(null, await generatePropsTable(result, srcFile, mdxOptions, callback))
+    ));
   });
 };
 
