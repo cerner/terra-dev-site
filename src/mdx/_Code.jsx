@@ -15,7 +15,6 @@ const propTypes = {
    * ClassName for the component.
    */
   className: PropTypes.string,
-
 };
 
 const Code = ({ children, className }) => {
