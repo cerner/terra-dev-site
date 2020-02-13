@@ -19,7 +19,7 @@ const propTypes = {
 const components = {
   a: props => (Tag({ Tag: 'a', props })),
   blockquote: props => (Tag({ Tag: 'blockquote', props })),
-  // code: props => (Tag({ Tag: 'code', props })),
+  code: props => (Code(props)),
   dd: props => (Tag({ Tag: 'dd', props })),
   dl: props => (Tag({ Tag: 'dl', props })),
   dt: props => (Tag({ Tag: 'dt', props })),
@@ -43,7 +43,6 @@ const components = {
   th: props => (Tag({ Tag: 'th', props })),
   tr: props => (Tag({ Tag: 'tr', props })),
   ul: props => (Tag({ Tag: 'ul', props })),
-  code: props => (Code({ ...props })),
 };
 
 /**

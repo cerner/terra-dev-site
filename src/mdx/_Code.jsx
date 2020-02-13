@@ -8,11 +8,11 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The html tag for this component.
+   * Children for the component.
    */
   children: PropTypes.node,
   /**
-   * Props to apply to this component tag
+   * ClassName for the component.
    */
   className: PropTypes.string,
 
@@ -21,6 +21,7 @@ const propTypes = {
 const Code = ({ children, className }) => {
   const language = (className || '').replace(/language-/, '');
   return (
+    // We remove the theme to just use the css theme.
     <Highlight {...highlightProps} code={children} language={language} theme={undefined}>
       {({
         className: highlightClassName,
@@ -28,6 +29,7 @@ const Code = ({ children, className }) => {
         getLineProps,
         getTokenProps,
       }) => (
+        // add the code block class.
         <code className={[cx('code'), highlightClassName].join(' ')}>
           {tokens.map((line, i) => (
             <div {...getLineProps({ line, key: i })}>
