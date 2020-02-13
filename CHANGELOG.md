@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Removed rehype-prism as a dependency. Added prism-react-renderer. Code highlighting is now performed client side as performing it as part of the build was non-performant.
 
 6.12.0 - (January 28, 2020)
 ----------

@@ -117,4 +117,8 @@
     background: #ffebda;
     color: #b54d08;
   }
+
+  .token-line:not(:last-child) {
+    min-height: 1.214rem;
+  }
 }
