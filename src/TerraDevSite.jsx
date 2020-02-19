@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import ApplicationBase from 'terra-application';
-import ApplicationNavigation from 'terra-application-navigation';
+import ApplicationNavigation from 'terra-application/lib/application-navigation';
 
 // This line will be resolved by webpack
 // eslint-disable-next-line import/no-unresolved, import/extensions

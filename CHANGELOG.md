@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Now consume navigation and overlay from terra-application.
 
 6.13.0 - (February 13, 2020)
 ----------
