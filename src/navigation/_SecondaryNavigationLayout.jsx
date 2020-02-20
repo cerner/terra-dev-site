@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { withActiveBreakpoint } from 'terra-application/lib/breakpoints';
-import Overlay from 'terra-overlay';
-import OverlayContainer from 'terra-overlay/lib/OverlayContainer';
+import { ApplicationLoadingOverlayProvider } from 'terra-application/lib/application-loading-overlay';
 import ContentContainer from 'terra-content-container';
 
 import ComponentToolbar from './_ComponentToolbar';
@@ -238,30 +237,21 @@ class SecondaryNavigationLayout extends React.Component {
             onSelect={this.handleCollapsingMenuSelection}
           />
         </div>
-        <OverlayContainer
+        <ContentContainer
           className={cx('content')}
-          overlay={(
-            <Overlay
-              isOpen={isCompact ? compactMenuIsOpen : false}
-              isRelativeToContainer
-              className={cx('overlay')}
-              onRequestClose={this.closeMenu}
+          header={(
+            <ComponentToolbar
+              menuIsVisible={menuIsVisible}
+              onToggle={onToggle}
+              hideDevTools={hideDevTools}
             />
           )}
+          fill
         >
-          <ContentContainer
-            header={(
-              <ComponentToolbar
-                menuIsVisible={menuIsVisible}
-                onToggle={onToggle}
-                hideDevTools={hideDevTools}
-              />
-            )}
-            fill
-          >
+          <ApplicationLoadingOverlayProvider>
             {children}
-          </ContentContainer>
-        </OverlayContainer>
+          </ApplicationLoadingOverlayProvider>
+        </ContentContainer>
       </div>
     );
   }

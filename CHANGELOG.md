@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Now consume navigation and overlay from terra-application. Navigation prompts will now be honored across navigations tabs.
 
 6.13.0 - (February 13, 2020)
 ----------
