@@ -6,6 +6,9 @@ Unreleased
 ### Changed
 * Now consume navigation and overlay from terra-application. Navigation prompts will now be honored across navigations tabs.
 
+### Added
+* Add plugin imports to getting started example configuration.
+
 6.13.0 - (February 13, 2020)
 ----------
 ### Changed
