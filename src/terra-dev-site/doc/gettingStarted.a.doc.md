@@ -36,7 +36,7 @@ Using the TerraDevSite webpack plugin, a static site will be built to the `dev-s
 ```javascript
 const toolkitWebpackConfig = require('terra-toolkit/config/webpack/webpack.config')
 const merge = require('webpack-merge');
-const { TerraDevSite, TerraDevSiteEntrypoints } = require('terra-dev-site');
+const { TerraDevSite, TerraDevSiteEntrypoints, DirectorySwitcherPlugin, LocalPackageAliasPlugin } = require('terra-dev-site');
 
 /**
 * Generates the file representing app name configuration.
