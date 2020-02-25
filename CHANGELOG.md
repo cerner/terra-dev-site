@@ -8,6 +8,7 @@ Unreleased
 
 ### Added
 * Add plugin imports to getting started example configuration.
+* Added clinical-lowlight-theme
 
 6.13.0 - (February 13, 2020)
 ----------
