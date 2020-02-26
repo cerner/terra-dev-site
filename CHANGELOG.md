@@ -3,12 +3,16 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added clinical-lowlight-theme
+
+6.14.0 - (February 25, 2020)
+----------
 ### Changed
 * Now consume navigation and overlay from terra-application. Navigation prompts will now be honored across navigations tabs.
 
 ### Added
 * Add plugin imports to getting started example configuration.
-* Added clinical-lowlight-theme
 
 6.13.0 - (February 13, 2020)
 ----------
