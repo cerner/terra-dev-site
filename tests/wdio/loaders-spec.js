@@ -14,6 +14,11 @@ Terra.describeViewports('loaders', ['huge'], () => {
     Terra.validates.element('ts codeblock');
   });
 
+  it('loads a scss codeblock', () => {
+    browser.url('/raw/test/terra-dev-site/loaders/codeblock-scss');
+    Terra.validates.element('scss codeblock');
+  });
+
   it('loads a package', () => {
     browser.url('/raw/test/terra-dev-site/loaders/package');
     Terra.validates.element('package');
