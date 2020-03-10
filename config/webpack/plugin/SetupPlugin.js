@@ -97,7 +97,12 @@ class SetupPlugin {
         use: [
           babelLoader,
           mdxLoader,
-          'devSiteCodeblock',
+          {
+            loader: 'devSiteCodeblock',
+            options: {
+              resolveExtensions: compiler.options.resolve.extensions,
+            },
+          },
         ],
       }, {
         resourceQuery: /dev-site-example/,
@@ -122,6 +127,7 @@ class SetupPlugin {
             loader: 'devSitePropsTable',
             options: {
               mdx: mdxOptions(this.publicPath),
+              resolveExtensions: compiler.options.resolve.extensions,
             },
           },
         ],
