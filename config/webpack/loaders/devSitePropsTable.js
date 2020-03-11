@@ -110,11 +110,11 @@ const generatePropsTable = async function generatePropsTable(filePath, source, m
  * Don't use an arrow function or you wont have access to `this`
  */
 const loader = async function loader(content) {
+  // Retrieve mdx options and resolve extensions.
+  const { resolveExtensions, mdx: mdxOptions } = getOptions(this);
   // Find src
   const { resourcePath } = this;
-  const { source, filePath } = findSource(resourcePath);
-  // Retrieve mdx options
-  const mdxOptions = getOptions(this).mdx;
+  const { source, filePath } = findSource(resourcePath, resolveExtensions);
 
   const callback = this.async();
 

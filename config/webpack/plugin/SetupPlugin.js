@@ -45,89 +45,98 @@ class SetupPlugin {
     const processPath = process.cwd();
 
     // MODULE
-    // Remove raw markdown rule if found.
-    const mdIndex = compiler.options.module.rules.findIndex((rule) => rule.test.toString && rule.test.toString() === '/\\.md$/');
-    if (mdIndex > -1) {
-      compiler.options.module.rules.splice(mdIndex, 1);
-    }
 
     const mdxLoader = getMdxLoader(this.publicPath);
 
-    compiler.options.module.rules.push({
-      test: /\.mdx$/,
-      use: [
-        babelLoader,
-        mdxLoader,
-      ],
-    }, {
-      test: /\.md$/,
-      oneOf: [
-        {
-          // Use MDX to import any md files imported from an mdx file.
-          issuer: [
-            /\.mdx?$/,
-          ],
-          use: [
-            babelLoader,
-            mdxLoader,
-          ],
-        },
-        {
-          // Use the marked loader to load any md files included by the content config file.
-          // LOAD USING MDX ON NEXT MAJOR VERSION.
-          issuer: [
-            /dev-site-config.*[/\\]contentConfig\.js$/,
-          ],
-          use: [
-            babelLoader,
-            {
-              loader: 'devSiteMarked',
-              options: {
-                baseUrl: this.publicPath,
-              },
-            },
-          ],
-        },
-        {
-          use: 'raw-loader',
-        },
-      ],
-    }, {
-      resourceQuery: /dev-site-codeblock/,
-      // this bypasses the default json loader
-      type: 'javascript/auto',
-      use: [
-        babelLoader,
-        mdxLoader,
-        'devSiteCodeblock',
-      ],
-    }, {
-      resourceQuery: /dev-site-example/,
-      use: [
-        babelLoader,
-        'devSiteExample',
-      ],
-    }, {
-      test: /\.json$/,
-      // this bypasses the default json loader
-      type: 'javascript/auto',
-      resourceQuery: /dev-site-package/,
-      use: [
-        babelLoader,
-        'devSitePackage',
-      ],
-    }, {
-      resourceQuery: /dev-site-props-table/,
-      use: [
-        babelLoader,
-        {
-          loader: 'devSitePropsTable',
-          options: {
-            mdx: mdxOptions(this.publicPath),
+    compiler.options.module.rules = [{
+      // Drop loaders in a 'one of' block to avoid the original loaders applying on top of the new loaders.
+      // Only the first loader will apply and no others.
+      oneOf: [{
+        test: /\.mdx$/,
+        use: [
+          babelLoader,
+          mdxLoader,
+        ],
+      }, {
+        test: /\.md$/,
+        oneOf: [
+          {
+            // Use MDX to import any md files imported from an mdx file.
+            issuer: [
+              /\.mdx?$/,
+            ],
+            use: [
+              babelLoader,
+              mdxLoader,
+            ],
           },
-        },
+          {
+            // Use the marked loader to load any md files included by the content config file.
+            // LOAD USING MDX ON NEXT MAJOR VERSION.
+            issuer: [
+              /dev-site-config.*[/\\]contentConfig\.js$/,
+            ],
+            use: [
+              babelLoader,
+              {
+                loader: 'devSiteMarked',
+                options: {
+                  baseUrl: this.publicPath,
+                },
+              },
+            ],
+          },
+          {
+            use: 'raw-loader',
+          },
+        ],
+      }, {
+        resourceQuery: /dev-site-codeblock/,
+        // this bypasses the default json loader
+        type: 'javascript/auto',
+        use: [
+          babelLoader,
+          mdxLoader,
+          {
+            loader: 'devSiteCodeblock',
+            options: {
+              resolveExtensions: compiler.options.resolve.extensions,
+            },
+          },
+        ],
+      }, {
+        resourceQuery: /dev-site-example/,
+        use: [
+          babelLoader,
+          'devSiteExample',
+        ],
+      }, {
+        test: /\.json$/,
+        // this bypasses the default json loader
+        type: 'javascript/auto',
+        resourceQuery: /dev-site-package/,
+        use: [
+          babelLoader,
+          'devSitePackage',
+        ],
+      }, {
+        resourceQuery: /dev-site-props-table/,
+        use: [
+          babelLoader,
+          {
+            loader: 'devSitePropsTable',
+            options: {
+              mdx: mdxOptions(this.publicPath),
+              resolveExtensions: compiler.options.resolve.extensions,
+            },
+          },
+        ],
+      },
+      // Spread the original loaders. These will be applied if all above loaders fail.
+      ...compiler.options.module.rules,
       ],
-    });
+    },
+    ];
 
     // OUTPUT
     compiler.options.output.publicPath = this.publicPath;
