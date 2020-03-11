@@ -1,4 +1,5 @@
 const path = require('path');
+const { getOptions } = require('loader-utils');
 const findSource = require('../loaderUtils/findSource');
 
 const generateMarkdown = (content, extension) => ([
@@ -16,7 +17,8 @@ const loader = async function loader(content) {
   const callback = this.async();
 
   const { resourcePath } = this;
-  const { source, filePath, extension } = findSource(resourcePath);
+  const { resolveExtensions } = getOptions(this);
+  const { source, filePath, extension } = findSource(resourcePath, resolveExtensions);
 
   // short circuit, if this already is the source file, just return that.
   if (filePath === resourcePath) {
