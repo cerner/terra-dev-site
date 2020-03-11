@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added clinical-lowlight-theme
+
 ### Fixed
 * css and scss files are supported by the codeblock loader.
 
