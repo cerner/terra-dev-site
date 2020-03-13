@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* No longer aggregate the dev-site test theme.
+
 ### Added
 * Added clinical-lowlight-theme
 
