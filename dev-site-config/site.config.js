@@ -5,6 +5,7 @@ const html = fs.readFileSync(require.resolve('./head.html'), 'utf8');
 
 const siteConfig = {
   navConfig,
+  sideEffectImports: ['./terra-dev-site-test-theme.scss'],
 
   appConfig: {
     headHtml: [
