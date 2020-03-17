@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.15.0 - (March 17, 2020)
+----------
 ### Changed
 * No longer aggregate the dev-site test theme.
 
