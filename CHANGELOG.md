@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added Source Code Badge
 
 6.15.0 - (March 17, 2020)
 ----------
