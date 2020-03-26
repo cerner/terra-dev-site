@@ -1,6 +1,6 @@
 const themeConfig = {
   scoped: [
-    'terra-dev-site-test-theme',
+    'clinical-lowlight-theme',
     'orion-fusion-theme',
   ],
 };

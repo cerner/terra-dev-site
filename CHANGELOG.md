@@ -3,6 +3,20 @@ Changelog
 
 Unreleased
 ----------
+
+6.15.0 - (March 17, 2020)
+----------
+### Changed
+* No longer aggregate the dev-site test theme.
+
+### Added
+* Added clinical-lowlight-theme
+
+### Fixed
+* css and scss files are supported by the codeblock loader.
+
+6.14.0 - (February 25, 2020)
+----------
 ### Changed
 * Now consume navigation and overlay from terra-application. Navigation prompts will now be honored across navigations tabs.
 
