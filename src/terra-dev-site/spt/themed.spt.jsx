@@ -1,3 +1,3 @@
-import ThemedComponent from '../component/themed';
+import ThemedComponent from '../component/Themed';
 
 export default ThemedComponent;

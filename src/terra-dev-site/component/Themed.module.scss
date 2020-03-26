@@ -1,3 +1,8 @@
+//Themes
+@import './Themed.clinical-lowlight-theme.module';
+@import './Themed.orion-fusion-theme.module';
+@import './Themed.terra-dev-site-test-theme.module.scss';
+
 :local {
   .themed {
     height: 100%;
