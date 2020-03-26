@@ -7,10 +7,6 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * component name.
-   */
-  name: PropTypes.string.isRequired,
-  /**
    * url to link to
    */
   url: PropTypes.string,
@@ -20,11 +16,11 @@ const propTypes = {
   version: PropTypes.string.isRequired,
 };
 
-const NpmBadge = ({ name, url, version }) => (
+const SrcCodeBadge = ({ url, version }) => (
   <div className={cx('badge-container')}>
-    <a className={cx('badge')} href={url || `https://www.npmjs.org/package/${name}/v/${version}`}>
+    <a className={cx('badge')} href={url}>
       <span className={cx('badge-name')}>
-        {url ? 'package' : 'npm'}
+        Source Code
       </span>
       <span className={cx('badge-version')}>
         {`v${version}`}
@@ -33,6 +29,6 @@ const NpmBadge = ({ name, url, version }) => (
   </div>
 );
 
-NpmBadge.propTypes = propTypes;
+SrcCodeBadge.propTypes = propTypes;
 
-export default NpmBadge;
+export default SrcCodeBadge;
