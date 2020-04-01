@@ -9,10 +9,11 @@ const loader = async function loader(content) {
   const json = JSON.parse(content);
   const code = [
     'import React from \'react\';',
-    'import NpmBadge from \'terra-dev-site/lib/loader-components/_NpmBadge\';',
+    'import Badges from \'terra-dev-site/lib/loader-components/_Badge\';',
     '',
     `export const Badge = ({ url }) => (
-      <NpmBadge
+      <Badges
+        code="${json.code ? json.code.url : ''}"
         name="${json.name}"
         version="${json.version}"
         url={url}

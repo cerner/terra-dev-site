@@ -120,15 +120,6 @@ class SetupPlugin {
           'devSitePackage',
         ],
       }, {
-        test: /\.json$/,
-        // this bypasses the default json loader
-        type: 'javascript/auto',
-        resourceQuery: /dev-site-src-code/,
-        use: [
-          babelLoader,
-          'devSiteSrcCode',
-        ],
-      }, {
         resourceQuery: /dev-site-props-table/,
         use: [
           babelLoader,

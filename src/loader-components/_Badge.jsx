@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import styles from './BadgeCommon.module.scss';
+import styles from './Badge.module.scss';
 
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * Source code url
+   */
+  code: PropTypes.string,
   /**
    * component name.
    */
@@ -20,8 +24,15 @@ const propTypes = {
   version: PropTypes.string.isRequired,
 };
 
-const NpmBadge = ({ name, url, version }) => (
-  <div className={cx('badge-container')}>
+const Badges = (props) => {
+  const {
+    code,
+    name,
+    url,
+    version,
+  } = props;
+
+  const npmBadge = (
     <a className={cx('badge')} href={url || `https://www.npmjs.org/package/${name}/v/${version}`}>
       <span className={cx('badge-name')}>
         {url ? 'package' : 'npm'}
@@ -30,9 +41,27 @@ const NpmBadge = ({ name, url, version }) => (
         {`v${version}`}
       </span>
     </a>
-  </div>
-);
+  );
 
-NpmBadge.propTypes = propTypes;
+  const srcCodeBadge = (code) ? (
+    <a className={cx('badge')} href={code}>
+      <span className={cx('badge-name')}>
+        github
+      </span>
+      <span className={cx('badge-version')}>
+        source
+      </span>
+    </a>
+  ) : undefined;
 
-export default NpmBadge;
+  return (
+    <div className={cx('badge-container')}>
+      { npmBadge }
+      { srcCodeBadge }
+    </div>
+  );
+};
+
+Badges.propTypes = propTypes;
+
+export default Badges;
