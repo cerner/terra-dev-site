@@ -28,7 +28,7 @@ describe('Badges', () => {
 
   it('should render npm badge and source code badge when url is not specified and code is specified', () => {
     const wrapper = shallow(<Badge
-      code={packageSrcCode}
+      src={packageSrcCode}
       name={packageName}
       version={packageVersion}
     />);
@@ -38,7 +38,7 @@ describe('Badges', () => {
 
   it('should render custom package badge and source code badge when both url and code is specified', () => {
     const wrapper = shallow(<Badge
-      code={packageSrcCode}
+      src={packageSrcCode}
       name={packageName}
       url={packageUrl}
       version={packageVersion}

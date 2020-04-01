@@ -7,13 +7,13 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * Source code url
-   */
-  code: PropTypes.string,
-  /**
    * component name.
    */
   name: PropTypes.string.isRequired,
+  /**
+   * Source code url
+   */
+  src: PropTypes.string,
   /**
    * url to link to
    */
@@ -26,7 +26,7 @@ const propTypes = {
 
 const Badges = (props) => {
   const {
-    code,
+    src,
     name,
     url,
     version,
@@ -43,8 +43,8 @@ const Badges = (props) => {
     </a>
   );
 
-  const srcCodeBadge = (code) ? (
-    <a className={cx('badge')} href={code}>
+  const srcCodeBadge = (src) ? (
+    <a className={cx('badge')} href={src}>
       <span className={cx('badge-name')}>
         github
       </span>

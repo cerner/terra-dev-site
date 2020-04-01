@@ -13,7 +13,7 @@ const loader = async function loader(content) {
     '',
     `export const Badge = ({ url }) => (
       <Badges
-        code="${json.code ? json.code.url : ''}"
+        src="${json.src ? json.src.url : ''}"
         name="${json.name}"
         version="${json.version}"
         url={url}
