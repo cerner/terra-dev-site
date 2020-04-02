@@ -1,7 +1,7 @@
 {
   "name": "terra-dev-site",
   "version": "6.2.0",
-  "src": {
-    "url": "https://github.com/cerner/terra-dev-site"
+  "terra-dev-site": {
+    "source": "https://github.com/cerner/terra-dev-site"
   }
 }

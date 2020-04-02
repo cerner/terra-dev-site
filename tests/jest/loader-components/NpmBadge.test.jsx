@@ -1,5 +1,5 @@
 import React from 'react';
-import Badge from '../../../src/loader-components/_Badge';
+import Badge from '../../../src/loader-components/_Badges';
 
 const packageName = 'terra-dev-site';
 const packageUrl = 'https://engineering.cerner.com/terra-dev-site';
@@ -26,7 +26,7 @@ describe('Badges', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render npm badge and source code badge when url is not specified and src is specified', () => {
+  it('should render npm badge and source code badge when url is not specified and terra-dev-site source is specified', () => {
     const wrapper = shallow(<Badge
       src={packageSrcCode}
       name={packageName}
@@ -36,7 +36,7 @@ describe('Badges', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render custom package badge and source code badge when both url and src is specified', () => {
+  it('should render custom package badge and source code badge when both url and terra-dev-site source is specified', () => {
     const wrapper = shallow(<Badge
       src={packageSrcCode}
       name={packageName}
