@@ -16,8 +16,6 @@ const loader = async function loader(content) {
     } else {
       finalUrl = repoUrl;
     }
-  } else {
-    finalUrl = '';
   }
   const code = [
     'import React from \'react\';',
