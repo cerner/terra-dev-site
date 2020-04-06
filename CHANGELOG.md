@@ -4,7 +4,7 @@ Changelog
 Unreleased
 ----------
 ### Added
-* Added Source Code Badge inline with npm badge, which will only be displayed if the custom property `terra-dev-site` is specified in the json file
+* Added Source Code Badge inline with npm badge, which will only be displayed if the property `repository` with sub property `url` is specified in the package.json file
 
 6.15.0 - (March 17, 2020)
 ----------

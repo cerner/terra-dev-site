@@ -26,7 +26,7 @@ describe('Badges', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render npm badge and source code badge when url is not specified and terra-dev-site source is specified', () => {
+  it('should render npm badge and source code badge when url is not specified and repository url is specified', () => {
     const wrapper = shallow(<Badge
       src={packageSrcCode}
       name={packageName}
@@ -36,7 +36,7 @@ describe('Badges', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render custom package badge and source code badge when both url and terra-dev-site source is specified', () => {
+  it('should render custom package badge and source code badge when both url and repository url is specified', () => {
     const wrapper = shallow(<Badge
       src={packageSrcCode}
       name={packageName}

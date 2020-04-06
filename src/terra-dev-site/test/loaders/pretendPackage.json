@@ -1,7 +1,9 @@
 {
   "name": "terra-dev-site",
   "version": "6.2.0",
-  "terra-dev-site": {
-    "source": "https://github.com/cerner/terra-dev-site"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cerner/terra-dev-site.git",
+    "directory": "src/loader-components"
   }
 }

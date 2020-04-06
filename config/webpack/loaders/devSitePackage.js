@@ -7,13 +7,25 @@ const loader = async function loader(content) {
   const callback = this.async();
 
   const json = JSON.parse(content);
+  const repoUrl = (json.repository && json.repository.url) ? (json.repository.url).match(/https.*[^.git]/i) : '';
+  const repoDirectory = (json.repository && json.repository.directory) ? json.repository.directory : '';
+  let finalUrl;
+  if (repoUrl) {
+    if (repoDirectory) {
+      finalUrl = `${repoUrl}/tree/master/${repoDirectory}`;
+    } else {
+      finalUrl = repoUrl;
+    }
+  } else {
+    finalUrl = '';
+  }
   const code = [
     'import React from \'react\';',
     'import Badges from \'terra-dev-site/lib/loader-components/_Badges\';',
     '',
     `export const Badge = ({ url }) => (
       <Badges
-        src="${json['terra-dev-site'] ? json['terra-dev-site'].source : ''}"
+        src="${finalUrl}"
         name="${json.name}"
         version="${json.version}"
         url={url}
