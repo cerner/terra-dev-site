@@ -9,7 +9,7 @@ const loader = async function loader(content) {
   const json = JSON.parse(content);
   const repoUrl = (json.repository && json.repository.url) ? (json.repository.url).match(/https.*[^.git]/i) : '';
   const repoDirectory = (json.repository && json.repository.directory) ? json.repository.directory : '';
-  let finalUrl;
+  let finalUrl = '';
   if (repoUrl) {
     if (repoDirectory) {
       finalUrl = `${repoUrl}/tree/master/${repoDirectory}`;
