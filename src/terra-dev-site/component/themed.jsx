@@ -1,33 +1,29 @@
 import React from 'react';
 import classNames from 'classnames/bind';
-import { injectIntl, intlShape } from 'react-intl';
+import { ApplicationIntlContext } from 'terra-application/lib/application-intl';
+import { ThemeContext } from 'terra-application/lib/theme';
 
 import styles from './Themed.module.scss';
 
 const cx = classNames.bind(styles);
 
-const propTypes = {
-  /**
-   * Internationalization object with translation APIs. Provided by `injectIntl`.
-   */
-  intl: intlShape.isRequired,
+const Themed = () => {
+  const theme = React.useContext(ThemeContext);
+  const applicationIntl = React.useContext(ApplicationIntlContext);
+  return (
+    <div className={cx('themed', theme.className)}>
+      <h1>
+        Themed block below
+      </h1>
+      <div className={cx('themed-block')} />
+      <h1>
+        Translated block below
+      </h1>
+      <h1>
+        {applicationIntl.formatMessage({ id: 'Terra.devSite.themed.help' })}
+      </h1>
+    </div>
+  );
 };
 
-const Themed = ({ intl }) => (
-  <div className={cx('themed')}>
-    <h1>
-      Themed block below
-    </h1>
-    <div className={cx('themed-block')} />
-    <h1>
-      Translated block below
-    </h1>
-    <h1>
-      {intl.formatMessage({ id: 'Terra.devSite.themed.help' })}
-    </h1>
-  </div>
-);
-
-Themed.propTypes = propTypes;
-
-export default injectIntl(Themed);
+export default Themed;

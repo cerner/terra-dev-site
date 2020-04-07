@@ -123,7 +123,7 @@
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.2.0",
     "terra-aggregate-translations": "^1.0.0",
-    "terra-application": "^1.0.0",
+    "terra-application": "^1.19.0",
     "terra-button": "^3.12.0",
     "terra-button-group": "^3.5.0",
     "terra-content-container": "^3.0.0",
@@ -174,7 +174,7 @@
     "regenerator-runtime": "^0.13.2",
     "stylelint-config-terra": "^3.0.0",
     "stylelint": "^10.0.1",
-    "terra-toolkit": "cerner/terra-toolkit#postcss-theme-plugin",
+    "terra-toolkit": "^5.25.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",
     "webpack": "^4.28.1"
