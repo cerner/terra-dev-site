@@ -1,1 +1,1 @@
-export { default } from '../../../component/Themed';
+export { default } from '../../../component/ThemedComponent';

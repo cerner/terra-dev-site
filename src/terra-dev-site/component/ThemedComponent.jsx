@@ -3,11 +3,11 @@ import classNames from 'classnames/bind';
 import { ApplicationIntlContext } from 'terra-application/lib/application-intl';
 import { ThemeContext } from 'terra-application/lib/theme';
 
-import styles from './Themed.module.scss';
+import styles from './ThemedComponent.module.scss';
 
 const cx = classNames.bind(styles);
 
-const Themed = () => {
+const ThemedComponent = () => {
   const theme = React.useContext(ThemeContext);
   const applicationIntl = React.useContext(ApplicationIntlContext);
   return (
@@ -26,4 +26,4 @@ const Themed = () => {
   );
 };
 
-export default Themed;
+export default ThemedComponent;
