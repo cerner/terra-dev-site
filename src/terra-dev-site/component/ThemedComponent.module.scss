@@ -1,7 +1,7 @@
 //Themes
-@import './ThemedComponent.clinical-lowlight-theme.module';
-@import './ThemedComponent.orion-fusion-theme.module';
-@import './ThemedComponent.terra-dev-site-test-theme.module.scss';
+@import './clinical-lowlight-theme/ThemedComponent.module';
+@import './orion-fusion-theme/ThemedComponent.module';
+@import './terra-dev-site-test-theme/ThemedComponent.module.scss';
 
 :local {
   .themed {
