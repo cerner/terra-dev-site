@@ -6,6 +6,10 @@ Unreleased
 ### Added
 * Added Source Code Badge inline with npm badge, which will only be displayed if the property `repository` with sub property `url` is specified in the package.json file
 
+### Changed
+* Consolidated example component.
+* Use new theme context strategy for example component.
+
 6.15.0 - (March 17, 2020)
 ----------
 ### Changed
