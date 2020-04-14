@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.16.0 - (April 14, 2020)
+----------
 ### Changed
 * Consolidated example component.
 * Use new theme context strategy for example component.
