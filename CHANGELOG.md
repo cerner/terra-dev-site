@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Upgrade to terra-toolkit v6.0.0
 
 6.16.0 - (April 14, 2020)
 ----------
