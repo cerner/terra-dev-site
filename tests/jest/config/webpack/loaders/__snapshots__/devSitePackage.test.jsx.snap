@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`devSitePackage loader test when both repository url and repository directory are specified 1`] = `
+"import React from 'react';
+import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+
+export const Badge = ({ url }) => (
+      <Badges
+        src=\\"https://github.com/cerner/terra-dev-site/tree/master/src/loader-components\\"
+        name=\\"terra-dev-site\\"
+        version=\\"6.2.0\\"
+        url={url}
+      />
+    );"
+`;
+
+exports[`devSitePackage loader test when only repository directory is specified 1`] = `
+"import React from 'react';
+import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+
+export const Badge = ({ url }) => (
+      <Badges
+        src=\\"\\"
+        name=\\"terra-dev-site\\"
+        version=\\"6.2.0\\"
+        url={url}
+      />
+    );"
+`;
+
+exports[`devSitePackage loader test when only repository url is specified 1`] = `
+"import React from 'react';
+import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+
+export const Badge = ({ url }) => (
+      <Badges
+        src=\\"https://github.com/cerner/terra-dev-site\\"
+        name=\\"terra-dev-site\\"
+        version=\\"6.2.0\\"
+        url={url}
+      />
+    );"
+`;
+
+exports[`devSitePackage loader test when repository attribute is not specified 1`] = `
+"import React from 'react';
+import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+
+export const Badge = ({ url }) => (
+      <Badges
+        src=\\"\\"
+        name=\\"terra-dev-site\\"
+        version=\\"6.2.0\\"
+        url={url}
+      />
+    );"
+`;

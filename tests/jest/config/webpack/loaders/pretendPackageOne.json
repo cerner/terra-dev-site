@@ -1,0 +1,9 @@
+{
+  "name": "terra-dev-site",
+  "version": "6.2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cerner/terra-dev-site.git",
+    "directory": "src/loader-components"
+  }
+}
