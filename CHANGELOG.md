@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Fixed
+* Correctly apply the --terra-dev-site-icon-link-background-image theme variable.
 
 6.16.0 - (April 14, 2020)
 ----------
