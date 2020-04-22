@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Allow the use of terra-toolkit v6 as a peer dependency.
 
 6.17.0 - (April 21, 2020)
 ----------
