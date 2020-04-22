@@ -29,7 +29,7 @@ module.exports = mergedConfig;
 ```
 
 ## Points of interest
-* Extends [terra-toolkit webpack config](https://github.com/cerner/terra-toolkit/blob/master/config/webpack/webpack.config.js).
+* Extends [terra-toolkit webpack config](https://github.com/cerner/terra-toolkit-boneyard/blob/master/config/webpack/webpack.config.js).
 
 * Entrypoint is defaulted to the index page in terra-dev-site.
 
