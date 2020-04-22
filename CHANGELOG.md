@@ -6,6 +6,11 @@ Unreleased
 ### Added
 * Added Source Code Badge inline with npm badge, which will only be displayed if the property `repository` with sub property `url` is specified in the package.json file.
 
+6.17.0 - (April 21, 2020)
+----------
+### Fixed
+* Correctly apply the --terra-dev-site-icon-link-background-image theme variable.
+
 6.16.0 - (April 14, 2020)
 ----------
 ### Changed
