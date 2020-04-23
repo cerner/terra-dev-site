@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added Source Code Badge inline with npm badge, which will only be displayed if the property `repository` with sub property `url` is specified in the package.json file.
+
 ### Changed
 * Allow the use of terra-toolkit v6 as a peer dependency.
 * Update terra-toolkit link references to terra-toolkit-boneyard.

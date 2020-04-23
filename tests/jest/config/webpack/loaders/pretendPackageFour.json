@@ -1,0 +1,5 @@
+{
+  "name": "terra-dev-site",
+  "version": "6.2.0",
+  "description": "Dummy package.json, used for devSitePackage loader test, without the repository attribute"
+}

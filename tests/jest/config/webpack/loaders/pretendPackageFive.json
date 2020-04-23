@@ -1,0 +1,10 @@
+{
+  "name": "terra-dev-site",
+  "version": "6.2.0",
+  "description": "Dummy package.json, used for devSitePackage loader test, containing both url and directory but the url does not contain the git+ prefix and the directory starts with a front slash",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerner/terra-dev-site.git",
+    "directory": "/src/loader-components"
+  }
+}

@@ -5,6 +5,17 @@ import { Badge } from '../../test/loaders/pretendPackage.json?dev-site-package';
 The Package Loader will take the passed in json file and return a set of react components including a badge component with a customizable url.
 The file must be a json file.
 
+#### Note: 
+The `github source` badge will only be displayed if the json file contains the property `repository` with the sub property `url`.
+Also, if the package is not in the root directory, the sub property `directory` can be added in the following format:
+```jsx
+"repository": {
+    "type": "git",
+    "url": "git+https://github.com/cerner/terra-dev-site.git",
+    "directory": "src/loader-components"
+  }
+```
+
 ## Resource query
 
 `?dev-site-package`

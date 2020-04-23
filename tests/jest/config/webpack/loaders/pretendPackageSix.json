@@ -1,0 +1,9 @@
+{
+  "name": "terra-dev-site",
+  "version": "6.2.0",
+  "description": "Dummy package.json, used for devSitePackage loader test, containing a non git repository url",
+  "repository": {
+    "type" : "svn",
+    "url" : "https://v8.googlecode.com/svn/trunk/"
+  }
+}
