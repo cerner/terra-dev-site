@@ -55,4 +55,30 @@ describe('devSitePackage loader test', () => {
       return done();
     });
   });
+
+  it('when url is specified without git+ prefix and directory starts with front slash', (done) => {
+    runLoaders({
+      resource: path.resolve(__dirname, './pretendPackageFive.json'),
+      loaders: [
+        path.resolve(__dirname, '../../../../../config/webpack/loaders/devSitePackage'),
+      ],
+    }, (err, result) => {
+      if (err) return done(err);
+      expect(result.result[0]).toMatchSnapshot();
+      return done();
+    });
+  });
+
+  it('when the repository url is not a git url', (done) => {
+    runLoaders({
+      resource: path.resolve(__dirname, './pretendPackageSix.json'),
+      loaders: [
+        path.resolve(__dirname, '../../../../../config/webpack/loaders/devSitePackage'),
+      ],
+    }, (err, result) => {
+      if (err) return done(err);
+      expect(result.result[0]).toMatchSnapshot();
+      return done();
+    });
+  });
 });

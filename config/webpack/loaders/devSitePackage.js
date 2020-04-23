@@ -8,7 +8,7 @@ const loader = async function loader(content) {
 
   const json = JSON.parse(content);
   const repoUrl = (json.repository && json.repository.url) ? (json.repository.url).match(/https.*[^.git]/i) : '';
-  const repoDirectory = (json.repository && json.repository.directory) ? json.repository.directory : '';
+  const repoDirectory = (json.repository && json.repository.directory) ? (json.repository.directory).match(/[^/].*/i) : '';
   let finalUrl = '';
   if (repoUrl) {
     if (repoDirectory) {
@@ -17,17 +17,28 @@ const loader = async function loader(content) {
       finalUrl = repoUrl;
     }
   }
+
+  const badge = finalUrl ? (
+    `<Badges
+        src="${finalUrl}"
+        name="${json.name}"
+        version="${json.version}"
+        url={url}
+      />`
+  ) : (
+    `<Badges
+        name="${json.name}"
+        version="${json.version}"
+        url={url}
+      />`
+  );
+
   const code = [
     'import React from \'react\';',
     'import Badges from \'terra-dev-site/lib/loader-components/_Badges\';',
     '',
     `export const Badge = ({ url }) => (
-      <Badges
-        src="${finalUrl}"
-        name="${json.name}"
-        version="${json.version}"
-        url={url}
-      />
+      ${badge}
     );`,
   ].join('\n');
 
