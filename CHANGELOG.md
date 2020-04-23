@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.17.0 - (April 23, 2020)
+----------
 ### Added
 * Added Source Code Badge inline with npm badge, which will only be displayed if the property `repository` with sub property `url` is specified in the package.json file.
 
