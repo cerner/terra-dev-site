@@ -8,6 +8,7 @@ Unreleased
 
 ### Changed
 * Allow the use of terra-toolkit v6 as a peer dependency.
+* Update terra-toolkit link references to terra-toolkit-boneyard.
 
 6.17.0 - (April 21, 2020)
 ----------
