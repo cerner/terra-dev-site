@@ -6,6 +6,9 @@ Unreleased
 ### Added
 * Added Source Code Badge inline with npm badge, which will only be displayed if the property `repository` with sub property `url` is specified in the package.json file.
 
+### Changed
+* Allow the use of terra-toolkit v6 as a peer dependency.
+
 6.17.0 - (April 21, 2020)
 ----------
 ### Fixed
