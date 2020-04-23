@@ -67,7 +67,7 @@ const webpackConfig = (env, argv) => (
 module.exports = webpackConfig;
 ```
 
-To serve using `tt-serve`, add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit/tree/master/scripts/serve#cli) for more information on the command options.
+To serve using `tt-serve`, add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit-boneyard/blob/master/scripts/serve/Serve.md#cli) for more information on the command options.
 
 ```json
 {
