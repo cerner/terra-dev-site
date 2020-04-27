@@ -88,8 +88,9 @@ class CollapsingNavigationMenu extends React.Component {
   }
 
   static getDerivedStateFromProps({ menuItems, selectedPath }, state) {
-    const newState = {};
+    const newState = { isNewSelectedPath: false };
     if (state.previousSelectedPath !== selectedPath) {
+      newState.isNewSelectedPath = true;
       newState.openKeys = { ...state.openKeys, ...CollapsingNavigationMenu.openKeysToItem(menuItems[0], selectedPath) };
       newState.previousSelectedPath = selectedPath;
     }
@@ -107,11 +108,20 @@ class CollapsingNavigationMenu extends React.Component {
     this.state = {
       previousSelectedPath: selectedPath,
       openKeys: CollapsingNavigationMenu.openKeysToItem(menuItems[0], selectedPath),
+      isNewSelectedPath: false,
     };
   }
 
   componentDidMount() {
     if (this.selectedItem && this.selectedItem.current) {
+      this.selectedItem.current.scrollIntoView();
+    }
+  }
+
+  componentDidUpdate() {
+    const { isNewSelectedPath } = this.state;
+    const currentItemPosition = this.selectedItem.current ? this.selectedItem.current.getBoundingClientRect().top : null;
+    if (isNewSelectedPath && this.selectedItem && currentItemPosition > window.screen.height) {
       this.selectedItem.current.scrollIntoView();
     }
   }
