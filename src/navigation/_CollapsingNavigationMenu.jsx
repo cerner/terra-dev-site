@@ -120,8 +120,8 @@ class CollapsingNavigationMenu extends React.Component {
 
   componentDidUpdate() {
     const { isNewSelectedPath } = this.state;
-    const currentItemPosition = this.selectedItem.current ? this.selectedItem.current.getBoundingClientRect().top : null;
-    if (isNewSelectedPath && this.selectedItem && currentItemPosition > window.screen.height) {
+    const currentItemPosition = this.selectedItem && this.selectedItem.current ? this.selectedItem.current.getBoundingClientRect().top : null;
+    if (isNewSelectedPath && currentItemPosition > window.screen.height) {
       this.selectedItem.current.scrollIntoView();
     }
   }
