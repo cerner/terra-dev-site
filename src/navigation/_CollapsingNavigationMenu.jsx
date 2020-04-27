@@ -120,8 +120,9 @@ class CollapsingNavigationMenu extends React.Component {
 
   componentDidUpdate() {
     const { isNewSelectedPath } = this.state;
-    const currentItemPosition = this.selectedItem && this.selectedItem.current ? this.selectedItem.current.getBoundingClientRect().top : null;
-    if (isNewSelectedPath && currentItemPosition > window.screen.height) {
+    const currentItemPosition = this.selectedItem && this.selectedItem.current ? this.selectedItem.current.getBoundingClientRect().bottom : null;
+    const navigationMenuHeight = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect().bottom;
+    if (isNewSelectedPath && currentItemPosition > navigationMenuHeight) {
       this.selectedItem.current.scrollIntoView();
     }
   }
