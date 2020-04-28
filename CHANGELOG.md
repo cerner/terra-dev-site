@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.18.0 - (April 28, 2020)
+----------
 ### Fixed
 * Secondary nav item should not jump when item is visible.
 
