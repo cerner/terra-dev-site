@@ -172,6 +172,7 @@ class CollapsingNavigationMenu extends React.Component {
               className={cx(['item', { 'is-selected': isSelected }])}
               tabIndex="0"
               role="link"
+              id={item.name.split(' ').join('-')}
               aria-haspopup={itemHasChildren}
               onKeyDown={event => this.handleKeyDown(event, item)}
               onClick={event => this.handleOnClick(event, item)}
