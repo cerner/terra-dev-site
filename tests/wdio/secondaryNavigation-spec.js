@@ -19,40 +19,34 @@ Terra.describeViewports('secondary scroll multiple directories', ['huge'], () =>
   });
 });
 
-Terra.describeViewports('secondary nav scroll', ['huge'], () => {
-  describe('should not scroll when item is visible', () => {
-    before(() => browser.url('/secondary-nav-test/terra-dev-site/secondary-scroll-test/filler/filler-test'));
-    Terra.it.validatesElement('Before', { selector: '#root' });
-    it('selects filler 04 Test', () => {
-      browser.click('[class*="Extension-module__extension"]');
-      browser.keys('Filler 04');
-      browser.waitForVisible('[class*="list-item"]');
-      browser.click('[class*="list-item"]');
-    });
-    Terra.it.validatesElement('After', { selector: '#root' });
+Terra.describeViewports('secondary nav', ['huge'], () => {
+  it('should not scroll when item is visible', () => {
+    browser.url('/secondary-nav-test/terra-dev-site/secondary-scroll-test/filler/filler-test');
+    Terra.validates.element('should not scroll when item is visible before', { selector: '#root' });
+    browser.click('[class*="Extension-module__extension"]');
+    browser.keys('Filler 04');
+    browser.waitForVisible('[class*="list-item"]', 5000);
+    browser.click('[class*="list-item"]');
+    Terra.validates.element('should not scroll when item is visible after', { selector: '#root' });
   });
 
-  describe('should scroll up when item is not visible and at the top', () => {
-    before(() => browser.url('/secondary-nav-test/terra-dev-site/secondary-scroll-test/filler-10/filler-10-test'));
-    Terra.it.validatesElement('Before', { selector: '#root' });
-    it('selects filler 01 Test', () => {
-      browser.click('[class*="Extension-module__extension"]');
-      browser.keys('Filler 01');
-      browser.waitForVisible('[class*="list-item"]');
-      browser.click('[class*="list-item"]');
-    });
-    Terra.it.validatesElement('After', { selector: '#root' });
+  it('should scroll up when item is not visible and at the top', () => {
+    browser.url('/secondary-nav-test/terra-dev-site/secondary-scroll-test/filler-10/filler-10-test');
+    Terra.validates.element('should scroll up when item is not visible and at the top before', { selector: '#root' });
+    browser.click('[class*="Extension-module__extension"]');
+    browser.keys('Filler 01');
+    browser.waitForVisible('[class*="list-item"]', 5000);
+    browser.click('[class*="list-item"]');
+    Terra.validates.element('should scroll up when item is not visible and at the top after', { selector: '#root' });
   });
 
-  describe('should scroll down when item is not visible and at the bottom', () => {
-    before(() => browser.url('/secondary-nav-test/terra-dev-site/secondary-scroll-test/filler/filler-test'));
-    Terra.it.validatesElement('Before', { selector: '#root' });
-    it('selects filler Test', () => {
-      browser.click('[class*="Extension-module__extension"]');
-      browser.keys('Filler 17');
-      browser.waitForVisible('[class*="list-item"]');
-      browser.click('[class*="list-item"]');
-    });
-    Terra.it.validatesElement('After', { selector: '#root' });
+  it('should scroll down when item is not visible and at the bottom', () => {
+    browser.url('/secondary-nav-test/terra-dev-site/secondary-scroll-test/filler/filler-test');
+    Terra.validates.element('should scroll down when item is not visible and at the bottom before', { selector: '#root' });
+    browser.click('[class*="Extension-module__extension"]');
+    browser.keys('Filler 17');
+    browser.waitForVisible('[class*="list-item"]', 5000);
+    browser.click('[class*="list-item"]');
+    Terra.validates.element('should scroll down when item is not visible and at the bottom after', { selector: '#root' });
   });
 });
