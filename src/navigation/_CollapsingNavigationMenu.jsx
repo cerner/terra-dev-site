@@ -120,9 +120,16 @@ class CollapsingNavigationMenu extends React.Component {
 
   componentDidUpdate() {
     const { isNewSelectedPath } = this.state;
-    const currentItemPosition = this.selectedItem && this.selectedItem.current ? this.selectedItem.current.getBoundingClientRect().bottom : null;
-    const navigationMenuHeight = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect().bottom;
-    if (isNewSelectedPath && currentItemPosition > navigationMenuHeight) {
+    if (!isNewSelectedPath) {
+      return;
+    }
+    const currentItemPosition = this.selectedItem?.current ? this.selectedItem.current.getBoundingClientRect() : null;
+    const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
+    if (!currentItemPosition || !navigationMenuPosition) {
+      return;
+    }
+    // If the current item is not visible, scroll the item into view.
+    if (currentItemPosition.bottom > navigationMenuPosition.bottom || currentItemPosition.top < navigationMenuPosition.top) {
       this.selectedItem.current.scrollIntoView();
     }
   }
@@ -171,6 +178,7 @@ class CollapsingNavigationMenu extends React.Component {
               className={cx(['item', { 'is-selected': isSelected }])}
               tabIndex="0"
               role="link"
+              id={item.name.split(' ').join('-')}
               aria-haspopup={itemHasChildren}
               onKeyDown={event => this.handleKeyDown(event, item)}
               onClick={event => this.handleOnClick(event, item)}

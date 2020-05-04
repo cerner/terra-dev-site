@@ -3,6 +3,11 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added WDIO tests.
+
+### Changed
+* Updated condition for `Secondary Nav item` to scroll when not visible.
 
 6.18.0 - (April 28, 2020)
 ----------

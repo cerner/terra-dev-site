@@ -134,6 +134,8 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
       {results.length > 0 && (
         <InfiniteList
           dividerStyle="standard"
+          role="listbox"
+          ariaLabel="Infinite List"
         >
           {
             state.results.map(result => (
