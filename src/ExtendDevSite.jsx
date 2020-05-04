@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 
 import ApplicationBase from 'terra-application';
 import ApplicationNavigation from 'terra-application/lib/application-navigation';
@@ -23,9 +23,15 @@ const ExtendDevSite = () => (
         themeName={themeName}
         themeIsGlobal
       >
-        <BrowserRouter basename={siteConfig.basename}>
-          {child}
-        </BrowserRouter>
+        {siteConfig.isHashRouter ? (
+          <HashRouter basename={siteConfig.basename}>
+            {child}
+          </HashRouter>
+        ) : (
+          <BrowserRouter basename={siteConfig.basename}>
+            {child}
+          </BrowserRouter>
+        )}
       </ApplicationBase>
     )}
     applicationNavigation={({

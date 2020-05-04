@@ -46,6 +46,7 @@ const generateAppConfig = ({
     navConfig,
     sideEffectImports,
     placeholderSrc,
+    isHashRouter,
   } = siteConfig;
 
   const rootPath = path.join(process.cwd(), 'dev-site-config');
@@ -133,6 +134,7 @@ const generateAppConfig = ({
     placeholderSrc: imports.addImport(placeholderSrc, 'placeholderSrc'),
     apps,
     basename,
+    isHashRouter,
   };
 
   writeConfig({ config, imports }, 'siteConfig.js', buildPath, fse);

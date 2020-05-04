@@ -39,6 +39,12 @@ const siteConfig = {
    */
   hotReloading: true,
 
+  /** Whether or not hash routing should be used or not.
+   * If true then hash routing is used else browser routing
+   * Defaults to false, i.e. browser routing is used
+   */
+  isHashRouter: false,
+
   /** The root-level npm package.json file. Change this if you have a non-standard package.json path.
    * Defaults to the <root_dir>/package.json
    */
