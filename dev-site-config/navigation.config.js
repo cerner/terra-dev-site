@@ -6,9 +6,9 @@ const navConfig = {
       text: 'Home',
       pageTypes: ['home'],
     }, {
-      path: '/getting-started',
-      text: 'Getting Started',
-      pageTypes: ['doc'],
+      path: '/dev_tools',
+      text: 'Developer Tools',
+      pageTypes: ['tool'],
     }, {
       path: '/single-page-test',
       text: 'Single Page Test',
