@@ -1,6 +1,10 @@
-# Getting Started
+import { Badge } from 'terra-dev-site/package.json?dev-site-package';
 
-Terra-dev-site offers a quick site to host test examples and documentation for your react components or markdown documentation.
+<Badge />
+
+# Terra Dev Site
+
+Terra-dev-site offers a quick test site to host examples and documentation for your react components or markdown documentation. Terra dev site is intended for speed development of reusable node modules utilizing terra that are intended to be shared between applications.
 
 ## Quick start
 
@@ -9,17 +13,6 @@ Terra-dev-site offers a quick site to host test examples and documentation for y
 ``` bash
 npm install --save-dev terra-dev-site
 ```
-
-## Peer Dependencies
-
-This component requires the following peer dependencies be installed in your app for the component to properly function.
-
-| Peer Dependency | Version |
-|-|-|
-| react | ^16.8.5 |
-| react-dom | ^16.8.5 |
-| terra-toolkit | ^5.2.0 |
-| webpack | ^4.28.1 |
 
 ### Prerequisites
 
@@ -158,7 +151,7 @@ The menu navigation result will be:
 
 ## Path based routing deployments
 
-To support hash routing with path based routing for gh-pages style deployments, you must supply an env variable, `TERRA_DEV_SITE_PUBLIC_PATH`, describing the path for assets to be served from.
+To support path based routing for gh-pages style deployments, you must supply an env variable, `TERRA_DEV_SITE_PUBLIC_PATH`, describing the path for assets to be served from.
 
 For example, for a page hosted on github pages with a url of: http://cerner.github.com/terra-dev-site. The environment variable should be set as follows.
 
@@ -178,4 +171,4 @@ To get verbose output, add `--env.verboseGenerateAppConfig` to your webpack comm
 
 ## Further customization:
 
-Check out our [Customization docs](https://engineering.cerner.com/terra-dev-site/getting-started/terra-dev-site/site-config/site-config).
+Check out our [Customization docs](/dev_tools/terra-dev-site/terra-dev-site/site-config/site-config).

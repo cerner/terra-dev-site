@@ -8,6 +8,7 @@ Unreleased
 
 ### Changed
 * Updated condition for `Secondary Nav item` to scroll when not visible.
+* Re-organized terra-dev-site docs for consumption through terra-ui.
 
 6.18.0 - (April 28, 2020)
 ----------
