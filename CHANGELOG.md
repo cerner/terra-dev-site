@@ -4,12 +4,21 @@ Changelog
 Unreleased
 ----------
 
-6.18.0 - (April 28, 2020)
+6.20.0 - (May 5, 2020)
+----------
+### Added
+* Added WDIO tests.
+
+### Changed
+* Updated condition for `Secondary Nav item` to scroll when not visible.
+* Re-organized terra-dev-site docs for consumption through terra-ui.
+
+6.19.0 - (April 28, 2020)
 ----------
 ### Fixed
 * Secondary nav item should not jump when item is visible.
 
-6.17.0 - (April 23, 2020)
+6.18.0 - (April 23, 2020)
 ----------
 ### Added
 * Added Source Code Badge inline with npm badge, which will only be displayed if the property `repository` with sub property `url` is specified in the package.json file.
