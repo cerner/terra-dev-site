@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Added
+* Added option to switch between `Browser Routing` and `Hash Routing` with the default being browser routing.
 
 6.20.0 - (May 5, 2020)
 ----------
