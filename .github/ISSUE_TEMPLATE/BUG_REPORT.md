@@ -1,6 +1,11 @@
 ---
-name: 🐛 Bug Report
+name: "\U0001F41B Bug Report"
 about: If something isn't working as expected
+title: ''
+labels: "\U0001F6A7Blocked: Accessibility Input, \U0001F6A7Blocked: Functional Input,
+  \U0001F6A7Blocked: Engineering Input, \U0001F6A7Blocked: UX Input Needed, :package:
+  terra-dev-site"
+assignees: ''
 
 ---
 

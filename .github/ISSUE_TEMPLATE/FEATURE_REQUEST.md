@@ -1,6 +1,11 @@
 ---
-name: 🚀 Feature Request
+name: "\U0001F680 Feature Request"
 about: Submit a proposal for a new feature
+title: ''
+labels: ":package: terra-dev-site, \U0001F6A7Blocked: Accessibility Input, \U0001F6A7Blocked:
+  Engineering Input, \U0001F6A7Blocked: Functional Input, \U0001F6A7Blocked: UX Input
+  Needed"
+assignees: ''
 
 ---
 
