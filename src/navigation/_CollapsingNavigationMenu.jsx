@@ -136,6 +136,7 @@ class CollapsingNavigationMenu extends React.Component {
 
   handleKeyDown(event, item) {
     if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
+      event.preventDefault();
       this.handleOnClick(event, item);
     }
   }
