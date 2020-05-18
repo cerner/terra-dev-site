@@ -49,4 +49,11 @@ Terra.describeViewports('secondary nav', ['huge'], () => {
     browser.click('[class*="list-item"]');
     Terra.validates.element('should scroll down when item is not visible and at the bottom after', { selector: '#root' });
   });
+
+  it('should not scroll when selecting through spacebar', () => {
+    browser.url('/secondary-nav-test/terra-dev-site/secondary-scroll-test/filler/filler-test');
+    Terra.validates.element('should not scroll when selecting through spacebar before', { selector: '#root' });
+    browser.keys(['Tab', 'Space', 'Tab', 'Space']);
+    Terra.validates.element('should not scroll when selecting through spacebar after', { selector: '#root' });
+  });
 });
