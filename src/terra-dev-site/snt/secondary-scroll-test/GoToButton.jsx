@@ -26,12 +26,13 @@ const GoToButton = (props) => {
   const {
     path,
     history,
+    ...customProps
   } = props;
 
   let temp;
   if (history) {
     temp = (
-      <button className="GoToButton" onClick={() => { goToClick(path, history); }} >
+      <button type="button" onClick={() => { goToClick(path, history); }} {...customProps}>
         Push me
       </button>
     );
