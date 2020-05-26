@@ -3,6 +3,11 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated terra-form-select dependency to ^6.0.0
+
+----------
+
 ### Fixed
 * `Secondary Nav Menu` scrolling down when selecting items through spacebar.
 * Fixed some WDIO tests to be more reliable.
