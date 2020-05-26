@@ -18,6 +18,7 @@ Cerner Corporation
 - Derek Yu [yuderekyu]
 - Lokesh P[@lokesh-0813 ]
 - Gabe Parra [@gabeparra01]
+- Dianna McGinn [@DMcginn]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -37,3 +38,4 @@ Cerner Corporation
 [yuderekyu]: https://github.com/yuderekyu
 [@lokesh-0813]: https://github.com/lokesh-0813
 [@gabeparra01]: https://github.com/gabeparra01
+[@DMcginn]: https://github.com/DMcginn

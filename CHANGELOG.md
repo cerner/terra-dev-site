@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated terra-form-select dependency to ^6.0.0
 
 6.21.0 - (May 26, 2020)
 ----------
