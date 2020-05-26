@@ -5,6 +5,7 @@ Unreleased
 ----------
 ### Fixed
 * `Secondary Nav Menu` scrolling down when selecting items through spacebar.
+* Fixed some WDIO tests to be more reliable.
 
 6.20.0 - (May 5, 2020)
 ----------
