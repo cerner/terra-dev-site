@@ -36,10 +36,13 @@ const resolve = (filePath, defaultConfig) => {
 const loadSiteConfig = (configName = 'site.config.js', defaultPath = '../../config/site/site.config.js') => {
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const defaultConfig = require(defaultPath);
+
+  // If there are site configs, return those, if not, return the defaults
   let projectConfig = defaultConfig;
 
   // Try to find the site config at the default path and then merge it with the defaults.
   const localConfig = resolve(path.resolve(process.cwd(), 'dev-site-config', configName), defaultConfig);
+  // Override defaults with local configs
   if (localConfig) { projectConfig = localConfig; }
 
   // Try to find the locale configs at the default path and override defaults if present.
@@ -47,9 +50,10 @@ const loadSiteConfig = (configName = 'site.config.js', defaultPath = '../../conf
   if (isFile(localLocaleConfig)) {
     // eslint-disable-next-line global-require, import/no-dynamic-require
     const config = require(localLocaleConfig);
-    if (config.locales) { projectConfig.locales = config.locales; }
+    // override default locales with local locales
+    if (config.locales) { projectConfig.appConfig.locales = config.locales; }
   }
-  // Return the default config.
+
   return projectConfig;
 };
 
