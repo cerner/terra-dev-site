@@ -5,6 +5,7 @@ Unreleased
 ----------
 ### Changed
 * Updated terra-form-select dependency to ^6.0.0
+* Reduced the number of places locale had to be defined for the client.
 
 6.21.0 - (May 26, 2020)
 ----------
