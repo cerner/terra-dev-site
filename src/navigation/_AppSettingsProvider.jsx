@@ -21,9 +21,6 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
     themes,
   } = settingsConfig;
 
-  // Use default locales or fall back on user configurations
-  const locales = typeof TERRA_AGGREGATED_LOCALES === 'object' ? TERRA_AGGREGATED_LOCALES : settingsConfig.locales;
-
   const [currentLocale, setCurrentLocale] = useState(defaultLocale);
   const [currentDirection, setCurrentDirection] = useState(defaultDirection);
   const [currentTheme, setCurrentTheme] = useState(defaultTheme);
@@ -62,6 +59,9 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
       }
     };
 
+    // Use default locales or fall back on user configurations
+    const locales = typeof TERRA_AGGREGATED_LOCALES === 'object' ? TERRA_AGGREGATED_LOCALES : settingsConfig.locales;
+
     return ({
       ...settingsConfig,
       locales,
@@ -71,7 +71,7 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
       currentThemeName: themes[currentTheme],
       onUpdate,
     });
-  }, [settingsConfig, locales, themes, currentLocale, currentTheme, currentDirection]);
+  }, [settingsConfig, themes, currentLocale, currentTheme, currentDirection]);
 
   return (
     <AppSettingsContext.Provider value={appSettings}>
