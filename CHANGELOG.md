@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Fixed
+* Fixed failed to read sessionStorage Property error when the access is denied.
+
 ### Changed
 * Updated terra-form-select dependency to ^6.0.0
 
