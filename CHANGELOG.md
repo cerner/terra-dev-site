@@ -5,7 +5,7 @@ Unreleased
 ----------
 ### Changed
 * Updated terra-form-select dependency to ^6.0.0
-* Reduced the number of places locale had to be defined for the client.
+* Removed the locale configuration in favor of using the global `TERRA_AGGREGATED_LOCALES` variable provided by terra-toolkit v5.21.0.
 
 6.21.0 - (May 26, 2020)
 ----------
