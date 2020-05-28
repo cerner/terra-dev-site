@@ -37,24 +37,14 @@ const loadSiteConfig = (configName = 'site.config.js', defaultPath = '../../conf
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const defaultConfig = require(defaultPath);
 
-  // If there are site configs, return those, if not, return the defaults
-  let projectConfig = defaultConfig;
-
   // Try to find the site config at the default path and then merge it with the defaults.
   const localConfig = resolve(path.resolve(process.cwd(), 'dev-site-config', configName), defaultConfig);
-  // Override defaults with local configs
-  if (localConfig) { projectConfig = localConfig; }
-
-  // Try to find the locale configs at the default path and override defaults if present.
-  const localLocaleConfig = path.resolve(process.cwd(), 'terraI18n.config.js');
-  if (isFile(localLocaleConfig)) {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    const config = require(localLocaleConfig);
-    // override default locales with local locales
-    if (config.locales) { projectConfig.appConfig.locales = config.locales; }
+  if (localConfig) {
+    return localConfig;
   }
 
-  return projectConfig;
+  // Return the default config.
+  return defaultConfig;
 };
 
 module.exports = loadSiteConfig;
