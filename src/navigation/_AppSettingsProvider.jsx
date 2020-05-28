@@ -20,6 +20,15 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
     themes,
   } = settingsConfig;
 
+  /* eslint-disable no-undef, no-console, no-param-reassign */
+  if (TERRA_AGGREGATED_LOCALES) {
+    if (settingsConfig.locales) {
+      console.warn('Locale configurations are deprecated as of terra-toolkit v5.21.0.');
+    }
+    settingsConfig.locales = TERRA_AGGREGATED_LOCALES;
+  }
+  /* eslint-enable */
+
   const [currentLocale, setCurrentLocale] = useState(defaultLocale);
   const [currentDirection, setCurrentDirection] = useState(defaultDirection);
   const [currentTheme, setCurrentTheme] = useState(defaultTheme);
