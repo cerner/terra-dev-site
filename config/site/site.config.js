@@ -1,4 +1,3 @@
-const i18nSupportedLocales = require('terra-aggregate-translations/config/i18nSupportedLocales');
 const startCase = require('lodash.startcase');
 const fs = require('fs');
 const path = require('path');
@@ -77,8 +76,8 @@ const siteConfig = {
      * between locales. Defaulted to the supported locals list in terra-18n.
      *
      * NOTE: This configuration has been deprecated as of terra-toolkit 5.21.0
+     * locales: i18nSupportedLocales,
      */
-    locales: i18nSupportedLocales,
 
     /* The default locale of the site. 'en' is the default theme. */
     defaultLocale: 'en',
