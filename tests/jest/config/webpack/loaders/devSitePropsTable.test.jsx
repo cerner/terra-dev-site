@@ -1,4 +1,4 @@
-jest.mock('/Users/dm068655/Documents/terra-dev-site/src/terra-dev-site/test/loaders/PropsTableExample2.jsx');
+jest.mock('../../../../../src/terra-dev-site/test/loaders/PropsTableExample2.jsx');
 jest.mock('/Users/dm068655/Documents/terra-dev-site/lib/terra-dev-site/test/loaders/PropsTableExample.js');
 
 const source = 'terra-dev-site/lib/terra-dev-site/test/loaders/PropsTableExample?dev-site-props-table';
