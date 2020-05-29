@@ -1,19 +1,23 @@
-jest.mock('../../../../../src/terra-dev-site/test/loaders/PropsTableExample2.jsx');
+/* eslint-disable no-unused-vars */
+import 'regenerator-runtime/runtime';
+
+jest.mock('/Users/dm068655/Documents/terra-dev-site/src/terra-dev-site/test/loaders/PropsTableExample.jsx');
 jest.mock('/Users/dm068655/Documents/terra-dev-site/lib/terra-dev-site/test/loaders/PropsTableExample.js');
 
-const source = 'terra-dev-site/lib/terra-dev-site/test/loaders/PropsTableExample?dev-site-props-table';
+const path = require('path');
+const { runLoaders } = require('loader-runner');
 
-test('error message', done => {
-  // eslint-disable-next-line no-unused-vars
-  const loader = async function loader(content) {
-    const callback = this.async();
-    this.resolve('', source, async (err, result) => {
-      if (err) {
-        return callback(new Error(`A non transpiled source file is required for the props table to be generated:\n${source}\n${err}`));
-      }
-      expect().toThow(`A non transpiled source file is required for the props table to be generated:\n${source}\n${err}`);
-      done();
-      return result;
+describe('devSitePropsTable test', () => {
+  it('when the propsTable lib file does not match the source file', (done) => {
+    runLoaders({
+      resource: path.resolve(__dirname, '../../../../../src/terra-dev-site/test/loaders/PropsTable.test.mdx'),
+      loaders: [
+        path.resolve(__dirname, '../../../../../config/webpack/loaders/devSitePropsTable'),
+      ],
+    }, (err, result) => {
+      if (err) return done(err);
+      expect(result.result[0]).toMatchSnapshot();
+      return done();
     });
-  };
+  });
 });
