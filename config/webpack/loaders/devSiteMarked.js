@@ -58,7 +58,6 @@ const loader = async function loader(markdown) {
     '',
     `export default () => {
       const theme = React.useContext(ThemeContext);
-      console.log(theme);
       const markedClassNames = classNames(
        cx([
          'marked',
