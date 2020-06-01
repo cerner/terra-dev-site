@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { ThemeContext } from 'terra-application/lib/theme';
 import styles from './MarkdownTags.module.scss';
 
 const cx = classNames.bind(styles);
@@ -23,11 +24,22 @@ const propTypes = {
  * A component to represent an html tag for MDX.
  * @param {{ Tag, props: componentProps }} props
  */
-const TagComp = ({ Tag, props: componentProps }) => (
-  <Tag {...componentProps} className={[cx(Tag), componentProps.className].join(' ')}>
-    { componentProps.children }
-  </Tag>
-);
+const TagComp = ({ Tag, props: componentProps }) => {
+  const theme = React.useContext(ThemeContext);
+  const TagClassNames = classNames(
+    cx([
+      Tag,
+      componentProps.className,
+      theme.className,
+    ]),
+  );
+
+  return (
+    <Tag {...componentProps} className={TagClassNames}>
+      { componentProps.children }
+    </Tag>
+  );
+};
 
 TagComp.propTypes = propTypes;
 
