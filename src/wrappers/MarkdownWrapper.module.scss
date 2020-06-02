@@ -1,3 +1,5 @@
+@import './clinical-lowlight-theme/MarkdownWrapper.module';
+
 :local(.markdown) {
   color: inherit;
   height: 100%;
@@ -26,6 +28,7 @@
 
   // Prism classes, cannot be class modules
   .token.comment,
+  .token.doc-comment.comment.punctuation,
   .token.prolog,
   .token.cdata,
   .token.coord {
@@ -42,13 +45,18 @@
   .token.url,
   .token.atrule,
   .token.property {
-    color: #005cc5;
+    color: var(--terra-dev-site-token-function-color, #005cc5);
   }
 
+  .token.plain,
+  .token.content,
+  .token.doctype,
+  .token.parameter,
   .token.variable,
   .token.script ,
-  .token.tag .token.punctuation {
-    color: #24292e;
+  .token.tag,
+  .token.punctuation {
+    color: var(--terra-dev-site-token-plain-color, #24292e);
   }
 
   .token.tag,
@@ -60,7 +68,7 @@
 
   .token.function-variable.function,
   .token.string {
-    color: #032f62;
+    color: var(--terra-dev-site-token-string-color, #032f62);
   }
 
   .token.attr-name,
@@ -80,14 +88,15 @@
   .token.attr-value,
   .token.important,
   .token.script-punctuation.punctuation,
+  .token.property-access,
   .token.keyword {
-    color: #d53040;
+    color: var(--terra-dev-site-token-keyword-color, #d53040);
   }
 
   .token.selector,
   .token.attr-name,
   .token.class-name {
-    color: #6f42c1;
+    color: var(--terra-dev-site-token-class-name-color, #6f42c1);
   }
 
   .token.bold {

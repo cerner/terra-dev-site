@@ -49,7 +49,7 @@
     margin: 0;
     padding: 0.2em 0.4em;
     text-align: left;
-    text-shadow: 0 1px #fff;
+    text-shadow: 0 1px var(--terra-dev-site-mdx-code-shadow-color, #fff);
     white-space: pre;
     word-break: normal;
     word-spacing: normal;
@@ -268,7 +268,7 @@
   }
 
   .pre {
-    background-color: #f6f8fa;
+    background-color: var(--terra-dev-site-mdx-code-background-color, #f6f8fa);
     border-radius: 3px;
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     font-size: 1em;
