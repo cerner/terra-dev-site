@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+### Fixed
+* Fixed failed to read sessionStorage Property error when the access is denied.
+
 ### Changed
 * Updated terra-form-select dependency to ^6.0.0
 * Removed the locale configuration in favor of using the global `TERRA_AGGREGATED_LOCALES` variable provided by terra-toolkit v5.21.0.

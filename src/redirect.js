@@ -6,6 +6,12 @@
 // returning a 404 page that stores the requested path and redirects to index.html
 // to allow the SPA router to handle the route.
 // Store the not found window location in session storage
-window.sessionStorage.redirect = window.location.href;
+
+import getSessionStorage from './session';
+
+if (getSessionStorage() !== undefined) {
+  window.sessionStorage.redirect = window.location.href;
+}
+
 // Redirect to the base path. Once done react router will use the stored location to route SPA style.
 window.location.pathname = `${TERRA_DEV_SITE_BASENAME}/`;
