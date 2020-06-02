@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { ThemeContext } from 'terra-application/lib/theme';
 
 import CodesplitWrapper from './_CodesplitWrapper';
 import ContentLoaded from './_ContentLoaded';
@@ -26,20 +27,29 @@ const defaultProps = {
   props: undefined,
 };
 
-const MarkdownWrapper = (props) => (
-  <CodesplitWrapper
-    {...props}
-    fallback={<ContentLoading />}
-    loadedWrapper={({ children }) => (
-      <ContentLoaded>
-        <div className={cx('markdown')}>
-          {children}
-        </div>
-      </ContentLoaded>
-    )}
-    errorWrapper={ContentLoaded}
-  />
-);
+const MarkdownWrapper = (props) => {
+  const theme = React.useContext(ThemeContext);
+  const MarkdownClassNames = classNames(
+    cx([
+      'markdown',
+      theme.className,
+    ]),
+  );
+  return (
+    <CodesplitWrapper
+      {...props}
+      fallback={<ContentLoading />}
+      loadedWrapper={({ children }) => (
+        <ContentLoaded>
+          <div className={MarkdownClassNames}>
+            {children}
+          </div>
+        </ContentLoaded>
+      )}
+      errorWrapper={ContentLoaded}
+    />
+  );
+};
 
 MarkdownWrapper.propTypes = propTypes;
 MarkdownWrapper.defaultProps = defaultProps;
