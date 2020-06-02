@@ -258,7 +258,7 @@
   .p {
     // For whatever reason this code tag was not being overwritten by mdx.
     code {
-      background-color: #f6f8fa;
+      background-color: var(--terra-dev-site-mdx-code-background-color, #f6f8fa);
       border-radius: 3px;
       font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
       font-size: 85%;
@@ -268,7 +268,7 @@
   }
 
   .pre {
-    background-color: var(--terra-dev-site-mdx-code-background-color, #f6f8fa);
+    background-color: --terra-dev-site-mdx-code-background-color;
     border-radius: 3px;
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     font-size: 1em;
