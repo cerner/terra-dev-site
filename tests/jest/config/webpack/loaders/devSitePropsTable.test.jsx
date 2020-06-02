@@ -1,9 +1,11 @@
 import 'regenerator-runtime/runtime';
 // eslint-disable-next-line no-unused-vars
-// jest.mock('../../../../../src/terra-dev-site/test/loaders/PropsTableExample.jsx');
-// jest.mock('/Users/dm068655/Documents/terra-dev-site/lib/terra-dev-site/test/loaders/PropsTableExample.js');
+// path.resolve(__dirname, '../../../../../src/terra-dev-site/test/loaders/PropsTableExample.jsx')
+// ('/Users/dm068655/Documents/terra-dev-site/lib/terra-dev-site/test/loaders/PropsTableExample.js');
 // path.resolve(__dirname, '../../../../../config/webpack/loaders/devSitePropsTable')
+// /Users/dm068655/Documents/terra-dev-site/tests/jest/config/webpack/loaders/PropsTableExample2.jsx
 
+jest.mock('');
 const path = require('path');
 const { runLoaders } = require('loader-runner');
 const rehypeSlug = require('rehype-slug');
@@ -24,30 +26,20 @@ const mdxOptions = (publicPath) => ({
   ],
 });
 
-const compiler = {
-  options: {
-    output: {
-      publicPath: '/',
-    },
-    resolve: {
-      extensions: '.js,.jsx,.jst',
-    },
-  },
-};
+// const source = '/Users/dm068655/Documents/terra-dev-site/src/terra-dev-site/test/loaders/PropsTableExample';
 
 describe('devSitePropsTable test', () => {
   it('when the propsTable lib file does not match the source file', (done) => {
     runLoaders({
-      resource: path.resolve(__dirname, '../../../../../src/terra-dev-site/test/loaders/PropsTableExample.jsx'),
-      loaders: [
-        path.resolve(__dirname, '../../../../../config/webpack/loaders/devSitePropsTable'),
-      ],
+      resource: path.resolve(__dirname, './PropsTableExample2.jsx'),
+      loader: '/Users/dm068655/Documents/terra-dev-site/config/webpack/loaders/devSitePropsTable',
       options: {
-        resolveExtensions: compiler.options.resolve.extensions,
-        mdx: mdxOptions(compiler.options.output.publicPath),
+        mdx: mdxOptions('/'),
+        resolveExtensions: '.js,.jsx,.jst',
       },
     }, (err, result) => {
       if (err) return done(err);
+      // expect(result.result[0]).toEqual(`A non transpiled source file is required for the props table to be generated:\n${source}\n${err}`);
       expect(result.result[0]).toMatchSnapshot();
       return done();
     });
