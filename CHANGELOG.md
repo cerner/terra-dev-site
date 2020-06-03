@@ -3,6 +3,12 @@ Changelog
 
 Unreleased
 ----------
+
+6.22.0 - (June 2, 2020)
+----------
+### Fixed
+* Fixed failed to read sessionStorage Property error when the access is denied.
+
 ### Changed
 * Changed the error in devSitePropsTable.js when it can't find a source to be more informative.
 

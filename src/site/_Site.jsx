@@ -13,6 +13,7 @@ import siteConfigPropType from './siteConfigPropTypes';
 import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 
 import './site.module.scss';
+import getSessionStorage from '../session';
 
 const propTypes = {
   /**
@@ -50,7 +51,9 @@ class Site extends React.Component {
    */
   redirectToReservedRoute({ match }) {
     const { siteConfig } = this.props;
-    window.sessionStorage.redirect = window.location.href;
+    if (getSessionStorage() !== undefined) {
+      window.sessionStorage.redirect = window.location.href;
+    }
     window.location.pathname = `${siteConfig.basename}${match.url}/`;
     return null;
   }
