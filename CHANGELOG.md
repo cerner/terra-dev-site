@@ -4,6 +4,14 @@ Changelog
 Unreleased
 ----------
 ### Changed
+* Updated the error for devSitePropsTable.js when it can't find a source to be more informative.
+
+6.22.0 - (June 2, 2020)
+----------
+### Fixed
+* Fixed failed to read sessionStorage Property error when the access is denied.
+
+### Changed
 * Updated terra-form-select dependency to ^6.0.0
 
 6.21.0 - (May 26, 2020)
