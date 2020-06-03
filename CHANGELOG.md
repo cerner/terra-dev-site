@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Changed the error in devSitePropsTable.js when it can't find a source to be more informative.
 
 6.22.0 - (June 2, 2020)
 ----------
