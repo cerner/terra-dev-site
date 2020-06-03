@@ -23,7 +23,7 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
 
   if (Array.isArray(settingsConfig.locales) && settingsConfig.locales.length !== 0) {
     // eslint-disable-next-line no-console
-    console.warn('Locale configurations are deprecated as of terra-dev-site v6.22.0. You may remove this setting from your configuration files.');
+    console.warn('Locale configurations are deprecated as of terra-dev-site v6.23.0. You may remove this setting from your configuration files.');
   }
 
   const [currentLocale, setCurrentLocale] = useState(defaultLocale);
