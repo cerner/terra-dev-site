@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.22.0 - (June 2, 2020)
+----------
 ### Fixed
 * Fixed failed to read sessionStorage Property error when the access is denied.
 
