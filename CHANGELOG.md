@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated eslint-config-terra to @cerner/eslint-config-terra ^4.0.0
 
 6.22.0 - (June 2, 2020)
 ----------
