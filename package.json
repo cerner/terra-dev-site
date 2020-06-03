@@ -49,7 +49,7 @@
     "extends browserslist-config-terra"
   ],
   "eslintConfig": {
-    "extends": "terra",
+    "extends": "@cerner/terra",
     "settings": {
       "polyfills": [
         "Promise"
