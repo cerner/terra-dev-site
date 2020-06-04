@@ -75,7 +75,7 @@ const siteConfig = {
     /** The locales to supply Base with, which allows the site to switch
      * between locales. Defaulted to the supported locals list in terra-18n.
      *
-     * NOTE: This configuration has been deprecated as of terra-toolkit 5.21.0
+     * NOTE: This configuration has been deprecated as of terra-dev-site 6.23.0
      * locales: i18nSupportedLocales,
      */
 
