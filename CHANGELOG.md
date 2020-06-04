@@ -6,6 +6,7 @@ Unreleased
 ### Changed
 * Changed the error in devSitePropsTable.js when it can't find a source to be more informative.
 * Updated eslint-config-terra to @cerner/eslint-config-terra ^4.0.0
+* Removed the locale configuration in favor of using the global `TERRA_AGGREGATED_LOCALES` variable provided by terra-toolkit v5.21.0.
 
 6.22.0 - (June 2, 2020)
 ----------
@@ -14,7 +15,6 @@ Unreleased
 
 ### Changed
 * Updated terra-form-select dependency to ^6.0.0
-* Removed the locale configuration in favor of using the global `TERRA_AGGREGATED_LOCALES` variable provided by terra-toolkit v5.21.0.
 
 6.21.0 - (May 26, 2020)
 ----------
