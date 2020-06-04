@@ -64,8 +64,8 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
       }
     };
 
-    /* Use default locales or fall back on user configurations configurations.
-     * terra-toolkit v5.21.0 provides configurations from terraI18n, so this reduces the number of places users need to define their locales.
+    /* Use default locales or fall back on default. terra-toolkit v5.21.0 provides configurations from terraI18n, 
+     * so this reduces the number of places users need to define their locales.
      */
     const locales = typeof TERRA_AGGREGATED_LOCALES === 'object' ? TERRA_AGGREGATED_LOCALES : ['en'];
 
