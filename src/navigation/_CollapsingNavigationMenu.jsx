@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
@@ -248,9 +248,14 @@ const CollapsingNavigationMenu = (props) => {
   }, {});
   const { menuItems, selectedPath, onSelect } = props;
 
+  const [isNewSelectedPath, setIsNewSelectedPath] = useState(true);
   const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const selectedItem = useRef();
+
+  useEffect(() => {
+    console.log('open keys changed');
+  }, [openKeys]);
 
   const handleOnClick = (event, item) => {
     if (!item.childItems) {
@@ -268,12 +273,12 @@ const CollapsingNavigationMenu = (props) => {
     }
   };
 
-  const renderMenuItems = (firstLevel) => {
-    if (!menuItems) {
+  const renderMenuItems = (currentMenuItem, firstLevel) => {
+    if (!currentMenuItem) {
       return undefined;
     }
 
-    return menuItems.map((item) => {
+    return currentMenuItem.map((item) => {
       const itemIsOpen = openKeys[item.path];
       const itemHasChildren = item.childItems !== undefined;
       let isSelected = false;
