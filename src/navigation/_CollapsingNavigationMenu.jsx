@@ -253,17 +253,12 @@ const CollapsingNavigationMenu = (props) => {
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const selectedItem = useRef();
 
-  useEffect(() => {
-    console.log('open keys changed');
-  }, [openKeys]);
-
   const handleOnClick = (event, item) => {
     if (!item.childItems) {
       onSelect(item.path);
       return;
     }
-    openKeys[item.path] = !openKeys[item.path];
-    setOpenKeys(openKeys);
+    setOpenKeys({ ...openKeys, [item.path]: !openKeys[item.path] });
   };
 
   const handleKeyDown = (event, item) => {
