@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
 
 import IconCaretRight from 'terra-icon/lib/icon/IconCaretRight';
 import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
+import { ThemeContext } from 'terra-application/lib/theme';
 import { menuItemPropType } from '../site/siteConfigPropTypes';
 
 import styles from './CollapsingNavigationMenu.module.scss';
@@ -252,6 +253,7 @@ const CollapsingNavigationMenu = (props) => {
   const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const selectedItem = useRef();
+  const theme = useContext(ThemeContext);
 
   const handleOnClick = (event, item) => {
     if (!item.childItems) {
@@ -284,11 +286,19 @@ const CollapsingNavigationMenu = (props) => {
         selectedRef = selectedItem;
       }
 
+      const menuItemClassNames = classNames(
+        cx([
+          'item',
+          { 'is-selected': isSelected },
+          theme.className,
+        ])
+      );
+
       return (
         <React.Fragment key={item.path}>
           <div className={!firstLevel ? cx('indent') : null}>
             <div
-              className={cx(['item', { 'is-selected': isSelected }])}
+              className={menuItemClassNames}
               tabIndex="0"
               role="link"
               id={item.name.split(' ').join('-')}
