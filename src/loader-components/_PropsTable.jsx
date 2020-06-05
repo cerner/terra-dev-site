@@ -15,7 +15,7 @@ const propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       type: PropTypes.func,
-      required: PropTypes.oneOfType([PropTypes.bool, intlShape.required]),
+      required: PropTypes.oneOfType([PropTypes.bool, intlShape.isRequired]),
       defaultValue: PropTypes.string,
       description: PropTypes.func,
     }),
