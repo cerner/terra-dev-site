@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, {
+  useState, useRef, useEffect, useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
@@ -249,11 +251,17 @@ const CollapsingNavigationMenu = (props) => {
   }, {});
   const { menuItems, selectedPath, onSelect } = props;
 
-  const [isNewSelectedPath, setIsNewSelectedPath] = useState(true);
-  const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
+  // const [isNewSelectedPath, setIsNewSelectedPath] = useState(true);
+  // const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const selectedItem = useRef();
   const theme = useContext(ThemeContext);
+
+  useEffect(() => {
+    if (selectedItem && selectedItem.current) {
+      selectedItem.current.scrollIntoView();
+    }
+  }, []);
 
   const handleOnClick = (event, item) => {
     if (!item.childItems) {
@@ -291,7 +299,7 @@ const CollapsingNavigationMenu = (props) => {
           'item',
           { 'is-selected': isSelected },
           theme.className,
-        ])
+        ]),
       );
 
       return (
