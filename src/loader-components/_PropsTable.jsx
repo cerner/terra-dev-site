@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import intlShape from 'react-intl';
 import styles from './PropsTable.module.scss';
 
 const cx = classNames.bind(styles);
@@ -14,7 +15,7 @@ const propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       type: PropTypes.func,
-      required: PropTypes.bool,
+      required: PropTypes.oneOfType([PropTypes.bool, intlShape.required]),
       defaultValue: PropTypes.string,
       description: PropTypes.func,
     }),
