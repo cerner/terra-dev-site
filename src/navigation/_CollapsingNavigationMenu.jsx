@@ -49,47 +49,45 @@ const disableFocusStyles = (event) => {
   event.currentTarget.setAttribute('data-focus-styles-enabled', 'false');
 };
 
-const CollapsingNavigationMenu = (props) => {
-  /**
-   * Returns a list of keys in the tree to 'open' that lead to the selected path.
-   * @param {*} item the item to traverse
-   * @param {*} selectedPath the currently selected path
-   */
-  const keysToItem = (item, selectedPath) => {
-    let paths = [];
-    if (item.childItems) {
-      item.childItems.some((childItem) => {
-        if (selectedPath === childItem.path) {
-          paths = [item.path];
-          // if found bail early.
-          return true;
-        }
+/**
+ * Returns a list of keys in the tree to 'open' that lead to the selected path.
+ * @param {*} item the item to traverse
+ * @param {*} selectedPath the currently selected path
+ */
+const keysToItem = (item, selectedPath) => {
+  let paths = [];
+  if (item.childItems) {
+    item.childItems.some((childItem) => {
+      if (selectedPath === childItem.path) {
+        paths = [item.path];
+        // if found bail early.
+        return true;
+      }
 
-        const childPaths = keysToItem(childItem, selectedPath);
-        if (childPaths.length > 0) {
-          paths = childPaths.concat([item.path]);
-          // if found bail early.
-          return true;
-        }
-        return false;
-      });
-    }
+      const childPaths = keysToItem(childItem, selectedPath);
+      if (childPaths.length > 0) {
+        paths = childPaths.concat([item.path]);
+        // if found bail early.
+        return true;
+      }
+      return false;
+    });
+  }
 
-    return paths;
-  };
+  return paths;
+};
 
-  /**
-   * Returns an object containing the keys of the items to open to reveal the selected path in the tree.
-   * @param {*} menuItems list of all menu items
-   * @param {*} selectedPath the currently selected path
-   */
-  const openKeysToItem = (menuItems, selectedPath) => keysToItem(menuItems, selectedPath).reduce((acc, path) => {
-    acc[path] = true;
-    return acc;
-  }, {});
+/**
+ * Returns an object containing the keys of the items to open to reveal the selected path in the tree.
+ * @param {*} menuItems list of all menu items
+ * @param {*} selectedPath the currently selected path
+ */
+const openKeysToItem = (menuItems, selectedPath) => keysToItem(menuItems, selectedPath).reduce((acc, path) => {
+  acc[path] = true;
+  return acc;
+}, {});
 
-  const { menuItems, selectedPath, onSelect } = props;
-
+const CollapsingNavigationMenu = ({ menuItems, selectedPath, onSelect }) => {
   const [isNewSelectedPath, setIsNewSelectedPath] = useState(false);
   const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
