@@ -87,6 +87,7 @@ const CollapsingNavigationMenu = (props) => {
     acc[path] = true;
     return acc;
   }, {});
+
   const { menuItems, selectedPath, onSelect } = props;
 
   const [isNewSelectedPath, setIsNewSelectedPath] = useState(false);
