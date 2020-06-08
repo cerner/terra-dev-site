@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, useEffect, useContext,
+  useState, useRef, useEffect, useLayoutEffect, useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
@@ -251,7 +251,7 @@ const CollapsingNavigationMenu = (props) => {
   }, {});
   const { menuItems, selectedPath, onSelect } = props;
 
-  // const [isNewSelectedPath, setIsNewSelectedPath] = useState(true);
+  const [isNewSelectedPath, setIsNewSelectedPath] = useState(true);
   // const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const selectedItem = useRef();
@@ -262,6 +262,21 @@ const CollapsingNavigationMenu = (props) => {
       selectedItem.current.scrollIntoView();
     }
   }, []);
+
+  useLayoutEffect(() => {
+    if (!isNewSelectedPath) {
+      return;
+    }
+    const currentItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
+    const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
+    if (!currentItemPosition || !navigationMenuPosition) {
+      return;
+    }
+    // If the current item is not visible, scroll the item into view.
+    if (currentItemPosition.bottom > navigationMenuPosition.bottom || currentItemPosition.top < navigationMenuPosition.top) {
+      selectedItem.current.scrollIntoView();
+    }
+  });
 
   const handleOnClick = (event, item) => {
     if (!item.childItems) {
