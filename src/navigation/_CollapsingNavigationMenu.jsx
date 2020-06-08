@@ -31,10 +31,6 @@ const propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-const defaultProps = {
-  selectedPath: undefined,
-};
-
 /**
  * Enables focus styles for the target of the given event. Typically used as an onBlur callback on selectable elements.
  */
@@ -87,7 +83,7 @@ const openKeysToItem = (menuItems, selectedPath) => keysToItem(menuItems, select
   return acc;
 }, {});
 
-const CollapsingNavigationMenu = ({ menuItems, selectedPath, onSelect }) => {
+const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelect }) => {
   const [isNewSelectedPath, setIsNewSelectedPath] = useState(false);
   const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
@@ -194,6 +190,5 @@ const CollapsingNavigationMenu = ({ menuItems, selectedPath, onSelect }) => {
 };
 
 CollapsingNavigationMenu.propTypes = propTypes;
-CollapsingNavigationMenu.defaultProps = defaultProps;
 
 export default CollapsingNavigationMenu;
