@@ -251,11 +251,17 @@ const CollapsingNavigationMenu = (props) => {
   }, {});
   const { menuItems, selectedPath, onSelect } = props;
 
-  const [isNewSelectedPath, setIsNewSelectedPath] = useState(true);
-  // const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
+  const [isNewSelectedPath, setIsNewSelectedPath] = useState(false);
+  const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const selectedItem = useRef();
   const theme = useContext(ThemeContext);
+
+  if (previousSelectedPath !== selectedPath) {
+    setIsNewSelectedPath(true);
+    setOpenKeys(openKeysToItem(menuItems[0], selectedPath));
+    setPreviousSelectedPath(selectedPath);
+  }
 
   useEffect(() => {
     if (selectedItem && selectedItem.current) {
