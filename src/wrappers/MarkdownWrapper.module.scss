@@ -49,6 +49,7 @@
   }
 
   .token.plain,
+  .token.property-access,
   .token.content,
   .token.doctype,
   .token.parameter,
@@ -88,7 +89,6 @@
   .token.attr-value,
   .token.important,
   .token.script-punctuation.punctuation,
-  .token.property-access,
   .token.keyword {
     color: var(--terra-dev-site-token-keyword-color, #d53040);
   }
