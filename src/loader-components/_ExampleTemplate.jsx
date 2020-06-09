@@ -23,11 +23,11 @@ const propTypes = {
    */
   description: PropTypes.node,
 
-  initialIsExpanded: PropTypes.bool,
+  isExpanded: PropTypes.bool,
 };
 
 const defaultProps = {
-  initialIsExpanded: false,
+  isExpanded: false,
 };
 
 const renderHeader = (title) => {
@@ -55,9 +55,9 @@ const renderDescription = (description) => {
 };
 
 const ExampleTemplate = ({
-  example, exampleSrc, title, description, initialIsExpanded,
+  example, exampleSrc, title, description, isExpanded,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(initialIsExpanded);
+  const [codeIsVisible, setCodeIsVisible] = useState(isExpanded);
   const [isBackgroundTransparent, setIsBackgroundTransparent] = useState(false);
 
   return (
@@ -74,13 +74,13 @@ const ExampleTemplate = ({
             <button type="button" className={cx('bg-toggle')} onClick={() => setIsBackgroundTransparent(!isBackgroundTransparent)}>
               Toggle Background
             </button>
-            <button type="button" className={cx('code-toggle')} onClick={() => setIsExpanded(!isExpanded)}>
+            <button type="button" className={cx('code-toggle')} onClick={() => setCodeIsVisible(!codeIsVisible)}>
               <span className={cx('chevron-left')} />
               <span>Code</span>
               <span className={cx('chevron-right')} />
             </button>
           </div>
-          {isExpanded
+          {codeIsVisible
             && (
             <div className={cx('code')}>
               {exampleSrc}
