@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { ThemeContext } from 'terra-application/lib/theme';
 import styles from './ExampleTemplate.module.scss';
 
 const cx = classNames.bind(styles);
@@ -59,6 +60,21 @@ const ExampleTemplate = ({
 }) => {
   const [codeIsVisible, setCodeIsVisible] = useState(isExpanded);
   const [isBackgroundTransparent, setIsBackgroundTransparent] = useState(false);
+  const theme = React.useContext(ThemeContext);
+
+  const bgToggleClassNames = classNames(
+    cx([
+      'bg-toggle',
+      theme.className,
+    ]),
+  );
+
+  const codeToggleClassNames = classNames(
+    cx([
+      'code-toggle',
+      theme.className,
+    ]),
+  );
 
   return (
     <div className={cx('template')}>
@@ -71,10 +87,10 @@ const ExampleTemplate = ({
         && (
         <div className={cx('footer')}>
           <div className={cx('button-container')}>
-            <button type="button" className={cx('bg-toggle')} onClick={() => setIsBackgroundTransparent(!isBackgroundTransparent)}>
+            <button type="button" className={bgToggleClassNames} onClick={() => setIsBackgroundTransparent(!isBackgroundTransparent)}>
               Toggle Background
             </button>
-            <button type="button" className={cx('code-toggle')} onClick={() => setCodeIsVisible(!codeIsVisible)}>
+            <button type="button" className={codeToggleClassNames} onClick={() => setCodeIsVisible(!codeIsVisible)}>
               <span className={cx('chevron-left')} />
               <span>Code</span>
               <span className={cx('chevron-right')} />
