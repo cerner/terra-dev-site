@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.23.0 - (June 9, 2020)
+----------
 ### Changed
 * Changed the error in devSitePropsTable.js when it can't find a source to be more informative.
 * Updated eslint-config-terra to @cerner/eslint-config-terra ^4.0.0
