@@ -26,6 +26,10 @@ const propTypes = {
   initialIsExpanded: PropTypes.bool,
 };
 
+const defaultProps = {
+  initialIsExpanded: false,
+};
+
 const renderHeader = (title) => {
   if (title) {
     return (
@@ -37,7 +41,7 @@ const renderHeader = (title) => {
     );
   }
   return null;
-}
+};
 
 const renderDescription = (description) => {
   if (description) {
@@ -48,11 +52,13 @@ const renderDescription = (description) => {
     );
   }
   return null;
-}
+};
 
-const ExampleTemplate = ({ example, exampleSrc, title, description, initialIsExpanded = false }) => {
+const ExampleTemplate = ({
+  example, exampleSrc, title, description, initialIsExpanded,
+}) => {
   const [isExpanded, setIsExpanded] = useState(initialIsExpanded);
-  const [isBackgroundTransparent, setIsBackgroundTransparent] =  useState(false);
+  const [isBackgroundTransparent, setIsBackgroundTransparent] = useState(false);
 
   return (
     <div className={cx('template')}>
@@ -84,8 +90,9 @@ const ExampleTemplate = ({ example, exampleSrc, title, description, initialIsExp
         )}
     </div>
   );
-}
+};
 
 ExampleTemplate.propTypes = propTypes;
+ExampleTemplate.defaultProps = defaultProps;
 
 export default ExampleTemplate;
