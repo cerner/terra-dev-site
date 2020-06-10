@@ -63,7 +63,8 @@
   }
 
   .token.tag,
-  .token.tag .token.class-name,
+  .token.class-name,
+  .token.maybe-class-name,
   .token.constant,
   .token.symbol {
     color: #218336;
@@ -125,7 +126,7 @@
 
   .token.diff.important,
   .token.diff.bold {
-    background: #ffebda;
+    background: var(--terra-dev-site-token-diff-bold-background, #ffebda);
     color: #b54d08;
   }
 
