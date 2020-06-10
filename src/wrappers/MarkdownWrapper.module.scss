@@ -113,12 +113,12 @@
   }
 
   .token.deleted {
-    background: #ffeef0;
+    background: var(--terra-dev-site-token-deleted-background, #ffeef0);
     color: #b31d28;
   }
 
   .token.inserted {
-    background: #f0fff4;
+    background: var(--terra-dev-site-token-inserted-background, #f0fff4);
     color: #218336;
   }
 
