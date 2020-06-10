@@ -290,7 +290,7 @@
   }
 
   pre {
-    background-color: #f6f8fa;
+    background-color: var(--terra-dev-site-marked-pre-background-color, #f6f8fa);
     border-radius: 3px;
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     font-size: 1em;
