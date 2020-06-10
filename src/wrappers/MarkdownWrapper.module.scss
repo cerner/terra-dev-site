@@ -63,7 +63,7 @@
   }
 
   .token.tag,
-  .token.class-name,
+  .token.tag .token.class-name,
   .token.maybe-class-name,
   .token.constant,
   .token.symbol {
