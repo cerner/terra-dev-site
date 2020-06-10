@@ -57,7 +57,8 @@
   .token.variable,
   .token.script ,
   .token.tag,
-  .token.punctuation {
+  .token.punctuation,
+  .token.unchanged {
     color: var(--terra-dev-site-token-plain-color, #24292e);
   }
 
