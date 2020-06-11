@@ -173,7 +173,7 @@
   }
 
   .img {
-    background-color: #fff;
+    background-color: var(--terra-dev-site-mdx-background-color, #fff);
     border-style: none;
     box-sizing: content-box;
     max-width: 100%;
