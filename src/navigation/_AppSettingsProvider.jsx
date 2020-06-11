@@ -1,3 +1,4 @@
+/* global TERRA_AGGREGATED_LOCALES */
 import React, {
   useState,
   useEffect,
@@ -19,6 +20,11 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
     defaultDirection = 'ltr',
     themes,
   } = settingsConfig;
+
+  if (Array.isArray(settingsConfig.locales) && settingsConfig.locales.length !== 0) {
+    // eslint-disable-next-line no-console
+    console.warn('Locale configurations are deprecated as of terra-dev-site v6.23.0. You may remove this setting from your configuration files.');
+  }
 
   const [currentLocale, setCurrentLocale] = useState(defaultLocale);
   const [currentDirection, setCurrentDirection] = useState(defaultDirection);
@@ -58,8 +64,14 @@ const AppSettingsProvider = ({ settingsConfig, children }) => {
       }
     };
 
+    /* Use default locales or fall back on default. terra-toolkit v5.21.0 provides configurations from terraI18n,
+     * so this reduces the number of places users need to define their locales.
+     */
+    const locales = typeof TERRA_AGGREGATED_LOCALES === 'object' ? TERRA_AGGREGATED_LOCALES : ['en'];
+
     return ({
       ...settingsConfig,
+      locales,
       currentLocale,
       currentTheme,
       currentDirection,

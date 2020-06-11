@@ -125,7 +125,7 @@ const loader = async function loader(content) {
   // ensure src exists
   return this.resolve('', source, async (err, result) => {
     if (err) {
-      return callback(err);
+      return callback(new Error(`A non transpiled source file is required for the props table to be generated:\n${source}`));
     }
 
     // Add the src file to webpack's dependency list

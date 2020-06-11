@@ -67,7 +67,7 @@ const SettingsPicker = ({ config }) => {
       fill
     >
       <Spacer padding="medium">
-        {config.locales.length > 1 ? (
+        {appSettings.locales.length > 1 ? (
           <SelectField
             label="Locale"
             selectId="terra-dev-site-locale-select"
@@ -80,7 +80,7 @@ const SettingsPicker = ({ config }) => {
               });
             }}
           >
-            {config.locales.map(value => (
+            {appSettings.locales.map(value => (
               <SelectField.Option value={value} display={value} key={value} />
             ))}
           </SelectField>
