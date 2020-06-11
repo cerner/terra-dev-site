@@ -20,6 +20,7 @@ Cerner Corporation
 - Gabe Parra [@gabeparra01]
 - Dianna McGinn [@DMcginn]
 - Eric McCullough [@EricM96]
+- Akarsh Shetty [@ShettyAkarsh]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -41,3 +42,4 @@ Cerner Corporation
 [@gabeparra01]: https://github.com/gabeparra01
 [@DMcginn]: https://github.com/DMcginn
 [@EricM96]: https://github.com/EricM96
+[@ShettyAkarsh]: https://github.com/ShettyAkarsh
