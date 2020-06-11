@@ -77,12 +77,12 @@ const highlight = (key, result) => {
   return result.item[key];
 };
 
-const searchItem = result => (
+const searchItem = (result, theme) => (
   <div className={cx('item')}>
-    <div className={cx('title')}>
+    <div className={cx('title', theme.className)}>
       {highlight('title', result)}
     </div>
-    <div className={cx('path')}>
+    <div className={cx('path', theme.className)}>
       {highlight('path', result)}
     </div>
   </div>
@@ -147,7 +147,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
                 metaData={result}
                 onSelect={(event, metaData) => handleSelect(metaData, onItemSelected, disclosureManager)}
               >
-                {searchItem(result)}
+                {searchItem(result, theme)}
               </Item>
             ))
           }

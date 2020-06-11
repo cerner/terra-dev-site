@@ -18,7 +18,7 @@
   }
 
   .title {
-    color: #1c1f21;
+    color: var(--terra-dev-site-search-title-color, #1c1f21);
     font-size: 1.1428571428571428rem;
     line-height: 1.4285714285714286;
 
@@ -28,7 +28,7 @@
   }
 
   .path {
-    color: #64696c;
+    color: var(--terra-dev-site-search-path-color, #64696c);
     font-size: 1.1428571428571428rem;
     line-height: 1.4285714285714286;
 
