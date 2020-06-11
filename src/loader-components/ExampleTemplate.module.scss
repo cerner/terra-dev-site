@@ -34,7 +34,7 @@
   }
 
   .code {
-    background-color: #f6f8fa;
+    background-color: var(--terra-dev-site-example-template-code-background-color, #f6f8fa);
     height: 100%;
   }
 
