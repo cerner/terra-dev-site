@@ -57,16 +57,11 @@ const loader = async function loader(markdown) {
     '',
     `export default () => {
       const theme = React.useContext(ThemeContext);
-      const markedClassNames = classNames(
-       cx([
-         'marked',
-         theme.className
-       ])
-      );
+
       return (
         <div
           dir="ltr"
-          className={markedClassNames}
+          className={cx('marked', theme.className)}
           dangerouslySetInnerHTML={{
             __html: '${html}',
           }}
