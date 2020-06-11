@@ -29,19 +29,14 @@ const defaultProps = {
 
 const MarkdownWrapper = (props) => {
   const theme = React.useContext(ThemeContext);
-  const MarkdownClassNames = classNames(
-    cx([
-      'markdown',
-      theme.className,
-    ]),
-  );
+
   return (
     <CodesplitWrapper
       {...props}
       fallback={<ContentLoading />}
       loadedWrapper={({ children }) => (
         <ContentLoaded>
-          <div className={MarkdownClassNames}>
+          <div className={cx('markdown', theme.className)}>
             {children}
           </div>
         </ContentLoaded>

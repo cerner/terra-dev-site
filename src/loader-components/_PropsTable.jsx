@@ -24,24 +24,11 @@ const propTypes = {
 
 const PropsTable = ({ rows }) => {
   const theme = useContext(ThemeContext);
-  const propsTableHeaderRowClassNames = classNames(
-    cx([
-      'tr',
-      theme.className,
-    ]),
-  );
-  const propsTableDataRowClassNames = classNames(
-    cx([
-      'tr',
-      'props-tr',
-      theme.className,
-    ]),
-  );
 
   return (
     <table className={cx('table')}>
       <thead>
-        <tr className={propsTableHeaderRowClassNames}>
+        <tr className={cx('tr', theme.className)}>
           <th className={cx('th')}>
             Prop Name
           </th>
@@ -61,7 +48,7 @@ const PropsTable = ({ rows }) => {
       </thead>
       <tbody>
         {rows.map((row) => (
-          <tr className={propsTableDataRowClassNames} key={row.name}>
+          <tr className={cx('tr', 'props-tr', theme.className)} key={row.name}>
             <td className={cx(['td', 'strong', 'props-td'])}>
               {row.name}
             </td>
