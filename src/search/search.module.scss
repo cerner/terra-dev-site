@@ -1,6 +1,8 @@
+@import './clinical-lowlight-theme/search.module';
+
 :local {
   .search-field {
-    background-color: #f4f4f4;
+    background-color: var(--terra-dev-site-search-field-background-color, #f4f4f4);
     border-bottom: 0.07143rem;
     padding-bottom: 0.3571rem;
     padding-left: 0.7143rem;
