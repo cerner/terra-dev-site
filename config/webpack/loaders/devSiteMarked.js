@@ -1,4 +1,3 @@
-
 const marked = require('marked');
 const { getOptions } = require('loader-utils');
 const Prism = require('prismjs');
