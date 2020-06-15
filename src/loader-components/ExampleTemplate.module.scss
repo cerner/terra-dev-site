@@ -43,25 +43,15 @@
     align-items: center;
     background-color: var(--terra-dev-site-example-template-code-toggle-background-color, #ddd);
     border: 0;
+    color: var(--terra-dev-site-example-template-code-toggle-color, #000);
     cursor: pointer;
     display: flex;
     outline: none;
     padding: 0.625rem;
   }
 
-  .chevron-left {
-    background: url('data:image/svg+xml;base64,PHN2ZyBkYXRhLW5hbWU9IkxheWVyIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2%0D%0AZyIgdmlld0JveD0iMCAwIDQ4IDQ4IiBjbGFzcz0iaXMtYmlkaSI+PHBhdGggZD0iTTEwLjMgMjRM%0D%0AMzMuOCAwbDMuOSAzLjhMMTggMjRsMTkuNyAyMC4yLTMuOSAzLjh6Ii8+PC9zdmc+');
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: inline-block; // IE 10
-    height: 0.875rem;
-    width: 0.875rem;
-  }
-
-  .chevron-right {
-    background: url('data:image/svg+xml;base64,PHN2ZyBkYXRhLW5hbWU9IkxheWVyIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2%0D%0AZyIgdmlld0JveD0iMCAwIDQ4IDQ4IiBjbGFzcz0iaXMtYmlkaSI+PHBhdGggZD0iTTM3LjcgMjRM%0D%0AMTQuMiA0OGwtMy45LTMuOEwzMCAyNCAxMC4zIDMuOCAxNC4yIDB6Ii8+PC9zdmc+');
-    background-repeat: no-repeat;
-    background-size: contain;
+  .chevron {
+    color: var(--terra-dev-site-example-template-chevron-color, #000);
     display: inline-block; // IE 10
     height: 0.875rem;
     width: 0.875rem;

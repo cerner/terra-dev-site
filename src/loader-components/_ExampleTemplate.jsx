@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { ThemeContext } from 'terra-application/lib/theme';
+import IconChevronLeft from 'terra-icon/lib/icon/IconChevronLeft';
+import IconChevronRight from 'terra-icon/lib/icon/IconChevronRight';
 import styles from './ExampleTemplate.module.scss';
 
 const cx = classNames.bind(styles);
@@ -77,9 +79,9 @@ const ExampleTemplate = ({
               Toggle Background
             </button>
             <button type="button" className={cx('code-toggle', theme.className)} onClick={() => setCodeIsVisible(!codeIsVisible)}>
-              <span className={cx('chevron-left')} />
+              <IconChevronLeft className={cx('chevron', theme.className)} />
               <span>Code</span>
-              <span className={cx('chevron-right')} />
+              <IconChevronRight className={cx('chevron', theme.className)} />
             </button>
           </div>
           {codeIsVisible
