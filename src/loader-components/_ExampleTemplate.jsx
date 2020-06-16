@@ -33,30 +33,6 @@ const defaultProps = {
   isExpanded: false,
 };
 
-const renderHeader = (title) => {
-  if (title) {
-    return (
-      <div className={cx('header')}>
-        <h2 className={cx('title')}>
-          {title}
-        </h2>
-      </div>
-    );
-  }
-  return null;
-};
-
-const renderDescription = (description) => {
-  if (description) {
-    return (
-      <div className={cx('description')}>
-        {description}
-      </div>
-    );
-  }
-  return null;
-};
-
 const ExampleTemplate = ({
   example, exampleSrc, title, description, isExpanded,
 }) => {
@@ -66,9 +42,19 @@ const ExampleTemplate = ({
 
   return (
     <div className={cx('template', theme.className)}>
-      {renderHeader(title)}
+      <div className={cx('header')}>
+        {title && (
+          <h2 className={cx('title')}>
+            {title}
+          </h2>
+        )}
+      </div>
       <div className={cx('content', { 'dynamic-content': isBackgroundTransparent })}>
-        {renderDescription(description)}
+        {description && (
+          <div className={cx('description')}>
+            {description}
+          </div>
+        )}
         {example}
       </div>
       {exampleSrc
@@ -78,7 +64,7 @@ const ExampleTemplate = ({
             <button type="button" className={cx('bg-toggle')} onClick={() => setIsBackgroundTransparent(!isBackgroundTransparent)}>
               Toggle Background
             </button>
-            <button type="button" className={cx('code-toggle', theme.className)} onClick={() => setCodeIsVisible(!codeIsVisible)}>
+            <button type="button" className={cx('code-toggle')} onClick={() => setCodeIsVisible(!codeIsVisible)}>
               <IconChevronLeft className={cx('chevron')} />
               <span>Code</span>
               <IconChevronRight className={cx('chevron')} />
