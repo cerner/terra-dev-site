@@ -65,7 +65,7 @@ const ExampleTemplate = ({
   const theme = React.useContext(ThemeContext);
 
   return (
-    <div className={cx('template')}>
+    <div className={cx('template', theme.className)}>
       {renderHeader(title)}
       <div className={cx('content', { 'dynamic-content': isBackgroundTransparent })}>
         {renderDescription(description)}
@@ -75,18 +75,18 @@ const ExampleTemplate = ({
         && (
         <div className={cx('footer')}>
           <div className={cx('button-container')}>
-            <button type="button" className={cx('bg-toggle', theme.className)} onClick={() => setIsBackgroundTransparent(!isBackgroundTransparent)}>
+            <button type="button" className={cx('bg-toggle')} onClick={() => setIsBackgroundTransparent(!isBackgroundTransparent)}>
               Toggle Background
             </button>
             <button type="button" className={cx('code-toggle', theme.className)} onClick={() => setCodeIsVisible(!codeIsVisible)}>
-              <IconChevronLeft className={cx('chevron', theme.className)} />
+              <IconChevronLeft className={cx('chevron')} />
               <span>Code</span>
-              <IconChevronRight className={cx('chevron', theme.className)} />
+              <IconChevronRight className={cx('chevron')} />
             </button>
           </div>
           {codeIsVisible
             && (
-            <div className={cx('code', theme.className)}>
+            <div className={cx('code')}>
               {exampleSrc}
             </div>
             )}

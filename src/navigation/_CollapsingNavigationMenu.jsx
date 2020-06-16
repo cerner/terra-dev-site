@@ -152,7 +152,6 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         cx([
           'item',
           { 'is-selected': isSelected },
-          theme.className,
         ]),
       );
 
@@ -183,7 +182,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   return (
-    <div className={cx('collapsing-navigation-menu')} id="terra-dev-site-nav-menu" tabIndex="-1">
+    <div className={cx('collapsing-navigation-menu', theme.className)} id="terra-dev-site-nav-menu" tabIndex="-1">
       {menuItems ? renderMenuItems(menuItems[0].childItems, true) : undefined}
     </div>
   );

@@ -77,12 +77,12 @@ const highlight = (key, result) => {
   return result.item[key];
 };
 
-const searchItem = (result, theme) => (
+const searchItem = result => (
   <div className={cx('item')}>
-    <div className={cx('title', theme.className)}>
+    <div className={cx('title')}>
       {highlight('title', result)}
     </div>
-    <div className={cx('path', theme.className)}>
+    <div className={cx('path')}>
       {highlight('path', result)}
     </div>
   </div>
@@ -113,6 +113,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
 
   return (
     <ContentContainer
+      className={cx(theme.className)}
       header={(
         <>
           <ActionHeader
@@ -121,7 +122,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
             onClose={disclosureManager.closeDisclosure}
           />
           <SearchField
-            className={cx('search-field', theme.className)}
+            className={cx('search-field')}
             isBlock
             placeholder="Search"
             onSearch={string => handleSearch(string, state, setState)}
@@ -147,7 +148,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
                 metaData={result}
                 onSelect={(event, metaData) => handleSelect(metaData, onItemSelected, disclosureManager)}
               >
-                {searchItem(result, theme)}
+                {searchItem(result)}
               </Item>
             ))
           }

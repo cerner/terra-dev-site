@@ -26,9 +26,9 @@ const PropsTable = ({ rows }) => {
   const theme = useContext(ThemeContext);
 
   return (
-    <table className={cx('table')}>
+    <table className={cx('table', theme.className)}>
       <thead>
-        <tr className={cx('tr', theme.className)}>
+        <tr className={cx('tr')}>
           <th className={cx('th')}>
             Prop Name
           </th>
@@ -48,7 +48,7 @@ const PropsTable = ({ rows }) => {
       </thead>
       <tbody>
         {rows.map((row) => (
-          <tr className={cx('tr', 'props-tr', theme.className)} key={row.name}>
+          <tr className={cx('tr', 'props-tr')} key={row.name}>
             <td className={cx(['td', 'strong', 'props-td'])}>
               {row.name}
             </td>
