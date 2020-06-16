@@ -58,6 +58,8 @@
   .token.script ,
   .token.tag,
   .token.punctuation,
+  .token.hexcode,
+  .token.unit,
   .token.unchanged {
     color: var(--terra-dev-site-token-plain-color, #24292e);
   }
