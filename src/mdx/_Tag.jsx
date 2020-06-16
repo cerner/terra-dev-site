@@ -26,16 +26,13 @@ const propTypes = {
  */
 const TagComp = ({ Tag, props: componentProps }) => {
   const theme = React.useContext(ThemeContext);
-  const TagClassNames = classNames(
-    cx([
-      Tag,
-      componentProps.className,
-      theme.className,
-    ]),
+  const tagClassNames = classNames(
+    cx(Tag, theme.className),
+    componentProps.className,
   );
 
   return (
-    <Tag {...componentProps} className={TagClassNames}>
+    <Tag {...componentProps} className={tagClassNames}>
       { componentProps.children }
     </Tag>
   );
