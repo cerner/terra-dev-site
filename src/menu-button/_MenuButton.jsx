@@ -42,6 +42,7 @@ const MenuButton = ({
   return (
     <>
       <Menu
+        className={cx(theme.className)}
         isOpen={isOpen}
         targetRef={() => buttonRef.current}
         onRequestClose={() => setIsOpen(false)}
@@ -56,7 +57,6 @@ const MenuButton = ({
         >
           {items.map(item => (
             <Menu.Item
-              className={cx(theme.className)}
               text={item}
               key={item}
               isSelected={selectedKey === item}
