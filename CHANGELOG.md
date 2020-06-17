@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+6.24.0 - (June 16, 2020)
+----------
+### Changed
+* Update docker-compose file to retain shell history.
+
 6.23.0 - (June 9, 2020)
 ----------
 ### Changed
