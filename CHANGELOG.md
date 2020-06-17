@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Fixed
+* Fixed devSitePropsTable.js to show `required` in propsTable for custom required props.
 
 6.24.0 - (June 16, 2020)
 ----------
