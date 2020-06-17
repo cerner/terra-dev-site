@@ -1,10 +1,9 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Menu from 'terra-menu';
 import IconChevronDown from 'terra-icon/lib/icon/IconChevronDown';
 import Button from 'terra-button';
-import { ThemeContext } from 'terra-application/lib/theme';
 
 import styles from './MenuButton.module.scss';
 
@@ -37,7 +36,6 @@ const MenuButton = ({
 }) => {
   const buttonRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const theme = useContext(ThemeContext);
 
   return (
     <>
@@ -56,7 +54,6 @@ const MenuButton = ({
         >
           {items.map(item => (
             <Menu.Item
-              className={cx(theme.className)}
               text={item}
               key={item}
               isSelected={selectedKey === item}
