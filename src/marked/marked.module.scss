@@ -1,5 +1,6 @@
 @import '~terra-mixins/lib/Mixins';
 @import './clinical-lowlight-theme/marked.module';
+@import './orion-fusion-theme/marked.module';
 
 :local(.marked) {
   height: 100%;
