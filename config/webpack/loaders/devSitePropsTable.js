@@ -84,7 +84,7 @@ const generatePropsTable = async function generatePropsTable(filePath, source, m
     const type = await propType(prop.type, mdxOptions, callback);
     const defaultValue = propDefaultValue(prop.defaultValue);
     const description = await propMdx(prop.description, mdxOptions, callback);
-    const required = prop.required || (prop.type.raw && prop.type.raw.includes('isRequired')) ? 'true' : 'false';
+    const required = prop.required || (prop.type.name === 'custom' && prop.type.raw && prop.type.raw.includes('isRequired')) ? 'true' : 'false';
 
     // create the string for the props table component
     return `{ name: '${name}', type: ${type}, required: ${required}, defaultValue: '${defaultValue}', description: ${description}, },`;
