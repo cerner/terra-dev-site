@@ -1,4 +1,6 @@
 @import '~terra-mixins/lib/Mixins';
+@import './clinical-lowlight-theme/MarkdownTags.module';
+@import './orion-fusion-theme/MarkdownTags.module';
 
 :local {
   .a {
@@ -48,7 +50,7 @@
     margin: 0;
     padding: 0.2em 0.4em;
     text-align: left;
-    text-shadow: 0 1px #fff;
+    text-shadow: 0 1px var(--terra-dev-site-mdx-code-text-shadow, #fff);
     white-space: pre;
     word-break: normal;
     word-spacing: normal;
@@ -172,7 +174,7 @@
   }
 
   .img {
-    background-color: #fff;
+    background-color: var(--terra-dev-site-mdx-img-background-color, #fff);
     border-style: none;
     box-sizing: content-box;
     max-width: 100%;
@@ -257,7 +259,7 @@
   .p {
     // For whatever reason this code tag was not being overwritten by mdx.
     code {
-      background-color: #f6f8fa;
+      background-color: var(--terra-dev-site-mdx-code-background-color, #f6f8fa);
       border-radius: 3px;
       font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
       font-size: 85%;
@@ -267,7 +269,7 @@
   }
 
   .pre {
-    background-color: #f6f8fa;
+    background-color: var(--terra-dev-site-mdx-pre-background-color, #f6f8fa);
     border-radius: 3px;
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     font-size: 1em;
@@ -326,12 +328,12 @@
     }
 
     .tr {
-      background-color: #fff;
+      background-color: var(--terra-dev-site-mdx-table-background-color, #fff);
       border-top: 1px solid #c6cbd1;
     }
 
     .tr:nth-child(2n) {
-      background-color: #f6f8fa;
+      background-color: var(--terra-dev-site-mdx-table-alt-background-color, #f6f8fa);
     }
   }
 

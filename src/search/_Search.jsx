@@ -8,6 +8,7 @@ import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manag
 import Fuse from 'fuse.js';
 import StatusView from 'terra-status-view';
 import classNames from 'classnames/bind';
+import { ThemeContext } from 'terra-application/lib/theme';
 import styles from './search.module.scss';
 
 const cx = classNames.bind(styles);
@@ -102,6 +103,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
   cacheSearchItems(fetchSearchItems, state, setState);
   const { searchItems, searchString, results } = state;
   const disclosureManager = React.useContext(DisclosureManagerContext);
+  const theme = React.useContext(ThemeContext);
 
   let searchRef = useRef(null);
 
@@ -111,6 +113,7 @@ const Search = ({ fetchSearchItems, onItemSelected }) => {
 
   return (
     <ContentContainer
+      className={cx(theme.className)}
       header={(
         <>
           <ActionHeader
