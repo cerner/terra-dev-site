@@ -6,6 +6,9 @@ Unreleased
 ### Fixed
 * Fixed devSitePropsTable.js to show `required` in propsTable for custom required props.
 
+### Changed
+* Add theme support
+
 6.24.0 - (June 16, 2020)
 ----------
 ### Changed
@@ -25,7 +28,6 @@ Unreleased
 
 ### Changed
 * Updated terra-form-select dependency to ^6.0.0
-* Add theme support
 
 6.21.0 - (May 26, 2020)
 ----------
