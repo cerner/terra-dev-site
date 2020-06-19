@@ -15,6 +15,10 @@ const propTypes = {
    */
   exampleSrc: PropTypes.element,
   /**
+   * The example source css.
+   */
+  exampleCssSrc: PropTypes.string,
+  /**
    * The example title.
    */
   title: PropTypes.string,
@@ -24,10 +28,14 @@ const propTypes = {
   description: PropTypes.node,
 
   isExpanded: PropTypes.bool,
+
+  isCssExpanded: PropTypes.bool,
 };
 
 const defaultProps = {
   isExpanded: false,
+  isCssExpanded: false,
+  exampleCssSrc: 'sample text',
 };
 
 class ExampleTemplate extends React.Component {
@@ -60,35 +68,52 @@ class ExampleTemplate extends React.Component {
 
     this.state = {
       isExpanded: props.isExpanded,
-      isBackgroundTransparent: false,
+      isCssExpanded: props.isCssExpanded,
     };
 
-    this.handleBgToggle = this.handleBgToggle.bind(this);
+    this.handleCssToggle = this.handleCssToggle.bind(this);
     this.handleCodeToggle = this.handleCodeToggle.bind(this);
   }
 
-  handleBgToggle() {
-    this.setState(prevState => ({ isBackgroundTransparent: !prevState.isBackgroundTransparent }));
+  handleCssToggle() {
+    this.setState(prevState => ({ isCssExpanded: !prevState.isCssExpanded }));
+
+    if (this.state.isExpanded === true) {
+      this.setState(prevState => ({ isExpanded: !prevState.isExpanded }));
+    }
   }
 
   handleCodeToggle() {
     this.setState(prevState => ({ isExpanded: !prevState.isExpanded }));
+
+    if (this.state.isCssExpanded === true) {
+      this.setState(prevState => ({ isCssExpanded: !prevState.isCssExpanded }));
+    }
   }
 
   render() {
     const {
       example,
       exampleSrc,
+      exampleCssSrc,
       title,
       description,
     } = this.props;
 
-    const { isExpanded, isBackgroundTransparent } = this.state;
+    const { isExpanded, isCssExpanded } = this.state;
+    let isSelected = false;
+    let isCssSelected = false;
+
+    if (this.state.isExpanded === true) {
+      isSelected = true;
+    } else if (this.state.isCssExpanded === true) {
+      isCssSelected = true;
+    }
 
     return (
       <div className={cx('template')}>
         {ExampleTemplate.renderHeader(title)}
-        <div className={cx('content', { 'dynamic-content': isBackgroundTransparent })}>
+        <div className={cx('content')}>
           {ExampleTemplate.renderDescription(description)}
           {example}
         </div>
@@ -96,10 +121,10 @@ class ExampleTemplate extends React.Component {
           && (
           <div className={cx('footer')}>
             <div className={cx('button-container')}>
-              <button type="button" className={cx('bg-toggle')} onClick={this.handleBgToggle}>
-                Toggle Background
+              <button type="button" className={cx('css-toggle', { 'is-selected': isCssSelected })} onClick={this.handleCssToggle}>
+                CSS
               </button>
-              <button type="button" className={cx('code-toggle')} onClick={this.handleCodeToggle}>
+              <button type="button" className={cx('code-toggle', { 'is-selected': isSelected })} onClick={this.handleCodeToggle}>
                 <span className={cx('chevron-left')} />
                 <span>Code</span>
                 <span className={cx('chevron-right')} />
@@ -107,9 +132,15 @@ class ExampleTemplate extends React.Component {
             </div>
             {isExpanded
               && (
-              <div className={cx('code')}>
-                {exampleSrc}
-              </div>
+                <div className={cx('code')}>
+                  {exampleSrc}
+                </div>
+              )}
+            {isCssExpanded
+              && (
+                <div className={cx('css')}>
+                  {exampleCssSrc}
+                </div>
               )}
           </div>
           )}
