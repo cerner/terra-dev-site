@@ -1,4 +1,6 @@
 @import '~terra-mixins/lib/Mixins';
+@import './clinical-lowlight-theme/marked.module';
+@import './orion-fusion-theme/marked.module';
 
 :local(.marked) {
   height: 100%;
@@ -44,7 +46,7 @@
 
   blockquote {
     border-left: 0.25em solid #dfe2e5;
-    color: var(--terra-dev-site-blockquote-color, #24292e);
+    color: var(--terra-dev-site-marked-blockquote-color, #24292e);
     margin: 0;
     margin-bottom: 16px;
     margin-top: 0;
@@ -62,14 +64,14 @@
   code {
     background-color: rgba(27, 31, 35, 0.05);
     border-radius: 3px;
-    color: #24292e;
+    color: var(--terra-dev-site-marked-code-color, #24292e);
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     font-size: 1em;
     line-height: 1.5;
     margin: 0;
     padding: 0.2em 0.4em;
     text-align: left;
-    text-shadow: 0 1px #fff;
+    text-shadow: 0 1px var(--terra-dev-site-marked-code-text-shadow, #fff);
     white-space: pre;
     word-break: normal;
     word-spacing: normal;
@@ -193,7 +195,7 @@
   }
 
   img {
-    background-color: #fff;
+    background-color: var(--terra-dev-site-marked-img-background-color, #fff);
     border-style: none;
     box-sizing: content-box;
     max-width: 100%;
@@ -278,8 +280,9 @@
   p {
     // For whatever reason this code tag was not being overwritten by mdx.
     code {
-      background-color: #f6f8fa;
+      background-color: var(--terra-dev-site-marked-code-background-color, #f6f8fa);
       border-radius: 3px;
+      color: var(--terra-dev-site-marked-par-code-color, #1e2021);
       font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
       font-size: 85%;
       margin: 0;
@@ -288,7 +291,7 @@
   }
 
   pre {
-    background-color: #f6f8fa;
+    background-color: var(--terra-dev-site-marked-pre-background-color, #f6f8fa);
     border-radius: 3px;
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     font-size: 1em;
@@ -347,12 +350,12 @@
     }
 
     tr {
-      background-color: #fff;
+      background-color: var(--terra-dev-site-marked-table-background-color, #fff);
       border-top: 1px solid #c6cbd1;
     }
 
     tr:nth-child(2n) {
-      background-color: #f6f8fa;
+      background-color: var(--terra-dev-site-marked-table-alt-background-color, #f6f8fa);
     }
   }
 
@@ -394,7 +397,7 @@
   }
 
   .icon-link {
-    background-image: var(--terra-dev-site-icon-link-background-image, inline-svg('<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="is-bidi icon icon-link"><path d="M10.5 26.3a16 16 0 0 1 .9-5.3L8 17.6a6.73 6.73 0 0 1-2-4.8A6.41 6.41 0 0 1 8 8a6.76 6.76 0 0 1 9.6 0l9 9a6.88 6.88 0 0 1 0 9.6 6.27 6.27 0 0 1-3.4 1.8 2.65 2.65 0 0 0 .5.6l4.1 4.1a11.36 11.36 0 0 0 3.1-2.3 12.8 12.8 0 0 0 0-18.1l-9-9a12.63 12.63 0 0 0-9-3.7 12.63 12.63 0 0 0-9 3.7A12.1 12.1 0 0 0 0 12.8a12.63 12.63 0 0 0 3.7 9l7 7a21.05 21.05 0 0 1-.2-2.5zm27-4.6a16 16 0 0 1-.9 5.3l3.4 3.4a6.79 6.79 0 1 1-9.6 9.6l-9-9a6.88 6.88 0 0 1 0-9.6 6.27 6.27 0 0 1 3.4-1.8 2.65 2.65 0 0 0-.5-.6l-4-4a11.36 11.36 0 0 0-3.1 2.3 12.8 12.8 0 0 0 0 18.1l9 9a12.73 12.73 0 0 0 18-18l-7-7a8 8 0 0 1 .3 2.3z"/></svg>'));
+    background-image: var(--terra-dev-site-marked-icon-link-background-image, inline-svg('<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="is-bidi icon icon-link"><path d="M10.5 26.3a16 16 0 0 1 .9-5.3L8 17.6a6.73 6.73 0 0 1-2-4.8A6.41 6.41 0 0 1 8 8a6.76 6.76 0 0 1 9.6 0l9 9a6.88 6.88 0 0 1 0 9.6 6.27 6.27 0 0 1-3.4 1.8 2.65 2.65 0 0 0 .5.6l4.1 4.1a11.36 11.36 0 0 0 3.1-2.3 12.8 12.8 0 0 0 0-18.1l-9-9a12.63 12.63 0 0 0-9-3.7 12.63 12.63 0 0 0-9 3.7A12.1 12.1 0 0 0 0 12.8a12.63 12.63 0 0 0 3.7 9l7 7a21.05 21.05 0 0 1-.2-2.5zm27-4.6a16 16 0 0 1-.9 5.3l3.4 3.4a6.79 6.79 0 1 1-9.6 9.6l-9-9a6.88 6.88 0 0 1 0-9.6 6.27 6.27 0 0 1 3.4-1.8 2.65 2.65 0 0 0-.5-.6l-4-4a11.36 11.36 0 0 0-3.1 2.3 12.8 12.8 0 0 0 0 18.1l9 9a12.73 12.73 0 0 0 18-18l-7-7a8 8 0 0 1 .3 2.3z"/></svg>'));
     color: #24292e;
     height: 16px;
     opacity: 0.4;

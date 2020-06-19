@@ -1,4 +1,3 @@
-
 const marked = require('marked');
 const { getOptions } = require('loader-utils');
 const Prism = require('prismjs');
@@ -51,19 +50,24 @@ const loader = async function loader(markdown) {
   const code = [
     'import React from \'react\';',
     'import classNames from \'classnames/bind\';',
+    'import { ThemeContext } from \'terra-application/lib/theme\'',
     'import styles from \'terra-dev-site/lib/marked/marked.module.scss\';',
     '',
     'const cx = classNames.bind(styles);',
     '',
-    `export default () => (
-      <div
-        dir="ltr"
-        className={cx('marked')}
-        dangerouslySetInnerHTML={{
-          __html: '${html}',
-        }}
-      />
-    );`,
+    `export default () => {
+      const theme = React.useContext(ThemeContext);
+
+      return (
+        <div
+          dir="ltr"
+          className={cx('marked', theme.className)}
+          dangerouslySetInnerHTML={{
+            __html: '${html}',
+          }}
+        />
+      );
+    };`,
   ].join('\n');
 
   // console.log('code', code);

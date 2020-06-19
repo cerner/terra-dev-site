@@ -6,6 +6,9 @@ Unreleased
 ### Fixed
 * Fixed devSitePropsTable.js to show `required` in propsTable for custom required props.
 
+### Changed
+* Add theme support
+
 6.24.0 - (June 16, 2020)
 ----------
 ### Changed

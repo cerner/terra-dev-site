@@ -1,6 +1,9 @@
+@import './clinical-lowlight-theme/search.module';
+@import './orion-fusion-theme/search.module';
+
 :local {
   .search-field {
-    background-color: #f4f4f4;
+    background-color: var(--terra-dev-site-search-field-background-color, #f4f4f4);
     border-bottom: 0.07143rem;
     padding-bottom: 0.3571rem;
     padding-left: 0.7143rem;
@@ -16,7 +19,7 @@
   }
 
   .title {
-    color: #1c1f21;
+    color: var(--terra-dev-site-search-title-color, #1c1f21);
     font-size: 1.1428571428571428rem;
     line-height: 1.4285714285714286;
 
@@ -26,7 +29,7 @@
   }
 
   .path {
-    color: #64696c;
+    color: var(--terra-dev-site-search-path-color, #64696c);
     font-size: 1.1428571428571428rem;
     line-height: 1.4285714285714286;
 

@@ -1,4 +1,3 @@
-
 const getNewRelicJS = () => {
   const { TERRA_DEV_SITE_NEW_RELIC_LICENSE_KEY: licenseKey, TERRA_DEV_SITE_NEW_RELIC_APPLICATION_ID: applicationID } = process.env;
   if (licenseKey && applicationID) {

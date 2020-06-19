@@ -1,3 +1,6 @@
+@import './clinical-lowlight-theme/MarkdownWrapper.module';
+@import './orion-fusion-theme/MarkdownWrapper.module';
+
 :local(.markdown) {
   color: inherit;
   height: 100%;
@@ -26,6 +29,7 @@
 
   // Prism classes, cannot be class modules
   .token.comment,
+  .token.doc-comment.comment.punctuation,
   .token.prolog,
   .token.cdata,
   .token.coord {
@@ -37,22 +41,33 @@
   }
 
   .token.function,
+  .token.function.property-access,
   .token.boolean,
   .token.number,
   .token.url,
   .token.atrule,
   .token.property {
-    color: #005cc5;
+    color: var(--terra-dev-site-token-function-color, #005cc5);
   }
 
+  .token.plain,
+  .token.property-access,
+  .token.content,
+  .token.doctype,
+  .token.parameter,
   .token.variable,
   .token.script ,
-  .token.tag .token.punctuation {
-    color: #24292e;
+  .token.tag,
+  .token.punctuation,
+  .token.hexcode,
+  .token.unit,
+  .token.unchanged {
+    color: var(--terra-dev-site-token-plain-color, #24292e);
   }
 
   .token.tag,
   .token.tag .token.class-name,
+  .token.maybe-class-name,
   .token.constant,
   .token.symbol {
     color: #218336;
@@ -60,7 +75,7 @@
 
   .token.function-variable.function,
   .token.string {
-    color: #032f62;
+    color: var(--terra-dev-site-token-string-color, #032f62);
   }
 
   .token.attr-name,
@@ -81,13 +96,13 @@
   .token.important,
   .token.script-punctuation.punctuation,
   .token.keyword {
-    color: #d53040;
+    color: var(--terra-dev-site-token-keyword-color, #d53040);
   }
 
   .token.selector,
   .token.attr-name,
   .token.class-name {
-    color: #6f42c1;
+    color: var(--terra-dev-site-token-class-name-color, #6f42c1);
   }
 
   .token.bold {
@@ -103,18 +118,18 @@
   }
 
   .token.deleted {
-    background: #ffeef0;
+    background: var(--terra-dev-site-token-deleted-background, #ffeef0);
     color: #b31d28;
   }
 
   .token.inserted {
-    background: #f0fff4;
+    background: var(--terra-dev-site-token-inserted-background, #f0fff4);
     color: #218336;
   }
 
   .token.diff.important,
   .token.diff.bold {
-    background: #ffebda;
+    background: var(--terra-dev-site-token-diff-bold-background, #ffebda);
     color: #b54d08;
   }
 

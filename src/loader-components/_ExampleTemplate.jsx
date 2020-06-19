@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { ThemeContext } from 'terra-application/lib/theme';
+import IconChevronLeft from 'terra-icon/lib/icon/IconChevronLeft';
+import IconChevronRight from 'terra-icon/lib/icon/IconChevronRight';
 import styles from './ExampleTemplate.module.scss';
 
 const cx = classNames.bind(styles);
@@ -38,99 +41,46 @@ const defaultProps = {
   exampleCssSrc: 'sample text',
 };
 
-class ExampleTemplate extends React.Component {
-  static renderHeader(title) {
-    if (title) {
-      return (
-        <div className={cx('header')}>
-          <h2 className={cx('title')}>
-            {title}
-          </h2>
-        </div>
-      );
-    }
-    return null;
-  }
+const ExampleTemplate = ({
+  example, exampleSrc, exampleCssSrc, title, description, isExpanded, isCssExpanded,
+}) => {
+  const [codeIsVisible, setCodeIsVisible] = useState(isExpanded);
+  const [cssIsVisible, setCssIsVisible] = useState(isCssExpanded);
+  const [isBackgroundTransparent, setIsBackgroundTransparent] = useState(false);
+  const theme = React.useContext(ThemeContext);
 
-  static renderDescription(description) {
-    if (description) {
-      return (
-        <div className={cx('description')}>
-          {description}
-        </div>
-      );
-    }
-    return null;
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isExpanded: props.isExpanded,
-      isCssExpanded: props.isCssExpanded,
-    };
-
-    this.handleCssToggle = this.handleCssToggle.bind(this);
-    this.handleCodeToggle = this.handleCodeToggle.bind(this);
-  }
-
-  handleCssToggle() {
-    this.setState(prevState => ({ isCssExpanded: !prevState.isCssExpanded }));
-
-    if (this.state.isExpanded === true) {
-      this.setState(prevState => ({ isExpanded: !prevState.isExpanded }));
-    }
-  }
-
-  handleCodeToggle() {
-    this.setState(prevState => ({ isExpanded: !prevState.isExpanded }));
-
-    if (this.state.isCssExpanded === true) {
-      this.setState(prevState => ({ isCssExpanded: !prevState.isCssExpanded }));
-    }
-  }
-
-  render() {
-    const {
-      example,
-      exampleSrc,
-      exampleCssSrc,
-      title,
-      description,
-    } = this.props;
-
-    const { isExpanded, isCssExpanded } = this.state;
-    let isSelected = false;
-    let isCssSelected = false;
-
-    if (this.state.isExpanded === true) {
-      isSelected = true;
-    } else if (this.state.isCssExpanded === true) {
-      isCssSelected = true;
-    }
-
-    return (
-      <div className={cx('template')}>
-        {ExampleTemplate.renderHeader(title)}
-        <div className={cx('content')}>
-          {ExampleTemplate.renderDescription(description)}
-          {example}
-        </div>
-        {exampleSrc
+  return (
+    <div className={cx('template', theme.className)}>
+      {ExampleTemplate.renderHeader(title)}
+      <div className={cx('content')}>
+        {ExampleTemplate.renderDescription(description)}
+        {example}
+      </div>
+      <div className={cx('content', { 'dynamic-content': isBackgroundTransparent })}>
+        {description && (
+          <div className={cx('description')}>
+            {description}
+          </div>
+        )}
+        {example}
+      </div>
+      {exampleSrc
           && (
           <div className={cx('footer')}>
             <div className={cx('button-container')}>
-              <button type="button" className={cx('css-toggle', { 'is-selected': isCssSelected })} onClick={this.handleCssToggle}>
+              <button type="button" className={cx('bg-toggle')} onClick={() => setIsBackgroundTransparent(!isBackgroundTransparent)}>
+                Toggle Background
+              </button>
+              <button type="button" className={cx('css-toggle')} onClick={() => setCssIsVisible(!cssIsVisible)}>
                 CSS
               </button>
-              <button type="button" className={cx('code-toggle', { 'is-selected': isSelected })} onClick={this.handleCodeToggle}>
-                <span className={cx('chevron-left')} />
+              <button type="button" className={cx('code-toggle')} onClick={() => setCodeIsVisible(!codeIsVisible)}>
+                <IconCheveronLeft className={cx('chevron')}>
                 <span>Code</span>
-                <span className={cx('chevron-right')} />
+                <IconCheveronRight className={cx('chevron')}>
               </button>
             </div>
-            {isExpanded
+            {codeIsVisible
               && (
                 <div className={cx('code')}>
                   {exampleSrc}
@@ -144,10 +94,9 @@ class ExampleTemplate extends React.Component {
               )}
           </div>
           )}
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 ExampleTemplate.propTypes = propTypes;
 ExampleTemplate.defaultProps = defaultProps;
