@@ -184,7 +184,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   return (
-    <div className={cx('collapsing-navigation-menu', theme.className)} id="terra-dev-site-nav-menu" tabIndex="-1" type="tree">
+    <div className={cx('collapsing-navigation-menu', theme.className)} id="terra-dev-site-nav-menu" tabIndex="-1" role="tree">
       {menuItems ? renderMenuItems(menuItems[0].childItems, true) : undefined}
     </div>
   );
