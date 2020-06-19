@@ -155,21 +155,23 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         ]),
       );
 
+      const optionalAttributes = itemHasChildren ? { 'aria-expanded': itemIsOpen } : {};
+
       return (
         <React.Fragment key={item.path}>
           <div className={!firstLevel ? cx('indent') : null}>
             <div
               className={menuItemClassNames}
               tabIndex="0"
-              role="link"
+              role="treeitem"
               id={item.name.split(' ').join('-')}
-              aria-haspopup={itemHasChildren}
               onKeyDown={event => handleKeyDown(event, item)}
               onClick={event => handleOnClick(event, item)}
               onBlur={enableFocusStyles}
               onMouseDown={disableFocusStyles}
               data-focus-styles-enabled
               ref={selectedRef}
+              {...optionalAttributes}
             >
               {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown className={cx('caret')} /> : <IconCaretRight className={cx('caret')} />}</span> : null}
               {item.name}
@@ -182,7 +184,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   return (
-    <div className={cx('collapsing-navigation-menu', theme.className)} id="terra-dev-site-nav-menu" tabIndex="-1">
+    <div className={cx('collapsing-navigation-menu', theme.className)} id="terra-dev-site-nav-menu" tabIndex="-1" type="tree">
       {menuItems ? renderMenuItems(menuItems[0].childItems, true) : undefined}
     </div>
   );
