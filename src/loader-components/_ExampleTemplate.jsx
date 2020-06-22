@@ -19,6 +19,7 @@ const propTypes = {
   exampleSrc: PropTypes.element,
   /**
    * The example source css.
+   * Change to a PropTypes.element once I figure the other stuff out
    */
   exampleCssSrc: PropTypes.string,
   /**
@@ -46,17 +47,40 @@ const ExampleTemplate = ({
 }) => {
   const [codeIsVisible, setCodeIsVisible] = useState(isExpanded);
   const [cssIsVisible, setCssIsVisible] = useState(isCssExpanded);
-  const [isBackgroundTransparent, setIsBackgroundTransparent] = useState(false);
   const theme = React.useContext(ThemeContext);
+  let isCodeSelected = false;
+  let isCssSelected = false;
+
+  const handleCssToggle = () => {
+    setCssIsVisible(!cssIsVisible);
+    if (codeIsVisible === true) {
+      setCodeIsVisible(!codeIsVisible);
+    }
+  };
+
+  const handleCodeToggle = () => {
+    setCodeIsVisible(!codeIsVisible);
+    if (cssIsVisible === true) {
+      setCssIsVisible(!cssIsVisible);
+    }
+  };
+
+  if (cssIsVisible === true) {
+    isCssSelected = true;
+  } else if (codeIsVisible === true) {
+    isCodeSelected = true;
+  }
 
   return (
     <div className={cx('template', theme.className)}>
-      {ExampleTemplate.renderHeader(title)}
-      <div className={cx('content')}>
-        {ExampleTemplate.renderDescription(description)}
-        {example}
+      <div className={cx('header')}>
+        {title && (
+          <h2 className={cx('title')}>
+            {title}
+          </h2>
+        )}
       </div>
-      <div className={cx('content', { 'dynamic-content': isBackgroundTransparent })}>
+      <div className={cx('content')}>
         {description && (
           <div className={cx('description')}>
             {description}
@@ -68,16 +92,13 @@ const ExampleTemplate = ({
           && (
           <div className={cx('footer')}>
             <div className={cx('button-container')}>
-              <button type="button" className={cx('bg-toggle')} onClick={() => setIsBackgroundTransparent(!isBackgroundTransparent)}>
-                Toggle Background
-              </button>
-              <button type="button" className={cx('css-toggle')} onClick={() => setCssIsVisible(!cssIsVisible)}>
+              <button type="button" className={cx('css-toggle', { 'is-selected': isCssSelected })} onClick={handleCssToggle}>
                 CSS
               </button>
-              <button type="button" className={cx('code-toggle')} onClick={() => setCodeIsVisible(!codeIsVisible)}>
-                <IconCheveronLeft className={cx('chevron')}>
+              <button type="button" className={cx('code-toggle', { 'is-selected': isCodeSelected })} onClick={handleCodeToggle}>
+                <IconChevronLeft className={cx('chevron')} />
                 <span>Code</span>
-                <IconCheveronRight className={cx('chevron')}>
+                <IconChevronRight className={cx('chevron')} />
               </button>
             </div>
             {codeIsVisible
@@ -86,7 +107,7 @@ const ExampleTemplate = ({
                   {exampleSrc}
                 </div>
               )}
-            {isCssExpanded
+            {cssIsVisible
               && (
                 <div className={cx('css')}>
                   {exampleCssSrc}
