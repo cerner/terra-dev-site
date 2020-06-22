@@ -21,7 +21,7 @@ const propTypes = {
    * The example source css.
    * Change to a PropTypes.element once I figure the other stuff out
    */
-  exampleCssSrc: PropTypes.string,
+  exampleCssSrc: PropTypes.element,
   /**
    * The example title.
    */
@@ -39,7 +39,6 @@ const propTypes = {
 const defaultProps = {
   isExpanded: false,
   isCssExpanded: false,
-  exampleCssSrc: 'sample text',
 };
 
 const ExampleTemplate = ({
@@ -51,17 +50,17 @@ const ExampleTemplate = ({
   let isCodeSelected = false;
   let isCssSelected = false;
 
-  const handleCssToggle = () => {
-    setCssIsVisible(!cssIsVisible);
-    if (codeIsVisible === true) {
-      setCodeIsVisible(!codeIsVisible);
-    }
-  };
-
   const handleCodeToggle = () => {
     setCodeIsVisible(!codeIsVisible);
     if (cssIsVisible === true) {
       setCssIsVisible(!cssIsVisible);
+    }
+  };
+
+  const handleCssToggle = () => {
+    setCssIsVisible(!cssIsVisible);
+    if (codeIsVisible === true) {
+      setCodeIsVisible(!codeIsVisible);
     }
   };
 
@@ -92,13 +91,13 @@ const ExampleTemplate = ({
           && (
           <div className={cx('footer')}>
             <div className={cx('button-container')}>
-              <button type="button" className={cx('css-toggle', { 'is-selected': isCssSelected })} onClick={handleCssToggle}>
-                CSS
-              </button>
               <button type="button" className={cx('code-toggle', { 'is-selected': isCodeSelected })} onClick={handleCodeToggle}>
                 <IconChevronLeft className={cx('chevron')} />
                 <span>Code</span>
                 <IconChevronRight className={cx('chevron')} />
+              </button>
+              <button type="button" className={cx('css-toggle', { 'is-selected': isCssSelected })} onClick={handleCssToggle}>
+                CSS
               </button>
             </div>
             {codeIsVisible
