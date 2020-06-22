@@ -52,11 +52,11 @@
     padding: 0.625rem;
 
     &.is-selected {
-      background-color: rgba(29, 30, 32, 0.2);
+      background-color: var(--terra-dev-site-example-template-selected-code-toggle-background-color, #b8b8b8);
     }
 
     &:hover {
-      background-color: rgba(57, 60, 63, 0.2);
+      background-color: var(--terra-dev-site-example-template-hover-code-toggle-background-color, #b8b8b8);
       box-shadow: inset 0 0 0 0.07143rem #fff;
     }
   }
