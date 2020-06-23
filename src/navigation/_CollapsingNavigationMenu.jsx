@@ -87,6 +87,9 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const [isNewSelectedPath, setIsNewSelectedPath] = useState(false);
   const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
+  const [cursor, setCursor] = useState(0);
+  const currentNode = useRef('');
+  const visibleNodes = useRef();
   const selectedItem = useRef();
   const theme = useContext(ThemeContext);
 
@@ -95,6 +98,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     setOpenKeys({ ...openKeys, ...openKeysToItem(menuItems[0], selectedPath) });
     setPreviousSelectedPath(selectedPath);
   }
+  visibleNodes.current = [];
 
   useEffect(() => {
     if (selectedItem && selectedItem.current) {
@@ -129,6 +133,14 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
       event.preventDefault();
       handleOnClick(event, item);
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_DOWN && cursor + 1 < visibleNodes.current.length) {
+      event.preventDefault();
+      currentNode.current = visibleNodes.current[cursor + 1];
+      setCursor(cursor + 1);
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_UP && cursor - 1 >= 0) {
+      event.preventDefault();
+      currentNode.current = visibleNodes.current[cursor - 1];
+      setCursor(cursor - 1);
     }
   };
 
@@ -140,14 +152,16 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     return currentMenuItem.map((item) => {
       const itemIsOpen = openKeys[item.path];
       const itemHasChildren = item.childItems !== undefined;
+      const id = item.name.split(' ').join('-');
       let isSelected = false;
       let selectedRef;
 
-      if (selectedPath === item.path) {
+      if (selectedPath === item.path || currentNode.current === id) {
         isSelected = true;
         selectedRef = selectedItem;
       }
 
+      visibleNodes.current.push(id);
       const menuItemClassNames = classNames(
         cx([
           'item',
@@ -164,7 +178,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
               className={menuItemClassNames}
               tabIndex="0"
               role="treeitem"
-              id={item.name.split(' ').join('-')}
+              id={id}
               onKeyDown={event => handleKeyDown(event, item)}
               onClick={event => handleOnClick(event, item)}
               onBlur={enableFocusStyles}
