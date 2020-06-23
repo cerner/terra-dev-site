@@ -88,7 +88,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const [cursor, setCursor] = useState(0);
-  const currentNode = useRef('');
+  const currentNodeId = useRef();
   const visibleNodes = useRef();
   const selectedItem = useRef();
   const theme = useContext(ThemeContext);
@@ -110,14 +110,18 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (!isNewSelectedPath) {
       return;
     }
-    const currentItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
+    const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
-    if (!currentItemPosition || !navigationMenuPosition) {
-      return;
-    }
+    const currentNode = currentNodeId?.current ? document.querySelector(`#${currentNodeId.current}`) : null;
+    const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
+
     // If the current item is not visible, scroll the item into view.
-    if (currentItemPosition.bottom > navigationMenuPosition.bottom || currentItemPosition.top < navigationMenuPosition.top) {
+    if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
       selectedItem.current.scrollIntoView();
+    }
+
+    if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
+      currentNode.scrollIntoView();
     }
   });
 
@@ -135,11 +139,11 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       handleOnClick(event, item);
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_DOWN && cursor + 1 < visibleNodes.current.length) {
       event.preventDefault();
-      currentNode.current = visibleNodes.current[cursor + 1];
+      currentNodeId.current = visibleNodes.current[cursor + 1];
       setCursor(cursor + 1);
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_UP && cursor - 1 >= 0) {
       event.preventDefault();
-      currentNode.current = visibleNodes.current[cursor - 1];
+      currentNodeId.current = visibleNodes.current[cursor - 1];
       setCursor(cursor - 1);
     }
   };
@@ -156,7 +160,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       let isSelected = false;
       let selectedRef;
 
-      if (selectedPath === item.path || currentNode.current === id) {
+      if (selectedPath === item.path || currentNodeId.current === id) {
         isSelected = true;
         selectedRef = selectedItem;
       }
