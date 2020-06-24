@@ -185,7 +185,6 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         findParent();
       }
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_HOME) {
-      event.preventDefault();
       cursor.current = 0;
       setCurrentNodeId(visibleNodes.current[cursor]);
     }
