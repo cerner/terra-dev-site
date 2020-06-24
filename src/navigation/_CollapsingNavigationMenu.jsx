@@ -149,6 +149,17 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
   };
 
+  const findParent = () => {
+    if (!currentNodeId) return;
+    for (let i = visibleNodes.current.indexOf(currentNodeId); i >= 0; i -= 1) {
+      if (document.getElementById(visibleNodes.current[i]).ariaExpanded) {
+        cursor.current = i;
+        setCurrentNodeId(visibleNodes.current[cursor.current]);
+        break;
+      }
+    }
+  };
+
   const handleKeyDown = (event, item) => {
     if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
       event.preventDefault();
@@ -165,6 +176,12 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         handleDownArrow();
       } else if (document.getElementById(currentNodeId).ariaHasPopup && !document.getElementById(currentNodeId).ariaExpanded) {
         handleOnClick(event, item);
+      }
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_LEFT) {
+      if (document.getElementById(currentNodeId).ariaExpanded) {
+        handleOnClick(event, item);
+      } else if (!document.getElementById(currentNodeId).ariaHasPopup || !document.getElementById(currentNodeId).ariaExpanded) {
+        findParent();
       }
     }
   };
