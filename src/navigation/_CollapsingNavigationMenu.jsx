@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, useEffect, useLayoutEffect, useContext,
+  useState, useRef, useEffect, useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
@@ -87,8 +87,8 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const [isNewSelectedPath, setIsNewSelectedPath] = useState(false);
   const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
-  const [cursor, setCursor] = useState(0);
-  const currentNodeId = useRef();
+  const [currentNodeId, setCurrentNodeId] = useState();
+  const cursor = useRef(0);
   const visibleNodes = useRef();
   const selectedItem = useRef();
   const theme = useContext(ThemeContext);
@@ -106,22 +106,23 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
   }, []);
 
-  useLayoutEffect(() => {
-    if (!isNewSelectedPath) {
-      return;
-    }
-    const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
-    const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
-    const currentNode = currentNodeId?.current ? document.querySelector(`#${currentNodeId.current}`) : null;
+  useEffect(() => {
+    cursor.current = visibleNodes.current.indexOf(currentNodeId);
+    const currentNode = currentNodeId ? document.querySelector(`#${currentNodeId}`) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
+    const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
 
-    // If the current item is not visible, scroll the item into view.
-    if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
-      selectedItem.current.scrollIntoView();
-    }
-
+    // If the item selected through keyboard navigation is not visible, scroll it into view.
     if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
       currentNode.scrollIntoView();
+    }
+
+    if (isNewSelectedPath) {
+      const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
+      // If the current item is not visible, scroll the item into view.
+      if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
+        selectedItem.current.scrollIntoView();
+      }
     }
   });
 
@@ -137,14 +138,14 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
       event.preventDefault();
       handleOnClick(event, item);
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_DOWN && cursor + 1 < visibleNodes.current.length) {
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_DOWN && cursor.current + 1 < visibleNodes.current.length) {
       event.preventDefault();
-      currentNodeId.current = visibleNodes.current[cursor + 1];
-      setCursor(cursor + 1);
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_UP && cursor - 1 >= 0) {
+      cursor.current += 1;
+      setCurrentNodeId(visibleNodes.current[cursor.current]);
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_UP && cursor.current >= 1) {
       event.preventDefault();
-      currentNodeId.current = visibleNodes.current[cursor - 1];
-      setCursor(cursor - 1);
+      cursor.current -= 1;
+      setCurrentNodeId(visibleNodes.current[cursor.current]);
     }
   };
 
@@ -160,7 +161,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       let isSelected = false;
       let selectedRef;
 
-      if (selectedPath === item.path || currentNodeId.current === id) {
+      if (selectedPath === item.path || currentNodeId === id) {
         isSelected = true;
         selectedRef = selectedItem;
       }
