@@ -152,7 +152,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const findParent = () => {
     if (!currentNodeId) return;
     for (let i = visibleNodes.current.indexOf(currentNodeId); i >= 0; i -= 1) {
-      if (document.getElementById(visibleNodes.current[i]).ariaExpanded) {
+      if (document.getElementById(visibleNodes.current[i]).ariaExpanded === 'true') {
         cursor.current = i;
         setCurrentNodeId(visibleNodes.current[cursor.current]);
         break;
@@ -172,17 +172,22 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       handleUpArrow();
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_RIGHT) {
       event.preventDefault();
-      if (document.getElementById(currentNodeId).ariaExpanded) {
+      if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
         handleDownArrow();
-      } else if (document.getElementById(currentNodeId).ariaHasPopup && !document.getElementById(currentNodeId).ariaExpanded) {
+      } else if (document.getElementById(currentNodeId).ariaHasPopup && (!document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false')) {
         handleOnClick(event, item);
       }
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_LEFT) {
-      if (document.getElementById(currentNodeId).ariaExpanded) {
+      event.preventDefault();
+      if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
         handleOnClick(event, item);
-      } else if (!document.getElementById(currentNodeId).ariaHasPopup || !document.getElementById(currentNodeId).ariaExpanded) {
+      } else if (!document.getElementById(currentNodeId).ariaHasPopup || !document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false') {
         findParent();
       }
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_HOME) {
+      event.preventDefault();
+      cursor.current = 0;
+      setCurrentNodeId(visibleNodes.current[cursor]);
     }
   };
 
