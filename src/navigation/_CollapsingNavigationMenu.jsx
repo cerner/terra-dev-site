@@ -135,18 +135,37 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     setOpenKeys({ ...openKeys, [item.path]: !openKeys[item.path] });
   };
 
+  const handleDownArrow = () => {
+    if (cursor.current + 1 < visibleNodes.current.length) {
+      cursor.current += 1;
+      setCurrentNodeId(visibleNodes.current[cursor.current]);
+    }
+  };
+
+  const handleUpArrow = () => {
+    if (cursor.current >= 1) {
+      cursor.current -= 1;
+      setCurrentNodeId(visibleNodes.current[cursor.current]);
+    }
+  };
+
   const handleKeyDown = (event, item) => {
     if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
       event.preventDefault();
       handleOnClick(event, item);
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_DOWN && cursor.current + 1 < visibleNodes.current.length) {
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_DOWN) {
       event.preventDefault();
-      cursor.current += 1;
-      setCurrentNodeId(visibleNodes.current[cursor.current]);
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_UP && cursor.current >= 1) {
+      handleDownArrow();
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_UP) {
       event.preventDefault();
-      cursor.current -= 1;
-      setCurrentNodeId(visibleNodes.current[cursor.current]);
+      handleUpArrow();
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_RIGHT) {
+      event.preventDefault();
+      if (document.getElementById(currentNodeId).ariaExpanded) {
+        handleDownArrow();
+      } else if (document.getElementById(currentNodeId).ariaHasPopup && !document.getElementById(currentNodeId).ariaExpanded) {
+        handleOnClick(event, item);
+      }
     }
   };
 
@@ -175,7 +194,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         ]),
       );
 
-      const optionalAttributes = itemHasChildren ? { 'aria-expanded': itemIsOpen } : {};
+      const optionalAttributes = itemHasChildren ? { 'aria-expanded': itemIsOpen, 'aria-haspopup': true } : {};
 
       return (
         <React.Fragment key={item.path}>
