@@ -185,8 +185,13 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         findParent();
       }
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_HOME) {
+      event.preventDefault();
       cursor.current = 0;
-      setCurrentNodeId(visibleNodes.current[cursor]);
+      setCurrentNodeId(visibleNodes.current[cursor.current]);
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_END) {
+      event.preventDefault();
+      cursor.current = visibleNodes.current.length - 1;
+      setCurrentNodeId(visibleNodes.current[cursor.current]);
     }
   };
 
