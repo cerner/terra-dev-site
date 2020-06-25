@@ -8,6 +8,7 @@ Unreleased
 
 ### Changed
 * Add theme support
+* Add additional keyboard navigation options to CollapsingNavigationMenu
 
 6.24.0 - (June 16, 2020)
 ----------
