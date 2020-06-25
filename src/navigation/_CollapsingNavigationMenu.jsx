@@ -1,7 +1,7 @@
 import React, {
   useState, useRef, useEffect, useContext,
 } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { element } from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
 
@@ -107,7 +107,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   }, []);
 
   useEffect(() => {
-    cursor.current = visibleNodes.current.indexOf(currentNodeId);
+    cursor.current = visibleNodes.current.findIndex((element) => element.id === currentNodeId);
     const currentNode = currentNodeId ? document.querySelector(`#${currentNodeId}`) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
@@ -138,25 +138,23 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const handleDownArrow = () => {
     if (cursor.current + 1 < visibleNodes.current.length) {
       cursor.current += 1;
-      setCurrentNodeId(visibleNodes.current[cursor.current]);
+      setCurrentNodeId(visibleNodes.current[cursor.current].id);
     }
   };
 
   const handleUpArrow = () => {
     if (cursor.current >= 1) {
       cursor.current -= 1;
-      setCurrentNodeId(visibleNodes.current[cursor.current]);
+      setCurrentNodeId(visibleNodes.current[cursor.current].id);
     }
   };
 
   const findParent = () => {
     if (!currentNodeId) return;
-    for (let i = visibleNodes.current.indexOf(currentNodeId); i >= 0; i -= 1) {
-      if (document.getElementById(visibleNodes.current[i]).ariaExpanded === 'true') {
-        cursor.current = i;
-        setCurrentNodeId(visibleNodes.current[cursor.current]);
-        break;
-      }
+    const parentId = visibleNodes.current.find((el) => el.id === currentNodeId).parent;
+    if (parentId !== '') {
+      cursor.current = visibleNodes.current.findIndex((el) => el.id === parentId);
+      setCurrentNodeId(visibleNodes.current[cursor.current].id);
     }
   };
 
@@ -187,15 +185,15 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_HOME) {
       event.preventDefault();
       cursor.current = 0;
-      setCurrentNodeId(visibleNodes.current[cursor.current]);
+      setCurrentNodeId(visibleNodes.current[cursor.current].id);
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_END) {
       event.preventDefault();
       cursor.current = visibleNodes.current.length - 1;
-      setCurrentNodeId(visibleNodes.current[cursor.current]);
+      setCurrentNodeId(visibleNodes.current[cursor.current].id);
     }
   };
 
-  const renderMenuItems = (currentMenuItem, firstLevel) => {
+  const renderMenuItems = (currentMenuItem, parent = '', firstLevel = false) => {
     if (!currentMenuItem) {
       return undefined;
     }
@@ -212,7 +210,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         selectedRef = selectedItem;
       }
 
-      visibleNodes.current.push(id);
+      visibleNodes.current.push({ id, parent });
       const menuItemClassNames = classNames(
         cx([
           'item',
@@ -241,7 +239,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
               {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown className={cx('caret')} /> : <IconCaretRight className={cx('caret')} />}</span> : null}
               {item.name}
             </div>
-            {itemIsOpen ? renderMenuItems(item.childItems) : null}
+            {itemIsOpen ? renderMenuItems(item.childItems, id) : null}
           </div>
         </React.Fragment>
       );
@@ -250,7 +248,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
 
   return (
     <div className={cx('collapsing-navigation-menu', theme.className)} id="terra-dev-site-nav-menu" tabIndex="-1" role="tree">
-      {menuItems ? renderMenuItems(menuItems[0].childItems, true) : undefined}
+      {menuItems ? renderMenuItems(menuItems[0].childItems, '', true) : undefined}
     </div>
   );
 };
