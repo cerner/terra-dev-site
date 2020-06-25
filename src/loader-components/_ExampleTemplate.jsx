@@ -19,7 +19,6 @@ const propTypes = {
   exampleSrc: PropTypes.element,
   /**
    * The example source css.
-   * Change to a PropTypes.element once I figure the other stuff out
    */
   exampleCssSrc: PropTypes.element,
   /**
@@ -39,6 +38,7 @@ const propTypes = {
 const defaultProps = {
   isExpanded: false,
   isCssExpanded: false,
+  // exampleCssSrc: 'sample text',
 };
 
 const ExampleTemplate = ({

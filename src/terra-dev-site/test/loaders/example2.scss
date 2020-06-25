@@ -1,0 +1,15 @@
+:global {
+    body,
+    #root {
+      height: 100%;
+    }
+  }
+  
+  :local{
+    .chevron {
+      color: var(--terra-dev-site-example-template-chevron-color, #000);
+      display: inline-block; // IE 10
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+  }

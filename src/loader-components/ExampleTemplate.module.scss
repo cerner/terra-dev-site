@@ -52,14 +52,14 @@
     padding: 0.625rem;
 
     &.is-selected {
+      --terra-dev-site-example-template-chevron-color: --terra-dev-site-example-template-selected-code-toggle-color;
       background-color: var(--terra-dev-site-example-template-selected-code-toggle-background-color, #666565);
       color: var(--terra-dev-site-example-template-selected-code-toggle-color, #ebebeb);
-      --terra-dev-site-example-template-chevron-color: --terra-dev-site-example-template-selected-code-toggle-color;
     }
 
     &:hover.is-selected {
-      background-color: var(--terra-dev-site-example-template-hover-selected-code-toggle-background-color, #424141);
       --terra-dev-site-example-template-chevron-color: --terra-dev-site-example-template-hover-selected-code-toggle-color;
+      background-color: var(--terra-dev-site-example-template-hover-selected-code-toggle-background-color, #424141);
     }
 
     &:hover {

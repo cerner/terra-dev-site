@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const path = require('path');
 const startCase = require('lodash.startcase');
 
@@ -10,20 +11,35 @@ const loader = async function loader() {
 
   const exampleSource = this.resourcePath;
   const parsedResourcePath = path.parse(exampleSource);
+  const exampleCssSource = ('/Users/dm068655/Documents/ExternalR/terra-dev-site/src/terra-dev-site/test/loaders/example2.scss');
+
+  // eslint-disable-next-line import/order
+  const lineReader = require('readline').createInterface({
+    input: require('fs').createReadStream(exampleSource),
+  });
+
+  lineReader.on('line', (line) => {
+    if (line.includes('.scss') === true || line.includes('.css' === true)) {
+      console.log(line.slice(line.lastIndexOf('/'), (line.lastIndexOf('css') + 3)));
+    }
+  });
 
   const code = [
     'import React from \'react\';',
     `import Example from '${exampleSource}';`,
     `import Code from '${exampleSource}?dev-site-codeblock';`,
+    `import Css from '${exampleCssSource}?dev-site-codeblock'`,
     'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
     '',
-    `export default ({ title, description, isExpanded }) => (
+    `export default ({ title, description, isExpanded, isCssExpanded }) => (
       <ExampleTemplate
         title={ title || '${startCase(parsedResourcePath.name)}'}
         description={description}
         example={<Example />}
         exampleSrc={<Code />}
+        exampleCssSrc={<Css />}
         isExpanded={isExpanded}
+        isCssExpanded={isCssExpanded}
       />
     );`,
   ].join('\n');
