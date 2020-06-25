@@ -1,7 +1,7 @@
 import React, {
   useState, useRef, useEffect, useContext,
 } from 'react';
-import PropTypes, { element } from 'prop-types';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
 
@@ -107,7 +107,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   }, []);
 
   useEffect(() => {
-    cursor.current = visibleNodes.current.findIndex((element) => element.id === currentNodeId);
+    cursor.current = visibleNodes.current.findIndex((el) => el.id === currentNodeId);
     const currentNode = currentNodeId ? document.querySelector(`#${currentNodeId}`) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
@@ -158,6 +158,16 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
   };
 
+  const findNode = (char) => {
+    let sortedNodes = visibleNodes.current.slice(cursor.current + 1, visibleNodes.current.length);
+    sortedNodes = sortedNodes.concat(visibleNodes.current.slice(0, cursor.current));
+    const match = sortedNodes.find((el) => el.id[0].toUpperCase() === char);
+    if (match) {
+      cursor.current = visibleNodes.current.findIndex((el) => el.id === match.id);
+      setCurrentNodeId(match.id);
+    }
+  };
+
   const handleKeyDown = (event, item) => {
     if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
       event.preventDefault();
@@ -168,6 +178,8 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_UP) {
       event.preventDefault();
       handleUpArrow();
+    } else if ((event.nativeEvent.keyCode === KeyCode.KEY_RIGHT || event.nativeEvent.keyCode === KeyCode.KEY_LEFT) && !currentNodeId) {
+      event.preventDefault();
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_RIGHT) {
       event.preventDefault();
       if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
@@ -190,6 +202,10 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       event.preventDefault();
       cursor.current = visibleNodes.current.length - 1;
       setCurrentNodeId(visibleNodes.current[cursor.current].id);
+    } else if (event.nativeEvent.keyCode >= KeyCode.KEY_A && event.nativeEvent.keyCode <= KeyCode.KEY_Z) {
+      event.preventDefault();
+      const char = String.fromCharCode(event.nativeEvent.keyCode);
+      findNode(char);
     }
   };
 
