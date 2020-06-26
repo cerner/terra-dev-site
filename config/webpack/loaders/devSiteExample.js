@@ -11,22 +11,33 @@ const loader = async function loader() {
 
   const exampleSource = this.resourcePath;
   const parsedResourcePath = path.parse(exampleSource);
-  const exampleCssSource = ('/Users/dm068655/Documents/ExternalR/terra-dev-site/src/terra-dev-site/test/loaders/example2.scss');
+  let exampleCssSource;
 
   let cssFileName;
+  try {
   // eslint-disable-next-line import/order
-  const lineReader = require('readline').createInterface({
-    input: require('fs').createReadStream(exampleSource),
-  });
+    const lineReader = require('readline').createInterface({
+      input: require('fs').createReadStream(exampleSource),
+      crlfDelay: Infinity,
+    });
 
-  lineReader.on('line', (line) => {
-    if (line.includes('.scss') === true || line.includes('.css' === true)) {
-      cssFileName = line;
-      console.log(cssFileName);
-    }
-  });
-  console.log(cssFileName);
-  // console.log(path.resolve(exampleSource, cssFileName));
+    lineReader.on('line', (line) => {
+      if (line.includes('.scss') === true || line.includes('.css' === true)) {
+        cssFileName = (line.slice(line.lastIndexOf('/'), (line.lastIndexOf('css') + 3)));
+      }
+    });
+
+    await require('events').once(lineReader, 'close');
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+  }
+
+  if (cssFileName !== undefined) {
+    exampleCssSource = path.join(parsedResourcePath.dir, cssFileName);
+  } else {
+    exampleCssSource = '/Users/dm068655/Documents/ExternalR/terra-dev-site/src/terra-dev-site/test/loaders/example2.scss';
+  }
 
   const code = [
     'import React from \'react\';',
