@@ -13,6 +13,7 @@ const loader = async function loader() {
   const parsedResourcePath = path.parse(exampleSource);
   const exampleCssSource = ('/Users/dm068655/Documents/ExternalR/terra-dev-site/src/terra-dev-site/test/loaders/example2.scss');
 
+  let cssFileName;
   // eslint-disable-next-line import/order
   const lineReader = require('readline').createInterface({
     input: require('fs').createReadStream(exampleSource),
@@ -20,9 +21,12 @@ const loader = async function loader() {
 
   lineReader.on('line', (line) => {
     if (line.includes('.scss') === true || line.includes('.css' === true)) {
-      console.log(line.slice(line.lastIndexOf('/'), (line.lastIndexOf('css') + 3)));
+      cssFileName = line;
+      console.log(cssFileName);
     }
   });
+  console.log(cssFileName);
+  // console.log(path.resolve(exampleSource, cssFileName));
 
   const code = [
     'import React from \'react\';',
