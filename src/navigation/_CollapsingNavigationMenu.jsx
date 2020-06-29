@@ -206,6 +206,10 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       event.preventDefault();
       const char = String.fromCharCode(event.nativeEvent.keyCode);
       findNode(char);
+    } else if (event.nativeEvent.shiftKey && event.nativeEvent.keyCode === KeyCode.KEY_TAB) {
+      handleUpArrow();
+    } else if (event.nativeEvent.keyCode === KeyCode.KEY_TAB) {
+      handleDownArrow();
     }
   };
 
