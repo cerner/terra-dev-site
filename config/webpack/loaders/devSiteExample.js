@@ -11,9 +11,14 @@ const loader = async function loader() {
 
   const exampleSource = this.resourcePath;
   const parsedResourcePath = path.parse(exampleSource);
+
+  let code;
+  let cssFileName;
   let exampleCssSource;
 
-  let cssFileName;
+  /**
+   * Use a try catch block in order to synchronously capture the file name for any attached css files
+   */
   try {
   // eslint-disable-next-line import/order
     const lineReader = require('readline').createInterface({
@@ -33,31 +38,46 @@ const loader = async function loader() {
     console.error(err);
   }
 
+  // The following code is a wip, it can probably be refactored for efficiency
   if (cssFileName !== undefined) {
     exampleCssSource = path.join(parsedResourcePath.dir, cssFileName);
+    code = [
+      'import React from \'react\';',
+      `import Example from '${exampleSource}';`,
+      `import Css from '${exampleCssSource}?dev-site-codeblock'`,
+      `import Code from '${exampleSource}?dev-site-codeblock';`,
+      'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
+      '',
+      `export default ({ title, description, isCssExpanded, isExpanded }) => (
+        <ExampleTemplate
+          title={ title || '${startCase(parsedResourcePath.name)}'}
+          description={description}
+          example={<Example />}
+          exampleCssSrc={<Css />}
+          exampleSrc={<Code />}
+          isCssExpanded={isCssExpanded}
+          isExpanded={isExpanded}
+        />
+      );`,
+    ].join('\n');
   } else {
-    exampleCssSource = '/Users/dm068655/Documents/ExternalR/terra-dev-site/src/terra-dev-site/test/loaders/example2.scss';
+    code = [
+      'import React from \'react\';',
+      `import Example from '${exampleSource}';`,
+      `import Code from '${exampleSource}?dev-site-codeblock';`,
+      'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
+      '',
+      `export default ({ title, description, isExpanded }) => (
+        <ExampleTemplate
+          title={ title || '${startCase(parsedResourcePath.name)}'}
+          description={description}
+          example={<Example />}
+          exampleSrc={<Code />}
+          isExpanded={isExpanded}
+        />
+      );`,
+    ].join('\n');
   }
-
-  const code = [
-    'import React from \'react\';',
-    `import Example from '${exampleSource}';`,
-    `import Code from '${exampleSource}?dev-site-codeblock';`,
-    `import Css from '${exampleCssSource}?dev-site-codeblock'`,
-    'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
-    '',
-    `export default ({ title, description, isExpanded, isCssExpanded }) => (
-      <ExampleTemplate
-        title={ title || '${startCase(parsedResourcePath.name)}'}
-        description={description}
-        example={<Example />}
-        exampleSrc={<Code />}
-        exampleCssSrc={<Css />}
-        isExpanded={isExpanded}
-        isCssExpanded={isCssExpanded}
-      />
-    );`,
-  ].join('\n');
 
   return callback(null, code);
 };

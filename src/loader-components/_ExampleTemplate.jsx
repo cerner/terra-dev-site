@@ -38,7 +38,6 @@ const propTypes = {
 const defaultProps = {
   isExpanded: false,
   isCssExpanded: false,
-  // exampleCssSrc: 'sample text',
 };
 
 const ExampleTemplate = ({
@@ -47,15 +46,19 @@ const ExampleTemplate = ({
   const [codeIsVisible, setCodeIsVisible] = useState(isExpanded);
   const [cssIsVisible, setCssIsVisible] = useState(isCssExpanded);
   const theme = React.useContext(ThemeContext);
+  let cssButtonVisible = true;
   let isCodeSelected = false;
   let isCssSelected = false;
 
-  const handleCodeToggle = () => {
-    setCodeIsVisible(!codeIsVisible);
-    if (cssIsVisible === true) {
-      setCssIsVisible(!cssIsVisible);
-    }
-  };
+  if (exampleCssSrc === undefined) {
+    cssButtonVisible = false;
+  }
+
+  if (cssIsVisible === true) {
+    isCssSelected = true;
+  } else if (codeIsVisible === true) {
+    isCodeSelected = true;
+  }
 
   const handleCssToggle = () => {
     setCssIsVisible(!cssIsVisible);
@@ -64,11 +67,12 @@ const ExampleTemplate = ({
     }
   };
 
-  if (cssIsVisible === true) {
-    isCssSelected = true;
-  } else if (codeIsVisible === true) {
-    isCodeSelected = true;
-  }
+  const handleCodeToggle = () => {
+    setCodeIsVisible(!codeIsVisible);
+    if (cssIsVisible === true) {
+      setCssIsVisible(!cssIsVisible);
+    }
+  };
 
   return (
     <div className={cx('template', theme.className)}>
@@ -91,25 +95,27 @@ const ExampleTemplate = ({
           && (
           <div className={cx('footer')}>
             <div className={cx('button-container')}>
+              {cssButtonVisible && (
+                <button type="button" className={cx('css-toggle', { 'is-selected': isCssSelected })} onClick={handleCssToggle}>
+                  CSS
+                </button>
+              )}
               <button type="button" className={cx('code-toggle', { 'is-selected': isCodeSelected })} onClick={handleCodeToggle}>
                 <IconChevronLeft className={cx('chevron')} />
                 <span>Code</span>
                 <IconChevronRight className={cx('chevron')} />
               </button>
-              <button type="button" className={cx('css-toggle', { 'is-selected': isCssSelected })} onClick={handleCssToggle}>
-                CSS
-              </button>
             </div>
-            {codeIsVisible
-              && (
-                <div className={cx('code')}>
-                  {exampleSrc}
-                </div>
-              )}
             {cssIsVisible
               && (
                 <div className={cx('css')}>
                   {exampleCssSrc}
+                </div>
+              )}
+              {codeIsVisible
+              && (
+                <div className={cx('code')}>
+                  {exampleSrc}
                 </div>
               )}
           </div>
