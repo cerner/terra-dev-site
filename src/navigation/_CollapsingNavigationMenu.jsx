@@ -109,21 +109,21 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     const currentNode = currentNodeId ? document.querySelector(`#${currentNodeId}`) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
-    const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
 
     if (currentNode) currentNode.focus();
     // If the item selected through keyboard navigation is not visible, scroll it into view.
     if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
       currentNode.scrollIntoView();
     }
+  }, [currentNodeId]);
+
+  useEffect(() => {
+    const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
+    const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
     // If the current item is not visible, scroll the item into view.
     if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
       selectedItem.current.scrollIntoView();
     }
-  });
-
-  useEffect(() => {
-
   }, [openKeys]);
 
   const handleOnClick = (event, item) => {
