@@ -49,4 +49,14 @@ Terra.describeViewports('loaders', ['huge'], () => {
     browser.click('[class*=ExampleTemplate-module__code-toggle]');
     Terra.validates.element('Hides the examples code again');
   });
+
+  it('Reveals the examples css', () => {
+    browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    Terra.validates.element('Reveals the examples css');
+  });
+
+  it('Hides the examples css again', () => {
+    browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    Terra.validates.element('Hides the examples css again');
+  });
 });
