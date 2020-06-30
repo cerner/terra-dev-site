@@ -41,42 +41,31 @@ const loader = async function loader() {
   // The following code is a wip, it can probably be refactored for efficiency
   if (cssFileName !== undefined) {
     exampleCssSource = path.join(parsedResourcePath.dir, cssFileName);
-    code = [
-      'import React from \'react\';',
-      `import Example from '${exampleSource}';`,
-      `import Css from '${exampleCssSource}?dev-site-codeblock'`,
-      `import Code from '${exampleSource}?dev-site-codeblock';`,
-      'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
-      '',
-      `export default ({ title, description, isCssExpanded, isExpanded }) => (
-        <ExampleTemplate
-          title={ title || '${startCase(parsedResourcePath.name)}'}
-          description={description}
-          example={<Example />}
-          exampleCssSrc={<Css />}
-          exampleSrc={<Code />}
-          isCssExpanded={isCssExpanded}
-          isExpanded={isExpanded}
-        />
-      );`,
-    ].join('\n');
-  } else {
-    code = [
-      'import React from \'react\';',
-      `import Example from '${exampleSource}';`,
-      `import Code from '${exampleSource}?dev-site-codeblock';`,
-      'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
-      '',
-      `export default ({ title, description, isExpanded }) => (
-        <ExampleTemplate
-          title={ title || '${startCase(parsedResourcePath.name)}'}
-          description={description}
-          example={<Example />}
-          exampleSrc={<Code />}
-          isExpanded={isExpanded}
-        />
-      );`,
-    ].join('\n');
+  }
+
+  code = [
+    'import React from \'react\';',
+    `import Example from '${exampleSource}';`,
+    `import Css from '${exampleCssSource}?dev-site-codeblock';`,
+    `import Code from '${exampleSource}?dev-site-codeblock';`,
+    'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
+    '',
+    `export default ({ title, description, isCssExpanded, isExpanded }) => (
+      <ExampleTemplate
+        title={ title || '${startCase(parsedResourcePath.name)}'}
+        description={description}
+        example={<Example />}
+        exampleCssSrc={<Css />}
+        exampleSrc={<Code />}
+        isCssExpanded={isCssExpanded}
+        isExpanded={isExpanded}
+      />
+    );`,
+  ].join('\n');
+
+  if (exampleCssSource === undefined) {
+    code = code.replace('import Css from \'undefined?dev-site-codeblock\';', '');
+    code = code.replace('exampleCssSrc={<Css />}', '');
   }
 
   return callback(null, code);
