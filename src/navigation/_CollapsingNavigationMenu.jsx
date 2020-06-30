@@ -84,19 +84,17 @@ const openKeysToItem = (menuItems, selectedPath) => keysToItem(menuItems, select
 }, {});
 
 const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelect }) => {
-  const [isNewSelectedPath, setIsNewSelectedPath] = useState(false);
-  const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const [currentNodeId, setCurrentNodeId] = useState();
+  const previousSelectedPath = useRef(selectedPath);
   const cursor = useRef(0);
   const visibleNodes = useRef();
   const selectedItem = useRef();
   const theme = useContext(ThemeContext);
 
-  if (previousSelectedPath !== selectedPath) {
-    setIsNewSelectedPath(true);
+  if (previousSelectedPath.current !== selectedPath) {
+    previousSelectedPath.current = selectedPath;
     setOpenKeys({ ...openKeys, ...openKeysToItem(menuItems[0], selectedPath) });
-    setPreviousSelectedPath(selectedPath);
   }
   visibleNodes.current = [];
 
@@ -111,21 +109,22 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     const currentNode = currentNodeId ? document.querySelector(`#${currentNodeId}`) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
+    const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
 
     if (currentNode) currentNode.focus();
     // If the item selected through keyboard navigation is not visible, scroll it into view.
     if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
       currentNode.scrollIntoView();
     }
-
-    if (isNewSelectedPath) {
-      const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
-      // If the current item is not visible, scroll the item into view.
-      if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
-        selectedItem.current.scrollIntoView();
-      }
+    // If the current item is not visible, scroll the item into view.
+    if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
+      selectedItem.current.scrollIntoView();
     }
   });
+
+  useEffect(() => {
+
+  }, [openKeys]);
 
   const handleOnClick = (event, item) => {
     if (!item.childItems) {
@@ -225,9 +224,11 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       let isSelected = false;
       let selectedRef;
 
-      if (selectedPath === item.path || currentNodeId === id) {
+      if (selectedPath === item.path) {
         isSelected = true;
         selectedRef = selectedItem;
+      } else if (currentNodeId === id) {
+        isSelected = true;
       }
 
       visibleNodes.current.push({ id, parent });
