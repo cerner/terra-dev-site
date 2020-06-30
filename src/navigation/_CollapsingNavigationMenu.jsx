@@ -86,16 +86,10 @@ const openKeysToItem = (menuItems, selectedPath) => keysToItem(menuItems, select
 const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelect }) => {
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const [currentNodeId, setCurrentNodeId] = useState();
-  const previousSelectedPath = useRef(selectedPath);
   const cursor = useRef(0);
   const visibleNodes = useRef();
   const selectedItem = useRef();
   const theme = useContext(ThemeContext);
-
-  if (previousSelectedPath.current !== selectedPath) {
-    previousSelectedPath.current = selectedPath;
-    setOpenKeys({ ...openKeys, ...openKeysToItem(menuItems[0], selectedPath) });
-  }
   visibleNodes.current = [];
 
   useEffect(() => {
@@ -125,6 +119,11 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       selectedItem.current.scrollIntoView();
     }
   }, [openKeys]);
+
+  useEffect(() => {
+    setOpenKeys({ ...openKeys, ...openKeysToItem(menuItems[0], selectedPath) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPath]);
 
   const handleOnClick = (event, item) => {
     if (!item.childItems) {
