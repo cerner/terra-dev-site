@@ -40,6 +40,10 @@ Terra.describeViewports('loaders', ['huge'], () => {
     Terra.validates.element('example');
   });
 
+  it('Does not display css tab if there is no imported file', () => {
+    Terra.validates.element('Hides css tab');
+  });
+
   it('Reveals the examples code', () => {
     browser.click('[class*=ExampleTemplate-module__code-toggle]');
     Terra.validates.element('Reveals the examples code');
