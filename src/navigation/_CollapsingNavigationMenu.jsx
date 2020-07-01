@@ -91,12 +91,19 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const theme = useContext(ThemeContext);
   const visibleNodes = [];
 
+  /**
+   * Scrolls the currently selected menu item into view on mount.
+   */
   useEffect(() => {
     if (selectedItem && selectedItem.current) {
       selectedItem.current.scrollIntoView();
     }
   }, []);
 
+  /**
+   * Updates cursor position when new menu items are loaded.
+   * If the item emphasized through keyboard navigation is not visible, scroll it into view.
+   */
   useEffect(() => {
     cursor.current = visibleNodes.findIndex((el) => el.id === currentNodeId);
     const currentNode = currentNodeId ? document.querySelector(`#${currentNodeId}`) : null;
@@ -106,21 +113,25 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (currentNode) {
       currentNode.focus();
     }
-    // If the item selected through keyboard navigation is not visible, scroll it into view.
     if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
       currentNode.scrollIntoView();
     }
   }, [currentNodeId, visibleNodes]);
 
+  /**
+   * If the current item is not visible, scroll the item into view.
+   */
   useEffect(() => {
     const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
-    // If the current item is not visible, scroll the item into view.
     if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
       selectedItem.current.scrollIntoView();
     }
   }, [openKeys]);
 
+  /**
+   * Ensure the currently selected menu item is visible.
+   */
   useEffect(() => {
     setOpenKeys({ ...openKeys, ...openKeysToItem(menuItems[0], selectedPath) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
