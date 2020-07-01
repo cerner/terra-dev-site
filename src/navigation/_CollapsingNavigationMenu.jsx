@@ -159,7 +159,10 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
   };
 
-  const findParent = () => {
+  /**
+   * Finds parent of the current node, used for left arrow functionality
+   */
+  const findParentNode = () => {
     if (!currentNodeId) {
       return;
     }
@@ -170,7 +173,12 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
   };
 
-  const findNode = (char) => {
+  /**
+   * Finds the first node starting with the given character.
+   * Starts at the cursors current position, and wraps around to the beginning of the menu if a match isn't found.
+   * @param {*} char The character to search by
+   */
+  const findNodeMatching = (char) => {
     let sortedNodes = visibleNodes.slice(cursor.current + 1, visibleNodes.length);
     sortedNodes = sortedNodes.concat(visibleNodes.slice(0, cursor.current));
     const match = sortedNodes.find((el) => el.id[0].toUpperCase() === char);
@@ -211,7 +219,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
           if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
             handleOnClick(event, item);
           } else if (!document.getElementById(currentNodeId).ariaHasPopup || !document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false') {
-            findParent();
+            findParentNode();
           }
         }
         break;
@@ -236,7 +244,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         if (event.nativeEvent.keyCode >= KeyCode.KEY_A && event.nativeEvent.keyCode <= KeyCode.KEY_Z) {
           event.preventDefault();
           const char = String.fromCharCode(event.nativeEvent.keyCode);
-          findNode(char);
+          findNodeMatching(char);
         }
         break;
     }
