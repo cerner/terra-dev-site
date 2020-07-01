@@ -103,7 +103,9 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
 
-    if (currentNode) currentNode.focus();
+    if (currentNode) {
+      currentNode.focus();
+    }
     // If the item selected through keyboard navigation is not visible, scroll it into view.
     if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
       currentNode.scrollIntoView();
@@ -147,7 +149,9 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   const findParent = () => {
-    if (!currentNodeId) return;
+    if (!currentNodeId) {
+      return;
+    }
     const parentId = visibleNodes.find((el) => el.id === currentNodeId).parent;
     if (parentId !== '') {
       cursor.current = visibleNodes.findIndex((el) => el.id === parentId);
