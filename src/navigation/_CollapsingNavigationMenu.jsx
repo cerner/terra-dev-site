@@ -181,47 +181,64 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   const handleKeyDown = (event, item) => {
-    if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
-      event.preventDefault();
-      handleOnClick(event, item);
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_DOWN) {
-      event.preventDefault();
-      handleDownArrow();
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_UP) {
-      event.preventDefault();
-      handleUpArrow();
-    } else if ((event.nativeEvent.keyCode === KeyCode.KEY_RIGHT || event.nativeEvent.keyCode === KeyCode.KEY_LEFT) && !currentNodeId) {
-      event.preventDefault();
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_RIGHT) {
-      event.preventDefault();
-      if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
+    switch (event.nativeEvent.keyCode) {
+      case KeyCode.KEY_SPACE:
+      case KeyCode.KEY_RETURN:
+        event.preventDefault();
+        handleOnClick(event, item);
+        break;
+      case KeyCode.KEY_DOWN:
+        event.preventDefault();
         handleDownArrow();
-      } else if (document.getElementById(currentNodeId).ariaHasPopup && (!document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false')) {
-        handleOnClick(event, item);
-      }
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_LEFT) {
-      event.preventDefault();
-      if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
-        handleOnClick(event, item);
-      } else if (!document.getElementById(currentNodeId).ariaHasPopup || !document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false') {
-        findParent();
-      }
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_HOME) {
-      event.preventDefault();
-      cursor.current = 0;
-      setCurrentNodeId(visibleNodes[cursor.current].id);
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_END) {
-      event.preventDefault();
-      cursor.current = visibleNodes.length - 1;
-      setCurrentNodeId(visibleNodes[cursor.current].id);
-    } else if (event.nativeEvent.keyCode >= KeyCode.KEY_A && event.nativeEvent.keyCode <= KeyCode.KEY_Z) {
-      event.preventDefault();
-      const char = String.fromCharCode(event.nativeEvent.keyCode);
-      findNode(char);
-    } else if (event.nativeEvent.shiftKey && event.nativeEvent.keyCode === KeyCode.KEY_TAB) {
-      handleUpArrow();
-    } else if (event.nativeEvent.keyCode === KeyCode.KEY_TAB) {
-      handleDownArrow();
+        break;
+      case KeyCode.KEY_UP:
+        event.preventDefault();
+        handleUpArrow();
+        break;
+      case KeyCode.KEY_RIGHT:
+        event.preventDefault();
+        if (currentNodeId) {
+          if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
+            handleDownArrow();
+          } else if (document.getElementById(currentNodeId).ariaHasPopup && (!document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false')) {
+            handleOnClick(event, item);
+          }
+        }
+        break;
+      case KeyCode.KEY_LEFT:
+        event.preventDefault();
+        if (currentNodeId) {
+          if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
+            handleOnClick(event, item);
+          } else if (!document.getElementById(currentNodeId).ariaHasPopup || !document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false') {
+            findParent();
+          }
+        }
+        break;
+      case KeyCode.KEY_HOME:
+        event.preventDefault();
+        cursor.current = 0;
+        setCurrentNodeId(visibleNodes[cursor.current].id);
+        break;
+      case KeyCode.KEY_END:
+        event.preventDefault();
+        cursor.current = visibleNodes.length - 1;
+        setCurrentNodeId(visibleNodes[cursor.current].id);
+        break;
+      case KeyCode.KEY_TAB:
+        if (event.nativeEvent.shiftKey) {
+          handleUpArrow();
+        } else {
+          handleDownArrow();
+        }
+        break;
+      default:
+        if (event.nativeEvent.keyCode >= KeyCode.KEY_A && event.nativeEvent.keyCode <= KeyCode.KEY_Z) {
+          event.preventDefault();
+          const char = String.fromCharCode(event.nativeEvent.keyCode);
+          findNode(char);
+        }
+        break;
     }
   };
 
