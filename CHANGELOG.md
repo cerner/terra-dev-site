@@ -13,7 +13,7 @@ Unreleased
 * Removed toggle backgrounds tab and functionality from example loader
 
 ### Added
-* Added CSS display tab to example loader
+* Added CSS display tab and functionality to example loader
 
 6.24.0 - (June 16, 2020)
 ----------
