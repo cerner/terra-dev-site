@@ -87,10 +87,9 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
   const [currentNodeId, setCurrentNodeId] = useState();
   const cursor = useRef(0);
-  const visibleNodes = useRef();
   const selectedItem = useRef();
   const theme = useContext(ThemeContext);
-  visibleNodes.current = [];
+  const visibleNodes = [];
 
   useEffect(() => {
     if (selectedItem && selectedItem.current) {
@@ -99,7 +98,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   }, []);
 
   useEffect(() => {
-    cursor.current = visibleNodes.current.findIndex((el) => el.id === currentNodeId);
+    cursor.current = visibleNodes.findIndex((el) => el.id === currentNodeId);
     const currentNode = currentNodeId ? document.querySelector(`#${currentNodeId}`) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
@@ -109,7 +108,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
       currentNode.scrollIntoView();
     }
-  }, [currentNodeId]);
+  }, [currentNodeId, visibleNodes]);
 
   useEffect(() => {
     const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
@@ -134,34 +133,34 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   const handleDownArrow = () => {
-    if (cursor.current + 1 < visibleNodes.current.length) {
+    if (cursor.current + 1 < visibleNodes.length) {
       cursor.current += 1;
-      setCurrentNodeId(visibleNodes.current[cursor.current].id);
+      setCurrentNodeId(visibleNodes[cursor.current].id);
     }
   };
 
   const handleUpArrow = () => {
     if (cursor.current >= 1) {
       cursor.current -= 1;
-      setCurrentNodeId(visibleNodes.current[cursor.current].id);
+      setCurrentNodeId(visibleNodes[cursor.current].id);
     }
   };
 
   const findParent = () => {
     if (!currentNodeId) return;
-    const parentId = visibleNodes.current.find((el) => el.id === currentNodeId).parent;
+    const parentId = visibleNodes.find((el) => el.id === currentNodeId).parent;
     if (parentId !== '') {
-      cursor.current = visibleNodes.current.findIndex((el) => el.id === parentId);
-      setCurrentNodeId(visibleNodes.current[cursor.current].id);
+      cursor.current = visibleNodes.findIndex((el) => el.id === parentId);
+      setCurrentNodeId(visibleNodes[cursor.current].id);
     }
   };
 
   const findNode = (char) => {
-    let sortedNodes = visibleNodes.current.slice(cursor.current + 1, visibleNodes.current.length);
-    sortedNodes = sortedNodes.concat(visibleNodes.current.slice(0, cursor.current));
+    let sortedNodes = visibleNodes.slice(cursor.current + 1, visibleNodes.length);
+    sortedNodes = sortedNodes.concat(visibleNodes.slice(0, cursor.current));
     const match = sortedNodes.find((el) => el.id[0].toUpperCase() === char);
     if (match) {
-      cursor.current = visibleNodes.current.findIndex((el) => el.id === match.id);
+      cursor.current = visibleNodes.findIndex((el) => el.id === match.id);
       setCurrentNodeId(match.id);
     }
   };
@@ -195,11 +194,11 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_HOME) {
       event.preventDefault();
       cursor.current = 0;
-      setCurrentNodeId(visibleNodes.current[cursor.current].id);
+      setCurrentNodeId(visibleNodes[cursor.current].id);
     } else if (event.nativeEvent.keyCode === KeyCode.KEY_END) {
       event.preventDefault();
-      cursor.current = visibleNodes.current.length - 1;
-      setCurrentNodeId(visibleNodes.current[cursor.current].id);
+      cursor.current = visibleNodes.length - 1;
+      setCurrentNodeId(visibleNodes[cursor.current].id);
     } else if (event.nativeEvent.keyCode >= KeyCode.KEY_A && event.nativeEvent.keyCode <= KeyCode.KEY_Z) {
       event.preventDefault();
       const char = String.fromCharCode(event.nativeEvent.keyCode);
@@ -230,7 +229,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         isSelected = true;
       }
 
-      visibleNodes.current.push({ id, parent });
+      visibleNodes.push({ id, parent });
       const menuItemClassNames = classNames(
         cx([
           'item',
