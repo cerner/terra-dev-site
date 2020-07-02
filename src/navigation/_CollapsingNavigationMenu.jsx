@@ -106,7 +106,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
    */
   useEffect(() => {
     cursor.current = visibleNodes.findIndex((el) => el.id === currentNodeId);
-    const currentNode = currentNodeId ? document.querySelector(`#${currentNodeId}`) : null;
+    const currentNode = currentNodeId ? document.getElementById(currentNodeId) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
 
