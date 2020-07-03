@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/role-supports-aria-props */
+
 import React, {
   useState, useRef, useEffect, useLayoutEffect, useContext,
 } from 'react';

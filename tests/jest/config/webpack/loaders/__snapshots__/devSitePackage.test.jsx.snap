@@ -6,7 +6,7 @@ import Badges from 'terra-dev-site/lib/loader-components/_Badges';
 
 export const Badge = ({ url }) => (
       <Badges
-        src=\\"https://github.com/cerner/terra-dev-site/tree/master/src/loader-components\\"
+        src=\\"https://github.com/cerner/terra-dev-site/tree/main/src/loader-components\\"
         name=\\"terra-dev-site\\"
         version=\\"6.2.0\\"
         url={url}
@@ -74,7 +74,7 @@ import Badges from 'terra-dev-site/lib/loader-components/_Badges';
 
 export const Badge = ({ url }) => (
       <Badges
-        src=\\"https://github.com/cerner/terra-dev-site/tree/master/src/loader-components\\"
+        src=\\"https://github.com/cerner/terra-dev-site/tree/main/src/loader-components\\"
         name=\\"terra-dev-site\\"
         version=\\"6.2.0\\"
         url={url}

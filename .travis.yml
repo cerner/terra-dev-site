@@ -4,7 +4,7 @@ services:
   - docker
 branches:
   only:
-    - master
+    - main
 cache:
   directories:
     - $HOME/docker
@@ -50,7 +50,7 @@ jobs:
         github_token: $GITHUB_TOKEN # Set in travis-ci.com dashboard
         local_dir: build
         on:
-          branch: master
+          branch: main
     - stage: clean up cache
       before_install: true
       script:
