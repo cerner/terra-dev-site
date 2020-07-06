@@ -8,6 +8,7 @@ Unreleased
 
 ### Changed
 * Add theme support
+* Changed default branch from master to main.
 
 ### Removed
 * Removed toggle backgrounds tab and functionality from example loader
@@ -413,7 +414,7 @@ Unreleased
 ### Breaking Changed
 * Webpack 4
 * Consume terra-toolkit v3
-* See [upgrade guide](https://github.com/cerner/terra-dev-site/blob/master/docs/TerraDevSiteUpgradeGuide-v0.5.0.md).
+* See [upgrade guide](https://github.com/cerner/terra-dev-site/blob/main/docs/TerraDevSiteUpgradeGuide-v0.5.0.md).
 
 0.4.2 - (April 16, 2018)
 ----------
