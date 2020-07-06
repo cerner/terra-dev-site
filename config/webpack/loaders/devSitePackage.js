@@ -12,7 +12,7 @@ const loader = async function loader(content) {
   let finalUrl = '';
   if (repoUrl) {
     if (repoDirectory) {
-      finalUrl = `${repoUrl}/tree/master/${repoDirectory}`;
+      finalUrl = `${repoUrl}/tree/main/${repoDirectory}`;
     } else {
       finalUrl = repoUrl;
     }
