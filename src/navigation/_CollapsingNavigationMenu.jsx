@@ -275,8 +275,6 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       if (selectedPath === item.path) {
         isSelected = true;
         selectedRef = selectedItem;
-      } else if (currentNodeId === id) {
-        isSelected = true;
       }
 
       visibleNodes.push({ id, parent });
