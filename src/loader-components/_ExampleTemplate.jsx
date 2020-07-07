@@ -32,7 +32,6 @@ const propTypes = {
   description: PropTypes.node,
 
   isExpanded: PropTypes.bool,
-  // isCssExpanded: PropTypes.bool,
 };
 
 const defaultProps = {
