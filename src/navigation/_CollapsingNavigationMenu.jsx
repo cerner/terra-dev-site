@@ -273,10 +273,12 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       const id = item.name.split(' ').join('-');
       let isSelected = false;
       let selectedRef;
+      let tabIndex = '-1';
 
       if (selectedPath === item.path) {
         isSelected = true;
         selectedRef = selectedItem;
+        tabIndex = '0';
       }
 
       visibleNodes.push({ id, parent });
@@ -294,7 +296,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
           <div className={!firstLevel ? cx('indent') : null}>
             <div
               className={menuItemClassNames}
-              tabIndex="0"
+              tabIndex={tabIndex}
               role="treeitem"
               id={id}
               onKeyDown={event => handleKeyDown(event, item)}
