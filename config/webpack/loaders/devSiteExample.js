@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 const path = require('path');
 const startCase = require('lodash.startcase');
 
@@ -6,35 +5,18 @@ const startCase = require('lodash.startcase');
  * Generate the example with the supplied file.
  * Don't use an arrow function
  */
-const loader = async function loader() {
+const loader = async function loader(content) {
   const callback = this.async();
 
   const exampleSource = this.resourcePath;
   const parsedResourcePath = path.parse(exampleSource);
-
   let cssFileName;
-  let exampleCssSource;
 
-  /**
-   * Use a try catch block in order to synchronously capture the file name for any attached css files
-   */
-  try {
-  // eslint-disable-next-line import/order
-    const lineReader = require('readline').createInterface({
-      input: require('fs').createReadStream(exampleSource),
-      crlfDelay: Infinity,
-    });
-
-    lineReader.on('line', (line) => {
-      if (line.includes('.scss') === true || line.includes('.css' === true)) {
-        cssFileName = (line.slice(line.lastIndexOf('/'), (line.lastIndexOf('css') + 3)));
-      }
-    });
-
-    await require('events').once(lineReader, 'close');
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
+  if (content.includes('.scss') || content.includes('.css')) {
+    cssFileName = content.slice(
+      (content.slice(0, content.lastIndexOf('css') + 3)).lastIndexOf('/'),
+      content.indexOf('css') + 3,
+    );
   }
 
   const code = [
@@ -42,30 +24,28 @@ const loader = async function loader() {
     `import Example from '${exampleSource}';`,
     `import Code from '${exampleSource}?dev-site-codeblock';`,
     'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
-    '',
-    `export default ({ title, description, isExpanded }) => (
-      <ExampleTemplate
-        title={ title || '${startCase(parsedResourcePath.name)}'}
-        description={description}
-        example={<Example />}
-        exampleSrc={<Code />}
-        isExpanded={isExpanded}
-      />
-    );`,
   ];
 
   if (cssFileName !== undefined) {
-    exampleCssSource = path.join(parsedResourcePath.dir, cssFileName);
-    code.splice(2, 0, `import Css from '${exampleCssSource}?dev-site-codeblock';`);
-    code.pop();
-    code.push(`export default ({ title, description, isCssExpanded, isExpanded }) => (
+    const exampleCssSource = path.join(parsedResourcePath.dir, cssFileName);
+    code.push(`import Css from '${exampleCssSource}?dev-site-codeblock';`,
+      `export default ({ title, description, isExpanded }) => (
       <ExampleTemplate
         title={ title || '${startCase(parsedResourcePath.name)}'}
         description={description}
         example={<Example />}
         exampleCssSrc={<Css />}
         exampleSrc={<Code />}
-        isCssExpanded={isCssExpanded}
+        isExpanded={isExpanded}
+      />
+    );`);
+  } else {
+    code.push(`export default ({ title, description, isExpanded }) => (
+      <ExampleTemplate
+        title={ title || '${startCase(parsedResourcePath.name)}'}
+        description={description}
+        example={<Example />}
+        exampleSrc={<Code />}
         isExpanded={isExpanded}
       />
     );`);
