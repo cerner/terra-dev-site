@@ -88,6 +88,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const [currentNodeId, setCurrentNodeId] = useState();
   const cursor = useRef(0);
   const selectedItem = useRef();
+  const previousSelectedPath = useRef(selectedPath);
   const theme = useContext(ThemeContext);
   const visibleNodes = [];
 
@@ -128,15 +129,16 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentNodeId]);
 
-  /**
-   * If the current item is not visible, scroll the item into view.
-   */
   useEffect(() => {
-    const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
-    const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
-    if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
-      selectedItem.current.scrollIntoView();
+    if (previousSelectedPath.current !== selectedPath) {
+      const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
+      const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
+      if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
+        selectedItem.current.scrollIntoView();
+      }
+      previousSelectedPath.current = selectedPath;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openKeys]);
 
   /**
