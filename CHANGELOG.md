@@ -4,6 +4,9 @@ Changelog
 Unreleased
 ----------
 
+### Changed
+* Add additional keyboard navigation options to CollapsingNavigationMenu
+
 6.25.0 - (July 7, 2020)
 ----------
 ### Fixed
@@ -11,7 +14,6 @@ Unreleased
 
 ### Changed
 * Add theme support
-* Add additional keyboard navigation options to CollapsingNavigationMenu
 * Changed default branch from master to main.
 
 6.24.0 - (June 16, 2020)
