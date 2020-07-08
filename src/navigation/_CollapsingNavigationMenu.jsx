@@ -5,10 +5,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
 
-import IconCaretRight from 'terra-icon/lib/icon/IconCaretRight';
-import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
 import { ThemeContext } from 'terra-application/lib/theme';
 import { menuItemPropType } from '../site/siteConfigPropTypes';
+import CollapsingNavigationMenuItem from './_CollapsingNavigationMenuItem';
 
 import styles from './CollapsingNavigationMenu.module.scss';
 
@@ -29,20 +28,6 @@ const propTypes = {
    * On select callback
    */
   onSelect: PropTypes.func.isRequired,
-};
-
-/**
- * Enables focus styles for the target of the given event. Typically used as an onBlur callback on selectable elements.
- */
-const enableFocusStyles = (event) => {
-  event.currentTarget.setAttribute('data-focus-styles-enabled', 'true');
-};
-
-/**
- * Disables focus styles for the target of the given event. Typically used as an onMouseDown callback on selectable elements.
- */
-const disableFocusStyles = (event) => {
-  event.currentTarget.setAttribute('data-focus-styles-enabled', 'false');
 };
 
 /**
@@ -268,51 +253,24 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
 
     return currentMenuItem.map((item) => {
-      const itemIsOpen = openKeys[item.path];
-      const itemHasChildren = item.childItems !== undefined;
       const id = item.name.split(' ').join('-');
-      let isSelected = false;
-      let selectedRef;
-      let tabIndex = '-1';
-
-      if (selectedPath === item.path) {
-        isSelected = true;
-        selectedRef = selectedItem;
-        tabIndex = '0';
-      }
+      const itemIsOpen = openKeys[item.path];
+      const isSelected = selectedPath === item.path;
 
       visibleNodes.push({ id, parent });
-      const menuItemClassNames = classNames(
-        cx([
-          'item',
-          { 'is-selected': isSelected },
-        ]),
-      );
-
-      const optionalAttributes = itemHasChildren ? { 'aria-expanded': itemIsOpen, 'aria-haspopup': true } : {};
 
       return (
-        <React.Fragment key={item.path}>
-          <div className={!firstLevel ? cx('indent') : null}>
-            <div
-              className={menuItemClassNames}
-              tabIndex={tabIndex}
-              role="treeitem"
-              id={id}
-              onKeyDown={event => handleKeyDown(event, item)}
-              onClick={event => handleOnClick(event, item)}
-              onBlur={enableFocusStyles}
-              onMouseDown={disableFocusStyles}
-              data-focus-styles-enabled
-              ref={selectedRef}
-              {...optionalAttributes}
-            >
-              {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown className={cx('caret')} /> : <IconCaretRight className={cx('caret')} />}</span> : null}
-              {item.name}
-            </div>
-            {itemIsOpen ? renderMenuItems(item.childItems, id) : null}
-          </div>
-        </React.Fragment>
+        <CollapsingNavigationMenuItem
+          item={item}
+          id={id}
+          itemIsOpen={itemIsOpen}
+          isSelected={isSelected}
+          childItems={itemIsOpen ? renderMenuItems(item.childItems, id) : null}
+          firstLevel={firstLevel}
+          handleKeyDown={handleKeyDown}
+          handleOnClick={handleOnClick}
+          ref={isSelected ? selectedItem : null}
+        />
       );
     });
   };
