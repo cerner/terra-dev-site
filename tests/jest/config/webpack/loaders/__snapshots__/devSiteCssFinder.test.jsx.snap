@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`devSiteExample css finder should return undefined if there is no .css or .scss file declaration 1`] = `undefined`;
+
+exports[`devSiteExample css finder should return undefined if there is not file declaration but the file name contains css 1`] = `undefined`;
+
+exports[`devSiteExample css finder should seperate a direct css file correctly 1`] = `"/Users/dm068655/Documents/ExternalR/terra-dev-site/tests/jest/config/webpack/loaders/pretendExampleCss.scss"`;
+
+exports[`devSiteExample css finder should seperate a shortened css file path correctly 1`] = `"./pretendExampleCss.scss"`;
