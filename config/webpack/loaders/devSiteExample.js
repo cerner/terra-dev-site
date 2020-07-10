@@ -1,5 +1,6 @@
 const path = require('path');
 const startCase = require('lodash.startcase');
+const findCss = require('./devSiteCssFinder');
 
 /**
  * Generate the example with the supplied file.
@@ -10,14 +11,7 @@ const loader = async function loader(content) {
 
   const exampleSource = this.resourcePath;
   const parsedResourcePath = path.parse(exampleSource);
-  let cssFileName;
-
-  if (content.includes('.scss') || content.includes('.css')) {
-    cssFileName = content.slice(
-      (content.slice(0, content.lastIndexOf('css') + 3)).lastIndexOf('/'),
-      content.indexOf('css') + 3,
-    );
-  }
+  const cssFileName = findCss(content);
 
   const code = [
     'import React from \'react\';',
@@ -27,7 +21,8 @@ const loader = async function loader(content) {
   ];
 
   if (cssFileName !== undefined) {
-    const exampleCssSource = path.join(parsedResourcePath.dir, cssFileName);
+    const exampleCssSource = cssFileName.includes('./') ? path.join(parsedResourcePath.dir, cssFileName) : cssFileName;
+
     code.push(`import Css from '${exampleCssSource}?dev-site-codeblock';`,
       `export default ({ title, description, isExpanded }) => (
       <ExampleTemplate
@@ -50,7 +45,6 @@ const loader = async function loader(content) {
       />
     );`);
   }
-
   return callback(null, code.join('\n'));
 };
 
