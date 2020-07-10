@@ -66,11 +66,8 @@
   }
 
   .item[data-focus-styles-enabled='true']:focus {
-    box-shadow: 0 0 1px 3px var(--terra-dev-site-example-template-keyboard-focus-color-box-shadow, #4cb2e9) inset;
-
-    &.is-selected {
-      box-shadow: 0 0 1px 3px var(--terra-dev-site-example-template-keyboard-focus-select-box-shadow, #66b5c7) inset;
-    }
+    outline: 2px dashed var(--terra-dev-site-example-template-keyboard-focus-outline, #000);
+    outline-offset: -2px;
   }
 
   .chevron {

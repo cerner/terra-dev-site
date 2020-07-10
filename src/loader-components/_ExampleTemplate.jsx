@@ -55,9 +55,8 @@ const disableFocusStyles = (event) => {
 const ExampleTemplate = ({
   example, exampleSrc, exampleCssSrc, title, description, isExpanded,
 }) => {
-  let isCssExpanded;
   const [codeIsVisible, setCodeIsVisible] = useState(isExpanded);
-  const [cssIsVisible, setCssIsVisible] = useState(isCssExpanded);
+  const [cssIsVisible, setCssIsVisible] = useState(false);
   const theme = React.useContext(ThemeContext);
   const cssButtonVisible = exampleCssSrc !== undefined;
 
@@ -142,9 +141,7 @@ const ExampleTemplate = ({
   );
 
   return (
-    <div
-      className={cx('template', theme.className)}
-    >
+    <div className={cx('template', theme.className)}>
       <div className={cx('header')}>
         {title && (
           <h2 className={cx('title')}>

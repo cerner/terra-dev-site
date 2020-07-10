@@ -3,8 +3,8 @@ import Example from '../../../test/loaders/example?dev-site-example';
 # Example Loader
 
 The Example loader will take the passed in file, add it to an example template then locate the source for the file in the src folder and render the example output.
-The file must be a return a react component that has no required props to render. The Example loader will also look for surface level css files and search for
-the file in the same directory as the source file in order to render it.
+The file must be a return a react component that has no required props to render. The Example loader will also look for a css file import and render the example
+css output.
 
 ## Resource query
 
