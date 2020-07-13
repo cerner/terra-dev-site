@@ -70,38 +70,15 @@ const openKeysToItem = (menuItems, selectedPath) => keysToItem(menuItems, select
 
 const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelect }) => {
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
-  const [currentNodeId, setCurrentNodeId] = useState();
+  const currentNodeId = useRef();
   const cursor = useRef(0);
   const selectedItem = useRef();
   const previousSelectedPath = useRef(selectedPath);
   const theme = useContext(ThemeContext);
   const visibleNodes = [];
 
-  /**
-   * Scrolls the currently selected menu item into view on mount.
-   */
-  useEffect(() => {
-    const nodeId = selectedItem.current?.id;
-    const idx = visibleNodes.findIndex((el) => el.id === nodeId);
-    if (idx >= 0) {
-      cursor.current = idx;
-      setCurrentNodeId(visibleNodes[cursor.current].id);
-    }
-    if (selectedItem && selectedItem.current) {
-      selectedItem.current.scrollIntoView();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /**
-   * Updates cursor position when new menu items are loaded.
-   * If the item emphasized through keyboard navigation is not visible, scroll it into view.
-   */
-  useEffect(() => {
-    if (currentNodeId) {
-      cursor.current = visibleNodes.findIndex((el) => el.id === currentNodeId);
-    }
-    const currentNode = currentNodeId ? document.getElementById(currentNodeId) : null;
+  const focusCurrentNode = () => {
+    const currentNode = currentNodeId.current ? document.getElementById(currentNodeId.current) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
     const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
 
@@ -111,10 +88,30 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
       currentNode.scrollIntoView();
     }
+  };
+
+  /**
+   * Scrolls the currently selected menu item into view on mount.
+   */
+  useEffect(() => {
+    const nodeId = selectedItem.current?.id;
+    const idx = visibleNodes.findIndex((el) => el.id === nodeId);
+    if (idx >= 0) {
+      cursor.current = idx;
+      currentNodeId.current = visibleNodes[cursor.current].id;
+      focusCurrentNode();
+    }
+    if (selectedItem && selectedItem.current) {
+      selectedItem.current.scrollIntoView();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentNodeId]);
+  }, []);
 
   useEffect(() => {
+    if (currentNodeId.current) {
+      cursor.current = visibleNodes.findIndex((el) => el.id === currentNodeId.current);
+    }
+
     if (previousSelectedPath.current !== selectedPath) {
       const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
       const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
@@ -145,14 +142,16 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const handleDownArrow = () => {
     if (cursor.current + 1 < visibleNodes.length) {
       cursor.current += 1;
-      setCurrentNodeId(visibleNodes[cursor.current].id);
+      currentNodeId.current = visibleNodes[cursor.current].id;
+      focusCurrentNode();
     }
   };
 
   const handleUpArrow = () => {
     if (cursor.current >= 1) {
       cursor.current -= 1;
-      setCurrentNodeId(visibleNodes[cursor.current].id);
+      currentNodeId.current = visibleNodes[cursor.current].id;
+      focusCurrentNode();
     }
   };
 
@@ -160,13 +159,14 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
    * Finds parent of the current node, used for left arrow functionality
    */
   const findParentNode = () => {
-    if (!currentNodeId) {
+    if (!currentNodeId.current) {
       return;
     }
-    const parentId = visibleNodes.find((el) => el.id === currentNodeId).parent;
+    const parentId = visibleNodes.find((el) => el.id === currentNodeId.current).parent;
     if (parentId !== '') {
       cursor.current = visibleNodes.findIndex((el) => el.id === parentId);
-      setCurrentNodeId(visibleNodes[cursor.current].id);
+      currentNodeId.current = visibleNodes[cursor.current].id;
+      focusCurrentNode();
     }
   };
 
@@ -181,7 +181,8 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     const match = sortedNodes.find((el) => el.id[0].toUpperCase() === char);
     if (match) {
       cursor.current = visibleNodes.findIndex((el) => el.id === match.id);
-      setCurrentNodeId(match.id);
+      currentNodeId.current = match.id;
+      focusCurrentNode();
     }
   };
 
@@ -202,20 +203,20 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         break;
       case KeyCode.KEY_RIGHT:
         event.preventDefault();
-        if (currentNodeId) {
-          if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
+        if (currentNodeId.current) {
+          if (document.getElementById(currentNodeId.current).ariaExpanded === 'true') {
             handleDownArrow();
-          } else if (document.getElementById(currentNodeId).ariaHasPopup && (!document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false')) {
+          } else if (document.getElementById(currentNodeId.current).ariaHasPopup && (!document.getElementById(currentNodeId.current).ariaExpanded || document.getElementById(currentNodeId.current).ariaExpanded === 'false')) {
             handleOnClick(event, item);
           }
         }
         break;
       case KeyCode.KEY_LEFT:
         event.preventDefault();
-        if (currentNodeId) {
-          if (document.getElementById(currentNodeId).ariaExpanded === 'true') {
+        if (currentNodeId.current) {
+          if (document.getElementById(currentNodeId.current).ariaExpanded === 'true') {
             handleOnClick(event, item);
-          } else if (!document.getElementById(currentNodeId).ariaHasPopup || !document.getElementById(currentNodeId).ariaExpanded || document.getElementById(currentNodeId).ariaExpanded === 'false') {
+          } else if (!document.getElementById(currentNodeId.current).ariaHasPopup || !document.getElementById(currentNodeId.current).ariaExpanded || document.getElementById(currentNodeId.current).ariaExpanded === 'false') {
             findParentNode();
           }
         }
@@ -223,14 +224,18 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       case KeyCode.KEY_HOME:
         event.preventDefault();
         cursor.current = 0;
-        setCurrentNodeId(visibleNodes[cursor.current].id);
+        currentNodeId.current = visibleNodes[cursor.current].id;
         break;
       case KeyCode.KEY_END:
         event.preventDefault();
         cursor.current = visibleNodes.length - 1;
-        setCurrentNodeId(visibleNodes[cursor.current].id);
+        currentNodeId.current = visibleNodes[cursor.current].id;
         break;
       case KeyCode.KEY_TAB:
+        if (cursor.current >= 1 || cursor.current + 1 < visibleNodes.length) {
+          event.preventDefault();
+        }
+        event.preventDefault();
         if (event.nativeEvent.shiftKey) {
           handleUpArrow();
         } else {
