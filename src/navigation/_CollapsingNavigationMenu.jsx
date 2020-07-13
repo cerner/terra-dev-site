@@ -77,6 +77,9 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const theme = useContext(ThemeContext);
   const visibleNodes = [];
 
+  /**
+   * Scrolls the node at the position indicated by cursor into view and assigns focus to it.
+   */
   const focusCurrentNode = () => {
     const currentNode = currentNodeId.current ? document.getElementById(currentNodeId.current) : null;
     const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
@@ -92,6 +95,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
 
   /**
    * Scrolls the currently selected menu item into view on mount.
+   * Ensures that the cursor is synched with the currently selected item.
    */
   useEffect(() => {
     const nodeId = selectedItem.current?.id;
@@ -107,6 +111,10 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * Ensures that the cursor is synched with the currently selected item.
+   * Scrolls selected item into view.
+   */
   useEffect(() => {
     if (currentNodeId.current) {
       cursor.current = visibleNodes.findIndex((el) => el.id === currentNodeId.current);
@@ -124,7 +132,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   }, [openKeys]);
 
   /**
-   * Ensure the currently selected menu item is visible.
+   * Ensures the parent of the currently selected item is expanded.
    */
   useEffect(() => {
     setOpenKeys({ ...openKeys, ...openKeysToItem(menuItems[0], selectedPath) });
