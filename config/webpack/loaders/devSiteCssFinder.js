@@ -1,7 +1,11 @@
 const findCss = (x) => {
-  let fileName;
-  const regex = /^.*["'](.*\.css|.*\.scss)["']/m;
+  /**
+  * The regex picks out lines that don't contain // but do contain some form of quotation (' or "),
+  * and an explicit .css or .scss deceleration
+  */
+  const regex = /^(?!\/\/|\/).*["'](.*\.css|.*\.scss)["']/m;
   const m = regex.exec(x);
+  let fileName;
 
   if (m !== null) {
     m.forEach((match, groupIndex) => {
