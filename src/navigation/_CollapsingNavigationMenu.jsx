@@ -92,18 +92,27 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
    * Ensures that the cursor is synched with the currently selected item.
    */
   useEffect(() => {
-    const nodeId = selectedItem.current?.id;
+    const nodeId = selectedItem.current?.getAttribute('id');
     const idx = visibleNodes.findIndex((el) => el.id === nodeId);
     if (idx >= 0) {
       cursor.current = idx;
       currentNodeId.current = visibleNodes[cursor.current].id;
-      focusCurrentNode();
     }
     if (selectedItem && selectedItem.current) {
       selectedItem.current.scrollIntoView();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const nodeId = selectedItem.current?.getAttribute('id');
+    const idx = visibleNodes.findIndex((el) => el.id === nodeId);
+    if (idx >= 0) {
+      cursor.current = idx;
+      currentNodeId.current = visibleNodes[cursor.current].id;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPath]);
 
   /**
    * Ensures that the cursor is synched with the currently selected item.
@@ -113,7 +122,6 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (currentNodeId.current) {
       cursor.current = visibleNodes.findIndex((el) => el.id === currentNodeId.current);
     }
-
     if (previousSelectedPath.current !== selectedPath) {
       const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
       const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
