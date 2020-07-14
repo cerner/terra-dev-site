@@ -78,18 +78,12 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const visibleNodes = [];
 
   /**
-   * Scrolls the node at the position indicated by cursor into view and assigns focus to it.
+   * Assigns focus to current node.
    */
   const focusCurrentNode = () => {
     const currentNode = currentNodeId.current ? document.getElementById(currentNodeId.current) : null;
-    const currentNodePosition = currentNode ? currentNode.getBoundingClientRect() : null;
-    const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
-
     if (currentNode) {
       currentNode.focus();
-    }
-    if (currentNode && currentNodePosition && (currentNodePosition.bottom > navigationMenuPosition.bottom || currentNodePosition.top < navigationMenuPosition.top)) {
-      currentNode.scrollIntoView();
     }
   };
 
