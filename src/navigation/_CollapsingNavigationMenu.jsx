@@ -233,17 +233,6 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         cursor.current = visibleNodes.length - 1;
         currentNodeId.current = visibleNodes[cursor.current].id;
         break;
-      case KeyCode.KEY_TAB:
-        if (cursor.current >= 1 || cursor.current + 1 < visibleNodes.length) {
-          event.preventDefault();
-        }
-        event.preventDefault();
-        if (event.nativeEvent.shiftKey) {
-          handleUpArrow();
-        } else {
-          handleDownArrow();
-        }
-        break;
       default:
         if (event.nativeEvent.keyCode >= KeyCode.KEY_A && event.nativeEvent.keyCode <= KeyCode.KEY_Z) {
           event.preventDefault();
