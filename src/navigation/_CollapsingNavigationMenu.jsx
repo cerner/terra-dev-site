@@ -206,9 +206,9 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       case KeyCode.KEY_RIGHT:
         event.preventDefault();
         if (currentNodeId.current) {
-          if (document.getElementById(currentNodeId.current).ariaExpanded === 'true') {
+          if (document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'true') {
             handleDownArrow();
-          } else if (document.getElementById(currentNodeId.current).ariaHasPopup && (!document.getElementById(currentNodeId.current).ariaExpanded || document.getElementById(currentNodeId.current).ariaExpanded === 'false')) {
+          } else if (document.getElementById(currentNodeId.current).getAttribute('aria-haspopup') && (!document.getElementById(currentNodeId.current).getAttribute('aria-expanded') || document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'false')) {
             handleOnClick(event, item);
           }
         }
@@ -216,9 +216,9 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       case KeyCode.KEY_LEFT:
         event.preventDefault();
         if (currentNodeId.current) {
-          if (document.getElementById(currentNodeId.current).ariaExpanded === 'true') {
+          if (document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'true') {
             handleOnClick(event, item);
-          } else if (!document.getElementById(currentNodeId.current).ariaHasPopup || !document.getElementById(currentNodeId.current).ariaExpanded || document.getElementById(currentNodeId.current).ariaExpanded === 'false') {
+          } else if (!document.getElementById(currentNodeId.current).getAttribute('aria-haspopup') || !document.getElementById(currentNodeId.current).getAttribute('aria-expanded') || document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'false') {
             findParentNode();
           }
         }
