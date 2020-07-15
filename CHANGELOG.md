@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Add wdio tests for additional themes, update travis ci config.
 
 6.25.0 - (July 7, 2020)
 ----------
