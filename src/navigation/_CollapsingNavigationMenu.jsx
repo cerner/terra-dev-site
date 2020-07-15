@@ -110,7 +110,6 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (idx >= 0) {
       cursor.current = idx;
       currentNodeId.current = visibleNodes[cursor.current].id;
-      focusCurrentNode();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPath]);
@@ -281,7 +280,13 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   return (
-    <div className={cx('collapsing-navigation-menu', theme.className)} id="terra-dev-site-nav-menu" tabIndex="-1" role="tree">
+    <div
+      className={cx('collapsing-navigation-menu', theme.className)}
+      id="terra-dev-site-nav-menu"
+      tabIndex="-1"
+      role="tree"
+      onFocus={focusCurrentNode}
+    >
       {menuItems ? renderMenuItems(menuItems[0].childItems, '', true) : undefined}
     </div>
   );
