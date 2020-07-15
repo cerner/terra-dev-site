@@ -3,6 +3,8 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Add wdio tests for additional themes, update travis ci config.
 
 ### Changed
 * Add additional keyboard navigation options to CollapsingNavigationMenu
