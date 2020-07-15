@@ -110,6 +110,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     if (idx >= 0) {
       cursor.current = idx;
       currentNodeId.current = visibleNodes[cursor.current].id;
+      focusCurrentNode();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPath]);
