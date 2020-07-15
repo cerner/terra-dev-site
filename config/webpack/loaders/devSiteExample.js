@@ -21,19 +21,33 @@ const loader = async function loader(content) {
   ];
 
   if (cssFileName !== undefined) {
-    const exampleCssSource = cssFileName.includes('./') ? path.join(parsedResourcePath.dir, cssFileName) : cssFileName;
-
-    code.push(`import Css from '${exampleCssSource}?dev-site-codeblock';`,
-      `export default ({ title, description, isExpanded }) => (
-      <ExampleTemplate
-        title={ title || '${startCase(parsedResourcePath.name)}'}
-        description={description}
-        example={<Example />}
-        exampleCssSrc={<Css />}
-        exampleSrc={<Code />}
-        isExpanded={isExpanded}
-      />
-    );`);
+    try {
+      this.resolve('', cssFileName, async () => {
+      });
+      code.push(`import Css from '${cssFileName}?dev-site-codeblock';`,
+        `export default ({ title, description, isExpanded }) => (
+            <ExampleTemplate
+            title={ title || '${startCase(parsedResourcePath.name)}'}
+            description={description}
+            example={<Example />}
+            exampleCssSrc={<Css />}
+            exampleSrc={<Code />}
+            isExpanded={isExpanded}
+            />
+          );`);
+    } catch (err) {
+      code.push(`export default ({ title, description, isExpanded }) => (
+        <ExampleTemplate
+          title={ title || '${startCase(parsedResourcePath.name)}'}
+          description={description}
+          example={<Example />}
+          exampleSrc={<Code />}
+          isExpanded={isExpanded}
+        />
+      );`);
+      console.error(((`Cannot resolve path:\n${cssFileName}`)));
+      console.log(err);
+    }
   } else {
     code.push(`export default ({ title, description, isExpanded }) => (
       <ExampleTemplate

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`devSiteExample file test when a valid css file is present 1`] = `
+"import React from 'react';
+import Example from '/Users/dm068655/Documents/ExternalR/terra-dev-site/tests/jest/config/webpack/loaders/pretendExample.jsx';
+import Code from '/Users/dm068655/Documents/ExternalR/terra-dev-site/tests/jest/config/webpack/loaders/pretendExample.jsx?dev-site-codeblock';
+import ExampleTemplate from 'terra-dev-site/lib/loader-components/_ExampleTemplate';
+export default ({ title, description, isExpanded }) => (
+        <ExampleTemplate
+          title={ title || 'Pretend Example'}
+          description={description}
+          example={<Example />}
+          exampleSrc={<Code />}
+          isExpanded={isExpanded}
+        />
+      );"
+`;
+
+exports[`devSiteExample file test when an unresolvable css file is present 1`] = `
+"import React from 'react';
+import Example from '/Users/dm068655/Documents/ExternalR/terra-dev-site/tests/jest/config/webpack/loaders/pretendExample2.jsx';
+import Code from '/Users/dm068655/Documents/ExternalR/terra-dev-site/tests/jest/config/webpack/loaders/pretendExample2.jsx?dev-site-codeblock';
+import ExampleTemplate from 'terra-dev-site/lib/loader-components/_ExampleTemplate';
+export default ({ title, description, isExpanded }) => (
+        <ExampleTemplate
+          title={ title || 'Pretend Example 2'}
+          description={description}
+          example={<Example />}
+          exampleSrc={<Code />}
+          isExpanded={isExpanded}
+        />
+      );"
+`;
+
+exports[`devSiteExample file test when no css file is present 1`] = `
+"import React from 'react';
+import Example from '/Users/dm068655/Documents/ExternalR/terra-dev-site/tests/jest/config/webpack/loaders/pretendExample3.jsx';
+import Code from '/Users/dm068655/Documents/ExternalR/terra-dev-site/tests/jest/config/webpack/loaders/pretendExample3.jsx?dev-site-codeblock';
+import ExampleTemplate from 'terra-dev-site/lib/loader-components/_ExampleTemplate';
+export default ({ title, description, isExpanded }) => (
+      <ExampleTemplate
+        title={ title || 'Pretend Example 3'}
+        description={description}
+        example={<Example />}
+        exampleSrc={<Code />}
+        isExpanded={isExpanded}
+      />
+    );"
+`;
