@@ -5,14 +5,11 @@ const findCss = (content) => {
   */
   const regex = /^(?!\/\/|\/).*["'](.*\.css|.*\.scss)["']/m;
   const processedContent = regex.exec(content);
+  const matchIndex = 1;
   let fileName;
 
-  if (processedContent) {
-    processedContent.forEach((match, groupIndex) => {
-      if (groupIndex === 1) {
-        fileName = match;
-      }
-    });
+  if (processedContent && processedContent.length > 0) {
+    fileName = processedContent[matchIndex];
   }
   return fileName;
 };

@@ -82,6 +82,47 @@ const ExampleTemplate = ({
     }
   };
 
+  const renderButtons = () => {
+    if (!exampleSrc) {
+      return null;
+    }
+
+    return (
+      <div className={cx('button-container')}>
+        {cssButtonVisible && (
+        <button
+          type="button"
+          className={cx('css-toggle', 'item', { 'is-selected': cssIsVisible })}
+          onClick={handleCssToggle}
+          onKeyDown={event => handleKeyDown(event, handleCssToggle)}
+          onBlur={enableFocusStyles}
+          onMouseDown={disableFocusStyles}
+          tabIndex={0}
+          data-focus-styles-enabled
+        >
+          <IconChevronLeft className={cx('chevron')} />
+          <span>CSS</span>
+          <IconChevronRight className={cx('chevron')} />
+        </button>
+        )}
+        <button
+          type="button"
+          className={cx('code-toggle', 'item', { 'is-selected': codeIsVisible })}
+          onClick={handleCodeToggle}
+          onKeyDown={event => handleKeyDown(event, handleCodeToggle)}
+          onBlur={enableFocusStyles}
+          onMouseDown={disableFocusStyles}
+          tabIndex={0}
+          data-focus-styles-enabled
+        >
+          <IconChevronLeft className={cx('chevron')} />
+          <span>Code</span>
+          <IconChevronRight className={cx('chevron')} />
+        </button>
+      </div>
+    );
+  };
+
   const renderExamples = () => (
     <div>
       { cssIsVisible
@@ -96,47 +137,6 @@ const ExampleTemplate = ({
             {exampleSrc}
           </div>
         )}
-    </div>
-  );
-
-  const renderButtons = () => (
-    <div>
-      {exampleSrc
-      && (
-      <div className={cx('footer')}>
-        <div className={cx('button-container')}>
-          {cssButtonVisible && (
-            <button
-              type="button"
-              className={cx('css-toggle', 'item', { 'is-selected': cssIsVisible })}
-              onClick={handleCssToggle}
-              onKeyDown={event => handleKeyDown(event, handleCssToggle)}
-              onBlur={enableFocusStyles}
-              onMouseDown={disableFocusStyles}
-              tabIndex={0}
-              data-focus-styles-enabled
-            >
-              CSS
-            </button>
-          )}
-          <button
-            type="button"
-            className={cx('code-toggle', 'item', { 'is-selected': codeIsVisible })}
-            onClick={handleCodeToggle}
-            onKeyDown={event => handleKeyDown(event, handleCodeToggle)}
-            onBlur={enableFocusStyles}
-            onMouseDown={disableFocusStyles}
-            tabIndex={0}
-            data-focus-styles-enabled
-          >
-            <IconChevronLeft className={cx('chevron')} />
-            <span>Code</span>
-            <IconChevronRight className={cx('chevron')} />
-          </button>
-        </div>
-        {renderExamples()}
-      </div>
-      )}
     </div>
   );
 
@@ -157,7 +157,10 @@ const ExampleTemplate = ({
         )}
         {example}
       </div>
-      {renderButtons()}
+      <div className={cx('footer')}>
+        {renderButtons()}
+        {renderExamples()}
+      </div>
     </div>
   );
 };
