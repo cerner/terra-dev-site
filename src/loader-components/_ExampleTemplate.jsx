@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import { ThemeContext } from 'terra-application/lib/theme';
 import IconChevronLeft from 'terra-icon/lib/icon/IconChevronLeft';
 import IconChevronRight from 'terra-icon/lib/icon/IconChevronRight';
-import * as KeyCode from 'keycode-js';
+import { KEY_SPACE, KEY_RETURN } from 'keycode-js';
 import styles from './ExampleTemplate.module.scss';
 
 const cx = classNames.bind(styles);
@@ -76,7 +76,7 @@ const ExampleTemplate = ({
   };
 
   const handleKeyDown = (event, handleToggle) => {
-    if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
+    if (event.nativeEvent.keyCode === KEY_SPACE || event.nativeEvent.keyCode === KEY_RETURN) {
       event.preventDefault();
       handleToggle();
     }

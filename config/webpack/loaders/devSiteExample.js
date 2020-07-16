@@ -1,6 +1,6 @@
 const path = require('path');
 const startCase = require('lodash.startcase');
-const findCss = require('./devSiteCssFinder');
+const findCssFileName = require('../loaderUtils/determineCssFileName');
 
 /**
  * Generate the example with the supplied file.
@@ -11,7 +11,7 @@ const loader = async function loader(content) {
 
   const exampleSource = this.resourcePath;
   const parsedResourcePath = path.parse(exampleSource);
-  const cssFileName = findCss(content);
+  const cssFileName = findCssFileName(content);
 
   const code = [
     'import React from \'react\';',
@@ -35,30 +35,21 @@ const loader = async function loader(content) {
             isExpanded={isExpanded}
             />
           );`);
+      return callback(null, code.join('\n'));
     } catch (err) {
-      code.push(`export default ({ title, description, isExpanded }) => (
-        <ExampleTemplate
-          title={ title || '${startCase(parsedResourcePath.name)}'}
-          description={description}
-          example={<Example />}
-          exampleSrc={<Code />}
-          isExpanded={isExpanded}
-        />
-      );`);
-      console.error(((`Cannot resolve path:\n${cssFileName}`)));
-      console.log(err);
+      console.error(((`Cannot resolve path:\n${cssFileName}\n${err}`)));
     }
-  } else {
-    code.push(`export default ({ title, description, isExpanded }) => (
-      <ExampleTemplate
-        title={ title || '${startCase(parsedResourcePath.name)}'}
-        description={description}
-        example={<Example />}
-        exampleSrc={<Code />}
-        isExpanded={isExpanded}
-      />
-    );`);
   }
+  code.push(`export default ({ title, description, isExpanded }) => (
+    <ExampleTemplate
+      title={ title || '${startCase(parsedResourcePath.name)}'}
+      description={description}
+      example={<Example />}
+      exampleSrc={<Code />}
+      isExpanded={isExpanded}
+    />
+  );`);
+
   return callback(null, code.join('\n'));
 };
 

@@ -1,4 +1,4 @@
-import findCss from '../../../../../config/webpack/loaders/devSiteCssFinder';
+import findCss from '../../../../../config/webpack/loaderUtils/determineCssFileName';
 
 describe('devSiteExample css finder', () => {
   it('separates a shortened css file path correctly', () => {
@@ -8,7 +8,19 @@ describe('devSiteExample css finder', () => {
   });
 
   it('separates a direct css file correctly', () => {
-    const testText = 'Import from \'/Users/dm068655/Documents/ExternalR/terra-dev-site/tests/jest/config/webpack/loaders/pretendExampleCss.scss\'';
+    const testText = 'Import from \'/Users/user1/terra-dev-site/tests/jest/config/webpack/loaders/pretendExampleCss.scss\'';
+    const example = findCss(testText);
+    expect(example).toMatchSnapshot();
+  });
+
+  it('returns the whole file name when the import contains css and scss', () => {
+    const testText = 'Import from \'./css.module.scss\'';
+    const example = findCss(testText);
+    expect(example).toMatchSnapshot();
+  });
+
+  it('returns the first import when there are multiple', () => {
+    const testText = 'Import from \'./pretendExample1.scss\'\nImport from \'./pretendExample2.scss\'';
     const example = findCss(testText);
     expect(example).toMatchSnapshot();
   });
