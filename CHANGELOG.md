@@ -3,6 +3,11 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Add wdio tests for additional themes, update travis ci config.
+
+6.25.0 - (July 7, 2020)
+----------
 ### Fixed
 * Fixed devSitePropsTable.js to show `required` in propsTable for custom required props.
 

@@ -1,6 +1,6 @@
 {
   "name": "terra-dev-site",
-  "version": "6.24.0",
+  "version": "6.25.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "engines": {
     "node": ">=8.9.2 <11"
@@ -72,7 +72,9 @@
     "clean:obsolete-snapshots": "npm test -- -u",
     "compile": "babel src --out-dir lib --copy-files",
     "compile:dev": "webpack",
-    "compile:prod": "webpack -p",
+    "compile:prod": "rm -rf ./build; webpack -p",
+    "compile:lowlight": "rm -rf ./build; THEME=clinical-lowlight-theme webpack -p",
+    "compile:fusion": "rm -rf ./build; THEME=orion-fusion-theme webpack -p",
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
     "jest": "jest",
     "jest:coverage": "jest --coverage",
@@ -92,7 +94,11 @@
     "start-static": "npm run compile:prod && tt-serve-static --site ./build",
     "test": "npm run lint && npm run jest && npm run wdio",
     "tds:generate-app-config": "node bin/generateAppConfig.js",
-    "wdio": "tt-wdio --config node_modules/terra-toolkit/config/wdio/wdio.conf.js --locales=['en','de'] "
+    "wdio-default": "wdio",
+    "wdio-locale": "LOCALE=de wdio",
+    "wdio-lowlight": "THEME=clinical-lowlight-theme wdio",
+    "wdio-fusion": "THEME=orion-fusion-theme wdio",
+    "wdio": "npm run wdio-default && npm run wdio-locale && npm run wdio-lowlight && npm run wdio-fusion"
   },
   "dependencies": {
     "@mdx-js/loader": "^1.4.5",
