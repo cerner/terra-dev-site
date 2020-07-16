@@ -6,6 +6,12 @@ Unreleased
 ### Changed
 * Add wdio tests for additional themes, update travis ci config.
 
+### Removed
+* Removed toggle backgrounds tab and functionality from example loader
+
+### Added
+* Added CSS display tab and functionality to example loader
+
 6.25.0 - (July 7, 2020)
 ----------
 ### Fixed
@@ -14,12 +20,6 @@ Unreleased
 ### Changed
 * Add theme support
 * Changed default branch from master to main.
-
-### Removed
-* Removed toggle backgrounds tab and functionality from example loader
-
-### Added
-* Added CSS display tab and functionality to example loader
 
 6.24.0 - (June 16, 2020)
 ----------
