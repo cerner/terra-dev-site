@@ -40,6 +40,10 @@ Terra.describeViewports('loaders', ['huge'], () => {
     Terra.validates.element('example');
   });
 
+  it('Does not display css tab if there is no imported file', () => {
+    Terra.validates.element('Hides css tab');
+  });
+
   it('Reveals the examples code', () => {
     browser.click('[class*=ExampleTemplate-module__code-toggle]');
     Terra.validates.element('Reveals the examples code');
@@ -48,5 +52,15 @@ Terra.describeViewports('loaders', ['huge'], () => {
   it('Hides the examples code again', () => {
     browser.click('[class*=ExampleTemplate-module__code-toggle]');
     Terra.validates.element('Hides the examples code again');
+  });
+
+  it('Reveals the examples css', () => {
+    browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    Terra.validates.element('Reveals the examples css');
+  });
+
+  it('Hides the examples css again', () => {
+    browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    Terra.validates.element('Hides the examples css again');
   });
 });
