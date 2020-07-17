@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`devSiteExample css finder returns the first import when there are multiple 1`] = `"./pretendExample1.scss"`;
+
+exports[`devSiteExample css finder returns the whole file name when the import contains css and scss 1`] = `"./css.module.scss"`;
+
+exports[`devSiteExample css finder returns undefined if there is no .css or .scss file declaration 1`] = `undefined`;
+
+exports[`devSiteExample css finder returns undefined if there is not file declaration but the file name contains css 1`] = `undefined`;
+
+exports[`devSiteExample css finder returns undefined when the import is commented out 1`] = `undefined`;
+
+exports[`devSiteExample css finder separates a direct css file correctly 1`] = `"/Users/user1/terra-dev-site/tests/jest/config/webpack/loaders/pretendExampleCss.scss"`;
+
+exports[`devSiteExample css finder separates a shortened css file path correctly 1`] = `"./pretendExampleCss.scss"`;
