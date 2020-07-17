@@ -69,7 +69,6 @@ const ExampleTemplate = ({
 
   const handleCodeToggle = () => {
     setCodeIsVisible(!codeIsVisible);
-
     if (cssIsVisible) {
       setCssIsVisible(!cssIsVisible);
     }
