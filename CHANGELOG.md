@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+
+6.26.0 - (July 21, 2020)
+----------
 ### Changed
 * Add wdio tests for additional themes, update travis ci config.
 * Add additional keyboard navigation options to CollapsingNavigationMenu
