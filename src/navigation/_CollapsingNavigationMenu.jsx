@@ -142,6 +142,13 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   }, [selectedPath]);
 
   const handleOnClick = (event, item) => {
+    // Don't update state if function is called through handleKeyDown
+    if (event.type === 'click') {
+      const eventTargetId = event.target.getAttribute('id');
+      currentNodeId.current = eventTargetId;
+      cursor.current = visibleNodes.findIndex((el) => el.id === eventTargetId);
+      focusCurrentNode();
+    }
     if (!item.childItems) {
       onSelect(item.path);
       return;
