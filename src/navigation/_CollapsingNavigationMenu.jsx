@@ -242,11 +242,13 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         event.preventDefault();
         cursor.current = 0;
         currentNodeId.current = visibleNodes[cursor.current].id;
+        focusCurrentNode();
         break;
       case KeyCode.KEY_END:
         event.preventDefault();
         cursor.current = visibleNodes.length - 1;
         currentNodeId.current = visibleNodes[cursor.current].id;
+        focusCurrentNode();
         break;
       default:
         if (event.nativeEvent.keyCode >= KeyCode.KEY_A && event.nativeEvent.keyCode <= KeyCode.KEY_Z) {
