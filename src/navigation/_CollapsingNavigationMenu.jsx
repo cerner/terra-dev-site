@@ -294,7 +294,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       id="terra-dev-site-nav-menu"
       tabIndex="-1"
       role="tree"
-      onFocus={focusCurrentNode}
+      // onFocus={focusCurrentNode}
     >
       {menuItems ? renderMenuItems(menuItems[0].childItems, '', true) : undefined}
     </div>
