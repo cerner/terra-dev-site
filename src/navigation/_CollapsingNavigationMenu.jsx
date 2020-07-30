@@ -180,7 +180,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       return;
     }
     const parentId = visibleNodes.find((el) => el.id === currentNodeId.current).parent;
-    if (parentId !== '') {
+    if (parentId) {
       cursor.current = visibleNodes.findIndex((el) => el.id === parentId);
       currentNodeId.current = visibleNodes[cursor.current].id;
       focusCurrentNode();
@@ -260,7 +260,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
   };
 
-  const renderMenuItems = (currentMenuItem, parent = '', firstLevel = false) => {
+  const renderMenuItems = (currentMenuItem, parent = undefined, firstLevel = false) => {
     if (!currentMenuItem) {
       return undefined;
     }
