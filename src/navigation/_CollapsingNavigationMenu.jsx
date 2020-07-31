@@ -78,6 +78,16 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const visibleNodes = [];
 
   /**
+   * Sets tabindex for current node
+   */
+  const setTabIndex = (val) => {
+    const currentNode = currentNodeId.current ? document.getElementById(currentNodeId.current) : null;
+    if (currentNode) {
+      currentNode.setAttribute('tabIndex', val);
+    }
+  };
+
+  /**
    * Assigns focus to current node.
    */
   const focusCurrentNode = () => {
@@ -144,9 +154,11 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   const handleOnClick = (event, item) => {
     // Don't update state if function is called through handleKeyDown
     if (event.type === 'click') {
+      setTabIndex('-1');
       const eventTargetId = event.target.getAttribute('id');
       currentNodeId.current = eventTargetId;
       cursor.current = visibleNodes.findIndex((el) => el.id === eventTargetId);
+      setTabIndex('0');
       focusCurrentNode();
     }
     if (!item.childItems) {
@@ -158,16 +170,20 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
 
   const handleDownArrow = () => {
     if (cursor.current + 1 < visibleNodes.length) {
+      setTabIndex('-1');
       cursor.current += 1;
       currentNodeId.current = visibleNodes[cursor.current].id;
+      setTabIndex('0');
       focusCurrentNode();
     }
   };
 
   const handleUpArrow = () => {
     if (cursor.current >= 1) {
+      setTabIndex('-1');
       cursor.current -= 1;
       currentNodeId.current = visibleNodes[cursor.current].id;
+      setTabIndex('0');
       focusCurrentNode();
     }
   };
@@ -181,8 +197,10 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
     const parentId = visibleNodes.find((el) => el.id === currentNodeId.current).parent;
     if (parentId) {
+      setTabIndex('-1');
       cursor.current = visibleNodes.findIndex((el) => el.id === parentId);
       currentNodeId.current = visibleNodes[cursor.current].id;
+      setTabIndex('0');
       focusCurrentNode();
     }
   };
@@ -197,8 +215,10 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     sortedNodes = sortedNodes.concat(visibleNodes.slice(0, cursor.current));
     const match = sortedNodes.find((el) => el.id[0].toUpperCase() === char);
     if (match) {
+      setTabIndex('-1');
       cursor.current = visibleNodes.findIndex((el) => el.id === match.id);
       currentNodeId.current = match.id;
+      setTabIndex('0');
       focusCurrentNode();
     }
   };
@@ -240,14 +260,18 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         break;
       case KeyCode.KEY_HOME:
         event.preventDefault();
+        setTabIndex('-1');
         cursor.current = 0;
         currentNodeId.current = visibleNodes[cursor.current].id;
+        setTabIndex('0');
         focusCurrentNode();
         break;
       case KeyCode.KEY_END:
         event.preventDefault();
+        setTabIndex('-1');
         cursor.current = visibleNodes.length - 1;
         currentNodeId.current = visibleNodes[cursor.current].id;
+        setTabIndex('0');
         focusCurrentNode();
         break;
       default:
@@ -292,7 +316,6 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     <div
       className={cx('collapsing-navigation-menu', theme.className)}
       id="terra-dev-site-nav-menu"
-      tabIndex="-1"
       role="tree"
     >
       {menuItems ? renderMenuItems(menuItems[0].childItems, '', true) : undefined}
