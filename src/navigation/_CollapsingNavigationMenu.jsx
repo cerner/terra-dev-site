@@ -1,16 +1,13 @@
-/* eslint-disable jsx-a11y/role-supports-aria-props */
-
 import React, {
-  useState, useRef, useEffect, useLayoutEffect, useContext,
+  useState, useRef, useEffect, useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
 
-import IconCaretRight from 'terra-icon/lib/icon/IconCaretRight';
-import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
 import { ThemeContext } from 'terra-application/lib/theme';
 import { menuItemPropType } from '../site/siteConfigPropTypes';
+import CollapsingNavigationMenuItem from './_CollapsingNavigationMenuItem';
 
 import styles from './CollapsingNavigationMenu.module.scss';
 
@@ -31,20 +28,6 @@ const propTypes = {
    * On select callback
    */
   onSelect: PropTypes.func.isRequired,
-};
-
-/**
- * Enables focus styles for the target of the given event. Typically used as an onBlur callback on selectable elements.
- */
-const enableFocusStyles = (event) => {
-  event.currentTarget.setAttribute('data-focus-styles-enabled', 'true');
-};
-
-/**
- * Disables focus styles for the target of the given event. Typically used as an onMouseDown callback on selectable elements.
- */
-const disableFocusStyles = (event) => {
-  event.currentTarget.setAttribute('data-focus-styles-enabled', 'false');
 };
 
 /**
@@ -86,40 +69,98 @@ const openKeysToItem = (menuItems, selectedPath) => keysToItem(menuItems, select
 }, {});
 
 const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelect }) => {
-  const [isNewSelectedPath, setIsNewSelectedPath] = useState(false);
-  const [previousSelectedPath, setPreviousSelectedPath] = useState(selectedPath);
   const [openKeys, setOpenKeys] = useState(openKeysToItem(menuItems[0], selectedPath));
+  const currentNodeId = useRef();
+  const cursor = useRef(0);
   const selectedItem = useRef();
+  const previousSelectedPath = useRef(selectedPath);
   const theme = useContext(ThemeContext);
+  const visibleNodes = [];
 
-  if (previousSelectedPath !== selectedPath) {
-    setIsNewSelectedPath(true);
-    setOpenKeys({ ...openKeys, ...openKeysToItem(menuItems[0], selectedPath) });
-    setPreviousSelectedPath(selectedPath);
-  }
+  /**
+   * Sets tabindex for current node
+   */
+  const setTabIndex = (val) => {
+    const currentNode = currentNodeId.current ? document.getElementById(currentNodeId.current) : null;
+    if (currentNode) {
+      currentNode.setAttribute('tabIndex', val);
+    }
+  };
 
+  /**
+   * Assigns focus to current node.
+   */
+  const focusCurrentNode = () => {
+    const currentNode = currentNodeId.current ? document.getElementById(currentNodeId.current) : null;
+    if (currentNode) {
+      currentNode.focus();
+    }
+  };
+
+  /**
+   * Scrolls the currently selected menu item into view on mount.
+   * Ensures that the cursor is synched with the currently selected item.
+   */
   useEffect(() => {
+    const nodeId = selectedItem.current?.getAttribute('id');
+    const idx = visibleNodes.findIndex((el) => el.id === nodeId);
+    if (idx >= 0) {
+      cursor.current = idx;
+      currentNodeId.current = visibleNodes[cursor.current].id;
+    }
     if (selectedItem && selectedItem.current) {
       selectedItem.current.scrollIntoView();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useLayoutEffect(() => {
-    if (!isNewSelectedPath) {
-      return;
+  useEffect(() => {
+    const nodeId = selectedItem.current?.getAttribute('id');
+    const idx = visibleNodes.findIndex((el) => el.id === nodeId);
+    if (idx >= 0) {
+      cursor.current = idx;
+      currentNodeId.current = visibleNodes[cursor.current].id;
     }
-    const currentItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
-    const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
-    if (!currentItemPosition || !navigationMenuPosition) {
-      return;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPath]);
+
+  /**
+   * Ensures that the cursor is synched with the currently selected item.
+   * Scrolls selected item into view.
+   */
+  useEffect(() => {
+    if (currentNodeId.current) {
+      cursor.current = visibleNodes.findIndex((el) => el.id === currentNodeId.current);
     }
-    // If the current item is not visible, scroll the item into view.
-    if (currentItemPosition.bottom > navigationMenuPosition.bottom || currentItemPosition.top < navigationMenuPosition.top) {
-      selectedItem.current.scrollIntoView();
+    if (previousSelectedPath.current !== selectedPath) {
+      const selectedItemPosition = selectedItem?.current ? selectedItem.current.getBoundingClientRect() : null;
+      const navigationMenuPosition = document.querySelector('#terra-dev-site-nav-menu').getBoundingClientRect();
+      if (selectedItemPosition && navigationMenuPosition && (selectedItemPosition.bottom > navigationMenuPosition.bottom || selectedItemPosition.top < navigationMenuPosition.top)) {
+        selectedItem.current.scrollIntoView();
+      }
+      previousSelectedPath.current = selectedPath;
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openKeys]);
+
+  /**
+   * Ensures the parent of the currently selected item is expanded.
+   */
+  useEffect(() => {
+    setOpenKeys({ ...openKeys, ...openKeysToItem(menuItems[0], selectedPath) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPath]);
 
   const handleOnClick = (event, item) => {
+    // Don't update state if function is called through handleKeyDown
+    if (event.type === 'click') {
+      setTabIndex('-1');
+      const eventTargetId = event.target.getAttribute('id');
+      currentNodeId.current = eventTargetId;
+      cursor.current = visibleNodes.findIndex((el) => el.id === eventTargetId);
+      setTabIndex('0');
+      focusCurrentNode();
+    }
     if (!item.childItems) {
       onSelect(item.path);
       return;
@@ -127,65 +168,157 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     setOpenKeys({ ...openKeys, [item.path]: !openKeys[item.path] });
   };
 
-  const handleKeyDown = (event, item) => {
-    if (event.nativeEvent.keyCode === KeyCode.KEY_SPACE || event.nativeEvent.keyCode === KeyCode.KEY_RETURN) {
-      event.preventDefault();
-      handleOnClick(event, item);
+  const handleDownArrow = () => {
+    if (cursor.current + 1 < visibleNodes.length) {
+      setTabIndex('-1');
+      cursor.current += 1;
+      currentNodeId.current = visibleNodes[cursor.current].id;
+      setTabIndex('0');
+      focusCurrentNode();
     }
   };
 
-  const renderMenuItems = (currentMenuItem, firstLevel) => {
+  const handleUpArrow = () => {
+    if (cursor.current >= 1) {
+      setTabIndex('-1');
+      cursor.current -= 1;
+      currentNodeId.current = visibleNodes[cursor.current].id;
+      setTabIndex('0');
+      focusCurrentNode();
+    }
+  };
+
+  /**
+   * Finds parent of the current node, used for left arrow functionality
+   */
+  const findParentNode = () => {
+    if (!currentNodeId.current) {
+      return;
+    }
+    const parentId = visibleNodes.find((el) => el.id === currentNodeId.current).parent;
+    if (parentId) {
+      setTabIndex('-1');
+      cursor.current = visibleNodes.findIndex((el) => el.id === parentId);
+      currentNodeId.current = visibleNodes[cursor.current].id;
+      setTabIndex('0');
+      focusCurrentNode();
+    }
+  };
+
+  /**
+   * Finds the first node starting with the given character.
+   * Starts at the cursors current position, and wraps around to the beginning of the menu if a match isn't found.
+   * @param {*} char The character to search by
+   */
+  const findNodeMatching = (char) => {
+    let sortedNodes = visibleNodes.slice(cursor.current + 1, visibleNodes.length);
+    sortedNodes = sortedNodes.concat(visibleNodes.slice(0, cursor.current));
+    const match = sortedNodes.find((el) => el.id[0].toUpperCase() === char);
+    if (match) {
+      setTabIndex('-1');
+      cursor.current = visibleNodes.findIndex((el) => el.id === match.id);
+      currentNodeId.current = match.id;
+      setTabIndex('0');
+      focusCurrentNode();
+    }
+  };
+
+  const handleKeyDown = (event, item) => {
+    switch (event.nativeEvent.keyCode) {
+      case KeyCode.KEY_SPACE:
+      case KeyCode.KEY_RETURN:
+        event.preventDefault();
+        handleOnClick(event, item);
+        break;
+      case KeyCode.KEY_DOWN:
+        event.preventDefault();
+        handleDownArrow();
+        break;
+      case KeyCode.KEY_UP:
+        event.preventDefault();
+        handleUpArrow();
+        break;
+      case KeyCode.KEY_RIGHT:
+        event.preventDefault();
+        if (currentNodeId.current) {
+          if (document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'true') {
+            handleDownArrow();
+          } else if (document.getElementById(currentNodeId.current).getAttribute('aria-haspopup') && (!document.getElementById(currentNodeId.current).getAttribute('aria-expanded') || document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'false')) {
+            handleOnClick(event, item);
+          }
+        }
+        break;
+      case KeyCode.KEY_LEFT:
+        event.preventDefault();
+        if (currentNodeId.current) {
+          if (document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'true') {
+            handleOnClick(event, item);
+          } else if (!document.getElementById(currentNodeId.current).getAttribute('aria-haspopup') || !document.getElementById(currentNodeId.current).getAttribute('aria-expanded') || document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'false') {
+            findParentNode();
+          }
+        }
+        break;
+      case KeyCode.KEY_HOME:
+        event.preventDefault();
+        setTabIndex('-1');
+        cursor.current = 0;
+        currentNodeId.current = visibleNodes[cursor.current].id;
+        setTabIndex('0');
+        focusCurrentNode();
+        break;
+      case KeyCode.KEY_END:
+        event.preventDefault();
+        setTabIndex('-1');
+        cursor.current = visibleNodes.length - 1;
+        currentNodeId.current = visibleNodes[cursor.current].id;
+        setTabIndex('0');
+        focusCurrentNode();
+        break;
+      default:
+        if (event.nativeEvent.keyCode >= KeyCode.KEY_A && event.nativeEvent.keyCode <= KeyCode.KEY_Z) {
+          event.preventDefault();
+          const char = String.fromCharCode(event.nativeEvent.keyCode);
+          findNodeMatching(char);
+        }
+        break;
+    }
+  };
+
+  const renderMenuItems = (currentMenuItem, parent = undefined, firstLevel = false) => {
     if (!currentMenuItem) {
       return undefined;
     }
 
     return currentMenuItem.map((item) => {
+      const id = item.name.split(' ').join('-');
       const itemIsOpen = openKeys[item.path];
-      const itemHasChildren = item.childItems !== undefined;
-      let isSelected = false;
-      let selectedRef;
+      const isSelected = selectedPath === item.path;
 
-      if (selectedPath === item.path) {
-        isSelected = true;
-        selectedRef = selectedItem;
-      }
-
-      const menuItemClassNames = classNames(
-        cx([
-          'item',
-          { 'is-selected': isSelected },
-        ]),
-      );
+      visibleNodes.push({ id, parent });
 
       return (
-        <React.Fragment key={item.path}>
-          <div className={!firstLevel ? cx('indent') : null}>
-            <div
-              className={menuItemClassNames}
-              tabIndex="0"
-              role="link"
-              id={item.name.split(' ').join('-')}
-              aria-haspopup={itemHasChildren}
-              onKeyDown={event => handleKeyDown(event, item)}
-              onClick={event => handleOnClick(event, item)}
-              onBlur={enableFocusStyles}
-              onMouseDown={disableFocusStyles}
-              data-focus-styles-enabled
-              ref={selectedRef}
-            >
-              {itemHasChildren ? <span className={cx('disclosure')}>{ itemIsOpen ? <IconCaretDown className={cx('caret')} /> : <IconCaretRight className={cx('caret')} />}</span> : null}
-              {item.name}
-            </div>
-            {itemIsOpen ? renderMenuItems(item.childItems) : null}
-          </div>
-        </React.Fragment>
+        <CollapsingNavigationMenuItem
+          item={item}
+          id={id}
+          itemIsOpen={itemIsOpen}
+          isSelected={isSelected}
+          childItems={itemIsOpen ? renderMenuItems(item.childItems, id) : null}
+          firstLevel={firstLevel}
+          handleKeyDown={handleKeyDown}
+          handleOnClick={handleOnClick}
+          ref={isSelected ? selectedItem : null}
+        />
       );
     });
   };
 
   return (
-    <div className={cx('collapsing-navigation-menu', theme.className)} id="terra-dev-site-nav-menu" tabIndex="-1">
-      {menuItems ? renderMenuItems(menuItems[0].childItems, true) : undefined}
+    <div
+      className={cx('collapsing-navigation-menu', theme.className)}
+      id="terra-dev-site-nav-menu"
+      role="tree"
+    >
+      {menuItems ? renderMenuItems(menuItems[0].childItems, '', true) : undefined}
     </div>
   );
 };

@@ -47,7 +47,12 @@ Terra.describeViewports('secondary nav', ['huge'], () => {
   it('should not scroll when selecting through spacebar', () => {
     browser.url('/secondary-nav-test/terra-dev-site/secondary-scroll-test/filler/filler-test');
     Terra.validates.element('should not scroll when selecting through spacebar before', { selector: '#root' });
-    browser.keys(['Tab', 'Space', 'Tab', 'Space']);
+
+    // Focus navigation menu so it can receive keyboard input
+    browser.execute(() => {
+      document.getElementById('Filler-Test').focus();
+    });
+    browser.keys(['Down arrow', 'Space', 'Down arrow', 'Space']);
     Terra.validates.element('should not scroll when selecting through spacebar after', { selector: '#root' });
   });
 });

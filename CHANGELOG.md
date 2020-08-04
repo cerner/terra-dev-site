@@ -8,6 +8,7 @@ Unreleased
 ----------
 ### Changed
 * Add wdio tests for additional themes, update travis ci config.
+* Add additional keyboard navigation options to CollapsingNavigationMenu
 
 ### Removed
 * Removed toggle backgrounds tab and functionality from example loader
