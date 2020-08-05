@@ -102,11 +102,18 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
    * Ensures that the cursor is synched with the currently selected item.
    */
   useEffect(() => {
+    let idx;
     const nodeId = selectedItem.current?.getAttribute('id');
-    const idx = visibleNodes.findIndex((el) => el.id === nodeId);
+    if (!nodeId) {
+      idx = 0;
+    } else {
+      idx = visibleNodes.findIndex((el) => el.id === nodeId);
+    }
+
     if (idx >= 0) {
       cursor.current = idx;
       currentNodeId.current = visibleNodes[cursor.current].id;
+      setTabIndex('0');
     }
     if (selectedItem && selectedItem.current) {
       selectedItem.current.scrollIntoView();
@@ -224,6 +231,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   const handleKeyDown = (event, item) => {
+    let expandedValue;
     switch (event.nativeEvent.keyCode) {
       case KeyCode.KEY_SPACE:
       case KeyCode.KEY_RETURN:
@@ -241,19 +249,23 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       case KeyCode.KEY_RIGHT:
         event.preventDefault();
         if (currentNodeId.current) {
-          if (document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'true') {
-            handleDownArrow();
-          } else if (document.getElementById(currentNodeId.current).getAttribute('aria-haspopup') && (!document.getElementById(currentNodeId.current).getAttribute('aria-expanded') || document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'false')) {
-            handleOnClick(event, item);
+          expandedValue = document.getElementById(currentNodeId.current).getAttribute('aria-expanded');
+          if (expandedValue) {
+            if (expandedValue === 'true') {
+              handleDownArrow();
+            } else {
+              handleOnClick(event, item);
+            }
           }
         }
         break;
       case KeyCode.KEY_LEFT:
         event.preventDefault();
         if (currentNodeId.current) {
-          if (document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'true') {
+          expandedValue = document.getElementById(currentNodeId.current).getAttribute('aria-expanded');
+          if (expandedValue && expandedValue === 'true') {
             handleOnClick(event, item);
-          } else if (!document.getElementById(currentNodeId.current).getAttribute('aria-haspopup') || !document.getElementById(currentNodeId.current).getAttribute('aria-expanded') || document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'false') {
+          } else {
             findParentNode();
           }
         }
@@ -284,25 +296,32 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
   };
 
-  const renderMenuItems = (currentMenuItem, parent = undefined, firstLevel = false) => {
+  const renderMenuItems = (currentMenuItem, parent = undefined, firstLevel = false, indexPath) => {
     if (!currentMenuItem) {
       return undefined;
     }
 
-    return currentMenuItem.map((item) => {
-      const id = item.name.split(' ').join('-');
-      const itemIsOpen = openKeys[item.path];
+    return currentMenuItem.map((item, index) => {
+      let currentPath;
+      if (!indexPath) {
+        currentPath = `idxPath-${index}`;
+      } else {
+        currentPath = `${indexPath}-${index}`;
+      }
+      const id = `${item.name.split(' ').join('-')}-${currentPath}`;
+      const itemIsOpen = !!openKeys[item.path];
       const isSelected = selectedPath === item.path;
 
       visibleNodes.push({ id, parent });
 
       return (
         <CollapsingNavigationMenuItem
-          item={item}
           id={id}
+          key={id}
+          item={item}
           itemIsOpen={itemIsOpen}
           isSelected={isSelected}
-          childItems={itemIsOpen ? renderMenuItems(item.childItems, id) : null}
+          childItems={itemIsOpen ? renderMenuItems(item.childItems, id, false, currentPath) : null}
           firstLevel={firstLevel}
           handleKeyDown={handleKeyDown}
           handleOnClick={handleOnClick}

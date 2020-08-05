@@ -4,6 +4,9 @@ Changelog
 Unreleased
 ----------
 
+### Fixed
+* Fixed unique id generation and initial mount focus.
+
 6.27.0 - (August 4, 2020)
 ----------
 ### Changed
