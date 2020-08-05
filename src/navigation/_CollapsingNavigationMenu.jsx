@@ -102,12 +102,20 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
    * Ensures that the cursor is synched with the currently selected item.
    */
   useEffect(() => {
+    let idx;
     const nodeId = selectedItem.current?.getAttribute('id');
-    const idx = visibleNodes.findIndex((el) => el.id === nodeId);
+    if (!nodeId) {
+      idx = 0;
+    } else {
+      idx = visibleNodes.findIndex((el) => el.id === nodeId);
+    }
+
     if (idx >= 0) {
       cursor.current = idx;
       currentNodeId.current = visibleNodes[cursor.current].id;
+      setTabIndex('0');
     }
+
     if (selectedItem && selectedItem.current) {
       selectedItem.current.scrollIntoView();
     }
@@ -284,13 +292,19 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
     }
   };
 
-  const renderMenuItems = (currentMenuItem, parent = undefined, firstLevel = false) => {
+  const renderMenuItems = (currentMenuItem, parent = undefined, firstLevel = false, indexPath) => {
     if (!currentMenuItem) {
       return undefined;
     }
 
-    return currentMenuItem.map((item) => {
-      const id = item.name.split(' ').join('-');
+    return currentMenuItem.map((item, index) => {
+      let currentPath;
+      if (!indexPath) {
+        currentPath = `idxPath-${index}`;
+      } else {
+        currentPath = `${indexPath}-${index}`;
+      }
+      const id = `${item.name.split(' ').join('-')}-${currentPath}`;
       const itemIsOpen = openKeys[item.path];
       const isSelected = selectedPath === item.path;
 
@@ -298,11 +312,12 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
 
       return (
         <CollapsingNavigationMenuItem
+          key={id}
           item={item}
           id={id}
           itemIsOpen={itemIsOpen}
           isSelected={isSelected}
-          childItems={itemIsOpen ? renderMenuItems(item.childItems, id) : null}
+          childItems={itemIsOpen ? renderMenuItems(item.childItems, id, false, currentPath) : null}
           firstLevel={firstLevel}
           handleKeyDown={handleKeyDown}
           handleOnClick={handleOnClick}

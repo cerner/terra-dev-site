@@ -85,7 +85,6 @@ const CollapsingNavigationMenuItem = React.forwardRef(({
   item, id, itemIsOpen, isSelected, childItems, firstLevel, handleKeyDown, handleOnClick,
 }, ref) => {
   const itemHasChildren = item.childItems !== undefined;
-  const tabIndex = isSelected ? '0' : '-1';
 
   const menuItemClassNames = classNames(
     cx([
@@ -93,14 +92,14 @@ const CollapsingNavigationMenuItem = React.forwardRef(({
       { 'is-selected': isSelected },
     ]),
   );
-  const optionalAttributes = itemHasChildren ? { 'aria-expanded': itemIsOpen, 'aria-haspopup': true } : {};
+  const optionalAttributes = itemHasChildren ? { 'aria-expanded': itemIsOpen } : {};
 
   return (
     <React.Fragment key={item.path}>
       <div className={!firstLevel ? cx('indent') : null}>
         <div
           className={menuItemClassNames}
-          tabIndex={tabIndex}
+          tabIndex="-1"
           role="treeitem"
           id={id}
           onKeyDown={event => handleKeyDown(event, item)}
