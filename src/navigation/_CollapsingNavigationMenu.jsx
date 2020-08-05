@@ -231,6 +231,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
   };
 
   const handleKeyDown = (event, item) => {
+    let expandedValue;
     switch (event.nativeEvent.keyCode) {
       case KeyCode.KEY_SPACE:
       case KeyCode.KEY_RETURN:
@@ -248,19 +249,23 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       case KeyCode.KEY_RIGHT:
         event.preventDefault();
         if (currentNodeId.current) {
-          if (document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'true') {
-            handleDownArrow();
-          } else if (document.getElementById(currentNodeId.current).getAttribute('aria-haspopup') && (!document.getElementById(currentNodeId.current).getAttribute('aria-expanded') || document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'false')) {
-            handleOnClick(event, item);
+          expandedValue = document.getElementById(currentNodeId.current).getAttribute('aria-expanded');
+          if (expandedValue) {
+            if (expandedValue === 'true') {
+              handleDownArrow();
+            } else {
+              handleOnClick(event, item);
+            }
           }
         }
         break;
       case KeyCode.KEY_LEFT:
         event.preventDefault();
         if (currentNodeId.current) {
-          if (document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'true') {
+          expandedValue = document.getElementById(currentNodeId.current).getAttribute('aria-expanded');
+          if (expandedValue && expandedValue === 'true') {
             handleOnClick(event, item);
-          } else if (!document.getElementById(currentNodeId.current).getAttribute('aria-haspopup') || !document.getElementById(currentNodeId.current).getAttribute('aria-expanded') || document.getElementById(currentNodeId.current).getAttribute('aria-expanded') === 'false') {
+          } else {
             findParentNode();
           }
         }
@@ -304,7 +309,7 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
         currentPath = `${indexPath}-${index}`;
       }
       const id = `${item.name.split(' ').join('-')}-${currentPath}`;
-      const itemIsOpen = openKeys[item.path];
+      const itemIsOpen = !!openKeys[item.path];
       const isSelected = selectedPath === item.path;
 
       visibleNodes.push({ id, parent });
