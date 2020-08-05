@@ -115,7 +115,6 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
       currentNodeId.current = visibleNodes[cursor.current].id;
       setTabIndex('0');
     }
-
     if (selectedItem && selectedItem.current) {
       selectedItem.current.scrollIntoView();
     }
@@ -312,9 +311,9 @@ const CollapsingNavigationMenu = ({ selectedPath = undefined, menuItems, onSelec
 
       return (
         <CollapsingNavigationMenuItem
+          id={id}
           key={id}
           item={item}
-          id={id}
           itemIsOpen={itemIsOpen}
           isSelected={isSelected}
           childItems={itemIsOpen ? renderMenuItems(item.childItems, id, false, currentPath) : null}
