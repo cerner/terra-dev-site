@@ -50,7 +50,7 @@ Terra.describeViewports('secondary nav', ['huge'], () => {
 
     // Focus navigation menu so it can receive keyboard input
     browser.execute(() => {
-      document.getElementById('Filler-Test').focus();
+      document.getElementById('Filler-Test-idxPath-3-0-0').focus();
     });
     browser.keys(['Down arrow', 'Space', 'Down arrow', 'Space']);
     Terra.validates.element('should not scroll when selecting through spacebar after', { selector: '#root' });
