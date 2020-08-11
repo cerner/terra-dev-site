@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Changed
+  * Update propsTable to have unique selector for styles
+
 * Fixed
   * Fixed unique id generation and initial mount focus.
   * Update Changelog Formatting
