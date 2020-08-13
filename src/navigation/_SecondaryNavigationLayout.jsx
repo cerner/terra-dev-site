@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { withActiveBreakpoint } from 'terra-application/lib/breakpoints';
 import { ApplicationLoadingOverlayProvider } from 'terra-application/lib/application-loading-overlay';
+import { ApplicationStatusOverlayProvider } from 'terra-application/lib/application-status-overlay';
 import ContentContainer from 'terra-content-container';
 
 import ComponentToolbar from './_ComponentToolbar';
@@ -249,7 +250,9 @@ class SecondaryNavigationLayout extends React.Component {
           fill
         >
           <ApplicationLoadingOverlayProvider>
-            {children}
+            <ApplicationStatusOverlayProvider>
+              {children}
+            </ApplicationStatusOverlayProvider>
           </ApplicationLoadingOverlayProvider>
         </ContentContainer>
       </div>

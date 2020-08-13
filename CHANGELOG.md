@@ -2,10 +2,11 @@
 
 ## Unreleased
 
-* Fixed
-  * Fixed propsTable to have unique selector for styles
+* Changed
+  * Expose status overlay provider from terra-application.
 
 * Fixed
+  * Fixed propsTable to have unique selector for styles
   * Fixed unique id generation and initial mount focus.
   * Update Changelog Formatting
 
