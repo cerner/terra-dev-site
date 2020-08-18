@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Added
+  * Added missing themeable variables
+
 * Changed
   * Expose status overlay provider from terra-application.
 
