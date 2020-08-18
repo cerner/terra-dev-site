@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 6.28.1 - (August 18, 2020)
+
+* Changed
+  * oops forgot to re-compile before releasing. We should really get automated releases for our non mono repos....
+
 ## 6.28.0 - (August 18, 2020)
 
 * Changed
