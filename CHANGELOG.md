@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 6.28.0 - (August 18, 2020)
+
 * Changed
   * Expose status overlay provider from terra-application.
 
