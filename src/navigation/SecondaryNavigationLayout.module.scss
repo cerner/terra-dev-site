@@ -1,4 +1,6 @@
 @import '~terra-application/lib/breakpoints/media-queries';
+@import './clinical-lowlight-theme/SecondaryNavigationLayout.module';
+@import './orion-fusion-theme/SecondaryNavigationLayout.module';
 
 :local {
   .container {
