@@ -53,6 +53,7 @@ reports`
 target
 **/wdio/__snapshots__/latest
 **/wdio/__snapshots__/diff
+**/wdio/reports
 errorScreenshots
 **/aggregated-translations/*.*
 stats.json
