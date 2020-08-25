@@ -10,13 +10,13 @@
   }
 
   .header {
-    background-color: var(--terra-dev-site-header-background-color);
+    background-color: var(--terra-dev-site-example-template-header-background-color);
     border-bottom: 1px solid #e8e8e8;
     padding: 0.625rem;
   }
 
   .content {
-    background-color: var(--terra-dev-site-template-content-background-color);
+    background-color: var(--terra-dev-site-example-template-content-background-color);
     padding: 0.625rem;
   }
 
@@ -25,7 +25,7 @@
   }
 
   .footer {
-    background-color: var(--terra-dev-site-footer-background-color);
+    background-color: var(--terra-dev-site-example-template-footer-background-color);
     overflow: hidden;
   }
 

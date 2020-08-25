@@ -1,3 +1,6 @@
+@import './clinical-lowlight-theme/ContentLoaded.module';
+@import './orion-fusion-theme/ContentLoaded.module';
+
 :local {
   .dev-site-content {
     background-color: var(--terra-dev-site-content-background-color, transparent);

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { ThemeContext } from 'terra-application/lib/theme';
 import { withActiveBreakpoint } from 'terra-application/lib/breakpoints';
 import { ApplicationLoadingOverlayProvider } from 'terra-application/lib/application-loading-overlay';
 import { ApplicationStatusOverlayProvider } from 'terra-application/lib/application-status-overlay';
@@ -210,6 +211,8 @@ class SecondaryNavigationLayout extends React.Component {
       hideDevTools,
     } = this.props;
 
+    const theme = this.context;
+
     const {
       compactMenuIsOpen,
       menuIsPinnedOpen,
@@ -230,7 +233,7 @@ class SecondaryNavigationLayout extends React.Component {
     }
 
     return (
-      <div className={cx(['container', { 'panel-is-open': menuIsVisible }])}>
+      <div className={cx(['container', { 'panel-is-open': menuIsVisible }], theme.className)}>
         <div className={cx('panel')}>
           <CollapsingNavigationMenu
             menuItems={menuItems}
@@ -261,6 +264,7 @@ class SecondaryNavigationLayout extends React.Component {
 }
 
 SecondaryNavigationLayout.propTypes = propTypes;
+SecondaryNavigationLayout.contextType = ThemeContext;
 
 export default withActiveBreakpoint(SecondaryNavigationLayout);
 export {
