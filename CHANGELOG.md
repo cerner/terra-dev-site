@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Changed
+  * Updated `browserslist-config-terra` to `@cerner/browserslist-config-terra`
   * Expose status overlay provider from terra-application.
 
 * Fixed
