@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Changed
+  * Updated to auto release from travis-ci
+
 ## 6.29.0 - (August 25, 2020)
 
 * Added
