@@ -110,9 +110,6 @@ const siteConfig = {
     headHtml: [],
 
   },
-
-  /* The default for whether or not test evidence should be included. 'true' is the default value. */
-  includeTestEvidence: true,
 };
 
 module.exports = siteConfig;

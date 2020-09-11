@@ -1,7 +1,6 @@
 const path = require('path');
 const glob = require('glob');
 const kebabCase = require('lodash.kebabcase');
-const generateEvidenceConfig = require('./generateEvidenceConfig');
 const {
   startCase,
   pageTypes,
@@ -184,11 +183,6 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
 
   // Build out the page config from the discovered file paths.
   const config = buildPageConfig(filePaths, extensions, siteConfig.npmPackage.name);
-
-  // Check config here
-  if (siteConfig.includeTestEvidence) {
-    config.evidence = generateEvidenceConfig(generatePagesOptions, siteConfig.npmPackage.name);
-  }
 
   // Sort config and convert pages objects into ordered arrays.
   const sortedConfig = Object.keys(config).reduce((acc, key) => {
