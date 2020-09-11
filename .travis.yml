@@ -5,7 +5,6 @@ services:
 branches:
   only:
     - main
-    - terra-dev-site-v7
 cache:
   directories:
     - travis-build
