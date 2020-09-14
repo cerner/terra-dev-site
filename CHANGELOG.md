@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Breaking
+  * Remove Use MDX instead of Marked to load markdown files.
+
 ## 6.30.0 - (September 11, 2020)
 
 * Changed
