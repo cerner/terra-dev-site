@@ -4,6 +4,8 @@
 
 * Breaking
   * Remove the ability to include test evidence, this is covered now by a separate site report.
+  * Update minimum node version to node 10.
+  * Update react-docgen to ^5.3.0. This is a breaking change as react-docgen only supports node 8.10 and up.
   * Use MDX instead of Marked to load markdown files.
 
 ## 6.30.0 - (September 11, 2020)
