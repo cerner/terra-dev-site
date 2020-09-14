@@ -129,12 +129,8 @@ const sortPageConfig = config => (
 */
 const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   const {
-    generatePages: generatePagesOptions, pagesConfig, navConfig, hotReloading,
+    generatePages: generatePagesOptions, navConfig,
   } = siteConfig;
-  // If a pages config is supplied don't do this logic.
-  if (pagesConfig) {
-    return pagesConfig;
-  }
 
   // Gather the types to search for.
   const types = pageTypes(navConfig).join(',');
@@ -152,7 +148,7 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
     const rootPath = root.replace(/[\\]/g, '/');
     let sourceDir = '';
     if (dist) {
-      sourceDir = (mode !== 'production' && hotReloading && source) ? `${source}/` : `${dist}/`;
+      sourceDir = (mode !== 'production' && source) ? `${source}/` : `${dist}/`;
     }
     acc.push({
       pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{${ext.join(',')}}`,

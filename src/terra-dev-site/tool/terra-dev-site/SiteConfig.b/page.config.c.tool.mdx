@@ -10,17 +10,6 @@ Terra-dev-site uses the pages configuration to recursively build the menu naviga
 
 When you start the site, the `generateAppConfig` script will use these to build the pages.
 
-## Custom Page Config
-
-If you need or want custom page config, you can provide your own by including the `pagesConfig` key in the site config. Below is an example page config. The config is sorted by `Pagetype` such that each page type key is an ordered arrays of page configurations.
-
-This page configuration must provide the `name`, and `path` keys. These keys are needed to successfully create the navigation and routes. Then use the following keys to add meaningful content:
-- `content` - the content to render at this route
-- `type` - the file type. Options include but are not limited to `js`, `jsx`, or `md`
-- `pages` - an array of pages configuration objects for nested navigation
-
-Terra-dev-site will create sub-navigation for any component configuration using the `pages` key and will add a default Placeholder to render at that route.
-
 #### Component API Example
 ```
   'get-started': {
