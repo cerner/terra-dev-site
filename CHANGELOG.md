@@ -7,6 +7,8 @@
   * Update minimum node version to node 10.
   * Update react-docgen to ^5.3.0. This is a breaking change as react-docgen only supports node 8.10 and up.
   * Use MDX instead of Marked to load markdown files.
+  * Remove `pagesConfig` option from site config. This was never used by consumers.
+  * Remove `hotReloading` option from site config. There is no reason to disable it through terra dev site config.
 
 ## 6.30.0 - (September 11, 2020)
 

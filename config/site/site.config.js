@@ -9,11 +9,7 @@ const siteConfig = {
   /* The navigation configuration. */
   navConfig,
 
-  /* The path to the pages configuration. If this is enabled, the `generatePages` configuration will not be used. */
-  pagesConfig: undefined,
-
-  /** These options are used to find the pages to serve via terra-dev-site. If 'pagesConfig' is provided, this
-   * configuration is not used.
+  /** These options are used to find the pages to serve via terra-dev-site.
    * The file extensions pulled in are 'md' extensions and any extension defined in the resolve extensions set in the webpack config.
    *   The search pattern key options:
    *      root: where the search pattern starts.
@@ -32,11 +28,6 @@ const siteConfig = {
       },
     ],
   },
-
-  /** Whether or not hot reloading section should be enabled. This applies to the search searchPatterns
-   * and mono-repo package aliasing. This is enabled by default for dev builds.
-   */
-  hotReloading: true,
 
   /** The root-level npm package.json file. Change this if you have a non-standard package.json path.
    * Defaults to the <root_dir>/package.json
