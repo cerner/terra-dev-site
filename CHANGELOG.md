@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Breaking
+  * Remove the ability to include test evidence, this is covered now by a separate site report.
   * Remove Use MDX instead of Marked to load markdown files.
 
 ## 6.30.0 - (September 11, 2020)

@@ -8,7 +8,6 @@ const generateNavigationItems = require('./generateNavigationItems');
 const generatePagesConfig = require('./generatePagesConfig');
 const generateSearchItems = require('./generateSearchItems');
 const generateExtensionConfig = require('./generateExtensionConfig');
-const injectLink = require('./injectLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
 
@@ -51,14 +50,6 @@ const generateAppConfig = ({
   const rootPath = path.join(process.cwd(), 'dev-site-config');
   // This is where we are writing out the generated files.
   const buildPath = prefix ? path.join(rootPath, 'build', prefix) : path.join(rootPath, 'build');
-
-  if (siteConfig.includeTestEvidence) {
-    navConfig.navigation.links = injectLink(navConfig, {
-      path: '/evidence',
-      text: 'Evidence',
-      pageTypes: ['evidence'],
-    });
-  }
 
   const settingsConfig = addConfig(
     generateSettingsConfig(appConfig),
