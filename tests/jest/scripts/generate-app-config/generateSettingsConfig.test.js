@@ -9,23 +9,14 @@ describe('settings config', () => {
   it('generates settings with BiDi support by default', () => {
     const testAppConfig = {
       defaultTheme: 'Default Theme',
-      themes: {
-        'Default Theme': '',
-      },
       defaultDirection: 'ltr',
-      locales: ['en', 'es'],
       defaultLocale: 'en',
     };
 
     const expectedSettingsConfig = {
       config: {
         defaultTheme: 'Default Theme',
-        themes: {
-          'Default Theme': '',
-        },
-        directions: ['ltr', 'rtl'],
         defaultDirection: 'ltr',
-        locales: ['en', 'es'],
         defaultLocale: 'en',
       },
     };

@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ThemeContextProvider Snapshots should render with default config specified 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "currentDirection": "rtl",
+      "currentLocale": "es",
+      "currentTheme": "my theme",
+      "currentThemeClassName": undefined,
+      "directions": Array [
+        "ltr",
+        "rtl",
+      ],
+      "locales": Array [
+        "en",
+        "es",
+        "de",
+      ],
+      "onUpdate": [Function],
+      "themes": Array [
+        "clinical-lowlight-theme",
+        "orion-fusion-theme",
+      ],
+    }
+  }
+>
+  <div />
+</ContextProvider>
+`;
+
+exports[`ThemeContextProvider Snapshots should render with no config 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "currentDirection": "ltr",
+      "currentLocale": "en",
+      "currentTheme": "orion-fusion-theme",
+      "currentThemeClassName": undefined,
+      "directions": Array [
+        "ltr",
+        "rtl",
+      ],
+      "locales": Array [
+        "en",
+        "es",
+        "de",
+      ],
+      "onUpdate": [Function],
+      "themes": Array [
+        "clinical-lowlight-theme",
+        "orion-fusion-theme",
+      ],
+    }
+  }
+>
+  <div />
+</ContextProvider>
+`;

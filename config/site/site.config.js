@@ -50,31 +50,16 @@ const siteConfig = {
     /* Path to the favicon for the site. */
     favicon: path.join(__dirname, '..', '..', 'terra-favicon', '32px', 'favicon.ico'),
 
-    /** The themes to supply the ThemeProvider which allows the site to switch
-      * between themes. Providing multiple enables the theme utility to display
-      * in the header's toolbar.
-      */
-    themes: {
-      'Default Theme': '',
-    },
-
     /** The default theme of the site. Note, this value should be a key that was
-     * supplied to the themes object. The open-sourced theme is the default theme.
+     * supplied to the themes object.
      */
-    defaultTheme: 'Default Theme',
-
-    /** The locales to supply Base with, which allows the site to switch
-     * between locales. Defaulted to the supported locals list in terra-18n.
-     *
-     * NOTE: This configuration has been deprecated as of terra-dev-site 6.23.0
-     * locales: i18nSupportedLocales,
-     */
+    // defaultTheme: 'terra-default-theme',
 
     /* The default locale of the site. 'en' is the default theme. */
-    defaultLocale: 'en',
+    // defaultLocale: 'en',
 
     /* The default direction of the site. 'ltr' is the default direction. */
-    defaultDirection: 'ltr',
+    // defaultDirection: 'ltr',
 
     /** This section allows you to set custom extensions.
      * Extensions will be launched in a modal manager. All fields are required.

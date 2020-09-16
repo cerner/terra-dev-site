@@ -175,16 +175,13 @@ class DevSiteNavigation extends React.Component {
 
   handleSettingsSelection() {
     const { disclosureManager } = this.props;
-    const { settingsConfig } = this.props.siteConfig;
     disclosureManager.disclose({
       preferredType: 'modal',
       size: 'small',
       content: {
         key: 'terra-dev-site.settings',
         component: (
-          <SettingsPicker
-            config={settingsConfig}
-          />
+          <SettingsPicker />
         ),
       },
     });

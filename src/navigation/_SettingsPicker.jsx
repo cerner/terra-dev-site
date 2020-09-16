@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import ActionFooter from 'terra-action-footer';
@@ -9,24 +8,13 @@ import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manag
 import SelectField from 'terra-form-select/lib/SelectField';
 import AppSettingsContext from './_AppSettingsContext';
 
-const propTypes = {
-  /**
-   * Config describing the secondary navigation menu
-   */
-  config: PropTypes.shape({
-    themes: PropTypes.object,
-    locales: PropTypes.arrayOf(PropTypes.string),
-    directions: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
-};
-
-const SettingsPicker = ({ config }) => {
+const SettingsPicker = () => {
   const appSettings = React.useContext(AppSettingsContext);
   const [state, setState] = useState({ locale: appSettings.currentLocale, theme: appSettings.currentTheme, direction: appSettings.currentDirection });
   const {
     locale, theme, direction,
   } = state;
-  const themes = Object.keys(config.themes);
+  const { themes } = appSettings;
   const disclosureManager = React.useContext(DisclosureManagerContext);
 
   return (
@@ -103,7 +91,7 @@ const SettingsPicker = ({ config }) => {
             ))}
           </SelectField>
         ) : undefined}
-        {config.directions.length > 1 ? (
+        {appSettings.directions.length > 1 ? (
           <SelectField
             label="Direction"
             selectId="terra-dev-site-direction-select"
@@ -116,7 +104,7 @@ const SettingsPicker = ({ config }) => {
               });
             }}
           >
-            {config.directions.map(value => (
+            {appSettings.directions.map(value => (
               <SelectField.Option value={value} display={value} key={value} />
             ))}
           </SelectField>
@@ -125,7 +113,5 @@ const SettingsPicker = ({ config }) => {
     </ContentContainer>
   );
 };
-
-SettingsPicker.propTypes = propTypes;
 
 export default SettingsPicker;
