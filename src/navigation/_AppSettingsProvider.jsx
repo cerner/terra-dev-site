@@ -18,8 +18,8 @@ const propTypes = {
   */
 const locales = typeof TERRA_AGGREGATED_LOCALES === 'object' ? TERRA_AGGREGATED_LOCALES : ['en'];
 const themesConfig = typeof TERRA_THEME_CONFIG === 'object' ? TERRA_THEME_CONFIG : {};
-const scopedThemes = themesConfig?.scoped || [];
-const defaultThemeName = themesConfig?.theme || 'terra-default-theme';
+const scopedThemes = themesConfig.scoped || [];
+const defaultThemeName = themesConfig.theme || 'terra-default-theme';
 
 const themesMap = {
   ...scopedThemes.reduce((acc, name) => {

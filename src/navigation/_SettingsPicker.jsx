@@ -14,7 +14,7 @@ const SettingsPicker = () => {
   const {
     locale, theme, direction,
   } = state;
-  const { themes } = appSettings;
+  const { locales, themes, directions } = appSettings;
   const disclosureManager = React.useContext(DisclosureManagerContext);
 
   return (
@@ -55,7 +55,7 @@ const SettingsPicker = () => {
       fill
     >
       <Spacer padding="medium">
-        {appSettings.locales.length > 1 ? (
+        {locales.length > 1 ? (
           <SelectField
             label="Locale"
             selectId="terra-dev-site-locale-select"
@@ -68,7 +68,7 @@ const SettingsPicker = () => {
               });
             }}
           >
-            {appSettings.locales.map(value => (
+            {locales.map(value => (
               <SelectField.Option value={value} display={value} key={value} />
             ))}
           </SelectField>
@@ -91,7 +91,7 @@ const SettingsPicker = () => {
             ))}
           </SelectField>
         ) : undefined}
-        {appSettings.directions.length > 1 ? (
+        {directions.length > 1 ? (
           <SelectField
             label="Direction"
             selectId="terra-dev-site-direction-select"
@@ -104,7 +104,7 @@ const SettingsPicker = () => {
               });
             }}
           >
-            {appSettings.directions.map(value => (
+            {directions.map(value => (
               <SelectField.Option value={value} display={value} key={value} />
             ))}
           </SelectField>
