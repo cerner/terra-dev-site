@@ -4,7 +4,7 @@ import { Badge } from 'terra-dev-site/package.json?dev-site-package';
 
 # Terra Dev Site
 
-Terra-dev-site offers a quick test site to host examples and documentation for your react components or markdown documentation. Terra dev site is intended for speed development of reusable node modules utilizing terra that are intended to be shared between applications.
+Terra-dev-site offers a test site to host examples and documentation for your react components or markdown documentation. Terra dev site is also provides a terra application based test harness for developing reusable node modules that can be shared between terra applications.
 
 ## Quick start
 
@@ -70,9 +70,7 @@ To serve using `tt-serve`, add the following terra-toolkit command to your packa
 }
 ```
 
-### Quick Start
-
-After adding the start command to your package.json, run it and navigate to http://localhost:8080/#/site to view the site in your browser:
+After adding the start command to your package.json, run it and navigate to http://localhost:8080/site to view the site in your browser:
 
 ```bash
 npm run start
@@ -98,11 +96,11 @@ Now you should be able to see your page under the components tab.
 
 ## Auto Page Discovery
 
-By default terra-dev-site will look for files in the `./src/terra-dev-site` folder in dev mode and `./lib/terra-dev-site` for prod mode. In an monorepo it will search for files in `./packages/{src,lib}/terra-dev-site`. The file directories and file names are used to build the menu navigation of the site.
+Terra-dev-site will look for files in the `./src/terra-dev-site` folder in dev mode and `./lib/terra-dev-site` for prod mode. In an monorepo it will search for files in `./packages/{src,lib}/terra-dev-site`. The file directories and file names are used to build the menu navigation of the site.
 
 ### Directories
 
-The directories following the entry point folder (terra-dev-site by default) will be translated into part of the menu structure. The one exception is if you have a 'pageType' directory inside the entry point folder, it will be ignored. This lets you group page types together without impacting your site.
+The directories within the entry point folder, terra-dev-site, will be translated into the menu structure. The one exception is if you have a 'pageType' directory inside the entry point folder, it will be ignored. This lets you group page types together without impacting your site.
 
 ### File Naming
 
@@ -165,10 +163,6 @@ Without the environment variable set assets will assume they are served from `/`
 
 The terra-dev-site's webpack plugin calls the pre-build tool `generateAppConfig`. The generateAppConfig script builds out static configuration to the `./dev-site-config/build` folder. `generateAppConfig` also discovers pages based on its configuration. After the static config has been built, webpack continues to run, pulling in the static config and producing the webpack bundle.
 
-## Debug
+## Further configuration:
 
-To get verbose output, add `--env.verboseGenerateAppConfig` to your webpack command or run `tds-generate-app-config -v`.
-
-## Further customization:
-
-Check out our [Customization docs](/dev_tools/terra-dev-site/terra-dev-site/site-config/site-config).
+Check out our [configuration docs](/dev_tools/terra-dev-site/terra-dev-site/configuration).

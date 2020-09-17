@@ -1,13 +1,44 @@
 const startCase = require('lodash.startcase');
 const fs = require('fs');
 const path = require('path');
-const navConfig = require('./navigation.config');
 
 const npmPackage = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')));
 
 const siteConfig = {
   /* The navigation configuration. */
-  navConfig,
+  navConfig: {
+    navigation: {
+      /* The first page to route to for the site. */
+      index: '/home',
+      /** List of top level nav items.
+       *   Link config options:
+       *      path: Path to the link.
+       *      text: The text to display on the navigation link.
+       *      pageTypes: The page extension(s) that should be displayed under this link.
+       *      capabilities: an object describing the capabilities of all pages listed under the specified path.
+       *          devTools: display development tools to allow switching between locales and themes.
+       */
+      links: [{
+        path: '/home',
+        text: 'Home',
+        pageTypes: ['home'],
+      }, {
+        path: '/components',
+        text: 'Components',
+        pageTypes: ['doc'],
+        capabilities: {
+          devTools: true,
+        },
+      }, {
+        path: '/tests',
+        text: 'Tests',
+        pageTypes: ['test'],
+        capabilities: {
+          devTools: true,
+        },
+      }],
+    },
+  },
 
   /** These options are used to find the pages to serve via terra-dev-site.
    * The file extensions pulled in are 'md' extensions and any extension defined in the resolve extensions set in the webpack config.
