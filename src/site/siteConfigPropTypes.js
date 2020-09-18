@@ -10,29 +10,14 @@ const settingsConfigPropType = PropTypes.shape({
   defaultTheme: PropTypes.string,
 
   /**
-   * List of all available themes
-   */
-  themes: PropTypes.object,
-
-  /**
    * By default the site is set to this locale
    */
   defaultLocale: PropTypes.string,
 
   /**
-   * List of all available locales
-   */
-  locales: PropTypes.arrayOf(PropTypes.string),
-
-  /**
    * By default the site is set to this direction
    */
   defaultDirection: PropTypes.string,
-
-  /**
-   * List of all available directions
-   */
-  directions: PropTypes.arrayOf(PropTypes.string),
 });
 
 /**

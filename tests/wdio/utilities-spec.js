@@ -26,8 +26,6 @@ Terra.describeViewports('utilities', ['huge'], () => {
     browser.click('#terra-dev-site-locale-select');
     browser.click('#terra-select-option-en-AU');
 
-    browser.click('#terra-dev-site-theme-select');
-    browser.click('[id="terra-select-option-Terra Dev Site Test Theme"]');
 
     browser.click('#terra-dev-site-direction-select');
     browser.click('#terra-select-option-rtl');
@@ -69,16 +67,12 @@ Terra.describeViewports('utilities', ['tiny'], () => {
     browser.url('/single-page-test');
     browser.click('[data-compact-header-toggle]');
     browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(2)');
-    // browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');
     Terra.validates.element('selects config', { selector: '#root' });
   });
 
   it('changes config', () => {
     browser.click('#terra-dev-site-locale-select');
     browser.click('#terra-select-option-en-AU');
-
-    browser.click('#terra-dev-site-theme-select');
-    browser.click('[id="terra-select-option-Terra Dev Site Test Theme"]');
 
     browser.click('#terra-dev-site-direction-select');
     browser.click('#terra-select-option-rtl');

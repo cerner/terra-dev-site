@@ -9,6 +9,10 @@
   * Use MDX instead of Marked to load markdown files.
   * Remove `pagesConfig` option from site config. This was never used by consumers.
   * Remove `hotReloading` option from site config. There is no reason to disable it through terra dev site config.
+  * The available themes are now pulled from the terra-theme.config file via the webpack global variable `TERRA_THEME_CONFIG`.
+    * As a result, `themes` has been removed from site config.
+    * `TERRA_THEME_CONFIG` is only available in terra-toolkit v6.1.0.
+  * `locales` has been removed from site config. As of 6.23 Locales are pulled from the global `TERRA_AGGREGATED_LOCALES` variable provided by terra-toolkit v5.21.0.
 
 ## 6.30.0 - (September 11, 2020)
 

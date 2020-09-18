@@ -40,7 +40,7 @@ const ComponentToolbar = ({
   hideDevTools,
 }) => {
   const appSettings = React.useContext(AppSettingsContext);
-  const hasThemes = !hideDevTools && appSettings.themes && Object.keys(appSettings.themes).length > 1;
+  const hasThemes = !hideDevTools && appSettings.themes && appSettings.themes.length > 1;
   const hasLocales = !hideDevTools && appSettings.locales && appSettings.locales.length > 1;
 
   const onChangeTheme = (theme) => (
@@ -70,7 +70,7 @@ const ComponentToolbar = ({
         {hasThemes && (
           <MenuButton
             text="Theme"
-            items={Object.keys(appSettings.themes)}
+            items={appSettings.themes}
             selectedKey={appSettings.currentTheme}
             onChange={onChangeTheme}
           />

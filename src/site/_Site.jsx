@@ -110,10 +110,10 @@ class Site extends React.Component {
     return (
       <AppSettingsProvider settingsConfig={siteConfig.settingsConfig}>
         <AppSettingsContext.Consumer>
-          {({ currentLocale, currentThemeName }) => (
+          {({ currentLocale, currentThemeClassName }) => (
             applicationBase({
               locale: currentLocale,
-              themeName: currentThemeName,
+              themeName: currentThemeClassName,
               child: this.renderApplicationBaseChildren(),
             })
           )}
