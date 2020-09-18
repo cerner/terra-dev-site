@@ -128,7 +128,7 @@
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.2.0",
     "terra-aggregate-translations": "^1.0.0",
-    "terra-application": "^1.19.0",
+    "terra-application": "https://github.com/cerner/terra-application.git#csp-demo",
     "terra-button": "^3.12.0",
     "terra-button-group": "^3.5.0",
     "terra-content-container": "^3.0.0",
