@@ -2,7 +2,7 @@
 
 exports[`devSitePackage loader test when both repository url and repository directory are specified 1`] = `
 "import React from 'react';
-import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+import Badges from '@cerner/terra-dev-site/lib/loader-components/_Badges';
 
 export const Badge = ({ url }) => (
       <Badges
@@ -16,7 +16,7 @@ export const Badge = ({ url }) => (
 
 exports[`devSitePackage loader test when only repository directory is specified 1`] = `
 "import React from 'react';
-import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+import Badges from '@cerner/terra-dev-site/lib/loader-components/_Badges';
 
 export const Badge = ({ url }) => (
       <Badges
@@ -29,7 +29,7 @@ export const Badge = ({ url }) => (
 
 exports[`devSitePackage loader test when only repository url is specified 1`] = `
 "import React from 'react';
-import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+import Badges from '@cerner/terra-dev-site/lib/loader-components/_Badges';
 
 export const Badge = ({ url }) => (
       <Badges
@@ -43,7 +43,7 @@ export const Badge = ({ url }) => (
 
 exports[`devSitePackage loader test when repository attribute is not specified 1`] = `
 "import React from 'react';
-import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+import Badges from '@cerner/terra-dev-site/lib/loader-components/_Badges';
 
 export const Badge = ({ url }) => (
       <Badges
@@ -56,7 +56,7 @@ export const Badge = ({ url }) => (
 
 exports[`devSitePackage loader test when the repository url is not a git url 1`] = `
 "import React from 'react';
-import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+import Badges from '@cerner/terra-dev-site/lib/loader-components/_Badges';
 
 export const Badge = ({ url }) => (
       <Badges
@@ -70,7 +70,7 @@ export const Badge = ({ url }) => (
 
 exports[`devSitePackage loader test when url is specified without git+ prefix and directory starts with front slash 1`] = `
 "import React from 'react';
-import Badges from 'terra-dev-site/lib/loader-components/_Badges';
+import Badges from '@cerner/terra-dev-site/lib/loader-components/_Badges';
 
 export const Badge = ({ url }) => (
       <Badges

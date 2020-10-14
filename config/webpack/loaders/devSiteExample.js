@@ -17,7 +17,7 @@ const loader = async function loader(content) {
     'import React from \'react\';',
     `import Example from '${exampleSource}';`,
     `import Code from '${exampleSource}?dev-site-codeblock';`,
-    'import ExampleTemplate from \'terra-dev-site/lib/loader-components/_ExampleTemplate\';',
+    'import ExampleTemplate from \'@cerner/terra-dev-site/lib/loader-components/_ExampleTemplate\';',
   ];
 
   if (cssFileName !== undefined) {

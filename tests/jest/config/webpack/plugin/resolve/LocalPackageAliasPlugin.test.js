@@ -14,7 +14,7 @@ describe('LocalPackageAliasPlugin', () => {
 
     expect(plugin.alias).toEqual([
       {
-        name: 'terra-dev-site',
+        name: '@cerner/terra-dev-site',
         onlyModule: false,
         alias: processPath,
       },

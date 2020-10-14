@@ -3,9 +3,9 @@ const startCase = require('lodash.startcase');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 // "require" items to be added to the generated config.
-const ContentWrapper = 'terra-dev-site/lib/wrappers/_ContentWrapper';
-const MarkdownWrapper = 'terra-dev-site/lib/wrappers/_MarkdownWrapper';
-const TerraScreenshotWrapper = 'terra-dev-site/lib/wrappers/_ScreenshotWrapper';
+const ContentWrapper = '@cerner/terra-dev-site/lib/wrappers/_ContentWrapper';
+const MarkdownWrapper = '@cerner/terra-dev-site/lib/wrappers/_MarkdownWrapper';
+const TerraScreenshotWrapper = '@cerner/terra-dev-site/lib/wrappers/_ScreenshotWrapper';
 
 /**
 * Setup a menuItem object.
