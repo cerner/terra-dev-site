@@ -10,10 +10,10 @@ Terra.describeViewports('raw route', ['tiny', 'huge'], () => {
   });
 
   it('does not prevent navigation', () => {
-    browser.url('/raw/test/terra-dev-site/navigation-prompt');
+    browser.url('/raw/test/cerner-terra-dev-site/navigation-prompt');
     browser.click('[id="PendingStateButton"]');
     Terra.validates.element('navigation-prompt', { selector: '#root' });
-    browser.url('/raw/test/terra-dev-site/relative-link');
+    browser.url('/raw/test/cerner-terra-dev-site/relative-link');
     Terra.validates.element('redirected', { selector: '#root' });
   });
 });
