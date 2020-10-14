@@ -41,7 +41,6 @@ class SetupPlugin {
 
   apply(compiler) {
     // Load the site configuration.
-    const production = compiler.options.mode === 'production';
     const processPath = process.cwd();
 
     // MODULE
@@ -163,11 +162,6 @@ class SetupPlugin {
     // WEBPACK DEV SERVER
     if (compiler.options.devServer) {
       compiler.options.devServer.historyApiFallback = true;
-    }
-
-    // DEVTOOL
-    if (production && !compiler.options.devtool) {
-      compiler.options.devtool = 'source-map';
     }
   }
 }
