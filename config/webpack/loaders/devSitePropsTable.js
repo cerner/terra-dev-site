@@ -93,7 +93,7 @@ const generatePropsTable = async function generatePropsTable(filePath, source, m
   return [
     'import React from \'react\';',
     'import { mdx } from \'@mdx-js/react\';',
-    'import PropsTable from \'terra-dev-site/lib/loader-components/_PropsTable\';',
+    'import PropsTable from \'@cerner/terra-dev-site/lib/loader-components/_PropsTable\';',
     '',
     'export default () => (',
     ' <PropsTable',

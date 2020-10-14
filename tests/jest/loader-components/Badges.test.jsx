@@ -1,7 +1,7 @@
 import React from 'react';
 import Badge from '../../../src/loader-components/_Badges';
 
-const packageName = 'terra-dev-site';
+const packageName = '@cerner/terra-dev-site';
 const packageUrl = 'https://engineering.cerner.com/terra-dev-site';
 const packageVersion = '2.13.0';
 const packageSrcCode = 'https://github.com/cerner/terra-dev-site';

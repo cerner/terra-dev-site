@@ -43,7 +43,7 @@ exports[`Badges should render npm badge and source code badge when url is not sp
 >
   <a
     className="badge"
-    href="https://www.npmjs.org/package/terra-dev-site/v/2.13.0"
+    href="https://www.npmjs.org/package/@cerner/terra-dev-site/v/2.13.0"
   >
     <span
       className="badge-name"
@@ -102,7 +102,7 @@ exports[`Badges should render only npm badge when url is not specified 1`] = `
 >
   <a
     className="badge"
-    href="https://www.npmjs.org/package/terra-dev-site/v/2.13.0"
+    href="https://www.npmjs.org/package/@cerner/terra-dev-site/v/2.13.0"
   >
     <span
       className="badge-name"

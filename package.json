@@ -1,11 +1,14 @@
 {
-  "name": "terra-dev-site",
+  "name": "@cerner/terra-dev-site",
   "version": "6.30.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "engines": {
     "node": ">=10 <11"
   },
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cerner/terra-dev-site"

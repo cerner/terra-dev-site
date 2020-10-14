@@ -1,4 +1,4 @@
-import { Badge } from 'terra-dev-site/package.json?dev-site-package';
+import { Badge } from '@cerner/terra-dev-site/package.json?dev-site-package';
 
 <Badge />
 
@@ -29,7 +29,7 @@ Using the TerraDevSite webpack plugin, a static site will be built to the `dev-s
 ```javascript
 const toolkitWebpackConfig = require('terra-toolkit/config/webpack/webpack.config')
 const merge = require('webpack-merge');
-const { TerraDevSite, TerraDevSiteEntrypoints, DirectorySwitcherPlugin, LocalPackageAliasPlugin } = require('terra-dev-site');
+const { TerraDevSite, TerraDevSiteEntrypoints, DirectorySwitcherPlugin, LocalPackageAliasPlugin } = require('@cerner/terra-dev-site');
 
 /**
 * Generates the file representing app name configuration.

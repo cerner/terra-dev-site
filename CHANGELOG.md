@@ -13,6 +13,7 @@
     * As a result, `themes` has been removed from site config.
     * `TERRA_THEME_CONFIG` is only available in terra-toolkit v6.1.0.
   * `locales` has been removed from site config. As of 6.23 Locales are pulled from the global `TERRA_AGGREGATED_LOCALES` variable provided by terra-toolkit v5.21.0.
+  * Changed to a scoped package. `terra-dev-site` -> `@cerner/terra-dev-site`
 
 ## 6.30.0 - (September 11, 2020)
 

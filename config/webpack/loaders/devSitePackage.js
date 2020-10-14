@@ -35,7 +35,7 @@ const loader = async function loader(content) {
 
   const code = [
     'import React from \'react\';',
-    'import Badges from \'terra-dev-site/lib/loader-components/_Badges\';',
+    'import Badges from \'@cerner/terra-dev-site/lib/loader-components/_Badges\';',
     '',
     `export const Badge = ({ url }) => (
       ${badge}
