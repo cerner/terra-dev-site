@@ -14,6 +14,7 @@
     * `TERRA_THEME_CONFIG` is only available in terra-toolkit v6.1.0.
   * `locales` has been removed from site config. As of 6.23 Locales are pulled from the global `TERRA_AGGREGATED_LOCALES` variable provided by terra-toolkit v5.21.0.
   * Changed to a scoped package. `terra-dev-site` -> `@cerner/terra-dev-site`
+  * Remove defaulting to devtool: source-map when in production with no devtool enabled. This was causing slow builds for large projects.
 
 ## 6.30.0 - (September 11, 2020)
 
