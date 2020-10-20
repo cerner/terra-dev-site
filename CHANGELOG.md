@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 6.31.0 - (October 20, 2020)
+
 * Changed
   * Remove defaulting to devtool: source-map when in production with no devtool enabled. This was causing slow builds for large projects.
 
