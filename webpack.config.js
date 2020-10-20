@@ -17,21 +17,23 @@ const devSiteConfig = (env = {}, argv = {}) => {
   };
 
   config.resolve.extensions = ['.js', '.jsx', '.jst'];
+  // config.resolve.alias = { devSiteConfig: '' };
+  // config.resolve.alias = { devSiteConfig: path.resolve(__dirname, 'README.md') };
   // Brittle
   config.module.rules[0].test = /\.(jsx|js|jst)$/;
 
   return {
     ...config,
-    plugins: config.plugins.slice(0, -1).concat([
-      new TerraDevSite({
-        env,
-        sites: [{
-          siteConfig,
-          prefix: 'terra-application',
-          indexPath: path.resolve(path.join(__dirname, 'lib', 'ExtendDevSite')),
-        }],
-      }),
-    ]),
+    // plugins: config.plugins.slice(0, -1).concat([
+    //   new TerraDevSite({
+    //     env,
+    //     sites: [{
+    //       siteConfig,
+    //       prefix: 'terra-application',
+    //       indexPath: path.resolve(path.join(__dirname, 'lib', 'ExtendDevSite')),
+    //     }],
+    //   }),
+    // ]),
   };
 };
 

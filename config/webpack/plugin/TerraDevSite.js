@@ -1,7 +1,7 @@
 const path = require('path');
 const { DefinePlugin } = require('webpack');
 const SetupPlugin = require('./SetupPlugin');
-const GeneratePlugin = require('./GeneratePlugin');
+// const GeneratePlugin = require('./GeneratePlugin');
 const loadSiteConfig = require('../../../scripts/generate-app-config/loadSiteConfig');
 
 const validate = (sites) => {
@@ -39,7 +39,7 @@ class TerraDevSite {
       {
         configFileName: 'site.config.js',
         defaultConfigPath: path.resolve(__dirname, '..', '..', 'site', 'site.config.js'),
-        indexPath: path.resolve(__dirname, '..', '..', '..', 'lib', 'TerraDevSite'),
+        indexPath: path.resolve(__dirname, '..', '..', '..', 'src', 'TerraDevSite'),
       },
       ...sites,
     ].map((site) => {
@@ -66,12 +66,14 @@ class TerraDevSite {
 
     // Strip the trailing / from the public path.
     const basename = publicPath.slice(0, -1);
-    new GeneratePlugin({
-      sites: this.sites,
-      basename,
-    }).apply(compiler);
+    // new GeneratePlugin({
+    //   sites: this.sites,
+    //   basename,
+    // }).apply(compiler);
     new SetupPlugin({
       publicPath,
+      sites: this.sites,
+      basename,
     }).apply(compiler);
     new DefinePlugin({
       // Base name is used to namespace terra-dev-site this is used in redirect.js which is only used in the 404 page.

@@ -1,0 +1,23 @@
+import placeholderSrc from '<%= placeholderSrc %>';
+
+export default {
+  nameConfig: {
+    title: '<%= title %>',
+    <% headline && print(`headline: '${headline}',`)%>
+    <% subline && print(`subline: '${subline}',`)%>
+  },
+  settingsConfig: {
+    <% defaultTheme && print(`defaultTheme: '${defaultTheme}',`)%>
+    <% defaultLocale && print(`defaultLocale: '${defaultLocale}',`)%>
+    <% defaultDirection && print(`defaultDirection: '${defaultDirection}',`)%>
+  },
+  // menuItems:,
+  // contentConfig: ,
+  // navigationItems: ,
+  indexPath: '<%= indexPath %>',
+  // capabilities: ,
+  // extensions: ,
+  placeholderSrc,
+  // apps: ,
+  basename: '<%= basename %>',
+};

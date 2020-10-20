@@ -119,6 +119,7 @@
     "lodash.escaperegexp": "^4.1.2",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
+    "lodash.template": "^4.5.0",
     "prism-react-renderer": "^1.0.2",
     "prop-types": "^15.5.8",
     "react-docgen": "^5.3.0",
@@ -129,7 +130,6 @@
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.2.0",
     "terra-aggregate-translations": "^1.0.0",
-    "terra-application": "^1.19.0",
     "terra-button": "^3.12.0",
     "terra-button-group": "^3.5.0",
     "terra-content-container": "^3.0.0",
@@ -149,6 +149,7 @@
     "webpack-merge": "^4.1.2"
   },
   "peerDependencies": {
+    "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
     "terra-toolkit": "^6.1.0",
@@ -164,6 +165,7 @@
     "@babel/preset-env": "^7.5.0",
     "@babel/preset-react": "^7.0.0",
     "@cerner/eslint-config-terra": "^4.0.0",
+    "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
     "browserslist-config-terra": "^1.2.0",

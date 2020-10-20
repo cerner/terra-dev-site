@@ -4,6 +4,8 @@ const path = require('path');
 const rehypeSlug = require('rehype-slug');
 const rehypeUrl = require('rehype-urls');
 
+const generateDevSites = require('./GenerateSites');
+
 const babelLoader = {
   loader: 'babel-loader',
   options: {
@@ -35,13 +37,28 @@ const getMdxLoader = (publicPath) => ({
  * Updates the webpack options with defaults that terra-dev-site requires.
  */
 class SetupPlugin {
-  constructor({ publicPath } = {}) {
+  constructor({ publicPath, sites, basename } = {}) {
     this.publicPath = publicPath;
+    this.meta = generateDevSites.meta({ sites, basename });
   }
 
   apply(compiler) {
     // Load the site configuration.
     const processPath = process.cwd();
+
+    const sitesConfig = generateDevSites.getConfig({
+      devSites: this.meta.devSites,
+      entries: this.meta.entries,
+      apps: this.meta.apps,
+      mode: compiler.options.mode,
+      resolveExtensions: compiler.options.resolve.extensions,
+      babelLoader,
+    });
+
+    compiler.options.entry = {
+      ...compiler.options.entry,
+      ...sitesConfig.entry,
+    };
 
     // MODULE
 
@@ -116,6 +133,7 @@ class SetupPlugin {
           },
         ],
       },
+      ...sitesConfig.rules,
       // Spread the original loaders. These will be applied if all above loaders fail.
       ...compiler.options.module.rules,
       ],
@@ -128,6 +146,8 @@ class SetupPlugin {
     // RESOLVE
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
     compiler.options.resolve.modules.unshift(devSiteConfigPath);
+    console.log('alias', compiler.options.resolve.alias);
+    compiler.options.resolve.alias = { devSiteConfig: path.join(processPath, 'src', 'templates', 'devSiteConfig.template') };
 
     // RESOLVE LOADER
     // add the path to search for dev site loaders
@@ -143,6 +163,8 @@ class SetupPlugin {
       inject: 'head',
       chunks: ['redirect'],
     }).apply(compiler);
+
+    sitesConfig.plugins.forEach(plugin => plugin.apply(compiler));
 
     // WEBPACK DEV SERVER
     if (compiler.options.devServer) {
