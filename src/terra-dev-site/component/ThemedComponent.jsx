@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames/bind';
-import { ApplicationIntlContext } from 'terra-application/lib/application-intl';
+import { useIntl } from 'react-intl';
 import { ThemeContext } from 'terra-application/lib/theme';
 
 import styles from './ThemedComponent.module.scss';
@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 const ThemedComponent = () => {
   const theme = React.useContext(ThemeContext);
-  const applicationIntl = React.useContext(ApplicationIntlContext);
+  const applicationIntl = useIntl();
   return (
     <div className={cx('themed', theme.className)}>
       <h1>
