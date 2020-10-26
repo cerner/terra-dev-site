@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 /* eslint-disable react/forbid-prop-types, react/no-unused-prop-types */
 const propTypes = {
@@ -98,7 +98,7 @@ const propTypes = {
   /**
    * Internationalization object with translation APIs. Provided by `injectIntl`.
    */
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({ formatMessage: PropTypes.func }).isRequired,
   /**
    * An Example of fancypants markdown in the comment
    * ```jsx
