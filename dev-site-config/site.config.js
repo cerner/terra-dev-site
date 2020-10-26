@@ -9,43 +9,31 @@ const siteConfig = {
       links: [{
         path: '/home',
         text: 'Home',
-        pageTypes: ['home'],
+        pageType: 'home',
       }, {
         path: '/dev_tools',
         text: 'Developer Tools',
-        pageTypes: ['tool'],
+        pageType: 'tool',
       }, {
         path: '/single-page-test',
         text: 'Single Page Test',
-        pageTypes: ['spt'],
-        capabilities: {
-          devTools: true,
-        },
+        pageType: 'spt',
       }, {
         path: '/secondary-nav-test',
         text: 'Secondary Nav Test',
-        pageTypes: ['snt'],
-        capabilities: {
-          devTools: true,
-        },
+        pageType: 'snt',
       }, {
         path: '/folder-first',
         text: 'Folder First Test',
-        pageTypes: ['ff'],
-        capabilities: {
-          devTools: true,
-        },
+        pageType: 'ff',
       }, {
         path: '/empty',
         text: 'Empty',
-        pageTypes: ['empty'],
+        pageType: 'empty',
       }, {
         path: '/test',
         text: 'Test',
-        pageTypes: ['test'],
-        capabilities: {
-          devTools: true,
-        },
+        pageType: 'test',
       }],
     },
   },

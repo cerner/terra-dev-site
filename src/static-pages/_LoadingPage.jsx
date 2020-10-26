@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
+import ApplicationLoadingOverlay from '@cerner/terra-application/lib/application-loading-overlay';
 
 // Wait half a second before showing the loading indicator.
 const LoadingPage = () => {
@@ -15,7 +15,11 @@ const LoadingPage = () => {
     return () => { isActive = false; };
   }, []);
 
-  return <ApplicationLoadingOverlay isOpen={state.isOpen} />;
+  return (
+    <div data-terra-dev-site-content-loading>
+      <ApplicationLoadingOverlay isOpen={state.isOpen} />
+    </div>
+  );
 };
 
 export default LoadingPage;

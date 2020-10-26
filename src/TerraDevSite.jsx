@@ -1,17 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ApplicationBase from '@cerner/terra-application';
-import ApplicationContainer from '@cerner/terra-application/lib/application-container/ApplicationContainer';
-import PrimaryNavigationLayout, { NavigationItem } from '@cerner/terra-application/lib/application-layouts/PrimaryNavigationLayout';
-
-import AppSettingsContext from './navigation/_AppSettingsContext';
-import AppSettingsProvider from './navigation/_AppSettingsProvider';
-import TerraMdxProvider from './mdx/_TerraMdxProvider';
+import Site from './site/_Site';
 
 import devSiteConfig from './templates/devSiteConfig.template';
 
 import './site/site.module.scss';
+// import siteConfig from '../config/site/site.config';
 
 // console.log('Placeholder', placeholder);
 console.log('devSiteConig', devSiteConfig);
@@ -63,29 +58,10 @@ const fetchSearchItems = () => import(/* webpackPrefetch: true, webpackChunkName
 //   />
 // );
 
-const TerraDevSite2 = () => (
-  <AppSettingsProvider settingsConfig={devSiteConfig.settingsConfig}>
-    <AppSettingsContext.Consumer>
-      {({ currentLocale, currentThemeClassName }) => (
-        <ApplicationBase
-          locale={currentLocale}
-          themeName={currentThemeClassName}
-        >
-          <TerraMdxProvider>
-            <ApplicationContainer>
-              <PrimaryNavigationLayout
-                titleConfig={devSiteConfig.nameConfig}
-              >
-                <p>
-                  Derp
-                </p>
-              </PrimaryNavigationLayout>
-            </ApplicationContainer>
-          </TerraMdxProvider>
-        </ApplicationBase>
-      )}
-    </AppSettingsContext.Consumer>
-  </AppSettingsProvider>
+const TerraDevSite = () => (
+  <Site
+    siteConfig={devSiteConfig}
+  />
 );
 
-ReactDOM.render(<TerraDevSite2 />, document.getElementById('root'));
+ReactDOM.render(<TerraDevSite />, document.getElementById('root'));

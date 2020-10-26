@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { ThemeContext } from 'terra-application/lib/theme';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
 
 import CodesplitWrapper from './_CodesplitWrapper';
-import ContentLoaded from './_ContentLoaded';
+import ContentLoaded from '../pages/_ContentLoaded';
 import ContentLoading from './_ContentLoading';
 
 import styles from './MarkdownWrapper.module.scss';

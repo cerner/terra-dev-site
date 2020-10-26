@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { ThemeContext } from 'terra-application/lib/theme';
-import { withActiveBreakpoint } from 'terra-application/lib/breakpoints';
-import { ApplicationLoadingOverlayProvider } from 'terra-application/lib/application-loading-overlay';
-import { ApplicationStatusOverlayProvider } from 'terra-application/lib/application-status-overlay';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
+import { withActiveBreakpoint } from '@cerner/terra-application/lib/breakpoints';
+import { ApplicationLoadingOverlayProvider } from '@cerner/terra-application/lib/application-loading-overlay';
+import { ApplicationStatusOverlayProvider } from '@cerner/terra-application/lib/application-status-overlay';
 import ContentContainer from 'terra-content-container';
 
 import ComponentToolbar from './_ComponentToolbar';

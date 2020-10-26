@@ -6,7 +6,7 @@ const generateNavigationItems = (navConfig) => {
   const configuredLinks = [];
   const capabilities = {};
 
-  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageTypes) : [];
+  const validLinks = navigation.links ? navigation.links.filter(link => link.path && link.text && link.pageType) : [];
 
   validLinks.forEach((link) => {
     configuredLinks.push({

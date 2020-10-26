@@ -1,0 +1,13 @@
+//import content from 'content.json'
+import React from 'react';
+
+const imports = {
+  <% Object.entries(imports).forEach(([key, value]) => { print(`'${key}': React.lazy(() => import('${value}')),`) }); %>
+}
+
+const config = JSON.parse('<%= config %>');
+
+export default {
+  imports,
+  config,
+};

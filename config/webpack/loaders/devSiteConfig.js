@@ -15,7 +15,10 @@ const loader = async function loader(siteConfigTemplate) {
 
   const { siteConfig, basename } = getOptions(this);
 
-  console.log('options', getOptions(this));
+  // console.log('options', getOptions(this));
+  // console.log('loaders', this.loaders);
+
+  this.emitFile('stuff.json', 'emittedFileContents');
 
   // console.log('loader options', options);
 

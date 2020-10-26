@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { ThemeContext } from 'terra-application/lib/theme';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
 import IconChevronLeft from 'terra-icon/lib/icon/IconChevronLeft';
 import IconChevronRight from 'terra-icon/lib/icon/IconChevronRight';
 import { KEY_SPACE, KEY_RETURN } from 'keycode-js';

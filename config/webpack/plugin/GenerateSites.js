@@ -122,6 +122,25 @@ const getConfig = ({
         ],
       },
     );
+    config.rules.push(
+      {
+        test: /devSiteContent.template$/,
+        use: [
+          babelLoader,
+          {
+            loader: 'devSiteContent',
+            options: {
+              siteConfig,
+              mode,
+              prefix,
+              apps,
+              basename,
+              resolveExtensions,
+            },
+          },
+        ],
+      },
+    );
 
     // generate index html files
     config.plugins.push(htmlPlugin({

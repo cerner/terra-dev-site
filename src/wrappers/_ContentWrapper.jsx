@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import CodesplitWrapper from './_CodesplitWrapper';
-import ContentLoaded from './_ContentLoaded';
+import ContentLoaded from '../pages/_ContentLoaded';
 import ContentLoading from './_ContentLoading';
 
 const propTypes = {

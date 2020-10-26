@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { ThemeContext } from 'terra-application/lib/theme';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
 import styles from './PropsTable.module.scss';
 
 const cx = classNames.bind(styles);

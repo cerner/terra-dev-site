@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
 
-import { ThemeContext } from 'terra-application/lib/theme';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
 import { menuItemPropType } from '../site/siteConfigPropTypes';
 import CollapsingNavigationMenuItem from './_CollapsingNavigationMenuItem';
 

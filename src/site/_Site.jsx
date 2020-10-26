@@ -1,9 +1,10 @@
 import React from 'react';
 import {
-  Switch, Route, Redirect,
+  BrowserRouter, Switch, Route, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ModalManager from 'terra-application/lib/modal-manager';
+import ApplicationBase from '@cerner/terra-application';
+import ApplicationContainer from '@cerner/terra-application/lib/application-container/ApplicationContainer';
 
 import DevSiteNavigation from '../navigation/_DevSiteNavigation';
 import Raw from '../raw/_Raw';
@@ -16,15 +17,6 @@ import './site.module.scss';
 import getSessionStorage from '../session';
 
 const propTypes = {
-  /**
-   * Render prop for rendering terra-application-base or a variant of it.
-   */
-  applicationBase: PropTypes.func.isRequired,
-
-  /**
-   * Render prop for rendering application navigation or a variant of it.
-   */
-  applicationNavigation: PropTypes.func.isRequired,
 
   /**
    * The site config for the application.
@@ -37,7 +29,7 @@ const propTypes = {
   fetchSearchItems: PropTypes.func,
 };
 
-class Site extends React.Component {
+class SiteOld extends React.Component {
   constructor(props) {
     super(props);
 
@@ -122,6 +114,42 @@ class Site extends React.Component {
     );
   }
 }
+
+const Site = ({ siteConfig }) => {
+  const stuff = {};
+  return (
+    <AppSettingsProvider settingsConfig={siteConfig.settingsConfig}>
+      <AppSettingsContext.Consumer>
+        {({ currentLocale, currentThemeClassName }) => (
+          <ApplicationBase
+            locale={currentLocale}
+            themeName={currentThemeClassName}
+          >
+            <TerraMdxProvider>
+              <ApplicationContainer>
+                <BrowserRouter basename={siteConfig.basename}>
+                  <Switch>
+                    {/* <Route path="/raw">
+                      <Raw
+                        contentConfig={siteConfig.contentConfig}
+                        indexPath={siteConfig.indexPath}
+                      />
+                    </Route> */}
+                    <Route>
+                      <DevSiteNavigation
+                        siteConfig={siteConfig}
+                      />
+                    </Route>
+                  </Switch>
+                </BrowserRouter>
+              </ApplicationContainer>
+            </TerraMdxProvider>
+          </ApplicationBase>
+        )}
+      </AppSettingsContext.Consumer>
+    </AppSettingsProvider>
+  );
+};
 
 Site.propTypes = propTypes;
 

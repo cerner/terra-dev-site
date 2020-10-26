@@ -4,7 +4,7 @@ import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import List, { Item } from 'terra-list';
 import Hyperlink from 'terra-hyperlink';
-import { disclosureManagerShape, withDisclosureManager } from 'terra-application/lib/disclosure-manager';
+import { disclosureManagerShape, withDisclosureManager } from '@cerner/terra-application/lib/disclosure-manager';
 import classNames from 'classnames/bind';
 import styles from './ApplicationSwitcher.module.scss';
 

@@ -4,7 +4,6 @@ const kebabCase = require('lodash.kebabcase');
 const {
   startCase,
   pageTypes,
-  relativePath,
   getNamespace,
   getRoutes,
   parseExtension,
@@ -13,21 +12,26 @@ const {
 /**
 * Creates the basic page config consisting of name of the page, the route to the page and the sort group for the page.
 */
-const pageConfig = (route, namespace) => {
+const pageConfig = (route) => {
   // Grab the group extension if one exists.
   const { name, extension: group } = parseExtension(route);
-  const pagePath = namespace ? `/${kebabCase(namespace)}/${kebabCase(name)}` : `/${kebabCase(name)}`;
+
   return {
-    name: startCase(name),
-    path: pagePath,
+    text: startCase(name),
     group,
   };
 };
 
+const generateUrl = (routes, namespace, primaryPath) => (
+  `${primaryPath}/${kebabCase(namespace)}/${routes.map((route) => kebabCase(route.replace(/\.[^.]+$/, ''))).join('/')}`
+);
+
 /**
 * Recursively generates page configs.
 */
-const recurs = (config, routes, contentPath, ext, namespace) => {
+const recurs = ({
+  config, routes, contentPath, ext, namespace, imports, url,
+}) => {
   // Prefer modifying config over creating new config, this way we blend file paths together in the ui.
   const configCopy = config || pageConfig(routes[0], namespace);
 
@@ -36,14 +40,19 @@ const recurs = (config, routes, contentPath, ext, namespace) => {
 
   // If this is not an end point, recursively gather the child pages.
   if (slicedDir.length > 0) {
-    if (!configCopy.pages) {
-      configCopy.pages = {};
+    if (!configCopy.children) {
+      configCopy.children = {};
     }
 
-    configCopy.pages[slicedDir[0]] = recurs(configCopy.pages[slicedDir[0]], slicedDir, contentPath, ext);
+    configCopy.children[slicedDir[0]] = recurs({
+      config: configCopy.children[slicedDir[0]], routes: slicedDir, contentPath, ext, imports, url,
+    });
   } else {
     // if this is a leaf page, add the content path and type to the config.
     configCopy.content = contentPath;
+    configCopy.path = url;
+    // eslint-disable-next-line no-param-reassign
+    imports[url] = contentPath;
     configCopy.type = ext;
   }
 
@@ -53,31 +62,46 @@ const recurs = (config, routes, contentPath, ext, namespace) => {
 /**
 * Builds out config for a root page.
 */
-const buildPageConfig = (filePaths, resolveExtensions, namespace) => (
+const buildPageConfig = ({
+  filePaths,
+  namespace,
+  imports,
+  primaryNavItemsMap,
+}) => (
   filePaths.reduce((acc, { filePath, entryPoint }) => {
     // Break up the file path
     const parsedPath = path.parse(filePath);
     // Grab the type (doc, test, etc) and the name without the extension.
     const { name, extension: fileType } = parseExtension(parsedPath.name);
 
-    let pages = acc[fileType];
-    if (!pages) {
-      pages = {};
-      acc[fileType] = pages;
+    const referenceNavItem = primaryNavItemsMap[fileType];
+    let primaryNavItem = acc[referenceNavItem.path];
+    if (!primaryNavItem) {
+      primaryNavItem = {
+        text: referenceNavItem.text,
+        path: referenceNavItem.path,
+        children: {},
+      };
+      acc[referenceNavItem.path] = primaryNavItem;
     }
 
     const directory = parsedPath.dir;
     // Drop the period for the extension.
     const ext = parsedPath.ext.slice(1);
-    // For the resolve extensions identified in the webpack config we want to drop the extension to be resolved by webpack.
-    const fileName = (resolveExtensions.includes(ext)) ? parsedPath.name : parsedPath.base;
-    const contentPath = relativePath(path.join(directory, fileName));
-    const routes = getRoutes(directory, fileType, name, entryPoint);
-    const packageNamespace = getNamespace(directory, namespace);
-    // Name space all the generated config by package.
-    const key = `${packageNamespace}:${routes[0]}`;
 
-    pages[key] = recurs(pages[key], routes, contentPath, ext, packageNamespace);
+    const routes = getRoutes(name, entryPoint);
+    const packageNamespace = getNamespace(directory, namespace);
+
+    const key = routes[0];
+    primaryNavItem.children[key] = recurs({
+      config: primaryNavItem.children[key],
+      routes,
+      contentPath: filePath,
+      ext,
+      namespace: packageNamespace,
+      imports,
+      url: generateUrl(routes, namespace, primaryNavItem.path),
+    });
     return acc;
   }, {})
 );
@@ -114,14 +138,54 @@ const sortPage = (a, b) => {
 * Sort the pages objects and convert them into ordered arrays.
 */
 const sortPageConfig = config => (
-  // eslint-disable-next-line compat/compat
-  Object.values(config).sort(sortPage).map((page) => {
-    if (page.pages) {
+  config.sort(sortPage).map((page) => {
+    // eslint-disable-next-line no-param-reassign
+    // delete page.group;
+    if (page.children) {
       // eslint-disable-next-line no-param-reassign
-      page.pages = sortPageConfig(page.pages);
+      page.children = sortPageConfig(Object.values(page.children));
     }
     return page;
   })
+);
+
+const getSearchPatterns = ({
+  generatePagesOptions, navConfig, resolveExtensions, mode,
+}) => {
+  const typesGlob = pageTypes(navConfig).join(',');
+  const typesRegex = pageTypes(navConfig).map((type) => `/${type}`).join('|');
+
+  // remove . from extensions
+  const extensions = resolveExtensions.map((ext) => ext.slice(1));
+
+  // the markdown extension is not optional.
+  const ext = [...extensions, 'md', 'mdx'];
+
+  return generatePagesOptions.searchPatterns.reduce((acc, {
+    root, source, dist, entryPoint,
+  }) => {
+    const rootPath = root.replace(/[\\]/g, '/');
+    let sourceDir = '';
+    if (dist) {
+      sourceDir = (mode !== 'production' && source) ? `${source}/` : `${dist}/`;
+    }
+    acc.push({
+      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+      entryPoint: `${rootPath}/${sourceDir}${entryPoint}(${typesRegex})`,
+    });
+    acc.push({
+      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+      // build out a regex for the entrypoint mask.
+      entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}${entryPoint}(${typesRegex})`,
+    });
+    return acc;
+  }, []);
+};
+
+const executeSearchPatterns = ({ patterns }) => (
+  patterns.reduce((acc, { pattern, entryPoint }) => (
+    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: filePath.replace(new RegExp(entryPoint).exec(filePath)[0], '') })))
+  ), [])
 );
 
 /**
@@ -132,35 +196,13 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
     generatePages: generatePagesOptions, navConfig,
   } = siteConfig;
 
-  // Gather the types to search for.
-  const types = pageTypes(navConfig).join(',');
-
   // remove . from extensions
   const extensions = resolveExtensions.map((ext) => ext.slice(1));
 
-  // the markdown extension is not optional.
-  const ext = [...extensions, 'md', 'mdx'];
-
   // Get the default search patterns for both normal and lerna mono repos.
-  const patterns = generatePagesOptions.searchPatterns.reduce((acc, {
-    root, source, dist, entryPoint,
-  }) => {
-    const rootPath = root.replace(/[\\]/g, '/');
-    let sourceDir = '';
-    if (dist) {
-      sourceDir = (mode !== 'production' && source) ? `${source}/` : `${dist}/`;
-    }
-    acc.push({
-      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${types},}.{${ext.join(',')}}`,
-      entryPoint: `${rootPath}/${sourceDir}${entryPoint}`,
-    });
-    acc.push({
-      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${types},}.{${ext.join(',')}}`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}${entryPoint}`,
-    });
-    return acc;
-  }, []);
+  const patterns = getSearchPatterns({
+    generatePagesOptions, navConfig, resolveExtensions, mode,
+  });
 
   if (verbose) {
     // eslint-disable-next-line no-console
@@ -168,30 +210,40 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   }
 
   // Execute the globs and regex masks, to trim the directories.
-  const filePaths = patterns.reduce((acc, { pattern, entryPoint }) => (
-    acc.concat(glob.sync(pattern, { nodir: true }).map(filePath => ({ filePath, entryPoint: new RegExp(entryPoint).exec(filePath)[0] })))
-  ), []);
+  const filePaths = executeSearchPatterns({ patterns });
 
   if (verbose) {
     // eslint-disable-next-line no-console
     console.log('[terra-dev-site] File Paths', filePaths);
   }
 
-  // Build out the page config from the discovered file paths.
-  const config = buildPageConfig(filePaths, extensions, siteConfig.npmPackage.name);
+  const imports = {};
 
-  // Sort config and convert pages objects into ordered arrays.
-  const sortedConfig = Object.keys(config).reduce((acc, key) => {
-    acc[key] = sortPageConfig(config[key]);
+  const primaryNavItemsMap = navConfig.navigation.links.reduce((acc, link) => {
+    acc[link.pageType] = link;
     return acc;
   }, {});
 
-  if (verbose) {
+  // Build out the page config from the discovered file paths.
+  const config = buildPageConfig({
+    filePaths, namespace: siteConfig.npmPackage.name, imports, primaryNavItemsMap,
+  });
+
+  const sortedConfig = navConfig.navigation.links.reduce((acc, link) => {
+    const conf = config[link.path];
+    if (conf) {
+      conf.children = sortPageConfig(Object.values(conf.children));
+      acc.push(conf);
+    }
+    return acc;
+  }, []);
+
+  if (true) {
     // eslint-disable-next-line no-console
     console.log('[terra-dev-site] Page Config', JSON.stringify(sortedConfig, null, 2));
   }
 
-  return sortedConfig;
+  return { imports, content: sortedConfig };
 };
 
 module.exports = generatePagesConfig;

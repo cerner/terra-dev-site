@@ -1,24 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, matchPath } from 'react-router-dom';
-import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
+import { withRouter, matchPath, useLocation, useHistory } from 'react-router-dom';
+// import { withDisclosureManager, disclosureManagerShape } from '@cerner/terra-application/lib/disclosure-manager';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import IconTile from 'terra-icon/lib/icon/IconTile';
+import { PrimaryNavigationLayout, NavigationItem } from '@cerner/terra-application/lib/layouts';
+import ApplicationPage from '@cerner/terra-application/lib/application-page/ApplicationPage';
 
-import DevSitePage from './_DevSitePage';
-import SettingsPicker from './_SettingsPicker';
-import NotFoundPage from '../static-pages/_NotFoundPage';
+import DevSitePage from '../pages/_DevSitePage';
+
+// import DevSitePage from './_DevSitePage';
+// import SettingsPicker from './_SettingsPicker';
+// import NotFoundPage from '../static-pages/_NotFoundPage';
 import siteConfigPropType from '../site/siteConfigPropTypes';
-import ExtensionWrapper from '../wrappers/_ExtensionWrapper';
-import ApplicationSwitcher from './_ApplicationSwitcher';
+// import ExtensionWrapper from '../wrappers/_ExtensionWrapper';
+// import ApplicationSwitcher from './_ApplicationSwitcher';
+import DevSiteSecondaryNavigation from './_DevSiteSecondaryNavigationLayout';
 
 const Search = React.lazy(() => import('../search/_Search'));
 
 const propTypes = {
-  /**
-   * Render prop for rendering application navigation or a variant of it.
-   */
-  applicationNavigation: PropTypes.func.isRequired,
 
   /**
    * function to return search items
@@ -44,10 +45,6 @@ const propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object,
 
-  /**
-   * Injected by with disclosure manager.
-   */
-  disclosureManager: disclosureManagerShape.isRequired,
 };
 
 const defaultProps = {
@@ -55,7 +52,7 @@ const defaultProps = {
   history: undefined,
 };
 
-class DevSiteNavigation extends React.Component {
+class DevSiteNavigation2 extends React.Component {
   static propExistsAndChanged(nextProp, currentProp) {
     return nextProp !== undefined && nextProp !== currentProp;
   }
@@ -236,7 +233,50 @@ class DevSiteNavigation extends React.Component {
   }
 }
 
+const DevSiteNavigation = ({ siteConfig }) => {
+  const location = useLocation();
+  const history = useHistory();
+
+  const setNavigationState = (key) => {
+    history.push(key);
+  };
+  console.log('location', location);
+
+  const firstDir = () => `/${location.pathname.split('/')[1]}`;
+
+  return (
+    <PrimaryNavigationLayout
+      titleConfig={siteConfig.nameConfig}
+      activeNavigationKey={firstDir()}
+      onSelectNavigationItem={(key) => { setNavigationState(key); }}
+    >
+      {siteConfig.contentConfig.config.map((navItem) => {
+        const renderProps = {};
+        if (navItem.children.length === 1 && !navItem.children[0].children) {
+          renderProps.renderPage = () => (
+            <DevSitePage pageContentConfig={navItem} contentComponent={siteConfig.contentConfig.imports[navItem.children[0].path]} />
+          );
+        } else {
+          renderProps.render = () => (
+            <DevSiteSecondaryNavigation config={navItem.children} imports={siteConfig.contentConfig.imports} />
+          );
+        }
+        // if there is one item and it is not a directory don't show secondary
+
+        return (
+          <NavigationItem
+            key={navItem.path}
+            navigationKey={navItem.path}
+            text={navItem.text}
+            {...renderProps}
+          />
+        );
+      })}
+    </PrimaryNavigationLayout>
+  );
+};
+
 DevSiteNavigation.propTypes = propTypes;
 DevSiteNavigation.defaultProps = defaultProps;
 
-export default withDisclosureManager(withRouter(DevSiteNavigation));
+export default DevSiteNavigation;

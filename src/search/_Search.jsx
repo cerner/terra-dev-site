@@ -4,11 +4,11 @@ import SearchField from 'terra-search-field';
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import InfiniteList, { Item } from 'terra-infinite-list';
-import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manager';
+import { DisclosureManagerContext } from '@cerner/terra-application/lib/disclosure-manager';
 import Fuse from 'fuse.js';
 import StatusView from 'terra-status-view';
 import classNames from 'classnames/bind';
-import { ThemeContext } from 'terra-application/lib/theme';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
 import styles from './search.module.scss';
 
 const cx = classNames.bind(styles);

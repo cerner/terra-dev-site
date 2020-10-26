@@ -4,7 +4,7 @@ import ActionHeader from 'terra-action-header';
 import ActionFooter from 'terra-action-footer';
 import Spacer from 'terra-spacer';
 import Button from 'terra-button';
-import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manager';
+import { DisclosureManagerContext } from '@cerner/terra-application/lib/disclosure-manager';
 import SelectField from 'terra-form-select/lib/SelectField';
 import AppSettingsContext from './_AppSettingsContext';
 
