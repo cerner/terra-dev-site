@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
 
 /* eslint-disable react/forbid-prop-types, react/no-unused-prop-types */
 const propTypes = {
@@ -96,10 +95,6 @@ const propTypes = {
    */
   private: PropTypes.string,
   /**
-   * Internationalization object with translation APIs. Provided by `injectIntl`.
-   */
-  intl: intlShape.isRequired,
-  /**
    * An Example of fancypants markdown in the comment
    * ```jsx
    * <div>
@@ -118,10 +113,10 @@ const defaultProps = {
   optionalArrayOf: ['derp'],
 };
 
-const Example = ({ intl }) => (
+const Example = () => (
   <div>
     <h1>
-      {intl.formatMessage({ id: 'Terra.devSite.themed.help' })}
+      props table example
     </h1>
   </div>
 );
@@ -129,4 +124,4 @@ const Example = ({ intl }) => (
 Example.propTypes = propTypes;
 Example.defaultProps = defaultProps;
 
-export default injectIntl(Example);
+export default Example;

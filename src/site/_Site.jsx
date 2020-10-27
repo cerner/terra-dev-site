@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter, Switch, Route, Redirect,
+  BrowserRouter, Switch, Route, Redirect, useLocation, useRouteMatch,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ApplicationBase from '@cerner/terra-application';
@@ -115,8 +115,26 @@ class SiteOld extends React.Component {
   }
 }
 
+const NavSwitch = ({ siteConfig }) => {
+  const isRaw = useRouteMatch('/raw');
+
+  if (isRaw) {
+    return <Raw siteConfig={siteConfig} />;
+  }
+  return <DevSiteNavigation siteConfig={siteConfig} />;
+};
+
 const Site = ({ siteConfig }) => {
-  const stuff = {};
+  // const location = useLocation();
+  // const isRaw = useRouteMatch('/raw');
+
+  const renderNav = () => {
+    if (isRaw) {
+      return <Raw siteConfig={siteConfig} />;
+    }
+    return <DevSiteNavigation siteConfig={siteConfig} />;
+  };
+
   return (
     <AppSettingsProvider settingsConfig={siteConfig.settingsConfig}>
       <AppSettingsContext.Consumer>
@@ -128,19 +146,7 @@ const Site = ({ siteConfig }) => {
             <TerraMdxProvider>
               <ApplicationContainer>
                 <BrowserRouter basename={siteConfig.basename}>
-                  <Switch>
-                    {/* <Route path="/raw">
-                      <Raw
-                        contentConfig={siteConfig.contentConfig}
-                        indexPath={siteConfig.indexPath}
-                      />
-                    </Route> */}
-                    <Route>
-                      <DevSiteNavigation
-                        siteConfig={siteConfig}
-                      />
-                    </Route>
-                  </Switch>
+                  <NavSwitch siteConfig={siteConfig} />
                 </BrowserRouter>
               </ApplicationContainer>
             </TerraMdxProvider>

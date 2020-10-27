@@ -123,7 +123,6 @@
     "prism-react-renderer": "^1.0.2",
     "prop-types": "^15.5.8",
     "react-docgen": "^5.3.0",
-    "react-intl": "^2.9.0",
     "react-router-dom": "^5.0.0",
     "rehype-slug": "^2.0.3",
     "rehype-urls": "^1.0.0",

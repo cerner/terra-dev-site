@@ -1,5 +1,12 @@
 import placeholderSrc from '<%= placeholderSrc %>';
-import contentConfig from './devSiteContent.template'
+import React from 'react';
+
+const contentImports = {
+  <% Object.entries(contentImports).forEach(([key, value]) => { print(`'${key}': React.lazy(() => import('${value}')),`) }); %>
+}
+
+const navigationConfig = JSON.parse('<%= navigationConfig %>');
+const pageConfig = JSON.parse('<%= pageConfig %>');
 
 export default {
   nameConfig: {
@@ -13,12 +20,13 @@ export default {
     <% defaultDirection && print(`defaultDirection: '${defaultDirection}',`)%>
   },
   // menuItems:,
-  contentConfig,
-  // navigationItems: <%= navigationItems %>,
+  contentImports,
+  navigationConfig,
   indexPath: '<%= indexPath %>',
-  // capabilities: ,
   // extensions: ,
   placeholderSrc,
   // apps: ,
   basename: '<%= basename %>',
+  primaryNavPathToFirstPagePathMap: <%= primaryNavPathToFirstPagePathMap %>,
+  pageConfig,
 };

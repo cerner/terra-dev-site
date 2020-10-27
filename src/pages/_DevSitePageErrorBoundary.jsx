@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ApplicationStatusOverlay from '@cerner/terra-application/lib/application-status-overlay';
 
+import ContentLoadedContainer from './_ContentLoaded';
+
 // import ErrorPage from './_ErrorPage';
 
 const propTypes = {
@@ -33,11 +35,7 @@ class ContentErrorBoundary extends React.Component {
     const { children } = this.props;
     if (this.state.hasError) {
       return (
-        <div
-          id="site"
-          data-terra-dev-site-content
-          // className={cx('dev-site-content')}
-        >
+        <ContentLoadedContainer>
           <ApplicationStatusOverlay
             variant="error"
             message={this.state.error.toString()}
@@ -49,7 +47,7 @@ class ContentErrorBoundary extends React.Component {
               },
             ]}
           />
-        </div>
+        </ContentLoadedContainer>
       );
     }
     return children;

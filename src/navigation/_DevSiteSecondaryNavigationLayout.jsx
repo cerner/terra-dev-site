@@ -5,7 +5,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 
 import DevSitePage from '../pages/_DevSitePage';
 
-const DevSiteSecondaryNavigationLayout = ({config, imports}) => {
+const DevSiteSecondaryNavigationLayout = ({config, contentImports}) => {
   const location = useLocation();
   const history = useHistory();
 
@@ -27,7 +27,7 @@ const DevSiteSecondaryNavigationLayout = ({config, imports}) => {
           navigationKey={navItem.path}
           text={navItem.text}
           renderPage={() => (
-            <DevSitePage pageContentConfig={navItem} contentComponent={imports[navItem.path]} />
+            <DevSitePage pageContentConfig={navItem} contentImports={contentImports} />
           )}
         />
       );

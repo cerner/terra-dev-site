@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, matchPath, useLocation, useHistory } from 'react-router-dom';
+import { matchPath, useLocation, useHistory } from 'react-router-dom';
 // import { withDisclosureManager, disclosureManagerShape } from '@cerner/terra-application/lib/disclosure-manager';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import IconTile from 'terra-icon/lib/icon/IconTile';
@@ -237,6 +237,16 @@ const DevSiteNavigation = ({ siteConfig }) => {
   const location = useLocation();
   const history = useHistory();
 
+  // Redirect hacking this logic might be better added to the site.
+  const pathWithoutTrailingSlash = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname;
+  const primaryNavPath = siteConfig.primaryNavPathToFirstPagePathMap[pathWithoutTrailingSlash];
+
+  if (primaryNavPath) {
+    console.log('replacing ', location.pathname, ' with ', primaryNavPath);
+    history.replace(primaryNavPath);
+  }
+  // end
+
   const setNavigationState = (key) => {
     history.push(key);
   };
@@ -250,15 +260,15 @@ const DevSiteNavigation = ({ siteConfig }) => {
       activeNavigationKey={firstDir()}
       onSelectNavigationItem={(key) => { setNavigationState(key); }}
     >
-      {siteConfig.contentConfig.config.map((navItem) => {
+      {siteConfig.navigationConfig.map((navItem) => {
         const renderProps = {};
-        if (navItem.children.length === 1 && !navItem.children[0].children) {
+        if (navItem.pageConfig) {
           renderProps.renderPage = () => (
-            <DevSitePage pageContentConfig={navItem} contentComponent={siteConfig.contentConfig.imports[navItem.children[0].path]} />
+            <DevSitePage pageContentConfig={navItem.pageConfig} contentImports={siteConfig.contentImports} />
           );
         } else {
           renderProps.render = () => (
-            <DevSiteSecondaryNavigation config={navItem.children} imports={siteConfig.contentConfig.imports} />
+            <DevSiteSecondaryNavigation config={navItem.children} contentImports={siteConfig.contentImports} />
           );
         }
         // if there is one item and it is not a directory don't show secondary

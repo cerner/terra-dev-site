@@ -4,6 +4,8 @@
 const template = require('lodash.template');
 const { getOptions } = require('loader-utils');
 
+const generateNavigationConfig = require('../loaderUtils/generateNavigationConfig');
+
 /**
  * Generate the example with the supplied file.
  * Don't use an arrow function
@@ -11,16 +13,14 @@ const { getOptions } = require('loader-utils');
 const loader = async function loader(siteConfigTemplate) {
   const callback = this.async();
 
-  // console.log('this', this);
+  const { siteConfig, resolveExtensions, basename } = getOptions(this);
 
-  const { siteConfig, basename } = getOptions(this);
-
-  // console.log('options', getOptions(this));
-  // console.log('loaders', this.loaders);
-
-  this.emitFile('stuff.json', 'emittedFileContents');
-
-  // console.log('loader options', options);
+  const {
+    contentImports,
+    navigationConfig,
+    primaryNavPathToFirstPagePathMap,
+    pageConfig,
+  } = generateNavigationConfig(siteConfig, resolveExtensions, this.mode, false);
 
   return callback(null, template(siteConfigTemplate)({
     placeholderSrc: siteConfig.placeholderSrc,
@@ -32,6 +32,10 @@ const loader = async function loader(siteConfigTemplate) {
     defaultDirection: siteConfig.appConfig.defaultDirection,
     indexPath: siteConfig.navConfig.navigation.index,
     basename,
+    contentImports,
+    navigationConfig: JSON.stringify(navigationConfig),
+    primaryNavPathToFirstPagePathMap: JSON.stringify(primaryNavPathToFirstPagePathMap),
+    pageConfig: JSON.stringify(pageConfig),
   }));
 };
 
