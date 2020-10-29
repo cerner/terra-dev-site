@@ -14,7 +14,7 @@ const startCase = (string) => {
 /**
  * Gathers the complete set of requested page types.
  */
-const pageTypes = navConfig => (navConfig.navigation.links.reduce((acc, link) => acc.concat([link.pageType]), []));
+const pageTypes = navigation => (navigation.primaryNavigationItems.reduce((acc, primaryNavigationItem) => acc.concat([primaryNavigationItem.pageType]), []));
 
 /**
  * Gets the path relative to the dev-site-config directory.

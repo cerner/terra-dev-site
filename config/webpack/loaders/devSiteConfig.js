@@ -30,7 +30,7 @@ const loader = async function loader(siteConfigTemplate) {
     defaultTheme: siteConfig.appConfig.defaultTheme,
     defaultLocale: siteConfig.appConfig.defaultLocale,
     defaultDirection: siteConfig.appConfig.defaultDirection,
-    indexPath: siteConfig.navConfig.navigation.index,
+    indexPath: siteConfig.navigation.index,
     basename,
     contentImports,
     navigationConfig: JSON.stringify(navigationConfig),

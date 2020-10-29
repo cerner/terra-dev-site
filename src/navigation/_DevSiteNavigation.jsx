@@ -1,20 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { matchPath, useLocation, useHistory } from 'react-router-dom';
-// import { withDisclosureManager, disclosureManagerShape } from '@cerner/terra-application/lib/disclosure-manager';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import IconTile from 'terra-icon/lib/icon/IconTile';
 import { PrimaryNavigationLayout, NavigationItem } from '@cerner/terra-application/lib/layouts';
-import ApplicationPage from '@cerner/terra-application/lib/application-page/ApplicationPage';
 
 import DevSitePage from '../pages/_DevSitePage';
+import NotFoundPage from '../pages/_NotFoundPage';
 
-// import DevSitePage from './_DevSitePage';
-// import SettingsPicker from './_SettingsPicker';
-// import NotFoundPage from '../static-pages/_NotFoundPage';
 import siteConfigPropType from '../site/siteConfigPropTypes';
-// import ExtensionWrapper from '../wrappers/_ExtensionWrapper';
-// import ApplicationSwitcher from './_ApplicationSwitcher';
 import DevSiteSecondaryNavigation from './_DevSiteSecondaryNavigationLayout';
 
 const Search = React.lazy(() => import('../search/_Search'));
@@ -238,13 +232,13 @@ const DevSiteNavigation = ({ siteConfig }) => {
   const history = useHistory();
 
   // Redirect hacking this logic might be better added to the site.
-  const pathWithoutTrailingSlash = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname;
-  const primaryNavPath = siteConfig.primaryNavPathToFirstPagePathMap[pathWithoutTrailingSlash];
+  // const pathWithoutTrailingSlash = location.pathname.length !== 1 && location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname;
+  // const primaryNavPath = siteConfig.primaryNavPathToFirstPagePathMap[pathWithoutTrailingSlash];
 
-  if (primaryNavPath) {
-    console.log('replacing ', location.pathname, ' with ', primaryNavPath);
-    history.replace(primaryNavPath);
-  }
+  // if (primaryNavPath) {
+  //   console.log('replacing ', location.pathname, ' with ', primaryNavPath);
+  //   history.replace(primaryNavPath);
+  // }
   // end
 
   const setNavigationState = (key) => {
@@ -259,6 +253,8 @@ const DevSiteNavigation = ({ siteConfig }) => {
       titleConfig={siteConfig.nameConfig}
       activeNavigationKey={firstDir()}
       onSelectNavigationItem={(key) => { setNavigationState(key); }}
+      // renderNavigationFallback={() => <NotFoundPage />}
+      renderNavigationFallback={() => <p>Nope</p>}
     >
       {siteConfig.navigationConfig.map((navItem) => {
         const renderProps = {};

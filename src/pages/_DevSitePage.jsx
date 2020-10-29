@@ -90,7 +90,7 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
             <LoadingPage />
           )}
           >
-            <ContentLoadedContainer className={cx(...(pageContentConfig.type === 'md' || pageContentConfig.type === 'mdx' ? ['markdown'] : []))}>
+            <ContentLoadedContainer type={pageContentConfig.type}>
               <ContentComponent />
             </ContentLoadedContainer>
           </Suspense>

@@ -82,7 +82,7 @@ const buildPageConfig = ({
 }) => (
   filePaths.reduce((acc, { filePath, entryPoint }) => {
     // Break up the file path
-    const parsedPath = path.parse(filePath);
+    const parsedPath = path.parse(entryPoint);
     // Grab the type (doc, test, etc) and the name without the extension.
     const { name, extension: fileType } = parseExtension(parsedPath.name);
 
@@ -123,8 +123,20 @@ const buildPageConfig = ({
 * Simple alpha sort. Copied from MDN, if I'm (Matt) being honest.
 */
 const alphaSort = (a, b) => {
-  const nameA = (a || '').toUpperCase(); // ignore upper and lowercase
-  const nameB = (b || '').toUpperCase(); // ignore upper and lowercase
+  if (a && !b) {
+    return 1;
+  }
+
+  if (!a && b) {
+    return -1;
+  }
+
+  if (!a && !b) {
+    return 0;
+  }
+
+  const nameA = a.toUpperCase(); // ignore upper and lowercase
+  const nameB = b.toUpperCase(); // ignore upper and lowercase
   if (nameA < nameB) {
     return -1;
   }
@@ -142,7 +154,7 @@ const alphaSort = (a, b) => {
 const sortPage = (a, b) => {
   let result = alphaSort(a.group, b.group);
   if (result === 0) {
-    result = alphaSort(a.name, b.name);
+    result = alphaSort(a.text, b.text);
   }
   return result;
 };
@@ -163,10 +175,10 @@ const sortPageConfig = config => (
 );
 
 const getSearchPatterns = ({
-  generatePagesOptions, navConfig, resolveExtensions, mode,
+  generatePagesOptions, navigation, resolveExtensions, mode,
 }) => {
-  const typesGlob = pageTypes(navConfig).join(',');
-  const typesRegex = pageTypes(navConfig).map((type) => `/${type}`).join('|');
+  const typesGlob = pageTypes(navigation).join(',');
+  const typesRegex = pageTypes(navigation).map((type) => `/${type}`).join('|');
 
   // remove . from extensions
   const extensions = resolveExtensions.map((ext) => ext.slice(1));
@@ -213,12 +225,12 @@ const findFirstPagePath = (navItem) => {
 */
 const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   const {
-    generatePages: generatePagesOptions, navConfig,
+    generatePages: generatePagesOptions, navigation,
   } = siteConfig;
 
   // Get the default search patterns for both normal and lerna mono repos.
   const patterns = getSearchPatterns({
-    generatePagesOptions, navConfig, resolveExtensions, mode,
+    generatePagesOptions, navigation, resolveExtensions, mode,
   });
 
   if (verbose) {
@@ -229,7 +241,13 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   // Execute the globs and regex masks, to trim the directories.
   const filePaths = executeSearchPatterns({ patterns });
 
-  if (verbose) {
+  // Inject the home page readme.
+  filePaths.push({
+    filePath: siteConfig.readMeContent,
+    entryPoint: '/home.home.md',
+  });
+
+  if (true) {
     // eslint-disable-next-line no-console
     console.log('[terra-dev-site] File Paths', filePaths);
   }
@@ -237,8 +255,8 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   const contentImports = {};
   const pageConfig = {};
 
-  const primaryNavItemsMap = navConfig.navigation.links.reduce((acc, link) => {
-    acc[link.pageType] = link;
+  const primaryNavItemsMap = navigation.primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
+    acc[primaryNavigationItem.pageType] = primaryNavigationItem;
     return acc;
   }, {});
 
@@ -249,8 +267,8 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
 
   const primaryNavPathToFirstPagePathMap = {};
 
-  const sortedConfig = navConfig.navigation.links.reduce((acc, link) => {
-    const navItem = config[link.path];
+  const sortedConfig = navigation.primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
+    const navItem = config[primaryNavigationItem.path];
     if (navItem) {
       navItem.children = sortPageConfig(Object.values(navItem.children));
 
@@ -266,11 +284,17 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
     return acc;
   }, []);
 
-  console.log('Page Config', pageConfig);
-
   if (verbose) {
     // eslint-disable-next-line no-console
     console.log('[terra-dev-site] Page Config', JSON.stringify(sortedConfig, null, 2));
+  }
+
+  const { index } = navigation;
+  if (index) {
+    const fullIndexPath = primaryNavPathToFirstPagePathMap[index];
+    if (fullIndexPath) {
+      primaryNavPathToFirstPagePathMap['/'] = fullIndexPath;
+    }
   }
 
   return {

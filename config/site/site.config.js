@@ -6,38 +6,30 @@ const npmPackage = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.
 
 const siteConfig = {
   /* The navigation configuration. */
-  navConfig: {
-    navigation: {
-      /* The first page to route to for the site. */
-      index: '/home',
-      /** List of top level nav items.
-       *   Link config options:
-       *      path: Path to the link.
-       *      text: The text to display on the navigation link.
-       *      pageType: The page extension that should be displayed under this link.
-       *      capabilities: an object describing the capabilities of all pages listed under the specified path.
-       *          devTools: display development tools to allow switching between locales and themes.
-       */
-      links: [{
-        path: '/home',
-        text: 'Home',
-        pageType: 'home',
-      }, {
-        path: '/components',
-        text: 'Components',
-        pageType: 'doc',
-        capabilities: {
-          devTools: true,
-        },
-      }, {
-        path: '/tests',
-        text: 'Tests',
-        pageType: 'test',
-        capabilities: {
-          devTools: true,
-        },
-      }],
-    },
+  navigation: {
+    /* The first page to route to for the site. */
+    index: '/home',
+    /** List of top level nav items.
+     *   Link config options:
+     *      path: Path to the link.
+     *      text: The text to display on the navigation link.
+     *      pageType: The page extension that should be displayed under this link.
+     *      capabilities: an object describing the capabilities of all pages listed under the specified path.
+     *          devTools: display development tools to allow switching between locales and themes.
+     */
+    primaryNavigationItems: [{
+      path: '/home',
+      text: 'Home',
+      pageType: 'home',
+    }, {
+      path: '/components',
+      text: 'Components',
+      pageType: 'doc',
+    }, {
+      path: '/tests',
+      text: 'Tests',
+      pageType: 'test',
+    }],
   },
 
   /** These options are used to find the pages to serve via terra-dev-site.

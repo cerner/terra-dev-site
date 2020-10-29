@@ -38,6 +38,7 @@ const DevSiteSecondaryNavigationLayout = ({config, contentImports}) => {
     <SecondaryNavigationLayout
       activeNavigationKey={location.pathname}
       onSelectNavigationItem={(key) => history.push(key)}
+      renderNavigationFallback={() => <p>Nope</p>}
     >
       {retrieveNavItems(config)}
     </SecondaryNavigationLayout>

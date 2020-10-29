@@ -3,39 +3,37 @@ const fs = require('fs');
 const html = fs.readFileSync(require.resolve('./head.html'), 'utf8');
 
 const siteConfig = {
-  navConfig: {
-    navigation: {
-      index: '/home',
-      links: [{
-        path: '/home',
-        text: 'Home',
-        pageType: 'home',
-      }, {
-        path: '/dev_tools',
-        text: 'Developer Tools',
-        pageType: 'tool',
-      }, {
-        path: '/single-page-test',
-        text: 'Single Page Test',
-        pageType: 'spt',
-      }, {
-        path: '/secondary-nav-test',
-        text: 'Secondary Nav Test',
-        pageType: 'snt',
-      }, {
-        path: '/folder-first',
-        text: 'Folder First Test',
-        pageType: 'ff',
-      }, {
-        path: '/empty',
-        text: 'Empty',
-        pageType: 'empty',
-      }, {
-        path: '/test',
-        text: 'Test',
-        pageType: 'test',
-      }],
-    },
+  navigation: {
+    index: '/home',
+    primaryNavigationItems: [{
+      path: '/home',
+      text: 'Home',
+      pageType: 'home',
+    }, {
+      path: '/dev_tools',
+      text: 'Developer Tools',
+      pageType: 'tool',
+    }, {
+      path: '/single-page-test',
+      text: 'Single Page Test',
+      pageType: 'spt',
+    }, {
+      path: '/secondary-nav-test',
+      text: 'Secondary Nav Test',
+      pageType: 'snt',
+    }, {
+      path: '/folder-first',
+      text: 'Folder First Test',
+      pageType: 'ff',
+    }, {
+      path: '/empty',
+      text: 'Empty',
+      pageType: 'empty',
+    }, {
+      path: '/test',
+      text: 'Test',
+      pageType: 'test',
+    }],
   },
 
   appConfig: {

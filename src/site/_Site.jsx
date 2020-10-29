@@ -12,6 +12,7 @@ import AppSettingsContext from '../navigation/_AppSettingsContext';
 import AppSettingsProvider from '../navigation/_AppSettingsProvider';
 import siteConfigPropType from './siteConfigPropTypes';
 import TerraMdxProvider from '../mdx/_TerraMdxProvider';
+import Router from './_Router';
 
 import './site.module.scss';
 import getSessionStorage from '../session';
@@ -128,29 +129,24 @@ const Site = ({ siteConfig }) => {
   // const location = useLocation();
   // const isRaw = useRouteMatch('/raw');
 
-  const renderNav = () => {
-    if (isRaw) {
-      return <Raw siteConfig={siteConfig} />;
-    }
-    return <DevSiteNavigation siteConfig={siteConfig} />;
-  };
-
   return (
     <AppSettingsProvider settingsConfig={siteConfig.settingsConfig}>
       <AppSettingsContext.Consumer>
         {({ currentLocale, currentThemeClassName }) => (
-          <ApplicationBase
-            locale={currentLocale}
-            themeName={currentThemeClassName}
-          >
-            <TerraMdxProvider>
-              <ApplicationContainer>
-                <BrowserRouter basename={siteConfig.basename}>
-                  <NavSwitch siteConfig={siteConfig} />
-                </BrowserRouter>
-              </ApplicationContainer>
-            </TerraMdxProvider>
-          </ApplicationBase>
+          <BrowserRouter basename={siteConfig.basename}>
+            <Router siteConfig={siteConfig}>
+              <ApplicationBase
+                locale={currentLocale}
+                themeName={currentThemeClassName}
+              >
+                <TerraMdxProvider>
+                  <ApplicationContainer>
+                    <NavSwitch siteConfig={siteConfig} />
+                  </ApplicationContainer>
+                </TerraMdxProvider>
+              </ApplicationBase>
+            </Router>
+          </BrowserRouter>
         )}
       </AppSettingsContext.Consumer>
     </AppSettingsProvider>
