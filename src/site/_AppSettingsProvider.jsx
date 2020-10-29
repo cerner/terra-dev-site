@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import AppSettingsContext from './_AppSettingsContext';
-import { settingsConfigPropType } from '../site/siteConfigPropTypes';
+import { settingsConfigPropType } from './siteConfigPropTypes';
 
 const propTypes = {
   children: PropTypes.element.isRequired,

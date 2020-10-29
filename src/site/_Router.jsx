@@ -12,12 +12,7 @@ const propTypes = {
   /**
    * The site config for the application.
    */
-  siteConfig: siteConfigPropType.isRequired,
-
-  /**
-   * function to return search items
-   */
-  fetchSearchItems: PropTypes.func,
+  routesMap: siteConfigPropType.isRequired,
 };
 
 //   renderApplicationBaseChildren() {
@@ -37,7 +32,7 @@ const propTypes = {
 //   }
 // }
 
-const Router = ({ siteConfig, children }) => {
+const Router = ({ routesMap, children }) => {
   const isRoot = useRouteMatch('/');
   const location = useLocation();
   const history = useHistory();
@@ -50,7 +45,7 @@ const Router = ({ siteConfig, children }) => {
 
   // Redirect to exact path from
   const pathWithoutTrailingSlash = location.pathname.length !== 1 && location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname;
-  const primaryNavPath = siteConfig.primaryNavPathToFirstPagePathMap[pathWithoutTrailingSlash];
+  const primaryNavPath = routesMap[pathWithoutTrailingSlash];
 
   if (primaryNavPath) {
     console.log('replacing ', location.pathname, ' with ', primaryNavPath);

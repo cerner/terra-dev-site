@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import ApplicationPage from '@cerner/terra-application/lib/application-page/ApplicationPage';
+import ApplicationPage from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 import classNames from 'classnames/bind';
 import IconTreemap from 'terra-icon/lib/icon/IconTreemap';
@@ -11,7 +11,7 @@ import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import PageErrorBoundary from './_DevSitePageErrorBoundary';
 import LoadingPage from '../static-pages/_LoadingPage';
 import ContentLoadedContainer from './_ContentLoaded';
-import AppSettingsContext from '../navigation/_AppSettingsContext';
+import AppSettingsContext from '../site/_AppSettingsContext';
 import ContentSettingsMenu from './_ContentSettingsMenu';
 import styles from './DevSitePage.module.scss';
 

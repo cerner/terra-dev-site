@@ -9,7 +9,7 @@ const navigationConfig = JSON.parse('<%= navigationConfig %>');
 const pageConfig = JSON.parse('<%= pageConfig %>');
 
 export default {
-  nameConfig: {
+  titleConfig: {
     title: '<%= title %>',
     <% headline && print(`headline: '${headline}',`)%>
     <% subline && print(`subline: '${subline}',`)%>
@@ -19,14 +19,12 @@ export default {
     <% defaultLocale && print(`defaultLocale: '${defaultLocale}',`)%>
     <% defaultDirection && print(`defaultDirection: '${defaultDirection}',`)%>
   },
-  // menuItems:,
   contentImports,
   navigationConfig,
   indexPath: '<%= indexPath %>',
   // extensions: ,
-  placeholderSrc,
   // apps: ,
   basename: '<%= basename %>',
-  primaryNavPathToFirstPagePathMap: <%= primaryNavPathToFirstPagePathMap %>,
+  routesMap: <%= routesMap %>,
   pageConfig,
 };

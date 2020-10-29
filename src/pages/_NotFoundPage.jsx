@@ -1,5 +1,5 @@
 import React from 'react';
-import ApplicationPage from '@cerner/terra-application/lib/application-page/ApplicationPage';
+import ApplicationPage from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 import {
   useHistory,

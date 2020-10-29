@@ -247,7 +247,7 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
     entryPoint: '/home.home.md',
   });
 
-  if (true) {
+  if (verbose) {
     // eslint-disable-next-line no-console
     console.log('[terra-dev-site] File Paths', filePaths);
   }
@@ -265,14 +265,14 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
     filePaths, namespace: siteConfig.npmPackage.name, contentImports, primaryNavItemsMap, pageConfig,
   });
 
-  const primaryNavPathToFirstPagePathMap = {};
+  const routesMap = {};
 
   const sortedConfig = navigation.primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
     const navItem = config[primaryNavigationItem.path];
     if (navItem) {
       navItem.children = sortPageConfig(Object.values(navItem.children));
 
-      primaryNavPathToFirstPagePathMap[navItem.path] = findFirstPagePath(navItem);
+      routesMap[navItem.path] = findFirstPagePath(navItem);
 
       if (navItem.children.length === 1 && !navItem.children[0].children) {
         [navItem.pageConfig] = navItem.children;
@@ -291,16 +291,16 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
 
   const { index } = navigation;
   if (index) {
-    const fullIndexPath = primaryNavPathToFirstPagePathMap[index];
+    const fullIndexPath = routesMap[index];
     if (fullIndexPath) {
-      primaryNavPathToFirstPagePathMap['/'] = fullIndexPath;
+      routesMap['/'] = fullIndexPath;
     }
   }
 
   return {
     contentImports,
     navigationConfig: sortedConfig,
-    primaryNavPathToFirstPagePathMap,
+    routesMap,
     pageConfig,
   };
 };
