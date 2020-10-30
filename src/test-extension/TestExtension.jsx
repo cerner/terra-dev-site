@@ -1,25 +1,15 @@
 import React from 'react';
-import ContentContainer from 'terra-content-container';
-import ActionHeader from 'terra-action-header';
-import { DisclosureManagerContext } from '@cerner/terra-application/lib/disclosure-manager';
-import StatusView from 'terra-status-view';
+import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
+import ApplicationStatusOverlay from '@cerner/terra-application/lib/application-status-overlay';
 
-const TestExtension = () => {
-  const disclosureManager = React.useContext(DisclosureManagerContext);
-  return (
-    <ContentContainer
-      header={(
-        <ActionHeader
-          title="Test Extension"
-          onBack={disclosureManager.goBack}
-          onClose={disclosureManager.closeDisclosure}
-        />
-      )}
-      fill
-    >
-      <StatusView variant="no-data" />
-    </ContentContainer>
-  );
-};
+const TestExtension = ({onRequestClose}) => (
+  <ApplicationModal
+    onRequestClose={onRequestClose}
+    title="Test Extension"
+  >
+    <p>nope</p>
+    {/* <ApplicationStatusOverlay variant="no-data" /> */}
+  </ApplicationModal>
+);
 
 export default TestExtension;

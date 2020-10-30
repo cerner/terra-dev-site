@@ -4,10 +4,13 @@ import { useLocation, useHistory } from 'react-router-dom';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import IconTile from 'terra-icon/lib/icon/IconTile';
 import { PrimaryNavigationLayout, NavigationItem } from '@cerner/terra-application/lib/layouts';
+import { PageContainer } from '@cerner/terra-application/lib/page';
 
 import DevSitePage from '../pages/_DevSitePage';
 import NotFoundPage from '../pages/_NotFoundPage';
 import SettingsModal from '../modals/_SettingsModal';
+import SearchModal from '../modals/_SearchModal';
+import ApplicationSwitcherModal from '../modals/_ApplicataionSwitcherModal';
 
 import siteConfigPropType from '../site/siteConfigPropTypes';
 import DevSiteSecondaryNavigation from './_DevSiteSecondaryNavigationLayout';
@@ -48,15 +51,54 @@ const defaultProps = {
 const DevSiteNavigation = ({ siteConfig }) => {
   const location = useLocation();
   const history = useHistory();
-  const [showSettingsMenu, setShowSettingsMenu] = React.useState(false);
+  const [showSettingsModal, setShowSettingsModal] = React.useState(false);
+  const [showExtensionModal, setShowExtensionModal] = React.useState();
+  const [showUtilityModal, setShowUtilityModal] = React.useState();
 
   const setNavigationState = (key) => {
     history.push(key);
   };
-  console.log('location', location);
 
   const handleSettingsSelection = () => {
-    setShowSettingsMenu(true);
+    setShowSettingsModal(true);
+  };
+
+  const handleExtensionSelection = (key, metaData) => {
+    setShowExtensionModal(metaData);
+  };
+
+  const handleUtilitySelection = (key, metaData) => {
+    setShowUtilityModal(metaData);
+  };
+
+  const getExtensionItems = () => {
+    const extensionArray = (siteConfig.extensions || []).map((ext) => ({
+      icon: <ext.icon />,
+      key: ext.key,
+      text: ext.text,
+      metaData: <ext.modal onRequestClose={() => { setShowExtensionModal(); }} />,
+    }));
+
+    extensionArray.unshift({
+      icon: <IconSearch />,
+      key: 'terra-dev-site.search',
+      text: 'Search',
+      metaData: <SearchModal siteConfig={siteConfig} onRequestClose={() => { setShowExtensionModal(); }} />,
+    });
+    return extensionArray;
+  };
+
+  const getUtilityItems = (appsConfig) => {
+    const utilityItems = [];
+    // if (appsConfig.length > 0) {
+      utilityItems.push({
+        icon: <IconTile />,
+        key: 'terra-dev-site.application-switcher',
+        text: 'Application Switcher',
+        metaData: <ApplicationSwitcherModal onRequestClose={() => { setUtilityModal(); }} />,
+      });
+    // }
+    return utilityItems;
   };
 
   const firstDir = () => `/${location.pathname.split('/')[1]}`;
@@ -68,9 +110,15 @@ const DevSiteNavigation = ({ siteConfig }) => {
         activeNavigationKey={firstDir()}
         onSelectNavigationItem={(key) => { setNavigationState(key); }}
         onSelectSettings={handleSettingsSelection}
-        // utilityItems: DevSiteNavigation.getUtilityItems(apps),
-        // renderNavigationFallback={() => <NotFoundPage />}
-        renderNavigationFallback={() => <p>Nope</p>}
+        onSelectExtensionItem={handleExtensionSelection}
+        extensionItems={getExtensionItems()}
+        utilityItems={getUtilityItems()}
+        onSelectUtilityItem={handleUtilitySelection}
+        renderNavigationFallback={() => (
+          <PageContainer isMain>
+            <NotFoundPage />
+          </PageContainer>
+        )}
       >
         {siteConfig.navigationConfig.map((navItem) => {
           const renderProps = {};
@@ -93,7 +141,9 @@ const DevSiteNavigation = ({ siteConfig }) => {
           );
         })}
       </PrimaryNavigationLayout>
-      {showSettingsMenu && <SettingsModal onRequestClose={() => { setShowSettingsMenu(false); }} />}
+      {showSettingsModal && <SettingsModal onRequestClose={() => { setShowSettingsModal(false); }} />}
+      {showExtensionModal}
+      {showUtilityModal}
     </>
   );
 };

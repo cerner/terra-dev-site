@@ -60,9 +60,6 @@ const siteConfig = {
   /* The list of side effect js files. */
   sideEffectImports: [],
 
-  /* Path to the image to display as page placeholder when a component does not render. */
-  placeholderSrc: path.join(__dirname, '..', '..', 'terra.png'),
-
   /* The README content to display on the home page. Set to undefined to opt out. */
   readMeContent: path.resolve(process.cwd(), 'README.md'),
 
@@ -92,8 +89,7 @@ const siteConfig = {
      *     iconPath: 'terra-icon/lib/icon/IconSend',
      *     key: 'terra-dev-site.search',
      *     text: 'text',
-     *     componentPath: '../path/to/component',
-     *     size: 'small',
+     *     modal: '<package name>/path/to/component',
      *   },
      * ],
      */

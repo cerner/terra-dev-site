@@ -12,7 +12,7 @@ const DevSiteContentPage = () => {
   const history = useHistory();
   return (
     <ApplicationPage
-      title="Not Found'"
+      title="Not Found"
     >
       { isActive
         && (

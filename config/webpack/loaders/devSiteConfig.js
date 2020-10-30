@@ -1,10 +1,21 @@
-// const path = require('path');
-// const startCase = require('lodash.startcase');
-// const findCssFileName = require('../loaderUtils/determineCssFileName');
 const template = require('lodash.template');
 const { getOptions } = require('loader-utils');
 
 const generateNavigationConfig = require('../loaderUtils/generateNavigationConfig');
+
+const imports = {};
+let index = 0;
+
+const addImport = (path) => {
+  let ident = imports[path];
+  if (ident) {
+    return ident;
+  }
+  ident = `import${index}`;
+  index += 1;
+  imports[path] = ident;
+  return ident;
+};
 
 /**
  * Generate the example with the supplied file.
@@ -13,17 +24,30 @@ const generateNavigationConfig = require('../loaderUtils/generateNavigationConfi
 const loader = async function loader(siteConfigTemplate) {
   const callback = this.async();
 
-  const { siteConfig, resolveExtensions, basename } = getOptions(this);
+  const {
+    siteConfig,
+    resolveExtensions,
+    basename,
+    apps,
+  } = getOptions(this);
+
+  console.log('apps', JSON.stringify(apps));
+
+  const extensions = (siteConfig.appConfig.extensions || []).map((ext) => ({
+    key: ext.key,
+    text: ext.text,
+    icon: addImport(ext.iconPath),
+    modal: addImport(ext.modalPath),
+  }));
 
   const {
     contentImports,
     navigationConfig,
-    primaryNavPathToFirstPagePathMap,
+    routesMap,
     pageConfig,
   } = generateNavigationConfig(siteConfig, resolveExtensions, this.mode, false);
 
   return callback(null, template(siteConfigTemplate)({
-    placeholderSrc: siteConfig.placeholderSrc,
     title: siteConfig.appConfig.title,
     headline: siteConfig.appConfig.headline,
     subline: siteConfig.appConfig.subline,
@@ -34,8 +58,11 @@ const loader = async function loader(siteConfigTemplate) {
     basename,
     contentImports,
     navigationConfig: JSON.stringify(navigationConfig),
-    primaryNavPathToFirstPagePathMap: JSON.stringify(primaryNavPathToFirstPagePathMap),
+    routesMap: JSON.stringify(routesMap),
     pageConfig: JSON.stringify(pageConfig),
+    extensions,
+    imports,
+    apps: JSON.stringify(apps),
   }));
 };
 

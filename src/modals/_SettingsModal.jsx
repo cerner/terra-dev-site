@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'terra-button';
+import ActionFooter from 'terra-action-footer';
 import NativeSelectField from 'terra-form-select/lib/native-select/NativeSelectField';
 import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
 import classNamesBind from 'classnames/bind';
@@ -21,6 +22,36 @@ const SettingsModal = ({onRequestClose}) => {
     <ApplicationModal
       title="Settings"
       onRequestClose={onRequestClose}
+      footer={(
+        <ActionFooter
+          end={(
+            <>
+              <Button
+                text="Submit"
+                id="submit"
+                variant={Button.Opts.Variants.EMPHASIS}
+                className={cx('button')}
+                onClick={() => {
+                  appSettings.onUpdate({
+                    locale,
+                    theme,
+                    direction,
+                  });
+                  onRequestClose();
+                }}
+              />
+              <Button
+                text="Cancel"
+                id="cancel"
+                className={cx('button')}
+                onClick={() => {
+                  onRequestClose();
+                }}
+              />
+            </>
+          )}
+        />
+      )}
     >
       <div className={cx('container')}>
         {locales.length > 1 ? (
@@ -68,30 +99,6 @@ const SettingsModal = ({onRequestClose}) => {
             options={directions.map(value => ({ value, display: value }))}
           />
         ) : undefined}
-        <div className={cx('button-container')}>
-          <Button
-            text="Submit"
-            id="submit"
-            variant={Button.Opts.Variants.EMPHASIS}
-            className={cx('button')}
-            onClick={() => {
-              appSettings.onUpdate({
-                locale,
-                theme,
-                direction,
-              });
-              onRequestClose();
-            }}
-          />
-          <Button
-            text="Cancel"
-            id="cancel"
-            className={cx('button')}
-            onClick={() => {
-              onRequestClose();
-            }}
-          />
-        </div>
       </div>
     </ApplicationModal>
   );

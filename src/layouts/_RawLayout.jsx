@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { matchPath, useLocation } from 'react-router-dom';
-import classNames from 'classnames/bind';
+import { useLocation } from 'react-router-dom';
 import { HeadlessLayout } from '@cerner/terra-application/lib/layouts';
 import { PromptRegistrationContext } from '@cerner/terra-application/lib/navigation-prompt';
-import NotFoundPage from '../static-pages/_NotFoundPage';
+import NotFoundPage from '../pages/_NotFoundPage';
 import DevSitePage from '../pages/_DevSitePage';
 
 const propTypes = {
@@ -37,15 +36,19 @@ const promptProviderValue = {
 const Raw = ({ siteConfig }) => {
   const location = useLocation();
   const nonRawPath = location.pathname.substring(4);
+  const pageContentConfig = siteConfig.pageConfig[nonRawPath];
 
   return (
-    <HeadlessLayout
-      renderPage={() => (
-        <PromptRegistrationContext.Provider value={promptProviderValue}>
-          <DevSitePage pageContentConfig={siteConfig.pageConfig[nonRawPath]} contentImports={siteConfig.contentImports} />
-        </PromptRegistrationContext.Provider>
-      )}
-    />
+    <PromptRegistrationContext.Provider value={promptProviderValue}>
+      <HeadlessLayout
+        renderPage={() => {
+          if (!pageContentConfig) {
+            return <NotFoundPage />;
+          }
+          return <DevSitePage pageContentConfig={siteConfig.pageConfig[nonRawPath]} contentImports={siteConfig.contentImports} />;
+        }}
+      />
+    </PromptRegistrationContext.Provider>
   );
 };
 

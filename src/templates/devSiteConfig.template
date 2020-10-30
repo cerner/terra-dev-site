@@ -1,5 +1,5 @@
-import placeholderSrc from '<%= placeholderSrc %>';
 import React from 'react';
+<% Object.entries(imports).forEach(([key, value]) => { print(`import ${value} from '${key}';`) }); %>
 
 const contentImports = {
   <% Object.entries(contentImports).forEach(([key, value]) => { print(`'${key}': React.lazy(() => import('${value}')),`) }); %>
@@ -22,8 +22,10 @@ export default {
   contentImports,
   navigationConfig,
   indexPath: '<%= indexPath %>',
-  // extensions: ,
-  // apps: ,
+  extensions: [
+    <% extensions.forEach(ext => print(`{ key: '${ext.key}', text: '${ext.text}', icon: ${ext.icon}, modal: ${ext.modal} },`)); %>
+  ],
+  apps: <%= apps %>,
   basename: '<%= basename %>',
   routesMap: <%= routesMap %>,
   pageConfig,
