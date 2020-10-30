@@ -100,12 +100,14 @@ const getConfig = ({
       siteConfig, prefix, basename, filename, entry, indexPath,
     } = site;
 
+    console.log('site', site.configFileName);
+
     // Add the entry to options, entry should already be valued.
     config.entry[entry] = indexPath;
 
     config.rules.push(
       {
-        test: /devSiteConfig.template$/,
+        resourceQuery: new RegExp(site.configFileName),
         use: [
           babelLoader,
           {
@@ -114,7 +116,7 @@ const getConfig = ({
               siteConfig,
               mode,
               prefix,
-              apps,
+              apps: apps.filter(app => app.path !== prefix),
               basename,
               resolveExtensions,
             },

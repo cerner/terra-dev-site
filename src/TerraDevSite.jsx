@@ -3,16 +3,11 @@ import ReactDOM from 'react-dom';
 
 import Site from './site/_Site';
 
-import devSiteConfig from './templates/devSiteConfig.template';
+import devSiteConfig from './templates/terra.dev-site-config-template?terra-dev-site.config.js';
 
 import './site/site.module.scss';
-// import siteConfig from '../config/site/site.config';
 
-// console.log('Placeholder', placeholder);
 console.log('devSiteConfig', devSiteConfig);
-
-// eslint-disable-next-line import/no-unresolved, import/extensions
-const fetchSearchItems = () => import(/* webpackPrefetch: true, webpackChunkName: "build/searchItems" */ 'build/searchItems').then(({ default: items }) => items);
 
 // const TerraDevSite = () => (
 //   <Site

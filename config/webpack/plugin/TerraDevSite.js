@@ -2,14 +2,14 @@ const path = require('path');
 const { DefinePlugin } = require('webpack');
 const SetupPlugin = require('./SetupPlugin');
 // const GeneratePlugin = require('./GeneratePlugin');
-const loadSiteConfig = require('../../../scripts/generate-app-config/loadSiteConfig');
+const loadSiteConfig = require('./loadSiteConfig');
 
 const validate = (sites) => {
   sites.forEach((site) => {
     let exit = false;
-    if (!(site.configFileName && site.defaultConfigPath) && !site.siteConfig) {
+    if (!site.configFileName && !site.siteConfig) {
       // eslint-disable-next-line no-console
-      console.error('Site missing config. either the configFileName and the default configPath or the siteConfig string');
+      console.error('Site missing config. either the configFileName or the siteConfig string');
       exit = true;
     }
     if (!site.prefix) {
@@ -37,14 +37,14 @@ class TerraDevSite {
     // Sites to generate. Add the default site then load the config if not present
     this.sites = [
       {
-        configFileName: 'site.config.js',
+        configFileName: 'terra-dev-site.config.js',
         defaultConfigPath: path.resolve(__dirname, '..', '..', 'site', 'site.config.js'),
         indexPath: path.resolve(__dirname, '..', '..', '..', 'src', 'TerraDevSite'),
       },
       ...sites,
     ].map((site) => {
       // load config if siteConfig is not already defined.
-      const siteConfig = site.siteConfig || loadSiteConfig(site.configFileName, site.defaultConfigPath);
+      const siteConfig = loadSiteConfig(site.configFileName, site.defaultConfigPath);
       const locale = env.defaultLocale;
       if (locale) {
         siteConfig.appConfig.defaultLocale = locale;

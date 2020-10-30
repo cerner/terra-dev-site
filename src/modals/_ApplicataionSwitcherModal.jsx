@@ -26,7 +26,7 @@ const propTypes = {
   onRequestClose: PropTypes.func.isRequired,
 };
 
-const ApplicationSettingsModal = ({ onRequestClose, apps }) => (
+const ApplicationSwitcherModal = ({ onRequestClose, apps }) => (
   <ApplicationModal
     title="Application Switcher"
     onRequestClose={onRequestClose}
@@ -41,6 +41,6 @@ const ApplicationSettingsModal = ({ onRequestClose, apps }) => (
   </ApplicationModal>
 );
 
-ApplicationSettingsModal.propTypes = propTypes;
+ApplicationSwitcherModal.propTypes = propTypes;
 
-export default ApplicationSettingsModal;
+export default ApplicationSwitcherModal;

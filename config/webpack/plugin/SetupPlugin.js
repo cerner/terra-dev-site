@@ -80,7 +80,7 @@ class SetupPlugin {
             // Use MDX to import any md files imported from an mdx file.
             issuer: [
               /\.mdx?$/,
-              /devSiteConfig.template$/,
+              /\.dev-site-config-template$/,
             ],
             use: [
               babelLoader,
