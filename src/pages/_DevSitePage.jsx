@@ -12,6 +12,7 @@ import LoadingPage from '../static-pages/_LoadingPage';
 import ContentLoadedContainer from './_ContentLoaded';
 import AppSettingsContext from '../site/_AppSettingsContext';
 import ContentSettingsMenu from './_ContentSettingsMenu';
+import ComponentToolbar from './_ComponentToolbar';
 
 const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
   const location = useLocation();
@@ -46,7 +47,7 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
       text: 'RawToggle',
       icon: isRaw ? <IconStopPresenting /> : <IconStartPresenting />,
       onSelect: () => {
-        history.push(`/raw${location.pathname}`);
+        history.replace(`/raw${location.pathname}`);
       },
     },
   ];
@@ -77,6 +78,7 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
     props.preferHeaderIsHidden = true;
   } else {
     props.actions = pageActions;
+    props.toolbar = <ComponentToolbar />;
   }
 
   return (
