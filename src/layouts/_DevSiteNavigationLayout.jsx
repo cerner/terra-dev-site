@@ -127,7 +127,7 @@ const DevSiteNavigation = ({ siteConfig }) => {
               <DevSitePage pageContentConfig={navItem.pageConfig} contentImports={siteConfig.contentImports} />
             );
           } else {
-            renderProps.render = () => (
+            renderProps.renderLayout = () => (
               <DevSiteSecondaryNavigation config={navItem.children} contentImports={siteConfig.contentImports} />
             );
           }

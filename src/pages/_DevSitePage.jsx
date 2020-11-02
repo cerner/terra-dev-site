@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import ApplicationPage from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
-import classNames from 'classnames/bind';
 import IconTreemap from 'terra-icon/lib/icon/IconTreemap';
 import IconLocationPin from 'terra-icon/lib/icon/IconLocationPin';
 import IconStartPresenting from 'terra-icon/lib/icon/IconStartPresenting';
@@ -13,14 +12,12 @@ import LoadingPage from '../static-pages/_LoadingPage';
 import ContentLoadedContainer from './_ContentLoaded';
 import AppSettingsContext from '../site/_AppSettingsContext';
 import ContentSettingsMenu from './_ContentSettingsMenu';
-import styles from './DevSitePage.module.scss';
-
-const cx = classNames.bind(styles);
 
 const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
   const location = useLocation();
   const history = useHistory();
   const isRaw = useRouteMatch('/raw');
+  const isHome = useRouteMatch('/home');
   const pathname = isRaw ? location.pathname.substring(4) : location.pathname;
 
   const localeButtonRef = React.useRef();
@@ -49,11 +46,7 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
       text: 'RawToggle',
       icon: isRaw ? <IconStopPresenting /> : <IconStartPresenting />,
       onSelect: () => {
-        if (isRaw) {
-          history.replace(pathname);
-        } else {
-          history.replace(`/raw${location.pathname}`);
-        }
+        history.push(`/raw${location.pathname}`);
       },
     },
   ];
@@ -78,10 +71,18 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
     });
   }
 
+  const props = {};
+
+  if (isHome || isRaw) {
+    props.preferHeaderIsHidden = true;
+  } else {
+    props.actions = pageActions;
+  }
+
   return (
     <ApplicationPage
       title={pageContentConfig.text}
-      actions={pageActions}
+      {...props}
     >
       { isActive
       && (
