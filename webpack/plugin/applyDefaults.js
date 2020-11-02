@@ -13,7 +13,7 @@ const applyDefaults = ({
     additionalContent: [
       {
         title: 'Home',
-        path: path.resolve(process.cwd(), 'README.md'),
+        filePath: path.resolve(process.cwd(), 'README.md'),
       },
     ],
   }, {
@@ -34,10 +34,9 @@ const applyDefaults = ({
   defaultTheme,
   defaultDirection,
   faviconFilePath = path.join(__dirname, '..', '..', 'terra-favicon', '32px', 'favicon.ico'),
-  extensions = [],
+  extensionItems = [],
   headHtml = [],
-  prefix,
-  sites = {},
+  pathPrefix,
   sourceFolder = 'src',
   distributionFolder = 'lib',
 }) => ({
@@ -50,10 +49,9 @@ const applyDefaults = ({
   defaultTheme,
   defaultDirection,
   faviconFilePath,
-  extensions,
+  extensionItems,
   headHtml,
-  prefix,
-  sites,
+  pathPrefix,
   sourceFolder,
   distributionFolder,
   namespace: npmPackage.name,

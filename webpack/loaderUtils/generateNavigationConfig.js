@@ -182,6 +182,7 @@ const getSearchPatterns = ({
   sourceFolder,
   distributionFolder,
   isLernaMonoRepo,
+  contentDirectory,
 }) => {
   const processPath = process.cwd();
   // console.log('contentExtensions', pageTypes(primaryNavigationItems));
@@ -199,12 +200,12 @@ const getSearchPatterns = ({
   const localPackages = [
     ...isLernaMonoRepo
       ? [{
-        pattern: `${processPath}/packages/*/${sourceDir}/terra-dev-site/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-        entryPoint: `${processPath}/packages/[^/]*/${sourceDir}/terra-dev-site(${typesRegex})`,
+        pattern: `${processPath}/packages/*/${sourceDir}/${contentDirectory}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+        entryPoint: `${processPath}/packages/[^/]*/${sourceDir}/${contentDirectory}(${typesRegex})`,
       }]
       : [{
-        pattern: `${processPath}/${sourceDir}/terra-dev-site/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-        entryPoint: `${processPath}/${sourceDir}/terra-dev-site(${typesRegex})`,
+        pattern: `${processPath}/${sourceDir}/${contentDirectory}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+        entryPoint: `${processPath}/${sourceDir}/${contentDirectory}(${typesRegex})`,
       }],
   ];
 
@@ -233,7 +234,13 @@ const findFirstPagePath = (navItem) => {
 /**
 * Generates the file representing page config, which is in turn consumed by route config.
 */
-const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
+const generatePagesConfig = ({
+  siteConfig,
+  resolveExtensions,
+  mode,
+  verbose,
+  contentDirectory,
+}) => {
   const {
     additionalSearchDirectories,
     primaryNavigationItems,
@@ -251,6 +258,7 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
     sourceFolder,
     distributionFolder,
     isLernaMonoRepo,
+    contentDirectory,
   });
 
   if (verbose) {
@@ -266,8 +274,8 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
     if (item.additionalContent) {
       item.additionalContent.forEach((content) => {
         filePaths.push({
-          filePath: content.path,
-          entryPoint: `/${content.title}.${item.contentExtension}${path.extname(content.path)}`,
+          filePath: content.filePath,
+          entryPoint: `/${content.title}.${item.contentExtension}${path.extname(content.filePath)}`,
         });
       });
     }

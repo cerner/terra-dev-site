@@ -1,8 +1,11 @@
 const path = require('path');
 const merge = require('webpack-merge');
+const fs = require('fs');
 const defaultWebpackConfig = require('@cerner/webpack-config-terra');
 const TerraDevSite = require('./webpack/plugin/TerraDevSite');
 const TerraDevSiteEntrypoints = require('./webpack/plugin/TerraDevSiteEntrypoints');
+
+const html = fs.readFileSync(require.resolve('./head.html'), 'utf8');
 
 const devSiteConfig = () => ({
   entry: TerraDevSiteEntrypoints,
@@ -15,7 +18,7 @@ const devSiteConfig = () => ({
         additionalContent: [
           {
             title: 'Home',
-            path: path.resolve(process.cwd(), 'README.md'),
+            filePath: path.resolve(process.cwd(), 'README.md'),
           },
         ],
       }, {
@@ -49,6 +52,18 @@ const devSiteConfig = () => ({
       }],
       additionalSearchDirectories: [
         path.resolve(process.cwd(), 'node_modules', 'terra-list', 'lib', 'terra-dev-site'),
+      ],
+      headHtml: [
+        '<script> console.log("Inline head html script") </script>',
+        html,
+      ],
+      extensionItems: [
+        {
+          iconPath: 'terra-icon/lib/icon/IconAllergy',
+          key: 'terra-dev-site.test-extension',
+          text: 'Test Extension',
+          modalPath: '@cerner/terra-dev-site/lib/test-extension/TestExtension',
+        },
       ],
     }),
   ],

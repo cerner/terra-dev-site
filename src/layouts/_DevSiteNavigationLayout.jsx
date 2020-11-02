@@ -72,7 +72,7 @@ const DevSiteNavigation = ({ siteConfig }) => {
   };
 
   const getExtensionItems = () => {
-    const extensionArray = (siteConfig.extensions || []).map((ext) => ({
+    const extensionArray = (siteConfig.extensionItems || []).map((ext) => ({
       icon: <ext.icon />,
       key: ext.key,
       text: ext.text,

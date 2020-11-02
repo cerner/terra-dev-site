@@ -32,11 +32,12 @@ const loader = async function loader(siteConfigTemplate) {
     resolveExtensions,
     basename,
     apps,
+    contentDirectory,
   } = getOptions(this);
 
   console.log('apps', JSON.stringify(apps));
 
-  const extensions = (siteConfig.extensions || []).map((ext) => ({
+  const extensionItems = (siteConfig.extensionItems || []).map((ext) => ({
     key: ext.key,
     text: ext.text,
     icon: addImport(ext.iconPath),
@@ -48,7 +49,13 @@ const loader = async function loader(siteConfigTemplate) {
     navigationConfig,
     routesMap,
     pageConfig,
-  } = generateNavigationConfig(siteConfig, resolveExtensions, this.mode, false);
+  } = generateNavigationConfig({
+    siteConfig,
+    resolveExtensions,
+    mode: this.mode,
+    verbose: false,
+    contentDirectory,
+  });
 
   // const contentImports = {};
   // const navigationConfig = [];
@@ -68,9 +75,10 @@ const loader = async function loader(siteConfigTemplate) {
     navigationConfig: JSON.stringify(navigationConfig),
     routesMap: JSON.stringify(routesMap),
     pageConfig: JSON.stringify(pageConfig),
-    extensions,
+    extensionItems,
     imports,
     apps: JSON.stringify(apps),
+    sideEffectImportFilePaths: siteConfig.sideEffectImportFilePaths,
   }));
 };
 

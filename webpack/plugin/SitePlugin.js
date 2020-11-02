@@ -18,26 +18,32 @@ const isLernaMonoRepo = fs.existsSync(path.join(processPath, 'lerna.json'));
  * Updates the webpack options with defaults that terra-dev-site requires.
  */
 class SitePlugin {
-  constructor({ indexPath, config, applyDefaults } = {}) {
+  constructor({
+    entry,
+    config,
+    applyDefaults,
+    contentDirectory,
+  } = {}) {
     this.config = applyDefaults(config);
-    const { prefix, titleConfig } = this.config;
+    this.contentDirectory = contentDirectory;
+    const { pathPrefix, titleConfig } = this.config;
 
-    if (prefix) {
-      this.entryKey = `${prefix}/'index'}`;
-      this.entry = { [this.entryKey]: indexPath };
-      this.htmlFileName = `${prefix}/index.html`;
-      this.url = `/${prefix}`;
+    if (pathPrefix) {
+      this.entryKey = `${pathPrefix}/'index'}`;
+      this.entry = { [this.entryKey]: entry };
+      this.htmlFileName = `${pathPrefix}/index.html`;
+      this.url = `/${pathPrefix}`;
     } else {
       this.entryKey = 'index';
-      this.entry = { [this.entryKey]: indexPath };
+      this.entry = { [this.entryKey]: entry };
       this.htmlFileName = 'index.html';
       this.url = '/';
     }
-    if (siteRegistry[prefix]) {
+    if (siteRegistry[pathPrefix]) {
       throw Error('site prefixes must be unique');
     }
-    siteRegistry[prefix] = {
-      path: prefix,
+    siteRegistry[pathPrefix] = {
+      path: pathPrefix,
       url: this.url,
       title: titleConfig.title,
       entry: this.entryKey,
@@ -232,6 +238,7 @@ class SitePlugin {
               basename,
               resolveExtensions: compiler.options.resolve.extensions,
               isLernaMonoRepo,
+              contentDirectory: this.contentDirectory,
             },
           },
         ],
