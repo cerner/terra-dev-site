@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SecondaryNavigationLayout, SecondaryNavigationGroup, NavigationItem } from '@cerner/terra-application/lib/layouts';
+import { SecondaryNavigationLayout, SecondaryNavigationGroup, NavigationItem, NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 import { useLocation, useHistory } from 'react-router-dom';
 
 import DevSitePage from '../pages/_DevSitePage';
@@ -8,6 +8,11 @@ import DevSitePage from '../pages/_DevSitePage';
 const DevSiteSecondaryNavigationLayout = ({config, contentImports}) => {
   const location = useLocation();
   const history = useHistory();
+  const { isActive } = React.useContext(NavigationItemContext);
+
+  if (!isActive) {
+    return null;
+  }
 
   const retrieveNavItems = (navItems) => (
     navItems.map((navItem) => {

@@ -25,7 +25,7 @@ const ComponentToolbar = () => {
   );
 
   const onRaw = () => (
-    history.replace(`/raw${location.pathname}`)
+    history.push(`/raw${location.pathname}`)
   );
 
   return (

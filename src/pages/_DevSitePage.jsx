@@ -19,14 +19,18 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
   const history = useHistory();
   const isRaw = useRouteMatch('/raw');
   const isHome = useRouteMatch('/home');
-  const pathname = isRaw ? location.pathname.substring(4) : location.pathname;
-
   const localeButtonRef = React.useRef();
   const themeButtonRef = React.useRef();
   const [showThemeMenu, setShowThemeMenu] = React.useState(false);
   const [showLocale, setShowLocale] = React.useState(false);
   const appSettings = React.useContext(AppSettingsContext);
   const { isActive } = React.useContext(NavigationItemContext);
+
+  if (!isActive) {
+    return null;
+  }
+
+  const pathname = isRaw ? location.pathname.substring(4) : location.pathname;
   const hasThemes = appSettings.themes && appSettings.themes.length > 1;
   const hasLocales = appSettings.locales && appSettings.locales.length > 1;
   const ContentComponent = contentImports[pathname];
@@ -47,7 +51,7 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
       text: 'RawToggle',
       icon: isRaw ? <IconStopPresenting /> : <IconStartPresenting />,
       onSelect: () => {
-        history.replace(`/raw${location.pathname}`);
+        history.push(`/raw${location.pathname}`);
       },
     },
   ];
@@ -86,19 +90,16 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
       title={pageContentConfig.text}
       {...props}
     >
-      { isActive
-      && (
-        <PageErrorBoundary>
-          <Suspense fallback={(
-            <LoadingPage />
-          )}
-          >
-            <ContentLoadedContainer type={pageContentConfig.type}>
-              <ContentComponent />
-            </ContentLoadedContainer>
-          </Suspense>
-        </PageErrorBoundary>
-      )}
+      <PageErrorBoundary>
+        <Suspense fallback={(
+          <LoadingPage />
+        )}
+        >
+          <ContentLoadedContainer type={pageContentConfig.type}>
+            <ContentComponent />
+          </ContentLoadedContainer>
+        </Suspense>
+      </PageErrorBoundary>
       { showLocale
       && (
         <ContentSettingsMenu
