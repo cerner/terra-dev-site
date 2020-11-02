@@ -33,13 +33,13 @@ const applyDefaults = ({
   defaultLocale,
   defaultTheme,
   defaultDirection,
-  faviconFilePath = path.join(__dirname, '..', 'terra-favicon', '32px', 'favicon.ico'),
+  faviconFilePath = path.join(__dirname, '..', '..', 'terra-favicon', '32px', 'favicon.ico'),
   extensions = [],
   headHtml = [],
   prefix,
   sites = {},
-  srcFolder = 'src',
-  distFolder = 'lib',
+  sourceFolder = 'src',
+  distributionFolder = 'lib',
 }) => ({
   indexPath,
   primaryNavigationItems,
@@ -54,8 +54,8 @@ const applyDefaults = ({
   headHtml,
   prefix,
   sites,
-  srcFolder,
-  distFolder,
+  sourceFolder,
+  distributionFolder,
   namespace: npmPackage.name,
 });
 

@@ -2,6 +2,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { DefinePlugin } = require('webpack');
+const fs = require('fs');
 
 const DirectorySwitcherPlugin = require('./resolve/DirectorySwitcherPlugin');
 const LocalPackageAliasPlugin = require('./resolve/LocalPackageAliasPlugin');
@@ -10,6 +11,8 @@ const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
 
 let oneTimeSetupComplete = false;
 const siteRegistry = {};
+const processPath = process.cwd();
+const isLernaMonoRepo = fs.existsSync(path.join(processPath, 'lerna.json'));
 
 /**
  * Updates the webpack options with defaults that terra-dev-site requires.
@@ -41,17 +44,14 @@ class SitePlugin {
     };
   }
 
-  static applyOneTimeSetup(compiler) {
+  static applyOneTimeSetup({ compiler, sourceFolder, distributionFolder }) {
     if (oneTimeSetupComplete) {
-      console.log('Bailing on one time setup');
       return;
     }
     oneTimeSetupComplete = true;
 
     // Strip the trailing / from the public path.
     const basename = compiler.options.output.publicPath.slice(0, -1);
-
-    const processPath = process.cwd();
 
     // MODULE
     const mdxLoader = getMdxLoader(compiler.options.output.publicPath);
@@ -135,25 +135,30 @@ class SitePlugin {
     // RESOLVE
     const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
     compiler.options.resolve.modules.unshift(devSiteConfigPath);
+
+    // Experiment
     console.log('alias', compiler.options.resolve.alias);
     compiler.options.resolve.alias = { devSiteConfig: path.join(processPath, 'src', 'templates', 'devSiteConfig.template') };
+
     if (!compiler.options.resolve.plugins) {
       compiler.options.resolve.plugins = [];
     }
+
+    const rootDirectories = [
+      ...isLernaMonoRepo ? [path.resolve(processPath, 'packages', '*')] : [processPath],
+    ];
     compiler.options.resolve.plugins.push(
       new DirectorySwitcherPlugin({
         shouldSwitch: compiler.options.mode !== 'production',
-        rootDirectories: [
-          processPath,
-        ],
+        source: sourceFolder,
+        distribution: distributionFolder,
+        rootDirectories,
       }),
     );
 
     compiler.options.resolve.plugins.push(
       new LocalPackageAliasPlugin({
-        rootDirectories: [
-          processPath,
-        ],
+        rootDirectories,
       }),
     );
 
@@ -196,7 +201,9 @@ class SitePlugin {
     // Strip the trailing / from the public path.
     const basename = publicPath.slice(0, -1);
 
-    SitePlugin.applyOneTimeSetup(compiler);
+    const { sourceFolder, distributionFolder } = this.config;
+
+    SitePlugin.applyOneTimeSetup({ compiler, sourceFolder, distributionFolder });
     // Load the site configuration.
 
     compiler.options.entry = {
@@ -224,6 +231,7 @@ class SitePlugin {
               apps: otherApps,
               basename,
               resolveExtensions: compiler.options.resolve.extensions,
+              isLernaMonoRepo,
             },
           },
         ],
@@ -237,7 +245,7 @@ class SitePlugin {
       filename: this.htmlFileName,
       template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
       rootElementId: 'root',
-      favicon: this.config.favicon,
+      favicon: this.config.faviconFilePath,
       headHtml: [getNewRelicJS()].concat(this.config.headHtml),
       headChunks: ['rewriteHistory'],
       excludeChunks: ['redirect', ...Object.values(otherApps).map(app => app.entry)],

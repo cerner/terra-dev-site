@@ -174,41 +174,14 @@ const sortPageConfig = config => (
   })
 );
 
-// const getSearchPatterns = ({
-//   generatePagesOptions, primaryNavigationItems, resolveExtensions, mode,
-// }) => {
-//   const typesGlob = pageTypes(navigation).join(',');
-//   const typesRegex = pageTypes(navigation).map((type) => `/${type}`).join('|');
-
-  // // remove . from extensions
-  // const extensions = resolveExtensions.map((ext) => ext.slice(1));
-
-//   // the markdown extension is not optional.
-//   const ext = [...extensions, 'md', 'mdx'];
-
-//   return generatePagesOptions.searchPatterns.reduce((acc, {
-//     root, source, dist, entryPoint,
-//   }) => {
-//     const rootPath = root.replace(/[\\]/g, '/');
-//     let sourceDir = '';
-//     if (dist) {
-//       sourceDir = (mode !== 'production' && source) ? `${source}/` : `${dist}/`;
-//     }
-//     acc.push({
-//       pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-//       entryPoint: `${rootPath}/${sourceDir}${entryPoint}(${typesRegex})`,
-//     });
-//     acc.push({
-//       pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-//       // build out a regex for the entrypoint mask.
-//       entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}${entryPoint}(${typesRegex})`,
-//     });
-//     return acc;
-//   }, []);
-// };
-
 const getSearchPatterns = ({
-  additionalSearchDirectories, primaryNavigationItems, resolveExtensions, mode,
+  additionalSearchDirectories,
+  primaryNavigationItems,
+  resolveExtensions,
+  mode,
+  sourceFolder,
+  distributionFolder,
+  isLernaMonoRepo,
 }) => {
   const processPath = process.cwd();
   // console.log('contentExtensions', pageTypes(primaryNavigationItems));
@@ -221,11 +194,22 @@ const getSearchPatterns = ({
   // the markdown extension is not optional.
   const ext = [...extensions, 'md', 'mdx'];
 
+  const sourceDir = (mode !== 'production') ? `${sourceFolder}` : `${distributionFolder}`;
+
+  const localPackages = [
+    ...isLernaMonoRepo
+      ? [{
+        pattern: `${processPath}/packages/*/${sourceDir}/terra-dev-site/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+        entryPoint: `${processPath}/packages/[^/]*/${sourceDir}/terra-dev-site(${typesRegex})`,
+      }]
+      : [{
+        pattern: `${processPath}/${sourceDir}/terra-dev-site/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+        entryPoint: `${processPath}/${sourceDir}/terra-dev-site(${typesRegex})`,
+      }],
+  ];
+
   return [
-    {
-      pattern: `${processPath}/lib/terra-dev-site/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-      entryPoint: `${processPath}/lib/terra-dev-site(${typesRegex})`,
-    },
+    ...localPackages,
     ...additionalSearchDirectories.map((searchDirectory) => ({
       pattern: `${searchDirectory}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
       entryPoint: `${searchDirectory}(${typesRegex})`,
@@ -251,12 +235,22 @@ const findFirstPagePath = (navItem) => {
 */
 const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   const {
-    additionalSearchDirectories, primaryNavigationItems,
+    additionalSearchDirectories,
+    primaryNavigationItems,
+    sourceFolder,
+    distributionFolder,
+    isLernaMonoRepo,
   } = siteConfig;
 
   // Get the default search patterns for both normal and lerna mono repos.
   const patterns = getSearchPatterns({
-    additionalSearchDirectories, primaryNavigationItems, resolveExtensions, mode,
+    additionalSearchDirectories,
+    primaryNavigationItems,
+    resolveExtensions,
+    mode,
+    sourceFolder,
+    distributionFolder,
+    isLernaMonoRepo,
   });
 
   if (verbose) {
