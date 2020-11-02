@@ -33,7 +33,7 @@ const resolve = (filePath, defaultConfig) => {
  * Returns the site configuration. It will attempt to load the configuration from the provided configPath first or
  * the default config path and then merge with the default config or it will just return the default site config.
  */
-const loadSiteConfig = (configName = 'site.config.js', defaultPath = '../../site/site.config.js') => {
+const loadSiteConfig = (configName = 'site.config.js', defaultPath = '../config/site/site.config.js') => {
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const defaultConfig = require(defaultPath);
 

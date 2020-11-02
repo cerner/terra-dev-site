@@ -2,7 +2,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-const getNewRelicJS = require('../../../scripts/new-relic/getNewRelicJS');
+const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
 
 /**
  * Generate the html file

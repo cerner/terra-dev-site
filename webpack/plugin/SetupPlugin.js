@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const rehypeSlug = require('rehype-slug');
 const rehypeUrl = require('rehype-urls');
+const DirectorySwitcherPlugin = require('./resolve/DirectorySwitcherPlugin');
+const LocalPackageAliasPlugin = require('./resolve/LocalPackageAliasPlugin');
 
 const generateDevSites = require('./GenerateSites');
 
@@ -148,6 +150,25 @@ class SetupPlugin {
     compiler.options.resolve.modules.unshift(devSiteConfigPath);
     console.log('alias', compiler.options.resolve.alias);
     compiler.options.resolve.alias = { devSiteConfig: path.join(processPath, 'src', 'templates', 'devSiteConfig.template') };
+    if (!compiler.options.resolve.plugins) {
+      compiler.options.resolve.plugins = [];
+    }
+    compiler.options.resolve.plugins.push(
+      new DirectorySwitcherPlugin({
+        shouldSwitch: compiler.options.mode !== 'production',
+        rootDirectories: [
+          processPath,
+        ],
+      }),
+    );
+
+    compiler.options.resolve.plugins.push(
+      new LocalPackageAliasPlugin({
+        rootDirectories: [
+          processPath,
+        ],
+      }),
+    );
 
     // RESOLVE LOADER
     // add the path to search for dev site loaders

@@ -174,11 +174,46 @@ const sortPageConfig = config => (
   })
 );
 
+// const getSearchPatterns = ({
+//   generatePagesOptions, primaryNavigationItems, resolveExtensions, mode,
+// }) => {
+//   const typesGlob = pageTypes(navigation).join(',');
+//   const typesRegex = pageTypes(navigation).map((type) => `/${type}`).join('|');
+
+  // // remove . from extensions
+  // const extensions = resolveExtensions.map((ext) => ext.slice(1));
+
+//   // the markdown extension is not optional.
+//   const ext = [...extensions, 'md', 'mdx'];
+
+//   return generatePagesOptions.searchPatterns.reduce((acc, {
+//     root, source, dist, entryPoint,
+//   }) => {
+//     const rootPath = root.replace(/[\\]/g, '/');
+//     let sourceDir = '';
+//     if (dist) {
+//       sourceDir = (mode !== 'production' && source) ? `${source}/` : `${dist}/`;
+//     }
+//     acc.push({
+//       pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+//       entryPoint: `${rootPath}/${sourceDir}${entryPoint}(${typesRegex})`,
+//     });
+//     acc.push({
+//       pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+//       // build out a regex for the entrypoint mask.
+//       entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}${entryPoint}(${typesRegex})`,
+//     });
+//     return acc;
+//   }, []);
+// };
+
 const getSearchPatterns = ({
-  generatePagesOptions, navigation, resolveExtensions, mode,
+  additionalSearchDirectories, primaryNavigationItems, resolveExtensions, mode,
 }) => {
-  const typesGlob = pageTypes(navigation).join(',');
-  const typesRegex = pageTypes(navigation).map((type) => `/${type}`).join('|');
+  const processPath = process.cwd();
+  // console.log('contentExtensions', pageTypes(primaryNavigationItems));
+  const typesGlob = pageTypes(primaryNavigationItems).join(',');
+  const typesRegex = pageTypes(primaryNavigationItems).map((type) => `/${type}`).join('|');
 
   // remove . from extensions
   const extensions = resolveExtensions.map((ext) => ext.slice(1));
@@ -186,25 +221,16 @@ const getSearchPatterns = ({
   // the markdown extension is not optional.
   const ext = [...extensions, 'md', 'mdx'];
 
-  return generatePagesOptions.searchPatterns.reduce((acc, {
-    root, source, dist, entryPoint,
-  }) => {
-    const rootPath = root.replace(/[\\]/g, '/');
-    let sourceDir = '';
-    if (dist) {
-      sourceDir = (mode !== 'production' && source) ? `${source}/` : `${dist}/`;
-    }
-    acc.push({
-      pattern: `${rootPath}/${sourceDir}${entryPoint}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-      entryPoint: `${rootPath}/${sourceDir}${entryPoint}(${typesRegex})`,
-    });
-    acc.push({
-      pattern: `${rootPath}/packages/*/${sourceDir}${entryPoint}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-      // build out a regex for the entrypoint mask.
-      entryPoint: `${rootPath}/packages/[^/]*/${sourceDir}${entryPoint}(${typesRegex})`,
-    });
-    return acc;
-  }, []);
+  return [
+    {
+      pattern: `${processPath}/lib/terra-dev-site/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+      entryPoint: `${processPath}/lib/terra-dev-site(${typesRegex})`,
+    },
+    ...additionalSearchDirectories.map((searchDirectory) => ({
+      pattern: `${searchDirectory}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
+      entryPoint: `${searchDirectory}(${typesRegex})`,
+    })),
+  ];
 };
 
 const executeSearchPatterns = ({ patterns }) => (
@@ -225,12 +251,12 @@ const findFirstPagePath = (navItem) => {
 */
 const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   const {
-    generatePages: generatePagesOptions, navigation,
+    additionalSearchDirectories, primaryNavigationItems,
   } = siteConfig;
 
   // Get the default search patterns for both normal and lerna mono repos.
   const patterns = getSearchPatterns({
-    generatePagesOptions, navigation, resolveExtensions, mode,
+    additionalSearchDirectories, primaryNavigationItems, resolveExtensions, mode,
   });
 
   if (verbose) {
@@ -241,10 +267,16 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   // Execute the globs and regex masks, to trim the directories.
   const filePaths = executeSearchPatterns({ patterns });
 
-  // Inject the home page readme.
-  filePaths.push({
-    filePath: siteConfig.readMeContent,
-    entryPoint: '/home.home.md',
+  // Add Additional content
+  primaryNavigationItems.forEach(item => {
+    if (item.additionalContent) {
+      item.additionalContent.forEach((content) => {
+        filePaths.push({
+          filePath: content.path,
+          entryPoint: `/${content.title}.${item.contentExtension}${path.extname(content.path)}`,
+        });
+      });
+    }
   });
 
   if (verbose) {
@@ -255,19 +287,19 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
   const contentImports = {};
   const pageConfig = {};
 
-  const primaryNavItemsMap = navigation.primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
-    acc[primaryNavigationItem.pageType] = primaryNavigationItem;
+  const primaryNavItemsMap = primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
+    acc[primaryNavigationItem.contentExtension] = primaryNavigationItem;
     return acc;
   }, {});
 
   // Build out the page config from the discovered file paths.
   const config = buildPageConfig({
-    filePaths, namespace: siteConfig.npmPackage.name, contentImports, primaryNavItemsMap, pageConfig,
+    filePaths, namespace: siteConfig.namespace, contentImports, primaryNavItemsMap, pageConfig,
   });
 
   const routesMap = {};
 
-  const sortedConfig = navigation.primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
+  const sortedConfig = primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
     const navItem = config[primaryNavigationItem.path];
     if (navItem) {
       navItem.children = sortPageConfig(Object.values(navItem.children));
@@ -289,9 +321,9 @@ const generatePagesConfig = (siteConfig, resolveExtensions, mode, verbose) => {
     console.log('[terra-dev-site] Page Config', JSON.stringify(sortedConfig, null, 2));
   }
 
-  const { index } = navigation;
-  if (index) {
-    const fullIndexPath = routesMap[index];
+  const { indexPath } = siteConfig;
+  if (indexPath) {
+    const fullIndexPath = routesMap[indexPath];
     if (fullIndexPath) {
       routesMap['/'] = fullIndexPath;
     }

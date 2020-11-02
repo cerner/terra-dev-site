@@ -1,33 +1,72 @@
 const path = require('path');
-const defaultWebpackConfig = require('./config/webpack/webpack.config');
-const TerraDevSite = require('./config/webpack/plugin/TerraDevSite');
+const merge = require('webpack-merge');
+const defaultWebpackConfig = require('@cerner/webpack-config-terra');
+const TerraDevSite = require('./webpack/plugin/TerraDevSite');
+const TerraDevSiteEntrypoints = require('./webpack/plugin/TerraDevSiteEntrypoints');
 
-/**
-* Generates the file representing app name configuration.
-*/
-const devSiteConfig = (env = {}, argv = {}) => {
-  const config = defaultWebpackConfig(env, argv);
-  // Load the site configuration.
+const devSiteConfig = () => ({
+  entry: TerraDevSiteEntrypoints,
+  plugins: [
+    new TerraDevSite({
+      primaryNavigationItems: [{
+        path: '/home',
+        text: 'Home',
+        contentExtension: 'home',
+        additionalContent: [
+          {
+            title: 'Home',
+            path: path.resolve(process.cwd(), 'README.md'),
+          },
+        ],
+      }, {
+        path: '/dev_tools',
+        text: 'Developer Tools',
+        contentExtension: 'tool',
+      }, {
+        path: '/single-page-test',
+        text: 'Single Page Test',
+        contentExtension: 'spt',
+      }, {
+        path: '/secondary-nav-test',
+        text: 'Secondary Nav Test',
+        contentExtension: 'snt',
+      }, {
+        path: '/folder-first',
+        text: 'Folder First Test',
+        contentExtension: 'ff',
+      }, {
+        path: '/empty',
+        text: 'Empty',
+        contentExtension: 'empty',
+      }, {
+        path: '/components',
+        text: 'Components',
+        contentExtension: 'doc',
+      }, {
+        path: '/test',
+        text: 'Test',
+        contentExtension: 'test',
+      }],
+      additionalSearchDirectories: [
+        path.resolve(process.cwd(), 'node_modules', 'terra-list', 'lib', 'terra-dev-site'),
+      ],
+    }),
+  ],
+  resolve: {
+    extensions: ['.jst'],
+  },
+});
 
-  config.resolve.extensions = ['.js', '.jsx', '.jst'];
-  // config.resolve.alias = { devSiteConfig: '' };
-  // config.resolve.alias = { devSiteConfig: path.resolve(__dirname, 'README.md') };
+const mergedConfig = (env, argv) => (
+  merge(defaultWebpackConfig(env, argv), devSiteConfig(env, argv))
+);
+
+const hackedConfig = (env = {}, argv = {}) => {
+  const config = mergedConfig(env, argv);
   // Brittle
-  config.module.rules[0].test = /\.(jsx|js|jst)$/;
+  config.module.rules[0].oneOf[0].test = /\.(jsx|js|jst)$/;
 
-  return {
-    ...config,
-    plugins: config.plugins.slice(0, -1).concat([
-      new TerraDevSite({
-        env,
-        sites: [{
-          configFileName: 'extend-dev-site.config.js',
-          prefix: 'terra-application',
-          indexPath: path.resolve(path.join(__dirname, 'lib', 'ExtendDevSite')),
-        }],
-      }),
-    ]),
-  };
+  return config;
 };
 
-module.exports = devSiteConfig;
+module.exports = hackedConfig;

@@ -90,7 +90,7 @@ const generatePropsTable = async function generatePropsTable(filePath, source, m
     return `{ name: '${name}', type: ${type}, required: ${required}, defaultValue: '${defaultValue}', description: ${description}, },`;
   }));
 
-  return [
+  return callback(null, [
     'import React from \'react\';',
     'import { mdx } from \'@mdx-js/react\';',
     'import PropsTable from \'@cerner/terra-dev-site/lib/loader-components/_PropsTable\';',
@@ -102,7 +102,7 @@ const generatePropsTable = async function generatePropsTable(filePath, source, m
     '   ]}',
     ' />',
     ');',
-  ].join('\n');
+  ].join('\n'));
 };
 
 /**
@@ -112,6 +112,7 @@ const generatePropsTable = async function generatePropsTable(filePath, source, m
 const loader = async function loader(content) {
   // Retrieve mdx options and resolve extensions.
   const { resolveExtensions, mdx: mdxOptions } = getOptions(this);
+
   // Find src
   const { resourcePath } = this;
   const { source, filePath } = findSource(resourcePath, resolveExtensions);
@@ -120,7 +121,7 @@ const loader = async function loader(content) {
 
   // short circuit, if this already is the source file, just return that.
   if (filePath === resourcePath) {
-    return callback(null, await generatePropsTable(filePath, content, mdxOptions, callback));
+    return generatePropsTable(filePath, content, mdxOptions, callback);
   }
   // ensure src exists
   return this.resolve('', source, async (err, result) => {
@@ -133,7 +134,7 @@ const loader = async function loader(content) {
 
     // Read src file
     return this.fs.readFile(result, async (readFileError, srcFile) => (
-      callback(null, await generatePropsTable(result, srcFile, mdxOptions, callback))
+      generatePropsTable(result, srcFile, mdxOptions, callback)
     ));
   });
 };

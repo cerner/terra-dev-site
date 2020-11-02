@@ -24,6 +24,9 @@ const addImport = (path) => {
 const loader = async function loader(siteConfigTemplate) {
   const callback = this.async();
 
+  // console.log('request', this.request);
+  console.log('query', this.query);
+
   const {
     siteConfig,
     resolveExtensions,
@@ -33,7 +36,7 @@ const loader = async function loader(siteConfigTemplate) {
 
   console.log('apps', JSON.stringify(apps));
 
-  const extensions = (siteConfig.appConfig.extensions || []).map((ext) => ({
+  const extensions = (siteConfig.extensions || []).map((ext) => ({
     key: ext.key,
     text: ext.text,
     icon: addImport(ext.iconPath),
@@ -47,14 +50,19 @@ const loader = async function loader(siteConfigTemplate) {
     pageConfig,
   } = generateNavigationConfig(siteConfig, resolveExtensions, this.mode, false);
 
+  // const contentImports = {};
+  // const navigationConfig = [];
+  // const routesMap = {};
+  // const pageConfig = {};
+
   return callback(null, template(siteConfigTemplate)({
-    title: siteConfig.appConfig.title,
-    headline: siteConfig.appConfig.headline,
-    subline: siteConfig.appConfig.subline,
-    defaultTheme: siteConfig.appConfig.defaultTheme,
-    defaultLocale: siteConfig.appConfig.defaultLocale,
-    defaultDirection: siteConfig.appConfig.defaultDirection,
-    indexPath: siteConfig.navigation.index,
+    title: siteConfig.titleConfig.title,
+    headline: siteConfig.titleConfig.headline,
+    subline: siteConfig.titleConfig.subline,
+    defaultTheme: siteConfig.defaultTheme,
+    defaultLocale: siteConfig.defaultLocale,
+    defaultDirection: siteConfig.defaultDirection,
+    indexPath: siteConfig.indexPath,
     basename,
     contentImports,
     navigationConfig: JSON.stringify(navigationConfig),
@@ -67,3 +75,10 @@ const loader = async function loader(siteConfigTemplate) {
 };
 
 module.exports = loader;
+
+// module.exports.pitch = function pitch(remainingRequest, precedingRequest, data) {
+//   // console.log('remainingRequest', remainingRequest);
+//   // console.log('precedingRequest', precedingRequest);
+//   // console.log('data', data);
+//   // console.log('this.loaders', this.loaders);
+// };

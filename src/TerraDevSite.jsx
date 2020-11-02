@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 
 import Site from './site/_Site';
 
-import devSiteConfig from './templates/terra.dev-site-config-template?terra-dev-site.config.js';
+// eslint-disable-next-line import/no-unresolved
+import devSiteConfig from './templates/terra.dev-site-config-template?terra-dev-site-config';
 
 import './site/site.module.scss';
 
