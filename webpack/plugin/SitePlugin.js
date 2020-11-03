@@ -27,18 +27,22 @@ class SitePlugin {
     this.config = applyDefaults(config);
     this.contentDirectory = contentDirectory;
     const { pathPrefix, titleConfig } = this.config;
+    this.entry = entry;
 
     if (pathPrefix) {
-      this.entryKey = `${pathPrefix}/'index'}`;
-      this.entry = { [this.entryKey]: entry };
+      this.entryKey = `${pathPrefix}/index}`;
+      this.resourceQuery = `?${pathPrefix}-terra-entry`;
+      this.configResourceQuery = `?${pathPrefix}-terra-dev-site-config`;
       this.htmlFileName = `${pathPrefix}/index.html`;
       this.url = `/${pathPrefix}`;
     } else {
       this.entryKey = 'index';
-      this.entry = { [this.entryKey]: entry };
+      this.resourceQuery = '?terra-entry';
+      this.configResourceQuery = '?terra-dev-site-config';
       this.htmlFileName = 'index.html';
       this.url = '/';
     }
+
     if (siteRegistry[pathPrefix]) {
       throw Error('site prefixes must be unique');
     }
@@ -205,7 +209,11 @@ class SitePlugin {
     compiler.options.output.publicPath = publicPath;
 
     // Strip the trailing / from the public path.
-    const basename = publicPath.slice(0, -1);
+    let basename = publicPath.slice(0, -1);
+
+    if (this.config.pathPrefix) {
+      basename = [basename, this.config.pathPrefix].join('/');
+    }
 
     const { sourceFolder, distributionFolder } = this.config;
 
@@ -214,18 +222,28 @@ class SitePlugin {
 
     compiler.options.entry = {
       ...compiler.options.entry,
-      ...this.entry,
+      [this.entryKey]: `${path.resolve(processPath, 'src', 'templates', 'entry.template')}${this.resourceQuery}`,
     };
 
-    const otherApps = Object.values(siteRegistry).filter(app => app.path !== this.config.prefix);
+    const otherApps = Object.values(siteRegistry).filter(app => app.path !== this.config.pathPrefix);
 
     // MODULE
     // ADD config loader
     compiler.options.module.rules = [
       {
-        // resourceQuery: \terra-dev-site-config\new RegExp(site.configFileName),
-        test: /\.dev-site-config-template$/,
-        resourceQuery: /terra-dev-site-config/,
+        resourceQuery: this.resourceQuery,
+        use: [
+          babelLoader,
+          {
+            loader: 'devSiteEntry',
+            options: {
+              entryPath: this.entry,
+              configTemplatePath: `${path.resolve(processPath, 'src', 'templates', 'terra.dev-site-config-template')}${this.configResourceQuery}`,
+            },
+          },
+        ],
+      }, {
+        resourceQuery: this.configResourceQuery,
         use: [
           babelLoader,
           {
@@ -233,7 +251,7 @@ class SitePlugin {
             options: {
               siteConfig: this.config,
               mode: compiler.options.mode,
-              prefix: this.config.prefix,
+              prefix: this.config.pathPrefix,
               apps: otherApps,
               basename,
               resolveExtensions: compiler.options.resolve.extensions,

@@ -66,6 +66,12 @@ const devSiteConfig = () => ({
         },
       ],
     }),
+    new TerraDevSite({
+      pathPrefix: 'derp',
+      titleConfig: {
+        title: 'Derp Site',
+      },
+    }),
   ],
   resolve: {
     extensions: ['.jst'],

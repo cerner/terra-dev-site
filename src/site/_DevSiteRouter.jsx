@@ -35,6 +35,7 @@ const DevSiteRouter = ({
 
   if (reservedExternalApp) {
     console.log('match', reservedExternalApp);
+
     if (getSessionStorage() !== undefined) {
       window.sessionStorage.redirect = window.location.href;
     }

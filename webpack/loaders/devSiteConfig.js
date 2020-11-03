@@ -24,9 +24,6 @@ const addImport = (path) => {
 const loader = async function loader(siteConfigTemplate) {
   const callback = this.async();
 
-  // console.log('request', this.request);
-  console.log('query', this.query);
-
   const {
     siteConfig,
     resolveExtensions,
@@ -57,11 +54,6 @@ const loader = async function loader(siteConfigTemplate) {
     contentDirectory,
   });
 
-  // const contentImports = {};
-  // const navigationConfig = [];
-  // const routesMap = {};
-  // const pageConfig = {};
-
   return callback(null, template(siteConfigTemplate)({
     title: siteConfig.titleConfig.title,
     headline: siteConfig.titleConfig.headline,
@@ -83,10 +75,3 @@ const loader = async function loader(siteConfigTemplate) {
 };
 
 module.exports = loader;
-
-// module.exports.pitch = function pitch(remainingRequest, precedingRequest, data) {
-//   // console.log('remainingRequest', remainingRequest);
-//   // console.log('precedingRequest', precedingRequest);
-//   // console.log('data', data);
-//   // console.log('this.loaders', this.loaders);
-// };

@@ -37,7 +37,7 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    <div id="<%= htmlWebpackPlugin.options.rootElementId %>"></div>
+    <div id="<%= htmlWebpackPlugin.options.rootElementId %>" style="height:100%"></div>
     <%= bodyChunks(htmlWebpackPlugin.options.headChunks, htmlWebpackPlugin.files.chunks) %>
   </body>
 </html>
