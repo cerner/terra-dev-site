@@ -13,9 +13,6 @@ const loader = async function loader(template) {
     configTemplatePath,
   } = getOptions(this);
 
-  console.log('entryPath', entryPath);
-  console.log('configTemplatePath', configTemplatePath);
-
   return callback(null, lodashTemplate(template)({
     entryPath,
     configTemplatePath,

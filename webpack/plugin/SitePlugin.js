@@ -6,9 +6,10 @@ const fs = require('fs');
 
 const DirectorySwitcherPlugin = require('./resolve/DirectorySwitcherPlugin');
 const LocalPackageAliasPlugin = require('./resolve/LocalPackageAliasPlugin');
-const { babelLoader, mdxOptions, getMdxLoader } = require('./siteUtils');
+const { babelLoader, mdxOptions, getMdxLoader } = require('./siteLoaderUtils');
 const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
 
+// Singletons
 let oneTimeSetupComplete = false;
 const siteRegistry = {};
 const processPath = process.cwd();
@@ -24,6 +25,7 @@ class SitePlugin {
     applyDefaults,
     contentDirectory,
   } = {}) {
+    // Apply defaults to the config.
     this.config = applyDefaults(config);
     this.contentDirectory = contentDirectory;
     const { pathPrefix, titleConfig } = this.config;
@@ -44,8 +46,9 @@ class SitePlugin {
     }
 
     if (siteRegistry[pathPrefix]) {
-      throw Error('site prefixes must be unique');
+      throw Error('The PathPrefix must be unique per TerraDevSite Plugin');
     }
+    // Register each application instance with the siteRegistry
     siteRegistry[pathPrefix] = {
       path: pathPrefix,
       url: this.url,
@@ -54,14 +57,16 @@ class SitePlugin {
     };
   }
 
-  static applyOneTimeSetup({ compiler, sourceFolder, distributionFolder }) {
+  static applyOneTimeSetup({
+    compiler,
+    sourceFolder,
+    distributionFolder,
+    basename,
+  }) {
     if (oneTimeSetupComplete) {
       return;
     }
     oneTimeSetupComplete = true;
-
-    // Strip the trailing / from the public path.
-    const basename = compiler.options.output.publicPath.slice(0, -1);
 
     // MODULE
     const mdxLoader = getMdxLoader(compiler.options.output.publicPath);
@@ -93,7 +98,7 @@ class SitePlugin {
           },
         ],
       }, {
-        resourceQuery: /dev-site-codeblock/,
+        resourceQuery: '?dev-site-codeblock',
         // this bypasses the default json loader
         type: 'javascript/auto',
         use: [
@@ -107,7 +112,7 @@ class SitePlugin {
           },
         ],
       }, {
-        resourceQuery: /dev-site-example/,
+        resourceQuery: '?dev-site-example',
         use: [
           babelLoader,
           'devSiteExample',
@@ -116,13 +121,13 @@ class SitePlugin {
         test: /\.json$/,
         // this bypasses the default json loader
         type: 'javascript/auto',
-        resourceQuery: /dev-site-package/,
+        resourceQuery: '?dev-site-package',
         use: [
           babelLoader,
           'devSitePackage',
         ],
       }, {
-        resourceQuery: /dev-site-props-table/,
+        resourceQuery: '?dev-site-props-table',
         use: [
           babelLoader,
           {
@@ -139,24 +144,18 @@ class SitePlugin {
       ],
     }];
 
-    // OUTPUT
-    // compiler.options.output.publicPath = publicPath;
-
     // RESOLVE
-    const devSiteConfigPath = path.resolve(path.join(processPath, 'dev-site-config'));
-    compiler.options.resolve.modules.unshift(devSiteConfigPath);
-
-    // Experiment
-    console.log('alias', compiler.options.resolve.alias);
-    compiler.options.resolve.alias = { devSiteConfig: path.join(processPath, 'src', 'templates', 'devSiteConfig.template') };
-
+    // If plugins is not defined, define it.
     if (!compiler.options.resolve.plugins) {
       compiler.options.resolve.plugins = [];
     }
 
+    // If a mono repo, update the rootDirectories to include all the packages.
     const rootDirectories = [
       ...isLernaMonoRepo ? [path.resolve(processPath, 'packages', '*')] : [processPath],
     ];
+
+    // Switch between source and distribution files.
     compiler.options.resolve.plugins.push(
       new DirectorySwitcherPlugin({
         shouldSwitch: compiler.options.mode !== 'production',
@@ -166,6 +165,7 @@ class SitePlugin {
       }),
     );
 
+    // Alias the local package to allow imports to reference the file as if it was imported from node modules.
     compiler.options.resolve.plugins.push(
       new LocalPackageAliasPlugin({
         rootDirectories,
@@ -189,6 +189,7 @@ class SitePlugin {
 
     // WEBPACK DEV SERVER
     if (compiler.options.devServer) {
+      // Setting this to enable browser routing
       compiler.options.devServer.historyApiFallback = true;
     }
 
@@ -206,70 +207,77 @@ class SitePlugin {
     }
     const publicPath = defaultPublicPath || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
 
+    // OUTPUT
     compiler.options.output.publicPath = publicPath;
+
+    const { sourceFolder, distributionFolder } = this.config;
+
+    // Since there can be multiple dev site plugins this config we only want to do once for all of them.
+    SitePlugin.applyOneTimeSetup({ compiler, sourceFolder, distributionFolder });
+
+    // ENTRY
+    compiler.options.entry = {
+      ...compiler.options.entry,
+      [this.entryKey]: `${path.join(__dirname, '..', '..', 'src', 'templates', 'entry.template')}${this.resourceQuery}`,
+    };
 
     // Strip the trailing / from the public path.
     let basename = publicPath.slice(0, -1);
 
-    const { sourceFolder, distributionFolder } = this.config;
-
-    SitePlugin.applyOneTimeSetup({ compiler, sourceFolder, distributionFolder });
-    // Load the site configuration.
-
-    compiler.options.entry = {
-      ...compiler.options.entry,
-      [this.entryKey]: `${path.resolve(processPath, 'src', 'templates', 'entry.template')}${this.resourceQuery}`,
-    };
-
+    // Get the list of apps excluding this current app.
     const filteredApps = Object.values(siteRegistry).filter(app => app.path !== this.config.pathPrefix);
 
+    // Map to what we want to send to site config
     const otherApps = filteredApps.map((app) => ({
       path: app.path,
       title: app.title,
       url: `${basename}${app.url}`,
     }));
 
+    // if there is a path prefix we want to update the react router basename to include the prefix.
     if (this.config.pathPrefix) {
       basename = [basename, this.config.pathPrefix].join('/');
     }
 
     // MODULE
-    // ADD config loader
-    compiler.options.module.rules = [
-      {
-        resourceQuery: this.resourceQuery,
-        use: [
-          babelLoader,
-          {
-            loader: 'devSiteEntry',
-            options: {
-              entryPath: this.entry,
-              configTemplatePath: `${path.resolve(processPath, 'src', 'templates', 'terra.dev-site-config-template')}${this.configResourceQuery}`,
-            },
+    // we know there is a oneOf here because we just added it.
+    compiler.options.module.rules[0].oneOf.unshift({
+      // This loader generates the entrypoint and sets up the config template path and resource query.
+      resourceQuery: this.resourceQuery,
+      use: [
+        babelLoader,
+        {
+          loader: 'devSiteEntry',
+          options: {
+            entryPath: this.entry,
+            configTemplatePath: `${path.join(__dirname, '..', '..', 'src', 'templates', 'terra.dev-site-config-template')}${this.configResourceQuery}`,
           },
-        ],
-      }, {
-        resourceQuery: this.configResourceQuery,
-        use: [
-          babelLoader,
-          {
-            loader: 'devSiteConfig',
-            options: {
-              siteConfig: this.config,
-              mode: compiler.options.mode,
-              prefix: this.config.pathPrefix,
-              apps: otherApps,
-              basename,
-              resolveExtensions: compiler.options.resolve.extensions,
-              isLernaMonoRepo,
-              contentDirectory: this.contentDirectory,
-            },
-          },
-        ],
-      },
-      ...compiler.options.module.rules,
-    ];
+        },
+      ],
+    });
 
+    compiler.options.module.rules[0].oneOf.unshift({
+      // This loader generates the siteConfig for the site.
+      resourceQuery: this.configResourceQuery,
+      use: [
+        babelLoader,
+        {
+          loader: 'devSiteConfig',
+          options: {
+            siteConfig: this.config,
+            mode: compiler.options.mode,
+            prefix: this.config.pathPrefix,
+            apps: otherApps,
+            basename,
+            resolveExtensions: compiler.options.resolve.extensions,
+            isLernaMonoRepo,
+            contentDirectory: this.contentDirectory,
+          },
+        },
+      ],
+    });
+
+    // Generate the index.html file for the site.
     new HtmlWebpackPlugin({
       title: this.config.titleConfig.title,
       direction: this.config.defaultDirection,

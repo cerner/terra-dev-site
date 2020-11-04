@@ -15,7 +15,6 @@ const propTypes = {
 };
 
 const DevSiteRouter = ({
-  basename,
   apps,
   routesMap,
   children,

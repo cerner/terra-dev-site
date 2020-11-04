@@ -24,7 +24,7 @@ const Site = ({ siteConfig, SessionProvider }) => (
     <AppSettingsContext.Consumer>
       {({ currentLocale, currentThemeClassName }) => (
         <BrowserRouter basename={siteConfig.basename}>
-          <Router basename={siteConfig.basename} apps={siteConfig.apps} routesMap={siteConfig.routesMap}>
+          <Router apps={siteConfig.apps} routesMap={siteConfig.routesMap}>
             <ApplicationBase
               locale={currentLocale}
               themeName={currentThemeClassName}

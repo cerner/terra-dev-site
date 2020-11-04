@@ -32,8 +32,6 @@ const loader = async function loader(siteConfigTemplate) {
     contentDirectory,
   } = getOptions(this);
 
-  console.log('apps', JSON.stringify(apps));
-
   const extensionItems = (siteConfig.extensionItems || []).map((ext) => ({
     key: ext.key,
     text: ext.text,
