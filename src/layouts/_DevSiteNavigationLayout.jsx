@@ -56,7 +56,7 @@ const DevSiteNavigation = ({ siteConfig }) => {
   const [showUtilityModal, setShowUtilityModal] = React.useState();
 
   const setNavigationState = (key) => {
-    history.push(key);
+    history.push(siteConfig.routesMap[key]);
   };
 
   const handleSettingsSelection = () => {

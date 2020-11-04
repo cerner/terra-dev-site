@@ -19,7 +19,7 @@ const propTypes = {
   siteConfig: siteConfigPropType.isRequired,
 };
 
-const Site = ({ siteConfig }) => (
+const Site = ({ siteConfig, SessionProvider }) => (
   <AppSettingsProvider settingsConfig={siteConfig.settingsConfig}>
     <AppSettingsContext.Consumer>
       {({ currentLocale, currentThemeClassName }) => (
@@ -31,7 +31,13 @@ const Site = ({ siteConfig }) => (
             >
               <TerraMdxProvider>
                 <ApplicationContainer>
-                  <DevSiteLayout siteConfig={siteConfig} />
+                  {SessionProvider ? (
+                    <SessionProvider>
+                      <DevSiteLayout siteConfig={siteConfig} />
+                    </SessionProvider>
+                  ) : (
+                    <DevSiteLayout siteConfig={siteConfig} />
+                  )}
                 </ApplicationContainer>
               </TerraMdxProvider>
             </ApplicationBase>

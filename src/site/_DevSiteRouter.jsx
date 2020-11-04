@@ -1,12 +1,10 @@
 import React from 'react';
 import {
-  useLocation, useHistory, useRouteMatch, Redirect,
+  useLocation, useRouteMatch, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import siteConfigPropType from './siteConfigPropTypes';
 import getSessionStorage from '../session';
-
-import './site.module.scss';
 
 const propTypes = {
 
@@ -34,12 +32,10 @@ const DevSiteRouter = ({
   const reservedExternalApp = apps.find((app) => location.pathname.startsWith(`/${app.path}`));
 
   if (reservedExternalApp) {
-    console.log('match', reservedExternalApp);
-
     if (getSessionStorage() !== undefined) {
       window.sessionStorage.redirect = window.location.href;
     }
-    window.location.pathname = `${basename}${reservedExternalApp.url}/`;
+    window.location.pathname = reservedExternalApp.url;
     return null;
   }
 
@@ -48,7 +44,6 @@ const DevSiteRouter = ({
   const primaryNavPath = routesMap[pathWithoutTrailingSlash];
 
   if (primaryNavPath) {
-    console.log('replacing ', location.pathname, ' with ', primaryNavPath);
     return <Redirect to={primaryNavPath} />;
   }
 

@@ -34,7 +34,7 @@ class SitePlugin {
       this.resourceQuery = `?${pathPrefix}-terra-entry`;
       this.configResourceQuery = `?${pathPrefix}-terra-dev-site-config`;
       this.htmlFileName = `${pathPrefix}/index.html`;
-      this.url = `/${pathPrefix}`;
+      this.url = `/${pathPrefix}/`;
     } else {
       this.entryKey = 'index';
       this.resourceQuery = '?terra-entry';
@@ -211,10 +211,6 @@ class SitePlugin {
     // Strip the trailing / from the public path.
     let basename = publicPath.slice(0, -1);
 
-    if (this.config.pathPrefix) {
-      basename = [basename, this.config.pathPrefix].join('/');
-    }
-
     const { sourceFolder, distributionFolder } = this.config;
 
     SitePlugin.applyOneTimeSetup({ compiler, sourceFolder, distributionFolder });
@@ -225,7 +221,17 @@ class SitePlugin {
       [this.entryKey]: `${path.resolve(processPath, 'src', 'templates', 'entry.template')}${this.resourceQuery}`,
     };
 
-    const otherApps = Object.values(siteRegistry).filter(app => app.path !== this.config.pathPrefix);
+    const filteredApps = Object.values(siteRegistry).filter(app => app.path !== this.config.pathPrefix);
+
+    const otherApps = filteredApps.map((app) => ({
+      path: app.path,
+      title: app.title,
+      url: `${basename}${app.url}`,
+    }));
+
+    if (this.config.pathPrefix) {
+      basename = [basename, this.config.pathPrefix].join('/');
+    }
 
     // MODULE
     // ADD config loader
@@ -273,7 +279,7 @@ class SitePlugin {
       favicon: this.config.faviconFilePath,
       headHtml: [getNewRelicJS()].concat(this.config.headHtml),
       headChunks: ['rewriteHistory'],
-      excludeChunks: ['redirect', ...Object.values(otherApps).map(app => app.entry)],
+      excludeChunks: ['redirect', ...Object.values(filteredApps).map(app => app.entry)],
       inject: false, // This turns off auto injection. We handle this ourselves in the template.
     }).apply(compiler);
   }

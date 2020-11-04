@@ -1,23 +1,8 @@
 @import './clinical-lowlight-theme/ContentLoaded.module';
 @import './orion-fusion-theme/ContentLoaded.module';
-@import './clinical-lowlight-theme/MarkdownWrapper.module';
-@import './orion-fusion-theme/MarkdownWrapper.module';
-
-:local {
-  .dev-site-content {
-    background-color: var(--terra-dev-site-content-background-color, transparent);
-    height: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    position: relative;
-    width: 100%;
-  }
-}
 
 :local(.markdown) {
   color: inherit;
-  height: 100%;
-  overflow: auto;
   padding: 1.714rem;
   position: relative;
 

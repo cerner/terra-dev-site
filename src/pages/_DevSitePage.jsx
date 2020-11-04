@@ -4,7 +4,6 @@ import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 import IconTreemap from 'terra-icon/lib/icon/IconTreemap';
 import IconLocationPin from 'terra-icon/lib/icon/IconLocationPin';
 import IconStartPresenting from 'terra-icon/lib/icon/IconStartPresenting';
-import IconStopPresenting from 'terra-icon/lib/icon/IconStopPresenting';
 import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 
 import PageErrorBoundary from './_DevSitePageErrorBoundary';
@@ -49,7 +48,7 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
     {
       key: 'raw',
       text: 'RawToggle',
-      icon: isRaw ? <IconStopPresenting /> : <IconStartPresenting />,
+      icon: <IconStartPresenting />,
       onSelect: () => {
         history.push(`/raw${location.pathname}`);
       },

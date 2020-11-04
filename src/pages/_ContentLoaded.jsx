@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNamesBind from 'classnames/bind';
 import { ThemeContext } from '@cerner/terra-application/lib/theme';
@@ -33,7 +33,6 @@ const ContentLoaded = ({ children, type }) => {
       data-terra-dev-site-content
       className={
         cx(
-          'dev-site-content',
           theme.className,
           ...(['md', 'mdx'].includes(type) ? ['markdown'] : []),
         )
