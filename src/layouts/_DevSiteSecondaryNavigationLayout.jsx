@@ -1,16 +1,15 @@
 import React from 'react';
-
+import { PageContainer } from '@cerner/terra-application/lib/page';
 import {
   SecondaryNavigationLayout,
   SecondaryNavigationGroup,
   NavigationItem,
   NavigationItemContext,
 } from '@cerner/terra-application/lib/layouts';
-
 import { useLocation, useHistory } from 'react-router-dom';
 
 import DevSitePage from '../pages/_DevSitePage';
-
+import NotFoundPage from '../pages/_NotFoundPage';
 import { contentImportsPropType, navigationConfigPropType } from '../site/siteConfigPropTypes';
 
 const propTypes = {
@@ -62,7 +61,11 @@ const DevSiteSecondaryNavigationLayout = ({ config, contentImports }) => {
     <SecondaryNavigationLayout
       activeNavigationKey={location.pathname}
       onSelectNavigationItem={(key) => history.push(key)}
-      renderNavigationFallback={() => <p>Nope</p>}
+      renderNavigationFallback={() => (
+        <PageContainer isMain>
+          <NotFoundPage />
+        </PageContainer>
+      )}
     >
       {retrieveNavItems(config)}
     </SecondaryNavigationLayout>

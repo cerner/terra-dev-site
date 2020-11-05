@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { HeadlessLayout } from '@cerner/terra-application/lib/layouts';
+// import { HeadlessLayout } from '@cerner/terra-application/lib/layouts';
 import { PromptRegistrationContext } from '@cerner/terra-application/lib/navigation-prompt';
 import { PageContainer } from '@cerner/terra-application/lib/page';
 import NotFoundPage from '../pages/_NotFoundPage';
