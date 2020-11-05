@@ -40,6 +40,9 @@ const sitesPropType = PropTypes.arrayOf(PropTypes.shape({
   url: PropTypes.string,
 }));
 
+/**
+ * Describes the extensions
+ */
 const extensionItemsPropType = PropTypes.arrayOf(PropTypes.shape({
   /**
    * The react key for the extension.
@@ -59,35 +62,83 @@ const extensionItemsPropType = PropTypes.arrayOf(PropTypes.shape({
   modal: PropTypes.elementType,
 }));
 
+/**
+ * Describes page content
+ */
 const pageContentConfigPropType = PropTypes.shape({
+  /**
+   * The path to the page
+   */
   path: PropTypes.string,
+  /**
+   * Text for the page
+   */
   text: PropTypes.string.isRequired,
+  /**
+   * The type of the content being loaded
+   */
   type: PropTypes.string.isRequired,
 });
 
+/**
+ * Describes navigation config
+ */
 const navigationConfigPropType = PropTypes.arrayOf(PropTypes.shape({
+  /**
+   * The text for the nav item
+   */
   text: PropTypes.string.isRequired,
+  /**
+   * The singular page config item
+   */
   pageConfig: pageContentConfigPropType,
+  /**
+   * children
+   */
   children: PropTypes.array,
 }));
 
+/**
+ * Path to imports map
+ */
 const contentImportsPropType = PropTypes.object;
+/**
+ * Path to page config map
+ */
 const pageConfigPropType = PropTypes.object;
+/**
+ * Short routes to content routes.
+ */
 const routesMapPropType = PropTypes.object;
 
 /**
  * Object describing the generated dev-site-config object.
  */
 const siteConfigPropType = PropTypes.shape({
+  /**
+   * The basename for the application.
+   */
   basename: PropTypes.string.isRequired,
+  /**
+   * The map of routes to lazy components.
+   */
   contentImports: contentImportsPropType.isRequired,
   /**
    * Custom extensions
    */
   extensionItems: extensionItemsPropType.isRequired,
+  /**
+   * Configuration layout out primary and secondary navigation.
+   */
   navigationConfig: navigationConfigPropType,
+  /**
+   * The map of routes to page config
+   */
   pageConfig: pageConfigPropType.isRequired,
-  routesMap: routesMapPropType.isRequirede,
+  /**
+   * map of routes to redirect to content routes.
+   */
+  routesMap: routesMapPropType.isRequired,
   /**
    * Object describing in site configurable settings
    */
