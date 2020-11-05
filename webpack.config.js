@@ -7,10 +7,11 @@ const TerraDevSiteEntrypoints = require('./webpack/plugin/TerraDevSiteEntrypoint
 
 const html = fs.readFileSync(require.resolve('./head.html'), 'utf8');
 
-const devSiteConfig = () => ({
+const devSiteConfig = (env = {}) => ({
   entry: TerraDevSiteEntrypoints,
   plugins: [
     new TerraDevSite({
+      defaultLocale: env.defaultLocale,
       primaryNavigationItems: [{
         path: '/home',
         text: 'Home',

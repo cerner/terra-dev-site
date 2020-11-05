@@ -30,10 +30,10 @@ const generateUrl = (routes, namespace, primaryPath) => (
 * Recursively generates page configs.
 */
 const recurs = ({
-  config, routes, contentPath, ext, namespace, contentImports, url, pageConfig,
+  config, routes, contentPath, ext, contentImports, url, pageConfig,
 }) => {
   // Prefer modifying config over creating new config, this way we blend file paths together in the ui.
-  const configCopy = config || getPageConfig(routes[0], namespace);
+  const configCopy = config || getPageConfig(routes[0]);
 
   // Pop off the top most directory.
   const slicedDir = routes.slice(1);
@@ -97,12 +97,11 @@ const buildPageConfig = ({
       acc[referenceNavItem.path] = primaryNavItem;
     }
 
-    const directory = parsedPath.dir;
     // Drop the period for the extension.
     const ext = parsedPath.ext.slice(1);
 
     const routes = getRoutes(name, entryPoint);
-    const packageNamespace = getNamespace(directory, namespace);
+    const packageNamespace = getNamespace(filePath, namespace);
 
     const key = routes[0];
     primaryNavItem.children[key] = recurs({
@@ -110,9 +109,8 @@ const buildPageConfig = ({
       routes,
       contentPath: filePath,
       ext,
-      namespace: packageNamespace,
       contentImports,
-      url: generateUrl(routes, namespace, primaryNavItem.path),
+      url: generateUrl(routes, packageNamespace, primaryNavItem.path),
       pageConfig,
     });
     return acc;
