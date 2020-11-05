@@ -3,19 +3,26 @@ import {
   useLocation, useRouteMatch, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import siteConfigPropType from './siteConfigPropTypes';
+import { sitesPropType, routesMapPropType } from './siteConfigPropTypes';
 import getSessionStorage from '../session';
 
 const propTypes = {
-
   /**
    * The site config for the application.
    */
-  routesMap: siteConfigPropType.isRequired,
+  sites: sitesPropType.isRequired,
+  /**
+   * The map of routes to redirect to
+   */
+  routesMap: routesMapPropType.isRequired,
+  /**
+   * Children
+   */
+  children: PropTypes.node.isRequired,
 };
 
 const DevSiteRouter = ({
-  apps,
+  sites,
   routesMap,
   children,
 }) => {
@@ -27,8 +34,8 @@ const DevSiteRouter = ({
     return <Redirect to={`/${location.hash.slice(2)}`} />;
   }
 
-  // Redirect to reserved routes other apps.
-  const reservedExternalApp = apps.find((app) => location.pathname.startsWith(`/${app.path}`));
+  // Redirect to reserved routes other sites.
+  const reservedExternalApp = sites.find((site) => location.pathname.startsWith(`/${site.path}`));
 
   if (reservedExternalApp) {
     if (getSessionStorage() !== undefined) {

@@ -7,13 +7,26 @@ import IconStartPresenting from 'terra-icon/lib/icon/IconStartPresenting';
 import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 
 import PageErrorBoundary from './_DevSitePageErrorBoundary';
-import LoadingPage from '../static-pages/_LoadingPage';
+import LoadingOverlay from './_LoadingOverlay';
 import ContentLoadedContainer from './_ContentLoaded';
 import AppSettingsContext from '../site/_AppSettingsContext';
 import ContentSettingsMenu from './_ContentSettingsMenu';
 import ComponentToolbar from './_ComponentToolbar';
+import { contentImportsPropType, pageContentConfigPropType } from '../site/siteConfigPropTypes';
 
-const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
+const propTypes = {
+  /**
+   * Config describing the page
+   */
+  pageContentConfig: pageContentConfigPropType.isRequired,
+
+  /**
+   * Function called to request closing the modal
+   */
+  contentImports: contentImportsPropType.isRequired,
+};
+
+const DevSitePage = ({ pageContentConfig, contentImports }) => {
   const location = useLocation();
   const history = useHistory();
   const isRaw = useRouteMatch('/raw');
@@ -91,7 +104,7 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
     >
       <PageErrorBoundary>
         <Suspense fallback={(
-          <LoadingPage />
+          <LoadingOverlay />
         )}
         >
           <ContentLoadedContainer type={pageContentConfig.type}>
@@ -125,4 +138,6 @@ const DevSiteContentPage = ({pageContentConfig, contentImports}) => {
   );
 };
 
-export default DevSiteContentPage;
+DevSitePage.propTypes = propTypes;
+
+export default DevSitePage;

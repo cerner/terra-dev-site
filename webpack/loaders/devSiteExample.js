@@ -37,6 +37,7 @@ const loader = async function loader(content) {
           );`);
       return callback(null, code.join('\n'));
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(((`Cannot resolve path:\n${cssFileName}\n${err}`)));
     }
   }

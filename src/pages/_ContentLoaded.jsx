@@ -8,7 +8,13 @@ import styles from './ContentLoaded.module.scss';
 const cx = classNamesBind.bind(styles);
 
 const propTypes = {
+  /**
+   * The type of the content loaded
+   */
   type: PropTypes.string,
+  /**
+   * The content to render
+   */
   children: PropTypes.element.isRequired,
 };
 

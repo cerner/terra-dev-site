@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useLocation, useHistory } from 'react-router-dom';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import IconTile from 'terra-icon/lib/icon/IconTile';
@@ -16,39 +15,13 @@ import siteConfigPropType from '../site/siteConfigPropTypes';
 import DevSiteSecondaryNavigation from './_DevSiteSecondaryNavigationLayout';
 
 const propTypes = {
-
-  /**
-   * function to return search items
-   */
-  fetchSearchItems: PropTypes.func,
-
   /**
    * The site config for the application.
    */
   siteConfig: siteConfigPropType.isRequired,
-
-  /**
-   * Injected by react-router: represent where the app is now, where you want it to go,
-   * or even where it was.
-   */
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
-
-  /**
-   * Injected by react-router: the object representing browser history.
-   */
-  // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.object,
-
 };
 
-const defaultProps = {
-  location: undefined,
-  history: undefined,
-};
-
-const DevSiteNavigation = ({ siteConfig }) => {
+const DevSiteNavigationLayout = ({ siteConfig }) => {
   const location = useLocation();
   const history = useHistory();
   const [showSettingsModal, setShowSettingsModal] = React.useState(false);
@@ -76,26 +49,26 @@ const DevSiteNavigation = ({ siteConfig }) => {
       icon: <ext.icon />,
       key: ext.key,
       text: ext.text,
-      metaData: <ext.modal onRequestClose={() => { setShowExtensionModal(); }} />,
+      metaData: { render: () => (<ext.modal onRequestClose={() => { setShowExtensionModal(); }} />) },
     }));
 
     extensionArray.unshift({
       icon: <IconSearch />,
       key: 'terra-dev-site.search',
       text: 'Search',
-      metaData: <SearchModal siteConfig={siteConfig} onRequestClose={() => { setShowExtensionModal(); }} />,
+      metaData: { render: () => (<SearchModal pageConfig={siteConfig.pageConfig} onRequestClose={() => { setShowExtensionModal(); }} />) },
     });
     return extensionArray;
   };
 
-  const getUtilityItems = (appsConfig) => {
+  const getUtilityItems = (sites) => {
     const utilityItems = [];
-    if (appsConfig.length > 0) {
+    if (sites.length > 0) {
       utilityItems.push({
         icon: <IconTile />,
         key: 'terra-dev-site.application-switcher',
         text: 'Application Switcher',
-        metaData: <ApplicationSwitcherModal apps={appsConfig} onRequestClose={() => { setShowUtilityModal(); }} />,
+        metaData: { render: () => (<ApplicationSwitcherModal sites={sites} onRequestClose={() => { setShowUtilityModal(); }} />) },
       });
     }
     return utilityItems;
@@ -112,7 +85,7 @@ const DevSiteNavigation = ({ siteConfig }) => {
         onSelectSettings={handleSettingsSelection}
         onSelectExtensionItem={handleExtensionSelection}
         extensionItems={getExtensionItems()}
-        utilityItems={getUtilityItems(siteConfig.apps)}
+        utilityItems={getUtilityItems(siteConfig.sites)}
         onSelectUtilityItem={handleUtilitySelection}
         renderNavigationFallback={() => (
           <PageContainer isMain>
@@ -142,13 +115,12 @@ const DevSiteNavigation = ({ siteConfig }) => {
         })}
       </PrimaryNavigationLayout>
       {showSettingsModal && <SettingsModal onRequestClose={() => { setShowSettingsModal(false); }} />}
-      {showExtensionModal}
-      {showUtilityModal}
+      {showExtensionModal && showExtensionModal.render()}
+      {showUtilityModal && showUtilityModal.render()}
     </>
   );
 };
 
-DevSiteNavigation.propTypes = propTypes;
-DevSiteNavigation.defaultProps = defaultProps;
+DevSiteNavigationLayout.propTypes = propTypes;
 
-export default DevSiteNavigation;
+export default DevSiteNavigationLayout;

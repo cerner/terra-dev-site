@@ -4,18 +4,11 @@ import ApplicationStatusOverlay from '@cerner/terra-application/lib/application-
 
 import ContentLoadedContainer from './_ContentLoaded';
 
-// import ErrorPage from './_ErrorPage';
-
 const propTypes = {
   /**
    * children are children
    */
   children: PropTypes.element.isRequired,
-
-  /**
-   * Component to wrap around errored content
-   */
-  // errorWrapper: PropTypes.func.isRequired,
 };
 
 class ContentErrorBoundary extends React.Component {

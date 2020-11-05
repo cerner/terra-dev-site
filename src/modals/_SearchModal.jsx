@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
 import classNamesBind from 'classnames/bind';
@@ -8,9 +9,23 @@ import { ThemeContext } from '@cerner/terra-application/lib/theme';
 import Fuse from 'fuse.js';
 import StatusView from 'terra-status-view';
 
+import { pageConfigPropType } from '../site/siteConfigPropTypes';
+
 import styles from './SearchModal.module.scss';
 
 const cx = classNamesBind.bind(styles);
+
+const propTypes = {
+  /**
+   * A map listing all the page routes to the page config
+   */
+  pageConfig: pageConfigPropType.isRequired,
+
+  /**
+   * Function called to request closing the modal
+   */
+  onRequestClose: PropTypes.func.isRequired,
+};
 
 const clearResults = setState => setState({ results: [] });
 
@@ -70,9 +85,9 @@ const searchItem = result => (
   </div>
 );
 
-const cacheSearchItems = (siteConfig, state, setState) => {
+const cacheSearchItems = (pageConfig, state, setState) => {
   if (!state.searchItems) {
-    const searchItems = Object.entries(siteConfig.pageConfig).map(([key, value]) => ({
+    const searchItems = Object.entries(pageConfig).map(([key, value]) => ({
       title: value.text,
       path: key,
       tags: key.split('/').join(' '),
@@ -83,10 +98,10 @@ const cacheSearchItems = (siteConfig, state, setState) => {
   }
 };
 
-const SearchModal = ({siteConfig, onRequestClose}) => {
+const SearchModal = ({ pageConfig, onRequestClose }) => {
   const [state, setState] = useState({ results: [] });
   const history = useHistory();
-  cacheSearchItems(siteConfig, state, setState);
+  cacheSearchItems(pageConfig, state, setState);
   const { searchItems, searchString, results } = state;
   const theme = React.useContext(ThemeContext);
 
@@ -139,5 +154,7 @@ const SearchModal = ({siteConfig, onRequestClose}) => {
     </ApplicationModal>
   );
 };
+
+SearchModal.propTypes = propTypes;
 
 export default SearchModal;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Button from 'terra-button';
 import ActionFooter from 'terra-action-footer';
 import NativeSelectField from 'terra-form-select/lib/native-select/NativeSelectField';
@@ -10,7 +11,14 @@ import styles from './SettingsModal.module.scss';
 
 const cx = classNamesBind.bind(styles);
 
-const SettingsModal = ({onRequestClose}) => {
+const propTypes = {
+  /**
+   * Function called to request closing the modal
+   */
+  onRequestClose: PropTypes.func.isRequired,
+};
+
+const SettingsModal = ({ onRequestClose }) => {
   const appSettings = React.useContext(AppSettingsContext);
   const [state, setState] = useState({ locale: appSettings.currentLocale, theme: appSettings.currentTheme, direction: appSettings.currentDirection });
   const {
@@ -103,5 +111,7 @@ const SettingsModal = ({onRequestClose}) => {
     </ApplicationModal>
   );
 };
+
+SettingsModal.propTypes = propTypes;
 
 export default SettingsModal;

@@ -17,11 +17,6 @@ const startCase = (string) => {
 const pageTypes = primaryNavigationItems => (primaryNavigationItems.reduce((acc, primaryNavigationItem) => acc.concat([primaryNavigationItem.contentExtension]), []));
 
 /**
- * Gets the path relative to the dev-site-config directory.
- */
-const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'dev-site-config'), componentPath));
-
-/**
  * Provides the namespace for the package in this order, mono repo package, node_modules package, provided package name.
  */
 const getNamespace = (directory, namespace) => {
@@ -42,7 +37,7 @@ const getRoutes = (fileName, entryPoint) => {
     routes = parsedPath.dir.split('/');
   }
 
-  // Note: spliting on seperator results in the first array element to be '' so we shift to get rid of it.
+  // Note: splitting on separator results in the first array element to be '' so we shift to get rid of it.
   routes.shift();
 
   // add on the file name as the last route
@@ -51,8 +46,8 @@ const getRoutes = (fileName, entryPoint) => {
   return routes;
 };
 
-/** Returns an object of the end most extention and the filename minus that extension.
- * This may be used mulitiple times on a string to retirve all extensions.
+/** Returns an object of the end most extension and the filename minus that extension.
+ * This may be used multiple times on a string to retrieve all extensions.
  */
 const parseExtension = fileName => {
   const result = /\.([^.]+$)/.exec(fileName);
@@ -70,7 +65,6 @@ const parseExtension = fileName => {
 const configHelpers = {
   startCase,
   pageTypes,
-  relativePath,
   getNamespace,
   getRoutes,
   parseExtension,

@@ -26,9 +26,9 @@ class SitePlugin {
     contentDirectory,
   } = {}) {
     // Apply defaults to the config.
-    this.config = applyDefaults(config);
+    this.siteConfig = applyDefaults(config);
     this.contentDirectory = contentDirectory;
-    const { pathPrefix, titleConfig } = this.config;
+    const { pathPrefix, titleConfig } = this.siteConfig;
     this.entry = entry;
 
     if (pathPrefix) {
@@ -210,7 +210,7 @@ class SitePlugin {
     // OUTPUT
     compiler.options.output.publicPath = publicPath;
 
-    const { sourceFolder, distributionFolder } = this.config;
+    const { sourceFolder, distributionFolder } = this.siteConfig;
 
     // Since there can be multiple dev site plugins this config we only want to do once for all of them.
     SitePlugin.applyOneTimeSetup({ compiler, sourceFolder, distributionFolder });
@@ -225,18 +225,18 @@ class SitePlugin {
     let basename = publicPath.slice(0, -1);
 
     // Get the list of apps excluding this current app.
-    const filteredApps = Object.values(siteRegistry).filter(app => app.path !== this.config.pathPrefix);
+    const filteredSites = Object.values(siteRegistry).filter(site => site.path !== this.siteConfig.pathPrefix);
 
     // Map to what we want to send to site config
-    const otherApps = filteredApps.map((app) => ({
-      path: app.path,
-      title: app.title,
-      url: `${basename}${app.url}`,
+    const otherSites = filteredSites.map((site) => ({
+      path: site.path,
+      title: site.title,
+      url: `${basename}${site.url}`,
     }));
 
     // if there is a path prefix we want to update the react router basename to include the prefix.
-    if (this.config.pathPrefix) {
-      basename = [basename, this.config.pathPrefix].join('/');
+    if (this.siteConfig.pathPrefix) {
+      basename = [basename, this.siteConfig.pathPrefix].join('/');
     }
 
     // MODULE
@@ -264,10 +264,8 @@ class SitePlugin {
         {
           loader: 'devSiteConfig',
           options: {
-            siteConfig: this.config,
-            mode: compiler.options.mode,
-            prefix: this.config.pathPrefix,
-            apps: otherApps,
+            siteConfig: this.siteConfig,
+            sites: otherSites,
             basename,
             resolveExtensions: compiler.options.resolve.extensions,
             isLernaMonoRepo,
@@ -279,15 +277,15 @@ class SitePlugin {
 
     // Generate the index.html file for the site.
     new HtmlWebpackPlugin({
-      title: this.config.titleConfig.title,
-      direction: this.config.defaultDirection,
+      title: this.siteConfig.titleConfig.title,
+      direction: this.siteConfig.defaultDirection,
       filename: this.htmlFileName,
       template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
       rootElementId: 'root',
-      favicon: this.config.faviconFilePath,
-      headHtml: [getNewRelicJS()].concat(this.config.headHtml),
+      favicon: this.siteConfig.faviconFilePath,
+      headHtml: [getNewRelicJS()].concat(this.siteConfig.headHtml),
       headChunks: ['rewriteHistory'],
-      excludeChunks: ['redirect', ...Object.values(filteredApps).map(app => app.entry)],
+      excludeChunks: ['redirect', ...Object.values(filteredSites).map(site => site.entry)],
       inject: false, // This turns off auto injection. We handle this ourselves in the template.
     }).apply(compiler);
   }

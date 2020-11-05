@@ -26,10 +26,11 @@ const loader = async function loader(siteConfigTemplate) {
 
   const {
     siteConfig,
-    resolveExtensions,
     basename,
-    apps,
+    resolveExtensions,
+    sites,
     contentDirectory,
+    isLernaMonoRepo,
   } = getOptions(this);
 
   const extensionItems = (siteConfig.extensionItems || []).map((ext) => ({
@@ -50,6 +51,7 @@ const loader = async function loader(siteConfigTemplate) {
     mode: this.mode,
     verbose: false,
     contentDirectory,
+    isLernaMonoRepo,
   });
 
   return callback(null, template(siteConfigTemplate)({
@@ -59,7 +61,6 @@ const loader = async function loader(siteConfigTemplate) {
     defaultTheme: siteConfig.defaultTheme,
     defaultLocale: siteConfig.defaultLocale,
     defaultDirection: siteConfig.defaultDirection,
-    indexPath: siteConfig.indexPath,
     basename,
     contentImports,
     navigationConfig: JSON.stringify(navigationConfig),
@@ -67,7 +68,7 @@ const loader = async function loader(siteConfigTemplate) {
     pageConfig: JSON.stringify(pageConfig),
     extensionItems,
     imports,
-    apps: JSON.stringify(apps),
+    sites: JSON.stringify(sites),
     sideEffectImportFilePaths: siteConfig.sideEffectImportFilePaths,
   }));
 };

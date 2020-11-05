@@ -12,11 +12,14 @@ import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 import Router from './_DevSiteRouter';
 
 const propTypes = {
-
   /**
    * The site config for the application.
    */
   siteConfig: siteConfigPropType.isRequired,
+  /**
+   * The A session provider
+   */
+  SessionProvider: PropTypes.element,
 };
 
 const Site = ({ siteConfig, SessionProvider }) => (
@@ -24,7 +27,7 @@ const Site = ({ siteConfig, SessionProvider }) => (
     <AppSettingsContext.Consumer>
       {({ currentLocale, currentThemeClassName }) => (
         <BrowserRouter basename={siteConfig.basename}>
-          <Router apps={siteConfig.apps} routesMap={siteConfig.routesMap}>
+          <Router sites={siteConfig.sites} routesMap={siteConfig.routesMap}>
             <ApplicationBase
               locale={currentLocale}
               themeName={currentThemeClassName}

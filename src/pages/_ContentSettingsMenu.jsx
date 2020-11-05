@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Menu from 'terra-menu';
 
-// import styles from './MenuButton.module.scss';
-
-// const cx = classNames.bind(styles);
-
 const propTypes = {
   /**
    * Button text
@@ -26,10 +22,25 @@ const propTypes = {
    * On change callback
    */
   onChange: PropTypes.func.isRequired,
+
+  /**
+   * Target element for the menu to anchor to
+   */
+  targetRef: PropTypes.func.isRequired,
+
+  /**
+   * Function called to request closing the menu
+   */
+  onRequestClose: PropTypes.func.isRequired,
 };
 
 const MenuButton = ({
-  text, items, selectedKey, onChange, targetRef, onRequestClose
+  text,
+  items,
+  selectedKey,
+  onChange,
+  targetRef,
+  onRequestClose,
 }) => (
   <Menu
     isOpen

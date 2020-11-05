@@ -1,16 +1,15 @@
 import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import DevSiteNavigationLayout from './_DevSiteNavigationLayout';
 import RawLayout from './_RawLayout';
-// import siteConfigPropType from './siteConfigPropTypes';
+import siteConfigPropType from '../site/siteConfigPropTypes';
 
 const propTypes = {
   /**
    * The site config for the application.
    */
-  // siteConfig: siteConfigPropType.isRequired,
+  siteConfig: siteConfigPropType.isRequired,
 };
 
 const DevSiteLayout = ({ siteConfig }) => {

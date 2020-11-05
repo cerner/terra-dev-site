@@ -5,36 +5,33 @@ import Hyperlink from 'terra-hyperlink';
 import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
 import classNamesBind from 'classnames/bind';
 
+import { sitesPropType } from '../site/siteConfigPropTypes';
+
 import styles from './ApplicationSwitcherModal.module.scss';
 
 const cx = classNamesBind.bind(styles);
 
 const propTypes = {
   /**
-   * Apps config
+   * Sites to display.
    */
-  apps: PropTypes.arrayOf(
-    PropTypes.shape({
-      url: PropTypes.string,
-      title: PropTypes.string,
-    }),
-  ).isRequired,
+  sites: sitesPropType.isRequired,
 
   /**
-   * Injected by disclosure manager
+   * Function called to request closing the modal
    */
   onRequestClose: PropTypes.func.isRequired,
 };
 
-const ApplicationSwitcherModal = ({ onRequestClose, apps }) => (
+const ApplicationSwitcherModal = ({ onRequestClose, sites }) => (
   <ApplicationModal
     title="Application Switcher"
     onRequestClose={onRequestClose}
   >
     <List dividerStyle="bottom-only">
-      {apps.map(app => (
-        <Item key={app.url}>
-          <Hyperlink className={cx('item')} href={app.url}>{app.title}</Hyperlink>
+      {sites.map(site => (
+        <Item key={site.url}>
+          <Hyperlink className={cx('item')} href={site.url}>{site.title}</Hyperlink>
         </Item>
       ))}
     </List>

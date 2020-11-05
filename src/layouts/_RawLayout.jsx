@@ -1,31 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { HeadlessLayout } from '@cerner/terra-application/lib/layouts';
 import { PromptRegistrationContext } from '@cerner/terra-application/lib/navigation-prompt';
 import NotFoundPage from '../pages/_NotFoundPage';
 import DevSitePage from '../pages/_DevSitePage';
 
+import siteConfigPropType from '../site/siteConfigPropTypes';
+
 const propTypes = {
   /**
-   * The path to the sites index.
+   * The site config for the application
    */
-  contentConfig: PropTypes.shape({
-    placeholder: PropTypes.node,
-    content: PropTypes.object,
-    menuItems: PropTypes.object,
-  }).isRequired,
-  /**
-   * The path to the sites index.
-   */
-  indexPath: PropTypes.string.isRequired,
-  /**
-   * Injected by react-router: represent where the app is now, where you want it to go,
-   * or even where it was.
-   */
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }).isRequired,
+  siteConfig: siteConfigPropType,
 };
 
 const promptProviderValue = {

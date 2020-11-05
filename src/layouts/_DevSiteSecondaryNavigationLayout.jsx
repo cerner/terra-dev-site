@@ -1,11 +1,30 @@
 import React from 'react';
 
-import { SecondaryNavigationLayout, SecondaryNavigationGroup, NavigationItem, NavigationItemContext } from '@cerner/terra-application/lib/layouts';
+import {
+  SecondaryNavigationLayout,
+  SecondaryNavigationGroup,
+  NavigationItem,
+  NavigationItemContext,
+} from '@cerner/terra-application/lib/layouts';
+
 import { useLocation, useHistory } from 'react-router-dom';
 
 import DevSitePage from '../pages/_DevSitePage';
 
-const DevSiteSecondaryNavigationLayout = ({config, contentImports}) => {
+import { contentImportsPropType, navigationConfigPropType } from '../site/siteConfigPropTypes';
+
+const propTypes = {
+  /**
+   * The map linking the route to the content component to load.
+   */
+  contentImports: contentImportsPropType.isRequired,
+  /**
+   * The navigation configuration describing the secondary navigation
+   */
+  config: navigationConfigPropType,
+};
+
+const DevSiteSecondaryNavigationLayout = ({ config, contentImports }) => {
   const location = useLocation();
   const history = useHistory();
   const { isActive } = React.useContext(NavigationItemContext);
@@ -49,5 +68,7 @@ const DevSiteSecondaryNavigationLayout = ({config, contentImports}) => {
     </SecondaryNavigationLayout>
   );
 };
+
+DevSiteSecondaryNavigationLayout.propTypes = propTypes;
 
 export default DevSiteSecondaryNavigationLayout;

@@ -120,7 +120,7 @@ const buildPageConfig = ({
 );
 
 /**
-* Simple alpha sort. Copied from MDN, if I'm (Matt) being honest.
+* Simple alpha sort. Modified from MDN, if I'm (Matt) being honest.
 */
 const alphaSort = (a, b) => {
   if (a && !b) {
@@ -240,13 +240,13 @@ const generatePagesConfig = ({
   mode,
   verbose,
   contentDirectory,
+  isLernaMonoRepo,
 }) => {
   const {
     additionalSearchDirectories,
     primaryNavigationItems,
     sourceFolder,
     distributionFolder,
-    isLernaMonoRepo,
   } = siteConfig;
 
   // Get the default search patterns for both normal and lerna mono repos.

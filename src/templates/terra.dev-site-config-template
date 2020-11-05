@@ -22,11 +22,10 @@ export default {
   },
   contentImports,
   navigationConfig,
-  indexPath: '<%= indexPath %>',
   extensionItems: [
     <% extensionItems.forEach(ext => print(`{ key: '${ext.key}', text: '${ext.text}', icon: ${ext.icon}, modal: ${ext.modal} },`)); %>
   ],
-  apps: <%= apps %>,
+  sites: <%= sites %>,
   basename: '<%= basename %>',
   routesMap: <%= routesMap %>,
   pageConfig,

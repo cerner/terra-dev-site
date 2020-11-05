@@ -21,105 +21,107 @@ const settingsConfigPropType = PropTypes.shape({
 });
 
 /**
- * Callback for showing the side menu
+ * Additional Sites that can be switched to.
  */
-const capabilitiesPropType = PropTypes.object;
-
-/**
- * Individual menu item for side nav
- */
-const menuItemPropType = PropTypes.arrayOf(PropTypes.shape({
+const sitesPropType = PropTypes.arrayOf(PropTypes.shape({
   /**
-   * Text for the menu item
-   */
-  text: PropTypes.string,
-
-  /**
-   * On-click the menu item will take you here
+   * The path to the site
    */
   path: PropTypes.string,
 
   /**
-   * Sub menu items
+   * The title of the site
    */
-  childItems: PropTypes.arrayOf(PropTypes.object),
+  title: PropTypes.string,
+
+  /**
+   * The url to navigate to the site
+   */
+  url: PropTypes.string,
 }));
 
-/**
- * Menu items for side navigation
- */
-const menuItemsPropType = PropTypes.PropTypes.objectOf(menuItemPropType);
+const extensionItemsPropType = PropTypes.arrayOf(PropTypes.shape({
+  /**
+   * The react key for the extension.
+   */
+  key: PropTypes.string,
+  /**
+   * The text describing the extension.
+   */
+  text: PropTypes.string,
+  /**
+   * The icon to represent the extension.
+   */
+  icon: PropTypes.elementType,
+  /**
+   * The modal to launch from the extension.
+   */
+  modal: PropTypes.elementType,
+}));
+
+const pageContentConfigPropType = PropTypes.shape({
+  path: PropTypes.string,
+  text: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+});
+
+const navigationConfigPropType = PropTypes.arrayOf(PropTypes.shape({
+  text: PropTypes.string.isRequired,
+  pageConfig: pageContentConfigPropType,
+  children: PropTypes.array,
+}));
+
+const contentImportsPropType = PropTypes.object;
+const pageConfigPropType = PropTypes.object;
+const routesMapPropType = PropTypes.object;
 
 /**
  * Object describing the generated dev-site-config object.
  */
 const siteConfigPropType = PropTypes.shape({
-  /**
-   * Describes the site name
-   */
-  nameConfig: PropTypes.shape({
-    /**
-     * Title for site
-     */
-    title: PropTypes.string,
-  }),
-  /**
-   * Object describing in site configurable settings
-   */
-  settingsConfig: settingsConfigPropType,
-  /**
-   * Menu items for side navigation
-   */
-  menuItems: menuItemsPropType,
-  /**
-   * Content items to be displayed in app.
-   */
-  contentConfig: PropTypes.object,
-  /**
-   * Primary navigation items.
-   */
-  navigationItems: PropTypes.arrayOf(PropTypes.shape({
-    /**
-     * Path to navigate to on click.
-     */
-    path: PropTypes.string,
-    /**
-     * Title text.
-     */
-    text: PropTypes.string,
-  })),
-  /**
-   * / redirects here.
-   */
-  indexPath: PropTypes.string,
-  /**
-   * Unused for now.
-   */
-  apps: PropTypes.arrayOf(PropTypes.shape({
-    path: PropTypes.string,
-    title: PropTypes.string,
-    file: PropTypes.string,
-    basename: PropTypes.string,
-    rootElementId: PropTypes.string,
-  })),
-  /**
-   * Describes capabilities of pages shown below various primary navigation items
-   */
-  capabilities: capabilitiesPropType,
+  basename: PropTypes.string.isRequired,
+  contentImports: contentImportsPropType.isRequired,
   /**
    * Custom extensions
    */
-  extensions: PropTypes.arrayOf(PropTypes.object),
+  extensionItems: extensionItemsPropType.isRequired,
+  navigationConfig: navigationConfigPropType,
+  pageConfig: pageConfigPropType.isRequired,
+  routesMap: routesMapPropType.isRequirede,
   /**
-   * Image to display on secondary nav pages where the first item is a folder.
+   * Object describing in site configurable settings
    */
-  placeholderSrc: PropTypes.string,
+  settingsConfig: settingsConfigPropType.isRequired,
+  /**
+   * Sites to switch to
+   */
+  sites: sitesPropType.isRequired,
+  /**
+   * Describes the site name
+   */
+  titleConfig: PropTypes.shape({
+    /**
+     * Title for site
+     */
+    title: PropTypes.string.isRequired,
+    /**
+     * Headline for site
+     */
+    subline: PropTypes.string,
+    /**
+     * subline for site
+     */
+    headline: PropTypes.string,
+  }).isRequired,
 });
 
 export default siteConfigPropType;
 export {
   settingsConfigPropType,
-  capabilitiesPropType,
-  menuItemsPropType,
-  menuItemPropType,
+  sitesPropType,
+  routesMapPropType,
+  pageConfigPropType,
+  contentImportsPropType,
+  navigationConfigPropType,
+  pageContentConfigPropType,
 };
