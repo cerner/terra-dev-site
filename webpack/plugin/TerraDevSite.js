@@ -11,7 +11,7 @@ class TerraDevSite {
     this.sitePlugin = new SitePlugin({
       config: this.config,
       applyDefaults,
-      entry: path.resolve(__dirname, '..', '..', 'src', 'site', 'Site'),
+      entry: path.resolve(__dirname, '..', '..', 'lib', 'site', 'Site'),
       contentDirectory: 'terra-dev-site',
     });
   }
