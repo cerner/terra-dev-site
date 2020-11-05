@@ -45,9 +45,6 @@
       "github-markdown-css": "identity-obj-proxy"
     }
   },
-  "bin": {
-    "tds-generate-app-config": "bin/generateAppConfig.js"
-  },
   "browserslist": [
     "extends browserslist-config-terra"
   ],
