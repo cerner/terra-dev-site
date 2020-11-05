@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ApplicationBase from '@cerner/terra-application';
-import ApplicationContainer from '@cerner/terra-application/lib/application-container/ApplicationContainer';
 
 import DevSiteLayout from '../layouts/_DevSiteLayout';
 import AppSettingsContext from './_AppSettingsContext';
@@ -10,6 +9,7 @@ import AppSettingsProvider from './_AppSettingsProvider';
 import siteConfigPropType from './siteConfigPropTypes';
 import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 import Router from './_DevSiteRouter';
+import DevSiteApplicationContainer from './_DevSiteApplicationContainer';
 
 const propTypes = {
   /**
@@ -33,7 +33,7 @@ const Site = ({ siteConfig, SessionProvider }) => (
               themeName={currentThemeClassName}
             >
               <TerraMdxProvider>
-                <ApplicationContainer>
+                <DevSiteApplicationContainer>
                   {SessionProvider ? (
                     <SessionProvider>
                       <DevSiteLayout siteConfig={siteConfig} />
@@ -41,7 +41,7 @@ const Site = ({ siteConfig, SessionProvider }) => (
                   ) : (
                     <DevSiteLayout siteConfig={siteConfig} />
                   )}
-                </ApplicationContainer>
+                </DevSiteApplicationContainer>
               </TerraMdxProvider>
             </ApplicationBase>
           </Router>
