@@ -12,6 +12,7 @@ import ContentLoadedContainer from './_ContentLoaded';
 import AppSettingsContext from '../site/_AppSettingsContext';
 import ContentSettingsMenu from './_ContentSettingsMenu';
 import ComponentToolbar from './_ComponentToolbar';
+import NotFoundPage from './_NotFoundPage';
 import { contentImportsPropType, pageContentConfigPropType } from '../site/siteConfigPropTypes';
 
 const propTypes = {
@@ -46,6 +47,11 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
   const hasThemes = appSettings.themes && appSettings.themes.length > 1;
   const hasLocales = appSettings.locales && appSettings.locales.length > 1;
   const ContentComponent = contentImports[pathname];
+
+  // Last Chance 404
+  if (!ContentComponent) {
+    return <NotFoundPage />;
+  }
 
   const onChangeTheme = (theme) => {
     setShowThemeMenu(false);

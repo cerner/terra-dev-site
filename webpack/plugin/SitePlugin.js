@@ -7,7 +7,7 @@ const fs = require('fs');
 const DirectorySwitcherPlugin = require('./resolve/DirectorySwitcherPlugin');
 const LocalPackageAliasPlugin = require('./resolve/LocalPackageAliasPlugin');
 const { babelLoader, mdxOptions, getMdxLoader } = require('./siteLoaderUtils');
-const getNewRelicJS = require('../../scripts/new-relic/getNewRelicJS');
+const getNewRelicJS = require('../new-relic/getNewRelicJS');
 
 // Singletons
 let oneTimeSetupComplete = false;
@@ -180,7 +180,7 @@ class SitePlugin {
     // generate the 404 page.
     new HtmlWebpackPlugin({
       filename: '404.html',
-      template: path.join(__dirname, '..', '..', 'lib', '404.html'),
+      template: path.join(__dirname, '..', 'templates', '404.html'),
       inject: 'head',
       chunks: ['redirect'],
     }).apply(compiler);
@@ -264,7 +264,7 @@ class SitePlugin {
       title: this.siteConfig.titleConfig.title,
       direction: this.siteConfig.defaultDirection,
       filename: this.htmlFileName,
-      template: path.join(__dirname, '..', '..', 'lib', 'index.html'),
+      template: path.join(__dirname, '..', 'templates', 'index.html'),
       rootElementId: 'root',
       favicon: this.siteConfig.faviconFilePath,
       headHtml: [getNewRelicJS()].concat(this.siteConfig.headHtml),

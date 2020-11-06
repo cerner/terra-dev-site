@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { sitesPropType, routesMapPropType } from './siteConfigPropTypes';
-import getSessionStorage from '../session';
+import getSessionStorage from '../browser-router-redirect/session';
 
 const propTypes = {
   /**
@@ -32,9 +32,7 @@ const DevSiteRouter = ({
   // Remove # Route if at root.
   if (isRoot && location.hash.startsWith('#/')) {
     return (
-      <div data-terra-dev-site-loading>
-        <Redirect to={`/${location.hash.slice(2)}`} />
-      </div>
+      <Redirect to={`/${location.hash.slice(2)}`} />
     );
   }
 

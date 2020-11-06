@@ -5,7 +5,6 @@ const path = require('path');
 const npmPackage = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')));
 
 const applyDefaults = ({
-  indexPath = '/home',
   primaryNavigationItems = [{
     path: '/home',
     text: 'Home',
@@ -28,19 +27,18 @@ const applyDefaults = ({
   additionalSearchDirectories = [],
   sideEffectImportFilePaths = [],
   titleConfig = {
-    title: startCase(npmPackage.name),
+    title: startCase(npmPackage.name.split('/').pop()),
   },
   defaultLocale,
   defaultTheme,
   defaultDirection,
-  faviconFilePath = path.join(__dirname, '..', '..', 'terra-favicon', '32px', 'favicon.ico'),
+  faviconFilePath = path.join(__dirname, '..', 'terra-favicon', '32px', 'favicon.ico'),
   extensionItems = [],
   headHtml = [],
   pathPrefix,
   sourceFolder = 'src',
   distributionFolder = 'lib',
 }) => ({
-  indexPath,
   primaryNavigationItems,
   additionalSearchDirectories,
   sideEffectImportFilePaths,

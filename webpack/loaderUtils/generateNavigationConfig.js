@@ -183,7 +183,6 @@ const getSearchPatterns = ({
   contentDirectory,
 }) => {
   const processPath = process.cwd();
-  // console.log('contentExtensions', pageTypes(primaryNavigationItems));
   const typesGlob = pageTypes(primaryNavigationItems).join(',');
   const typesRegex = pageTypes(primaryNavigationItems).map((type) => `/${type}`).join('|');
 
@@ -321,12 +320,8 @@ const generatePagesConfig = ({
     console.log('[terra-dev-site] Page Config', JSON.stringify(sortedConfig, null, 2));
   }
 
-  const { indexPath } = siteConfig;
-  if (indexPath) {
-    const fullIndexPath = routesMap[indexPath];
-    if (fullIndexPath) {
-      routesMap['/'] = fullIndexPath;
-    }
+  if (sortedConfig.length > 0) {
+    routesMap['/'] = routesMap[sortedConfig[0].path];
   }
 
   return {

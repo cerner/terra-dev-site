@@ -13,18 +13,21 @@ const DevSiteContentPage = () => {
   return (
     <ApplicationPage
       title="Not Found"
+      preferHeaderIsHidden
     >
       { isActive
         && (
           <ApplicationStatusOverlay
-            message="Page not found"
+            message="Page not found."
             variant="error"
             buttonAttrs={[
               {
+                key: 'go back',
                 text: 'Go Back',
                 onClick: () => { history.goBack(); },
               },
               {
+                key: 'home',
                 text: 'Home',
                 onClick: () => { history.replace('/'); },
               },
