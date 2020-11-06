@@ -31,7 +31,11 @@ const DevSiteRouter = ({
 
   // Remove # Route if at root.
   if (isRoot && location.hash.startsWith('#/')) {
-    return <Redirect to={`/${location.hash.slice(2)}`} />;
+    return (
+      <div data-terra-dev-site-loading>
+        <Redirect to={`/${location.hash.slice(2)}`} />
+      </div>
+    );
   }
 
   // Redirect to reserved routes other sites.
