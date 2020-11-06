@@ -16,7 +16,7 @@ const LoadingPage = () => {
   }, []);
 
   return (
-    <div data-terra-dev-site-content-loading>
+    <div data-terra-dev-site-loading>
       <ApplicationLoadingOverlay isOpen={state.isOpen} />
     </div>
   );
