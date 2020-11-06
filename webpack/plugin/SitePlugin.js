@@ -34,13 +34,11 @@ class SitePlugin {
     if (pathPrefix) {
       this.entryKey = `${pathPrefix}/index}`;
       this.resourceQuery = `?${pathPrefix}-terra-entry`;
-      this.configResourceQuery = `?${pathPrefix}-terra-dev-site-config`;
       this.htmlFileName = `${pathPrefix}/index.html`;
       this.url = `/${pathPrefix}/`;
     } else {
       this.entryKey = 'index';
       this.resourceQuery = '?terra-entry';
-      this.configResourceQuery = '?terra-dev-site-config';
       this.htmlFileName = 'index.html';
       this.url = '/';
     }
@@ -86,7 +84,7 @@ class SitePlugin {
             // Use MDX to import any md files imported from an mdx file.
             issuer: [
               /\.mdx?$/,
-              /\.dev-site-config-template$/,
+              /entry\.template$/,
             ],
             use: [
               babelLoader,
@@ -218,7 +216,7 @@ class SitePlugin {
     // ENTRY
     compiler.options.entry = {
       ...compiler.options.entry,
-      [this.entryKey]: `${path.join(__dirname, '..', '..', 'src', 'templates', 'entry.template')}${this.resourceQuery}`,
+      [this.entryKey]: `${path.join(__dirname, '..', 'templates', 'entry.template')}${this.resourceQuery}`,
     };
 
     // Strip the trailing / from the public path.
@@ -250,20 +248,6 @@ class SitePlugin {
           loader: 'devSiteEntry',
           options: {
             entryPath: this.entry,
-            configTemplatePath: `${path.join(__dirname, '..', '..', 'src', 'templates', 'terra.dev-site-config-template')}${this.configResourceQuery}`,
-          },
-        },
-      ],
-    });
-
-    compiler.options.module.rules[0].oneOf.unshift({
-      // This loader generates the siteConfig for the site.
-      resourceQuery: this.configResourceQuery,
-      use: [
-        babelLoader,
-        {
-          loader: 'devSiteConfig',
-          options: {
             siteConfig: this.siteConfig,
             sites: otherSites,
             basename,
