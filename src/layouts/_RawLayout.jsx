@@ -2,7 +2,6 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { HeadlessLayout } from '@cerner/terra-application/lib/layouts';
 import { PromptRegistrationContext } from '@cerner/terra-application/lib/navigation-prompt';
-// import { PageContainer } from '@cerner/terra-application/lib/page';
 import NotFoundPage from '../pages/_NotFoundPage';
 import DevSitePage from '../pages/_DevSitePage';
 
@@ -27,13 +26,6 @@ const Raw = ({ siteConfig }) => {
 
   return (
     <PromptRegistrationContext.Provider value={promptProviderValue}>
-      {/* <PageContainer isMain>
-        { pageContentConfig ? (
-          <DevSitePage pageContentConfig={siteConfig.pageConfig[nonRawPath]} contentImports={siteConfig.contentImports} />
-        ) : (
-          <NotFoundPage />
-        )}
-      </PageContainer> */}
       <HeadlessLayout
         renderPage={() => {
           if (!pageContentConfig) {

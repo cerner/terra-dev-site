@@ -32,8 +32,11 @@ const siteConfig = {
   basename: '<%= basename %>',
   routesMap: <%= routesMap %>,
   pageConfig,
+  enableDebugLogging: <%= enableDebugLogging %>,
 };
 
-console.log('siteConfig', siteConfig);
+if (siteConfig.enableDebugLogging) {
+  console.log('siteConfig', siteConfig);
+}
 
 ReactDOM.render(<Entry siteConfig={siteConfig} />, document.getElementById('root'));

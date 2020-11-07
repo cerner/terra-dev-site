@@ -38,6 +38,7 @@ const applyDefaults = ({
   pathPrefix,
   sourceFolder = 'src',
   distributionFolder = 'lib',
+  enableDebugLogging = false,
 }) => ({
   primaryNavigationItems,
   additionalSearchDirectories,
@@ -52,6 +53,7 @@ const applyDefaults = ({
   pathPrefix,
   sourceFolder,
   distributionFolder,
+  enableDebugLogging,
   namespace: npmPackage.name,
 });
 

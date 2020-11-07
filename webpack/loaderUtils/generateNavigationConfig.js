@@ -163,7 +163,7 @@ const sortPage = (a, b) => {
 const sortPageConfig = config => (
   config.sort(sortPage).map((page) => {
     // eslint-disable-next-line no-param-reassign
-    // delete page.group;
+    delete page.group;
     if (page.children) {
       // eslint-disable-next-line no-param-reassign
       page.children = sortPageConfig(Object.values(page.children));
@@ -255,16 +255,17 @@ const generatePagesConfig = ({
   siteConfig,
   resolveExtensions,
   mode,
-  verbose,
   contentDirectory,
   isLernaMonoRepo,
   addContextDependency,
+  logger,
 }) => {
   const {
     additionalSearchDirectories,
     primaryNavigationItems,
     sourceFolder,
     distributionFolder,
+    enableDebugLogging,
   } = siteConfig;
 
   addWatchContentDirectories({
@@ -287,9 +288,10 @@ const generatePagesConfig = ({
     contentDirectory,
   });
 
-  if (verbose) {
-    // eslint-disable-next-line no-console
-    console.log('[terra-dev-site] Patterns', patterns);
+  if (enableDebugLogging) {
+    logger.info('*****************************');
+    logger.info('[terra dev site] Search Patterns:');
+    logger.info(JSON.stringify(patterns, null, 2));
   }
 
   // Execute the globs and regex masks, to trim the directories.
@@ -307,9 +309,10 @@ const generatePagesConfig = ({
     }
   });
 
-  if (verbose) {
-    // eslint-disable-next-line no-console
-    console.log('[terra-dev-site] File Paths', filePaths);
+  if (enableDebugLogging) {
+    logger.info('*****************************');
+    logger.info('[terra dev site] File Paths:');
+    logger.info(JSON.stringify(filePaths, null, 2));
   }
 
   const contentImports = {};
@@ -344,9 +347,10 @@ const generatePagesConfig = ({
     return acc;
   }, []);
 
-  if (verbose) {
-    // eslint-disable-next-line no-console
-    console.log('[terra-dev-site] Page Config', JSON.stringify(sortedConfig, null, 2));
+  if (enableDebugLogging) {
+    logger.info('*****************************');
+    logger.info('[terra dev site] Page Config:');
+    logger.info(JSON.stringify(sortedConfig, null, 2));
   }
 
   if (sortedConfig.length > 0) {

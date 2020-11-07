@@ -54,6 +54,7 @@ const loader = async function loader(template) {
     contentDirectory,
     isLernaMonoRepo,
     addContextDependency: this.addContextDependency,
+    logger: this.getLogger('terra-dev-site loader'),
   });
 
   return callback(null, lodashTemplate(template)({
@@ -73,6 +74,7 @@ const loader = async function loader(template) {
     imports,
     sites: JSON.stringify(sites),
     sideEffectImportFilePaths: siteConfig.sideEffectImportFilePaths,
+    enableDebugLogging: siteConfig.enableDebugLogging,
   }));
 };
 
