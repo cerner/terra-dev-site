@@ -32,7 +32,7 @@ class SitePlugin {
     this.entry = entry;
 
     if (pathPrefix) {
-      this.entryKey = `${pathPrefix}/index}`;
+      this.entryKey = `${pathPrefix}/index`;
       this.resourceQuery = `?${pathPrefix}-terra-entry`;
       this.htmlFileName = `${pathPrefix}/index.html`;
       this.url = `/${pathPrefix}/`;
