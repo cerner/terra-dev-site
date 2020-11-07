@@ -172,6 +172,26 @@ const sortPageConfig = config => (
   })
 );
 
+const addWatchContentDirectories = ({
+  mode,
+  addContextDependency,
+  sourceFolder,
+  isLernaMonoRepo,
+  contentDirectory,
+}) => {
+  if (mode === 'production') {
+    return;
+  }
+
+  const processPath = process.cwd();
+
+  if (isLernaMonoRepo) {
+    glob.sync(`${processPath}/packages/*/${sourceFolder}/${contentDirectory}`).forEach(dir => { addContextDependency(dir); });
+  } else {
+    addContextDependency(`${processPath}/${sourceFolder}/${contentDirectory}/`);
+  }
+};
+
 const getSearchPatterns = ({
   additionalSearchDirectories,
   primaryNavigationItems,
@@ -238,6 +258,7 @@ const generatePagesConfig = ({
   verbose,
   contentDirectory,
   isLernaMonoRepo,
+  addContextDependency,
 }) => {
   const {
     additionalSearchDirectories,
@@ -245,6 +266,14 @@ const generatePagesConfig = ({
     sourceFolder,
     distributionFolder,
   } = siteConfig;
+
+  addWatchContentDirectories({
+    mode,
+    addContextDependency,
+    sourceFolder,
+    isLernaMonoRepo,
+    contentDirectory,
+  });
 
   // Get the default search patterns for both normal and lerna mono repos.
   const patterns = getSearchPatterns({

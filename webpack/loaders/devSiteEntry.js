@@ -53,6 +53,7 @@ const loader = async function loader(template) {
     verbose: false,
     contentDirectory,
     isLernaMonoRepo,
+    addContextDependency: this.addContextDependency,
   });
 
   return callback(null, lodashTemplate(template)({
