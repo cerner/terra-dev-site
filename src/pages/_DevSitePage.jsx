@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import ApplicationPage from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
-import IconTreemap from 'terra-icon/lib/icon/IconTreemap';
-import IconLocationPin from 'terra-icon/lib/icon/IconLocationPin';
+// import IconTreemap from 'terra-icon/lib/icon/IconTreemap';
+// import IconLocationPin from 'terra-icon/lib/icon/IconLocationPin';
 import IconStartPresenting from 'terra-icon/lib/icon/IconStartPresenting';
 import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ import LoadingOverlay from './_LoadingOverlay';
 import ContentLoadedContainer from './_ContentLoaded';
 import AppSettingsContext from '../site/_AppSettingsContext';
 import ContentSettingsMenu from './_ContentSettingsMenu';
-import ComponentToolbar from './_ComponentToolbar';
+// import ComponentToolbar from './_ComponentToolbar';
 import NotFoundPage from './_NotFoundPage';
 import { contentImportsPropType, pageContentConfigPropType } from '../site/siteConfigPropTypes';
 
@@ -44,8 +44,8 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
   }
 
   const pathname = isRaw ? location.pathname.substring(4) : location.pathname;
-  const hasThemes = appSettings.themes && appSettings.themes.length > 1;
-  const hasLocales = appSettings.locales && appSettings.locales.length > 1;
+  // const hasThemes = appSettings.themes && appSettings.themes.length > 1;
+  // const hasLocales = appSettings.locales && appSettings.locales.length > 1;
   const ContentComponent = contentImports[pathname];
 
   // Last Chance 404
@@ -74,25 +74,25 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
     },
   ];
 
-  if (hasThemes) {
-    pageActions.push({
-      key: 'theme',
-      text: 'Theme',
-      icon: <IconTreemap />,
-      onSelect: () => { setShowThemeMenu(true); },
-      buttonRefCallback: (ref) => { themeButtonRef.current = ref; },
-    });
-  }
+  // if (hasThemes) {
+  //   pageActions.push({
+  //     key: 'theme',
+  //     text: 'Theme',
+  //     icon: <IconTreemap />,
+  //     onSelect: () => { setShowThemeMenu(true); },
+  //     buttonRefCallback: (ref) => { themeButtonRef.current = ref; },
+  //   });
+  // }
 
-  if (hasLocales) {
-    pageActions.push({
-      key: 'locale',
-      text: 'Locale',
-      icon: <IconLocationPin />,
-      onSelect: () => { setShowLocale(true); },
-      buttonRefCallback: (ref) => { localeButtonRef.current = ref; },
-    });
-  }
+  // if (hasLocales) {
+  //   pageActions.push({
+  //     key: 'locale',
+  //     text: 'Locale',
+  //     icon: <IconLocationPin />,
+  //     onSelect: () => { setShowLocale(true); },
+  //     buttonRefCallback: (ref) => { localeButtonRef.current = ref; },
+  //   });
+  // }
 
   const props = {};
 
@@ -100,12 +100,13 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
     props.preferHeaderIsHidden = true;
   } else {
     props.actions = pageActions;
-    props.toolbar = <ComponentToolbar />;
+    // props.toolbar = <ComponentToolbar />;
   }
 
   return (
     <ApplicationPage
       title={pageContentConfig.text}
+      pageKey={pathname}
       {...props}
     >
       <PageErrorBoundary>

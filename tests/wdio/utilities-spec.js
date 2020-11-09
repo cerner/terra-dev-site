@@ -11,7 +11,7 @@ Terra.describeViewports('utilities', ['huge'], () => {
   });
 
   it('selects an app', () => {
-    browser.click('[class*="ApplicationSwitcher-module__item"]');
+    browser.click('[class*="ApplicationSwitcherModal-module__item"]');
     Terra.validates.element('selects an app', { selector: '.terra-dev-site-extended' });
   });
 
@@ -23,12 +23,9 @@ Terra.describeViewports('utilities', ['huge'], () => {
   });
 
   it('changes config', () => {
-    browser.click('#terra-dev-site-locale-select');
-    browser.click('#terra-select-option-en-AU');
+    browser.$('#terra-dev-site-locale-select').selectByIndex(1);
 
-
-    browser.click('#terra-dev-site-direction-select');
-    browser.click('#terra-select-option-rtl');
+    browser.$('#terra-dev-site-direction-select').selectByIndex(2);
     Terra.validates.element('changes config', { selector: '#root' });
 
     browser.click('#submit');
@@ -54,12 +51,12 @@ Terra.describeViewports('utilities', ['tiny'], () => {
 
   it('opens app switcher', () => {
     browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]');
-    browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');
+    browser.waitForVisible('[class*="ApplicationSwitcherModal-module__item"]');
     Terra.validates.element('opens app switcher', { selector: '#root' });
   });
 
   it('selects an app', () => {
-    browser.click('[class*="ApplicationSwitcher-module__item"]');
+    browser.click('[class*="ApplicationSwitcherModal-module__item"]');
     Terra.validates.element('selects an app', { selector: '.terra-dev-site-extended' });
   });
 
@@ -71,11 +68,9 @@ Terra.describeViewports('utilities', ['tiny'], () => {
   });
 
   it('changes config', () => {
-    browser.click('#terra-dev-site-locale-select');
-    browser.click('#terra-select-option-en-AU');
+    browser.$('#terra-dev-site-locale-select').selectByIndex(1);
 
-    browser.click('#terra-dev-site-direction-select');
-    browser.click('#terra-select-option-rtl');
+    browser.$('#terra-dev-site-direction-select').selectByIndex(2);
     Terra.validates.element('changes config', { selector: '#root' });
 
     browser.click('#submit');

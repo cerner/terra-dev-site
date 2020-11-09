@@ -4,61 +4,52 @@ import { Badge } from '@cerner/terra-dev-site/package.json?dev-site-package';
 
 # Terra Dev Site
 
-Terra-dev-site offers a test site to host examples and documentation for your react components or markdown documentation. Terra dev site also provides a terra application based test harness for developing reusable node modules that can be shared between terra applications.
+Terra-dev-site is a webpack plugin for generating a documentation and testing site for content built for the terra application framework.
 
-## Quick start
-
-### Installation
+## Installation
 
 ``` bash
-npm install --save-dev terra-dev-site
+npm install --save-dev @cerner/terra-dev-site
 ```
 
-### Prerequisites
+## Prerequisites
+* node 10
+* babel 7.5
+* webpack 4
+* webpack config from either terra-toolkit or @cerner/webpack-config-terra
 
-* README.md in the root project directory
-* Package.json in the root project directory
-* es6 code in src
-* transpiled code in lib
-* babel 7.5 is required to transpile the `dev-site-config/build` folder at webpack time.
+## Setup
 
-### Running terra-dev-site
+Using the TerraDevSite webpack plugin, a static site will be generated and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. Extending from @cerner/webpack-config-terra's webpack config is highly recommended.
 
-Using the TerraDevSite webpack plugin, a static site will be built to the `dev-site-config/build` directory and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. A simple example consuming the webpack plugin is shown below. Extending from terra-toolkit's webpack config is highly recommended.
+### WebpackConfig
+
+
 
 ```javascript
-const toolkitWebpackConfig = require('terra-toolkit/config/webpack/webpack.config')
+const terraWebpackConfig = require('@cerner/webpack-config-terra');
 const merge = require('webpack-merge');
-const { TerraDevSite, TerraDevSiteEntrypoints, DirectorySwitcherPlugin, LocalPackageAliasPlugin } = require('@cerner/terra-dev-site');
+const { TerraDevSite, TerraDevSiteEntrypoints } = require('@cerner/terra-dev-site');
 
 /**
 * Generates the file representing app name configuration.
 */
-const devSiteConfig = (env = {}, argv = {}) => {
-  const production = argv.p;
-
-  return {
-    entry: TerraDevSiteEntrypoints,
-    plugins: [
-      new TerraDevSite({ env }),
-    ],
-    resolve: {
-      plugins: [
-        new DirectorySwitcherPlugin({
-          shouldSwitch: !production,
-        }),
-        new LocalPackageAliasPlugin({}),
-      ],
-    },
-  };
-};
+const devSiteConfig = (env = {}, argv = {}) => ({
+  entry: TerraDevSiteEntrypoints,
+  plugins: [
+    new TerraDevSite({
+      defaultLocale: env.defaultLocale,
+    }),
+  ],
+});
 
 const webpackConfig = (env, argv) => (
-  merge(toolkitWebpackConfig(env, argv), devSiteConfig(env, argv))
+  merge(terraWebpackConfig(env, argv), devSiteConfig(env, argv))
 );
 
 module.exports = webpackConfig;
 ```
+
 
 To serve using `tt-serve`, add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit-boneyard/blob/main/scripts/serve/Serve.md#cli) for more information on the command options.
 

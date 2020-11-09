@@ -2,8 +2,8 @@ const path = require('path');
 const merge = require('webpack-merge');
 const fs = require('fs');
 const defaultWebpackConfig = require('@cerner/webpack-config-terra');
-const TerraDevSite = require('./webpack/plugin/TerraDevSite');
-const TerraDevSiteEntrypoints = require('./webpack/plugin/TerraDevSiteEntrypoints');
+const TerraDevSite = require('./src/webpack/plugin/TerraDevSite');
+const TerraDevSiteEntrypoints = require('./src/webpack/plugin/TerraDevSiteEntrypoints');
 
 const html = fs.readFileSync(require.resolve('./head.html'), 'utf8');
 
@@ -63,20 +63,19 @@ const devSiteConfig = (env = {}) => ({
           iconPath: 'terra-icon/lib/icon/IconAllergy',
           key: 'terra-dev-site.test-extension',
           text: 'Test Extension',
-          modalPath: '@cerner/terra-dev-site/lib/test-extension/TestExtension',
+          modalFilePath: '@cerner/terra-dev-site/lib/test-extension/TestExtension',
         },
       ],
     }),
     new TerraDevSite({
-      pathPrefix: 'derp',
+      pathPrefix: 'extended',
+      primaryNavigationItems: [{
+        path: '/extended',
+        text: 'Extended',
+        contentExtension: 'extended',
+      }],
       titleConfig: {
-        title: 'Derp Site',
-      },
-    }),
-    new TerraDevSite({
-      pathPrefix: 'herp',
-      titleConfig: {
-        title: 'herp Site',
+        title: 'Terra Dev Site - Extended',
       },
     }),
   ],

@@ -1,5 +1,122 @@
+import { Notice } from '@cerner/terra-docs';
+
 # v7.0.0 Upgrade Guide
 
 This document will provide information on upgrading from Terra Dev Site `6.x.x` to `7.0.0`.
 
-## TODO ADD CONTENT
+## Scoped package
+
+Terra dev site has changed transitioned to be scoped under the cerner organization. The package has gone from `terra-dev-site` to `@cerner/terra-dev-site`;
+
+```diff
+{
+ "dependencies": {
+-  "terra-dev-site": "^6.0.0",
++  "@cerner/terra-dev-site": "^7.0.0",
+ }
+}
+```
+
+## Webpack Plugin
+
+In terra application v6 we introduced the webpack plugin as an alternative to the shared webpack config. In terra application v7 we have removed the shared webpack config and are only offering the webpack plugin. We've done this to facilitate the transition from `terra-toolkit` webpack config to the new `@cerner/webpack-config-terra` webpack config. Terra dev site will work with either webpack config and this will allow you to update to WDIO 6 independently from terra dev site.
+
+To simplify the webpack plugin api we have also now included the Directory Switcher and Local Package alias resolve plugins in the terra-dev-site plug in by default. As a reminder, these plugins allow you to enable hot reloading by switching lib requires with their src equivalent and reference local files as if they were packaged, ie `import('@cerner/terra-dev-site/file)`.
+
+Below is an example webpack config setting up the terra dev site plugin.
+
+```javascript
+const terraWebpackConfig = require('@cerner/webpack-config-terra');
+const merge = require('webpack-merge');
+const { TerraDevSite, TerraDevSiteEntrypoints } = require('@cerner/terra-dev-site');
+
+const devSiteConfig = (env = {}, argv = {}) => ({
+  entry: TerraDevSiteEntrypoints,
+  plugins: [
+    new TerraDevSite({
+      defaultLocale: env.defaultLocale,
+    }),
+  ],
+});
+
+const webpackConfig = (env, argv) => (
+  merge(terraWebpackConfig(env, argv), devSiteConfig(env, argv))
+);
+
+module.exports = webpackConfig;
+```
+
+To simplify the webpack plugin api we have now included the `DirectorySwitcherPlugin` and `LocalPackageAliasPlugin` resolve plugins in the `TerraDevSite` plugin by default.
+
+<Notice variant="important" ariaLevel="3">
+
+Note in the example where `env.defaultLocale` is passed to the `TerraDevSite` plugin. The `defaultLocale` env is set as apart of our wdio test service and must be passed into the 'TerraDevSite' plugin to ensure locale tests are run appropriately.
+
+</Notice>
+
+## Config changes
+
+With the full transition to a webpack plugin, Terra dev site config has changed significantly. The plugin is now configured directly through webpack. The `site.config.js` file and `dev-site-config` folders are no longer needed and can be removed from the project. We don't even use them to write out the generated site anymore. It's all done through webpack loaders.
+
+To configure
+
+To see how the old configuration maps to the new configuration, see the table below:
+
+|Old Config Value|New Config Value|Description|
+|---|---|---|
+|`navConfig.navigation.index`|**removed**|The site index page is now assumed to be the first `primaryNavigationItem` in the list.|
+|`navConfig.navigation.primaryNavigationItems`|`primaryNavigationItems`| PrimaryNavigationItems are no longer nested under the navigation object.|
+|`navConfig.navigation.primaryNavigationItems.path`|`primaryNavigationItems.path`|unchanged.|
+|`navConfig.navigation.primaryNavigationItems.text`|`primaryNavigationItems.text`|unchanged.|
+|`navConfig.navigation.primaryNavigationItems.pageType`|`primaryNavigationItems.contentExtension`|Pages no longer support being generated from multiple page types. No sites ever used the functionality. PageType has been changed to contentExtension to eliminate confusion with terra-application pages.|
+|`navConfig.navigation.primaryNavigationItems.capabilities`|**removed**|This configuration has been removed. All pages except for home will have access to devTools|
+|`pagesConfig`|**removed**|`pagesConfig` allowed consumers to provide their own page config. It was poorly documented, complex and no one ever did.|
+|`generatePages`|`additionalSearchDirectories`|Instead of filling out this complex object. Terra dev site searches the 'terra-dev-site' folder by default for content with the specified content Extensions. Consumers that wish to search other directories now can provided fully qualified paths which will also be searched|
+|`hotReloading`|**removed**|True in dev false in prod|
+|`npmPackage`|**removed**|Only the root npm package is used.|
+|`sideEffectImports`|`sideEffectImportFilePaths`|The name now includes 'filePaths' to better describe the expected input.|
+|`placeholderSrc`|**removed**|No longer used.|
+|`readMeContent`|`primaryNavigationItems.additionalContent`|No longer a one off, consumers can now add additional content to each primary navigation item that would not normally be found by searching.|
+|`appConfig.title`|`titleConfig.title`|Moved to a titleConfig object to align with terra-application-navigation config.|
+|`appConfig.favicon`|`faviconFilePath`|No longer nested under appConfig. The name now includes 'filePaths' to better describe the expected input.|
+|`appConfig.themes`|**removed**|The available themes are now pulled from the terra-theme.config file via the webpack global variable `TERRA_THEME_CONFIG`.|
+|`appConfig.defaultTheme`|`defaultTheme`|No longer nested under appConfig.|
+|`appConfig.locales`|**removed**|Depreicated as of terra-dev-site 6.23, now removed.|
+|`appConfig.defaultLocale`|`defaultLocale`|No longer nested under appConfig.|
+|`appConfig.defaultDirection`|`defaultDirection`|No longer nested under appConfig.|
+|`appConfig.extensions`|`extensionItems`|Renamed to align with terra-application-navigation config.|
+|`appConfig.extensions.iconPath`|`extensionItems.iconPath`|Renamed to align with terra-application-navigation config.|
+|`appConfig.extensions.key`|`extensionItems.key`|Renamed to align with terra-application-navigation config.|
+|`appConfig.extensions.text`|`extensionItems.text`|Renamed to align with terra-application-navigation config.|
+|`appConfig.extensions.componentPath`|`extensionItems.modalFilePath`|The extension now expects file path to a terra-application v2 modal.|
+|`appConfig.extensions.size`|**removed**|One size fits all|
+|`appConfig.headHtml`|`headHtml`|No longer nested under appConfig.|
+|`includeTestEvidence`|**removed**|Remove the ability to include test evidence, this should be covered now by a separate site report.|
+
+More information abut dev-site config can be found on our [config page](/dev_tools/cerner-terra-dev-site/terra-dev-site/configuration).
+
+## Dependency changes
+
+Previously terra-dev-site was providing a version of rect-intl as a dependency. This because this satisfied the terra-application peer dependency requirement many applications did not define it. With this release we have removed that dependency and applications will have to define that peer dependency themselves.
+
+@cerner/terra-application is now a peer dependency and must be defined by the package consuming terra-dev-site.
+
+Terra-toolkit is no longer a peer dependency.
+
+## Terra Application V2
+
+Terra dev site has been upgraded to consume terra application v2. All content will now be rendered in an application page and will have access to all page level API's.
+
+If you are creating pages, it's recommend that you wrap the test page in a Page container, otherwise the page will instantly navigate.
+
+### Resulting Test changes
+
+The page introduces a new tab stop. Any tests using tabstops will have to be updated to include an additional tab stop.
+
+## Node 10
+
+Node 10 is now the minium supported node version. This was bumped to support version 5 of react-docgen, which is used to generate props tables.
+
+## MDX
+
+The MDX loader is now used to load both `.md` and .`mdx` files. This may cause build errors in existing .md documents. This change allows us to remove the marked loader from the plugin.

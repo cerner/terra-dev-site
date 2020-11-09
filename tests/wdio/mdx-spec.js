@@ -1,6 +1,7 @@
 Terra.describeViewports('mdx', ['huge'], () => {
   it('renders mdx', () => {
     browser.url('/raw/test/cerner-terra-dev-site/mdx');
+    browser.moveToObject('#root', 0, 900);
     Terra.validates.element('mdx');
   });
 

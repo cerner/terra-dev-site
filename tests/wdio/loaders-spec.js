@@ -46,21 +46,25 @@ Terra.describeViewports('loaders', ['huge'], () => {
 
   it('Reveals the examples code', () => {
     browser.click('[class*=ExampleTemplate-module__code-toggle]');
+    browser.moveToObject('#root', 0, 0);
     Terra.validates.element('Reveals the examples code');
   });
 
   it('Hides the examples code again', () => {
     browser.click('[class*=ExampleTemplate-module__code-toggle]');
+    browser.moveToObject('#root', 0, 0);
     Terra.validates.element('Hides the examples code again');
   });
 
   it('Reveals the examples css', () => {
     browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    browser.moveToObject('#root', 0, 0);
     Terra.validates.element('Reveals the examples css');
   });
 
   it('Hides the examples css again', () => {
     browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    browser.moveToObject('#root', 0, 0);
     Terra.validates.element('Hides the examples css again');
   });
 });
