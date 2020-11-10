@@ -153,6 +153,22 @@ class SecondaryNavigationLayout extends React.Component {
     }
   }
 
+  handleCollapsingMenuSelection(selectionKey) {
+    const { onTerminalMenuItemSelection } = this.props;
+    const { flattenedMenuItems } = this.state;
+
+    const selectedItem = flattenedMenuItems.find(item => item.key === selectionKey);
+
+    this.setState({
+      compactMenuIsOpen: false,
+    }, () => {
+      // If an endpoint has been reached, reset selection path and update.
+      if (onTerminalMenuItemSelection) {
+        onTerminalMenuItemSelection(selectionKey, selectedItem.metaData);
+      }
+    });
+  }
+
   closeMenu() {
     const { activeBreakpoint } = this.props;
 
@@ -184,22 +200,6 @@ class SecondaryNavigationLayout extends React.Component {
         menuIsPinnedOpen: true,
       });
     }
-  }
-
-  handleCollapsingMenuSelection(selectionKey) {
-    const { onTerminalMenuItemSelection } = this.props;
-    const { flattenedMenuItems } = this.state;
-
-    const selectedItem = flattenedMenuItems.find(item => item.key === selectionKey);
-
-    this.setState({
-      compactMenuIsOpen: false,
-    }, () => {
-      // If an endpoint has been reached, reset selection path and update.
-      if (onTerminalMenuItemSelection) {
-        onTerminalMenuItemSelection(selectionKey, selectedItem.metaData);
-      }
-    });
   }
 
   render() {

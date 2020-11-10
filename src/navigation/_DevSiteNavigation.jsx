@@ -125,37 +125,6 @@ class DevSiteNavigation extends React.Component {
     this.handleSettingsSelection = this.handleSettingsSelection.bind(this);
   }
 
-  getExtensionItems() {
-    const { history, fetchSearchItems } = this.props;
-    const { extensions } = this.props.siteConfig;
-    const searchExtension = {
-      icon: <IconSearch />,
-      key: 'terra-dev-site.search',
-      text: 'Search',
-      metaData: {
-        Component: ExtensionWrapper,
-        size: 'large',
-        props: {
-          content: Search,
-          props: { fetchSearchItems, onItemSelected: path => history.push(path) },
-        },
-      },
-    };
-
-    const extensionArray = fetchSearchItems ? [searchExtension] : [];
-
-    return extensions.reduce((acc, ext) => acc.concat({
-      icon: <ext.icon />,
-      key: ext.key,
-      text: ext.text,
-      metaData: {
-        Component: ExtensionWrapper,
-        size: ext.size,
-        props: { content: ext.component },
-      },
-    }), extensionArray);
-  }
-
   handleNavigationItemSelection(navigationItemKey) {
     const { history } = this.props;
     const { activeNavigationItemPath } = this.state;
@@ -188,6 +157,37 @@ class DevSiteNavigation extends React.Component {
         ),
       },
     });
+  }
+
+  getExtensionItems() {
+    const { history, fetchSearchItems } = this.props;
+    const { extensions } = this.props.siteConfig;
+    const searchExtension = {
+      icon: <IconSearch />,
+      key: 'terra-dev-site.search',
+      text: 'Search',
+      metaData: {
+        Component: ExtensionWrapper,
+        size: 'large',
+        props: {
+          content: Search,
+          props: { fetchSearchItems, onItemSelected: path => history.push(path) },
+        },
+      },
+    };
+
+    const extensionArray = fetchSearchItems ? [searchExtension] : [];
+
+    return extensions.reduce((acc, ext) => acc.concat({
+      icon: <ext.icon />,
+      key: ext.key,
+      text: ext.text,
+      metaData: {
+        Component: ExtensionWrapper,
+        size: ext.size,
+        props: { content: ext.component },
+      },
+    }), extensionArray);
   }
 
   render() {
