@@ -1,7 +1,6 @@
 const mockSitePlugin = { apply: jest.fn() };
 jest.mock('../../../../src/webpack/plugin/applyDefaults');
 jest.mock('../../../../src/webpack/plugin/SitePlugin', () => (
-  // Works and lets you check for constructor calls:
   jest.fn().mockImplementation(() => (
     mockSitePlugin
   ))

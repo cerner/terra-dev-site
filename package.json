@@ -161,7 +161,7 @@
     "gh-pages": "^2.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
-    "loader-runner": "^2.4.0",
+    "loader-runner": "^4.1.0",
     "pacote": "^11.1.11",
     "react-dom": "^16.8.5",
     "react": "^16.8.5",

@@ -3,26 +3,26 @@ const { getOptions } = require('loader-utils');
 
 const generateNavigationConfig = require('../loaderUtils/generateNavigationConfig');
 
-const imports = {};
-let index = 0;
-
-const addImport = (path) => {
-  let ident = imports[path];
-  if (ident) {
-    return ident;
-  }
-  ident = `import${index}`;
-  index += 1;
-  imports[path] = ident;
-  return ident;
-};
-
 /**
  * Generate the example with the supplied file.
  * Don't use an arrow function
  */
 const loader = async function loader(template) {
   const callback = this.async();
+
+  const imports = {};
+  let index = 0;
+
+  const addImport = (path) => {
+    let ident = imports[path];
+    if (ident) {
+      return ident;
+    }
+    ident = `import${index}`;
+    index += 1;
+    imports[path] = ident;
+    return ident;
+  };
 
   const {
     entryPath,
@@ -54,7 +54,8 @@ const loader = async function loader(template) {
     contentDirectory,
     isLernaMonoRepo,
     addContextDependency: this.addContextDependency,
-    logger: this.getLogger('terra-dev-site loader'),
+    // getLogger is undefined in the loader runner for tests, but never in acutal usage.
+    logger: this.getLogger ? this.getLogger('terra-dev-site loader') : undefined,
   });
 
   return callback(null, lodashTemplate(template)({

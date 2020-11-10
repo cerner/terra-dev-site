@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-<% sideEffectImportFilePaths.forEach(sideEffect => print(`import '${sideEffect}';`)); %>
-<% Object.entries(imports).forEach(([key, value]) => { print(`import ${value} from '${key}';`) }); %>
+<% sideEffectImportFilePaths.forEach(sideEffect => print(`import '${sideEffect}';\n`)); %>
+<% Object.entries(imports).forEach(([key, value]) => { print(`import ${value} from '${key}';\n`) }); %>
 
 import Entry from '<%= entryPath %>';
 

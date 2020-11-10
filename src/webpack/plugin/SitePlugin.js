@@ -208,19 +208,24 @@ class SitePlugin {
     // OUTPUT
     compiler.options.output.publicPath = publicPath;
 
+    // Strip the trailing / from the public path.
+    let basename = publicPath.slice(0, -1);
+
     const { sourceFolder, distributionFolder } = this.siteConfig;
 
     // Since there can be multiple dev site plugins this config we only want to do once for all of them.
-    SitePlugin.applyOneTimeSetup({ compiler, sourceFolder, distributionFolder });
+    SitePlugin.applyOneTimeSetup({
+      compiler,
+      sourceFolder,
+      distributionFolder,
+      basename,
+    });
 
     // ENTRY
     compiler.options.entry = {
       ...compiler.options.entry,
       [this.entryKey]: `@cerner/terra-dev-site/lib/webpack/templates/entry.template${this.resourceQuery}`,
     };
-
-    // Strip the trailing / from the public path.
-    let basename = publicPath.slice(0, -1);
 
     // Get the list of apps excluding this current app.
     const filteredSites = Object.values(siteRegistry).filter(site => site.path !== this.siteConfig.pathPrefix);
