@@ -39,7 +39,7 @@ const applyDefaults = ({
   sourceFolder = 'src',
   distributionFolder = 'lib',
   enableDebugLogging = false,
-}) => ({
+} = {}) => ({
   primaryNavigationItems,
   additionalSearchDirectories,
   sideEffectImportFilePaths,
