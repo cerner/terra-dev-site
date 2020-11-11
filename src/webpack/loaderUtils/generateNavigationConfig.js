@@ -122,11 +122,11 @@ const buildPageConfig = ({
 */
 const alphaSort = (a, b) => {
   if (a && !b) {
-    return 1;
+    return -1;
   }
 
   if (!a && b) {
-    return -1;
+    return 1;
   }
 
   if (!a && !b) {
@@ -218,11 +218,11 @@ const getSearchPatterns = ({
     ...isLernaMonoRepo
       ? [{
         pattern: `${processPath}/packages/*/${sourceDir}/${contentDirectory}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-        entryPoint: `${processPath}/packages/[^/]*/${sourceDir}/${contentDirectory}(${typesRegex})`,
+        entryPoint: `${processPath}/packages/[^/]*/${sourceDir}/${contentDirectory}(${typesRegex})?`,
       }]
       : [{
         pattern: `${processPath}/${sourceDir}/${contentDirectory}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-        entryPoint: `${processPath}/${sourceDir}/${contentDirectory}(${typesRegex})`,
+        entryPoint: `${processPath}/${sourceDir}/${contentDirectory}(${typesRegex})?`,
       }],
   ];
 
@@ -268,6 +268,7 @@ const generatePagesConfig = ({
     enableDebugLogging,
   } = siteConfig;
 
+  // Watch directories for changes
   addWatchContentDirectories({
     mode,
     addContextDependency,
@@ -318,19 +319,21 @@ const generatePagesConfig = ({
   const contentImports = {};
   const pageConfig = {};
 
+  // Create a map of primary navigation items
   const primaryNavItemsMap = primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
     acc[primaryNavigationItem.contentExtension] = primaryNavigationItem;
     return acc;
   }, {});
 
-  // Build out the page config from the discovered file paths.
+  // Build out the navigation config from the discovered file paths.
   const config = buildPageConfig({
     filePaths, namespace: siteConfig.namespace, contentImports, primaryNavItemsMap, pageConfig,
   });
 
   const routesMap = {};
 
-  const sortedConfig = primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
+  // convert navigation items to an array and sort
+  const navigationConfig = primaryNavigationItems.reduce((acc, primaryNavigationItem) => {
     const navItem = config[primaryNavigationItem.path];
     if (navItem) {
       navItem.children = sortPageConfig(Object.values(navItem.children));
@@ -349,17 +352,18 @@ const generatePagesConfig = ({
 
   if (enableDebugLogging) {
     logger.info('*****************************');
-    logger.info('[terra dev site] Page Config:');
-    logger.info(JSON.stringify(sortedConfig, null, 2));
+    logger.info('[terra dev site] Navigation Config:');
+    logger.info(JSON.stringify(navigationConfig, null, 2));
   }
 
-  if (sortedConfig.length > 0) {
-    routesMap['/'] = routesMap[sortedConfig[0].path];
+  // map root route to first content item in the first primary nav item
+  if (navigationConfig.length > 0) {
+    routesMap['/'] = routesMap[navigationConfig[0].path];
   }
 
   return {
     contentImports,
-    navigationConfig: sortedConfig,
+    navigationConfig,
     routesMap,
     pageConfig,
   };

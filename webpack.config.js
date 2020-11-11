@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const fs = require('fs');
 const defaultWebpackConfig = require('@cerner/webpack-config-terra');
 const TerraDevSite = require('./src/webpack/plugin/TerraDevSite');

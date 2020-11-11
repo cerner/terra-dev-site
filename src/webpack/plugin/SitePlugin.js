@@ -273,9 +273,8 @@ class SitePlugin {
       rootElementId: 'root',
       favicon: this.siteConfig.faviconFilePath,
       headHtml: [getNewRelicJS()].concat(this.siteConfig.headHtml),
-      headChunks: ['rewriteHistory'],
-      excludeChunks: ['redirect', ...Object.values(filteredSites).map(site => site.entry)],
-      inject: false, // This turns off auto injection. We handle this ourselves in the template.
+      rewriteHistory: true, // this inserts /rewriteHistory.js as a script into the template.
+      excludeChunks: ['rewriteHistory', 'redirect', ...Object.values(filteredSites).map(site => site.entry)],
     }).apply(compiler);
   }
 }

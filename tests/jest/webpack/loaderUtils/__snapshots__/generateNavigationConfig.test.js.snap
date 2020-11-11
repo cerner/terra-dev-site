@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateNavigationConfig applies all defaults 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "path": "/test/npm-package/file",
+        "text": "File",
+        "type": "js",
+      },
+      Object {
+        "path": "/test/npm-package/file-outside",
+        "text": "File Outside",
+        "type": "md",
+      },
+    ],
+    "path": "/test",
+    "text": "Test",
+  },
+]
+`;
+
+exports[`generateNavigationConfig applies all defaults 2`] = `
+Object {
+  "/": "/test/npm-package/file",
+  "/test": "/test/npm-package/file",
+}
+`;
+
+exports[`generateNavigationConfig applies all defaults 3`] = `
+Object {
+  "/test/npm-package/file": Object {
+    "text": "File",
+    "type": "js",
+  },
+  "/test/npm-package/file-outside": Object {
+    "text": "File Outside",
+    "type": "md",
+  },
+}
+`;
