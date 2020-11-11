@@ -230,7 +230,7 @@ const getSearchPatterns = ({
     ...localPackages,
     ...additionalSearchDirectories.map((searchDirectory) => ({
       pattern: `${searchDirectory}/**/*.{${typesGlob},}.{${ext.join(',')}}`,
-      entryPoint: `${searchDirectory}(${typesRegex})`,
+      entryPoint: `${searchDirectory}(${typesRegex})?`,
     })),
   ];
 };

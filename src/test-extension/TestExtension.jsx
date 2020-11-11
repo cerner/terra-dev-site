@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
-import ApplicationStatusOverlay from '@cerner/terra-application/lib/application-status-overlay';
 
 const propTypes = {
   /**
@@ -15,8 +14,7 @@ const TestExtension = ({ onRequestClose }) => (
     onRequestClose={onRequestClose}
     title="Test Extension"
   >
-    <p>nope</p>
-    {/* <ApplicationStatusOverlay variant="no-data" /> */}
+    <p>Test Extension</p>
   </ApplicationModal>
 );
 

@@ -100,9 +100,8 @@ describe('SitePlugin', () => {
       rootElementId: 'root',
       favicon: 'favicon',
       headHtml: [''],
-      headChunks: ['rewriteHistory'],
-      excludeChunks: ['redirect'],
-      inject: false,
+      rewriteHistory: true,
+      excludeChunks: ['rewriteHistory', 'redirect'],
     });
     expect(webpack.DefinePlugin).toHaveBeenCalledWith({
       TERRA_DEV_SITE_BASENAME: JSON.stringify(''),
@@ -173,9 +172,8 @@ describe('SitePlugin', () => {
       rootElementId: 'root',
       favicon: 'favicon',
       headHtml: [''],
-      headChunks: ['rewriteHistory'],
-      excludeChunks: ['redirect', 'pathPrefix/index'],
-      inject: false,
+      rewriteHistory: true,
+      excludeChunks: ['rewriteHistory', 'redirect', 'pathPrefix/index'],
     });
     expect(webpack.DefinePlugin).toHaveBeenCalledWith({
       TERRA_DEV_SITE_BASENAME: JSON.stringify(''),
