@@ -104,11 +104,11 @@ describe('generateNavigationConfig', () => {
     expect(config.routesMap).toMatchSnapshot();
     expect(config.pageConfig).toMatchSnapshot();
     expect(config.contentImports).toEqual({
-      '/test/npm-package/a': '/Users/mh015940/source/terra-dev-site/tests/jest/webpack/loaderUtils/testContent/TestB/ext/a.ext.js',
-      '/test/npm-package/b/file': '/Users/mh015940/source/terra-dev-site/tests/jest/webpack/loaderUtils/testContent/TestB/ext/b/file.ext.js',
-      '/test/npm-package/dir/file': '/Users/mh015940/source/terra-dev-site/tests/jest/webpack/loaderUtils/testContent/TestB/ext/dir.c/file.ext.js',
-      '/test/npm-package/first-file': '/Users/mh015940/source/terra-dev-site/tests/jest/webpack/loaderUtils/testContent/TestB/ext/firstFile.a.ext.js',
-      '/test/npm-package/second-file': '/Users/mh015940/source/terra-dev-site/tests/jest/webpack/loaderUtils/testContent/TestB/ext/secondFile.b.ext.js',
+      '/test/npm-package/a': path.join(process.cwd(), 'tests/jest/webpack/loaderUtils/testContent/TestB/ext/a.ext.js'),
+      '/test/npm-package/b/file': path.join(process.cwd(), 'tests/jest/webpack/loaderUtils/testContent/TestB/ext/b/file.ext.js'),
+      '/test/npm-package/dir/file': path.join(process.cwd(), 'tests/jest/webpack/loaderUtils/testContent/TestB/ext/dir.c/file.ext.js'),
+      '/test/npm-package/first-file': path.join(process.cwd(), 'tests/jest/webpack/loaderUtils/testContent/TestB/ext/firstFile.a.ext.js'),
+      '/test/npm-package/second-file': path.join(process.cwd(), 'tests/jest/webpack/loaderUtils/testContent/TestB/ext/secondFile.b.ext.js'),
     });
   });
 
