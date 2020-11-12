@@ -26,7 +26,6 @@ const GoToButton = (props) => {
   const {
     path,
     history,
-    // ...customProps
   } = props;
 
   let temp;
