@@ -55,7 +55,6 @@ const recurs = ({
     });
   } else {
     // if this is a leaf page, add the content path and type to the config.
-    // configCopy.content = contentPath;
     configCopy.path = url;
     // eslint-disable-next-line no-param-reassign
     contentImports[url] = contentPath;
