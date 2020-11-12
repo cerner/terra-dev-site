@@ -66,7 +66,7 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
   const pageActions = [
     {
       key: 'raw',
-      text: 'RawToggle',
+      label: 'RawToggle',
       icon: <IconStartPresenting />,
       onSelect: () => {
         history.push(`/raw${location.pathname}`);
@@ -77,7 +77,7 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
   // if (hasThemes) {
   //   pageActions.push({
   //     key: 'theme',
-  //     text: 'Theme',
+  //     label: 'Theme',
   //     icon: <IconTreemap />,
   //     onSelect: () => { setShowThemeMenu(true); },
   //     buttonRefCallback: (ref) => { themeButtonRef.current = ref; },
@@ -87,7 +87,7 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
   // if (hasLocales) {
   //   pageActions.push({
   //     key: 'locale',
-  //     text: 'Locale',
+  //     label: 'Locale',
   //     icon: <IconLocationPin />,
   //     onSelect: () => { setShowLocale(true); },
   //     buttonRefCallback: (ref) => { localeButtonRef.current = ref; },
@@ -105,7 +105,7 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
 
   return (
     <ApplicationPage
-      title={pageContentConfig.text}
+      label={pageContentConfig.label}
       pageKey={pathname}
       {...props}
     >

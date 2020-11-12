@@ -2,7 +2,9 @@ import { Notice } from '@cerner/terra-docs';
 
 # v7.0.0 Upgrade Guide
 
-This document will provide information on upgrading from Terra Dev Site `6.x.x` to `7.0.0`.
+This document will provide information on upgrading from `terra-dev-site` `6.x.x` to `7.0.0`.
+
+`terra-dev-site` v7 is about 70% new. The primary goals of this upgrade were to adopt `terra-application` v2 and remove the `terra-dev-site` build intermediate step by converting to a pure webpack plugin.
 
 ## Scoped package
 
@@ -19,11 +21,11 @@ Terra dev site has changed transitioned to be scoped under the cerner organizati
 
 ## Webpack Plugin
 
-In terra application v6 we introduced the webpack plugin as an alternative to the shared webpack config. In terra application v7 we have removed the shared webpack config and are only offering the webpack plugin. We've done this to facilitate the transition from `terra-toolkit` webpack config to the new `@cerner/webpack-config-terra` webpack config. Terra dev site will work with either webpack config and this will allow you to update to WDIO 6 independently from terra dev site.
+In `terra-dev-site` v6 we introduced the webpack plugin as an alternative to the shared webpack config. In `terra-dev-site` v7 we have removed the shared webpack config and are only offering the webpack plugin. We've done this to facilitate the transition from `terra-toolkit` webpack config to the new `@cerner/webpack-config-terra` webpack config. `terra-dev-site` will work with either webpack config and this will allow you to update to WDIO 6 independently.
 
-To simplify the webpack plugin api we have also now included the Directory Switcher and Local Package alias resolve plugins in the terra-dev-site plug in by default. As a reminder, these plugins allow you to enable hot reloading by switching lib requires with their src equivalent and reference local files as if they were packaged, ie `import('@cerner/terra-dev-site/file)`.
+To simplify the webpack plugin api we have also now included the Directory Switcher and Local Package alias resolve plugins in the `terra-dev-site` plug in by default. As a reminder, these plugins allow you to enable hot reloading by switching lib requires with their src equivalent and reference local files as if they were packaged, ie `import('@cerner/terra-dev-site/file)`.
 
-Below is an example webpack config setting up the terra dev site plugin.
+Below is an example webpack config setting up the `terra-dev-site` plugin.
 
 ```javascript
 const terraWebpackConfig = require('@cerner/webpack-config-terra');
@@ -50,7 +52,7 @@ To simplify the webpack plugin api we have now included the `DirectorySwitcherPl
 
 <Notice variant="important" ariaLevel="3">
 
-Note in the example where `env.defaultLocale` is passed to the `TerraDevSite` plugin. The `defaultLocale` env is set as apart of our wdio test service and must be passed into the 'TerraDevSite' plugin to ensure locale tests are run appropriately.
+Note in the example where `env.defaultLocale` is passed to the `TerraDevSite` plugin. The `defaultLocale` env is set as apart of our WDIO test service and must be passed into the `TerraDevSite` plugin to ensure locale tests are run appropriately.
 
 </Notice>
 
@@ -58,7 +60,19 @@ Note in the example where `env.defaultLocale` is passed to the `TerraDevSite` pl
 
 With the full transition to a webpack plugin, Terra dev site config has changed significantly. The plugin is now configured directly through webpack. The `site.config.js` file and `dev-site-config` folders are no longer needed and can be removed from the project. We don't even use them to write out the generated site anymore. It's all done through webpack loaders.
 
-To configure
+The `terra-dev-site` plugin can be configured by passing an object to the plugin in the webpack config:
+
+```javascript
+const config = {
+  plugins: [
+      new TerraDevSite({
+        <Put your config here>
+      }),
+  ],
+}
+```
+
+Full config options can be found on the [config page](/dev_tools/cerner-terra-dev-site/terra-dev-site/configuration).
 
 To see how the old configuration maps to the new configuration, see the table below:
 
@@ -67,7 +81,7 @@ To see how the old configuration maps to the new configuration, see the table be
 |`navConfig.navigation.index`|**removed**|The site index page is now assumed to be the first `primaryNavigationItem` in the list.|
 |`navConfig.navigation.primaryNavigationItems`|`primaryNavigationItems`| PrimaryNavigationItems are no longer nested under the navigation object.|
 |`navConfig.navigation.primaryNavigationItems.path`|`primaryNavigationItems.path`|unchanged.|
-|`navConfig.navigation.primaryNavigationItems.text`|`primaryNavigationItems.text`|unchanged.|
+|`navConfig.navigation.primaryNavigationItems.text`|`primaryNavigationItems.label`|Changed to label to align with terra-application api naming.|
 |`navConfig.navigation.primaryNavigationItems.pageType`|`primaryNavigationItems.contentExtension`|Pages no longer support being generated from multiple page types. No sites ever used the functionality. PageType has been changed to contentExtension to eliminate confusion with terra-application pages.|
 |`navConfig.navigation.primaryNavigationItems.capabilities`|**removed**|This configuration has been removed. All pages except for home will have access to devTools|
 |`pagesConfig`|**removed**|`pagesConfig` allowed consumers to provide their own page config. It was poorly documented, complex and no one ever did.|
@@ -93,25 +107,25 @@ To see how the old configuration maps to the new configuration, see the table be
 |`appConfig.headHtml`|`headHtml`|No longer nested under appConfig.|
 |`includeTestEvidence`|**removed**|Remove the ability to include test evidence, this should be covered now by a separate site report.|
 
-More information abut dev-site config can be found on our [config page](/dev_tools/cerner-terra-dev-site/terra-dev-site/configuration).
-
 ## Dependency changes
 
-Previously terra-dev-site was providing a version of rect-intl as a dependency. This because this satisfied the terra-application peer dependency requirement many applications did not define it. With this release we have removed that dependency and applications will have to define that peer dependency themselves.
+Previously `terra-dev-site` was providing a version of `rect-intl` as a dependency. This because this satisfied the `terra-application` peer dependency requirement many applications did not define it. With this release we have removed that dependency and applications will have to define that peer dependency themselves.
 
-@cerner/terra-application is now a peer dependency and must be defined by the package consuming terra-dev-site.
+`@cerner/terra-application` is now a peer dependency and must be defined by the package consuming terra-dev-site.
 
-Terra-toolkit is no longer a peer dependency.
+`terra-toolkit` is no longer a peer dependency to allow consumers to use `terra-dev-site` v7 with either terra-toolkit or the replacement `terra-functional-testing` package.
 
 ## Terra Application V2
 
-Terra dev site has been upgraded to consume terra application v2. All content will now be rendered in an application page and will have access to all page level API's.
+Terra dev site has been upgraded to consume `terra-application` v2. All content will now be rendered in an application page and will have access to all page level API's.
 
 If you are creating pages, it's recommend that you wrap the test page in a Page container, otherwise the page will instantly navigate.
 
 ### Resulting Test changes
 
 The page introduces a new tab stop. Any tests using tabstops will have to be updated to include an additional tab stop.
+
+If you happen to be testing md or mdx components, a wrapping div has been removed and screenshots will have to be regenerated. I assume this is rare beyond `terra-dev-site` itself.
 
 ## Node 10
 

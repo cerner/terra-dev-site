@@ -73,7 +73,7 @@ const pageContentConfigPropType = PropTypes.shape({
   /**
    * Text for the page
    */
-  text: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   /**
    * The type of the content being loaded
    */
@@ -87,7 +87,7 @@ const navigationConfigPropType = PropTypes.arrayOf(PropTypes.shape({
   /**
    * The text for the nav item
    */
-  text: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   /**
    * The singular page config item
    */
@@ -110,6 +110,21 @@ const pageConfigPropType = PropTypes.object;
  * Short routes to content routes.
  */
 const routesMapPropType = PropTypes.object;
+
+const titleConfigPropType = PropTypes.shape({
+  /**
+   * Title for site
+   */
+  title: PropTypes.string.isRequired,
+  /**
+   * Headline for site
+   */
+  subline: PropTypes.string,
+  /**
+   * subline for site
+   */
+  headline: PropTypes.string,
+});
 
 /**
  * Object describing the generated dev-site-config object.
@@ -150,20 +165,7 @@ const siteConfigPropType = PropTypes.shape({
   /**
    * Describes the site name
    */
-  titleConfig: PropTypes.shape({
-    /**
-     * Title for site
-     */
-    title: PropTypes.string.isRequired,
-    /**
-     * Headline for site
-     */
-    subline: PropTypes.string,
-    /**
-     * subline for site
-     */
-    headline: PropTypes.string,
-  }).isRequired,
+  titleConfig: titleConfigPropType.isRequired,
 });
 
 export default siteConfigPropType;
@@ -175,4 +177,5 @@ export {
   contentImportsPropType,
   navigationConfigPropType,
   pageContentConfigPropType,
+  titleConfigPropType,
 };

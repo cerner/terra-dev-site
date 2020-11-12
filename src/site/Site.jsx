@@ -33,7 +33,7 @@ const Site = ({ siteConfig, SessionProvider }) => (
               themeName={currentThemeClassName}
             >
               <TerraMdxProvider>
-                <DevSiteApplicationContainer>
+                <DevSiteApplicationContainer titleConfig={siteConfig.titleConfig}>
                   {SessionProvider ? (
                     <SessionProvider>
                       <DevSiteLayout siteConfig={siteConfig} />

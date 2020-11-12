@@ -9,7 +9,7 @@ describe('generateNavigationConfig', () => {
         additionalSearchDirectories: [],
         primaryNavigationItems: [{
           path: '/test',
-          text: 'Test',
+          label: 'Test',
           contentExtension: 'ext',
           additionalContent: [
             {
@@ -19,7 +19,7 @@ describe('generateNavigationConfig', () => {
           ],
         }, {
           path: '/findNothing',
-          text: 'findNothing',
+          label: 'findNothing',
           contentExtension: 'findNothing',
         }],
         sourceFolder: 'tests/jest/webpack/loaderUtils/testContent',
@@ -52,7 +52,7 @@ describe('generateNavigationConfig', () => {
         additionalSearchDirectories: [],
         primaryNavigationItems: [{
           path: '/test',
-          text: 'Test',
+          label: 'Test',
           contentExtension: 'ext',
         }],
         distributionFolder: 'tests/jest/webpack/loaderUtils/testContent',
@@ -84,7 +84,7 @@ describe('generateNavigationConfig', () => {
         additionalSearchDirectories: [],
         primaryNavigationItems: [{
           path: '/test',
-          text: 'Test',
+          label: 'Test',
           contentExtension: 'ext',
         }],
         distributionFolder: '',
@@ -121,7 +121,7 @@ describe('generateNavigationConfig', () => {
         ],
         primaryNavigationItems: [{
           path: '/test',
-          text: 'Test',
+          label: 'Test',
           contentExtension: 'ext',
         }],
         distributionFolder: '',
@@ -153,11 +153,11 @@ describe('generateNavigationConfig', () => {
         additionalSearchDirectories: [],
         primaryNavigationItems: [{
           path: '/test',
-          text: 'Test',
+          label: 'Test',
           contentExtension: 'ext',
         }, {
           path: '/doc',
-          text: 'Doc',
+          label: 'Doc',
           contentExtension: 'doc',
         }],
         sourceFolder: 'tests/jest/webpack/loaderUtils/testContent',

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { PageContainer } from '@cerner/terra-application/lib/page';
 import {
   SecondaryNavigationLayout,
@@ -13,6 +14,11 @@ import NotFoundPage from '../pages/_NotFoundPage';
 import { contentImportsPropType, navigationConfigPropType } from '../site/siteConfigPropTypes';
 
 const propTypes = {
+
+  /**
+   * The unique id for secondary navigation layout.
+   */
+  id: PropTypes.string.isRequired,
   /**
    * The map linking the route to the content component to load.
    */
@@ -23,7 +29,7 @@ const propTypes = {
   config: navigationConfigPropType,
 };
 
-const DevSiteSecondaryNavigationLayout = ({ config, contentImports }) => {
+const DevSiteSecondaryNavigationLayout = ({ id, config, contentImports }) => {
   const location = useLocation();
   const history = useHistory();
   const { isActive } = React.useContext(NavigationItemContext);
@@ -37,8 +43,8 @@ const DevSiteSecondaryNavigationLayout = ({ config, contentImports }) => {
       if (navItem.children) {
         return (
           <SecondaryNavigationGroup
-            key={navItem.text}
-            text={navItem.text}
+            key={navItem.label}
+            label={navItem.label}
           >
             {retrieveNavItems(navItem.children)}
           </SecondaryNavigationGroup>
@@ -48,7 +54,7 @@ const DevSiteSecondaryNavigationLayout = ({ config, contentImports }) => {
         <NavigationItem
           key={navItem.path}
           navigationKey={navItem.path}
-          text={navItem.text}
+          label={navItem.label}
           renderPage={() => (
             <DevSitePage pageContentConfig={navItem} contentImports={contentImports} />
           )}
@@ -59,6 +65,7 @@ const DevSiteSecondaryNavigationLayout = ({ config, contentImports }) => {
 
   return (
     <SecondaryNavigationLayout
+      id={id}
       activeNavigationKey={location.pathname}
       onSelectNavigationItem={(key) => history.push(key)}
       renderNavigationFallback={() => (

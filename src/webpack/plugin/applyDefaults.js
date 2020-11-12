@@ -7,21 +7,21 @@ const npmPackage = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.
 const applyDefaults = ({
   primaryNavigationItems = [{
     path: '/home',
-    text: 'Home',
+    label: 'Home',
     contentExtension: 'home',
     additionalContent: [
       {
-        title: 'Home',
+        label: 'Home',
         filePath: path.resolve(process.cwd(), 'README.md'),
       },
     ],
   }, {
     path: '/components',
-    text: 'Components',
+    label: 'Components',
     contentExtension: 'doc',
   }, {
     path: '/tests',
-    text: 'Tests',
+    label: 'Tests',
     contentExtension: 'test',
   }],
   additionalSearchDirectories = [],

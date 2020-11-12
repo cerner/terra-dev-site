@@ -12,7 +12,8 @@ const DevSiteContentPage = () => {
   const history = useHistory();
   return (
     <ApplicationPage
-      title="Not Found"
+      pageKey="Not Found Page"
+      label="Not Found"
       preferHeaderIsHidden
     >
       { isActive

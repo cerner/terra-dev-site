@@ -101,14 +101,14 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
             );
           } else {
             renderProps.renderLayout = () => (
-              <DevSiteSecondaryNavigation config={navItem.children} contentImports={siteConfig.contentImports} />
+              <DevSiteSecondaryNavigation id={navItem.path.substring(1)} config={navItem.children} contentImports={siteConfig.contentImports} />
             );
           }
           return (
             <NavigationItem
               key={navItem.path}
               navigationKey={navItem.path}
-              text={navItem.text}
+              label={navItem.label}
               {...renderProps}
             />
           );

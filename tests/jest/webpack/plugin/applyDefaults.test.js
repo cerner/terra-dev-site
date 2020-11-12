@@ -6,21 +6,21 @@ describe('applyDefault', () => {
     const config = applyDefaults();
     expect(config.primaryNavigationItems).toEqual([{
       path: '/home',
-      text: 'Home',
+      label: 'Home',
       contentExtension: 'home',
       additionalContent: [
         {
-          title: 'Home',
+          label: 'Home',
           filePath: path.resolve(process.cwd(), 'README.md'),
         },
       ],
     }, {
       path: '/components',
-      text: 'Components',
+      label: 'Components',
       contentExtension: 'doc',
     }, {
       path: '/tests',
-      text: 'Tests',
+      label: 'Tests',
       contentExtension: 'test',
     }]);
     expect(config.additionalSearchDirectories).toEqual([]);
@@ -42,7 +42,7 @@ describe('applyDefault', () => {
     const config = applyDefaults({
       primaryNavigationItems: [{
         path: '/custom',
-        text: 'Custom',
+        label: 'Custom',
         contentExtension: 'custom',
       }],
       additionalSearchDirectories: [
@@ -72,7 +72,7 @@ describe('applyDefault', () => {
     });
     expect(config.primaryNavigationItems).toEqual([{
       path: '/custom',
-      text: 'Custom',
+      label: 'Custom',
       contentExtension: 'custom',
     }]);
     expect(config.additionalSearchDirectories).toEqual(['dir']);

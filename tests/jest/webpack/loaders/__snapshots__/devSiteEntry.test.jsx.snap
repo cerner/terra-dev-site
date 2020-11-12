@@ -18,8 +18,8 @@ const contentImports = {
   'importNameA': React.lazy(() => import('filePathA')),'importNameB': React.lazy(() => import('filePathB')),
 }
 
-const navigationConfig = JSON.parse('[{\\"text\\":\\"Extended\\",\\"path\\":\\"/extended\\",\\"pageConfig\\":{\\"text\\":\\"Extended\\",\\"path\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"type\\":\\"jsx\\"}}]');
-const pageConfig = JSON.parse('{\\"/extended/cerner-terra-dev-site/extended\\":{\\"text\\":\\"Extended\\",\\"type\\":\\"jsx\\"}}');
+const navigationConfig = JSON.parse('[{\\"label\\":\\"Extended\\",\\"path\\":\\"/extended\\",\\"pageConfig\\":{\\"label\\":\\"Extended\\",\\"path\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"type\\":\\"jsx\\"}}]');
+const pageConfig = JSON.parse('{\\"/extended/cerner-terra-dev-site/extended\\":{\\"label\\":\\"Extended\\",\\"type\\":\\"jsx\\"}}');
 
 const siteConfig = {
   titleConfig: {
@@ -64,8 +64,8 @@ const contentImports = {
   'importNameA': React.lazy(() => import('filePathA')),'importNameB': React.lazy(() => import('filePathB')),
 }
 
-const navigationConfig = JSON.parse('[{\\"text\\":\\"Extended\\",\\"path\\":\\"/extended\\",\\"pageConfig\\":{\\"text\\":\\"Extended\\",\\"path\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"type\\":\\"jsx\\"}}]');
-const pageConfig = JSON.parse('{\\"/extended/cerner-terra-dev-site/extended\\":{\\"text\\":\\"Extended\\",\\"type\\":\\"jsx\\"}}');
+const navigationConfig = JSON.parse('[{\\"label\\":\\"Extended\\",\\"path\\":\\"/extended\\",\\"pageConfig\\":{\\"label\\":\\"Extended\\",\\"path\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"type\\":\\"jsx\\"}}]');
+const pageConfig = JSON.parse('{\\"/extended/cerner-terra-dev-site/extended\\":{\\"label\\":\\"Extended\\",\\"type\\":\\"jsx\\"}}');
 
 const siteConfig = {
   titleConfig: {

@@ -13,7 +13,7 @@ describe('devSiteEntry', () => {
       },
       pageConfig: {
         '/extended/cerner-terra-dev-site/extended': {
-          text: 'Extended',
+          label: 'Extended',
           type: 'jsx',
         },
       },
@@ -23,10 +23,10 @@ describe('devSiteEntry', () => {
       },
       navigationConfig: [
         {
-          text: 'Extended',
+          label: 'Extended',
           path: '/extended',
           pageConfig: {
-            text: 'Extended',
+            label: 'Extended',
             path: '/extended/cerner-terra-dev-site/extended',
             type: 'jsx',
           },
@@ -92,7 +92,7 @@ describe('devSiteEntry', () => {
       },
       pageConfig: {
         '/extended/cerner-terra-dev-site/extended': {
-          text: 'Extended',
+          label: 'Extended',
           type: 'jsx',
         },
       },
@@ -102,10 +102,10 @@ describe('devSiteEntry', () => {
       },
       navigationConfig: [
         {
-          text: 'Extended',
+          label: 'Extended',
           path: '/extended',
           pageConfig: {
-            text: 'Extended',
+            label: 'Extended',
             path: '/extended/cerner-terra-dev-site/extended',
             type: 'jsx',
           },

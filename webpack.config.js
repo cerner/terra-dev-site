@@ -11,10 +11,11 @@ const devSiteConfig = (env = {}) => ({
   entry: TerraDevSiteEntrypoints,
   plugins: [
     new TerraDevSite({
+      enableDebugLogging: true,
       defaultLocale: env.defaultLocale,
       primaryNavigationItems: [{
         path: '/home',
-        text: 'Home',
+        label: 'Home',
         contentExtension: 'home',
         additionalContent: [
           {
@@ -24,31 +25,31 @@ const devSiteConfig = (env = {}) => ({
         ],
       }, {
         path: '/dev_tools',
-        text: 'Developer Tools',
+        label: 'Developer Tools',
         contentExtension: 'tool',
       }, {
         path: '/single-page-test',
-        text: 'Single Page Test',
+        label: 'Single Page Test',
         contentExtension: 'spt',
       }, {
         path: '/secondary-nav-test',
-        text: 'Secondary Nav Test',
+        label: 'Secondary Nav Test',
         contentExtension: 'snt',
       }, {
         path: '/folder-first',
-        text: 'Folder First Test',
+        label: 'Folder First Test',
         contentExtension: 'ff',
       }, {
         path: '/empty',
-        text: 'Empty',
+        label: 'Empty',
         contentExtension: 'empty',
       }, {
         path: '/components',
-        text: 'Components',
+        label: 'Components',
         contentExtension: 'doc',
       }, {
         path: '/test',
-        text: 'Test',
+        label: 'Test',
         contentExtension: 'test',
       }],
       additionalSearchDirectories: [
@@ -71,7 +72,7 @@ const devSiteConfig = (env = {}) => ({
       pathPrefix: 'extended',
       primaryNavigationItems: [{
         path: '/extended',
-        text: 'Extended',
+        label: 'Extended',
         contentExtension: 'extended',
       }],
       titleConfig: {

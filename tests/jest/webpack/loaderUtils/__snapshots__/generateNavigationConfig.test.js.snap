@@ -5,23 +5,23 @@ Array [
   Object {
     "children": Array [
       Object {
+        "label": "Add",
         "path": "/test/npm-package/add",
-        "text": "Add",
         "type": "md",
       },
       Object {
+        "label": "File",
         "path": "/test/npm-package/file",
-        "text": "File",
         "type": "js",
       },
       Object {
+        "label": "File Outside",
         "path": "/test/npm-package/file-outside",
-        "text": "File Outside",
         "type": "md",
       },
     ],
+    "label": "Test",
     "path": "/test",
-    "text": "Test",
   },
 ]
 `;
@@ -36,15 +36,15 @@ Object {
 exports[`generateNavigationConfig test standard config + additional content 3`] = `
 Object {
   "/test/npm-package/add": Object {
-    "text": "Add",
+    "label": "Add",
     "type": "md",
   },
   "/test/npm-package/file": Object {
-    "text": "File",
+    "label": "File",
     "type": "js",
   },
   "/test/npm-package/file-outside": Object {
-    "text": "File Outside",
+    "label": "File Outside",
     "type": "md",
   },
 }
@@ -55,18 +55,18 @@ Array [
   Object {
     "children": Array [
       Object {
+        "label": "File",
         "path": "/test/npm-package/file",
-        "text": "File",
         "type": "js",
       },
       Object {
+        "label": "File Outside",
         "path": "/test/npm-package/file-outside",
-        "text": "File Outside",
         "type": "md",
       },
     ],
+    "label": "Test",
     "path": "/test",
-    "text": "Test",
   },
 ]
 `;
@@ -81,11 +81,11 @@ Object {
 exports[`generateNavigationConfig tests additionalSearchDirectories 3`] = `
 Object {
   "/test/npm-package/file": Object {
-    "text": "File",
+    "label": "File",
     "type": "js",
   },
   "/test/npm-package/file-outside": Object {
-    "text": "File Outside",
+    "label": "File Outside",
     "type": "md",
   },
 }
@@ -94,22 +94,22 @@ Object {
 exports[`generateNavigationConfig tests multiple primary nav items 1`] = `
 Array [
   Object {
+    "label": "Test",
     "pageConfig": Object {
+      "label": "File",
       "path": "/test/npm-package/file",
-      "text": "File",
       "type": "js",
     },
     "path": "/test",
-    "text": "Test",
   },
   Object {
+    "label": "Doc",
     "pageConfig": Object {
+      "label": "File",
       "path": "/doc/npm-package/file",
-      "text": "File",
       "type": "js",
     },
     "path": "/doc",
-    "text": "Doc",
   },
 ]
 `;
@@ -125,11 +125,11 @@ Object {
 exports[`generateNavigationConfig tests multiple primary nav items 3`] = `
 Object {
   "/doc/npm-package/file": Object {
-    "text": "File",
+    "label": "File",
     "type": "js",
   },
   "/test/npm-package/file": Object {
-    "text": "File",
+    "label": "File",
     "type": "js",
   },
 }
@@ -140,18 +140,18 @@ Array [
   Object {
     "children": Array [
       Object {
+        "label": "File",
         "path": "/test/npm-package/file",
-        "text": "File",
         "type": "js",
       },
       Object {
+        "label": "File Outside",
         "path": "/test/npm-package/file-outside",
-        "text": "File Outside",
         "type": "md",
       },
     ],
+    "label": "Test",
     "path": "/test",
-    "text": "Test",
   },
 ]
 `;
@@ -166,11 +166,11 @@ Object {
 exports[`generateNavigationConfig tests prod mode 3`] = `
 Object {
   "/test/npm-package/file": Object {
-    "text": "File",
+    "label": "File",
     "type": "js",
   },
   "/test/npm-package/file-outside": Object {
-    "text": "File Outside",
+    "label": "File Outside",
     "type": "md",
   },
 }
@@ -181,43 +181,43 @@ Array [
   Object {
     "children": Array [
       Object {
+        "label": "First File",
         "path": "/test/npm-package/first-file",
-        "text": "First File",
         "type": "js",
       },
       Object {
+        "label": "Second File",
         "path": "/test/npm-package/second-file",
-        "text": "Second File",
         "type": "js",
       },
       Object {
         "children": Array [
           Object {
+            "label": "File",
             "path": "/test/npm-package/dir/file",
-            "text": "File",
             "type": "js",
           },
         ],
-        "text": "Dir",
+        "label": "Dir",
       },
       Object {
+        "label": "A",
         "path": "/test/npm-package/a",
-        "text": "A",
         "type": "js",
       },
       Object {
         "children": Array [
           Object {
+            "label": "File",
             "path": "/test/npm-package/b/file",
-            "text": "File",
             "type": "js",
           },
         ],
-        "text": "B",
+        "label": "B",
       },
     ],
+    "label": "Test",
     "path": "/test",
-    "text": "Test",
   },
 ]
 `;
@@ -232,23 +232,23 @@ Object {
 exports[`generateNavigationConfig tests sorting 3`] = `
 Object {
   "/test/npm-package/a": Object {
-    "text": "A",
+    "label": "A",
     "type": "js",
   },
   "/test/npm-package/b/file": Object {
-    "text": "File",
+    "label": "File",
     "type": "js",
   },
   "/test/npm-package/dir/file": Object {
-    "text": "File",
+    "label": "File",
     "type": "js",
   },
   "/test/npm-package/first-file": Object {
-    "text": "First File",
+    "label": "First File",
     "type": "js",
   },
   "/test/npm-package/second-file": Object {
-    "text": "Second File",
+    "label": "Second File",
     "type": "js",
   },
 }

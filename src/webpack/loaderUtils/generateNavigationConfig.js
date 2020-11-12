@@ -17,7 +17,7 @@ const getPageConfig = (route) => {
   const { name, extension: group } = parseExtension(route);
 
   return {
-    text: startCase(name),
+    label: startCase(name),
     group,
   };
 };
@@ -62,7 +62,7 @@ const recurs = ({
     configCopy.type = ext;
     // eslint-disable-next-line no-param-reassign
     pageConfig[url] = {
-      text: configCopy.text,
+      label: configCopy.label,
       type: ext,
     };
   }
@@ -90,7 +90,7 @@ const buildPageConfig = ({
     let primaryNavItem = acc[referenceNavItem.path];
     if (!primaryNavItem) {
       primaryNavItem = {
-        text: referenceNavItem.text,
+        label: referenceNavItem.label,
         path: referenceNavItem.path,
         children: {},
       };
@@ -152,7 +152,7 @@ const alphaSort = (a, b) => {
 const sortPage = (a, b) => {
   let result = alphaSort(a.group, b.group);
   if (result === 0) {
-    result = alphaSort(a.text, b.text);
+    result = alphaSort(a.label, b.label);
   }
   return result;
 };

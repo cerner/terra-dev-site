@@ -1,0 +1,68 @@
+import { Badge } from '@cerner/terra-dev-site/package.json?dev-site-package';
+
+<Badge />
+
+# Terra Dev Site Setup Guide
+
+Using the TerraDevSite webpack plugin, a static site will be generated and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. Extending from @cerner/webpack-config-terra's webpack config is highly recommended.
+
+## WebpackConfig
+
+```javascript
+const terraWebpackConfig = require('@cerner/webpack-config-terra');
+const merge = require('webpack-merge');
+const { TerraDevSite, TerraDevSiteEntrypoints } = require('@cerner/terra-dev-site');
+
+/**
+* Generates the file representing app name configuration.
+*/
+const devSiteConfig = (env = {}, argv = {}) => ({
+  entry: TerraDevSiteEntrypoints,
+  plugins: [
+    new TerraDevSite({
+      defaultLocale: env.defaultLocale,
+    }),
+  ],
+});
+
+const webpackConfig = (env, argv) => (
+  merge(terraWebpackConfig(env, argv), devSiteConfig(env, argv))
+);
+
+module.exports = webpackConfig;
+```
+
+
+To serve using `tt-serve`, add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit-boneyard/blob/main/scripts/serve/Serve.md#cli) for more information on the command options.
+
+```json
+{
+  "scripts": {
+    "start": "tt-serve
+  }
+}
+```
+
+After adding the start command to your package.json, run it and navigate to http://localhost:8080/site to view the site in your browser:
+
+```bash
+npm run start
+```
+
+You will see your readme hosted on the site. Next lets add some pages.
+
+Terra-dev-site will auto discover files base on either the default search patterns in the site.config or the file structure and file extensions used.
+
+Add the following file to: `<package>/src/terra-dev-site/my-first-page.doc.md`
+
+```md
+My first page!
+```
+
+Then re-run the site and navigate to it in your browser:
+
+```bash
+npm run start
+```
+
+Now you should be able to see your page under the components tab.
