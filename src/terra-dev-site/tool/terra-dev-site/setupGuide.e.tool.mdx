@@ -4,9 +4,11 @@ import { Badge } from '@cerner/terra-dev-site/package.json?dev-site-package';
 
 # Terra Dev Site Setup Guide
 
-Using the TerraDevSite webpack plugin, a static site will be generated and can be served using either `webpack-dev-server`, `tt-serve` or served statically using something like gh-pages. Extending from @cerner/webpack-config-terra's webpack config is highly recommended.
+Using the `TerraDevSite` webpack plugin, a static site will be generated and can be served using `webpack-dev-server` or served statically using something like gh-pages. Extending from `@cerner/webpack-config-terra`'s webpack config is highly recommended.
 
 ## WebpackConfig
+
+The following webpackConfig config is a simple example, extending from the reusable terra webpack config and applying the `TerraDevSite` plugin.
 
 ```javascript
 const terraWebpackConfig = require('@cerner/webpack-config-terra');
@@ -33,17 +35,17 @@ module.exports = webpackConfig;
 ```
 
 
-To serve using `tt-serve`, add the following terra-toolkit command to your package.json. See the [tt-serve docs](https://github.com/cerner/terra-toolkit-boneyard/blob/main/scripts/serve/Serve.md#cli) for more information on the command options.
+To serve using `webpack-dev-server`, add the following terra-toolkit command to your package.json. See the [webpack-dev-server](https://webpack.js.org/configuration/dev-server/#root) for more information on the command options.
 
 ```json
 {
   "scripts": {
-    "start": "tt-serve
+    "start": "webpack-dev-server"
   }
 }
 ```
 
-After adding the start command to your package.json, run it and navigate to http://localhost:8080/site to view the site in your browser:
+After adding the start command to your package.json, run it and navigate to http://localhost:8080/ to view the site in your browser:
 
 ```bash
 npm run start
@@ -59,10 +61,4 @@ Add the following file to: `<package>/src/terra-dev-site/my-first-page.doc.md`
 My first page!
 ```
 
-Then re-run the site and navigate to it in your browser:
-
-```bash
-npm run start
-```
-
-Now you should be able to see your page under the components tab.
+Webpack will re-compile and now you should be able to see your page under the components tab.

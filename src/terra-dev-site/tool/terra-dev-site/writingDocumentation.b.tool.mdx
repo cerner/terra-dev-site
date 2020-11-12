@@ -1,8 +1,8 @@
+import { Notice } from '@cerner/terra-docs';
+
 # Writing Documentation
 
 Writing component documentation with `terra-dev-site` is easy. We support github style markdown and mdx. Simply add a `.doc.mdx` file to `terra-dev-site` and it will be converted into react for you.
-
-`terra-dev-site` also offer a suite of webpack loaders designed to help
 
 ## Loaders
 
@@ -14,7 +14,7 @@ For example to use the example loader you would require your example with the `?
 import Example from './example?dev-site-example';
 ```
 
-* [Codeblock Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/codeblock-loader): import a component into a syntax highlighted codeblock.
+* [Codeblock Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/codeblock-loader): Import a component into a syntax highlighted codeblock.
 * [Example Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/example-loader): Render and example and display the code in a hidden section below it.
 * [Package Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/package-loader): Convert package.json information into badges.
 * [Props Table Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/props-table-loader): Create a props table for react components.
@@ -31,36 +31,41 @@ Terra dev site uses MDX as a markdown loader. MDX allows you to mix JSX syntax i
 
 To use mdx syntax you must use a .mdx file extension.
 
-For example the following block will render into
+For example the following block will render into:
 
 ```md
-# Hello, *world*!
+import { Notice } from '@cerner/terra-docs';
 
-Below is an example of JSX embedded in Markdown. <br /> **Check out
-the background color!**
+# Hello, *terra*!
 
-<div style={{ padding: '20px', backgroundColor: 'tomato' }}>
-  <h3>This is JSX</h3>
-</div>
+Below is an example of JSX embedded in Markdown.
+
+<Notice variant="important" ariaLevel="3">
+
+If you leave spaces between your component and it's content, the content will be parsed by **mdx**.
+
+</Notice>
 ```
 
 With the output below:
-<hr />
 
-# Hello, *world*!
+---
 
-Below is an example of JSX embedded in Markdown. <br /> **Try and change
-the background color!**
+# Hello, *terra*!
 
-<div style={{ padding: '20px', backgroundColor: 'tomato' }}>
-  <h3>This is JSX</h3>
-</div>
+Below is an example of JSX embedded in Markdown.
 
-<hr />
+<Notice variant="important" ariaLevel="3">
+
+If you leave spaces between your component and it's content, the content will be parsed by **mdx**.
+
+</Notice>
+
+---
 
 For more information see [https://mdxjs.com/](https://mdxjs.com/)
 
-## MDX loader
+### MDX loader
 
 Mdx is loaded at build time rather than interpreted at run time. The mdx loader that is used is more strict that the 'marked' library previously used.
 
