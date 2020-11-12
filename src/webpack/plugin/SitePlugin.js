@@ -267,7 +267,6 @@ class SitePlugin {
     // Generate the index.html file for the site.
     new HtmlWebpackPlugin({
       title: this.siteConfig.titleConfig.title,
-      direction: this.siteConfig.defaultDirection,
       filename: this.htmlFileName,
       template: path.join(__dirname, '..', 'templates', 'index.html'),
       rootElementId: 'root',

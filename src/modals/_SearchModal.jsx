@@ -88,7 +88,7 @@ const searchItem = result => (
 const cacheSearchItems = (pageConfig, state, setState) => {
   if (!state.searchItems) {
     const searchItems = Object.entries(pageConfig).map(([key, value]) => ({
-      title: value.text,
+      title: value.label,
       path: key,
       tags: key.split('/').join(' '),
     }));

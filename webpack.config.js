@@ -11,7 +11,6 @@ const devSiteConfig = (env = {}) => ({
   entry: TerraDevSiteEntrypoints,
   plugins: [
     new TerraDevSite({
-      enableDebugLogging: true,
       defaultLocale: env.defaultLocale,
       primaryNavigationItems: [{
         path: '/home',

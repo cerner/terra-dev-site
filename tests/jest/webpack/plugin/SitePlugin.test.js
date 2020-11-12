@@ -93,7 +93,6 @@ describe('SitePlugin', () => {
       chunks: ['redirect'],
     });
     expect(HtmlWebpackPlugin).toHaveBeenNthCalledWith(2, {
-      direction: 'rtl',
       title: 'title',
       filename: 'pathPrefix/index.html',
       template: path.join(process.cwd(), 'src', 'webpack', 'templates', 'index.html'),
@@ -165,7 +164,6 @@ describe('SitePlugin', () => {
     expect(compiler.options.module.rules).toMatchSnapshot();
 
     expect(HtmlWebpackPlugin).toHaveBeenNthCalledWith(1, {
-      direction: 'rtl',
       title: 'title',
       filename: 'index.html',
       template: path.join(process.cwd(), 'src', 'webpack', 'templates', 'index.html'),
