@@ -37,6 +37,7 @@ const ContentLoaded = ({ children, type }) => {
     <div
       id="site"
       data-terra-dev-site-content
+      data-terra-test-content
       className={
         cx(
           theme.className,
