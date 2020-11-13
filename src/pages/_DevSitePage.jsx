@@ -9,8 +9,8 @@ import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import PageErrorBoundary from './_DevSitePageErrorBoundary';
 import LoadingOverlay from './_LoadingOverlay';
 import ContentLoadedContainer from './_ContentLoaded';
-import AppSettingsContext from '../site/_AppSettingsContext';
-import ContentSettingsMenu from './_ContentSettingsMenu';
+// import AppSettingsContext from '../site/_AppSettingsContext';
+// import ContentSettingsMenu from './_ContentSettingsMenu';
 // import ComponentToolbar from './_ComponentToolbar';
 import NotFoundPage from './_NotFoundPage';
 import { contentImportsPropType, pageContentConfigPropType } from '../site/siteConfigPropTypes';
@@ -32,11 +32,11 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
   const history = useHistory();
   const isRaw = useRouteMatch('/raw');
   const isHome = useRouteMatch('/home');
-  const localeButtonRef = React.useRef();
-  const themeButtonRef = React.useRef();
-  const [showThemeMenu, setShowThemeMenu] = React.useState(false);
-  const [showLocale, setShowLocale] = React.useState(false);
-  const appSettings = React.useContext(AppSettingsContext);
+  // const localeButtonRef = React.useRef();
+  // const themeButtonRef = React.useRef();
+  // const [showThemeMenu, setShowThemeMenu] = React.useState(false);
+  // const [showLocale, setShowLocale] = React.useState(false);
+  // const appSettings = React.useContext(AppSettingsContext);
   const { isActive } = React.useContext(NavigationItemContext);
 
   if (!isActive) {
@@ -53,15 +53,15 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
     return <NotFoundPage />;
   }
 
-  const onChangeTheme = (theme) => {
-    setShowThemeMenu(false);
-    appSettings.onUpdate({ theme });
-  };
+  // const onChangeTheme = (theme) => {
+  //   setShowThemeMenu(false);
+  //   appSettings.onUpdate({ theme });
+  // };
 
-  const onChangeLocale = (locale) => {
-    setShowLocale(false);
-    appSettings.onUpdate({ locale });
-  };
+  // const onChangeLocale = (locale) => {
+  //   setShowLocale(false);
+  //   appSettings.onUpdate({ locale });
+  // };
 
   const pageActions = (
     <PageActions>
