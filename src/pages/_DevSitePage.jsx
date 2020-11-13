@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import ApplicationPage from '@cerner/terra-application/lib/page';
+import Page, { PageActions, Action } from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 // import IconTreemap from 'terra-icon/lib/icon/IconTreemap';
 // import IconLocationPin from 'terra-icon/lib/icon/IconLocationPin';
@@ -63,16 +63,16 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
     appSettings.onUpdate({ locale });
   };
 
-  const pageActions = [
-    {
-      key: 'raw',
-      label: 'RawToggle',
-      icon: <IconStartPresenting />,
-      onSelect: () => {
-        history.push(`/raw${location.pathname}`);
-      },
-    },
-  ];
+  const pageActions = (
+    <PageActions>
+      <Action
+        actionKey="raw"
+        label="Raw"
+        icon={<IconStartPresenting />}
+        onSelect={() => { history.push(`/raw${location.pathname}`); }}
+      />
+    </PageActions>
+  );
 
   // if (hasThemes) {
   //   pageActions.push({
@@ -104,7 +104,7 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
   }
 
   return (
-    <ApplicationPage
+    <Page
       label={pageContentConfig.label}
       pageKey={pathname}
       {...props}
@@ -119,7 +119,7 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
           </ContentLoadedContainer>
         </Suspense>
       </PageErrorBoundary>
-      { showLocale
+      {/* { showLocale
       && (
         <ContentSettingsMenu
           text="Locale"
@@ -140,8 +140,8 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
           targetRef={themeButtonRef.current}
           onRequestClose={() => setShowThemeMenu(false)}
         />
-      )}
-    </ApplicationPage>
+      )} */}
+    </Page>
   );
 };
 
