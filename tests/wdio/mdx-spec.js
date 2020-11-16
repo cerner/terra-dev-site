@@ -9,7 +9,7 @@ Terra.describeViewports('mdx', ['huge'], () => {
     browser.url('/raw/test/cerner-terra-dev-site/relative-link');
     Terra.validates.element('relative link');
     browser.click('[class*="MarkdownTags-module__a"]');
-    browser.moveToObject('#root', 0, 900);
+    browser.moveToObject('#root', 0, 768);
     Terra.validates.element('link clicked');
   });
 
