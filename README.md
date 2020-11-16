@@ -15,7 +15,7 @@
 [![Dependencies status](https://badgen.net/david/dep/cerner/terra-dev-site)](https://david-dm.org/cerner/terra-dev-site)
 [![devDependencies status](https://badgen.net/david/dev/cerner/terra-dev-site)](https://david-dm.org/cerner/terra-dev-site?type=dev)
 
-A webpack plugin to dynamically builds a terra-application documentation and testing site. See [terra-ui](https://engineering.cerner.com/terra-ui/dev_tools/terra-dev-site/terra-dev-site/about) for documentation.
+A webpack plugin to dynamically build a documentation and testing site using terra-application as the foundation. See [terra-ui](https://engineering.cerner.com/terra-ui/dev_tools/terra-dev-site/terra-dev-site/about) for documentation.
 
 ## Installing the package
 
