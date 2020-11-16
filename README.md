@@ -21,6 +21,9 @@ A webpack plugin to dynamically build a documentation and testing site using ter
 
 ```bash
 npm install --save-dev @cerner/terra-dev-site
+
+// Install Peer Dependencies
+npm install --save-dev @cerner/terra-application react-dom react webpack
 ```
 
 ## Versioning
