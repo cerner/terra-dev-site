@@ -3,13 +3,8 @@ import PropTypes from 'prop-types';
 import List, { Item } from 'terra-list';
 import Hyperlink from 'terra-hyperlink';
 import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
-import classNamesBind from 'classnames/bind';
 
 import { sitesPropType } from '../site/siteConfigPropTypes';
-
-import styles from './ApplicationSwitcherModal.module.scss';
-
-const cx = classNamesBind.bind(styles);
 
 const propTypes = {
   /**
@@ -28,10 +23,10 @@ const ApplicationSwitcherModal = ({ onRequestClose, sites }) => (
     title="Application Switcher"
     onRequestClose={onRequestClose}
   >
-    <List dividerStyle="bottom-only">
+    <List dividerStyle="bottom-only" paddingStyle="standard">
       {sites.map(site => (
         <Item key={site.url}>
-          <Hyperlink className={cx('item')} href={site.url}>{site.title}</Hyperlink>
+          <Hyperlink href={site.url}>{site.title}</Hyperlink>
         </Item>
       ))}
     </List>
