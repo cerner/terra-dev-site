@@ -1,59 +1,91 @@
 const { getOptions } = require('loader-utils');
-const mdx = require('@mdx-js/mdx');
 const reactDocs = require('react-docgen');
 const findSource = require('../loaderUtils/findSource');
 
-/**
- * Create an inline mdx react component.
- * @param {*} description
- * @param {*} callback
- */
-const propMdx = async function propMdx(description, options, callback) {
-  const mdxOptions = {
-    ...options,
-    filepath: this.resourcePath,
-    skipExport: true,
-  };
+const processReturnValue = ({ value, indent }) => value.map((val) => `${indent}${val}`);
 
-  try {
-    const code = [
-      '() => {',
-      await mdx(description, mdxOptions),
-      // execute the mdx function returned.
-      'return MDXContent({});',
-      '}',
-    ].join('\n');
-    return code;
-  } catch (err) {
-    return callback(err);
+const parsePropType = ({ type, level = 0 }) => {
+  const {
+    value,
+    name,
+    required,
+    description,
+  } = type;
+  const indent = level === 0 ? '' : '  ';
+  let returnValue = [];
+
+  if (value) {
+    if (name === 'instanceOf') {
+      returnValue = [
+        `InstanceOf: ${value},`,
+      ];
+    } else if (name === 'enum') {
+      returnValue = [
+        'enum: [',
+        ...value.map(val => `  ${val.value}`),
+        '],',
+      ];
+    } else if (name === 'union') {
+      returnValue = [
+        'unionOf: [',
+        ...value.map((val) => parsePropType({ type: val, level: level + 1 })),
+        '],',
+      ];
+    } else if (name === 'arrayOf') {
+      returnValue = [
+        'arrayOf: [{',
+        ...parsePropType({ type: value, level: level + 1 }),
+        '}],',
+      ];
+    } else if (name === 'objectOf') {
+      returnValue = [
+        'objectOf: {',
+        ...parsePropType({ type: value, level: level + 1 }),
+        '},',
+      ];
+    } else if (name === 'shape') {
+      returnValue = [
+        'shape: {',
+        ...Object.entries(value).reduce((acc, [key, val]) => acc.concat([`${key}: {`, ...parsePropType({ type: val, level: level + 1 }), '},']), []).map((val) => `  ${val}`),
+        '},',
+      ];
+    } else if (name === 'exact') {
+      returnValue = [
+        'exactShape: {',
+        ...Object.entries(value).reduce((acc, [key, val]) => acc.concat([`${key}: {`, ...parsePropType({ type: val, level: level + 1 }), '},']), []).map((val) => `  ${val}`),
+        '},',
+      ];
+    }
+  } else {
+    if (level === 0) {
+      returnValue.push(name);
+    } else {
+      returnValue.push(`type: '${name}',`);
+    }
+
+    if (required) {
+      returnValue.push(`required: ${required},`);
+    }
+    if (description) {
+      returnValue.push(`description: '${description}',`);
+    }
   }
+
+  return processReturnValue({
+    value: returnValue,
+    indent,
+  });
 };
 
 /**
  * Create the type mdx react component
  * @param {name, value} type
  */
-const propType = (type, options, callback) => {
-  const { name } = type;
-  let { value } = type;
+const propType = ({ type }) => {
+  // return value;
+  const parsed = parsePropType({ type }).join('\n');
 
-  if (type.name === 'enum') {
-    // strip single quotes.
-    value = Object.values(value).map((obj) => obj.value.replace(/'/g, ''));
-  }
-
-  const val = [
-    name,
-    ...value
-      ? [
-        '```json',
-        JSON.stringify(value, null, 1),
-        '```',
-      ]
-      : [],
-  ].join('\n');
-
-  return propMdx(val, options, callback);
+  return `\n\`\`\`javascript\n${parsed}\n\`\`\``;
 };
 
 /**
@@ -64,11 +96,11 @@ const propDefaultValue = (value) => {
   if (!value) {
     return 'none';
   }
-  // re-escape the string
-  return value.value.replace(/'/g, '\\\'');
+
+  return `\`\`\`javascript\n${value.value}\n\`\`\``;
 };
 
-const generatePropsTable = async function generatePropsTable(filePath, source, mdxOptions, callback) {
+const generatePropsTable = ({ filePath, source, callback }) => {
   let parsedProps;
   try {
     parsedProps = reactDocs.parse(source);
@@ -76,32 +108,51 @@ const generatePropsTable = async function generatePropsTable(filePath, source, m
     return callback(`Could not convert file to props table:\n${filePath}\n${e}`);
   }
 
+  let count = 0;
   // loop through parsed props to generate table.
-  const rows = await Promise.all(Object.entries(parsedProps.props).map(async ([name, prop]) => {
+  const rows = Object.entries(parsedProps.props).map(([name, prop]) => {
     if (prop.description.includes('@private')) {
       return '';
     }
-    const type = await propType(prop.type, mdxOptions, callback);
+    count += 1;
+    const type = propType({ type: prop.type });
     const defaultValue = propDefaultValue(prop.defaultValue);
-    const description = await propMdx(prop.description, mdxOptions, callback);
     const required = prop.required || (prop.type.name === 'custom' && prop.type.raw && prop.type.raw.includes('isRequired')) ? 'true' : 'false';
 
-    // create the string for the props table component
-    return `{ name: '${name}', type: ${type}, required: ${required}, defaultValue: '${defaultValue}', description: ${description}, },`;
-  }));
+    return [
+      `<Row key="ROW${count}">`,
+      '<PropNameCell>',
+      '',
+      name,
+      '',
+      '</PropNameCell>',
+      '<TypeCell>',
+      '',
+      type,
+      '',
+      '</TypeCell>',
+      `<RequiredCell isRequired={${required}} />`,
+      '<DefaultValueCell>',
+      '',
+      defaultValue,
+      '',
+      '</DefaultValueCell>',
+      '<DescriptionCell>',
+      '',
+      prop.description,
+      '',
+      '</DescriptionCell>',
+      '</Row>',
+    ].join('\n');
+  });
 
   return callback(null, [
-    'import React from \'react\';',
-    'import { mdx } from \'@mdx-js/react\';',
-    'import PropsTable from \'@cerner/terra-dev-site/lib/loader-components/_PropsTable\';',
+    'import PropsTable, { PropNameCell, TypeCell, RequiredCell, DefaultValueCell, DescriptionCell, Row } from \'@cerner/terra-dev-site/lib/loader-components/_PropsTable\';',
     '',
-    'export default () => (',
-    ' <PropsTable',
-    '   rows={[',
+    '<PropsTable>',
     ...rows,
-    '   ]}',
-    ' />',
-    ');',
+    '</PropsTable>',
+    '',
   ].join('\n'));
 };
 
@@ -111,7 +162,7 @@ const generatePropsTable = async function generatePropsTable(filePath, source, m
  */
 const loader = async function loader(content) {
   // Retrieve mdx options and resolve extensions.
-  const { resolveExtensions, mdx: mdxOptions } = getOptions(this);
+  const { resolveExtensions } = getOptions(this);
 
   // Find src
   const { resourcePath } = this;
@@ -121,7 +172,7 @@ const loader = async function loader(content) {
 
   // short circuit, if this already is the source file, just return that.
   if (filePath === resourcePath) {
-    return generatePropsTable(filePath, content, mdxOptions, callback);
+    return generatePropsTable({ filePath, source: content, callback });
   }
   // ensure src exists
   return this.resolve('', source, async (err, result) => {
@@ -134,7 +185,7 @@ const loader = async function loader(content) {
 
     // Read src file
     return this.fs.readFile(result, async (readFileError, srcFile) => (
-      generatePropsTable(result, srcFile, mdxOptions, callback)
+      generatePropsTable({ filePath: result, source: srcFile, callback })
     ));
   });
 };

@@ -71,7 +71,7 @@ const propTypes = {
    * An object taking on a particular shape
    */
   optionalObjectWithShape: PropTypes.shape({
-    color: PropTypes.string,
+    color: PropTypes.string.isRequired,
     fontSize: PropTypes.number,
   }),
   /**

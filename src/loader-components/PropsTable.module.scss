@@ -1,28 +1,26 @@
-@import '../mdx/MarkdownTags.module';
-@import './clinical-lowlight-theme/PropsTable.module';
-@import './orion-fusion-theme/PropsTable.module';
-
 :local {
-  .required {
-    color: #d53040;
+  .bold {
+    font-weight: 600;
   }
-
-  .props-tr {
-    vertical-align: top;
+  .table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: block;
+    margin-bottom: 16px;
+    margin-top: 0;
+    overflow: auto;
+    width: 100%;
   }
-
-  .props-td {
-    overflow-wrap: break-word;
-    white-space: normal;
-    word-wrap: break-word;
-  }
-
-  .tr {
-    background-color: var(--terra-dev-site-props-table-tr-background-color, #fff);
-    border-top: 1px solid #c6cbd1;
-  }
-
-  .tr:nth-child(2n) {
-    background-color: var(--terra-dev-site-props-table-tr-alt-background-color, #f6f8fa);
+  table {
+    .required {
+      color: #d53040;
+    }
+    .code-block-override {
+      pre {
+        padding: 4px;
+        width: fit-content;
+        max-width: 500px;
+      }
+    }
   }
 }
