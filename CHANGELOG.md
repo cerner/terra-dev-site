@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* Changed
+  * Removed reference to infinite list
+  * Updated props table to better format types, defaults and description.
+
 * Breaking
   * Remove the ability to include test evidence, this is covered now by a separate site report.
   * Update minimum node version to node 10.
