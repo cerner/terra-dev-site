@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 6.32.0 - (November 17, 2020)
+
 * Fixed
   * Fixed build failures due to the react/sort-comp rule
 
