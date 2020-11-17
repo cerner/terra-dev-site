@@ -26,6 +26,7 @@ const ContentLoaded = ({ children, className }) => {
     <div
       id="site"
       data-terra-dev-site-content
+      data-terra-test-content
       className={`${cx('dev-site-content')} ${className}`}
     >
       {children}
