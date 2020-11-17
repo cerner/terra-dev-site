@@ -14,7 +14,7 @@ const propTypes = {
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
 
   /**
-   * Selected menu item
+   * Key for the selected menu item
    */
   selectedKey: PropTypes.string,
 
