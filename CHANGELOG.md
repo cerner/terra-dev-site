@@ -15,15 +15,17 @@
   * `locales` has been removed from site config. As of 6.23 Locales are pulled from the global `TERRA_AGGREGATED_LOCALES` variable provided by terra-toolkit v5.21.0.
   * Changed to a scoped package. `terra-dev-site` -> `@cerner/terra-dev-site`
   * Remove defaulting to devtool: source-map when in production with no devtool enabled. This was causing slow builds for large projects.
-  * Terra-dev-site fully converted to a webpack plugin.
-  * dev-site-config folder removed, intermediate build files no longer written to disk.
   * terra-dev-site now configured directly with the webpack config.
   * Config changed to better align with terra-application (see the config map in the upgrade guide).
   * terra-application updated to v2.
-  * Secondary navigation removed in favor of terra-application secondary navigation layout.
-  * All content now wrapped in a page.
   * Dependency on terra-toolkit removed.
   * No longer offering webpack config to extend, use the webpack plugin.
+
+* Changed
+  * Terra-dev-site fully converted to a webpack plugin.
+  * dev-site-config folder removed, intermediate build files no longer written to disk.
+  * Secondary navigation removed in favor of terra-application secondary navigation layout.
+  * All content now wrapped in a page.
 
 ## 6.30.0 - (September 11, 2020)
 
