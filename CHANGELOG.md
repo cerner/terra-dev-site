@@ -24,6 +24,7 @@
   * terra-application updated to v2.
   * Dependency on terra-toolkit removed.
   * No longer offering webpack config to extend, use the webpack plugin.
+  * Removed export for DirectorySwitcherPlugin and LocalPackageAlias Plugin.
 
 * Changed
   * Terra-dev-site fully converted to a webpack plugin.
