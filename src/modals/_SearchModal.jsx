@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
 import classNamesBind from 'classnames/bind';
-import InfiniteList, { Item } from 'terra-infinite-list';
+import List, { Item } from 'terra-list';
 import SearchField from 'terra-search-field';
 import { ThemeContext } from '@cerner/terra-application/lib/theme';
 import Fuse from 'fuse.js';
@@ -90,7 +90,7 @@ const cacheSearchItems = (pageConfig, state, setState) => {
     const searchItems = Object.entries(pageConfig).map(([key, value]) => ({
       title: value.label,
       path: key,
-      tags: key.split('/').join(' '),
+      tags: key.split('/'),
     }));
     const { results, searchString } = state;
     setState({ results, searchString, searchItems });
@@ -129,13 +129,13 @@ const SearchModal = ({ pageConfig, onRequestClose }) => {
     >
       {searchItems && searchString && results.length <= 0 && <StatusView variant="no-matching-results" />}
       {results.length > 0 && (
-        <InfiniteList
+        <List
           dividerStyle="standard"
           role="listbox"
-          ariaLabel="Infinite List"
+          aria-label="Search Results"
         >
           {
-            state.results.map(result => (
+            state.results.slice(0, 25).map(result => (
               <Item
                 key={result.item.path}
                 isSelectable
@@ -149,7 +149,7 @@ const SearchModal = ({ pageConfig, onRequestClose }) => {
               </Item>
             ))
           }
-        </InfiniteList>
+        </List>
       )}
     </ApplicationModal>
   );

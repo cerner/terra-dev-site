@@ -122,9 +122,7 @@ const generatePropsTable = ({ filePath, source, callback }) => {
     return [
       `<Row key="ROW${count}">`,
       '<PropNameCell>',
-      '',
       name,
-      '',
       '</PropNameCell>',
       '<TypeCell>',
       '',
