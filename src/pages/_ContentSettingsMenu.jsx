@@ -9,7 +9,7 @@ const propTypes = {
   text: PropTypes.string.isRequired,
 
   /**
-   * menu items
+   * Menu items
    */
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
 
