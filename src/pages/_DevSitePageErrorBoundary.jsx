@@ -6,7 +6,7 @@ import ContentLoadedContainer from './_ContentLoaded';
 
 const propTypes = {
   /**
-   * children are children
+   * Children, Descendants of the Error boundary. Rendered if there is no error.
    */
   children: PropTypes.element.isRequired,
 };
