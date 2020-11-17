@@ -131,8 +131,8 @@ const SearchModal = ({ pageConfig, onRequestClose }) => {
         <List
           dividerStyle="standard"
           role="listbox"
-          className={cx(theme.className)}
           aria-label="Search Results"
+          className={cx(theme.className)}
         >
           {
             state.results.slice(0, 25).map(result => (
