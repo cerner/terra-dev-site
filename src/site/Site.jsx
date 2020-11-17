@@ -17,7 +17,7 @@ const propTypes = {
    */
   siteConfig: siteConfigPropType.isRequired,
   /**
-   * The A session provider
+   * The session provider
    */
   SessionProvider: PropTypes.element,
 };
