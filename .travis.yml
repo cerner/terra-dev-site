@@ -78,4 +78,4 @@ stages:
   - lint jest and compile
   - wdio
   - name: deploy
-    if: type != pull_request
+    if: type != pull_request AND branch = main
