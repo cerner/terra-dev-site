@@ -11,7 +11,7 @@ Terra.describeViewports('utilities', ['huge'], () => {
   });
 
   it('selects an app', () => {
-    browser.click('[class*="ApplicationSwitcherModal-module__item"]');
+    browser.click('[data-app-switcher-link]');
     Terra.validates.element('selects an app', { selector: '.terra-dev-site-extended' });
   });
 
@@ -51,12 +51,12 @@ Terra.describeViewports('utilities', ['tiny'], () => {
 
   it('opens app switcher', () => {
     browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]');
-    browser.waitForVisible('[class*="ApplicationSwitcherModal-module__item"]');
+    browser.waitForVisible('[data-app-switcher-link]');
     Terra.validates.element('opens app switcher', { selector: '#root' });
   });
 
   it('selects an app', () => {
-    browser.click('[class*="ApplicationSwitcherModal-module__item"]');
+    browser.click('[data-app-switcher-link]');
     Terra.validates.element('selects an app', { selector: '.terra-dev-site-extended' });
   });
 

@@ -26,7 +26,7 @@ const ApplicationSwitcherModal = ({ onRequestClose, sites }) => (
     <List dividerStyle="bottom-only" paddingStyle="standard">
       {sites.map(site => (
         <Item key={site.url}>
-          <Hyperlink href={site.url}>{site.title}</Hyperlink>
+          <Hyperlink data-app-switcher-link href={site.url}>{site.title}</Hyperlink>
         </Item>
       ))}
     </List>
