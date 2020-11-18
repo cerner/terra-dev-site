@@ -66,6 +66,12 @@ class SitePlugin {
     }
     oneTimeSetupComplete = true;
 
+    compiler.options.entry = {
+      ...compiler.options.entry,
+      rewriteHistory: '@cerner/terra-dev-site/lib/browser-router-redirect/rewriteHistory',
+      redirect: '@cerner/terra-dev-site/lib/browser-router-redirect/redirect',
+    };
+
     // MODULE
     const mdxLoader = getMdxLoader(compiler.options.output.publicPath);
     compiler.options.module.rules = [{

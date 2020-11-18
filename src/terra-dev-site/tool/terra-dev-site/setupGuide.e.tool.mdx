@@ -13,13 +13,12 @@ The following webpackConfig config is a simple example, extending from the reusa
 ```javascript
 const terraWebpackConfig = require('@cerner/webpack-config-terra');
 const merge = require('webpack-merge');
-const { TerraDevSite, TerraDevSiteEntrypoints } = require('@cerner/terra-dev-site');
+const { TerraDevSite } = require('@cerner/terra-dev-site');
 
 /**
 * Generates the file representing app name configuration.
 */
 const devSiteConfig = (env = {}, argv = {}) => ({
-  entry: TerraDevSiteEntrypoints,
   plugins: [
     new TerraDevSite({
       defaultLocale: env.defaultLocale,
