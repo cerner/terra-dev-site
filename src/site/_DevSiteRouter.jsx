@@ -3,18 +3,18 @@ import {
   useLocation, useRouteMatch, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { sitesPropType, routesMapPropType } from './siteConfigPropTypes';
+import { sitesShape, routesMapShape } from './siteConfigShapes';
 import getSessionStorage from '../browser-router-redirect/session';
 
 const propTypes = {
   /**
    * The site config for the application.
    */
-  sites: sitesPropType.isRequired,
+  sites: sitesShape.isRequired,
   /**
    * The map of routes to redirect to
    */
-  routesMap: routesMapPropType.isRequired,
+  routesMap: routesMapShape.isRequired,
   /**
    * Children
    */

@@ -11,14 +11,14 @@ import SettingsModal from '../modals/_SettingsModal';
 import SearchModal from '../modals/_SearchModal';
 import ApplicationSwitcherModal from '../modals/_ApplicataionSwitcherModal';
 
-import siteConfigPropType from '../site/siteConfigPropTypes';
+import siteConfigShape from '../site/siteConfigShapes';
 import DevSiteSecondaryNavigation from './_DevSiteSecondaryNavigationLayout';
 
 const propTypes = {
   /**
    * The site config for the application.
    */
-  siteConfig: siteConfigPropType.isRequired,
+  siteConfig: siteConfigShape.isRequired,
 };
 
 const DevSiteNavigationLayout = ({ siteConfig }) => {

@@ -4,13 +4,13 @@ import List, { Item } from 'terra-list';
 import Hyperlink from 'terra-hyperlink';
 import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
 
-import { sitesPropType } from '../site/siteConfigPropTypes';
+import { sitesShape } from '../site/siteConfigShapes';
 
 const propTypes = {
   /**
    * Sites to display.
    */
-  sites: sitesPropType.isRequired,
+  sites: sitesShape.isRequired,
 
   /**
    * Function called to request closing the modal

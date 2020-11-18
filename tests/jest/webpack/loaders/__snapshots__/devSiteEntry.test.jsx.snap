@@ -42,6 +42,7 @@ const siteConfig = {
   routesMap: {\\"/\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"/extended\\":\\"/extended/cerner-terra-dev-site/extended\\"},
   pageConfig,
   enableDebugLogging: true,
+  additionalConfig: ,
 };
 
 if (siteConfig.enableDebugLogging) {
@@ -88,6 +89,7 @@ const siteConfig = {
   routesMap: {\\"/\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"/extended\\":\\"/extended/cerner-terra-dev-site/extended\\"},
   pageConfig,
   enableDebugLogging: true,
+  additionalConfig: ,
 };
 
 if (siteConfig.enableDebugLogging) {

@@ -11,7 +11,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 
 import DevSitePage from '../pages/_DevSitePage';
 import NotFoundPage from '../pages/_NotFoundPage';
-import { contentImportsPropType, navigationConfigPropType } from '../site/siteConfigPropTypes';
+import { contentImportsShape, navigationConfigShape } from '../site/siteConfigShapes';
 
 const propTypes = {
 
@@ -22,11 +22,11 @@ const propTypes = {
   /**
    * The map linking the route to the content component to load.
    */
-  contentImports: contentImportsPropType.isRequired,
+  contentImports: contentImportsShape.isRequired,
   /**
    * The navigation configuration describing the secondary navigation
    */
-  config: navigationConfigPropType,
+  config: navigationConfigShape,
 };
 
 const DevSiteSecondaryNavigationLayout = ({ id, config, contentImports }) => {

@@ -3,7 +3,7 @@ import { useRouteMatch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ApplicationContainer from '@cerner/terra-application/lib/application-container/ApplicationContainer';
 
-import { titleConfigPropType } from './siteConfigPropTypes';
+import { titleConfigShape } from './siteConfigShapes';
 
 const propTypes = {
   /**
@@ -13,7 +13,7 @@ const propTypes = {
   /**
    * The title config for the app, used for the container's application name.
    */
-  titleConfig: titleConfigPropType.isRequired,
+  titleConfig: titleConfigShape.isRequired,
 };
 
 const DevSiteApplicationContainer = ({ titleConfig, children }) => {
