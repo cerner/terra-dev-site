@@ -17,12 +17,12 @@ const propTypes = {
    */
   siteConfig: siteConfigPropType.isRequired,
   /**
-   * The session provider
+   * The component representing the providers layer of terra-dev-site. Must render children.
    */
-  SessionProvider: PropTypes.element,
+  Providers: PropTypes.element,
 };
 
-const Site = ({ siteConfig, SessionProvider }) => (
+const Site = ({ siteConfig, Providers }) => (
   <AppSettingsProvider settingsConfig={siteConfig.settingsConfig}>
     <AppSettingsContext.Consumer>
       {({ currentLocale, currentThemeClassName }) => (
@@ -34,10 +34,10 @@ const Site = ({ siteConfig, SessionProvider }) => (
             >
               <TerraMdxProvider>
                 <DevSiteApplicationContainer titleConfig={siteConfig.titleConfig}>
-                  {SessionProvider ? (
-                    <SessionProvider>
+                  {Providers ? (
+                    <Providers>
                       <DevSiteLayout siteConfig={siteConfig} />
-                    </SessionProvider>
+                    </Providers>
                   ) : (
                     <DevSiteLayout siteConfig={siteConfig} />
                   )}
