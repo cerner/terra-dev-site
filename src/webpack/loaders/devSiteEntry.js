@@ -76,6 +76,7 @@ const loader = async function loader(template) {
     sites: JSON.stringify(sites),
     sideEffectImportFilePaths: siteConfig.sideEffectImportFilePaths,
     enableDebugLogging: siteConfig.enableDebugLogging,
+    additionalConfig: JSON.stringify(siteConfig.additionalConfig),
   }));
 };
 

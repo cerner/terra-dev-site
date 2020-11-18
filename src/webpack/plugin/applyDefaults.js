@@ -39,6 +39,7 @@ const applyDefaults = ({
   sourceFolder = 'src',
   distributionFolder = 'lib',
   enableDebugLogging = false,
+  additionalConfig = {},
 } = {}) => ({
   primaryNavigationItems,
   additionalSearchDirectories,
@@ -55,6 +56,7 @@ const applyDefaults = ({
   distributionFolder,
   enableDebugLogging,
   namespace: npmPackage.name,
+  additionalConfig,
 });
 
 module.exports = applyDefaults;
