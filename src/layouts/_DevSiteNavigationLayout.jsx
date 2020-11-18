@@ -40,10 +40,6 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
     setShowExtensionModal(metaData);
   };
 
-  const handleUtilitySelection = (key, metaData) => {
-    setShowUtilityModal(metaData);
-  };
-
   const getExtensionItems = () => {
     const extensionArray = (siteConfig.extensionItems || []).map((ext) => ({
       icon: <ext.icon />,
@@ -68,9 +64,12 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
         icon: <IconTile />,
         key: 'terra-dev-site.application-switcher',
         text: 'Application Switcher',
-        metaData: { render: () => (<ApplicationSwitcherModal sites={sites} onRequestClose={() => { setShowUtilityModal(); }} />) },
+        onSelect: () => {
+          setShowUtilityModal({ render: () => (<ApplicationSwitcherModal sites={sites} onRequestClose={() => { setShowUtilityModal(); }} />) });
+        },
       });
     }
+
     return utilityItems;
   };
 
@@ -86,7 +85,6 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
         onSelectExtensionItem={handleExtensionSelection}
         extensionItems={getExtensionItems()}
         utilityItems={getUtilityItems(siteConfig.sites)}
-        onSelectUtilityItem={handleUtilitySelection}
         renderNavigationFallback={() => (
           <PageContainer isMain>
             <NotFoundPage />
