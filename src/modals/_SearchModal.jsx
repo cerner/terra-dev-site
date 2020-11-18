@@ -113,12 +113,11 @@ const SearchModal = ({ pageConfig, onRequestClose }) => {
 
   return (
     <ApplicationModal
-      className={cx(theme.className)}
       title="Site Search"
       onRequestClose={onRequestClose}
       toolbar={(
         <SearchField
-          className={cx('search-field')}
+          className={cx('search-field', theme.className)}
           isBlock
           placeholder="Search"
           onSearch={string => handleSearch(string, state, setState)}
@@ -132,6 +131,7 @@ const SearchModal = ({ pageConfig, onRequestClose }) => {
         <List
           dividerStyle="standard"
           role="listbox"
+          className={cx(theme.className)}
           aria-label="Search Results"
         >
           {

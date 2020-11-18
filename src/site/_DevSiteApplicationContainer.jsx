@@ -19,7 +19,7 @@ const propTypes = {
 const DevSiteApplicationContainer = ({ titleConfig, children }) => {
   const isRaw = useRouteMatch('/raw');
   return (
-    <ApplicationContainer applicationName={titleConfig.titleConfig} skipToLinksAreDisabled={!!isRaw} unloadPromptIsDisabled={!!isRaw}>
+    <ApplicationContainer applicationName={titleConfig.title} skipToLinksAreDisabled={!!isRaw} unloadPromptIsDisabled={!!isRaw}>
       {children}
     </ApplicationContainer>
   );
