@@ -9,7 +9,7 @@ import { ThemeContext } from '@cerner/terra-application/lib/theme';
 import Fuse from 'fuse.js';
 import StatusView from 'terra-status-view';
 
-import { pageConfigPropType } from '../site/siteConfigPropTypes';
+import { pageConfigShape } from '../site/siteConfigShapes';
 
 import styles from './SearchModal.module.scss';
 
@@ -19,7 +19,7 @@ const propTypes = {
   /**
    * A map listing all the page routes to the page config
    */
-  pageConfig: pageConfigPropType.isRequired,
+  pageConfig: pageConfigShape.isRequired,
 
   /**
    * Function called to request closing the modal

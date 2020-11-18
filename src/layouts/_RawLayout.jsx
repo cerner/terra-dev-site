@@ -5,13 +5,13 @@ import { PromptRegistrationContext } from '@cerner/terra-application/lib/navigat
 import NotFoundPage from '../pages/_NotFoundPage';
 import DevSitePage from '../pages/_DevSitePage';
 
-import siteConfigPropType from '../site/siteConfigPropTypes';
+import siteConfigShape from '../site/siteConfigShapes';
 
 const propTypes = {
   /**
    * The site config for the application
    */
-  siteConfig: siteConfigPropType,
+  siteConfig: siteConfigShape.isRequired,
 };
 
 const promptProviderValue = {

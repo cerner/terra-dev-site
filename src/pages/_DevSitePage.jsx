@@ -8,18 +8,18 @@ import PageErrorBoundary from './_DevSitePageErrorBoundary';
 import LoadingOverlay from './_LoadingOverlay';
 import ContentLoadedContainer from './_ContentLoaded';
 import NotFoundPage from './_NotFoundPage';
-import { contentImportsPropType, pageContentConfigPropType } from '../site/siteConfigPropTypes';
+import { contentImportsShape, pageContentConfigShape } from '../site/siteConfigShapes';
 
 const propTypes = {
   /**
    * Config describing the page
    */
-  pageContentConfig: pageContentConfigPropType.isRequired,
+  pageContentConfig: pageContentConfigShape.isRequired,
 
   /**
    * Function called to request closing the modal
    */
-  contentImports: contentImportsPropType.isRequired,
+  contentImports: contentImportsShape.isRequired,
 };
 
 const DevSitePage = ({ pageContentConfig, contentImports }) => {

@@ -3,13 +3,13 @@ import { useRouteMatch } from 'react-router-dom';
 
 import DevSiteNavigationLayout from './_DevSiteNavigationLayout';
 import RawLayout from './_RawLayout';
-import siteConfigPropType from '../site/siteConfigPropTypes';
+import siteConfigShape from '../site/siteConfigShapes';
 
 const propTypes = {
   /**
    * The site config for the application.
    */
-  siteConfig: siteConfigPropType.isRequired,
+  siteConfig: siteConfigShape.isRequired,
 };
 
 const DevSiteLayout = ({ siteConfig }) => {

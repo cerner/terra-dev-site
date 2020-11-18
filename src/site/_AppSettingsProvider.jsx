@@ -6,11 +6,11 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import AppSettingsContext from './_AppSettingsContext';
-import { settingsConfigPropType } from './siteConfigPropTypes';
+import { settingsConfigShape } from './siteConfigShapes';
 
 const propTypes = {
   children: PropTypes.element.isRequired,
-  settingsConfig: settingsConfigPropType.isRequired,
+  settingsConfig: settingsConfigShape.isRequired,
 };
 
 /* Use default locales or fall back on default. terra-toolkit v5.21.0 provides configurations from terraI18n,

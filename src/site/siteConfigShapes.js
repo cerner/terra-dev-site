@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 /**
  * Object describing in site configurable settings
  */
-const settingsConfigPropType = PropTypes.shape({
+const settingsConfigShape = PropTypes.shape({
   /**
    * By default the site is set to this theme
    */
@@ -23,7 +23,7 @@ const settingsConfigPropType = PropTypes.shape({
 /**
  * Additional Sites that can be switched to.
  */
-const sitesPropType = PropTypes.arrayOf(PropTypes.shape({
+const sitesShape = PropTypes.arrayOf(PropTypes.shape({
   /**
    * The path to the site
    */
@@ -43,7 +43,7 @@ const sitesPropType = PropTypes.arrayOf(PropTypes.shape({
 /**
  * Describes the extensions
  */
-const extensionItemsPropType = PropTypes.arrayOf(PropTypes.shape({
+const extensionItemsShape = PropTypes.arrayOf(PropTypes.shape({
   /**
    * The react key for the extension.
    */
@@ -65,7 +65,7 @@ const extensionItemsPropType = PropTypes.arrayOf(PropTypes.shape({
 /**
  * Describes page content
  */
-const pageContentConfigPropType = PropTypes.shape({
+const pageContentConfigShape = PropTypes.shape({
   /**
    * The path to the page
    */
@@ -83,7 +83,7 @@ const pageContentConfigPropType = PropTypes.shape({
 /**
  * Describes navigation config
  */
-const navigationConfigPropType = PropTypes.arrayOf(PropTypes.shape({
+const navigationConfigShape = PropTypes.arrayOf(PropTypes.shape({
   /**
    * The text for the nav item
    */
@@ -91,7 +91,7 @@ const navigationConfigPropType = PropTypes.arrayOf(PropTypes.shape({
   /**
    * The singular page config item
    */
-  pageConfig: pageContentConfigPropType,
+  pageConfig: pageContentConfigShape,
   /**
    * children
    */
@@ -101,17 +101,17 @@ const navigationConfigPropType = PropTypes.arrayOf(PropTypes.shape({
 /**
  * Path to imports map
  */
-const contentImportsPropType = PropTypes.object;
+const contentImportsShape = PropTypes.object;
 /**
  * Path to page config map
  */
-const pageConfigPropType = PropTypes.object;
+const pageConfigShape = PropTypes.object;
 /**
  * Short routes to content routes.
  */
-const routesMapPropType = PropTypes.object;
+const routesMapShape = PropTypes.object;
 
-const titleConfigPropType = PropTypes.shape({
+const titleConfigShape = PropTypes.shape({
   /**
    * Title for site
    */
@@ -129,7 +129,7 @@ const titleConfigPropType = PropTypes.shape({
 /**
  * Object describing the generated dev-site-config object.
  */
-const siteConfigPropType = PropTypes.shape({
+const siteConfigShape = PropTypes.shape({
   /**
    * The basename for the application.
    */
@@ -137,45 +137,49 @@ const siteConfigPropType = PropTypes.shape({
   /**
    * The map of routes to lazy components.
    */
-  contentImports: contentImportsPropType.isRequired,
+  contentImports: contentImportsShape.isRequired,
   /**
    * Custom extensions
    */
-  extensionItems: extensionItemsPropType.isRequired,
+  extensionItems: extensionItemsShape.isRequired,
   /**
    * Configuration layout out primary and secondary navigation.
    */
-  navigationConfig: navigationConfigPropType,
+  navigationConfig: navigationConfigShape,
   /**
    * The map of routes to page config
    */
-  pageConfig: pageConfigPropType.isRequired,
+  pageConfig: pageConfigShape.isRequired,
   /**
    * map of routes to redirect to content routes.
    */
-  routesMap: routesMapPropType.isRequired,
+  routesMap: routesMapShape.isRequired,
   /**
    * Object describing in site configurable settings
    */
-  settingsConfig: settingsConfigPropType.isRequired,
+  settingsConfig: settingsConfigShape.isRequired,
   /**
    * Sites to switch to
    */
-  sites: sitesPropType.isRequired,
+  sites: sitesShape.isRequired,
   /**
    * Describes the site name
    */
-  titleConfig: titleConfigPropType.isRequired,
+  titleConfig: titleConfigShape.isRequired,
+  /**
+   * A bucket of config useful when extending dev site.
+   */
+  additionalConfig: PropTypes.object,
 });
 
-export default siteConfigPropType;
+export default siteConfigShape;
 export {
-  settingsConfigPropType,
-  sitesPropType,
-  routesMapPropType,
-  pageConfigPropType,
-  contentImportsPropType,
-  navigationConfigPropType,
-  pageContentConfigPropType,
-  titleConfigPropType,
+  settingsConfigShape,
+  sitesShape,
+  routesMapShape,
+  pageConfigShape,
+  contentImportsShape,
+  navigationConfigShape,
+  pageContentConfigShape,
+  titleConfigShape,
 };

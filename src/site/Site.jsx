@@ -6,7 +6,7 @@ import ApplicationBase from '@cerner/terra-application';
 import DevSiteLayout from '../layouts/_DevSiteLayout';
 import AppSettingsContext from './_AppSettingsContext';
 import AppSettingsProvider from './_AppSettingsProvider';
-import siteConfigPropType from './siteConfigPropTypes';
+import siteConfigShape from './siteConfigShapes';
 import TerraMdxProvider from '../mdx/_TerraMdxProvider';
 import Router from './_DevSiteRouter';
 import DevSiteApplicationContainer from './_DevSiteApplicationContainer';
@@ -15,7 +15,7 @@ const propTypes = {
   /**
    * The site config for the application.
    */
-  siteConfig: siteConfigPropType.isRequired,
+  siteConfig: siteConfigShape.isRequired,
   /**
    * The component representing the providers layer of terra-dev-site. Must render children.
    */
