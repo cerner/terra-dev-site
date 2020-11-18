@@ -19,7 +19,7 @@ const propTypes = {
   /**
    * The component representing the providers layer of terra-dev-site. Must render children.
    */
-  Providers: PropTypes.element,
+  Providers: PropTypes.func,
 };
 
 const Site = ({ siteConfig, Providers }) => (

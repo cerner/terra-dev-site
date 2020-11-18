@@ -33,6 +33,7 @@ const siteConfig = {
   routesMap: <%= routesMap %>,
   pageConfig,
   enableDebugLogging: <%= enableDebugLogging %>,
+  additionalConfig: <%= additionalConfig %>,
 };
 
 if (siteConfig.enableDebugLogging) {
