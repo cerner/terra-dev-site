@@ -58,6 +58,8 @@ describe('SitePlugin', () => {
 
     expect(compiler.options.entry).toEqual({
       'pathPrefix/index': '@cerner/terra-dev-site/lib/webpack/templates/entry.template?pathPrefix-terra-entry',
+      redirect: '@cerner/terra-dev-site/lib/browser-router-redirect/redirect',
+      rewriteHistory: '@cerner/terra-dev-site/lib/browser-router-redirect/rewriteHistory',
     });
 
     expect(compiler.options.module.rules).toMatchSnapshot();
