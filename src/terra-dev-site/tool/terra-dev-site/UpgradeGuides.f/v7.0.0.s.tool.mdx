@@ -25,15 +25,16 @@ In `terra-dev-site` v6 we introduced the webpack plugin as an alternative to the
 
 To simplify the webpack plugin api we have also now included the Directory Switcher and Local Package alias resolve plugins in the `terra-dev-site` plug in by default. As a reminder, these plugins allow you to enable hot reloading by switching lib requires with their src equivalent and reference local files as if they were packaged, ie `import('@cerner/terra-dev-site/file)`.
 
+In addition the `TerraDevSiteEntrypoints` have been removed as well. Webpack 4 requires an entry point, but that requirement is generally satisfied by our reusable webpack configs. Webpack 5 will allow plugins to define entrypoints without being specified in the config.
+
 Below is an example webpack config setting up the `terra-dev-site` plugin.
 
 ```javascript
 const terraWebpackConfig = require('@cerner/webpack-config-terra');
 const merge = require('webpack-merge');
-const { TerraDevSite, TerraDevSiteEntrypoints } = require('@cerner/terra-dev-site');
+const { TerraDevSite } = require('@cerner/terra-dev-site');
 
 const devSiteConfig = (env = {}, argv = {}) => ({
-  entry: TerraDevSiteEntrypoints,
   plugins: [
     new TerraDevSite({
       defaultLocale: env.defaultLocale,

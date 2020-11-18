@@ -3,12 +3,10 @@ const { merge } = require('webpack-merge');
 const fs = require('fs');
 const defaultWebpackConfig = require('@cerner/webpack-config-terra');
 const TerraDevSite = require('./src/webpack/plugin/TerraDevSite');
-const TerraDevSiteEntrypoints = require('./src/webpack/plugin/TerraDevSiteEntrypoints');
 
 const html = fs.readFileSync(require.resolve('./head.html'), 'utf8');
 
 const devSiteConfig = (env = {}) => ({
-  entry: TerraDevSiteEntrypoints,
   plugins: [
     new TerraDevSite({
       defaultLocale: env.defaultLocale,
