@@ -1,2 +1,7 @@
-export { default as SitePlugin } from './SitePlugin';
-export { default as applyDefaults } from './applyDefaults';
+const SitePlugin = require('./SitePlugin');
+const applyDefaults = require('./applyDefaults');
+
+module.exports = {
+  SitePlugin,
+  applyDefaults,
+};
