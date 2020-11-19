@@ -46,18 +46,20 @@ const getRoutes = (fileName, entryPoint) => {
   return routes;
 };
 
-/** Returns an object of the end most extension and the filename minus that extension.
- * This may be used multiple times on a string to retrieve all extensions.
- */
-const parseExtension = fileName => {
-  const result = /\.([^.]+$)/.exec(fileName);
+/**
+ * Returns an object of the end most extension and the filename minus that extension.
+ *
+* @param {*} filePath A string representing the directory path of the file.
+*/
+const parseExtension = filePath => {
+  const result = /\.([^.]+$)/.exec(filePath);
 
   let extension;
   if (result) {
     [, extension] = result;
   }
   return ({
-    name: fileName.replace(/\.[^.]+$/, ''),
+    name: filePath.replace(/\.[^.]+$/, ''),
     extension,
   });
 };

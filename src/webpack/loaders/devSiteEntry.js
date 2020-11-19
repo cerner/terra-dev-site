@@ -4,9 +4,10 @@ const { getOptions } = require('loader-utils');
 const generateNavigationConfig = require('../loaderUtils/generateNavigationConfig');
 
 /**
- * Generate the example with the supplied file.
- * Don't use an arrow function
- */
+  * Generate the entry point for the particular site plugin.
+  * Don't use an arrow function or you wont have access to this.
+  * @param {string} template contents of the file that triggered the loader.
+  */
 const loader = async function loader(template) {
   const callback = this.async();
 
@@ -14,14 +15,14 @@ const loader = async function loader(template) {
   let index = 0;
 
   const addImport = (path) => {
-    let ident = imports[path];
-    if (ident) {
-      return ident;
+    let identifier = imports[path];
+    if (identifier) {
+      return identifier;
     }
-    ident = `import${index}`;
+    identifier = `importName${index}`;
     index += 1;
-    imports[path] = ident;
-    return ident;
+    imports[path] = identifier;
+    return identifier;
   };
 
   const {
@@ -50,7 +51,6 @@ const loader = async function loader(template) {
     siteConfig,
     resolveExtensions,
     mode: this.mode,
-    verbose: false,
     contentDirectory,
     isLernaMonoRepo,
     addContextDependency: this.addContextDependency,
