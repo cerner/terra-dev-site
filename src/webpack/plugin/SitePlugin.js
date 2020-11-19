@@ -24,7 +24,7 @@ class SitePlugin {
     config,
     applyDefaults,
     contentDirectory,
-  } = {}) {
+  }) {
     // Apply defaults to the config.
     this.siteConfig = applyDefaults(config);
     this.contentDirectory = contentDirectory;
