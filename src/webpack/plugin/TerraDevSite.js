@@ -7,8 +7,7 @@ const applyDefaults = require('./applyDefaults');
 class TerraDevSite {
   constructor(config = {}) {
     this.sitePlugin = new SitePlugin({
-      config,
-      applyDefaults,
+      config: applyDefaults(config),
       entry: '@cerner/terra-dev-site/lib/site',
       contentDirectory: 'terra-dev-site',
     });

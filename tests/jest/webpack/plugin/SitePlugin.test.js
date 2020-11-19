@@ -10,8 +10,7 @@ const processPath = process.cwd();
 
 describe('SitePlugin', () => {
   it('sets up site plugin with Prefix', () => {
-    const applyDefaults = jest.fn();
-    const returnedConfig = {
+    const config = {
       pathPrefix: 'pathPrefix',
       titleConfig: { title: 'title' },
       sourceFolder: 'src',
@@ -20,20 +19,14 @@ describe('SitePlugin', () => {
       faviconFilePath: 'favicon',
       headHtml: [],
     };
-    applyDefaults.mockReturnValue(returnedConfig);
-    const config = {
-      pathPrefix: 'pathPrefix',
-    };
     const siteConfig = {
       config,
       entry: 'entry',
-      applyDefaults,
       contentDirectory: 'terra-dev-site',
     };
     const plug = new SitePlugin(siteConfig);
-    expect(applyDefaults).toHaveBeenCalledWith(config);
-    expect(plug.siteConfig).toEqual(returnedConfig);
     expect(plug.entry).toEqual(siteConfig.entry);
+    expect(plug.siteConfig).toEqual(config);
     expect(plug.contentDirectory).toEqual(siteConfig.contentDirectory);
     expect(plug.entryKey).toEqual('pathPrefix/index');
     expect(plug.resourceQuery).toEqual('?pathPrefix-terra-entry');
@@ -98,10 +91,8 @@ describe('SitePlugin', () => {
       title: 'title',
       filename: 'pathPrefix/index.html',
       template: path.join(process.cwd(), 'src', 'webpack', 'templates', 'index.html'),
-      rootElementId: 'root',
       favicon: 'favicon',
       headHtml: [''],
-      rewriteHistory: true,
       excludeChunks: ['rewriteHistory', 'redirect'],
     });
     expect(webpack.DefinePlugin).toHaveBeenCalledWith({
@@ -111,8 +102,7 @@ describe('SitePlugin', () => {
 
   it('sets up site plugin without Prefix', () => {
     HtmlWebpackPlugin.mockReset();
-    const applyDefaults = jest.fn();
-    const returnedConfig = {
+    const config = {
       titleConfig: { title: 'title' },
       sourceFolder: 'src',
       distributionFolder: 'lib',
@@ -120,18 +110,13 @@ describe('SitePlugin', () => {
       faviconFilePath: 'favicon',
       headHtml: [],
     };
-    applyDefaults.mockReturnValue(returnedConfig);
-    const config = {
-    };
     const siteConfig = {
       config,
       entry: 'entry',
-      applyDefaults,
       contentDirectory: 'terra-dev-site',
     };
     const plug = new SitePlugin(siteConfig);
-    expect(applyDefaults).toHaveBeenCalledWith(config);
-    expect(plug.siteConfig).toEqual(returnedConfig);
+    expect(plug.siteConfig).toEqual(config);
     expect(plug.entry).toEqual(siteConfig.entry);
     expect(plug.contentDirectory).toEqual(siteConfig.contentDirectory);
     expect(plug.entryKey).toEqual('index');
@@ -169,10 +154,8 @@ describe('SitePlugin', () => {
       title: 'title',
       filename: 'index.html',
       template: path.join(process.cwd(), 'src', 'webpack', 'templates', 'index.html'),
-      rootElementId: 'root',
       favicon: 'favicon',
       headHtml: [''],
-      rewriteHistory: true,
       excludeChunks: ['rewriteHistory', 'redirect', 'pathPrefix/index'],
     });
     expect(webpack.DefinePlugin).toHaveBeenCalledWith({
