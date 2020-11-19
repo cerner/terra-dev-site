@@ -14,7 +14,6 @@ import NotFoundPage from '../pages/_NotFoundPage';
 import { contentImportsShape, navigationConfigShape } from '../site/siteConfigShapes';
 
 const propTypes = {
-
   /**
    * The unique id for secondary navigation layout.
    */

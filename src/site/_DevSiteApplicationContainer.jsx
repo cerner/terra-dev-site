@@ -7,7 +7,7 @@ import { titleConfigShape } from './siteConfigShapes';
 
 const propTypes = {
   /**
-   * The A session provider
+   * The remainder of the application to render.
    */
   children: PropTypes.node,
   /**

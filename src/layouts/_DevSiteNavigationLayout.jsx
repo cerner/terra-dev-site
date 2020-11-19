@@ -25,8 +25,8 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
   const location = useLocation();
   const history = useHistory();
   const [showSettingsModal, setShowSettingsModal] = React.useState(false);
-  const [showExtensionModal, setShowExtensionModal] = React.useState();
-  const [showUtilityModal, setShowUtilityModal] = React.useState();
+  const [extensionModal, setExtensionModal] = React.useState();
+  const [utilityModal, setUtilityModal] = React.useState();
 
   const setNavigationState = (key) => {
     history.push(siteConfig.routesMap[key]);
@@ -37,7 +37,7 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
   };
 
   const handleExtensionSelection = (key, metaData) => {
-    setShowExtensionModal(metaData);
+    setExtensionModal(metaData);
   };
 
   const getExtensionItems = () => {
@@ -45,14 +45,14 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
       icon: <ext.icon />,
       key: ext.key,
       text: ext.text,
-      metaData: { render: () => (<ext.modal onRequestClose={() => { setShowExtensionModal(); }} />) },
+      metaData: { render: () => (<ext.modal onRequestClose={() => { setExtensionModal(); }} />) },
     }));
 
     extensionArray.unshift({
       icon: <IconSearch />,
       key: 'terra-dev-site.search',
       text: 'Search',
-      metaData: { render: () => (<SearchModal pageConfig={siteConfig.pageConfig} onRequestClose={() => { setShowExtensionModal(); }} />) },
+      metaData: { render: () => (<SearchModal pageConfig={siteConfig.pageConfig} onRequestClose={() => { setExtensionModal(); }} />) },
     });
     return extensionArray;
   };
@@ -65,7 +65,7 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
         key: 'terra-dev-site.application-switcher',
         text: 'Application Switcher',
         onSelect: () => {
-          setShowUtilityModal({ render: () => (<ApplicationSwitcherModal sites={sites} onRequestClose={() => { setShowUtilityModal(); }} />) });
+          setUtilityModal({ render: () => (<ApplicationSwitcherModal sites={sites} onRequestClose={() => { setUtilityModal(); }} />) });
         },
       });
     }
@@ -113,8 +113,8 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
         })}
       </PrimaryNavigationLayout>
       {showSettingsModal && <SettingsModal onRequestClose={() => { setShowSettingsModal(false); }} />}
-      {showExtensionModal && showExtensionModal.render()}
-      {showUtilityModal && showUtilityModal.render()}
+      {extensionModal && extensionModal.render()}
+      {utilityModal && utilityModal.render()}
     </>
   );
 };
