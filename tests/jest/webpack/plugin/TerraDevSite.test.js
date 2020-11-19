@@ -12,13 +12,16 @@ const SitePlugin = require('../../../../src/webpack/plugin/SitePlugin');
 
 describe('TerraDevSitePlugin', () => {
   it('sets up site plugin', () => {
+    const returnedConfig = {
+      configWithDefaults: true,
+    };
+    applyDefaults.mockReturnValue(returnedConfig);
     const config = {
       config: true,
     };
     const plug = new TerraDevSite(config);
     expect(SitePlugin).toHaveBeenCalledWith({
-      config,
-      applyDefaults,
+      config: returnedConfig,
       entry: '@cerner/terra-dev-site/lib/site',
       contentDirectory: 'terra-dev-site',
     });

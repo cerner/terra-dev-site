@@ -22,11 +22,10 @@ class SitePlugin {
   constructor({
     entry,
     config,
-    applyDefaults,
     contentDirectory,
   }) {
     // Apply defaults to the config.
-    this.siteConfig = applyDefaults(config);
+    this.siteConfig = config;
     this.contentDirectory = contentDirectory;
     const { pathPrefix, titleConfig } = this.siteConfig;
     this.entry = entry;
@@ -209,7 +208,7 @@ class SitePlugin {
     if (compiler.options.output && compiler.options.output.publicPath) {
       defaultPublicPath = compiler.options.output.publicPath;
     }
-    const publicPath = defaultPublicPath || process.env.TERRA_DEV_SITE_PUBLIC_PATH || '/';
+    const publicPath = process.env.TERRA_DEV_SITE_PUBLIC_PATH || defaultPublicPath || '/';
 
     // OUTPUT
     compiler.options.output.publicPath = publicPath;
@@ -275,10 +274,8 @@ class SitePlugin {
       title: this.siteConfig.titleConfig.title,
       filename: this.htmlFileName,
       template: path.join(__dirname, '..', 'templates', 'index.html'),
-      rootElementId: 'root',
       favicon: this.siteConfig.faviconFilePath,
       headHtml: [getNewRelicJS()].concat(this.siteConfig.headHtml),
-      rewriteHistory: true, // this inserts /rewriteHistory.js as a script into the template.
       excludeChunks: ['rewriteHistory', 'redirect', ...Object.values(filteredSites).map(site => site.entry)],
     }).apply(compiler);
   }
