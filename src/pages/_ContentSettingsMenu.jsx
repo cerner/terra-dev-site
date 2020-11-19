@@ -52,7 +52,6 @@ const MenuButton = ({
       onChange={(event, index) => {
         onChange(items[index]);
       }}
-
     >
       {items.map(item => (
         <Menu.Item

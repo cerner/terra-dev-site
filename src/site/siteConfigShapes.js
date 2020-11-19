@@ -111,6 +111,9 @@ const pageConfigShape = PropTypes.object;
  */
 const routesMapShape = PropTypes.object;
 
+/**
+ * Describes the title config
+ */
 const titleConfigShape = PropTypes.shape({
   /**
    * Title for site
