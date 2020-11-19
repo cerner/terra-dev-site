@@ -6,10 +6,10 @@ import ReactDOM from 'react-dom';
 import 'sideEffectpathA';
 import 'sideEffectpathB';
 
-import import0 from 'ExtensionIconPathA';
-import import1 from 'ExtensionModalPathA';
-import import2 from 'ExtensionIconPathB';
-import import3 from 'ExtensionModalPathB';
+import importName0 from 'ExtensionIconPathA';
+import importName1 from 'ExtensionModalPathA';
+import importName2 from 'ExtensionIconPathB';
+import importName3 from 'ExtensionModalPathB';
 
 
 import Entry from 'entryPath';
@@ -35,7 +35,7 @@ const siteConfig = {
   contentImports,
   navigationConfig,
   extensionItems: [
-    { key: 'extA', text: 'textA', icon: import0, modal: import1 },{ key: 'extB', text: 'textB', icon: import2, modal: import3 },
+    { key: 'extA', text: 'textA', icon: importName0, modal: importName1 },{ key: 'extB', text: 'textB', icon: importName2, modal: importName3 },
   ],
   sites: [{\\"title\\":\\"site\\",\\"url\\":\\"/site\\"}],
   basename: 'basename',
