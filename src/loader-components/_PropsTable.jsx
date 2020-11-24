@@ -47,16 +47,20 @@ const TypeCell = ({ children }) => (
 );
 TypeCell.propTypes = propTypes;
 
-const RequiredCell = ({ isRequired }) => (
-  <Cell
-    className={cx([
-      isRequired ? ['required'] : [],
-    ])}
-    key="REQUIRED"
-  >
-    {isRequired ? 'required' : 'optional'}
-  </Cell>
-);
+const RequiredCell = ({ isRequired }) => {
+  const theme = useContext(ThemeContext);
+  return (
+    <Cell
+      className={cx([
+        theme.className,
+        isRequired ? ['required'] : [],
+      ])}
+      key="REQUIRED"
+    >
+      {isRequired ? 'required' : 'optional'}
+    </Cell>
+  );
+};
 RequiredCell.propTypes = requiredCellPropTypes;
 
 const DefaultValueCell = ({ children }) => (

@@ -160,17 +160,20 @@ Array [
             },
           },
           Object {
+            "loader": "@mdx-js/loader",
+            "options": Object {
+              "rehypePlugins": Array [
+                [Function],
+                Array [
+                  [Function],
+                  [Function],
+                ],
+              ],
+            },
+          },
+          Object {
             "loader": "devSitePropsTable",
             "options": Object {
-              "mdx": Object {
-                "rehypePlugins": Array [
-                  [Function],
-                  Array [
-                    [Function],
-                    [Function],
-                  ],
-                ],
-              },
               "resolveExtensions": undefined,
             },
           },

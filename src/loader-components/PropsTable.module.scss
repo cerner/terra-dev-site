@@ -1,7 +1,11 @@
+@import './clinical-lowlight-theme/PropsTable.module';
+@import './orion-fusion-theme/PropsTable.module';
+
 :local {
   .bold {
     font-weight: 600;
   }
+
   .table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -11,15 +15,18 @@
     overflow: auto;
     width: 100%;
   }
+
   table {
     .required {
-      color: #d53040;
+      color: var(--terra-dev-site-props-table-table-required-color, #d53040);
     }
+
     .code-block-override {
+      /* stylelint-disable-next-line selector-max-compound-selectors */
       pre {
+        max-width: 500px;
         padding: 4px;
         width: fit-content;
-        max-width: 500px;
       }
     }
   }
