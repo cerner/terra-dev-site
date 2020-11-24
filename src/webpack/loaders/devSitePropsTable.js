@@ -2,16 +2,18 @@ const { getOptions } = require('loader-utils');
 const reactDocs = require('react-docgen');
 const findSource = require('../loaderUtils/findSource');
 
-const processReturnValue = ({ value, indent }) => value.map((val) => `${indent}${val}`);
-
-const parsePropType = ({ type, level = 0 }) => {
+/**
+ * Parses prop types into a more compact representation.
+ * @param {object} type prop type to parse.
+ * @param {bool} indent should indent the return value.
+ */
+const parsePropType = ({ type, indent = false }) => {
   const {
     value,
     name,
     required,
     description,
   } = type;
-  const indent = level === 0 ? '' : '  ';
   let returnValue = [];
 
   if (value) {
@@ -28,36 +30,36 @@ const parsePropType = ({ type, level = 0 }) => {
     } else if (name === 'union') {
       returnValue = [
         'unionOf: [',
-        ...value.map((val) => parsePropType({ type: val, level: level + 1 })),
+        ...value.map((val) => parsePropType({ type: val, indent: true })),
         '],',
       ];
     } else if (name === 'arrayOf') {
       returnValue = [
         'arrayOf: [{',
-        ...parsePropType({ type: value, level: level + 1 }),
+        ...parsePropType({ type: value, indent: true }),
         '}],',
       ];
     } else if (name === 'objectOf') {
       returnValue = [
         'objectOf: {',
-        ...parsePropType({ type: value, level: level + 1 }),
+        ...parsePropType({ type: value, indent: true }),
         '},',
       ];
     } else if (name === 'shape') {
       returnValue = [
         'shape: {',
-        ...Object.entries(value).reduce((acc, [key, val]) => acc.concat([`${key}: {`, ...parsePropType({ type: val, level: level + 1 }), '},']), []).map((val) => `  ${val}`),
+        ...Object.entries(value).reduce((acc, [key, val]) => acc.concat([`${key}: {`, ...parsePropType({ type: val, indent: true }), '},']), []).map((val) => `  ${val}`),
         '},',
       ];
     } else if (name === 'exact') {
       returnValue = [
         'exactShape: {',
-        ...Object.entries(value).reduce((acc, [key, val]) => acc.concat([`${key}: {`, ...parsePropType({ type: val, level: level + 1 }), '},']), []).map((val) => `  ${val}`),
+        ...Object.entries(value).reduce((acc, [key, val]) => acc.concat([`${key}: {`, ...parsePropType({ type: val, indent: true }), '},']), []).map((val) => `  ${val}`),
         '},',
       ];
     }
   } else {
-    if (level === 0) {
+    if (!indent) {
       returnValue.push(name);
     } else {
       returnValue.push(`type: '${name}',`);
@@ -71,10 +73,10 @@ const parsePropType = ({ type, level = 0 }) => {
     }
   }
 
-  return processReturnValue({
-    value: returnValue,
-    indent,
-  });
+  if (indent) {
+    return returnValue.map((val) => `  ${val}`);
+  }
+  return returnValue;
 };
 
 /**
@@ -125,6 +127,7 @@ const generatePropsTable = ({ filePath, source, callback }) => {
       name,
       '</PropNameCell>',
       '<TypeCell>',
+      // these spaces are important, it allows mdx to process this value.
       '',
       type,
       '',
