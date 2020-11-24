@@ -1,0 +1,229 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SitePlugin sets up site plugin with Prefix 1`] = `
+Array [
+  Object {
+    "oneOf": Array [
+      Object {
+        "resourceQuery": "?pathPrefix-terra-entry",
+        "use": Array [
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "rootMode": "upward",
+            },
+          },
+          Object {
+            "loader": "devSiteEntry",
+            "options": Object {
+              "basename": "/pathPrefix",
+              "contentDirectory": "terra-dev-site",
+              "entryPath": "entry",
+              "isLernaMonoRepo": false,
+              "resolveExtensions": undefined,
+              "siteConfig": Object {
+                "defaultDirection": "rtl",
+                "distributionFolder": "lib",
+                "faviconFilePath": "favicon",
+                "headHtml": Array [],
+                "pathPrefix": "pathPrefix",
+                "sourceFolder": "src",
+                "titleConfig": Object {
+                  "title": "title",
+                },
+              },
+              "sites": Array [],
+            },
+          },
+        ],
+      },
+      Object {
+        "test": /\\\\\\.mdx\\$/,
+        "use": Array [
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "rootMode": "upward",
+            },
+          },
+          Object {
+            "loader": "@mdx-js/loader",
+            "options": Object {
+              "rehypePlugins": Array [
+                [Function],
+                Array [
+                  [Function],
+                  [Function],
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      Object {
+        "oneOf": Array [
+          Object {
+            "issuer": Array [
+              /\\\\\\.mdx\\?\\$/,
+              /entry\\\\\\.template\\$/,
+            ],
+            "use": Array [
+              Object {
+                "loader": "babel-loader",
+                "options": Object {
+                  "rootMode": "upward",
+                },
+              },
+              Object {
+                "loader": "@mdx-js/loader",
+                "options": Object {
+                  "rehypePlugins": Array [
+                    [Function],
+                    Array [
+                      [Function],
+                      [Function],
+                    ],
+                  ],
+                },
+              },
+            ],
+          },
+          Object {
+            "use": "raw-loader",
+          },
+        ],
+        "test": /\\\\\\.md\\$/,
+      },
+      Object {
+        "resourceQuery": "?dev-site-codeblock",
+        "type": "javascript/auto",
+        "use": Array [
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "rootMode": "upward",
+            },
+          },
+          Object {
+            "loader": "@mdx-js/loader",
+            "options": Object {
+              "rehypePlugins": Array [
+                [Function],
+                Array [
+                  [Function],
+                  [Function],
+                ],
+              ],
+            },
+          },
+          Object {
+            "loader": "devSiteCodeblock",
+            "options": Object {
+              "resolveExtensions": undefined,
+            },
+          },
+        ],
+      },
+      Object {
+        "resourceQuery": "?dev-site-example",
+        "use": Array [
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "rootMode": "upward",
+            },
+          },
+          "devSiteExample",
+        ],
+      },
+      Object {
+        "resourceQuery": "?dev-site-package",
+        "test": /\\\\\\.json\\$/,
+        "type": "javascript/auto",
+        "use": Array [
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "rootMode": "upward",
+            },
+          },
+          "devSitePackage",
+        ],
+      },
+      Object {
+        "resourceQuery": "?dev-site-props-table",
+        "use": Array [
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "rootMode": "upward",
+            },
+          },
+          Object {
+            "loader": "devSitePropsTable",
+            "options": Object {
+              "mdx": Object {
+                "rehypePlugins": Array [
+                  [Function],
+                  Array [
+                    [Function],
+                    [Function],
+                  ],
+                ],
+              },
+              "resolveExtensions": undefined,
+            },
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`SitePlugin sets up site plugin without Prefix 1`] = `
+Array [
+  Object {
+    "oneOf": Array [
+      Object {
+        "resourceQuery": "?terra-entry",
+        "use": Array [
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "rootMode": "upward",
+            },
+          },
+          Object {
+            "loader": "devSiteEntry",
+            "options": Object {
+              "basename": "",
+              "contentDirectory": "terra-dev-site",
+              "entryPath": "entry",
+              "isLernaMonoRepo": false,
+              "resolveExtensions": undefined,
+              "siteConfig": Object {
+                "defaultDirection": "rtl",
+                "distributionFolder": "lib",
+                "faviconFilePath": "favicon",
+                "headHtml": Array [],
+                "sourceFolder": "src",
+                "titleConfig": Object {
+                  "title": "title",
+                },
+              },
+              "sites": Array [
+                Object {
+                  "path": "pathPrefix",
+                  "title": "title",
+                  "url": "/pathPrefix/",
+                },
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+]
+`;

@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`devSiteEntry It fills out all the fields 1`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+import 'sideEffectpathA';
+import 'sideEffectpathB';
+
+import importName0 from 'ExtensionIconPathA';
+import importName1 from 'ExtensionModalPathA';
+import importName2 from 'ExtensionIconPathB';
+import importName3 from 'ExtensionModalPathB';
+
+
+import Entry from 'entryPath';
+
+const contentImports = {
+  'importNameA': React.lazy(() => import('filePathA')),'importNameB': React.lazy(() => import('filePathB')),
+}
+
+const navigationConfig = JSON.parse('[{\\"label\\":\\"Extended\\",\\"path\\":\\"/extended\\",\\"pageConfig\\":{\\"label\\":\\"Extended\\",\\"path\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"type\\":\\"jsx\\"}}]');
+const pageConfig = JSON.parse('{\\"/extended/cerner-terra-dev-site/extended\\":{\\"label\\":\\"Extended\\",\\"type\\":\\"jsx\\"}}');
+
+const siteConfig = {
+  titleConfig: {
+    title: 'title',
+    headline: 'headline',
+    subline: 'subline',
+  },
+  settingsConfig: {
+    defaultTheme: 'dark',
+    defaultLocale: 'au',
+    defaultDirection: 'rtl',
+  },
+  contentImports,
+  navigationConfig,
+  extensionItems: [
+    { key: 'extA', text: 'textA', icon: importName0, modal: importName1 },{ key: 'extB', text: 'textB', icon: importName2, modal: importName3 },
+  ],
+  sites: [{\\"title\\":\\"site\\",\\"url\\":\\"/site\\"}],
+  basename: 'basename',
+  routesMap: {\\"/\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"/extended\\":\\"/extended/cerner-terra-dev-site/extended\\"},
+  pageConfig,
+  enableDebugLogging: true,
+  additionalConfig: ,
+};
+
+if (siteConfig.enableDebugLogging) {
+  console.log('siteConfig', siteConfig);
+}
+
+ReactDOM.render(<Entry siteConfig={siteConfig} />, document.getElementById('root'));
+"
+`;
+
+exports[`devSiteEntry It fills out the bare minimum 1`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+
+
+
+import Entry from 'entryPath';
+
+const contentImports = {
+  'importNameA': React.lazy(() => import('filePathA')),'importNameB': React.lazy(() => import('filePathB')),
+}
+
+const navigationConfig = JSON.parse('[{\\"label\\":\\"Extended\\",\\"path\\":\\"/extended\\",\\"pageConfig\\":{\\"label\\":\\"Extended\\",\\"path\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"type\\":\\"jsx\\"}}]');
+const pageConfig = JSON.parse('{\\"/extended/cerner-terra-dev-site/extended\\":{\\"label\\":\\"Extended\\",\\"type\\":\\"jsx\\"}}');
+
+const siteConfig = {
+  titleConfig: {
+    title: 'title',
+    
+    
+  },
+  settingsConfig: {
+    
+    
+    
+  },
+  contentImports,
+  navigationConfig,
+  extensionItems: [
+    
+  ],
+  sites: [],
+  basename: 'basename',
+  routesMap: {\\"/\\":\\"/extended/cerner-terra-dev-site/extended\\",\\"/extended\\":\\"/extended/cerner-terra-dev-site/extended\\"},
+  pageConfig,
+  enableDebugLogging: true,
+  additionalConfig: ,
+};
+
+if (siteConfig.enableDebugLogging) {
+  console.log('siteConfig', siteConfig);
+}
+
+ReactDOM.render(<Entry siteConfig={siteConfig} />, document.getElementById('root'));
+"
+`;

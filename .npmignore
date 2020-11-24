@@ -15,9 +15,7 @@ CONTRIBUTING.md
 CONTRIBUTORS.md
 /wdio.conf.js
 jestsetup.js
-/navigation.config.js
 Procfile
-/site.config.js
 themeable-variables.json
 build
 aggregated-translations/

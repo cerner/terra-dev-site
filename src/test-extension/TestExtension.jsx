@@ -1,25 +1,23 @@
 import React from 'react';
-import ContentContainer from 'terra-content-container';
-import ActionHeader from 'terra-action-header';
-import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manager';
-import StatusView from 'terra-status-view';
+import PropTypes from 'prop-types';
+import ApplicationModal from '@cerner/terra-application/lib/application-modal/ApplicationModal';
 
-const TestExtension = () => {
-  const disclosureManager = React.useContext(DisclosureManagerContext);
-  return (
-    <ContentContainer
-      header={(
-        <ActionHeader
-          title="Test Extension"
-          onBack={disclosureManager.goBack}
-          onClose={disclosureManager.closeDisclosure}
-        />
-      )}
-      fill
-    >
-      <StatusView variant="no-data" />
-    </ContentContainer>
-  );
+const propTypes = {
+  /**
+   * Function called to request closing the modal
+   */
+  onRequestClose: PropTypes.func.isRequired,
 };
+
+const TestExtension = ({ onRequestClose }) => (
+  <ApplicationModal
+    onRequestClose={onRequestClose}
+    title="Test Extension"
+  >
+    <p>Test Extension</p>
+  </ApplicationModal>
+);
+
+TestExtension.propTypes = propTypes;
 
 export default TestExtension;

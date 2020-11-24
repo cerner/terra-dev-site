@@ -1,0 +1,93 @@
+import { Notice } from '@cerner/terra-docs';
+
+# Writing Documentation
+
+Writing component documentation with `terra-dev-site` is easy. We support github style markdown and mdx. Simply add a `.doc.mdx` file to `terra-dev-site` and it will be converted into react for you.
+
+## Loaders
+
+Terra Dev Site offer several webpack loaders to help write easier documentation. The loaders are all accessed through the use of webpacks [resource query](https://webpack.js.org/configuration/module/#ruleresourcequery).
+
+For example to use the example loader you would require your example with the `?dev-site-example` resource query.
+
+```jsx
+import Example from './example?dev-site-example';
+```
+
+* [Codeblock Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/codeblock-loader): Import a component into a syntax highlighted codeblock.
+* [Example Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/example-loader): Render and example and display the code in a hidden section below it.
+* [Package Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/package-loader): Convert package.json information into badges.
+* [Props Table Loader](/dev_tools/cerner-terra-dev-site/terra-dev-site/webpack-loaders/props-table-loader): Create a props table for react components.
+
+## Terra Documentation Components
+
+Terra offers several light weight react components to help enrich your documentation from the terra-docs package.
+
+[terra-docs documentation](/dev_tools/cerner/documentation-components/button).
+
+## MDX
+
+Terra dev site uses MDX as a markdown loader. MDX allows you to mix JSX syntax into your markdown documents. This is very helpful for pulling in examples and richer content for documentation.
+
+To use mdx syntax you must use a .mdx file extension.
+
+For example the following block will render into:
+
+```md
+import { Notice } from '@cerner/terra-docs';
+
+# Hello, *terra*!
+
+Below is an example of JSX embedded in Markdown.
+
+<Notice variant="important" ariaLevel="3">
+
+If you leave spaces between your component and it's content, the content will be parsed by **mdx**.
+
+</Notice>
+```
+
+With the output below:
+
+---
+
+# Hello, *terra*!
+
+Below is an example of JSX embedded in Markdown.
+
+<Notice variant="important" ariaLevel="3">
+
+If you leave spaces between your component and it's content, the content will be parsed by **mdx**.
+
+</Notice>
+
+---
+
+For more information see [https://mdxjs.com/](https://mdxjs.com/)
+
+### MDX loader
+
+Mdx is loaded at build time rather than interpreted at run time. The mdx loader that is used is more strict that the 'marked' library previously used.
+
+The MDX loader requires closing tags. For example the before markdown would fail because the img tag was not closed.
+
+```diff
+- <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/main/terra.png" alt="terra logo" >
++ <img height="128" width="128" src="https://github.com/cerner/terra-dev-site/raw/main/terra.png" alt="terra logo" />
+```
+
+MDX also has a bug where a comment cannot directly follow a closing tag.
+
+```diff
+-<h1>
+-hi mom
+-</h1>
+-<!-- AUTO-GENERATED-CONTENT:END -->
+
++<h1>
++hi mom
++</h1>
+
++<!-- AUTO-GENERATED-CONTENT:END -->
+
+```

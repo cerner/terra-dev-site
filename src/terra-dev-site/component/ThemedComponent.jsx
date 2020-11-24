@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
-import { ApplicationIntlContext } from 'terra-application/lib/application-intl';
-import { ThemeContext } from 'terra-application/lib/theme';
+import { ApplicationIntlContext } from '@cerner/terra-application/lib/application-intl';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
 
 import styles from './ThemedComponent.module.scss';
 

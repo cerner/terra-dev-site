@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import NavigationPrompt from 'terra-application/lib/navigation-prompt';
+import NavigationPrompt from '@cerner/terra-application/lib/navigation-prompt';
 
 const ExampleComponent = () => {
   const [hasPendingState, setHasPendingState] = useState(false);

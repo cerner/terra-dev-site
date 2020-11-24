@@ -1,0 +1,40 @@
+import { Badge } from '@cerner/terra-dev-site/package.json?dev-site-package';
+
+import ConfigPropsTable from './configPropsTable?dev-site-props-table';
+
+<Badge />
+
+# Configuration
+
+Terra dev site can be configured in a number of ways. Whenever possible, we will use configuration files already in use for the terra-ecosystem to eliminate duplicate config.
+
+## Theme config
+
+Terra dev site is a great place to test and develop a themed component. To configure theme switching in terra dev site, add a `terra-theme.config.js` file to your root directory specifying the default theme, if any, and any additional scoped themes.
+
+### `terra-theme.config.js`
+
+```js
+module.exports = {
+  theme: 'terra-dark-theme', // The default theme to be enabled on page load.
+  scoped: ['orion-fusion-theme', 'clinical-lowlight-theme'], // An array of scoped themes. Note: Scoped themes do not work in IE 10.
+};
+```
+
+## Locale config
+
+Terra-dev-site also offers locale switching. To enable locale switching add a `terraI18n.config.js` file to your root directory specifying the locales available to terra dev site.
+
+### `terraI18n.config.js`
+
+```js
+module.exports = {
+  locales: ['en', 'en-US'],
+};
+```
+
+## Webpack Plugin config
+
+The following table describes the terra-dev-site webpack plugin options.
+
+<ConfigPropsTable />
