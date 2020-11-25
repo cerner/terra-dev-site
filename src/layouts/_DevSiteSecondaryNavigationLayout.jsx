@@ -26,9 +26,15 @@ const propTypes = {
    * The navigation configuration describing the secondary navigation
    */
   config: navigationConfigShape,
+  /**
+   * The label to apply to secondary navigation.
+   */
+  label: PropTypes.string.isRequired,
 };
 
-const DevSiteSecondaryNavigationLayout = ({ id, config, contentImports }) => {
+const DevSiteSecondaryNavigationLayout = ({
+  id, label, config, contentImports,
+}) => {
   const location = useLocation();
   const history = useHistory();
   const { isActive } = React.useContext(NavigationItemContext);
@@ -66,6 +72,7 @@ const DevSiteSecondaryNavigationLayout = ({ id, config, contentImports }) => {
     <SecondaryNavigationLayout
       id={id}
       activeNavigationKey={location.pathname}
+      label={label}
       onSelectNavigationItem={(key) => history.push(key)}
       renderNavigationFallback={() => (
         <PageContainer isMain>

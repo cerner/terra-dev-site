@@ -1,5 +1,10 @@
 import React, { Suspense } from 'react';
-import Page, { PageActions, Action } from '@cerner/terra-application/lib/page';
+import Page, {
+  PageActions,
+  Action,
+  CardLayout,
+  Card,
+} from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 import IconStartPresenting from 'terra-icon/lib/icon/IconStartPresenting';
 import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
@@ -71,9 +76,13 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
           <LoadingOverlay />
         )}
         >
-          <ContentLoadedContainer type={pageContentConfig.type}>
-            <ContentComponent />
-          </ContentLoadedContainer>
+          <CardLayout>
+            <Card minHeightFill>
+              <ContentLoadedContainer type={pageContentConfig.type}>
+                <ContentComponent />
+              </ContentLoadedContainer>
+            </Card>
+          </CardLayout>
         </Suspense>
       </PageErrorBoundary>
     </Page>
