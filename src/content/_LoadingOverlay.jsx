@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ApplicationLoadingOverlay from '@cerner/terra-application/lib/application-loading-overlay';
 
 // Wait half a second before showing the loading indicator.
-const LoadingPage = () => {
+const LoadingOverlay = () => {
   const [state, setState] = useState({ isOpen: false });
 
   useEffect(() => {
@@ -22,4 +22,4 @@ const LoadingPage = () => {
   );
 };
 
-export default LoadingPage;
+export default LoadingOverlay;

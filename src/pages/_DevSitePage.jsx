@@ -9,9 +9,9 @@ import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 import IconStartPresenting from 'terra-icon/lib/icon/IconStartPresenting';
 import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 
-import PageErrorBoundary from './_DevSitePageErrorBoundary';
-import LoadingOverlay from './_LoadingOverlay';
-import ContentLoadedContainer from './_ContentLoaded';
+import ContentErrorBoundary from '../content/_ContentErrorBoundary';
+import LoadingOverlay from '../content/_LoadingOverlay';
+import ContentLoadedContainer from '../content/_ContentLoaded';
 import NotFoundPage from './_NotFoundPage';
 import { contentImportsShape, pageContentConfigShape } from '../site/siteConfigShapes';
 
@@ -71,7 +71,7 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
       pageKey={pathname}
       {...props}
     >
-      <PageErrorBoundary>
+      <ContentErrorBoundary>
         <Suspense fallback={(
           <LoadingOverlay />
         )}
@@ -84,7 +84,7 @@ const DevSitePage = ({ pageContentConfig, contentImports }) => {
             </Card>
           </CardLayout>
         </Suspense>
-      </PageErrorBoundary>
+      </ContentErrorBoundary>
     </Page>
   );
 };
