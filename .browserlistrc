@@ -1,1 +1,1 @@
-@cerner/browserslist-config-terra
+extends @cerner/browserslist-config-terra
