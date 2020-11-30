@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import Page, {
   PageActions,
   Action,
@@ -7,13 +7,10 @@ import Page, {
 } from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 import IconStartPresenting from 'terra-icon/lib/icon/IconStartPresenting';
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
-import ContentErrorBoundary from '../content/_ContentErrorBoundary';
-import LoadingOverlay from '../content/_LoadingOverlay';
-import ContentLoadedContainer from '../content/_ContentLoaded';
-import NotFoundPage from './_NotFoundPage';
 import { contentImportsShape, pageContentConfigShape } from '../site/siteConfigShapes';
+import DevSiteContent from '../content/_DevSiteContent';
 
 const propTypes = {
   /**
@@ -30,61 +27,41 @@ const propTypes = {
 const DevSitePage = ({ pageContentConfig, contentImports }) => {
   const location = useLocation();
   const history = useHistory();
-  const isRaw = useRouteMatch('/raw');
-  const isHome = useRouteMatch('/home');
   const { isActive } = React.useContext(NavigationItemContext);
 
   if (!isActive) {
     return null;
   }
 
-  const pathname = isRaw ? location.pathname.substring(4) : location.pathname;
-  const ContentComponent = contentImports[pathname];
-
-  // Last Chance 404
-  if (!ContentComponent) {
-    return <NotFoundPage />;
-  }
-
+  const { pathname } = location;
   const pageActions = (
     <PageActions>
       <Action
         actionKey="raw"
         label="Raw"
         icon={<IconStartPresenting />}
-        onSelect={() => { history.push(`/raw${location.pathname}`); }}
+        onSelect={() => { history.push(`/raw${pathname}`); }}
       />
     </PageActions>
   );
-
-  const props = {};
-
-  if (isHome || isRaw) {
-    props.preferHeaderIsHidden = true;
-  } else {
-    props.actions = pageActions;
-  }
 
   return (
     <Page
       label={pageContentConfig.label}
       pageKey={pathname}
-      {...props}
+      actions={pageActions}
     >
-      <ContentErrorBoundary>
-        <Suspense fallback={(
-          <LoadingOverlay />
-        )}
-        >
+      <DevSiteContent
+        pageContentConfig={pageContentConfig}
+        contentImports={contentImports}
+        ContentWrapper={({ children }) => (
           <CardLayout>
             <Card minHeightFill>
-              <ContentLoadedContainer type={pageContentConfig.type}>
-                <ContentComponent />
-              </ContentLoadedContainer>
+              {children}
             </Card>
           </CardLayout>
-        </Suspense>
-      </ContentErrorBoundary>
+        )}
+      />
     </Page>
   );
 };
