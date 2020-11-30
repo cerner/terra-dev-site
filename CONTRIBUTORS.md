@@ -21,6 +21,7 @@ Cerner Corporation
 - Dianna McGinn [@DMcginn]
 - Eric McCullough [@EricM96]
 - Akarsh Shetty [@ShettyAkarsh]
+- Andrew Ottaviano [@AndrewOttaviano]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -43,3 +44,4 @@ Cerner Corporation
 [@DMcginn]: https://github.com/DMcginn
 [@EricM96]: https://github.com/EricM96
 [@ShettyAkarsh]: https://github.com/ShettyAkarsh
+[@AndrewOttaviano]: https://github.com/andrewnottaviano
