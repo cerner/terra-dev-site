@@ -16,9 +16,21 @@ const applyDefaults = ({
       },
     ],
   }, {
+    path: '/application',
+    label: 'Application',
+    contentExtension: 'app',
+  }, {
     path: '/components',
     label: 'Components',
     contentExtension: 'doc',
+  }, {
+    path: '/dev_tools',
+    label: 'Developer Tools',
+    contentExtension: 'tool',
+  }, {
+    path: '/guides',
+    label: 'Guides',
+    contentExtension: 'guide',
   }, {
     path: '/tests',
     label: 'Tests',
