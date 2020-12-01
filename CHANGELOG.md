@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 6.33.0 - (December 1, 2020)
+
 * Changed
   * Updated browserslist-config-terra to @cerner/browserslist-config-terra
 
