@@ -2,8 +2,13 @@ import React from 'react';
 import { ApplicationStatusOverlayProvider } from '@cerner/terra-application/lib/application-status-overlay';
 import { ApplicationLoadingOverlayProvider } from '@cerner/terra-application/lib/application-loading-overlay';
 import MainContainer from '@cerner/terra-application/lib/main-container';
+import classNamesBind from 'classnames/bind';
 import DevSiteContent from '../content/_DevSiteContent';
 import { contentImportsShape, pageContentConfigShape } from '../site/siteConfigShapes';
+
+import styles from './ContentLayout.module.scss';
+
+const cx = classNamesBind.bind(styles);
 
 const propTypes = {
   /**
@@ -20,7 +25,7 @@ const propTypes = {
 const ContentLayout = ({ pageContentConfig, contentImports }) => (
   <ApplicationLoadingOverlayProvider>
     <ApplicationStatusOverlayProvider>
-      <MainContainer>
+      <MainContainer className={cx('main')}>
         <DevSiteContent pageContentConfig={pageContentConfig} contentImports={contentImports} />
       </MainContainer>
     </ApplicationStatusOverlayProvider>

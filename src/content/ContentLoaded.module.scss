@@ -1,6 +1,16 @@
 @import './clinical-lowlight-theme/ContentLoaded.module';
 @import './orion-fusion-theme/ContentLoaded.module';
 
+:local {
+  .scroll {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    width: 100%;
+  }
+}
+
 :local(.markdown) {
   color: inherit;
   padding: 1.714rem;

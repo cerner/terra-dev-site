@@ -16,9 +16,14 @@ const propTypes = {
    * The content to render
    */
   children: PropTypes.element.isRequired,
+
+  /**
+   * Set to true if scroll styles should be applied to the container.
+   */
+  isScrollContainer: PropTypes.bool,
 };
 
-const ContentLoaded = ({ children, type }) => {
+const ContentLoaded = ({ children, type, isScrollContainer }) => {
   const theme = React.useContext(ThemeContext);
 
   // Re enable if hash links aren't working
@@ -42,6 +47,7 @@ const ContentLoaded = ({ children, type }) => {
         cx(
           theme.className,
           ...(['md', 'mdx'].includes(type) ? ['markdown'] : []),
+          ...(isScrollContainer ? ['scroll'] : []),
         )
       }
     >

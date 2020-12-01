@@ -35,7 +35,7 @@ const ContentLayout = ({ pageContentConfig, contentImports, ContentWrapper }) =>
   }
 
   const contentContainer = (
-    <ContentLoadedContainer type={pageContentConfig.type}>
+    <ContentLoadedContainer type={pageContentConfig.type} isScrollContainer={isRaw}>
       <ContentComponent />
     </ContentLoadedContainer>
   );
