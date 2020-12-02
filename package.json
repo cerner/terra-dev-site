@@ -138,7 +138,7 @@
     "terra-image": "^3.0.0",
     "terra-infinite-list": "https://github.cerner.com/terra/terra-snapshots/blob/master/terra-framework/react-intl-upgrade/terra-infinite-list.tgz?raw=true",
     "terra-list": "^4.6.0",
-    "terra-menu": "^6.3.0",
+    "terra-menu": "https://github.cerner.com/terra/terra-snapshots/blob/master/terra-framework/react-intl-upgrade/terra-menu.tgz?raw=true",
     "terra-mixins": "^1.33.0",
     "terra-overlay": "https://github.cerner.com/terra/terra-snapshots/blob/master/terra-core/react-intl-upgrade/terra-overlay.tgz?raw=true",
     "terra-search-field": "https://github.cerner.com/terra/terra-snapshots/blob/master/terra-core/react-intl-upgrade/terra-search-field.tgz?raw=true",
