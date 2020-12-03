@@ -220,7 +220,7 @@ class SitePlugin {
   }
 
   apply(compiler) {
-    const isWebpack5 = compiler.webpack.version.startsWith('5');
+    const isWebpack5 = compiler.webpack && compiler.webpack.version.startsWith('5');
 
     // Use default public path else the env else /
     let defaultPublicPath;
