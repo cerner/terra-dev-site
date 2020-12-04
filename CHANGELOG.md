@@ -4,6 +4,7 @@
 
 * Added
   * Added new file `browserslistrc` for Browserslist.
+  * Added support for webpack 5.
 
 * Breaking
   * Remove the ability to include test evidence, this is covered now by a separate site report.
