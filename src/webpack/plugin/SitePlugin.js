@@ -59,128 +59,145 @@ class SitePlugin {
     sourceFolder,
     distributionFolder,
     basename,
+    isWebpack5,
   }) {
     if (oneTimeSetupComplete) {
       return;
     }
     oneTimeSetupComplete = true;
-
-    compiler.options.entry = {
-      ...compiler.options.entry,
-      rewriteHistory: '@cerner/terra-dev-site/lib/browser-router-redirect/rewriteHistory',
-      redirect: '@cerner/terra-dev-site/lib/browser-router-redirect/redirect',
-    };
-
-    // MODULE
     const mdxLoader = getMdxLoader(compiler.options.output.publicPath);
-    compiler.options.module.rules = [{
-      // Drop loaders in a 'one of' block to avoid the original loaders applying on top of the new loaders.
-      // Only the first loader will apply and no others.
-      oneOf: [{
-        test: /\.mdx$/,
-        use: [
-          babelLoader,
-          mdxLoader,
-        ],
-      }, {
-        test: /\.md$/,
-        oneOf: [
-          {
-            // Use MDX to import any md files imported from an mdx file.
-            issuer: [
-              /\.mdx?$/,
-              /entry\.template$/,
-            ],
-            use: [
-              babelLoader,
-              mdxLoader,
-            ],
-          },
-          {
-            use: 'raw-loader',
-          },
-        ],
-      }, {
-        resourceQuery: '?dev-site-codeblock',
-        // this bypasses the default json loader
-        type: 'javascript/auto',
-        use: [
-          babelLoader,
-          mdxLoader,
-          {
-            loader: 'devSiteCodeblock',
-            options: {
-              resolveExtensions: compiler.options.resolve.extensions,
-            },
-          },
-        ],
-      }, {
-        resourceQuery: '?dev-site-example',
-        use: [
-          babelLoader,
-          'devSiteExample',
-        ],
-      }, {
-        test: /\.json$/,
-        // this bypasses the default json loader
-        type: 'javascript/auto',
-        resourceQuery: '?dev-site-package',
-        use: [
-          babelLoader,
-          'devSitePackage',
-        ],
-      }, {
-        resourceQuery: '?dev-site-props-table',
-        use: [
-          babelLoader,
-          mdxLoader,
-          {
-            loader: 'devSitePropsTable',
-            options: {
-              resolveExtensions: compiler.options.resolve.extensions,
-            },
-          },
-        ],
-      },
-      // Spread the original loaders. These will be applied if all above loaders fail.
-      ...compiler.options.module.rules,
-      ],
-    }];
-
-    // RESOLVE
-    // If plugins is not defined, define it.
-    if (!compiler.options.resolve.plugins) {
-      compiler.options.resolve.plugins = [];
-    }
 
     // If a mono repo, update the rootDirectories to include all the packages.
     const rootDirectories = [
       ...isLernaMonoRepo ? [path.resolve(processPath, 'packages', '*')] : [processPath],
     ];
 
-    // Switch between source and distribution files.
-    compiler.options.resolve.plugins.push(
-      new DirectorySwitcherPlugin({
-        shouldSwitch: compiler.options.mode !== 'production',
-        source: sourceFolder,
-        distribution: distributionFolder,
-        rootDirectories,
-      }),
-    );
+    let webpackConfig = {
+      entry: {
+        rewriteHistory: '@cerner/terra-dev-site/lib/browser-router-redirect/rewriteHistory',
+        redirect: '@cerner/terra-dev-site/lib/browser-router-redirect/redirect',
+      },
+      module: {
+        rules: [{
+          // Drop loaders in a 'one of' block to avoid the original loaders applying on top of the new loaders.
+          // Only the first loader will apply and no others.
+          oneOf: [{
+            test: /\.mdx$/,
+            use: [
+              babelLoader,
+              mdxLoader,
+            ],
+          }, {
+            test: /\.md$/,
+            oneOf: [
+              {
+                // Use MDX to import any md files imported from an mdx file.
+                issuer: [
+                  /\.mdx?$/,
+                  /entry\.template$/,
+                ],
+                use: [
+                  babelLoader,
+                  mdxLoader,
+                ],
+              },
+              {
+                use: 'raw-loader',
+              },
+            ],
+          }, {
+            resourceQuery: '?dev-site-codeblock',
+            // this bypasses the default json loader
+            type: 'javascript/auto',
+            use: [
+              babelLoader,
+              mdxLoader,
+              {
+                loader: 'devSiteCodeblock',
+                options: {
+                  resolveExtensions: compiler.options.resolve.extensions,
+                },
+              },
+            ],
+          }, {
+            resourceQuery: '?dev-site-example',
+            use: [
+              babelLoader,
+              'devSiteExample',
+            ],
+          }, {
+            test: /\.json$/,
+            // this bypasses the default json loader
+            type: 'javascript/auto',
+            resourceQuery: '?dev-site-package',
+            use: [
+              babelLoader,
+              'devSitePackage',
+            ],
+          }, {
+            resourceQuery: '?dev-site-props-table',
+            use: [
+              babelLoader,
+              mdxLoader,
+              {
+                loader: 'devSitePropsTable',
+                options: {
+                  resolveExtensions: compiler.options.resolve.extensions,
+                },
+              },
+            ],
+          },
+          ],
+        }],
+      },
+      resolve: {
+        plugins: [
+          // Switch between source and distribution files.
+          new DirectorySwitcherPlugin({
+            shouldSwitch: compiler.options.mode !== 'production',
+            source: sourceFolder,
+            distribution: distributionFolder,
+            rootDirectories,
+          }),
+          // Alias the local package to allow imports to reference the file as if it was imported from node modules.
+          new LocalPackageAliasPlugin({
+            rootDirectories,
+          }),
+        ],
+      },
+      // add the path to search for dev site loaders
+      resolveLoader: {
+        modules: [
+          path.resolve(__dirname, '..', 'loaders'),
+          'node_modules',
+        ],
+      },
+      devServer: {
+        // Setting this to enable browser routing
+        historyApiFallback: true,
+      },
+    };
 
-    // Alias the local package to allow imports to reference the file as if it was imported from node modules.
-    compiler.options.resolve.plugins.push(
-      new LocalPackageAliasPlugin({
-        rootDirectories,
-      }),
-    );
+    // If this plugin is used with webpack 5 we must normalize the webpack config.
+    if (isWebpack5) {
+      webpackConfig = compiler.webpack.config.getNormalizedWebpackOptions(webpackConfig);
+    }
+
+    // ENTRY
+    compiler.options.entry = {
+      ...compiler.options.entry,
+      ...webpackConfig.entry,
+    };
+
+    // MODULE
+    webpackConfig.module.rules[0].oneOf = webpackConfig.module.rules[0].oneOf.concat(compiler.options.module.rules);
+    compiler.options.module.rules = webpackConfig.module.rules;
+
+    // RESOLVE
+    compiler.options.resolve.plugins = (compiler.options.resolve.plugins || []).concat(webpackConfig.resolve.plugins);
 
     // RESOLVE LOADER
-    // add the path to search for dev site loaders
-    compiler.options.resolveLoader.modules = [
-      path.resolve(__dirname, '..', 'loaders'),
-      'node_modules',
-    ];
+    compiler.options.resolveLoader.modules = webpackConfig.resolveLoader.modules;
 
     // generate the 404 page.
     new HtmlWebpackPlugin({
@@ -193,7 +210,7 @@ class SitePlugin {
     // WEBPACK DEV SERVER
     if (compiler.options.devServer) {
       // Setting this to enable browser routing
-      compiler.options.devServer.historyApiFallback = true;
+      compiler.options.devServer.historyApiFallback = webpackConfig.devServer.historyApiFallback;
     }
 
     new DefinePlugin({
@@ -203,6 +220,8 @@ class SitePlugin {
   }
 
   apply(compiler) {
+    const isWebpack5 = compiler.webpack && compiler.webpack.version.startsWith('5');
+
     // Use default public path else the env else /
     let defaultPublicPath;
     if (compiler.options.output && compiler.options.output.publicPath) {
@@ -224,13 +243,8 @@ class SitePlugin {
       sourceFolder,
       distributionFolder,
       basename,
+      isWebpack5,
     });
-
-    // ENTRY
-    compiler.options.entry = {
-      ...compiler.options.entry,
-      [this.entryKey]: `@cerner/terra-dev-site/lib/webpack/templates/entry.template${this.resourceQuery}`,
-    };
 
     // Get the list of apps excluding this current app.
     const filteredSites = Object.values(siteRegistry).filter(site => site.path !== this.siteConfig.pathPrefix);
@@ -247,27 +261,49 @@ class SitePlugin {
       basename = [basename, this.siteConfig.pathPrefix].join('/');
     }
 
+    let webpackConfig = {
+      entry: {
+        [this.entryKey]: `@cerner/terra-dev-site/lib/webpack/templates/entry.template${this.resourceQuery}`,
+      },
+      module: {
+        rules: [
+          {
+            // This loader generates the entrypoint and sets up the config template path and resource query.
+            resourceQuery: this.resourceQuery,
+            use: [
+              babelLoader,
+              {
+                loader: 'devSiteEntry',
+                options: {
+                  entryPath: this.entry,
+                  siteConfig: this.siteConfig,
+                  sites: otherSites,
+                  basename,
+                  resolveExtensions: compiler.options.resolve.extensions,
+                  isLernaMonoRepo,
+                  contentDirectory: this.contentDirectory,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    // If this plugin is used with webpack 5 we must normalize the webpack config.
+    if (isWebpack5) {
+      webpackConfig = compiler.webpack.config.getNormalizedWebpackOptions(webpackConfig);
+    }
+
+    // ENTRY
+    compiler.options.entry = {
+      ...compiler.options.entry,
+      ...webpackConfig.entry,
+    };
+
     // MODULE
     // we know there is a oneOf here because we just added it.
-    compiler.options.module.rules[0].oneOf.unshift({
-      // This loader generates the entrypoint and sets up the config template path and resource query.
-      resourceQuery: this.resourceQuery,
-      use: [
-        babelLoader,
-        {
-          loader: 'devSiteEntry',
-          options: {
-            entryPath: this.entry,
-            siteConfig: this.siteConfig,
-            sites: otherSites,
-            basename,
-            resolveExtensions: compiler.options.resolve.extensions,
-            isLernaMonoRepo,
-            contentDirectory: this.contentDirectory,
-          },
-        },
-      ],
-    });
+    compiler.options.module.rules[0].oneOf.unshift(webpackConfig.module.rules[0]);
 
     // Generate the index.html file for the site.
     new HtmlWebpackPlugin({

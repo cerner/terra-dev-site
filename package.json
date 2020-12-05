@@ -103,7 +103,7 @@
     "@mdx-js/mdx": "^1.5.0",
     "@mdx-js/react": "^1.4.5",
     "classnames": "^2.2.5",
-    "enhanced-resolve": "^4.1.0",
+    "enhanced-resolve": "^4.1.0 || ^5.4.0",
     "fuse.js": "^6.4.3",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^4.5.0",
@@ -134,7 +134,7 @@
     "@cerner/terra-application": "cerner/terra-application#30f1e0a57f93ba119f08d4b95edd8ae4d597a866",
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
-    "webpack": "^4.28.1"
+    "webpack": "^4.44.2 || ^5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
