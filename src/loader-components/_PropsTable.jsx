@@ -30,7 +30,7 @@ const requiredCellPropTypes = {
 const PropNameCell = ({ children }) => (
   <Cell
     className={cx('bold')}
-    key="PROP_NAME"
+    key="PROP"
   >
     {children}
   </Cell>
@@ -62,7 +62,7 @@ RequiredCell.propTypes = requiredCellPropTypes;
 const DefaultValueCell = ({ children }) => (
   <Cell
     className={cx('code-block-override')}
-    key="DEFAULT_VALUE"
+    key="DEFAULT"
   >
     {children}
   </Cell>
@@ -80,10 +80,10 @@ const PropsTable = ({ children }) => {
   return (
     <Table paddingStyle="compact" className={cx('table', theme.className)}>
       <Header className={cx('header')}>
-        <HeaderCell key="PROP_NAME">Prop Name</HeaderCell>
+        <HeaderCell key="PROP">Prop</HeaderCell>
         <HeaderCell key="TYPE">Type</HeaderCell>
         <HeaderCell key="REQUIRED">Required</HeaderCell>
-        <HeaderCell key="DEFAULT_VALUE">Default Value</HeaderCell>
+        <HeaderCell key="DEFAULT">Default</HeaderCell>
         <HeaderCell key="DESCRIPTION">Description</HeaderCell>
       </Header>
       <Body>
