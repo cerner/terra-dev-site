@@ -4,7 +4,11 @@ const findSource = require('../loaderUtils/findSource');
 
 /**
  * Parses prop types into a more compact representation.
- * @param {object} type prop type to parse.
+ * @param {object} type prop type information to parse.
+ * @param {string} type.value the value for the type
+ * @param {string} type.name the name of the type
+ * @param {boolean} type.required whether or not the type is required
+ * @param {description} type.description the description of the type
  * @param {bool} indent should indent the return value.
  */
 const parsePropType = ({ type, indent = false }) => {
