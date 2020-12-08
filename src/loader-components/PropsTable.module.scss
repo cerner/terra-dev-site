@@ -10,7 +10,7 @@
     border-collapse: collapse;
     border-spacing: 0;
     display: block;
-    margin-bottom: 16px;
+    margin-bottom: 1.143rem;
     margin-top: 0;
     overflow: auto;
     width: 100%;
@@ -24,8 +24,8 @@
     .code-block-override {
       /* stylelint-disable-next-line selector-max-compound-selectors */
       pre {
-        max-width: 500px;
-        padding: 4px;
+        max-width: 35.71rem;
+        padding: 0.2857rem;
         width: fit-content;
       }
     }

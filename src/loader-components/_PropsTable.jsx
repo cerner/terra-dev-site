@@ -30,7 +30,6 @@ const requiredCellPropTypes = {
 const PropNameCell = ({ children }) => (
   <Cell
     className={cx('bold')}
-    key="PROP"
   >
     {children}
   </Cell>
@@ -40,7 +39,6 @@ PropNameCell.propTypes = propTypes;
 const TypeCell = ({ children }) => (
   <Cell
     className={cx('code-block-override')}
-    key="TYPE"
   >
     {children}
   </Cell>
@@ -52,7 +50,6 @@ const RequiredCell = ({ isRequired }) => (
     className={cx([
       isRequired ? ['required'] : [],
     ])}
-    key="REQUIRED"
   >
     {isRequired ? 'required' : 'optional'}
   </Cell>
@@ -62,7 +59,6 @@ RequiredCell.propTypes = requiredCellPropTypes;
 const DefaultValueCell = ({ children }) => (
   <Cell
     className={cx('code-block-override')}
-    key="DEFAULT"
   >
     {children}
   </Cell>
@@ -70,7 +66,7 @@ const DefaultValueCell = ({ children }) => (
 DefaultValueCell.propTypes = propTypes;
 
 const DescriptionCell = ({ children }) => (
-  <Cell key="DESCRIPTION">{children}</Cell>
+  <Cell>{children}</Cell>
 );
 DescriptionCell.propTypes = propTypes;
 
@@ -80,11 +76,11 @@ const PropsTable = ({ children }) => {
   return (
     <Table paddingStyle="compact" className={cx('table', theme.className)}>
       <Header className={cx('header')}>
-        <HeaderCell key="PROP">Prop</HeaderCell>
-        <HeaderCell key="TYPE">Type</HeaderCell>
-        <HeaderCell key="REQUIRED">Required</HeaderCell>
-        <HeaderCell key="DEFAULT">Default</HeaderCell>
-        <HeaderCell key="DESCRIPTION">Description</HeaderCell>
+        <HeaderCell>Prop</HeaderCell>
+        <HeaderCell>Type</HeaderCell>
+        <HeaderCell>Required</HeaderCell>
+        <HeaderCell>Default</HeaderCell>
+        <HeaderCell>Description</HeaderCell>
       </Header>
       <Body>
         {children}
