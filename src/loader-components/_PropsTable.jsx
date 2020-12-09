@@ -3,80 +3,101 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { ThemeContext } from '@cerner/terra-application/lib/theme';
+import Table, {
+  Header,
+  HeaderCell,
+  Body,
+  Cell,
+} from 'terra-html-table';
 import styles from './PropsTable.module.scss';
 
 const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The props table rows.
+   * Children for the component.
    */
-  rows: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      type: PropTypes.func,
-      required: PropTypes.bool,
-      defaultValue: PropTypes.string,
-      description: PropTypes.func,
-    }),
-  ),
+  children: PropTypes.node,
 };
 
-const PropsTable = ({ rows }) => {
+const requiredCellPropTypes = {
+  /**
+   * Is the cell required?
+   */
+  isRequired: PropTypes.bool,
+};
+
+const PropNameCell = ({ children }) => (
+  <Cell
+    className={cx('bold')}
+  >
+    {children}
+  </Cell>
+);
+PropNameCell.propTypes = propTypes;
+
+const TypeCell = ({ children }) => (
+  <Cell
+    className={cx('code-block-override')}
+  >
+    {children}
+  </Cell>
+);
+TypeCell.propTypes = propTypes;
+
+const RequiredCell = ({ isRequired }) => (
+  <Cell
+    className={cx([
+      isRequired ? ['required'] : [],
+    ])}
+  >
+    {isRequired ? 'required' : 'optional'}
+  </Cell>
+);
+RequiredCell.propTypes = requiredCellPropTypes;
+
+const DefaultValueCell = ({ children }) => (
+  <Cell
+    className={cx('code-block-override')}
+  >
+    {children}
+  </Cell>
+);
+DefaultValueCell.propTypes = propTypes;
+
+const DescriptionCell = ({ children }) => (
+  <Cell>{children}</Cell>
+);
+DescriptionCell.propTypes = propTypes;
+
+const PropsTable = ({ children }) => {
   const theme = useContext(ThemeContext);
 
   return (
-    <table className={cx('table', theme.className)}>
-      <thead>
-        <tr className={cx('tr')}>
-          <th className={cx('th')}>
-            Prop Name
-          </th>
-          <th className={cx('th')}>
-            Type
-          </th>
-          <th className={cx('th')}>
-            Is Required
-          </th>
-          <th className={cx('th')}>
-            Default Value
-          </th>
-          <th className={cx('th')}>
-            Description
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr className={cx('tr', 'props-tr')} key={row.name}>
-            <td className={cx(['td', 'strong', 'props-td'])}>
-              {row.name}
-            </td>
-            <td className={cx(['td', 'props-td'])}>
-              {row.type()}
-            </td>
-            <td
-              className={cx([
-                'td',
-                'props-td',
-                row.required ? ['required'] : [],
-              ])}
-            >
-              {row.required ? 'required' : 'optional'}
-            </td>
-            <td className={cx(['td', 'props-td'])}>
-              {row.defaultValue}
-            </td>
-            <td className={cx(['td', 'props-td'])}>
-              {row.description()}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table paddingStyle="compact" className={cx('table', theme.className)}>
+      <Header className={cx('header')}>
+        <HeaderCell>Prop</HeaderCell>
+        <HeaderCell>Type</HeaderCell>
+        <HeaderCell>Required</HeaderCell>
+        <HeaderCell>Default</HeaderCell>
+        <HeaderCell>Description</HeaderCell>
+      </Header>
+      <Body>
+        {children}
+      </Body>
+    </Table>
   );
 };
 
 PropsTable.propTypes = propTypes;
 
 export default PropsTable;
+export { Row } from 'terra-html-table';
+export {
+  PropNameCell,
+  TypeCell,
+  RequiredCell,
+  DefaultValueCell,
+  DescriptionCell,
+};
+

@@ -103,7 +103,7 @@
     "@mdx-js/mdx": "^1.5.0",
     "@mdx-js/react": "^1.4.5",
     "classnames": "^2.2.5",
-    "enhanced-resolve": "^4.1.0",
+    "enhanced-resolve": "^4.1.0 || ^5.4.0",
     "fuse.js": "^6.4.3",
     "glob": "^7.1.1",
     "html-webpack-plugin": "^4.5.0",
@@ -124,7 +124,6 @@
     "terra-html-table": "^1.8.0",
     "terra-hyperlink": "^2.9.0",
     "terra-icon": "^3.0.0",
-    "terra-infinite-list": "^3.5.0",
     "terra-list": "^4.6.0",
     "terra-menu": "^6.3.0",
     "terra-mixins": "^1.33.0",
@@ -135,7 +134,7 @@
     "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
-    "webpack": "^4.28.1"
+    "webpack": "^4.44.2 || ^5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
@@ -151,7 +150,7 @@
     "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
     "@cerner/terra-cli": "^1.1.0",
     "@cerner/terra-open-source-scripts": "^1.1.0",
-    "@cerner/webpack-config-terra": "^1.0.0-alpha.1",
+    "@cerner/webpack-config-terra": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
     "core-js": "^3.1.3",

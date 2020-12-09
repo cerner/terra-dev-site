@@ -22,7 +22,7 @@ const loader = async function loader(content) {
 
   if (cssFileName !== undefined) {
     try {
-      this.resolve('', cssFileName, async () => {
+      this.resolve(this.context, cssFileName, async () => {
       });
       code.push(`import Css from '${cssFileName}?dev-site-codeblock';`,
         `export default ({ title, description, isExpanded }) => (

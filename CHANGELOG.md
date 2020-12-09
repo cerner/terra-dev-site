@@ -4,6 +4,7 @@
 
 * Added
   * Added new file `browserslistrc` for Browserslist.
+  * Added support for webpack 5.
 
 * Breaking
   * Remove the ability to include test evidence, this is covered now by a separate site report.
@@ -31,6 +32,8 @@
   * Secondary navigation removed in favor of terra-application secondary navigation layout.
   * All content now wrapped in a page.
   * Consume terra-cli for releasing.
+  * Removed reference to infinite list
+  * Updated props table to better format types, defaults and description.
 
 ## 6.30.0 - (September 11, 2020)
 

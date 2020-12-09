@@ -135,30 +135,30 @@ const propTypes = {
 /* eslint-enable react/forbid-prop-types, react/no-unused-prop-types */
 
 const defaultProps = {
-  // primaryNavigationItems: [{
-  //   path: '/home',
-  //   text: 'Home',
-  //   contentExtension: 'home',
-  //   additionalContent: [
-  //     {
-  //       title: 'Home',
-  //       filePath: 'full/path/to/package/README.md',
-  //     },
-  //   ],
-  // }, {
-  //   path: '/components',
-  //   text: 'Components',
-  //   contentExtension: 'doc',
-  // }, {
-  //   path: '/tests',
-  //   text: 'Tests',
-  //   contentExtension: 'test',
-  // }],
+  primaryNavigationItems: [{
+    path: '/home',
+    text: 'Home',
+    contentExtension: 'home',
+    additionalContent: [
+      {
+        title: 'Home',
+        filePath: 'full/path/to/package/README.md',
+      },
+    ],
+  }, {
+    path: '/components',
+    text: 'Components',
+    contentExtension: 'doc',
+  }, {
+    path: '/tests',
+    text: 'Tests',
+    contentExtension: 'test',
+  }],
   additionalSearchDirectories: [],
   sideEffectImportFilePaths: [],
-  // titleConfig: {
-  //   title: 'package title',
-  // },
+  titleConfig: {
+    title: 'package title',
+  },
   defaultLocale: 'en',
   defaultTheme: 'terra-default-theme',
   defaultDirection: 'ltr',
