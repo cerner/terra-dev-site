@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const DirectorySwitcherPlugin = require('./resolve/DirectorySwitcherPlugin');
 const LocalPackageAliasPlugin = require('./resolve/LocalPackageAliasPlugin');
-const { babelLoader, mdxOptions, getMdxLoader } = require('./siteLoaderUtils');
+const { babelLoader, getMdxLoader } = require('./siteLoaderUtils');
 const getNewRelicJS = require('../new-relic/getNewRelicJS');
 
 // Singletons
@@ -138,10 +138,10 @@ class SitePlugin {
             resourceQuery: '?dev-site-props-table',
             use: [
               babelLoader,
+              mdxLoader,
               {
                 loader: 'devSitePropsTable',
                 options: {
-                  mdx: mdxOptions(compiler.options.output.publicPath),
                   resolveExtensions: compiler.options.resolve.extensions,
                 },
               },
