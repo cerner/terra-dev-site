@@ -34,6 +34,7 @@
   * Consume terra-cli for releasing.
   * Removed reference to infinite list
   * Updated props table to better format types, defaults and description.
+  * Added postcss as dev dependency.
 
 ## 6.30.0 - (September 11, 2020)
 
