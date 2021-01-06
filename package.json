@@ -128,7 +128,6 @@
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.62.0",
     "terra-aggregate-translations": "git+https://github.com/cerner/terra-aggregate-translations.git#upgrade-intl",
-    "terra-application": "git+https://github.com/cerner/terra-application.git#app-v2-intl",
     "terra-button": "^3.12.0",
     "terra-button-group": "^3.5.0",
     "terra-content-container": "^3.0.0",
@@ -151,7 +150,8 @@
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
     "terra-toolkit": "^5.21.0 || ^6.0.0",
-    "webpack": "^4.28.1"
+    "webpack": "^4.28.1",
+    "terra-application": "git+https://github.com/cerner/terra-application.git#app-v2-intl"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
