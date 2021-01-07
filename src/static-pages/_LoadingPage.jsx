@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
+import ApplicationLoadingOverlay from '@cerner/terra-application/lib/application-loading-overlay';
 
 // Wait half a second before showing the loading indicator.
 const LoadingPage = () => {

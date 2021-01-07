@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ActionHeader from 'terra-action-header';
 import ContentContainer from 'terra-content-container';
-import { DisclosureManagerContext } from 'terra-application/lib/disclosure-manager';
+import { DisclosureManagerContext } from '@cerner/terra-application/lib/disclosure-manager';
 
 import CodesplitWrapper from './_CodesplitWrapper';
 import LoadingPage from '../static-pages/_LoadingPage';

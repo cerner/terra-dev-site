@@ -50,7 +50,7 @@ const loader = async function loader(markdown) {
   const code = [
     'import React from \'react\';',
     'import classNames from \'classnames/bind\';',
-    'import { ThemeContext } from \'terra-application/lib/theme\'',
+    'import { ThemeContext } from \'@cerner/terra-application/lib/theme\'',
     'import styles from \'terra-dev-site/lib/marked/marked.module.scss\';',
     '',
     'const cx = classNames.bind(styles);',

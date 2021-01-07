@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { PromptRegistrationContext } from 'terra-application/lib/navigation-prompt';
+import { PromptRegistrationContext } from '@cerner/terra-application/lib/navigation-prompt';
 import NotFoundPage from '../static-pages/_NotFoundPage';
 
 import styles from './Raw.module.scss';

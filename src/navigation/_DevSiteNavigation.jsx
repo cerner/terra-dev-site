@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
-import { withDisclosureManager, disclosureManagerShape } from 'terra-application/lib/disclosure-manager';
+import { withDisclosureManager, disclosureManagerShape } from '@cerner/terra-application/lib/disclosure-manager';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import IconTile from 'terra-icon/lib/icon/IconTile';
 

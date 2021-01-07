@@ -3,7 +3,7 @@ import {
   Switch, Route, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ModalManager from 'terra-application/lib/modal-manager';
+import ModalManager from '@cerner/terra-application/lib/modal-manager';
 
 import DevSiteNavigation from '../navigation/_DevSiteNavigation';
 import Raw from '../raw/_Raw';
