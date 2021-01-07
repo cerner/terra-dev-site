@@ -127,7 +127,7 @@
     "rehype-urls": "^1.0.0",
     "terra-action-footer": "^2.3.0",
     "terra-action-header": "^2.62.0",
-    "terra-aggregate-translations": "git+https://github.com/cerner/terra-aggregate-translations.git#upgrade-intl",
+    "terra-aggregate-translations": "git+https://github.com/cerner/terra-aggregate-translations.git#upgrade-intl-2",
     "terra-application": "git+https://github.com/cerner/terra-application.git#app-v2-intl",
     "terra-button": "^3.12.0",
     "terra-button-group": "^3.5.0",
