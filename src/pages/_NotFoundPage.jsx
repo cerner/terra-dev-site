@@ -1,19 +1,41 @@
 import React from 'react';
-import ApplicationPage from '@cerner/terra-application/lib/page';
+import {
+  useHistory,
+} from 'react-router-dom';
+import Page, { StatusLayout } from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 
-import NotFoundOverlay from '../content/_NotFoundOverlay';
-
 const NotFoundPage = () => {
+  const history = useHistory();
   const { isActive } = React.useContext(NavigationItemContext);
+  let failureStatus;
+  if (isActive) {
+    failureStatus = (
+      <StatusLayout
+        message="Page not found."
+        variant="error"
+        buttonAttrs={[
+          {
+            key: 'go back',
+            text: 'Go Back',
+            onClick: () => { history.goBack(); },
+          },
+          {
+            key: 'home',
+            text: 'Home',
+            onClick: () => { history.replace('/'); },
+          },
+        ]}
+      />
+    );
+  }
+
   return (
-    <ApplicationPage
+    <Page
       pageKey="Not Found Page"
       label="Page not found"
-      preferHeaderIsHidden
-    >
-      { isActive && <NotFoundOverlay /> }
-    </ApplicationPage>
+      statusOverlay={failureStatus}
+    />
   );
 };
 
