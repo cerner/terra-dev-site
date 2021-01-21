@@ -11,7 +11,7 @@ const applyDefaults = ({
     contentExtension: 'home',
     additionalContent: [
       {
-        label: 'Home',
+        title: 'Home',
         filePath: path.resolve(process.cwd(), 'README.md'),
       },
     ],
