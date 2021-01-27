@@ -1,38 +1,47 @@
+/* eslint-disable import/no-extraneous-dependencies */
+const merge = require('webpack-merge');
 const path = require('path');
-const defaultWebpackConfig = require('./config/webpack/webpack.config');
-const loadSiteConfig = require('./scripts/generate-app-config/loadSiteConfig');
+const WebpackConfigTerra = require('@cerner/webpack-config-terra');
+
+const DirectorySwitcherPlugin = require('./config/webpack/plugin/resolve/DirectorySwitcherPlugin');
+const LocalPackageAliasPlugin = require('./config/webpack/plugin/resolve/LocalPackageAliasPlugin');
+const TerraDevSiteEntrypoints = require('./config/webpack/plugin/TerraDevSiteEntrypoints');
 const TerraDevSite = require('./config/webpack/plugin/TerraDevSite');
 
 /**
 * Generates the file representing app name configuration.
 */
-const devSiteConfig = (env = {}, argv = {}) => {
-  const config = defaultWebpackConfig(env, argv);
-  // Load the site configuration.
-  const siteConfig = loadSiteConfig();
-
-  siteConfig.appConfig = {
-    ...siteConfig.appConfig,
-    subline: 'Extended',
-  };
-
-  config.resolve.extensions = ['.js', '.jsx', '.jst'];
-  // Brittle
-  config.module.rules[0].test = /\.(jsx|js|jst)$/;
+const devSiteConfig = (env = {}, argv = { p: false }) => {
+  const production = argv.p;
+  const processPath = process.cwd();
 
   return {
-    ...config,
-    plugins: config.plugins.slice(0, -1).concat([
-      new TerraDevSite({
-        env,
-        sites: [{
-          siteConfig,
-          prefix: 'terra-application',
-          indexPath: path.resolve(path.join(__dirname, 'lib', 'ExtendDevSite')),
-        }],
-      }),
-    ]),
+    entry: TerraDevSiteEntrypoints,
+    plugins: [
+      new TerraDevSite({ env }),
+    ],
+    resolve: {
+      plugins: [
+        new DirectorySwitcherPlugin({
+          shouldSwitch: !production,
+          rootDirectories: [
+            processPath,
+            path.resolve(processPath, '*'),
+          ],
+        }),
+        new LocalPackageAliasPlugin({
+          rootDirectories: [
+            processPath,
+            path.resolve(processPath, '*'),
+          ],
+        }),
+      ],
+    },
   };
 };
 
-module.exports = devSiteConfig;
+const webpackConfig = (env, argv) => (
+  merge(WebpackConfigTerra(env, argv), devSiteConfig(env, argv))
+);
+
+module.exports = webpackConfig;

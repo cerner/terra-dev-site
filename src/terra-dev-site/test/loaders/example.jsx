@@ -1,11 +1,8 @@
 import React from 'react';
-import classNames from 'classnames/bind';
-import styles from './example.scss';
-
-const cx = classNames.bind(styles);
+import './example.scss';
 
 const TagComp = () => (
-  <h1 className={cx('body')}>
+  <h1 className="body">
     I am a test
   </h1>
 );

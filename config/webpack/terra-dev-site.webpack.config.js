@@ -1,22 +1,19 @@
+/* eslint-disable import/no-extraneous-dependencies */
+const merge = require('webpack-merge');
 const path = require('path');
-const loadSiteConfig = require('../../scripts/generate-app-config/loadSiteConfig');
-const TerraDevSite = require('./plugin/TerraDevSite');
-const TerraDevSiteEntrypoints = require('./plugin/TerraDevSiteEntrypoints');
+const WebpackConfigTerra = require('@cerner/webpack-config-terra');
+
 const DirectorySwitcherPlugin = require('./plugin/resolve/DirectorySwitcherPlugin');
 const LocalPackageAliasPlugin = require('./plugin/resolve/LocalPackageAliasPlugin');
+const TerraDevSiteEntrypoints = require('./plugin/TerraDevSiteEntrypoints');
+const TerraDevSite = require('./plugin/TerraDevSite');
 
 /**
 * Generates the file representing app name configuration.
 */
-const devSiteConfig = (env = {}, argv = {}) => {
+const devSiteConfig = (env = {}, argv = { p: false }) => {
   const production = argv.p;
   const processPath = process.cwd();
-
-  // Load the site configuration.
-  const siteConfig = loadSiteConfig();
-
-  // Is hot reloading enabled?
-  const { hotReloading } = siteConfig;
 
   return {
     entry: TerraDevSiteEntrypoints,
@@ -26,16 +23,16 @@ const devSiteConfig = (env = {}, argv = {}) => {
     resolve: {
       plugins: [
         new DirectorySwitcherPlugin({
-          shouldSwitch: hotReloading && !production,
+          shouldSwitch: !production,
           rootDirectories: [
             processPath,
-            path.resolve(processPath, 'packages', '*'),
+            path.resolve(processPath, '*'),
           ],
         }),
         new LocalPackageAliasPlugin({
           rootDirectories: [
             processPath,
-            path.resolve(processPath, 'packages', '*'),
+            path.resolve(processPath, '*'),
           ],
         }),
       ],
@@ -43,4 +40,8 @@ const devSiteConfig = (env = {}, argv = {}) => {
   };
 };
 
-module.exports = devSiteConfig;
+const webpackConfig = (env, argv) => (
+  merge(WebpackConfigTerra(env, argv), devSiteConfig(env, argv))
+);
+
+module.exports = webpackConfig;
