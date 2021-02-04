@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Added
+  * Added script `brokenLinks.js` to check for broken links in mdx files.
+
 * Changed
   * Updated to use terra-open-source-scripts to release the project
 

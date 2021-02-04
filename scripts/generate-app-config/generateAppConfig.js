@@ -11,6 +11,7 @@ const generateExtensionConfig = require('./generateExtensionConfig');
 const injectLink = require('./injectLink');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 const importSideEffects = require('./importSideEffects');
+const BrokenLinks = require('../check-broken-links/brokenLinks');
 
 /**
 * Writes out a file consisting of the config and imports with the given file name to the specified path.
@@ -136,6 +137,9 @@ const generateAppConfig = ({
   };
 
   writeConfig({ config, imports }, 'siteConfig.js', buildPath, fse);
+
+  // To check if there are any broken links in page
+  setTimeout(() => BrokenLinks.checkLinks(menuItems), 100);
 };
 
 module.exports = generateAppConfig;
