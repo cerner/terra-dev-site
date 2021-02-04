@@ -20,15 +20,25 @@ class BrokenLinks {
     return arrayOfMDXFilesPath;
   }
 
-  static getMenuItems() {
+  static getMenuItemLinks() {
     const menuItemsPath = path.resolve(`${process.cwd()}/dev-site-config/build/menuItems.js`);
-    let menuItems = fs.readFileSync(menuItemsPath, { encoding: 'utf8', flag: 'r' });
-    menuItems = menuItems.match(/path': (.*?),/g);
-    menuItems = menuItems.toString();
-    menuItems = menuItems.replace(/path': '/g, '');
-    menuItems = menuItems.replace(/',,/g, ',');
-    menuItems = menuItems.replace(/',/g, '');
-    return menuItems.split(',');
+    let menuItemLinks = fs.readFileSync(menuItemsPath, { encoding: 'utf8', flag: 'r' });
+    menuItemLinks = menuItemLinks.match(/path': (.*?)'/g);
+    menuItemLinks = menuItemLinks.toString();
+    menuItemLinks = menuItemLinks.replace(/path': '/g, '');
+    menuItemLinks = menuItemLinks.replace(/',,/g, ',');
+    menuItemLinks = menuItemLinks.replace(/',/g, '');
+    return menuItemLinks.split(',');
+  }
+
+  static getSearchItemLinks() {
+    const searchItemsPath = path.resolve(`${process.cwd()}/dev-site-config/build/searchItems.js`);
+    let searchItemLinks = fs.readFileSync(searchItemsPath, { encoding: 'utf8', flag: 'r' });
+    searchItemLinks = searchItemLinks.match(/path': '(.*?)'/g);
+    searchItemLinks = searchItemLinks.toString();
+    searchItemLinks = searchItemLinks.replace(/path': '/g, '');
+    searchItemLinks = searchItemLinks.replace(/',/g, ',');
+    return searchItemLinks.split(',');
   }
 
   static getFileLinks() {
@@ -65,7 +75,8 @@ class BrokenLinks {
 
   static checkLinks() {
     const fileLinks = this.getFileLinks();
-    const menuItems = this.getMenuItems();
+    const menuItemLinks = this.getMenuItemLinks();
+    const searchItemLinks = this.getSearchItemLinks();
     Object.entries(fileLinks).forEach(fileLink => {
       const [file, links] = fileLink;
       links.forEach(link => {
@@ -78,7 +89,7 @@ class BrokenLinks {
             }
           };
           xmlHttp.send(null);
-        } else if (!menuItems.includes(link)) {
+        } else if (!(menuItemLinks.includes(link) || searchItemLinks.includes(link))) {
           console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
         }
       });
