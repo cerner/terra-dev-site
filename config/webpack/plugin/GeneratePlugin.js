@@ -5,6 +5,8 @@ const path = require('path');
 const generateAppConfig = require('../../../scripts/generate-app-config/generateAppConfig');
 const getNewRelicJS = require('../../../scripts/new-relic/getNewRelicJS');
 
+const BrokenLinks = require('../../../scripts/check-broken-links/brokenLinks');
+
 /**
  * Generate the html file
  * @param {*} object
@@ -113,6 +115,9 @@ class GeneratePlugin {
         otherSiteEntries: this.entries.filter(indexEntry => indexEntry !== entry),
       }).apply(compiler);
     });
+
+    // To check if there are any broken links in page
+    BrokenLinks.checkLinks();
   }
 }
 

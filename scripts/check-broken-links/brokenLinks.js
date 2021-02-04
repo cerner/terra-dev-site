@@ -43,21 +43,13 @@ class BrokenLinks {
 
   static getFileLinks() {
     const fileLinks = {};
-    const arrayOfMDXFilesPath = fs.existsSync(`${process.cwd()}/packages`) ? this.getAllMDXFilesPath(`${process.cwd()}/packages`, [], []) : this.getAllMDXFilesPath(`${process.cwd()}/src`, [], []);
+    const arrayOfMDXFilesPath = fs.existsSync(`${process.cwd()}/packages`) ? this.getAllMDXFilesPath(`${process.cwd()}/packages`, []) : this.getAllMDXFilesPath(`${process.cwd()}/src`, []);
     arrayOfMDXFilesPath.forEach(filePath => {
       const tempLinks = [];
       const fileContent = fs.readFileSync(filePath, { encoding: 'utf8', flag: 'r' });
-      tempLinks.push(fileContent.match(/\[(.*?)\]\((.*?)\)/g));
+      tempLinks.push(fileContent.match(/((?<=\]\()((?!#)(?!\.).*?)(?=(\s|\n|>|"|'|\))))|(https:\/\/(.*?)(?=(\s|\n|>|"|'|\))))|(http:\/\/(.*?)(?=(\s|\n|>|"|'|\))))/g));
       tempLinks.forEach(tempLink => {
         if (tempLink !== null) {
-          tempLink = tempLink.toString();
-          tempLink = tempLink.match(/\]\((.*?)\)/g);
-          tempLink = tempLink.toString();
-          tempLink = tempLink.replace(/\]/g, '');
-          tempLink = tempLink.replace(/\(/g, '');
-          tempLink = tempLink.replace(/\)/g, '');
-          tempLink = tempLink.replace(/#(.*?),/g, ',');
-          tempLink = tempLink.split(',');
           fileLinks[filePath] = tempLink;
 
           tempLink.forEach(link => {
@@ -89,7 +81,9 @@ class BrokenLinks {
             }
           };
           xmlHttp.send(null);
-        } else if (!(menuItemLinks.includes(link) || searchItemLinks.includes(link))) {
+          setTimeout(() => xmlHttp.abort(), 10);
+        } else
+        if (!(menuItemLinks.includes(link) || searchItemLinks.includes(link))) {
           console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
         }
       });
