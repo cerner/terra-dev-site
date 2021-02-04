@@ -23,22 +23,15 @@ class BrokenLinks {
   static getMenuItemLinks() {
     const menuItemsPath = path.resolve(`${process.cwd()}/dev-site-config/build/menuItems.js`);
     let menuItemLinks = fs.readFileSync(menuItemsPath, { encoding: 'utf8', flag: 'r' });
-    menuItemLinks = menuItemLinks.match(/path': (.*?)'/g);
-    menuItemLinks = menuItemLinks.toString();
-    menuItemLinks = menuItemLinks.replace(/path': '/g, '');
-    menuItemLinks = menuItemLinks.replace(/',,/g, ',');
-    menuItemLinks = menuItemLinks.replace(/',/g, '');
-    return menuItemLinks.split(',');
+    menuItemLinks = menuItemLinks.match(/(?<=path': ')(.*?)(?=')/g);
+    return menuItemLinks;
   }
 
   static getSearchItemLinks() {
     const searchItemsPath = path.resolve(`${process.cwd()}/dev-site-config/build/searchItems.js`);
     let searchItemLinks = fs.readFileSync(searchItemsPath, { encoding: 'utf8', flag: 'r' });
-    searchItemLinks = searchItemLinks.match(/path': '(.*?)'/g);
-    searchItemLinks = searchItemLinks.toString();
-    searchItemLinks = searchItemLinks.replace(/path': '/g, '');
-    searchItemLinks = searchItemLinks.replace(/',/g, ',');
-    return searchItemLinks.split(',');
+    searchItemLinks = searchItemLinks.match(/(?<=path': ')(.*?)(?=')/g);
+    return searchItemLinks;
   }
 
   static getFileLinks() {
@@ -47,7 +40,7 @@ class BrokenLinks {
     arrayOfMDXFilesPath.forEach(filePath => {
       const tempLinks = [];
       const fileContent = fs.readFileSync(filePath, { encoding: 'utf8', flag: 'r' });
-      tempLinks.push(fileContent.match(/((?<=\]\()((?!#)(?!\.).*?)(?=(\s|\n|>|"|'|\))))|(https:\/\/(.*?)(?=(\s|\n|>|"|'|\))))|(http:\/\/(.*?)(?=(\s|\n|>|"|'|\))))/g));
+      tempLinks.push(fileContent.match(/((?<=\]\()((?!#)(?!\.).*?)|https:\/\/(.*?)|http:\/\/(.*?))(?=(\s|\n|>|"|'|\)))/g));
       tempLinks.forEach(tempLink => {
         if (tempLink !== null) {
           fileLinks[filePath] = tempLink;

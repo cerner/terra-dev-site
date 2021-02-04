@@ -139,6 +139,7 @@
     "terra-spacer": "^3.3.0",
     "terra-status-view": "^4.1.0",
     "to-ast": "^1.0.0",
+    "xmlhttprequest": "^1.8.0",
     "webpack-merge": "^4.1.2"
   },
   "peerDependencies": {
@@ -178,7 +179,6 @@
     "stylelint": "^10.0.1",
     "stylelint-config-terra": "^3.0.0",
     "terra-toolkit": "^6.0.0",
-    "xmlhttprequest": "^1.8.0",
     "webpack": "^4.28.1",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1"
