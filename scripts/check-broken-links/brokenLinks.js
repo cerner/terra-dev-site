@@ -22,16 +22,20 @@ class BrokenLinks {
 
   static getMenuItemLinks() {
     const menuItemsPath = path.resolve(`${process.cwd()}/dev-site-config/build/menuItems.js`);
-    let menuItemLinks = fs.readFileSync(menuItemsPath, { encoding: 'utf8', flag: 'r' });
-    menuItemLinks = menuItemLinks.match(/(?<=path': ')(.*?)(?=')/g);
-    return menuItemLinks;
+    if (fs.existsSync(menuItemsPath)) {
+      const menuItemLinks = fs.readFileSync(menuItemsPath, { encoding: 'utf8', flag: 'r' });
+      return menuItemLinks.match(/(?<=path': ')(.*?)(?=')/g);
+    }
+    return null;
   }
 
   static getSearchItemLinks() {
     const searchItemsPath = path.resolve(`${process.cwd()}/dev-site-config/build/searchItems.js`);
-    let searchItemLinks = fs.readFileSync(searchItemsPath, { encoding: 'utf8', flag: 'r' });
-    searchItemLinks = searchItemLinks.match(/(?<=path': ')(.*?)(?=')/g);
-    return searchItemLinks;
+    if (fs.existsSync(searchItemsPath)) {
+      const searchItemLinks = fs.readFileSync(searchItemsPath, { encoding: 'utf8', flag: 'r' });
+      return searchItemLinks.match(/(?<=path': ')(.*?)(?=')/g);
+    }
+    return null;
   }
 
   static getFileLinks() {
@@ -76,7 +80,7 @@ class BrokenLinks {
           xmlHttp.send(null);
           setTimeout(() => xmlHttp.abort(), 10);
         } else
-        if (!(menuItemLinks.includes(link) || searchItemLinks.includes(link))) {
+        if (menuItemLinks && searchItemLinks && !(menuItemLinks.includes(link) || searchItemLinks.includes(link))) {
           console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
         }
       });
