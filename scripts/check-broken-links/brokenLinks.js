@@ -71,7 +71,7 @@ class BrokenLinks {
       links.forEach(link => {
         if (link.includes('https') || link.includes('http')) {
           const xmlHttp = new XMLHttpRequest();
-          xmlHttp.open('GET', link);
+          xmlHttp.open('GET', link, false);
           xmlHttp.onloadend = () => {
             if (xmlHttp.status === 404 && xmlHttp.responseText.includes('Not Found')) {
               console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
