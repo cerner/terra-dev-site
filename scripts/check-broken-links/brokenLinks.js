@@ -40,7 +40,7 @@ class BrokenLinks {
     arrayOfMDXFilesPath.forEach(filePath => {
       const tempLinks = [];
       const fileContent = fs.readFileSync(filePath, { encoding: 'utf8', flag: 'r' });
-      tempLinks.push(fileContent.match(/((?<=\]\()((?!#)(?!\.).*?)|https:\/\/(.*?)|http:\/\/(.*?))(?=(\s|\n|>|"|'|\)))/g));
+      tempLinks.push(fileContent.match(/((?<=\]\()((?!#|\.).*?)|https:\/\/(.*?)|http:\/\/(.*?))(?=(\s|\n|>|"|'|\)))/g));
       tempLinks.forEach(tempLink => {
         if (tempLink !== null) {
           fileLinks[filePath] = tempLink;
