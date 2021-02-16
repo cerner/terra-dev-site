@@ -1,22 +1,22 @@
 Terra.describeViewports('search', ['tiny', 'huge'], () => {
   it('checks accessibility', () => {
     browser.url('/single-page-test');
-    browser.click('[class*="Extension-module__extension"]');
-    browser.waitForVisible('[class*="SearchField-module__input"]');
+    $('[class*="Extension-module__extension"]').click();
+    $('[class*="SearchField-module__input"]').waitForDisplayed();
     Terra.hideInputCaret('[class*="SearchField-module__input"]');
-    Terra.validates.element({ selector: '#root' });
+    Terra.validates.element('checks a11y', { selector: '#root' });
   });
 
   it('searches the site', () => {
-    browser.click('[class*="SearchField-module__input"]');
+    $('[class*="SearchField-module__input"]').click();
     browser.keys('v4.0.0');
-    browser.waitForVisible('[class*="List-module__item"]', 5000);
+    $('[class*="List-module__item"]', 5000).waitForDisplayed();
     Terra.validates.element('searches the site', { selector: '#root' });
   });
 
   it('selects an item', () => {
-    browser.click('[class*="List-module__item"]');
-    browser.waitForVisible('[class*="MarkdownTags-module"]', 5000);
+    $('[class*="List-module__item"]').click();
+    // $('[class*="MarkdownTags-module"]', 5000).waitForDisplayed();
     Terra.validates.element('selects an item', { selector: '#root' });
   });
 });
