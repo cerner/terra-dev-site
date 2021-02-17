@@ -16,7 +16,7 @@ Terra.describeViewports('search', ['tiny', 'huge'], () => {
 
   it('selects an item', () => {
     $('[class*="List-module__item"]').click();
-    // $('[class*="MarkdownTags-module"]', 5000).waitForDisplayed();
+    $('#v400-upgrade-guide', 10000).waitForExist();
     Terra.validates.element('selects an item', { selector: '#root' });
   });
 });
