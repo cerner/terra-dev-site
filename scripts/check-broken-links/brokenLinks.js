@@ -51,16 +51,18 @@ class BrokenLinks {
     Object.entries(fileLinks).forEach(fileLink => {
       const [file, links] = fileLink;
       links.forEach(link => {
-        if (link.includes('https') || link.includes('http')) {
-          const xmlHttp = new XMLHttpRequest();
-          xmlHttp.open('GET', link);
-          xmlHttp.onloadend = () => {
-            if (xmlHttp.status === 404 && xmlHttp.responseText.includes('Not Found')) {
-              console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
-            }
-          };
-          xmlHttp.send(null);
-          setTimeout(() => xmlHttp.abort(), 1);
+        if ((link.includes('https') || link.includes('http'))) {
+          if (!link.includes('localhost')) {
+            const xmlHttp = new XMLHttpRequest();
+            xmlHttp.open('GET', link, false);
+            xmlHttp.onloadend = () => {
+              if (xmlHttp.status === 404 && new RegExp(/Not Found/gi).test(xmlHttp.responseText)) {
+                console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
+              }
+            };
+            xmlHttp.send(null);
+            setTimeout(() => xmlHttp.abort(), 10);
+          }
         } else if (!pageLinks.includes(link) && routeLinks.some(routeLink => link.match(/\/(.*?)(?=\/)/g).includes(routeLink))) {
           console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
         }
