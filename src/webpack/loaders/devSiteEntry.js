@@ -3,6 +3,8 @@ const { getOptions } = require('loader-utils');
 
 const generateNavigationConfig = require('../loaderUtils/generateNavigationConfig');
 
+const BrokenLinks = require('../../../scripts/check-broken-links/brokenLinks');
+
 /**
   * Generate the entry point for the particular site plugin.
   * Don't use an arrow function or you wont have access to this.
@@ -57,6 +59,8 @@ const loader = async function loader(template) {
     // getLogger is undefined in the loader runner for tests, but never in acutal usage.
     logger: this.getLogger ? this.getLogger('terra-dev-site loader') : undefined,
   });
+
+  BrokenLinks.checkLinks(pageConfig, routesMap);
 
   return callback(null, lodashTemplate(template)({
     entryPath,

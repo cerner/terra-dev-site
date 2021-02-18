@@ -128,7 +128,8 @@
     "terra-menu": "^6.3.0",
     "terra-mixins": "^1.33.0",
     "terra-search-field": "^3.13.0",
-    "terra-status-view": "^4.1.0"
+    "terra-status-view": "^4.1.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "peerDependencies": {
     "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
