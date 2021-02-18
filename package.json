@@ -1,6 +1,6 @@
 {
   "name": "@cerner/terra-dev-site",
-  "version": "6.30.0",
+  "version": "6.33.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "engines": {
     "node": ">=10 <11"
