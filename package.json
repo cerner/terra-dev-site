@@ -122,7 +122,7 @@
     "terra-status-view": "^4.1.0"
   },
   "peerDependencies": {
-    "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
+    "@cerner/terra-application": "cerner/terra-application#ae6fc4982fa591bb59fe777dfdf03aa73c8d7190",
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
     "webpack": "^4.44.2 || ^5.0.0"
