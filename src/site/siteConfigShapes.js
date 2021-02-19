@@ -95,6 +95,7 @@ const navigationConfigShape = PropTypes.arrayOf(PropTypes.shape({
   /**
    * children
    */
+  // eslint-disable-next-line react/forbid-prop-types
   children: PropTypes.array,
 }));
 
@@ -172,6 +173,7 @@ const siteConfigShape = PropTypes.shape({
   /**
    * A bucket of config useful when extending dev site.
    */
+  // eslint-disable-next-line react/forbid-prop-types
   additionalConfig: PropTypes.object,
 });
 
