@@ -139,7 +139,7 @@
     "@cerner/browserslist-config-terra": "^3.1.0",
     "@cerner/eslint-config-terra": "^5.0.0",
     "@cerner/stylelint-config-terra": "^4.0.0",
-    "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
+    "@cerner/terra-application": "cerner/terra-application#ae6fc4982fa591bb59fe777dfdf03aa73c8d7190",
     "@cerner/terra-cli": "^1.1.0",
     "@cerner/terra-functional-testing": "file:cerner-terra-functional-testing-0.0.0.tgz",
     "@cerner/terra-open-source-scripts": "^1.1.0",
