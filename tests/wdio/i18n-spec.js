@@ -1,7 +1,8 @@
 Terra.describeViewports('Locale', ['tiny'], () => {
   it('correctly sets the application locale', () => {
     browser.url('/single-page-test');
-    const actualLocale = $('html').getAttribute('lang');
-    expect(actualLocale).toEqual('en');
+    const testLocale = browser.options.locale || 'en';
+    const actualLocale = browser.getAttribute('html', 'lang');
+    expect(actualLocale).to.equal(testLocale);
   });
 });

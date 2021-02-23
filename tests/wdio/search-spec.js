@@ -1,22 +1,22 @@
 Terra.describeViewports('search', ['tiny', 'huge'], () => {
   it('checks accessibility', () => {
     browser.url('/single-page-test');
-    $('[class*="Extension-module__extension"]').click();
-    $('[class*="SearchField-module__input"]').waitForDisplayed();
+    browser.click('[class*="Extension-module__extension"]');
+    browser.waitForVisible('[class*="SearchField-module__input"]');
     Terra.hideInputCaret('[class*="SearchField-module__input"]');
-    Terra.validates.element('checks a11y', { selector: '#root' });
+    Terra.validates.element({ selector: '#root' });
   });
 
   it('searches the site', () => {
-    $('[class*="SearchField-module__input"]').click();
+    browser.click('[class*="SearchField-module__input"]');
     browser.keys('v4.0.0');
-    $('[class*="List-module__item"]', 5000).waitForDisplayed();
+    browser.waitForVisible('[class*="List-module__item"]', 5000);
     Terra.validates.element('searches the site', { selector: '#root' });
   });
 
   it('selects an item', () => {
-    $('[class*="List-module__item"]').click();
-    $('#v400-upgrade-guide', 10000).waitForExist();
+    browser.click('[class*="List-module__item"]');
+    browser.waitForVisible('[class*="MarkdownTags-module"]', 5000);
     Terra.validates.element('selects an item', { selector: '#root' });
   });
 });

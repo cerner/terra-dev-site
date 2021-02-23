@@ -1,20 +1,14 @@
-import React from 'react';
-import Page, {
-  PageActions,
-  Action,
-  CardLayout,
-  Card,
-  PageActivityOverlay,
-  StatusLayout,
-} from '@cerner/terra-application/lib/page';
+import React, { Suspense } from 'react';
+import Page, { PageActions, Action } from '@cerner/terra-application/lib/page';
 import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
-import Suspense from '@cerner/terra-application/lib/shared/Suspense';
 import IconStartPresenting from 'terra-icon/lib/icon/IconStartPresenting';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 
-import { contentImportsShape, pageContentConfigShape } from '../site/siteConfigShapes';
-import ContentLoadedContainer from '../content/_ContentLoaded';
+import PageErrorBoundary from './_DevSitePageErrorBoundary';
+import LoadingOverlay from './_LoadingOverlay';
+import ContentLoadedContainer from './_ContentLoaded';
 import NotFoundPage from './_NotFoundPage';
+import { contentImportsShape, pageContentConfigShape } from '../site/siteConfigShapes';
 
 const propTypes = {
   /**
@@ -31,83 +25,57 @@ const propTypes = {
 const DevSitePage = ({ pageContentConfig, contentImports }) => {
   const location = useLocation();
   const history = useHistory();
+  const isRaw = useRouteMatch('/raw');
+  const isHome = useRouteMatch('/home');
   const { isActive } = React.useContext(NavigationItemContext);
-  const [isLoadingComponent, setIsLoadingComponent] = React.useState();
-  const [loadingFailed, setLoadingFailed] = React.useState();
 
   if (!isActive) {
     return null;
   }
 
-  if (!pageContentConfig) {
-    return NotFoundPage;
+  const pathname = isRaw ? location.pathname.substring(4) : location.pathname;
+  const ContentComponent = contentImports[pathname];
+
+  // Last Chance 404
+  if (!ContentComponent) {
+    return <NotFoundPage />;
   }
 
-  const { pathname } = location;
-  const ContentComponent = contentImports[pathname];
   const pageActions = (
     <PageActions>
       <Action
         actionKey="raw"
         label="Raw"
         icon={<IconStartPresenting />}
-        onSelect={() => { history.push(`/raw${pathname}`); }}
+        onSelect={() => { history.push(`/raw${location.pathname}`); }}
       />
     </PageActions>
   );
 
-  let loadingOverlay;
-  if (isLoadingComponent) {
-    loadingOverlay = (
-      <PageActivityOverlay variant="loading" />
-    );
-  }
+  const props = {};
 
-  let statusOverlay;
-  if (loadingFailed) {
-    statusOverlay = (
-      <ContentLoadedContainer type={pageContentConfig.type}>
-        <StatusLayout
-          message="Chunk failed to load."
-          variant="error"
-          buttonAttrs={[
-            {
-              key: 'go back',
-              text: 'Go Back',
-              onClick: () => { history.goBack(); },
-            },
-            {
-              key: 'home',
-              text: 'Home',
-              onClick: () => { history.replace('/'); },
-            },
-          ]}
-        />
-      </ContentLoadedContainer>
-    );
+  if (isHome || isRaw) {
+    props.preferHeaderIsHidden = true;
+  } else {
+    props.actions = pageActions;
   }
 
   return (
     <Page
       label={pageContentConfig.label}
       pageKey={pathname}
-      actions={pageActions}
-      activityOverlay={loadingOverlay}
-      statusOverlay={statusOverlay}
+      {...props}
     >
-      <Suspense
-        onLoadStart={() => { setIsLoadingComponent(true); }}
-        onLoadEnd={() => { setIsLoadingComponent(false); }}
-        onError={() => { setLoadingFailed(true); setIsLoadingComponent(false); }}
-      >
-        <CardLayout>
-          <Card minHeightFill>
-            <ContentLoadedContainer type={pageContentConfig.type}>
-              <ContentComponent />
-            </ContentLoadedContainer>
-          </Card>
-        </CardLayout>
-      </Suspense>
+      <PageErrorBoundary>
+        <Suspense fallback={(
+          <LoadingOverlay />
+        )}
+        >
+          <ContentLoadedContainer type={pageContentConfig.type}>
+            <ContentComponent />
+          </ContentLoadedContainer>
+        </Suspense>
+      </PageErrorBoundary>
     </Page>
   );
 };

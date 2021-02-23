@@ -1,14 +1,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { config } = require('@cerner/terra-functional-testing/lib/config/wdio.conf');
+const defaultWdioConfig = require('terra-toolkit/config/wdio/wdio.conf');
 
-config.specs = [
-  './tests/wdio/*-spec.js',
-];
+const wdioConfig = defaultWdioConfig.config;
 
-config.suites = {
-  de: [
-    './tests/wdio/de/*-spec.js',
-  ],
-};
+const travis = process.env.TRAVIS;
 
-exports.config = config;
+if (travis) {
+  wdioConfig.host = 'localhost';
+}
+
+exports.config = wdioConfig;

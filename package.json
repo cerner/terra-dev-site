@@ -1,6 +1,6 @@
 {
   "name": "@cerner/terra-dev-site",
-  "version": "6.33.0",
+  "version": "6.30.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "engines": {
     "node": ">=10 <11"
@@ -46,19 +46,10 @@
     }
   },
   "eslintConfig": {
-    "extends": "@cerner/terra",
-    "settings": {
-      "polyfills": [
-        "Promise"
-      ]
-    },
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "allowImportExportEverywhere": true
-    }
+    "extends": "@cerner/terra"
   },
   "stylelint": {
-    "extends": "stylelint-config-terra",
+    "extends": "@cerner/stylelint-config-terra",
     "rules": {
       "scss/at-mixin-pattern": "^(terra-)[a-z]+([a-z0-9-]+[a-z0-9]+)?$"
     }
@@ -91,10 +82,10 @@
     "start-heroku": "terra express-server --port $PORT --site './build' ",
     "start-static": "npm run compile:prod && terra express-server --site ./build",
     "test": "npm run lint && npm run jest && npm run wdio",
-    "wdio-default": "terra wdio",
-    "wdio-locale": "terra wdio --locales de --suite de",
-    "wdio-lowlight": "terra wdio --themes clinical-lowlight-theme",
-    "wdio-fusion": "terra wdio --themes orion-fusion-theme",
+    "wdio-default": "wdio",
+    "wdio-locale": "LOCALE=de wdio",
+    "wdio-lowlight": "THEME=clinical-lowlight-theme wdio",
+    "wdio-fusion": "THEME=orion-fusion-theme wdio",
     "wdio": "npm run wdio-default && npm run wdio-locale && npm run wdio-lowlight && npm run wdio-fusion"
   },
   "dependencies": {
@@ -128,11 +119,10 @@
     "terra-menu": "^6.3.0",
     "terra-mixins": "^1.33.0",
     "terra-search-field": "^3.13.0",
-    "terra-status-view": "^4.1.0",
-    "xmlhttprequest": "^1.8.0"
+    "terra-status-view": "^4.1.0"
   },
   "peerDependencies": {
-    "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
+    "@cerner/terra-application": "cerner/terra-application#30f1e0a57f93ba119f08d4b95edd8ae4d597a866",
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
     "webpack": "^4.44.2 || ^5.0.0"
@@ -147,19 +137,20 @@
     "@babel/preset-env": "^7.5.0",
     "@babel/preset-react": "^7.0.0",
     "@cerner/browserslist-config-terra": "^3.1.0",
-    "@cerner/eslint-config-terra": "^4.0.0",
-    "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
+    "@cerner/eslint-config-terra": "^5.0.0",
+    "@cerner/stylelint-config-terra": "^4.0.0",
+    "@cerner/terra-application": "cerner/terra-application#30f1e0a57f93ba119f08d4b95edd8ae4d597a866",
     "@cerner/terra-cli": "^1.1.0",
-    "@cerner/terra-functional-testing": "file:cerner-terra-functional-testing-0.0.0.tgz",
     "@cerner/terra-open-source-scripts": "^1.1.0",
     "@cerner/webpack-config-terra": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
+    "browserslist-config-terra": "^2.0.0",
     "core-js": "^3.1.3",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.2.2",
-    "eslint": "^6.1.0",
+    "eslint": "^7.0.0",
     "gh-pages": "^3.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
@@ -169,8 +160,8 @@
     "react-dom": "^16.8.5",
     "react-intl": "^2.9.0",
     "regenerator-runtime": "^0.13.2",
-    "stylelint": "^10.0.1",
-    "stylelint-config-terra": "^3.0.0",
+    "stylelint": "^13.0.0",
+    "terra-toolkit": "^6.0.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",

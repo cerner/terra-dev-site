@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import UnsavedChangesPrompt from '@cerner/terra-application/lib/unsaved-changes-prompt';
+import NavigationPrompt from '@cerner/terra-application/lib/navigation-prompt';
 
 const ExampleComponent = () => {
   const [hasPendingState, setHasPendingState] = useState(false);
@@ -12,7 +12,7 @@ const ExampleComponent = () => {
           {hasPendingState ? 'Clear Pending State' : 'Set Pending State'}
         </button>
       </p>
-      {hasPendingState ? <UnsavedChangesPrompt description="ExampleComponent" /> : undefined}
+      {hasPendingState ? <NavigationPrompt description="ExampleComponent" /> : undefined}
     </div>
   );
 };

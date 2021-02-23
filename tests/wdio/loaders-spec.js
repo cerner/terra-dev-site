@@ -25,15 +25,17 @@ Terra.describeViewports('loaders', ['huge'], () => {
   });
 
   it('loads a props table', () => {
-    const windowSize = browser.getWindowSize();
-    browser.setWindowSize(windowSize.width, 3000);
+    const viewport = browser.getViewportSize();
+    viewport.height = 3000;
+    browser.setViewportSize(viewport);
     browser.url('/raw/test/cerner-terra-dev-site/loaders/props-table');
     Terra.validates.element('props table');
   });
 
   it('loads an example', () => {
-    const windowSize = browser.getWindowSize();
-    browser.setWindowSize(windowSize.width, 3000);
+    const viewport = browser.getViewportSize();
+    viewport.height = 3000;
+    browser.setViewportSize(viewport);
     browser.url('/raw/test/cerner-terra-dev-site/loaders/example');
     Terra.validates.element('example');
   });
@@ -43,26 +45,26 @@ Terra.describeViewports('loaders', ['huge'], () => {
   });
 
   it('Reveals the examples code', () => {
-    $('[class*=ExampleTemplate-module__code-toggle]').click();
-    $('#root').moveTo({ xOffset: 0, yOffset: 0 });
+    browser.click('[class*=ExampleTemplate-module__code-toggle]');
+    browser.moveToObject('#root', 0, 0);
     Terra.validates.element('Reveals the examples code');
   });
 
   it('Hides the examples code again', () => {
-    $('[class*=ExampleTemplate-module__code-toggle]').click();
-    $('#root').moveTo({ xOffset: 0, yOffset: 0 });
+    browser.click('[class*=ExampleTemplate-module__code-toggle]');
+    browser.moveToObject('#root', 0, 0);
     Terra.validates.element('Hides the examples code again');
   });
 
   it('Reveals the examples css', () => {
-    $('[class*=ExampleTemplate-module__css-toggle]').click();
-    $('#root').moveTo({ xOffset: 0, yOffset: 0 });
+    browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    browser.moveToObject('#root', 0, 0);
     Terra.validates.element('Reveals the examples css');
   });
 
   it('Hides the examples css again', () => {
-    $('[class*=ExampleTemplate-module__css-toggle]').click();
-    $('#root').moveTo({ xOffset: 0, yOffset: 0 });
+    browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    browser.moveToObject('#root', 0, 0);
     Terra.validates.element('Hides the examples css again');
   });
 });

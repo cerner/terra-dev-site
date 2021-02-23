@@ -1,7 +1,7 @@
 Terra.describeViewports('md', ['huge'], () => {
   it('renders md', () => {
     browser.url('/raw/test/cerner-terra-dev-site/md');
-    $('#root').moveTo({ xOffset: 0, yOffset: 768 });
+    browser.moveToObject('#root', 0, 768);
     Terra.validates.element('md');
   });
 

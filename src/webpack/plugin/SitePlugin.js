@@ -152,16 +152,13 @@ class SitePlugin {
       },
       resolve: {
         plugins: [
-          ...compiler.options.mode !== 'production' && sourceFolder !== distributionFolder
-            ? [
-              // Switch between source and distribution files.
-              new DirectorySwitcherPlugin({
-                source: sourceFolder,
-                distribution: distributionFolder,
-                rootDirectories,
-              }),
-            ]
-            : [],
+          // Switch between source and distribution files.
+          new DirectorySwitcherPlugin({
+            shouldSwitch: compiler.options.mode !== 'production',
+            source: sourceFolder,
+            distribution: distributionFolder,
+            rootDirectories,
+          }),
           // Alias the local package to allow imports to reference the file as if it was imported from node modules.
           new LocalPackageAliasPlugin({
             rootDirectories,

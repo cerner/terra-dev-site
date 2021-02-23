@@ -1,42 +1,42 @@
 import React from 'react';
+import ApplicationPage from '@cerner/terra-application/lib/page';
+import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 import {
   useHistory,
 } from 'react-router-dom';
-import Page, { StatusLayout } from '@cerner/terra-application/lib/page';
-import { NavigationItemContext } from '@cerner/terra-application/lib/layouts';
 
-const NotFoundPage = () => {
-  const history = useHistory();
+import ApplicationStatusOverlay from '@cerner/terra-application/lib/application-status-overlay';
+
+const DevSiteContentPage = () => {
   const { isActive } = React.useContext(NavigationItemContext);
-  let failureStatus;
-  if (isActive) {
-    failureStatus = (
-      <StatusLayout
-        message="Page not found."
-        variant="error"
-        buttonAttrs={[
-          {
-            key: 'go back',
-            text: 'Go Back',
-            onClick: () => { history.goBack(); },
-          },
-          {
-            key: 'home',
-            text: 'Home',
-            onClick: () => { history.replace('/'); },
-          },
-        ]}
-      />
-    );
-  }
-
+  const history = useHistory();
   return (
-    <Page
+    <ApplicationPage
       pageKey="Not Found Page"
-      label="Page not found"
-      statusOverlay={failureStatus}
-    />
+      label="Not Found"
+      preferHeaderIsHidden
+    >
+      { isActive
+        && (
+          <ApplicationStatusOverlay
+            message="Page not found."
+            variant="error"
+            buttonAttrs={[
+              {
+                key: 'go back',
+                text: 'Go Back',
+                onClick: () => { history.goBack(); },
+              },
+              {
+                key: 'home',
+                text: 'Home',
+                onClick: () => { history.replace('/'); },
+              },
+            ]}
+          />
+        )}
+    </ApplicationPage>
   );
 };
 
-export default NotFoundPage;
+export default DevSiteContentPage;

@@ -11,26 +11,14 @@ const applyDefaults = ({
     contentExtension: 'home',
     additionalContent: [
       {
-        title: 'Home',
+        label: 'Home',
         filePath: path.resolve(process.cwd(), 'README.md'),
       },
     ],
   }, {
-    path: '/application',
-    label: 'Application',
-    contentExtension: 'app',
-  }, {
     path: '/components',
     label: 'Components',
     contentExtension: 'doc',
-  }, {
-    path: '/dev_tools',
-    label: 'Developer Tools',
-    contentExtension: 'tool',
-  }, {
-    path: '/guides',
-    label: 'Guides',
-    contentExtension: 'guide',
   }, {
     path: '/tests',
     label: 'Tests',

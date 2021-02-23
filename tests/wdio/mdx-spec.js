@@ -1,15 +1,15 @@
 Terra.describeViewports('mdx', ['huge'], () => {
   it('renders mdx', () => {
     browser.url('/raw/test/cerner-terra-dev-site/mdx');
-    $('#root').moveTo({ xOffset: 0, yOffset: 768 });
+    browser.moveToObject('#root', 0, 768);
     Terra.validates.element('mdx');
   });
 
   it('follows the link', () => {
     browser.url('/raw/test/cerner-terra-dev-site/relative-link');
     Terra.validates.element('relative link');
-    $('[class*="MarkdownTags-module__a"]').click();
-    $('#root').moveTo({ xOffset: 0, yOffset: 768 });
+    browser.click('[class*="MarkdownTags-module__a"]');
+    browser.moveToObject('#root', 0, 768);
     Terra.validates.element('link clicked');
   });
 
