@@ -10,13 +10,13 @@ Terra.describeViewports('search', ['tiny', 'huge'], () => {
   it('searches the site', () => {
     $('[class*="SearchField-module__input"]').click();
     browser.keys('v4.0.0');
-    $('[class*="List-module__item"]', 5000).waitForDisplayed();
+    $('#-dev_tools-cerner-terra-dev-site-terra-dev-site-upgrade-guides-v-4-0-0').waitForDisplayed({ timeout: 5000 });
     Terra.validates.element('searches the site', { selector: '#root' });
   });
 
   it('selects an item', () => {
-    $('[class*="List-module__item"]').click();
-    $('#v400-upgrade-guide', 10000).waitForExist();
+    $('#-dev_tools-cerner-terra-dev-site-terra-dev-site-upgrade-guides-v-4-0-0').click();
+    $('#v400-upgrade-guide').waitForExist({ timeout: 20000 });
     Terra.validates.element('selects an item', { selector: '#root' });
   });
 });

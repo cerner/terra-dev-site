@@ -138,6 +138,7 @@ const SearchModal = ({ pageConfig, onRequestClose }) => {
             state.results.slice(0, 25).map(result => (
               <Item
                 key={result.item.path}
+                id={result.item.path.replace(/\//g, '-')}
                 isSelectable
                 metaData={result}
                 onSelect={(event, metaData) => {
