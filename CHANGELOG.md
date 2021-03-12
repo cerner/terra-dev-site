@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Changed
+  * Add script to warn about broken links.
+
 * Added
   * Added new file `browserslistrc` for Browserslist.
   * Added support for webpack 5.
