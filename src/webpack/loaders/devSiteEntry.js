@@ -60,7 +60,13 @@ const loader = async function loader(template) {
     logger: this.getLogger ? this.getLogger('terra-dev-site loader') : undefined,
   });
 
+  const start = new Date();
+
   BrokenLinks.checkLinks(pageConfig, routesMap);
+
+  const end = new Date() - start;
+
+  console.log('Script ended  at: ', end);
 
   return callback(null, lodashTemplate(template)({
     entryPath,
