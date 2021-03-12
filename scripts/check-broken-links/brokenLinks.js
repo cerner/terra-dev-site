@@ -48,23 +48,35 @@ class BrokenLinks {
     const fileLinks = this.getFileLinks();
     const pageLinks = Object.keys(pageConfig);
     const routeLinks = Object.keys(routesMap);
+    const brokenLinks = {
+      pass: [],
+      broken: [],
+    };
     Object.entries(fileLinks).forEach(fileLink => {
       const [file, links] = fileLink;
       links.forEach(link => {
-        if ((link.includes('https') || link.includes('http'))) {
+        if (brokenLinks.broken.includes(link)) {
+          console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
+        } else if (!brokenLinks.pass.includes(link) && (link.includes('https') || link.includes('http'))) {
           if (!link.includes('localhost')) {
             const xmlHttp = new XMLHttpRequest();
             xmlHttp.open('GET', link, false);
             xmlHttp.onloadend = () => {
               if (xmlHttp.status === 404 && new RegExp(/Not Found/gi).test(xmlHttp.responseText)) {
                 console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
+                brokenLinks.broken.push(link);
+              } else {
+                brokenLinks.pass.push(link);
               }
             };
             xmlHttp.send(null);
             setTimeout(() => xmlHttp.abort(), 10);
           }
-        } else if (!pageLinks.includes(link) && routeLinks.some(routeLink => link.match(/\/(.*?)(?=\/)/g).includes(routeLink))) {
+        } else if (!brokenLinks.pass.includes(link) && !pageLinks.includes(link) && routeLinks.some(routeLink => link.match(/\/(.*?)(?=\/)/g).includes(routeLink))) {
           console.warn('Warning! Broken Link', link, 'in', file, 'at line:', fileLinks[file][link]);
+          brokenLinks.broken.push(link);
+        } else {
+          brokenLinks.pass.push(link);
         }
       });
     });
