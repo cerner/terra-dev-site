@@ -3,6 +3,9 @@
 ## Unreleased
 
 * Changed
+  * Opened the node version to allow versions higher than node 10.
+
+* Changed
   * Updated to use terra-open-source-scripts to release the project
 
 ## 6.33.0 - (December 1, 2020)
