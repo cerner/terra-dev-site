@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Removed
+  * Removed terra-toolkit from peerDependencies
+
 * Changed
   * Updated to use terra-open-source-scripts to release the project
 
