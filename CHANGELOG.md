@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Removed
+  * Removed terra-toolkit from peer dependency
+
 * Changed
   * Updated wdio screenshots to fix main build
 
