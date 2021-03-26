@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 6.34.0 - (March 26, 2021)
+
 * Removed
   * Removed terra-toolkit from peer dependency
 
