@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Fixed
+  * Added back the loaders that are needed due to the terra-toolkit removal
+
 ## 6.34.0 - (March 26, 2021)
 
 * Removed
