@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { HeadlessLayout } from '@cerner/terra-application/lib/layouts';
-import { ApplicationLoadingOverlayProvider } from '@cerner/terra-application/lib/application-loading-overlay';
 import MainContainer from '@cerner/terra-application/lib/main-container';
 import Suspense from '@cerner/terra-application/lib/shared/Suspense';
 import classNamesBind from 'classnames/bind';
@@ -42,20 +41,16 @@ const Raw = ({ siteConfig }) => {
   return (
     <HeadlessLayout
       renderLayout={() => (
-        <ApplicationLoadingOverlayProvider>
-        {/* <ApplicationStatusOverlayProvider> */}
-          <MainContainer className={cx('main')}>
-            <Suspense
-              fallback={<div>loading</div>}
-              onError={() => setLoadingFailed(true)}
-            >
-              <ContentLoadedContainer type={pageContentConfig.type} isScrollContainer>
-                <ContentComponent />
-              </ContentLoadedContainer>
-            </Suspense>
-          </MainContainer>
-        {/* </ApplicationStatusOverlayProvider> */}
-        </ApplicationLoadingOverlayProvider>
+        <MainContainer className={cx('main')}>
+          <Suspense
+            fallback={<div>loading</div>}
+            onError={() => setLoadingFailed(true)}
+          >
+            <ContentLoadedContainer type={pageContentConfig.type} isScrollContainer>
+              <ContentComponent />
+            </ContentLoadedContainer>
+          </Suspense>
+        </MainContainer>
       )}
     />
   );
