@@ -122,7 +122,7 @@
     "terra-status-view": "^4.1.0"
   },
   "peerDependencies": {
-    "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
+    "@cerner/terra-application": "cerner/terra-application#bbabf724b66d370d84a3c0d465f1e8d6d07d35b0",
     "react-dom": "^16.8.5",
     "react": "^16.8.5",
     "webpack": "^4.44.2 || ^5.0.0"
@@ -139,7 +139,7 @@
     "@cerner/browserslist-config-terra": "^3.1.0",
     "@cerner/eslint-config-terra": "^5.0.0",
     "@cerner/stylelint-config-terra": "^4.0.0",
-    "@cerner/terra-application": "cerner/terra-application#application-v2-integration",
+    "@cerner/terra-application": "cerner/terra-application#bbabf724b66d370d84a3c0d465f1e8d6d07d35b0",
     "@cerner/terra-cli": "^1.1.0",
     "@cerner/terra-functional-testing": "^1.0.1",
     "@cerner/terra-open-source-scripts": "^1.1.0",
