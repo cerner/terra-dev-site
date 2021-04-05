@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import ApplicationLoadingOverlay from '@cerner/terra-application/lib/application-loading-overlay';
 import MainContainer from '@cerner/terra-application/lib/main-container';
 import Suspense from '@cerner/terra-application/lib/shared/Suspense';
 import classNamesBind from 'classnames/bind';
@@ -44,7 +43,7 @@ const ContentLayout = ({ pageContentConfig, contentImports }) => {
   return (
     <MainContainer className={cx('main')}>
       <Suspense
-        fallback={<ApplicationLoadingOverlay isOpen />}
+        // TODO add a loading spinner?
         onError={() => setLoadingFailed(true)}
       >
         <ContentLoadedContainer type={pageContentConfig.type} isScrollContainer>

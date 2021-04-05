@@ -303,7 +303,7 @@ const generatePagesConfig = ({
       item.additionalContent.forEach((content) => {
         filePaths.push({
           filePath: content.filePath,
-          entryPoint: `/${content.title}.${item.contentExtension}${path.extname(content.filePath)}`,
+          entryPoint: `/${content.label}.${item.contentExtension}${path.extname(content.filePath)}`,
         });
       });
     }
