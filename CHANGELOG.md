@@ -3,7 +3,7 @@
 ## Unreleased
 
 * Changed
-  * Add script to warn about broken links.
+  * Added `rehype-url-inspector` plugin to warn about broken links.
 
 * Added
   * Added new file `browserslistrc` for Browserslist.
