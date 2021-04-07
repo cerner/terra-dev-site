@@ -40,6 +40,7 @@ const applyDefaults = ({
   distributionFolder = 'lib',
   enableDebugLogging = false,
   additionalConfig = {},
+  validateUrls = process.env.validateUrls || false,
 } = {}) => ({
   primaryNavigationItems,
   additionalSearchDirectories,
@@ -57,6 +58,7 @@ const applyDefaults = ({
   enableDebugLogging,
   namespace: npmPackage.name,
   additionalConfig,
+  validateUrls,
 });
 
 module.exports = applyDefaults;

@@ -60,12 +60,13 @@ class SitePlugin {
     distributionFolder,
     basename,
     isWebpack5,
+    validateUrls,
   }) {
     if (oneTimeSetupComplete) {
       return;
     }
     oneTimeSetupComplete = true;
-    const mdxLoader = getMdxLoader(compiler.options.output.publicPath);
+    const mdxLoader = getMdxLoader(compiler.options.output.publicPath, validateUrls);
 
     // If a mono repo, update the rootDirectories to include all the packages.
     const rootDirectories = [
@@ -235,7 +236,7 @@ class SitePlugin {
     // Strip the trailing / from the public path.
     let basename = publicPath.slice(0, -1);
 
-    const { sourceFolder, distributionFolder } = this.siteConfig;
+    const { sourceFolder, distributionFolder, validateUrls } = this.siteConfig;
 
     // Since there can be multiple dev site plugins this config we only want to do once for all of them.
     SitePlugin.applyOneTimeSetup({
@@ -244,6 +245,7 @@ class SitePlugin {
       distributionFolder,
       basename,
       isWebpack5,
+      validateUrls,
     });
 
     // Get the list of apps excluding this current app.

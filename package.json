@@ -77,7 +77,7 @@
     "precompile": "rm -rf lib",
     "prepare": "npm run compile",
     "prepare-for-release": "terra prepare-for-release",
-    "start": "webpack-dev-server",
+    "start": "validateUrls=true  webpack-dev-server",
     "start-prod": "webpack-dev-server -p",
     "start-heroku": "terra express-server --port $PORT --site './build' ",
     "start-static": "npm run compile:prod && terra express-server --site ./build",
