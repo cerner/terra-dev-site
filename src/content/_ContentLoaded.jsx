@@ -46,8 +46,10 @@ const ContentLoaded = ({ children, type, isScrollContainer }) => {
       className={
         cx(
           theme.className,
-          ...(['md', 'mdx'].includes(type) ? ['markdown'] : []),
-          ...(isScrollContainer ? ['scroll'] : []),
+          {
+            markdown: ['md', 'mdx'].includes(type),
+            scroll: isScrollContainer,
+          },
         )
       }
     >
