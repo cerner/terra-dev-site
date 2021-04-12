@@ -16,7 +16,7 @@ const devSiteConfig = (env = {}) => ({
         contentExtension: 'home',
         additionalContent: [
           {
-            title: 'Home',
+            label: 'Home',
             filePath: path.resolve(process.cwd(), 'README.md'),
           },
         ],

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import IconTile from 'terra-icon/lib/icon/IconTile';
 import { PrimaryNavigationLayout, NavigationItem } from '@cerner/terra-application/lib/layouts';
@@ -13,6 +13,7 @@ import ApplicationSwitcherModal from '../modals/_ApplicataionSwitcherModal';
 
 import siteConfigShape from '../site/siteConfigShapes';
 import DevSiteSecondaryNavigation from './_DevSiteSecondaryNavigationLayout';
+import DevSiteContentLayout from './_ContentLayout';
 
 const propTypes = {
   /**
@@ -27,6 +28,7 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
   const [showSettingsModal, setShowSettingsModal] = React.useState(false);
   const [extensionModal, setExtensionModal] = React.useState();
   const [utilityModal, setUtilityModal] = React.useState();
+  const isHome = useRouteMatch('/home');
 
   const setNavigationState = (key) => {
     history.push(siteConfig.routesMap[key]);
@@ -38,6 +40,10 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
 
   const handleExtensionSelection = (key, metaData) => {
     setExtensionModal(metaData);
+  };
+
+  const handleUtilityItemSelection = (key, metaData) => {
+    setUtilityModal(metaData);
   };
 
   const getExtensionItems = () => {
@@ -64,9 +70,7 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
         icon: <IconTile />,
         key: 'terra-dev-site.application-switcher',
         text: 'Application Switcher',
-        onSelect: () => {
-          setUtilityModal({ render: () => (<ApplicationSwitcherModal sites={sites} onRequestClose={() => { setUtilityModal(); }} />) });
-        },
+        metaData: { render: () => (<ApplicationSwitcherModal sites={sites} onRequestClose={() => { setUtilityModal(); }} />) },
       });
     }
 
@@ -83,6 +87,7 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
         onSelectNavigationItem={(key) => { setNavigationState(key); }}
         onSelectSettings={handleSettingsSelection}
         onSelectExtensionItem={handleExtensionSelection}
+        onSelectUtilityItem={handleUtilityItemSelection}
         extensionItems={getExtensionItems()}
         utilityItems={getUtilityItems(siteConfig.sites)}
         renderNavigationFallback={() => (
@@ -94,12 +99,18 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
         {siteConfig.navigationConfig.map((navItem) => {
           const renderProps = {};
           if (navItem.pageConfig) {
-            renderProps.renderPage = () => (
-              <DevSitePage pageContentConfig={navItem.pageConfig} contentImports={siteConfig.contentImports} />
-            );
+            if (isHome) {
+              renderProps.renderLayout = () => (
+                <DevSiteContentLayout pageContentConfig={navItem.pageConfig} contentImports={siteConfig.contentImports} />
+              );
+            } else {
+              renderProps.renderPage = () => (
+                <DevSitePage pageContentConfig={navItem.pageConfig} contentImports={siteConfig.contentImports} />
+              );
+            }
           } else {
             renderProps.renderLayout = () => (
-              <DevSiteSecondaryNavigation id={navItem.path.substring(1)} config={navItem.children} contentImports={siteConfig.contentImports} />
+              <DevSiteSecondaryNavigation label={navItem.label} id={navItem.path.substring(1)} config={navItem.children} contentImports={siteConfig.contentImports} />
             );
           }
           return (

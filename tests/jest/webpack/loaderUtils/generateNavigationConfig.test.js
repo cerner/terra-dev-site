@@ -13,7 +13,7 @@ describe('generateNavigationConfig', () => {
           contentExtension: 'ext',
           additionalContent: [
             {
-              title: 'add',
+              label: 'add',
               filePath: path.resolve(process.cwd(), 'tests', 'jest', 'webpack', 'loaderUtils', 'testContent', 'additionalContent.md'),
             },
           ],

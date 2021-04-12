@@ -9,9 +9,13 @@ branches:
 cache:
   directories:
     - travis-build
+    - docker_images
 before_install:
   # Clean install on any new build
   - npm run clean
+before_script:
+  # Load Docker Cache
+  - docker load -i docker_images/images.tar || true
 jobs:
   include:
     - stage: lint jest and compile
@@ -21,10 +25,14 @@ jobs:
         - npm run lint
         - npm run jest
         # These can't be built in parallel because the cache is a single object and you can't add to it in parallel
-        - npm run compile:prod -- --env.disableAggregateThemes --output-path $TRAVIS_BUILD_DIR/travis-build/default
-        - npm run compile:prod -- --env.defaultLocale=de --env.disableAggregateThemes --output-path $TRAVIS_BUILD_DIR/travis-build/default-locale
+        - npm run compile:prod -- --output-path $TRAVIS_BUILD_DIR/travis-build/default
+        - npm run compile:prod -- --env.defaultLocale=de  --output-path $TRAVIS_BUILD_DIR/travis-build/default-locale
         - npm run compile:lowlight -- --output-path $TRAVIS_BUILD_DIR/travis-build/lowlight
         - npm run compile:fusion -- --output-path $TRAVIS_BUILD_DIR/travis-build/fusion
+        # Prime the docker cache
+        - docker-compose --file ./node_modules/@cerner/terra-functional-testing/lib/docker/docker-compose.yml pull
+        # Save docker cache
+        - docker save -o docker_images/images.tar $(docker images -a -q)
     # Split out all the wdio runs to not eat up all the travis executors at once.
 
     - stage: wdio
@@ -34,28 +42,23 @@ jobs:
       # Rely on the cache for node_modules.. this won't work for any node modules in the packages dir but works for running wdio
       install: skip
       script:
-        # we start up our own standalone chrome instance because the Selenium Docker Service doesn't seem to work here.
-        - docker-compose up -d standalone-chrome-travis
         # using the travis env section to set env variables seems to break cache
-        - SITE=$TRAVIS_BUILD_DIR/travis-build/default npm run wdio-default
+        - npm run wdio-default -- --site $TRAVIS_BUILD_DIR/travis-build/default
     - name: default-locale
       before_install: skip
       install: skip
       script:
-        - docker-compose up -d standalone-chrome-travis
-        - SITE=$TRAVIS_BUILD_DIR/travis-build/default-locale LOCALE=de npm run wdio-default
+        - npm run wdio-locale -- --site $TRAVIS_BUILD_DIR/travis-build/default-locale
     - name: lowlight-theme
       before_install: skip
       install: skip
       script:
-        - docker-compose up -d standalone-chrome-travis
-        - SITE=$TRAVIS_BUILD_DIR/travis-build/lowlight npm run wdio-lowlight
+        - npm run wdio-lowlight -- --site $TRAVIS_BUILD_DIR/travis-build/lowlight
     - name: fusion-theme
       before_install: skip
       install: skip
       script:
-        - docker-compose up -d standalone-chrome-travis
-        - SITE=$TRAVIS_BUILD_DIR/travis-build/fusion npm run wdio-fusion
+        - npm run wdio-fusion -- --site $TRAVIS_BUILD_DIR/travis-build/fusion
 
     - stage: deploy
       script:
