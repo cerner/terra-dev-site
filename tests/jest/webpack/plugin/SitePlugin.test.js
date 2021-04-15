@@ -158,8 +158,7 @@ describe('SitePlugin', () => {
       headHtml: [''],
       excludeChunks: ['rewriteHistory', 'redirect', 'pathPrefix/index'],
     });
-    expect(webpack.DefinePlugin).toHaveBeenCalledWith({
-      TERRA_DEV_SITE_BASENAME: JSON.stringify(''),
-    });
+    // This is not called because one time setup has already been executed.
+    expect(webpack.DefinePlugin).not.toHaveBeenCalled();
   });
 });

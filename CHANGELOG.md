@@ -36,6 +36,7 @@
   * Updated props table to better format types, defaults and description.
   * Added postcss as dev dependency.
   * Update eslint and stylelint.
+  * Consume jest-config-terra.
 
 ## 6.30.0 - (September 11, 2020)
 
