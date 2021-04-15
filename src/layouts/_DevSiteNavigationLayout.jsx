@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import IconSearch from 'terra-icon/lib/icon/IconSearch';
 import IconTile from 'terra-icon/lib/icon/IconTile';
-import { PrimaryNavigationLayout, NavigationItem } from '@cerner/terra-application/lib/layouts';
+import PrimaryNavigationLayout, { NavigationItem } from '@cerner/terra-application/lib/primary-navigation-layout';
 import { PageContainer } from '@cerner/terra-application/lib/page';
 
 import DevSitePage from '../pages/_DevSitePage';
@@ -82,6 +82,7 @@ const DevSiteNavigationLayout = ({ siteConfig }) => {
   return (
     <>
       <PrimaryNavigationLayout
+        id="terra-dev-site"
         titleConfig={siteConfig.titleConfig}
         activeNavigationKey={firstDir()}
         onSelectNavigationItem={(key) => { setNavigationState(key); }}
