@@ -25,7 +25,6 @@ const pageTypes = primaryNavigationItems => (primaryNavigationItems.reduce((acc,
 const getNamespace = (directory, namespace) => {
   // If this is a monorepo package, we need to pull the namespace from the package.json file to account for scoping.
   const packageRoot = (/.*packages\/[^/]*/.exec(directory) || {})[0];
-  console.log('packageRoot', packageRoot);
   let afterPackages;
   if (packageRoot) {
     const packagePath = path.join(packageRoot, 'package.json');
