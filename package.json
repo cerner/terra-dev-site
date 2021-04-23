@@ -57,7 +57,7 @@
     "precompile": "rm -rf lib",
     "prepare": "npm run compile",
     "prepare-for-release": "terra prepare-for-release",
-    "start": "webpack-dev-server",
+    "start": "validateUrls=true  webpack-dev-server",
     "start-prod": "webpack-dev-server -p",
     "start-heroku": "terra express-server --port $PORT --site './build' ",
     "start-static": "npm run compile:prod && terra express-server --site ./build",
@@ -70,6 +70,7 @@
   },
   "dependencies": {
     "@cerner/terra-docs": "^1.0.0",
+    "@jsdevtools/rehype-url-inspector": "^2.0.2",
     "@mdx-js/loader": "^1.4.5",
     "@mdx-js/mdx": "^1.5.0",
     "@mdx-js/react": "^1.4.5",
@@ -99,7 +100,8 @@
     "terra-menu": "^6.3.0",
     "terra-mixins": "^1.33.0",
     "terra-search-field": "^3.13.0",
-    "terra-status-view": "^4.1.0"
+    "terra-status-view": "^4.1.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "peerDependencies": {
     "@cerner/terra-application": "cerner/terra-application#869470a0cc93cb4eb4e3494ebe543c4405441ca4",
