@@ -1,3 +1,6 @@
+@import './clinical-lowlight-theme/CollapsingNavigationMenu.module.scss';
+@import './orion-fusion-theme/CollapsingNavigationMenu.module.scss';
+
 :local {
   .collapsing-navigation-menu {
     height: 100%;
@@ -25,13 +28,11 @@
 
     &.is-selected {
       background-color: var(--terra-dev-site-collapsing-navigation-menu-item-background-color, #e1f3fd);
-      box-shadow: inset 0 0 0 0.07143rem #fff;
     }
 
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none), (hover: hover) and (pointer: fine) {
       &:hover {
         background-color: var(--terra-dev-site-collapsing-navigation-menu-item-hover-background-color, #e1f3fd);
-        box-shadow: inset 0 0 0 0.07143rem #fff;
       }
     }
   }

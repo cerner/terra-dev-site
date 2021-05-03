@@ -1,4 +1,6 @@
 @import '~terra-breakpoints/lib/media-queries';
+@import './clinical-lowlight-theme/SecondaryNavigationLayout.module';
+@import './orion-fusion-theme/SecondaryNavigationLayout.module';
 
 :local {
   .sidebar-container {
@@ -25,65 +27,6 @@
       width: 100%;
       z-index: 1;
     }
-
-    .page-layout-header {
-      align-items: center;
-
-      display: flex;
-      flex-wrap: nowrap;
-
-      overflow: hidden;
-      width: 100%;
-    }
-
-    .back-button-container {
-      display: flex;
-      flex: 0 0 auto;
-      padding-right: 5px;
-    }
-
-    .header-button {
-      color: #027cc3;
-    }
-
-    .header-button.disabled {
-      color: rgba(2, 124, 195, .85) !important;
-    }
-
-    .label-container {
-      font-weight: 500;
-      flex: 1 1 auto;
-    }
-
-    .actions-container {
-      display: flex;
-      flex: 0 0 auto;
-      min-height: 30px;
-    }
-
-    .actions-divider {
-      align-self: stretch;
-      box-shadow: inset -3px 0px 0px -2px#fefffe, inset -4px 0px 0px -2px #C7CACB;
-      flex: 0 0 auto;
-      margin: 4px 5px;
-      width: 2px;
-    }
-
-
-  }
-
-  .header-button {
-    color: #027cc3;
-  }
-
-  .active-button,
-  .active-button:hover {
-    background-color:rgba(25, 127, 229, 0.2);
-    border: solid 1px #4a90e2;
-
-    &:active {
-      background-color:rgba(25, 127, 229, 0.5);
-    }
   }
 
   .side-nav-container {
@@ -98,7 +41,7 @@
   }
 
   .side-nav-sidebar {
-    background-color: #eff0ef;
+    background-color: var(--terra-dev-site-secondary-navigation-layout-side-nav-sidebar-background-color, #eff0ef);
     box-shadow: inset -3px 0px 0px -2px#fefffe, inset -4px 0px 0px -2px #C7CACB;
     display: none;
     flex: 0 0 auto;

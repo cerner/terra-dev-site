@@ -12,6 +12,7 @@ import usePortalManager from '@cerner/terra-application/lib/shared/usePortalMana
 
 import LayoutActionsContext from '@cerner/terra-application/lib/layouts/shared/LayoutActionsContext';
 import NavigationItem from '@cerner/terra-application/lib/layouts/shared/NavigationItem';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
 
 import SecondaryNavigationGroup from './SecondaryNavigationGroup';
 import CollapsingNavigationMenu from './side-nav/CollapsingNavigationMenu';
@@ -115,6 +116,7 @@ const SecondaryNavigationLayout = ({
 }) => {
   const activeBreakpoint = React.useContext(ActiveBreakpointContext);
   const parentLayoutActions = React.useContext(LayoutActionsContext);
+  const theme = React.useContext(ThemeContext);
 
   const pageContainerRef = React.useRef();
   const sideNavBodyRef = React.useRef();
@@ -313,7 +315,7 @@ const SecondaryNavigationLayout = ({
         />
       )}
       <div
-        className={cx('side-nav-container')}
+        className={cx('side-nav-container', theme.className)}
         ref={pageContainerRef}
       >
         <div

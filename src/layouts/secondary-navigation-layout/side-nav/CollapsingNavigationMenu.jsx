@@ -4,6 +4,7 @@ import React, {
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import * as KeyCode from 'keycode-js';
+import { ThemeContext } from '@cerner/terra-application/lib/theme';
 
 import CollapsingNavigationMenuItem from './CollapsingNavigationMenuItem';
 
@@ -84,6 +85,7 @@ const CollapsingNavigationMenu = ({
   const selectedItem = useRef();
   const previousSelectedPath = useRef(selectedPath);
   const visibleNodes = [];
+  const theme = React.useContext(ThemeContext);
 
   /**
    * Sets tabindex for current node
@@ -342,7 +344,7 @@ const CollapsingNavigationMenu = ({
   return (
     <div
       ref={containerRef}
-      className={cx('collapsing-navigation-menu')}
+      className={cx('collapsing-navigation-menu', theme.className)}
       id="terra-dev-site-nav-menu"
       role="tree"
     >

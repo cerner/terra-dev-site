@@ -1,8 +1,10 @@
 @import '~terra-mixins/lib/Mixins';
+@import './clinical-lowlight-theme/SideNavHeader.module.scss';
+@import './orion-fusion-theme/SideNavHeader.module.scss';
 
 :local {
   .page-header-container {
-    box-shadow: inset -3px -4px 0px -3px #fefffe, inset -3px -5px 0px -3px #C7CACB;
+    box-shadow: var(--terra-dev-site-side-nav-header-page-header-container-box-shadow, inset -3px -4px 0px -3px #fefffe, inset -3px -5px 0px -3px #C7CACB);
 
     min-height: 40px;
     padding: 10px;
@@ -41,19 +43,5 @@
   .label-container {
     font-weight: 500;
     flex: 1 1 auto;
-  }
-
-  .actions-container {
-    display: flex;
-    flex: 0 0 auto;
-    min-height: 30px;
-  }
-
-  .actions-divider {
-    align-self: stretch;
-    box-shadow: inset -3px 0px 0px -2px#fefffe, inset -4px 0px 0px -2px #C7CACB;
-    flex: 0 0 auto;
-    margin: 4px 5px;
-    width: 2px;
   }
 }
