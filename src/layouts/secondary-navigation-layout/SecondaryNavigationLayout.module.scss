@@ -1,0 +1,204 @@
+@import '~terra-breakpoints/lib/media-queries';
+
+:local {
+  .sidebar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    outline: none;
+    padding-right: 2px;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+
+    .header-container {
+      flex: 0 0 auto;
+      z-index: 0;
+    }
+
+    .content {
+      flex: 1 1 auto;
+      height: 100%;
+      min-height: 50px;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .page-layout-header {
+      align-items: center;
+
+      display: flex;
+      flex-wrap: nowrap;
+
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .back-button-container {
+      display: flex;
+      flex: 0 0 auto;
+      padding-right: 5px;
+
+      // .back {
+      //   background-image: inline-svg('<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M48 21H10.6L27.3 3.9 23.5.1 0 24l23.5 23.9 3.8-3.8L10.6 27H48z"></path></svg>');
+      //   background-repeat: no-repeat;
+      //   background-size: auto;
+      //   display: inline-block;
+      //   height: 1rem;
+      //   position: relative;
+      //   top: 0;
+      //   vertical-align: -0.14285rem;
+      //   width: 1rem;
+
+      //   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      //     height: 1rem;
+      //     vertical-align: -0.17285rem;
+      //   }
+
+      //   &:hover {
+      //     background-image: inline-svg('<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M48 21H10.6L27.3 3.9 23.5.1 0 24l23.5 23.9 3.8-3.8L10.6 27H48z"></path></svg>');
+      //   }
+      // }
+    }
+
+    .header-button {
+      color: #027cc3;
+    }
+
+    .header-button.disabled {
+      color: rgba(2, 124, 195, .85) !important;
+    }
+
+    .label-container {
+      font-weight: 500;
+      flex: 1 1 auto;
+      // padding: 10px 0;
+    }
+
+    .label-container:first-child {
+      // padding-left: 5px;
+    }
+
+    .actions-container {
+      display: flex;
+      flex: 0 0 auto;
+      min-height: 30px;
+    }
+
+    .actions-divider {
+      align-self: stretch;
+      box-shadow: inset -3px 0px 0px -2px#fefffe, inset -4px 0px 0px -2px #C7CACB;
+      flex: 0 0 auto;
+      margin: 4px 5px;
+      width: 2px;
+    }
+
+
+  }
+
+  .header-button {
+    color: #027cc3;
+  }
+
+  .active-button,
+  .active-button:hover {
+    background-color:rgba(25, 127, 229, 0.2);
+    border: solid 1px #4a90e2;
+
+    &:active {
+      background-color:rgba(25, 127, 229, 0.5);
+    }
+  }
+
+  .side-nav-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 100%;
+    justify-content: stretch;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .side-nav-sidebar {
+    background-color: #eff0ef;
+    box-shadow: inset -3px 0px 0px -2px#fefffe, inset -4px 0px 0px -2px #C7CACB;
+    display: none;
+    flex: 0 0 auto;
+    height: 100%;
+    width: 280px;
+
+    &.visible {
+      display: block;
+    }
+
+    &.overlay {
+      position: absolute;
+      width: calc(100% - 50px);
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 6;
+
+      @include terra-mq-medium-up {
+        width: 200px;
+      }
+    }
+  }
+
+  .side-nav-body {
+    align-items: flex-start;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 100%;
+    justify-content: stretch;
+    overflow: hidden;
+  }
+
+  .page-body {
+    flex: 1 1 320px;
+    height: 100%;
+    overflow: hidden;
+
+    .workspace-visible.workspace-split & {
+      flex: 1 1 auto;
+    }
+  }
+
+  .workspace {
+    background-color: #f0f0f2;
+    box-shadow: inset 3px -3px 0px -2px#fefffe, inset 4px 0px 0px -2px #C7CACB;
+    display: none;
+    flex: 1 1 320px;
+    height: 100%;
+    overflow: hidden;
+    padding: 5px 10px;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+
+    .workspace-visible.workspace-split & {
+      flex: 0 0 auto;
+      width: 320px; // fix small width to 320
+    }
+
+    &.visible {
+      display: block;
+    }
+
+    &.overlay {
+      border-left: 1px solid rgba(0, 0, 0, 0.75);
+      position: absolute;
+      width: calc(100% - 40px);
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+  }
+}
+

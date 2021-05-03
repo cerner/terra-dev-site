@@ -1,0 +1,87 @@
+@import '~terra-mixins/lib/Mixins';
+
+:local {
+  .page-header-container {
+    // border-bottom: 2px solid #c7cacb;
+    // box-shadow: inset -3px -5px 0px -3px #C7CACB, inset -3px -4px 0px -3px #fefffe;
+    box-shadow: inset -3px -4px 0px -3px #fefffe, inset -3px -5px 0px -3px #C7CACB;
+
+    min-height: 40px;
+    padding: 10px;
+
+    > *:nth-child(n+2) {
+      margin-top: 5px;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+  }
+
+  .page-layout-header {
+    align-items: center;
+
+    display: flex;
+    flex-wrap: nowrap;
+
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .back-button-container {
+    display: flex;
+    flex: 0 0 auto;
+    padding-right: 5px;
+
+    // .back {
+    //   background-image: inline-svg('<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M48 21H10.6L27.3 3.9 23.5.1 0 24l23.5 23.9 3.8-3.8L10.6 27H48z"></path></svg>');
+    //   background-repeat: no-repeat;
+    //   background-size: auto;
+    //   display: inline-block;
+    //   height: 1rem;
+    //   position: relative;
+    //   top: 0;
+    //   vertical-align: -0.14285rem;
+    //   width: 1rem;
+  
+    //   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    //     height: 1rem;
+    //     vertical-align: -0.17285rem;
+    //   }  
+
+    //   &:hover {
+    //     background-image: inline-svg('<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M48 21H10.6L27.3 3.9 23.5.1 0 24l23.5 23.9 3.8-3.8L10.6 27H48z"></path></svg>');
+    //   }
+    // }
+  }
+
+  .header-button {
+    color: #027cc3;
+  }
+
+  .header-button.disabled {
+    color: rgba(2, 124, 195, .85) !important;
+  }
+
+  .label-container {
+    font-weight: 500;
+    flex: 1 1 auto;
+    // padding: 10px 0;
+  }
+
+  .label-container:first-child {
+    // padding-left: 5px;
+  }
+
+  .actions-container {
+    display: flex;
+    flex: 0 0 auto;
+    min-height: 30px;
+  }
+
+  .actions-divider {
+    align-self: stretch;
+    box-shadow: inset -3px 0px 0px -2px#fefffe, inset -4px 0px 0px -2px #C7CACB;
+    flex: 0 0 auto;
+    margin: 4px 5px;
+    width: 2px;
+  }
+}
