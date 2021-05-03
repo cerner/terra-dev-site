@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { KEY_ESCAPE } from 'keycode-js';
 import IconLeftPane from 'terra-icon/lib/icon/IconLeftPane';
@@ -22,7 +23,76 @@ const cx = classNames.bind(styles);
 
 const sideNavOverlayBreakpoints = ['tiny', 'small', 'medium'];
 
-const propTypes = {};
+const propTypes = {
+  /**
+   * A string id used to uniquely identify the SecondaryNavigationLayout and its
+   * components in the DOM.
+   */
+  id: PropTypes.string.isRequired,
+
+  /**
+   * A string applied to the side bar as a label.
+   */
+  label: PropTypes.string.isRequired,
+
+  /**
+   * A string key representing the currently active navigation item. This value
+   * must correspond to a NavigationItem provided as a child to the layout.
+   *
+   * If no matching value exists, the `renderNavigationFallback` prop will be
+   * executed to determine the rendered content. If no NavigationItem children
+   * are expected to be provided, this prop should be left undefined.
+   */
+  activeNavigationKey: PropTypes.string.isRequired,
+
+  /**
+   * A function to be executed upon the selection of a navigation item.
+   * Ex: `onSelectNavigationItem(String selectedItemKey, Object metaData)`
+   */
+  onSelectNavigationItem: PropTypes.function,
+
+  /**
+   * A function used to render a single page component within the body of
+   * the SecondaryNavigationLayout.
+   *
+   * This prop should be used only when secondary navigation is not required for
+   * the consuming application. If navigation capabilities are required,
+   * NavigationItem children must be used instead.
+   */
+  renderPage: PropTypes.func,
+
+  /**
+   * A function used to render a single layout component within the body of
+   * the SecondaryNavigationLayout.
+   *
+   * This prop should be used only when secondary navigation is not required for
+   * the consuming application. If navigation capabilities are required,
+   * NavigationItem children must be used instead.
+   */
+  renderLayout: PropTypes.function,
+
+  /**
+   * A function used to render a fallback component when the provided
+   * activeNavigationKey does not correspond to a provided NavigationItem child.
+   *
+   * If no NavigationItem children are provided, this prop is ignored.
+   */
+  renderNavigationFallback: PropTypes.function,
+
+  /**
+   * A collection of child components to render within the layout body.
+   *
+   * Providing a NavigationItem component as a direct child will result in a
+   * navigation entry being added to the SecondaryNavigationLayout side bar. Any
+   * non-NavigationItem children provided alongside NavigationItem children will
+   * **not** be rendered.
+   *
+   * If another layout is to be rendered within this layout, it is recommended
+   * to use the `renderLayout` prop instead. If the renderLayout prop is
+   * provided, children will be ignored, regardless of its contents.
+   */
+  children: PropTypes.node,
+};
 
 function mapChildItem(item) {
   return {
@@ -33,30 +103,9 @@ function mapChildItem(item) {
   };
 }
 
-const DefaultSideNavPanel = ({
-  id, label, activeNavigationKey, onSelectNavigationItem, items, onDismiss,
-}) => (
-  <div className={cx('sidebar-container')}>
-    <div className={cx('header-container')}>
-      <SideNavHeader label={label} onRequestClose={onDismiss} />
-    </div>
-    <div className={cx('content')}>
-      <CollapsingNavigationMenu
-        id={id}
-        selectedPath={activeNavigationKey}
-        onSelect={(key) => { onSelectNavigationItem(key); }}
-        menuItems={[{
-          childItems: items.map(mapChildItem),
-        }]}
-      />
-    </div>
-  </div>
-);
-
 const SecondaryNavigationLayout = ({
   id,
   label,
-  sidebar,
   activeNavigationKey,
   children,
   onSelectNavigationItem,
@@ -269,34 +318,35 @@ const SecondaryNavigationLayout = ({
       >
         <div
           ref={resizeOverlayRef}
-          style={{
-            position: 'absolute',
-            left: '0',
-            right: '0',
-            top: '0',
-            bottom: '0',
-            zIndex: '5', // TODO 5 is very important for safari, validate final value for this
-            display: 'none',
-            cursor: 'col-resize',
-          }}
+          className={cx('.side-nav-resize-overlay')}
         />
         <div
           ref={sideNavPanelRef}
           className={cx('side-nav-sidebar', { visible: hasSidebar && sideNavIsVisible, overlay: hasOverlaySidebar })}
           tabIndex="-1"
         >
-          {sidebar || (hasSidebar && (
-            <DefaultSideNavPanel
-              id={`${id}-side-nav`}
-              label={label}
-              onDismiss={sideNavOverlayIsVisible ? () => {
-                setSideNavOverlayIsVisible(false);
-              } : undefined}
-              activeNavigationKey={activeNavigationKey}
-              onSelectNavigationItem={activatePage}
-              items={buildSideNavItems(children)}
-            />
-          ))}
+          {hasSidebar && (
+            <div className={cx('sidebar-container')}>
+              <div className={cx('header-container')}>
+                <SideNavHeader
+                  label={label}
+                  onRequestClose={sideNavOverlayIsVisible ? () => {
+                    setSideNavOverlayIsVisible(false);
+                  } : undefined}
+                />
+              </div>
+              <div className={cx('content')}>
+                <CollapsingNavigationMenu
+                  id={`${id}-side-nav`}
+                  selectedPath={activeNavigationKey}
+                  onSelect={(key) => { activatePage(key); }}
+                  menuItems={[{
+                    childItems: buildSideNavItems(children).map(mapChildItem),
+                  }]}
+                />
+              </div>
+            </div>
+          )}
         </div>
         <div ref={sideNavBodyRef} className={cx('side-nav-body')}>
           <div

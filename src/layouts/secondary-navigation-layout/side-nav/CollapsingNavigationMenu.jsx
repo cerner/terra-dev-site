@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, useEffect, useContext,
+  useState, useRef, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
@@ -12,6 +12,13 @@ import styles from './CollapsingNavigationMenu.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+
+  /**
+   * A string id used to uniquely identify the Collapsing Navigation Menu and its
+   * components in the DOM.
+   */
+  id: PropTypes.string.isRequired,
+
   /**
    * Currently selected path
    */
@@ -20,6 +27,7 @@ const propTypes = {
   /**
    * menu items to display.
    */
+  // eslint-disable-next-line react/forbid-prop-types
   menuItems: PropTypes.any,
 
   /**

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Button, { ButtonVariants } from 'terra-button';
 import IconLeft from 'terra-icon/lib/icon/IconLeft';
@@ -7,10 +8,20 @@ import styles from './SideNavHeader.module.scss';
 
 const cx = classNames.bind(styles);
 
-const propTypes = {};
+const propTypes = {
+  /**
+   * A function called to request close of the side nav.
+   */
+  onRequestClose: PropTypes.function,
+
+  /**
+   * The label for the side nav header.
+   */
+  label: PropTypes.string,
+};
 
 const SideNavHeader = ({
-  onRequestClose, label, children,
+  onRequestClose, label,
 }) => (
   <div className={cx('page-header-container')}>
     <div className={cx('page-layout-header')}>
@@ -29,7 +40,6 @@ const SideNavHeader = ({
         {label}
       </div>
     </div>
-    {children}
   </div>
 );
 
