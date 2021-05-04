@@ -3,7 +3,7 @@
   "version": "6.30.0",
   "description": "Dynamically builds a react-hash-routed site based on site configuration, navigation configuration and component configuration.",
   "engines": {
-    "node": ">=10"
+    "node": ">=10 <16"
   },
   "main": "index.js",
   "publishConfig": {
