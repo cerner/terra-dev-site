@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import Button, { ButtonVariants } from 'terra-button';
 import IconLeft from 'terra-icon/lib/icon/IconLeft';
 import { ThemeContext } from '@cerner/terra-application/lib/theme';
+import { ApplicationIntlContext } from '@cerner/terra-application/lib/application-intl';
 
 import styles from './SideNavHeader.module.scss';
 
@@ -25,6 +26,7 @@ const SideNavHeader = ({
   onRequestClose, label,
 }) => {
   const theme = React.useContext(ThemeContext);
+  const applicationIntl = React.useContext(ApplicationIntlContext);
   return (
     <div className={cx('page-header-container', theme.className)}>
       <div className={cx('page-layout-header')}>
@@ -33,7 +35,7 @@ const SideNavHeader = ({
             <Button
               className={cx(['header-button', 'back-button'])}
               icon={<IconLeft />}
-              text="Back" // TODO validate icon/text and intl
+              text={applicationIntl.formatMessage({ id: 'Terra.devSite.back' })}
               onClick={onRequestClose}
               variant={ButtonVariants.UTILITY}
             />

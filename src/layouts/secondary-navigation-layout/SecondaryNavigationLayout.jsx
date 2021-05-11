@@ -121,7 +121,6 @@ const SecondaryNavigationLayout = ({
   const pageContainerRef = React.useRef();
   const sideNavBodyRef = React.useRef();
   const sideNavPanelRef = React.useRef();
-  const resizeOverlayRef = React.useRef();
 
   const [contentElementRef, pageContainerPortalsRef] = usePortalManager(activeNavigationKey, () => {
     deferExecution(() => {
@@ -318,10 +317,6 @@ const SecondaryNavigationLayout = ({
         className={cx('side-nav-container', theme.className)}
         ref={pageContainerRef}
       >
-        <div
-          ref={resizeOverlayRef}
-          className={cx('.side-nav-resize-overlay')}
-        />
         <div
           ref={sideNavPanelRef}
           className={cx('side-nav-sidebar', { visible: hasSidebar && sideNavIsVisible, overlay: hasOverlaySidebar })}

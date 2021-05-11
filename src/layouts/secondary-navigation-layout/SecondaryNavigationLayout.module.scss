@@ -82,16 +82,5 @@
     height: 100%;
     overflow: hidden;
   }
-
-  .side-nav-resize-overlay {
-    bottom: 0;
-    cursor: col-resize;
-    display: none;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 5; // TODO 5 is very important for safari, validate final value for this
-  }
 }
 
