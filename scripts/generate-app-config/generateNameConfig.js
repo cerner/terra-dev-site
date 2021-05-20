@@ -7,7 +7,7 @@ const ImportAggregator = require('./generation-objects/ImportAggregator');
 const generateNameConfig = (appConfig) => {
   const imports = new ImportAggregator();
   const config = {
-    title: startCase(appConfig.title),
+    title: appConfig.title,
     ...appConfig.headline && { headline: appConfig.headline },
     ...appConfig.subline && { subline: appConfig.subline },
   };
