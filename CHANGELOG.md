@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Fixed
+  * Honor appConfig title as it was entered.
+
 ## 6.34.1 - (March 26, 2021)
 
 * Fixed
