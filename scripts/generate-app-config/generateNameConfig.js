@@ -1,4 +1,3 @@
-const startCase = require('lodash.startcase');
 const ImportAggregator = require('./generation-objects/ImportAggregator');
 
 /**
