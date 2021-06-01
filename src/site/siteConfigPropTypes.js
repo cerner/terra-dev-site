@@ -89,7 +89,7 @@ const siteConfigPropType = PropTypes.shape({
   /**
    * Content items to be displayed in app.
    */
-  contentConfig: PropTypes.object,
+  contentConfig: PropTypes.shape({}),
   /**
    * Primary navigation items.
    */
