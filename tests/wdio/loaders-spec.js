@@ -25,17 +25,15 @@ Terra.describeViewports('loaders', ['huge'], () => {
   });
 
   it('loads a props table', () => {
-    const viewport = browser.getViewportSize();
-    viewport.height = 3000;
-    browser.setViewportSize(viewport);
+    const viewport = browser.getWindowSize();
+    browser.setWindowSize(viewport.width, 3000);
     browser.url('/raw/test/terra-dev-site/loaders/props-table');
     Terra.validates.element('props table');
   });
 
   it('loads an example', () => {
-    const viewport = browser.getViewportSize();
-    viewport.height = 3000;
-    browser.setViewportSize(viewport);
+    const viewport = browser.getWindowSize();
+    browser.setWindowSize(viewport.width, 3000);
     browser.url('/raw/test/terra-dev-site/loaders/example');
     Terra.validates.element('example');
   });
@@ -45,22 +43,22 @@ Terra.describeViewports('loaders', ['huge'], () => {
   });
 
   it('Reveals the examples code', () => {
-    browser.click('[class*=ExampleTemplate-module__code-toggle]');
+    $('[class*=ExampleTemplate-module__code-toggle]').click();
     Terra.validates.element('Reveals the examples code');
   });
 
   it('Hides the examples code again', () => {
-    browser.click('[class*=ExampleTemplate-module__code-toggle]');
+    $('[class*=ExampleTemplate-module__code-toggle]').click();
     Terra.validates.element('Hides the examples code again');
   });
 
   it('Reveals the examples css', () => {
-    browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    $('[class*=ExampleTemplate-module__css-toggle]').click();
     Terra.validates.element('Reveals the examples css');
   });
 
   it('Hides the examples css again', () => {
-    browser.click('[class*=ExampleTemplate-module__css-toggle]');
+    $('[class*=ExampleTemplate-module__css-toggle]').click();
     Terra.validates.element('Hides the examples css again');
   });
 });
