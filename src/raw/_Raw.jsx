@@ -15,8 +15,8 @@ const propTypes = {
    */
   contentConfig: PropTypes.shape({
     placeholder: PropTypes.node,
-    content: PropTypes.object,
-    menuItems: PropTypes.object,
+    content: PropTypes.shape({}),
+    menuItems: PropTypes.shape({}),
   }).isRequired,
   /**
    * The path to the sites index.

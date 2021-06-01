@@ -12,7 +12,7 @@ const settingsConfigPropType = PropTypes.shape({
   /**
    * List of all available themes
    */
-  themes: PropTypes.object,
+  themes: PropTypes.shape({}),
 
   /**
    * By default the site is set to this locale
@@ -38,7 +38,7 @@ const settingsConfigPropType = PropTypes.shape({
 /**
  * Callback for showing the side menu
  */
-const capabilitiesPropType = PropTypes.object;
+const capabilitiesPropType = PropTypes.shape({});
 
 /**
  * Individual menu item for side nav
