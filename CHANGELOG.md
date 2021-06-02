@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## 6.35.0 - (May 25, 2021)
+
+* Fixed
+  * Honor appConfig title as it was entered.
+
+## 6.34.1 - (March 26, 2021)
+
+* Fixed
+  * Added back the loaders that are needed due to the terra-toolkit removal
+
+## 6.34.0 - (March 26, 2021)
+
+* Removed
+  * Removed terra-toolkit from peer dependency
+
+* Changed
+  * Updated wdio screenshots to fix main build
+
 * Changed
   * Updated `keycode-js` to `v3.1.0`
 
