@@ -21,6 +21,9 @@
   * Updated wdio screenshots to fix main build
 
 * Changed
+  * Updated `keycode-js` to `v3.1.0`
+
+* Changed
   * Updated to use terra-open-source-scripts to release the project
 
 ## 6.33.0 - (December 1, 2020)
