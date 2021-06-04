@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@cerner/duplicate-package-checker-webpack-plugin": "^1.0.0",
-    "@cerner/terra-aggregate-translations": "2.0.1",
+    "@cerner/terra-aggregate-translations": "^2.0.1",
     "@mdx-js/loader": "^1.4.5",
     "@mdx-js/mdx": "^1.5.0",
     "@mdx-js/react": "^1.4.5",
