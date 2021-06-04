@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+* Changed
+  * Updated to use terra-functional-testing
+  * Upgraded to node 12
 
 ## 6.35.0 - (May 25, 2021)
 

@@ -7,7 +7,7 @@ Terra.describeViewports('mdx', ['huge'], () => {
   it('follows the link', () => {
     browser.url('/raw/test/terra-dev-site/relative-link');
     Terra.validates.element('relative link');
-    browser.click('[class*="MarkdownTags-module__a"]');
+    $('[class*="MarkdownTags-module__a"]').click();
     Terra.validates.element('link clicked');
   });
 

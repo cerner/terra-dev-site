@@ -1,12 +1,12 @@
 Terra.describeViewports('home', ['tiny', 'huge'], () => {
   it('checks accessibility', () => {
     browser.url('/');
-    browser.waitForVisible('a [alt="devDependencies status"]');
-    browser.waitForVisible('a [alt="Dependencies status"]');
-    browser.waitForVisible('a [alt="Build Status"]');
-    browser.waitForVisible('a [alt="License"]');
-    browser.waitForVisible('a [alt="Cerner OSS"]');
-    browser.waitForVisible('a [alt="NPM version"]');
+    $('a [alt="devDependencies status"]').waitForDisplayed();
+    $('a [alt="Dependencies status"]').waitForDisplayed();
+    $('a [alt="Build Status"]').waitForDisplayed();
+    $('a [alt="License"]').waitForDisplayed();
+    $('a [alt="Cerner OSS"]').waitForDisplayed();
+    $('a [alt="NPM version"]').waitForDisplayed();
     Terra.validates.accessibility({ selector: '#root' });
   });
 });
