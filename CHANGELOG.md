@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Fixed
+  * Ignore docker_images folder when publishing.
+
 ## 6.36.0 - (June 8, 2021)
 
 * Changed
