@@ -4,6 +4,7 @@
 
 * Fixed
   * Ignore docker_images folder when publishing.
+  * Rollback supported node versions to remain passive.
 
 ## 6.36.0 - (June 8, 2021)
 
