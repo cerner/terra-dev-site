@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+* Fixed
+  * Ignore docker_images folder when publishing.
+
+## 6.36.0 - (June 8, 2021)
+
+* Changed
+  * Updated to use terra-functional-testing
+  * Upgraded to node 12
+
 ## 6.35.0 - (May 25, 2021)
 
 * Fixed
@@ -19,6 +28,9 @@
 
 * Changed
   * Updated wdio screenshots to fix main build
+
+* Changed
+  * Updated `keycode-js` to `v3.1.0`
 
 * Changed
   * Updated to use terra-open-source-scripts to release the project

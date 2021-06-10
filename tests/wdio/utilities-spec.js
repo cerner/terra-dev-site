@@ -1,43 +1,43 @@
 Terra.describeViewports('utilities', ['huge'], () => {
   it('checks accessibility', () => {
     browser.url('/single-page-test');
-    browser.click('[class*="UtilityMenuHeaderButton-module"]');
-    Terra.validates.element({ selector: '#root' });
+    $('[class*="UtilityMenuHeaderButton-module"]').click();
+    Terra.validates.element('accessibility', { selector: '#root' });
   });
 
   it('opens app switcher', () => {
-    browser.click('[class*="PopupMenuListItem-module"]');
+    $('[class*="PopupMenuListItem-module"]').click();
     Terra.validates.element('opens app switcher', { selector: '#root' });
   });
 
   it('selects an app', () => {
-    browser.click('[class*="ApplicationSwitcher-module__item"]');
+    $('[class*="ApplicationSwitcher-module__item"]').click();
     Terra.validates.element('selects an app', { selector: '.terra-dev-site-extended' });
   });
 
   it('selects config', () => {
     browser.url('/single-page-test');
-    browser.click('[class*="UtilityMenuHeaderButton-module"]');
-    browser.click('[class*="PopupMenuListItem-module__item"]:nth-child(2)');
+    $('[class*="UtilityMenuHeaderButton-module"]').click();
+    $('[class*="PopupMenuListItem-module__item"]:nth-child(2)').click();
     Terra.validates.element('selects config', { selector: '#root' });
   });
 
   it('changes config', () => {
-    browser.click('#terra-dev-site-locale-select');
-    browser.click('#terra-select-option-en-AU');
+    $('#terra-dev-site-locale-select').click();
+    $('#terra-select-option-en-AU').click();
 
-    browser.click('#terra-dev-site-theme-select');
-    browser.click('[id="terra-select-option-Terra Dev Site Test Theme"]');
+    $('#terra-dev-site-theme-select').click();
+    $('[id="terra-select-option-Terra Dev Site Test Theme"]').click();
 
-    browser.click('#terra-dev-site-direction-select');
-    browser.click('#terra-select-option-rtl');
+    $('#terra-dev-site-direction-select').click();
+    $('#terra-select-option-rtl').click();
     Terra.validates.element('changes config', { selector: '#root' });
 
-    browser.click('#submit');
+    $('#submit').click();
     Terra.validates.element('config changed', { selector: '#root' });
 
-    browser.click('[class*="UtilityMenuHeaderButton-module"]');
-    browser.click('[class*="PopupMenuListItem-module__item"]:nth-child(2)');
+    $('[class*="UtilityMenuHeaderButton-module"]').click();
+    $('[class*="PopupMenuListItem-module__item"]:nth-child(2)').click();
     Terra.validates.element('confirms config', { selector: '#root' });
     browser.refresh();
   });
@@ -46,49 +46,49 @@ Terra.describeViewports('utilities', ['huge'], () => {
 Terra.describeViewports('utilities', ['tiny'], () => {
   it('opens menu', () => {
     browser.url('/single-page-test');
-    browser.click('[data-compact-header-toggle]');
-    browser.waitForExist('[class*="ApplicationNavigation-module__drawer-menu-is-open"]');
+    $('[data-compact-header-toggle]').click();
+    $('[class*="ApplicationNavigation-module__drawer-menu-is-open"]').waitForExist();
 
     browser.pause(300);
 
-    Terra.validates.element({ selector: '#root' });
+    Terra.validates.element('utility menu', { selector: '#root' });
   });
 
   it('opens app switcher', () => {
-    browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]');
-    browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');
+    $('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]').click();
+    $('[class*="ApplicationSwitcher-module__item"]').waitForDisplayed();
     Terra.validates.element('opens app switcher', { selector: '#root' });
   });
 
   it('selects an app', () => {
-    browser.click('[class*="ApplicationSwitcher-module__item"]');
+    $('[class*="ApplicationSwitcher-module__item"]').click();
     Terra.validates.element('selects an app', { selector: '.terra-dev-site-extended' });
   });
 
   it('selects config', () => {
     browser.url('/single-page-test');
-    browser.click('[data-compact-header-toggle]');
-    browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(2)');
+    $('[data-compact-header-toggle]').click();
+    $('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(2)').click();
     // browser.waitForVisible('[class*="ApplicationSwitcher-module__item"]');
     Terra.validates.element('selects config', { selector: '#root' });
   });
 
   it('changes config', () => {
-    browser.click('#terra-dev-site-locale-select');
-    browser.click('#terra-select-option-en-AU');
+    $('#terra-dev-site-locale-select').click();
+    $('#terra-select-option-en-AU').click();
 
-    browser.click('#terra-dev-site-theme-select');
-    browser.click('[id="terra-select-option-Terra Dev Site Test Theme"]');
+    $('#terra-dev-site-theme-select').click();
+    $('[id="terra-select-option-Terra Dev Site Test Theme"]').click();
 
-    browser.click('#terra-dev-site-direction-select');
-    browser.click('#terra-select-option-rtl');
+    $('#terra-dev-site-direction-select').click();
+    $('#terra-select-option-rtl').click();
     Terra.validates.element('changes config', { selector: '#root' });
 
-    browser.click('#submit');
+    $('#submit').click();
     Terra.validates.element('config changed', { selector: '#root' });
 
-    browser.click('[data-compact-header-toggle]');
-    browser.click('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(2)');
+    $('[data-compact-header-toggle]').click();
+    $('[class*="DrawerMenu-module__utility-item-list"] [class*="DrawerMenuListItem-module__item"]:nth-child(2)').click();
     Terra.validates.element('confirms config', { selector: '#root' });
     browser.refresh();
   });

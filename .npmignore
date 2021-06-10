@@ -22,3 +22,4 @@ themeable-variables.json
 build
 aggregated-translations/
 .browserlistrc
+docker_images

@@ -22,6 +22,7 @@ Cerner Corporation
 - Eric McCullough [@EricM96]
 - Akarsh Shetty [@ShettyAkarsh]
 - Andrew Ottaviano [@AndrewOttaviano]
+- Jaime Mackey [@jmsv6d]
 
 [@emilyrohrbough]: https://github.com/emilyrohrbough
 [@tbiethman]: https://github.com/tbiethman
@@ -45,3 +46,4 @@ Cerner Corporation
 [@EricM96]: https://github.com/EricM96
 [@ShettyAkarsh]: https://github.com/ShettyAkarsh
 [@AndrewOttaviano]: https://github.com/andrewnottaviano
+[@jmsv6d]: https://github.com/jmsv6d
