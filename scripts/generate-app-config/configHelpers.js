@@ -1,5 +1,8 @@
 const path = require('path');
 const lodashStartCase = require('lodash.startcase');
+const fs = require('fs');
+
+const monoRepoPackageCache = {};
 
 /**
  * Cheat. If the filename still contains a period, don't run startcase. This allows for filenames of version (v0.5.0).
@@ -25,8 +28,21 @@ const relativePath = componentPath => (path.relative(path.join(process.cwd(), 'd
  * Provides the namespace for the package in this order, mono repo package, node_modules package, provided package name.
  */
 const getNamespace = (directory, namespace) => {
-  const afterPackages = (/packages\/([^/]*)/.exec(directory) || {})[1];
-  const afterNodeModules = (/node_modules\/([^/]*)/.exec(directory) || {})[1];
+// If this is a monorepo package, we need to pull the namespace from the package.json file to account for scoping.
+  const packageRoot = (/.*packages\/[^/]*/.exec(directory) || {})[0];
+  let afterPackages;
+  if (packageRoot) {
+    const packagePath = path.join(packageRoot, 'package.json');
+    // cache the package name to avoid opening the files all the time.
+    afterPackages = monoRepoPackageCache[packagePath];
+    if (!afterPackages && fs.existsSync(packagePath)) {
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+      afterPackages = require(packagePath).name;
+      monoRepoPackageCache[packagePath] = afterPackages;
+    }
+  }
+  // Find the directory name directly after node modules... include scoped package if they exist.
+  const afterNodeModules = (/node_modules\/((@[^/]*\/)?[^/]*)/.exec(directory) || {})[1];
 
   return afterPackages || afterNodeModules || namespace;
 };
