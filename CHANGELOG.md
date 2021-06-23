@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 6.37.0 - (June 23, 2021)
+
 * Fixed
   * Fix scoped package namespaces.
 
