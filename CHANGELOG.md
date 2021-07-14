@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Added
+  * Added `browser` to `resolve.mainFields` to support modern syntax for older browsers.
+
 ## 6.37.0 - (June 23, 2021)
 
 * Fixed
