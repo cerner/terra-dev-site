@@ -5,7 +5,7 @@
 ## 6.38.0 - (July 15, 2021)
 
 * Added
-  * Added `browser` to `resolve.mainFields` to support modern syntax for older browsers.
+  * Added `browser` to `resolve.mainFields` in webpack.config.js to support modern syntax for older browsers.
 
 ## 6.37.0 - (June 23, 2021)
 
