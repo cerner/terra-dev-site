@@ -15,6 +15,8 @@
 [![Dependencies status](https://badgen.net/david/dep/cerner/terra-dev-site)](https://david-dm.org/cerner/terra-dev-site)
 [![devDependencies status](https://badgen.net/david/dev/cerner/terra-dev-site)](https://david-dm.org/cerner/terra-dev-site?type=dev)
 
+# This repo is archived and active development has moved to [terra-application](https://github.com/cerner/terra-application).
+
 Dynamically builds a site based on site configuration, navigation configuration and page configuration.
 
 The provided webpack plugin includes a call to the generateAppConfig script. The generateAppConfig script builds out static config to the ./dev-site-config/build folder. generateAppConfig also discovers pages based on it's configuration. After the static config has been built webpack continues to run, pulling in the static config, and producing the webpack bundle.
