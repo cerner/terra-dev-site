@@ -63,6 +63,13 @@
       "scss/at-mixin-pattern": "^(terra-)[a-z]+([a-z0-9-]+[a-z0-9]+)?$"
     }
   },
+  "package-json-lint": {
+    "extends": "@cerner/package-json-lint-config-terra",
+    "rules": {
+      "require-no-terra-base-peer-dependency-versions": "error",
+      "require-theme-context-versions": "off"
+    }
+  },
   "scripts": {
     "clean": "rm package-lock.json; rm -rf node_modules",
     "clean:install": "npm run clean && npm install",
@@ -75,8 +82,9 @@
     "heroku-postbuild": "npm install --only=dev && npm run compile:prod",
     "jest": "jest",
     "jest:coverage": "jest --coverage",
-    "lint": "npm run lint:js && npm run lint:scss",
+    "lint": "npm run lint:js && npm run lint:scss && npm run lint:package-json",
     "lint:js": "eslint --ext .js,.jsx .",
+    "lint:package-json": "terra package-json-lint",
     "lint:scss": "stylelint src/**/*.scss",
     "precompile": "rm -rf lib",
     "prepare": "npm run compile",
@@ -138,7 +146,7 @@
     "rehype-slug": "^2.0.3",
     "rehype-urls": "^1.0.0",
     "sass-loader": "^7.0.1",
-    "terra-action-footer": "^2.3.0",
+    "terra-action-footer": "^1.3.0",
     "terra-action-header": "^2.2.0",
     "terra-application": "^1.19.0",
     "terra-button": "^3.12.0",
@@ -180,6 +188,8 @@
     "@babel/preset-react": "^7.0.0",
     "@cerner/browserslist-config-terra": "^3.1.0",
     "@cerner/eslint-config-terra": "^5.0.0",
+    "@cerner/package-json-lint": "file:./cerner-package-json-lint-0.0.0.tgz",
+    "@cerner/package-json-lint-config-terra": "file:./cerner-package-json-lint-config-terra-0.0.0.tgz",
     "@cerner/terra-cli": "^1.0.0",
     "@cerner/terra-open-source-scripts": "^1.0.1",
     "@cerner/terra-functional-testing": "^1.6.0",
